@@ -1,0 +1,396 @@
+.container {
+  background-color: var(--sc-blue);
+  display: flex;
+  flex-direction: column;
+  place-items: center flex-start;
+  justify-items: stretch;
+  padding: 100px 40px 20px 40px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.containergreen {
+  composes: container;
+  background-color: var(--sc-green);
+}
+
+.containerred {
+  composes: container;
+  background-color: var(--sc-red);
+}
+
+.formcontainer {
+  composes: container;
+}
+
+.closeButton {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+}
+
+.title {
+  composes: mainTitle1 from "../../styles.module.css";
+  color: white;
+  text-align: center;
+}
+
+.titleblue {
+  composes: mainTitle1 from "../../styles.module.css";
+  color: var(--sc-blue);
+  text-align: center;
+}
+
+.formtitle {
+  composes: mainTitle1 from "../../styles.module.css";
+  color: var(--sc-grey3b);
+  text-align: center;
+}
+
+.formsubtitle {
+  composes: smallLight from "../../styles.module.css";
+  color: var(--sc-grey4);
+  text-align: center;
+  margin: 20px 0px 10px 0px;
+  line-height: 18px;
+}
+
+.subtitle {
+  composes: bodyDefault from "../../styles.module.css";
+  color: white;
+  line-height: 140%;
+  text-align: center;
+  margin: 20px 0px 30px 0px;
+}
+
+.link {
+color: var(--fds-blue);
+composes: baseGlowText from "../../styles.module.css";
+text-decoration: underline;
+cursor: pointer;
+}
+
+.username {
+  composes: bodyBold from "../../styles.module.css";
+  color: var(--sc-grey4);
+  text-align: center;
+  margin: 20px 0px 0px 0px;
+  line-height: 14px;
+}
+
+.usernameExists {
+  composes: bodyBold from "../../styles.module.css";
+  color: var(--fds-red);
+  text-align: center;
+  margin: 0px 0px 0px 0px;
+  line-height: 14px;
+}
+
+.showkeystoggle {
+  composes: smallBold from "../../styles.module.css";
+  color: var(--sc-grey3);
+  text-align: center;
+  margin: -10px 0px 0px 0px;
+  line-height: 14px;
+  border-bottom: 2px dotted var(--sc-grey3b);
+}
+
+.box {
+  composes: bodyBold from "../../styles.module.css";
+  color: var(--sc-grey4);
+  text-align: center;
+  box-sizing: border-box;
+  padding: 54px 35px 40px 35px;
+  background-color: white;
+  max-width: 450px;
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+
+.placeholder {
+  opacity: 1;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 90px;
+  width: 90px;
+  margin-top: 50px;
+}
+
+.avatarImage {
+  border-radius: 50%;
+  height: 90px;
+  width: 90px;
+}
+
+.button {
+  composes: bodyButton from "../../styles.module.css";
+  composes: baseShadow from "../../styles.module.css";
+  width: 75vw;
+  min-width: 200px;
+  max-width: 300px;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 30px 42px;
+  border-radius: 2px;
+  cursor: pointer;
+  max-height: 82px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-top: 20px;
+}
+
+.buttontext {
+  color: white;
+}
+
+.buttongray {
+  width: 75vw;
+  min-width: 200px;
+  max-width: 300px;
+  composes: bodyButton from "../../styles.module.css";
+  composes: baseShadow from "../../styles.module.css";
+  text-align: center;
+  box-sizing: border-box;
+  padding: 30px 42px;
+  border-radius: 2px;
+  cursor: pointer;
+  max-height: 82px;
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 10px;
+}
+
+.buttontextblue {
+  color: var(--sc-blue);
+}
+
+.uploadicon {
+  position: relative;
+  top: -25px;
+  left: 35px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-items: stretch;
+  place-items: center center;
+  padding: 6px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--fds-blue);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.5);
+  -o-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.5);
+}
+
+.arrowup {
+  width: 18px;
+  height: 18px;
+  background-image: url("../../images/FairDrive-Sprite-doublesize.png");
+  background-repeat: no-repeat;
+  background-size: 324px 324px;
+  background-position: -306px -180px;
+}
+
+.avatareditor {
+  display: flex;
+  flex-direction: column;
+  place-items: flex-end center;
+  margin-top: -50px;
+}
+
+.usernameinputbox {
+  width: 75vw;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10vh;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+}
+
+.usernameinput {
+  composes: bodyBold from "../../styles.module.css";
+  width: 55vw;
+  max-width: 260px;
+  color: var(--text-light);
+  text-align: center;
+  outline: none;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  border: 0px;
+  border-bottom: 1px solid var(--fds-blue);
+  background-color: transparent;
+}
+
+.usernameinput:not(:placeholder-shown) {
+  border-bottom: 1px solid var(--fds-blue);
+}
+
+.mnemonicinputbox {
+  width: 75vw;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5vh;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+}
+
+.mnemonicinput {
+  composes: bodyBold from "../../styles.module.css";
+  width: 55vw;
+  max-width: 260px;
+  color: var(--text-light);
+  text-align: left;
+  outline: none;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  border: 0px;
+  border-bottom: 1px solid var(--fds-blue);
+  background-color: transparent;
+}
+
+.mnemonicinput:not(:placeholder-shown) {
+  border-bottom: 1px solid var(--fds-blue);
+}
+
+.passwordflex {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.flexer {
+  margin: 10px;
+}
+
+.dialogiconbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  width: 75vw;
+  margin-top: 40px;
+}
+
+
+.confirm {
+  background-color: #ffffff !important;
+}
+
+.cancel {
+  background: none;
+  box-shadow: none;
+}
+
+.sliderbox {
+  padding: 10px 0px 20px 0px;
+}
+
+.statusbox {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 20px auto;
+  grid-template-rows: auto;
+  color: #333333;
+  column-gap: 20px;
+  row-gap: 8px;
+  align-items: center;
+}
+
+.statusboxitemactive {
+  color: var(--fds-blue);
+}
+
+.blacktext {
+  padding: 10px 0px 30px 0px;
+  composes: smallBold from "../../styles.module.css";
+}
+
+.choosefile {
+  composes: smallBold from "../../styles.module.css";
+  color: var(--sc-blue);
+  border-bottom: 2px dotted var(--sc-blue);
+}
+
+.nextbuttonbox {
+  margin-top: 60px;
+}
+
+.mnemonic {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto auto auto auto;
+  grid-auto-flow: column;
+  align-items: left;
+  justify-items: left;
+  composes: bodyBold from "../../styles.module.css";
+  line-height: 180%;
+  text-align: center;
+  color: var(--text-light);
+  column-gap: 45px;
+  row-gap: 12px;
+}
+
+.mnemoniccheck {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.fileinput {
+  display: hidden;
+  opacity: 0;
+}
+
+.textField {
+  display: flex;
+  width: 75vw;
+  margin-bottom: -26px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 168px;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 168px;
+  height: 2px;
+  cursor: pointer;
+  background: var(--fds-blue);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  border: 1px solid var(--fds-blue);
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: var(--fds-blue);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -8px;
+}
+
+input[type="range"]::-moz-range-track {
+  width: 168px;
+  height: 2px;
+  cursor: pointer;
+  background: var(--fds-blue);
+}
+input[type="range"]::-moz-range-thumb {
+  border: 1px solid var(--fds-blue);
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: var(--fds-blue);
+  cursor: pointer;
+  margin-top: -8px;
+}

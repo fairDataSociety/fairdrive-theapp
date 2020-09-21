@@ -1,0 +1,480 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:200,300,700");
+
+:root {
+  --border-line: #222222;
+  --bg-dark: #222222;
+  --bg-shade: #333333;
+  --text-light: #cecece;
+  --text-title: #efd96f;
+  --text-shade: #ffa000;
+  --fds-yellow: #efd96f;
+  --fds-blue: #92e7fa;
+  --fds-dark: #333333;
+  --fds-red: #d13a3a;
+}
+
+body {
+  background-color: var(--bg-dark);
+}
+
+.baseShadow {
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.8);
+  -o-box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.8);
+}
+
+.baseGlow {
+  box-shadow: 0px 0px 10px #26829b, #26829b 0px 0px 10px inset;
+}
+
+.baseGlowText {
+    text-shadow: 0px 0px 20px #26829b;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.mainTitle1 {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 0;
+  line-height: 36px;
+}
+
+.mainTitle2 {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 0;
+  line-height: 36px;
+}
+.mainTitle3 {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 0px;
+  line-height: 32px;
+}
+.mainTitle4 {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0;
+  line-height: 27px;
+}
+.bodyDefault {
+  font-family: Montserrat, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 19px;
+}
+.bodyBold {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 19px;
+}
+.bodyDetail {
+  font-family: Montserrat, sans-serif;
+  font-weight: 200;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.smallLight {
+  font-family: Montserrat, sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 15px;
+}
+
+.smallBold {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 15px;
+}
+.smallestLight {
+  font-family: Montserrat, sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 13px;
+}
+.smallestBold {
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 13px;
+}
+
+.fair-drive {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #333333;
+}
+
+.link {
+  composes: bodyDefault;
+
+color: var(--fds-blue);
+composes: baseGlowText;
+text-decoration: underline;
+cursor: pointer;
+}
+
+.container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.topbar {
+  position: fixed;
+  top: 0px;
+  height: 25vh;
+  background-color: var(--bg-dark);
+  color: var(--text-title);
+  width: 100vw;
+  background-color: var(--bg-dark);
+}
+
+.brand {
+  composes: mainTitle2;
+  margin-top: 120px;
+}
+
+.loginregistertitle {
+  composes: bodyBold;
+  color: #cecece !important;
+  line-height: 36px;
+}
+
+.title {
+  composes: mainTitle1;
+  color: white;
+  text-align: center;
+}
+
+/* Files */
+.breadcrumb {
+  composes: mainTitle2;
+}
+
+.h1 {
+  composes: mainTitle4;
+  color: var(--text-light);
+}
+
+.address {
+  composes: bodyDefault;
+  color: white;
+}
+
+.space {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.breadcrumbpath {
+  composes: bodyBold;
+  color: #cecece !important;
+}
+
+.exiticonblue {
+  background-position: -270px -72px;
+  background-image: url("./images/FairDrive-Sprite-doublesize.png");
+  background-repeat: no-repeat;
+  background-size: 324px 324px;
+  width: 36px;
+  height: 36px;
+}
+
+.exitgrayicon {
+  background-image: url("./images/FairDrive-Sprite-doublesize.png");
+  background-repeat: no-repeat;
+  background-size: 324px 324px;
+  background-position: -216px -234px;
+  width: 36px;
+  height: 36px;
+}
+
+.closeicon {
+  background-image: url("./images/FairDrive-Sprite-doublesize.png");
+  background-repeat: no-repeat;
+  background-size: 324px 324px;
+  background-position: -144px -234px;
+  width: 36px;
+  height: 36px;
+}
+
+.innercontainer {
+  margin-top: 25vh;
+  overflow: scroll;
+  height: 75vh;
+  background-color: var(--bg-dark);
+  -webkit-overflow-scrolling: touch;
+}
+
+.logincontainer {
+  margin-top: 140px;
+  overflow: scroll;
+  background-color: var(--bg-dark);
+}
+
+.register {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 20px 40px 20px 40px;
+  width: 100vw;
+}
+
+.createnew {
+  composes: smallLight;
+  color: white !important;
+  margin-top: 36px;
+}
+
+.createnew :hover {
+  color: var(--fds-blue) !important;
+}
+
+.innercontainer input {
+  font-family: Montserrat;
+  font-size: 14px;
+  color: white;
+  width: 75vw;
+  min-width: 200px;
+  max-width: 300px;
+  margin-top: 16px;
+  background-color: none;
+  border-bottom: 1px solid var(--bg-shade);
+  background: transparent;
+  border-top: transparent !important;
+  border-left: transparent !important;
+  border-right: transparent !important;
+  line-height: 26px;
+}
+
+.innercontainer input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--fds-blue);
+}
+
+.button {
+  composes: bodyBold;
+  composes: baseGlow;
+  min-width: 200px;
+  max-width: 280px;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 20px 42px;
+  border-radius: 4px;
+  cursor: pointer;
+  max-height: 62px;
+  margin-top: 20px;
+  border: 1px solid var(--fds-blue);
+  margin-top: 40px;
+}
+
+.buttontext {
+  composes: bodyBold;
+    composes: baseGlowText;
+    cursor: pointer;
+
+    text-transform: capitalize;
+    color: var(--fds-blue);
+}
+
+
+.rowfile {
+  display: grid;
+  grid-template-columns:  min-content auto;
+  grid-gap: 20px;
+  width: 100vw;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.rowfile img {
+  width: 24px;
+  height: 24px;
+}
+
+.dirName {
+  composes: bodyBold;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  color: var(--text-light);
+}
+
+.icons8folder {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMjYiIGhlaWdodD0iMjYiCnZpZXdCb3g9IjAgMCAyMTAgMjEwIgpzdHlsZT0iIGZpbGw6IzAwMDAwMDsiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0ibm9uemVybyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS1kYXNoYXJyYXk9IiIgc3Ryb2tlLWRhc2hvZmZzZXQ9IjAiIGZvbnQtZmFtaWx5PSJub25lIiBmb250LXdlaWdodD0ibm9uZSIgZm9udC1zaXplPSJub25lIiB0ZXh0LWFuY2hvcj0ibm9uZSIgc3R5bGU9Im1peC1ibGVuZC1tb2RlOiBub3JtYWwiPjxwYXRoIGQ9Ik0wLDIxMHYtMjEwaDIxMHYyMTB6IiBmaWxsPSJub25lIj48L3BhdGg+PGc+PGcgaWQ9InN1cmZhY2UxIj48cGF0aCBkPSJNMTc1LDUyLjVoLTc4Ljc1bC0xNy41LC0xNy41aC00My43NWMtOS42MjE1OCwwIC0xNy41LDcuODc4NDIgLTE3LjUsMTcuNXYzNWgxNzV2LTE3LjVjMCwtOS42MjE1OCAtNy44Nzg0MiwtMTcuNSAtMTcuNSwtMTcuNXoiIGZpbGw9IiNmZmEwMDAiPjwvcGF0aD48cGF0aCBkPSJNMTc1LDUyLjVoLTE0MGMtOS42MjE1OCwwIC0xNy41LDcuODc4NDIgLTE3LjUsMTcuNXY4Ny41YzAsOS42MjE1OCA3Ljg3ODQyLDE3LjUgMTcuNSwxNy41aDE0MGM5LjYyMTU4LDAgMTcuNSwtNy44Nzg0MiAxNy41LC0xNy41di04Ny41YzAsLTkuNjIxNTggLTcuODc4NDIsLTE3LjUgLTE3LjUsLTE3LjV6IiBmaWxsPSIjZmZjYTI4Ij48L3BhdGg+PC9nPjwvZz48L2c+PC9zdmc+")
+    50% 50% no-repeat;
+  background-size: 100%;
+  margin-right: 14px;
+}
+
+.directoryrow {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--bg-dark);
+  border-bottom: 1px solid var(--bg-shade);
+  padding: 20px 40px;
+
+}
+
+.flaticon::before {
+  font-family: "Flaticons Solid";
+  content: "\E5B3";
+}
+
+@font-face {
+  font-family: "Flaticons Solid";
+  src: url(/fonts/flaticons-solid.eot);
+  src: url(/fonts/flaticons-solid.eot?#iefix) format("embedded-opentype"),
+    url(/fonts/flaticons-solid.woff) format("woff"),
+    url(/fonts/flaticons-solid.ttf) format("truetype"),
+    url(/fonts/flaticons-solid.svg#flaticons-solid) format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.flaticon.solid:before {
+  font-family: "Flaticons Solid";
+}
+
+.flaticon.solid.A1:before,
+.flaticon.solid.grid-1:before,
+.flaticon.solid.grid:before {
+  content: "\E000";
+}
+
+.location {
+  padding: 0px 40px;
+  margin: 0px;
+}
+
+/* User */
+.myaccount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 30px 0px 10px 40px;
+}
+
+.handlebalance {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.handle {
+  composes: smallBold;
+  color: white;
+}
+
+.balance {
+  composes: smallBold;
+  color: var(--fds-blue);
+}
+
+.bigbalance {
+  composes: mainTitle2;
+  color: var(--fds-blue);
+}
+
+.flexer {
+  margin: 10px;
+}
+
+.dialogBox {
+  background-color: var(--bg-dark);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+.dialogTitle {
+  composes: bodyBold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.dialogClose {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  margin: 20px;
+}
+
+.dialogAvatar {
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+}
+
+.dialogPasswordBox {
+  width: 75vw;
+  display: flex;
+  flex-direction: column;
+  place-items: center center;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.dialogPassword {
+  composes: bodyDefault;
+  width: 205px;
+  text-align: left;
+  padding-bottom: 5px;
+  border: 0px;
+  border-bottom: 1px solid var(--fds-blue);
+  background-color: transparent;
+  color: var(--text-light);
+  outline: none;
+}
+
+.dialogPasswordiconbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  margin-top: -40px;
+  max-width: 520px;
+  padding: 20px;
+}
+
+.username {
+  composes: bodyBold;
+  color: var(--text-light);
+  text-align: center;
+  margin: 20px 0px 0px 0px;
+  line-height: 14px;
+}
