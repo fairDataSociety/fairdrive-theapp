@@ -8,7 +8,7 @@ import FileReceive from "./file-receive/FileReceiveRoot";
 
 export default [
   {
-    path: "/account-create/:fwdUrl",
+    path: "/account-create/:fwdUrl?",
     component: AccountCreateRoot
   }, {
     path: "/account",
@@ -21,7 +21,7 @@ export default [
     path: "/drive/:path",
     component: DriveRoot
   }, {
-    path: "/unlock/:fwdUrl",
+    path: "/unlock/:fwdUrl?",
     component: AccountUnlock
   }, {
     path: "/login",
