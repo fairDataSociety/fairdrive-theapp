@@ -17,7 +17,7 @@ Fairdrive consists of these parts:
 
 - Fairdrive > a dapp
 - Fairdrive.js > a lightweight javascript library enabling (d)apps to use Fairdrive Connect
-- Fairdrive Engine > a filesystem running on Swarm
+- FairOS > a filesystem running on Swarm
 
 ## Why Fairdrive
 
