@@ -63,6 +63,12 @@ export default function AccountLogin({open}) {
     }
   }
 
+  function handleSubmit(e) {
+    if (e.charCode === 13) {
+      onLogin();
+    }
+  }
+
   useEffect(() => {
     console.log(system);
     if (system.unlocked) {
@@ -81,11 +87,11 @@ export default function AccountLogin({open}) {
     <div className={styles.flexer}></div>
 
     <div className={styles.dialogPasswordBox}>
-      <input id="username" className={styles.dialogPassword} type="text" placeholder="Username" onChange={e => handleSetUsername(e)}></input>
+      <input id="username" className={styles.dialogPassword} type="text" placeholder="Username" onKeyPress={e => handleSubmit(e)} onChange={e => handleSetUsername(e)}></input>
     </div>
 
     <div className={styles.dialogPasswordBox}>
-      <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onChange={e => handleSetPassword(e)}></input>
+      <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onKeyPress={e => handleSubmit(e)} onChange={e => handleSetPassword(e)}></input>
     </div>
     <div className={styles.flexer}></div>
     <div className={styles.flexer}></div>

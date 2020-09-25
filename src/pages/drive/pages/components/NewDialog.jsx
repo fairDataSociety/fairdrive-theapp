@@ -44,6 +44,12 @@ export default function NewDialog({open, path, refresh, onClose}) {
     handleFileUpload(event.target.files);
   }
 
+  function handleSubmit(e) {
+    if (e.charCode === 13) {
+      handleNewFolder();
+    }
+  }
+
   async function handleNewFolder() {
     console.log(newFolderName);
     let writePath = "";
@@ -105,7 +111,7 @@ export default function NewDialog({open, path, refresh, onClose}) {
             <div>New folder</div>
           </div>
 
-          <input className={styles.nameInput} placeholder="Folder name" type="text" onChange={e => handleFolderNameChange(e)}></input>
+          <input className={styles.nameInput} placeholder="Folder name" type="text" onKeyPress={e => handleSubmit(e)} onChange={e => handleFolderNameChange(e)}></input>
           <div className={styles.flexer}></div>
 
           <div onClick={handleNewFolder} className={styles.buttonPlace}>
