@@ -479,3 +479,11 @@ cursor: pointer;
   margin: 20px 0px 0px 0px;
   line-height: 14px;
 }
+
+.errormsg {
+  composes: bodyBold;
+  color: var(--fds-red);
+  text-align: center;
+  margin: 0px 0px 0px 0px;
+  line-height: 14px;
+}
