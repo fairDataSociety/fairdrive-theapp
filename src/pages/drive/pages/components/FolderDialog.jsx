@@ -29,6 +29,8 @@ export default function FolderDialog({open, path, refresh, onClose, item}) {
   const errorId = "errorId";
   const showShareId = "showShareId";
 
+  const shareHost = process.env.REACT_APP_FAIRDRIVEHOST;
+
   const [folderContentState, setFolderContentState] = useState(homeId);
   const [newFolderName, setNewFolderName] = useState();
   const [shareName, setShareName] = useState();
@@ -120,7 +122,7 @@ export default function FolderDialog({open, path, refresh, onClose, item}) {
           </div>
           {
             item.content_type != "inode/directory"
-              ? (<div className={styles.menuitem} onClick={() => setFolderContentState(shareId)}>
+              ? (<div className={styles.menuitem} onClick={handleShare}>
                 <Icon path={mdiShare} className={styles.blue} size="24px"></Icon>
                 Share
               </div>)
@@ -191,7 +193,7 @@ export default function FolderDialog({open, path, refresh, onClose, item}) {
             <div className={styles.closeicon}/>
           </div>
           <div className={styles.menutitle}>
-            <div>Share this link with a friend</div>
+            <div>Share this link</div>
           </div>
           <div className={styles.shareLinkPlace}>
             <input type="text" value={`https://app.fairdrive.io/#/receive/` + shareLink} className={styles.nameInput} id="link"></input>
