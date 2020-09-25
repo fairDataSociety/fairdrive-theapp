@@ -5,7 +5,7 @@
   "author": "wendydv1989 <wendydv1989@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "HTTPS=true SSL_CRT_FILE=/home/michellerhyder/Downloads/api.fairos.pub SSL_KEY_FILE=/home/michellerhyder/Downloads/api.fairos.key react-scripts start",
+    "start": "react-scripts start",
     "server": "go run cmd/dfs/main.go start",
     "build": "react-scripts build",
     "test": "react-scripts test",
