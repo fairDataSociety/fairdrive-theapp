@@ -12,7 +12,7 @@ import ChooseUsername from "./pages/ChooseUsername";
 import ChoosePassword from "./pages/ChoosePassword";
 import ChooseAvatar from "./pages/ChooseAvatar";
 import CreatingAccount from "./pages/CreatingAccount";
-
+import RestoreAccount from "./pages/RestoreAccount";
 // Ids
 const accountCreateIntroId = "accountCreateIntroId";
 const mnemonicShowId = "mnemonicShowId";
@@ -21,6 +21,7 @@ const chooseUsernameId = "chooseUsernameId";
 const chooseAvatarId = "chooseAvatarId";
 const choosePasswordId = "choosePasswordId";
 const creatingAccountId = "creatingAccountId";
+const restoreAccountId = "restoreAccountId";
 
 export function AccountCreateRoot() {
   const dispatch = useDispatch();
@@ -113,8 +114,7 @@ export function AccountCreateRoot() {
   // Router
   switch (stage) {
     case accountCreateIntroId:
-      return (<AccountCreateIntro createStage={() => setStage(mnemonicShowId)} restoreStage={() => setStage()} exitStage={() => history.goBack()}/>);
-
+      return (<AccountCreateIntro createStage={() => setStage(mnemonicShowId)} restoreStage={() => setStage(restoreAccountId)} exitStage={() => history.goBack()}/>);
     case mnemonicShowId:
       return (<MnemonicShow fairdrive={window.fairdrive} nextStage={() => setStage(mnemonicCheckId)} exitStage={() => setStage(accountCreateIntroId)} setMnemonic={setMnemonic} mnemonic={mnemonic} setCollection={setCollection}/>);
     case mnemonicCheckId:
@@ -127,6 +127,8 @@ export function AccountCreateRoot() {
       return (<ChoosePassword createAccount={createAccountProcess} exitStage={() => setStage(accountCreateIntroId)} setPassword={setPassword} password={password}/>);
     case creatingAccountId:
       return (<CreatingAccount accountCreateDone={accountCreateDone} item0={item0} item1={item1} item2={item2} item3={item3}/>);
+    case restoreAccountId:
+      return <RestoreAccount></RestoreAccount>;
     default:
       return <h1>Oops...</h1>;
   }

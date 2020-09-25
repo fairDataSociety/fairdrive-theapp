@@ -194,7 +194,7 @@ export default function FolderDialog({open, path, refresh, onClose, item}) {
             <div>Share this link with a friend</div>
           </div>
           <div className={styles.shareLinkPlace}>
-            <input type="text" value={`http://localhost:3001/#/receive/` + shareLink} className={styles.nameInput} id="link"></input>
+            <input type="text" value={`https://app.fairdrive.io/#/receive/` + shareLink} className={styles.nameInput} id="link"></input>
           </div>
           <div className={styles.shareLink}>Link copied to clipboard!</div>
           <div onClick={handleFolderClose} className={styles.buttonPlace}>

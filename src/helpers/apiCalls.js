@@ -51,6 +51,10 @@ export async function logOut() {
   }
 }
 
+export async function restoreAccount() {
+  return true
+}
+
 export async function isLoggedIn(username) {
   try {
     const requestBody = {

@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Dialog} from "@material-ui/core";
 import {Input} from "react-advanced-form-addons";
 
-import {logIn, getAvatar} from "helpers/apiCalls";
+import {restoreAccount, logIn, getAvatar} from "helpers/apiCalls";
 
 function getAccount(state) {
   return state.account;
@@ -16,13 +16,14 @@ function getSystem(state) {
   return state.system;
 }
 
-export default function AccountLogin({open}) {
+export default function RestoreAccount({open}) {
   const dispatch = useDispatch();
   const history = useHistory();
   const account = useSelector(state => getAccount(state));
   const system = useSelector(state => getSystem(state));
 
   const [username, setUsername] = useState();
+  const [address, setAddress] = useState();
   const [password, setPassword] = useState();
 
   const handleSetUsername = e => {
@@ -33,7 +34,11 @@ export default function AccountLogin({open}) {
     setPassword(e.target.value);
   };
 
-  async function onLogin() {
+  const handleSetAddress = e => {
+    setAddress(e.target.value);
+  };
+
+  async function onRestore() {
     const isUserLoggedIn = await logIn(username, password).catch(e => console.error(e));
     console.log(isUserLoggedIn);
 
@@ -75,7 +80,7 @@ export default function AccountLogin({open}) {
     <div className={styles.flexer}></div>
     <div className={styles.flexer}></div>
     <div className={styles.flexer}></div>
-    <div className={styles.title}>Login to your account</div>
+    <div className={styles.title}>Restore your account</div>
     <div className={styles.flexer}></div>
     <div className={styles.flexer}></div>
     <div className={styles.flexer}></div>
@@ -85,12 +90,16 @@ export default function AccountLogin({open}) {
     </div>
 
     <div className={styles.dialogPasswordBox}>
+      <input id="address" className={styles.dialogPassword} type="text" placeholder="Address" onChange={e => handleSetAddress(e)}></input>
+    </div>
+
+    <div className={styles.dialogPasswordBox}>
       <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onChange={e => handleSetPassword(e)}></input>
     </div>
     <div className={styles.flexer}></div>
     <div className={styles.flexer}></div>
 
-    <div tabIndex="2" className={styles.button} onClick={onLogin}>
+    <div tabIndex="2" className={styles.button} onClick={onRestore}>
       <div>
         <div className={styles.buttontext}>continue</div>
       </div>

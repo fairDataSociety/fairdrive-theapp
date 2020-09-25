@@ -1,11 +1,7 @@
 import React, {useState, useEffect} from "react";
 import styles from "styles.module.css";
-import {useHistory} from "react-router-dom";
-
+import {useHistory, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {Dialog} from "@material-ui/core";
-import {Input} from "react-advanced-form-addons";
-
 import {logIn, getAvatar} from "helpers/apiCalls";
 
 function getAccount(state) {
@@ -21,9 +17,12 @@ export default function PasswordUnlock({open}) {
   const history = useHistory();
   const account = useSelector(state => getAccount(state));
   const system = useSelector(state => getSystem(state));
-
   const [password, setPassword] = useState();
 
+  const params = useParams();
+  const fwdUrl = params.fwdUrl;
+
+  console.log("unlock and then fwd to ", fwdUrl);
   const handleSetPassword = e => {
     setPassword(e.target.value);
   };
@@ -79,7 +78,7 @@ export default function PasswordUnlock({open}) {
     <div className={styles.flexer}></div>
 
     <div className={styles.dialogPasswordBox}>
-      <input className={styles.dialogPassword} type="password" placeholder="Password" onChange={e => handleSetPassword(e)}></input>
+      <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onChange={e => handleSetPassword(e)}></input>
     </div>
 
     <div tabIndex="2" className={styles.button} onClick={onLogin}>

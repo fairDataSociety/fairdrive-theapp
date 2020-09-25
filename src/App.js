@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { green, orange } from "@material-ui/core/colors";
 import { logIn, isLoggedIn } from "helpers/apiCalls";
-const { REACT_APP_FAIROSHOST } = process.env;
 
 const outerTheme = createMuiTheme({
   palette: {
@@ -40,12 +39,9 @@ function App() {
   const loginState = useEffect(() => {
     // define function async
     async function checkAccountStatus() {
-      const forwardingUrl = location.pathname;
-      console.log('env:', REACT_APP_FAIROSHOST)
-      console.log(location);
       if (account) {
         if (account.status === "noAccount") {
-          history.push("/account-create" + forwardingUrl);
+          history.push("/account-create");
         } else {
           // do the api all to see if the user is logged in
           //const fwdUrl = slice(location.pathname);
@@ -59,17 +55,11 @@ function App() {
                 }
               });
             } else {
-              const lastItem = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
-
-              history.push("/unlock/" + lastItem);
+              history.push("/unlock/");
             }
           }).catch(e => {
             return e;
           });
-
-          // when not logged in
-          //
-          // const res = await api.checkIsLoggedIn()
         }
       }
 
