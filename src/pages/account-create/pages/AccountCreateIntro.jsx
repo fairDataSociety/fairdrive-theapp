@@ -22,13 +22,14 @@ export function AccountCreateIntro({createStage, restoreStage, exitStage}) {
       </div>
     </div>
 
-    <div tabIndex="2" className={main.button}>
+    {/* <div tabIndex="2" className={main.button}>
       <div>
         <div className={main.buttontext} onClick={restoreStage}>
           restore account
         </div>
       </div>
-    </div>
+    </div> */
+    }
     <div className={main.flexer}></div>
     <div className={main.flexer}></div>
 
