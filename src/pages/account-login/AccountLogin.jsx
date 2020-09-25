@@ -25,42 +25,39 @@ export default function AccountLogin({open}) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
+  const [hasError, setHasError] = useState(false);
+
   const handleSetUsername = e => {
     setUsername(e.target.value);
+    setHasError(false);
   };
 
   const handleSetPassword = e => {
     setPassword(e.target.value);
+    setHasError(false);
   };
 
   async function onLogin() {
-    const isUserLoggedIn = await logIn(username, password).catch(e => console.error(e));
-    console.log(isUserLoggedIn);
-
-    if (isUserLoggedIn.data.code == 200) {
-      const avatar = await getAvatar(username);
-      console.log(avatar);
+    const isUserLoggedIn = await logIn(account.username, password).then(res => {
+      //const avatar = await getAvatar(account.username);
+      //console.log(avatar);
       dispatch({
         type: "SET_ACCOUNT",
         data: {
-          username: username,
-          avatar: avatar,
-          balance: 0.0
+          avatar: res.avatar
         }
       });
-
       dispatch({
         type: "SET_SYSTEM",
         data: {
           passWord: password
         }
       });
-
-      console.log(avatar);
       history.push("/drive/root");
-    } else {
-      console.log("user not logged in");
-    }
+    }).catch(e => {
+      setHasError(true);
+      console.log("something wrong ", e);
+    });
   }
 
   function handleSubmit(e) {
@@ -93,6 +90,11 @@ export default function AccountLogin({open}) {
     <div className={styles.dialogPasswordBox}>
       <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onKeyPress={e => handleSubmit(e)} onChange={e => handleSetPassword(e)}></input>
     </div>
+    {
+      hasError
+        ? <div className={styles.errormsg}>Could not login.</div>
+        : ""
+    }
     <div className={styles.flexer}></div>
     <div className={styles.flexer}></div>
 

@@ -19,24 +19,25 @@ export default function PasswordUnlock({open}) {
   const system = useSelector(state => getSystem(state));
   const [password, setPassword] = useState();
 
+  const [hasError, setHasError] = useState(false);
+
   const params = useParams();
   const fwdUrl = params.fwdUrl;
 
   console.log("unlock and then fwd to ", fwdUrl);
   const handleSetPassword = e => {
+    setHasError(false);
     setPassword(e.target.value);
   };
 
   async function onLogin() {
-    const isUserLoggedIn = await logIn(account.username, password);
-
-    if (isUserLoggedIn.data.code == 200) {
-      const avatar = await getAvatar(account.username);
-      console.log(avatar);
+    const isUserLoggedIn = await logIn(account.username, password).then(res => {
+      //const avatar = await getAvatar(account.username);
+      //console.log(avatar);
       dispatch({
         type: "SET_ACCOUNT",
         data: {
-          avatar: avatar
+          avatar: res.avatar
         }
       });
       dispatch({
@@ -46,9 +47,10 @@ export default function PasswordUnlock({open}) {
         }
       });
       history.push("/drive/root");
-    } else {
-      console.log("user not logged in");
-    }
+    }).catch(e => {
+      setHasError(true);
+      console.log("something wrong ", e);
+    });
   }
 
   function anotherAccount() {
@@ -86,6 +88,12 @@ export default function PasswordUnlock({open}) {
     <div className={styles.dialogPasswordBox}>
       <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onKeyPress={e => handleSubmit(e)} onChange={e => handleSetPassword(e)}></input>
     </div>
+
+    {
+      hasError
+        ? <div className={styles.errormsg}>Wrong password?</div>
+        : ""
+    }
 
     <div tabIndex="2" className={styles.button} onClick={onLogin}>
       <div>

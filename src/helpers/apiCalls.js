@@ -29,7 +29,9 @@ export async function logIn(username, password) {
       withCredentials: true
     });
 
-    return response;
+    const avatar = await getAvatar(username);
+
+    return { res: response, avatar: avatar };
   } catch (error) {
     throw error;
   }
