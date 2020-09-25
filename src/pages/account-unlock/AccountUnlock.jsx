@@ -55,6 +55,12 @@ export default function PasswordUnlock({open}) {
     history.push("/login");
   }
 
+  function handleSubmit(e) {
+    if (e.charCode === 13) {
+      onLogin();
+    }
+  }
+
   useEffect(() => {
     if (system.unlocked) {
       history.push("/drive/root");
@@ -78,7 +84,7 @@ export default function PasswordUnlock({open}) {
     <div className={styles.flexer}></div>
 
     <div className={styles.dialogPasswordBox}>
-      <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onChange={e => handleSetPassword(e)}></input>
+      <input id="password" className={styles.dialogPassword} type="password" placeholder="Password" onKeyPress={e => handleSubmit(e)} onChange={e => handleSetPassword(e)}></input>
     </div>
 
     <div tabIndex="2" className={styles.button} onClick={onLogin}>
