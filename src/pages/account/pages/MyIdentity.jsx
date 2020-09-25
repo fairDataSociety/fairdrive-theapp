@@ -33,12 +33,12 @@ const MyIdentity = ({
     <QRCode size="128" value={address}></QRCode>
   </div> */
   }
-  <div className={createAccount.flexer}/>
-  <div tabIndex="2" className={styles.button} onClick={nextStage}>
+  <div className={createAccount.flexer}/> {/* <div tabIndex="2" className={styles.button} onClick={nextStage}>
     <div>
       <div className={styles.buttontext}>edit account</div>
     </div>
-  </div>
+  </div> */
+  }
   <div className={styles.flexer}></div>
   <div className={styles.link} onClick={logOut}>
     Logout
