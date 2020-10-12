@@ -11,7 +11,7 @@ import ShortCode from "./pages/ShortCode";
 import ResolveShort from "./pages/ResolveShort";
 
 // Api
-import {logOut} from "helpers/apiCalls";
+import {getAvatar, storeAvatar, logOut} from "helpers/apiCalls";
 
 // Ids
 const accountHome = "accountHome";
@@ -38,12 +38,18 @@ export function AccountRoot() {
       username: username
     }
   });
-  const setAvatar = avatar => dispatch({
-    type: "SET_ACCOUNT",
-    data: {
-      avatar: avatar
-    }
-  });
+
+  async function setAvatar(avatar) {
+    await storeAvatar(avatar);
+    const resAvatar = await getAvatar(account.username);
+    //console.log(avatar);
+    dispatch({
+      type: "SET_ACCOUNT",
+      data: {
+        avatar: resAvatar
+      }
+    });
+  }
 
   const removeAccountDef = () => {
     dispatch({type: "RESET_ACCOUNT"});

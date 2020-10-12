@@ -24,16 +24,16 @@ const MyIdentity = ({
   {/* <div onClick={shortCode}>CREATE SHORT</div>
             <div onClick={resolveShort}>FIND SHORT</div> */
   }
-  <div onClick={() => getAvatar(username)} className={createAccount.placeholder}>
+  <div onClick={avatarStage} className={createAccount.placeholder}>
     <img className={createAccount.avatarImage} src={avatar} alt="avatar"/>
   </div>
   <div className={createAccount.subtitle}>{username}</div>
-
   {/* <div>
     <QRCode size="128" value={address}></QRCode>
   </div> */
   }
-  <div className={createAccount.flexer}/> {/* <div tabIndex="2" className={styles.button} onClick={nextStage}>
+  <div className={createAccount.flexer}/>{" "}
+  {/* <div tabIndex="2" className={styles.button} onClick={nextStage}>
     <div>
       <div className={styles.buttontext}>edit account</div>
     </div>
