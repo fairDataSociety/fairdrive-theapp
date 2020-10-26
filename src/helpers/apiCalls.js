@@ -4,7 +4,7 @@ import { Avatar } from "@material-ui/core";
 import FileSaver from "file-saver";
 
 const host = process.env.REACT_APP_FAIROSHOST + "/v0/"
-const axi = axios.create({ baseURL: host, timeout: 120000 });
+const axi = axios.create({ baseURL: host, timeout: 600000 });
 
 export async function logIn(username, password) {
   try {
