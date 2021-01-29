@@ -62,7 +62,7 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word0Validity
             ? (<Check style={{
-                color: "#92e7fa"
+                color: "#DB7362"
               }}></Check>)
             : (<Check style={{
                 color: "#222222"
@@ -74,7 +74,7 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word1Validity
             ? (<Check style={{
-                color: "#92e7fa"
+                color: "#DB7362"
               }}></Check>)
             : (<Check style={{
                 color: "#222222"
@@ -86,7 +86,7 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word2Validity
             ? (<Check style={{
-                color: "#92e7fa"
+                color: "#DB7362"
               }}></Check>)
             : (<Check style={{
                 color: "#222222"
@@ -98,7 +98,7 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word3Validity
             ? (<Check style={{
-                color: "#92e7fa"
+                color: "#DB7362"
               }}></Check>)
             : (<Check style={{
                 color: "#222222"

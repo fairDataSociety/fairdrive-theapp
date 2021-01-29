@@ -17,7 +17,7 @@ export function CreatingAccount({
       {
         item0
           ? (<Check style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}></Check>)
           : (<Check style={{
               color: "#333333"
@@ -26,14 +26,14 @@ export function CreatingAccount({
       {
         item0
           ? (<div style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}>Creating User Account</div>)
           : (<div>Creating User Account</div>)
       }
       {
         item1
           ? (<Check style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}></Check>)
           : (<Check style={{
               color: "#333333"
@@ -42,14 +42,14 @@ export function CreatingAccount({
       {
         item1
           ? (<div style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}>Creating Fairdrive</div>)
           : (<div>Creating Fairdrive</div>)
       }
       {
         item2
           ? (<Check style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}></Check>)
           : (<Check style={{
               color: "#333333"
@@ -58,14 +58,14 @@ export function CreatingAccount({
       {
         item2
           ? (<div style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}>Creating Folders</div>)
           : (<div>Creating Folders</div>)
       }
       {
         item3
           ? (<Check style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}></Check>)
           : (<Check style={{
               color: "#333333"
@@ -74,7 +74,7 @@ export function CreatingAccount({
       {
         item3
           ? (<div style={{
-              color: "#92e7fa"
+              color: "#DB7362"
             }}>Storing Fairdrive Account</div>)
           : (<div>Storing Fairdrive Account</div>)
       }

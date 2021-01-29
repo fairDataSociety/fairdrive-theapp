@@ -182,6 +182,7 @@ export async function createAccount(username, password, mnemonic) {
       mnemonic: mnemonic,
     };
 
+
     const response = await axios({
       baseURL: host,
       method: "POST",
