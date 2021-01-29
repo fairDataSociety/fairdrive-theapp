@@ -3,31 +3,30 @@ import qs from "querystring";
 import { Avatar } from "@material-ui/core";
 import FileSaver from "file-saver";
 
-const host = process.env.REACT_APP_FAIROSHOST + "/v0/"
-const axi = axios.create({ baseURL: host, timeout: 600000 });
+const host = process.env.REACT_APP_FAIROSHOST + "/v0/";
 
 export async function logIn(username, password) {
   try {
     const requestBody = {
       user: username,
-      password: password
+      password: password,
     };
 
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const response = await axi({ method: "POST", url: "user/login", config: config, data: qs.stringify(requestBody), withCredentials: true });
-
-    const openPod = await axi({
+    const response = await axios({
+      baseURL: host,
+      url: "user/login",
       method: "POST",
-      url: "pod/open",
-      data: qs.stringify({ password: password, pod: "Fairdrive" }),
-      config: config,
-      withCredentials: true
+      data: qs.stringify(requestBody),
+      withCredentials: true,
     });
+
+    // const openPod = await axios({
+    //   baseURL: host,
+    //   method: "POST",
+    //   url: "pod/open",
+    //   data: qs.stringify({ password: password, pod: "Fairdrive" }),
+    //   withCredentials: true,
+    // });
 
     const avatar = await getAvatar(username);
 
@@ -39,13 +38,12 @@ export async function logIn(username, password) {
 
 export async function logOut() {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const response = await axi({ method: "POST", url: "user/logout", config: config, withCredentials: true });
+    const response = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "user/logout",
+      withCredentials: true,
+    });
 
     return response;
   } catch (error) {
@@ -54,25 +52,21 @@ export async function logOut() {
 }
 
 export async function restoreAccount() {
-  return true
+  return true;
 }
 
 export async function isLoggedIn(username) {
   try {
     const requestBody = {
-      user: username
+      user: username,
     };
 
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      paramsSerializer: function (params) {
-        return qs.stringify(params, { arrayFormat: "brackets" });
-      }
-    };
-
-    const response = await axi({ method: "GET", url: "user/isloggedin", config: config, params: requestBody, withCredentials: true });
+    const response = await axios({
+      method: "GET",
+      url: "user/isloggedin",
+      params: qs.stringify(requestBody, "brackets"),
+      withCredentials: true,
+    });
 
     return response;
   } catch (error) {
@@ -83,19 +77,16 @@ export async function isLoggedIn(username) {
 export async function isUsernamePresent(username) {
   try {
     const requestBody = {
-      user: username
+      user: username,
     };
 
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      paramsSerializer: function (params) {
-        return qs.stringify(params, { arrayFormat: "brackets" });
-      }
-    };
-
-    const response = await axi({ method: "GET", url: "user/present", config: config, params: requestBody, withCredentials: true });
+    const response = await axios({
+      baseURL: host,
+      method: "GET",
+      url: "user/present",
+      params: qs.stringify(requestBody, "brackets"),
+      withCredentials: true,
+    });
 
     return response;
   } catch (error) {
@@ -104,12 +95,6 @@ export async function isUsernamePresent(username) {
 }
 
 export async function fileUpload(files, directory, onUploadProgress) {
-  const config = {
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
-  };
-
   const formData = new FormData();
   for (const file of files) {
     formData.append("files", file);
@@ -117,15 +102,15 @@ export async function fileUpload(files, directory, onUploadProgress) {
   formData.append("pod_dir", "/" + directory);
   formData.append("block_size", "64Mb");
 
-  const uploadFiles = await axi({
+  const uploadFiles = await axios({
+    baseURL: host,
     method: "POST",
     url: "file/upload",
     data: formData,
-    config: config,
     withCredentials: true,
     onUploadProgress: function (event) {
       onUploadProgress(event.loaded, event.total);
-    }
+    },
   });
 
   console.log(uploadFiles);
@@ -134,23 +119,17 @@ export async function fileUpload(files, directory, onUploadProgress) {
 
 export async function fileDownload(file, filename) {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const downloadFile = await axi({
+    const downloadFile = await axios({
+      baseURL: host,
       method: "POST",
       url: "file/download",
       data: qs.stringify({ file: file }),
-      config: config,
       responseType: "blob",
-      withCredentials: true
+      withCredentials: true,
     });
 
-    console.log(downloadFile)
-    FileSaver.saveAs(downloadFile.data, filename)
+    console.log(downloadFile);
+    FileSaver.saveAs(downloadFile.data, filename);
 
     //const blob = new Blob(downloadFile.data)
     return downloadFile;
@@ -161,33 +140,33 @@ export async function fileDownload(file, filename) {
 
 export async function getDirectory(directory, password) {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const openPod = await axi({
+    const openPod = await axios({
+      baseURL: host,
       method: "POST",
       url: "pod/open",
       data: qs.stringify({ password: password, pod: "Fairdrive" }),
-      config: config,
-      withCredentials: true
+      withCredentials: true,
     });
 
-    let data = "/";
+    let data = { dir: "" };
 
     if (directory == "root") {
       data = {
-        dir: "/"
+        dir: "/",
       };
     } else {
       data = {
-        dir: "/" + directory
+        dir: "/" + directory,
       };
     }
 
-    const response = await axi({ method: "GET", url: "dir/ls", params: data, config: config, withCredentials: true });
+    const response = await axios({
+      baseURL: host,
+      method: "GET",
+      url: "dir/ls",
+      params: data,
+      withCredentials: true,
+    });
 
     return response.data;
   } catch (error) {
@@ -200,16 +179,16 @@ export async function createAccount(username, password, mnemonic) {
     const requestBody = {
       user: username,
       password: password,
-      mnemonic: mnemonic
+      mnemonic: mnemonic,
     };
 
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const response = await axi({ method: "POST", url: "user/signup", config: config, data: qs.stringify(requestBody), withCredentials: true });
+    const response = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "user/signup",
+      data: qs.stringify(requestBody),
+      withCredentials: true,
+    });
     return response.data;
   } catch (e) {
     console.log("error on timeout", e);
@@ -238,13 +217,13 @@ export async function storeAvatar(avatar) {
     const formData = new FormData();
     formData.append("avatar", file);
 
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    };
-
-    const response = await axi({ method: "POST", url: "user/avatar", config: config, data: formData, withCredentials: true });
+    const response = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "user/avatar",
+      data: formData,
+      withCredentials: true,
+    });
     return response.data;
   } catch (e) {
     console.log("error on timeout", e);
@@ -268,23 +247,17 @@ async function readAsbase64(blob) {
 
 export async function getAvatar(username) {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
     const data = {
-      username: username
+      username: username,
     };
 
-    const response = await axi({
+    const response = await axios({
+      baseURL: host,
       method: "GET",
       url: "user/avatar",
       responseType: "blob",
-      config: config,
       params: data,
-      withCredentials: true
+      withCredentials: true,
     });
     console.log(response);
     return await readAsbase64(response.data);
@@ -295,62 +268,51 @@ export async function getAvatar(username) {
 
 export async function createPod(passWord, podName) {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
     const podRequest = {
       password: passWord,
-      pod: podName
+      pod: podName,
     };
 
-    const createPod = await axi({ method: "POST", url: "pod/new", config: config, data: qs.stringify(podRequest), withCredentials: true });
-  } catch (error) { }
+    const createPod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/new",
+      data: qs.stringify(podRequest),
+      withCredentials: true,
+    });
+  } catch (error) {}
 }
 
 export async function createDirectory(directoryName) {
   // Dir = "/" + path + "/"
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const createPictursDirectory = await axi({
+    const createPictursDirectory = await axios({
+      baseURL: host,
       method: "POST",
       url: "dir/mkdir",
-      config: config,
       data: qs.stringify({ dir: directoryName }),
-      withCredentials: true
+      withCredentials: true,
     });
 
     return true;
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export async function deleteDirectory(directoryName) {
   // Dir = "/" + path + "/"
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    const deleteDirectory = await axi({
+    const deleteDirectory = await axios({
+      baseURL: host,
       method: "DELETE",
       url: "dir/rmdir",
-      config: config,
       params: {
-        dir: directoryName
+        dir: directoryName,
       },
-      withCredentials: true
+      withCredentials: true,
     });
 
     return true;
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export async function renameDirectory(newDirectoryName) {
@@ -360,72 +322,53 @@ export async function renameDirectory(newDirectoryName) {
 
 export async function deleteFile(fileName) {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const deletePictursDirectory = await axi({
+    const deletePictursDirectory = await axios({
+      baseURL: host,
       method: "DELETE",
       url: "file/delete",
-      config: config,
       params: {
-        file: fileName
+        file: fileName,
       },
-      withCredentials: true
+      withCredentials: true,
     });
 
     return true;
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export async function shareFile(fileName, userName) {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const shareFileResult = await axi({
+    const shareFileResult = await axios({
+      baseURL: host,
       method: "POST",
       url: "file/share",
-      config: config,
       params: {
         file: fileName,
-        to: "anon"
+        to: "anon",
       },
-      withCredentials: true
+      withCredentials: true,
     });
 
     return shareFileResult.data.sharing_reference;
-  } catch (error) { }
+  } catch (error) {}
 }
 
 export async function receiveFile(reference) {
-  return true
+  return true;
 }
 
 export async function receiveFileInfo(reference) {
   try {
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    };
-
-    const shareFileInfoResult = await axi({
+    const shareFileInfoResult = await axios({
+      baseURL: host,
       method: "POST",
       url: "file/receiveinfo",
-      config: config,
       params: {
         ref: reference,
       },
-      withCredentials: true
+      withCredentials: true,
     });
 
     return shareFileInfoResult.data;
-  } catch (error) { }
-
+  } catch (error) {}
 }
