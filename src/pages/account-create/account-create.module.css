@@ -67,7 +67,7 @@
 }
 
 .link {
-color: var(--fds-blue);
+color: var(--fds-orange);
 composes: baseGlowText from "../../styles.module.css";
 text-decoration: underline;
 cursor: pointer;
@@ -178,7 +178,7 @@ cursor: pointer;
   padding: 6px;
   width: 30px;
   height: 30px;
-  background-color: var(--fds-blue);
+  background-color: var(--fds-orange);
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.5);
@@ -223,12 +223,12 @@ cursor: pointer;
   padding-bottom: 5px;
   margin-right: 10px;
   border: 0px;
-  border-bottom: 1px solid var(--fds-blue);
+  border-bottom: 1px solid var(--fds-orange);
   background-color: transparent;
 }
 
 .usernameinput:not(:placeholder-shown) {
-  border-bottom: 1px solid var(--fds-blue);
+  border-bottom: 1px solid var(--fds-orange);
 }
 
 .mnemonicinputbox {
@@ -251,12 +251,12 @@ cursor: pointer;
   padding-bottom: 5px;
   margin-right: 10px;
   border: 0px;
-  border-bottom: 1px solid var(--fds-blue);
+  border-bottom: 1px solid var(--fds-orange);
   background-color: transparent;
 }
 
 .mnemonicinput:not(:placeholder-shown) {
-  border-bottom: 1px solid var(--fds-blue);
+  border-bottom: 1px solid var(--fds-orange);
 }
 
 .passwordflex {
@@ -303,7 +303,7 @@ cursor: pointer;
 }
 
 .statusboxitemactive {
-  color: var(--fds-blue);
+  color: var(--fds-orange);
 }
 
 .blacktext {
@@ -365,15 +365,15 @@ input[type="range"]::-webkit-slider-runnable-track {
   width: 168px;
   height: 2px;
   cursor: pointer;
-  background: var(--fds-blue);
+  background: var(--fds-orange);
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  border: 1px solid var(--fds-blue);
+  border: 1px solid var(--fds-orange);
   height: 18px;
   width: 18px;
   border-radius: 50%;
-  background: var(--fds-blue);
+  background: var(--fds-orange);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -8px;
@@ -383,14 +383,14 @@ input[type="range"]::-moz-range-track {
   width: 168px;
   height: 2px;
   cursor: pointer;
-  background: var(--fds-blue);
+  background: var(--fds-orange);
 }
 input[type="range"]::-moz-range-thumb {
-  border: 1px solid var(--fds-blue);
+  border: 1px solid var(--fds-orange);
   height: 18px;
   width: 18px;
   border-radius: 50%;
-  background: var(--fds-blue);
+  background: var(--fds-orange);
   cursor: pointer;
   margin-top: -8px;
 }

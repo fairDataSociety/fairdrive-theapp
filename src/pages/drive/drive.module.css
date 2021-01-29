@@ -32,7 +32,7 @@
 .addButton {
   display: flex;
   justify-self: end;
-  color: var(--fds-blue);
+  color: var(--fds-orange);
   margin-right: 40px;
   composes: baseGlowText from "../../styles.module.css";
 }
@@ -113,7 +113,7 @@
 
 .subtitle {
   composes: bodyDefault from "../../styles.module.css";
-  color: var(--fds-blue);
+  color: var(--fds-orange);
   text-align: center;
   margin: 20px 0px 20px 0px;
   line-height: 150%;
@@ -121,7 +121,7 @@
 
 .breadcrumbitem {
   composes: bodyDefault from "../../styles.module.css";
-color: var(--fds-blue);
+color: var(--fds-orange);
 }
 
 .breadcrumb {
@@ -148,7 +148,7 @@ margin-top: 10px;
 .balance {
   composes: bodyBold from "../../styles.module.css";
   composes: baseGlowText from "../../styles.module.css";
-  color:var(--fds-blue);
+  color:var(--fds-orange);
   line-height: 120%;
 }
 
@@ -215,14 +215,14 @@ margin-top: 10px;
   text-align: left;
   padding-bottom: 5px;
   border: 0px;
-  border-bottom: 1px solid var(--fds-blue);
+  border-bottom: 1px solid var(--fds-orange);
   background-color: transparent;
   color: var(--text-light);
   outline: none;
 }
 
 .blue {
-  color: var(--fds-blue);
+  color: var(--fds-orange);
 }
 
 .foldermenu {
