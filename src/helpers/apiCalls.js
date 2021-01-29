@@ -20,13 +20,13 @@ export async function logIn(username, password) {
       withCredentials: true,
     });
 
-    // const openPod = await axios({
-    //   baseURL: host,
-    //   method: "POST",
-    //   url: "pod/open",
-    //   data: qs.stringify({ password: password, pod: "Fairdrive" }),
-    //   withCredentials: true,
-    // });
+    const openPod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/open",
+      data: qs.stringify({ password: password, pod: "Fairdrive" }),
+      withCredentials: true,
+    });
 
     const avatar = await getAvatar(username);
 
