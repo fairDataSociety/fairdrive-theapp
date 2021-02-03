@@ -1,42 +1,50 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styles from "styles.module.css";
 import createAccount from "../account.module.css";
-import {AccountCircle, AccountBalanceWallet, Loyalty, VerifiedUser} from "@material-ui/icons";
-import {Route, NavLink} from "react-router-dom";
+import {
+  AccountCircle,
+  AccountBalanceWallet,
+  Loyalty,
+  VerifiedUser,
+} from "@material-ui/icons";
 
-const AccountHome = ({
-  nextStage,
-  exitStage,
-  avatar,
-  username,
-  myIdentityStage,
-  shortCodeStage,
-  resolveStage
-}) => (<div className={createAccount.formcontainer}>
-  <div className={createAccount.closeButton} onClick={exitStage}>
-    <div className={styles.closeicon}/>
-  </div>
-  <div className={createAccount.homemenu}>
-    <div className={createAccount.title}>Account</div>
-    <div className={createAccount.flexer}></div>
+export interface Props {
+  nextStage?: any;
+  exitStage?: any;
+  avatar?: any;
+  username?: any;
+  myIdentityStage: any;
+  shortCodeStage: any;
+  resolveStage: any;
+}
+function AccountHome(props: Props) {
+  return (
+    <div className={createAccount.formcontainer}>
+      <div className={createAccount.closeButton} onClick={props.exitStage}>
+        <div className={styles.closeicon} />
+      </div>
+      <div className={createAccount.homemenu}>
+        <div className={createAccount.title}>Account</div>
+        <div className={createAccount.flexer}></div>
 
-    <div className={createAccount.menuitem} onClick={myIdentityStage}>
-      <AccountCircle></AccountCircle>
-      <div>Account settings</div>
+        <div className={createAccount.menuitem} onClick={props.myIdentityStage}>
+          <AccountCircle></AccountCircle>
+          <div>Account settings</div>
+        </div>
+        <div className={createAccount.menuitem}>
+          <AccountBalanceWallet></AccountBalanceWallet>
+          <div>Wallet</div>
+        </div>
+        <div className={createAccount.menuitem} onClick={props.shortCodeStage}>
+          <VerifiedUser></VerifiedUser>
+          <div>Get verified</div>
+        </div>
+        <div className={createAccount.menuitem} onClick={props.resolveStage}>
+          <Loyalty></Loyalty>
+          <div>Verify a friend</div>
+        </div>
+      </div>
     </div>
-    <div className={createAccount.menuitem}>
-      <AccountBalanceWallet></AccountBalanceWallet>
-      <div>Wallet</div>
-    </div>
-    <div className={createAccount.menuitem} onClick={shortCodeStage}>
-      <VerifiedUser></VerifiedUser>
-      <div>Get verified</div>
-    </div>
-    <div className={createAccount.menuitem} onClick={resolveStage}>
-      <Loyalty></Loyalty>
-      <div>Verify a friend</div>
-    </div>
-  </div>
-</div>);
-
-export default AccountHome;
+  );
+}
+export default React.memo(AccountHome);

@@ -6,8 +6,10 @@ import { Dialog } from "@material-ui/core";
 function getAccount(state: any) {
   return state.account;
 }
-
-export default function PasswordUnlock(open: any) {
+export interface Props {
+  open: boolean;
+}
+function PasswordUnlock(props: Props) {
   const dispatch = useDispatch();
   const account = useSelector((state: any) => getAccount(state));
 
@@ -18,7 +20,7 @@ export default function PasswordUnlock(open: any) {
   };
 
   return (
-    <Dialog fullScreen open={open}>
+    <Dialog fullScreen open={props.open}>
       <div className={styles.dialogBox}>
         <div className={styles.flexer}></div>
         <div className={styles.flexer}></div>
@@ -66,3 +68,4 @@ export default function PasswordUnlock(open: any) {
     </Dialog>
   );
 }
+export default React.memo(PasswordUnlock);
