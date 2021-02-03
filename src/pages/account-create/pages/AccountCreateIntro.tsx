@@ -3,7 +3,13 @@ import main from "styles.module.css";
 // import accountstyles from "../account-create.module.css";
 import { useHistory } from "react-router-dom";
 
-export function AccountCreateIntro({ createStage, restoreStage, exitStage }) {
+export interface Props {
+  createStage: any;
+  exitStage: any;
+  restoreStage: any;
+}
+
+function AccountCreateIntro(props: Props) {
   const history = useHistory();
 
   function gotoUnlock() {
@@ -17,7 +23,7 @@ export function AccountCreateIntro({ createStage, restoreStage, exitStage }) {
         In the next steps you will be creating a Fairdrive Wallet.
       </div>
 
-      <button onClick={createStage}>
+      <button onClick={props.createStage}>
         <div>
           <div className={main.buttontext}>create account</div>
         </div>
@@ -40,4 +46,4 @@ export function AccountCreateIntro({ createStage, restoreStage, exitStage }) {
   );
 }
 
-export default AccountCreateIntro;
+export default React.memo(AccountCreateIntro);
