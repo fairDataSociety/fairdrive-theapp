@@ -1,11 +1,11 @@
-export default function sortByProp(prop, up) {
+export default function sortByProp(prop:any, up:any) {
   if (up === "asc") {
-    return(a, b) => (
+    return(a:any, b:any) => (
       a[prop] > b[prop]
       ? 1
       : -1);
   } else {
-    return(b, a) => (
+    return(b:any, a:any) => (
       a[prop] > b[prop]
       ? 1
       : -1);

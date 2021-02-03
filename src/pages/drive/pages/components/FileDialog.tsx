@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../../drive.module.css";
 import urlPath from "helpers/urlPath";
 import rootStyles from "styles.module.css";
@@ -11,9 +11,9 @@ import {
   HighlightOff,
   LibraryMusic,
   Subject,
-  FileCopySharp
+  FileCopySharp,
 } from "@material-ui/icons/";
-import {CircularProgress, LinearProgress} from "@material-ui/core";
+import { CircularProgress, LinearProgress } from "@material-ui/core";
 
 import {
   Button,
@@ -25,7 +25,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@material-ui/core";
 import {
   mdiFolder,
@@ -35,12 +35,12 @@ import {
   mdiShare,
   mdiTrashCan,
   mdiUpload,
-  mdiZipBox
+  mdiZipBox,
 } from "@mdi/js";
 import Icon from "@mdi/react";
-import {fileDownload} from "helpers/apiCalls";
+import { fileDownload } from "helpers/apiCalls";
 
-export default function FileDialog({open, path, item, refresh, onClose}) {
+export default function FileDialog({ open, path, item, refresh, onClose }) {
   const homeId = "homeId";
 
   //const [openNew, setNewOpen] = useState(open);
@@ -69,31 +69,37 @@ export default function FileDialog({open, path, item, refresh, onClose}) {
     } else {
       writePath = "/" + urlPath(path) + "/";
     }
-    await fileDownload(writePath + item.name, item.name).catch(e => console.error(e));
+    await fileDownload(writePath + item.name, item.name).catch((e) =>
+      console.error(e)
+    );
   }
 
   const FileDialogContent = () => {
     switch (fileDialogContentState) {
       case homeId:
-        return (<div className={styles.foldermenu}>
-          <div className={styles.close} onClick={handleFileDialogClose}>
-            <div className={styles.closeicon}/>
+        return (
+          <div className={styles.foldermenu}>
+            <div className={styles.close} onClick={handleFileDialogClose}>
+              <div className={styles.closeicon} />
+            </div>
+            <div className={styles.menutitle}>{item.name}</div>
+            <div className={styles.fileProps}>Type: {item.content_type}</div>
+            <div className={styles.fileProps}>Filesize: {fileSize}</div>
+            <div className={styles.fileProps}>Created: {fileCreateDate}</div>
+            <div className={styles.fileProps}>Modified: {fileModDate}</div>
+            <div onClick={handleDownload} className={styles.buttonPlace}>
+              <div className={rootStyles.buttontext}>{">"} download</div>
+            </div>
           </div>
-          <div className={styles.menutitle}>{item.name}</div>
-          <div className={styles.fileProps}>Type: {item.content_type}</div>
-          <div className={styles.fileProps}>Filesize: {fileSize}</div>
-          <div className={styles.fileProps}>Created: {fileCreateDate}</div>
-          <div className={styles.fileProps}>Modified: {fileModDate}</div>
-          <div onClick={handleDownload} className={styles.buttonPlace}>
-            <div className={rootStyles.buttontext}>> download</div>
-          </div>
-        </div>);
+        );
         break;
       default:
         break;
     }
   };
-  return (<Dialog open={open} fullWidth="fullWidth">
-    <div className={styles.dialogContainer}>{FileDialogContent()}</div>
-  </Dialog>);
+  return (
+    <Dialog open={open} fullWidth="fullWidth">
+      <div className={styles.dialogContainer}>{FileDialogContent()}</div>
+    </Dialog>
+  );
 }

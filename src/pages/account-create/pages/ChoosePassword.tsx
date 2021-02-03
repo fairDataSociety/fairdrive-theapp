@@ -7,38 +7,36 @@ export function ChoosePassword({
   exitStage,
   nextStage,
   setPassword,
-  password
+  password,
 }) {
+  const [passwordMatch, setPasswordMatch] = useState(false);
 
-  const [passwordMatch, setPasswordMatch] = useState(false)
-
-  const [password1, setPassword1] = useState()
-  const [password2, setPassword2] = useState()
+  const [password1, setPassword1] = useState();
+  const [password2, setPassword2] = useState();
 
   const handlePassword1 = (e) => {
-    setPassword1(e.target.value)
-    checkPasswordValidity(e.target.value, password2)
-  }
+    setPassword1(e.target.value);
+    checkPasswordValidity(e.target.value, password2);
+  };
 
   const handlePassword2 = (e) => {
-    setPassword2(e.target.value)
-    checkPasswordValidity(e.target.value, password1)
-  }
+    setPassword2(e.target.value);
+    checkPasswordValidity(e.target.value, password1);
+  };
 
   const checkPasswordValidity = (a, b) => {
-    if (a !== "" | b !== "") {
+    if ((a !== "") | (b !== "")) {
       if (a === b) {
-        setPasswordMatch(true)
-        setPassword(a)
+        setPasswordMatch(true);
+        setPassword(a);
       } else {
-        setPasswordMatch(false)
+        setPasswordMatch(false);
       }
     }
-  }
+  };
 
   return (
-
-    <div className={accountstyles.formcontainer} >
+    <div className={accountstyles.formcontainer}>
       <div className={accountstyles.closeButton} onClick={exitStage}>
         <div className={styles.closeicon} />
       </div>
@@ -67,13 +65,15 @@ export function ChoosePassword({
           onChange={(e) => handlePassword2(e)}
         />
       </div>
-      {passwordMatch ?
-        <div tabIndex="2" className={styles.button} onClick={createAccount}>
+      {passwordMatch ? (
+        <div className={styles.button} onClick={createAccount}>
           <div>
             <div className={styles.buttontext}>set password</div>
           </div>
         </div>
-        : ""}
+      ) : (
+        ""
+      )}
     </div>
   );
 }

@@ -1,8 +1,14 @@
-import React, {useState} from "react";
-import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import defaultAvatar from "images/defaultAvatar.png";
-import {createAccount, createDirectory, createPod, isUsernamePresent, storeAvatar} from "helpers/apiCalls";
+import {
+  createAccount,
+  createDirectory,
+  createPod,
+  isUsernamePresent,
+  storeAvatar,
+} from "../../helpers/apiCalls";
 
 // Sub-pages
 import AccountCreateIntro from "./pages/AccountCreateIntro";
@@ -47,7 +53,7 @@ export function AccountCreateRoot() {
   const [collection, setCollection] = useState();
   const [avatar, setAvatar] = useState(defaultAvatar);
   const [username, setUsername] = useState("");
-  const [usernameExists, setUsernameExists] = useState(null);
+  const [usernameExists, setUsernameExists] = useState("");
   const [password, setPassword] = useState();
 
   const [accountCreateDone, setAccountCreateDone] = useState(false);
@@ -56,25 +62,31 @@ export function AccountCreateRoot() {
   const [item2, setItem2] = useState(false);
   const [item3, setItem3] = useState(false);
 
-  async function handleUsername(username) {
+  async function handleUsername(username: string) {
     setUsername(username);
-    await isUsernamePresent(username).then(res => {
-      console.log(res);
-      if (res.data.present) {
-        setUsernameExists("Username taken.");
-      } else {
-        setUsernameExists(null);
-      }
-    }).catch(e => {
-      console.log(e);
-    });
+    await isUsernamePresent(username)
+      .then((res) => {
+        console.log(res);
+        if (res.data.present) {
+          setUsernameExists("Username taken.");
+        } else {
+          setUsernameExists("");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   // Create account function
   const createAccountProcess = async () => {
     setStage(creatingAccountId);
     const mnemonicJoined = mnemonic.join(" ");
-    const newUser = await createAccount(username, password, mnemonicJoined).catch(e => {
+    const newUser = await createAccount(
+      username,
+      password,
+      mnemonicJoined
+    ).catch((e) => {
       throw new Error("User creation error");
     });
     const avatarStorage = await storeAvatar(avatar);
@@ -95,16 +107,16 @@ export function AccountCreateRoot() {
       username: username,
       avatar: avatar,
       address: newUser.reference,
-      balance: 0.0
+      balance: 0.0,
     };
 
-    dispatch({type: "SET_ACCOUNT", data: userObject});
+    dispatch({ type: "SET_ACCOUNT", data: userObject });
     dispatch({
       type: "SET_SYSTEM",
       data: {
         hasAcount: true,
-        passWord: password
-      }
+        passWord: password,
+      },
     });
 
     setItem3(true);
@@ -114,19 +126,70 @@ export function AccountCreateRoot() {
   // Router
   switch (stage) {
     case accountCreateIntroId:
-      return (<AccountCreateIntro createStage={() => setStage(mnemonicShowId)} restoreStage={() => setStage(restoreAccountId)} exitStage={() => history.goBack()}/>);
+      return (
+        <AccountCreateIntro
+          createStage={() => setStage(mnemonicShowId)}
+          restoreStage={() => setStage(restoreAccountId)}
+          exitStage={() => history.goBack()}
+        />
+      );
     case mnemonicShowId:
-      return (<MnemonicShow fairdrive={window.fairdrive} nextStage={() => setStage(mnemonicCheckId)} exitStage={() => setStage(accountCreateIntroId)} setMnemonic={setMnemonic} mnemonic={mnemonic} setCollection={setCollection}/>);
+      return (
+        <MnemonicShow
+          nextStage={() => setStage(mnemonicCheckId)}
+          exitStage={() => setStage(accountCreateIntroId)}
+          setMnemonic={setMnemonic}
+          mnemonic={mnemonic}
+        />
+      );
     case mnemonicCheckId:
-      return (<MnemonicCheck nextStage={() => setStage(chooseUsernameId)} prevStage={() => setStage(mnemonicShowId)} exitStage={() => setStage(accountCreateIntroId)} mnemonic={mnemonic}/>);
+      return (
+        <MnemonicCheck
+          nextStage={() => setStage(chooseUsernameId)}
+          prevStage={() => setStage(mnemonicShowId)}
+          exitStage={() => setStage(accountCreateIntroId)}
+          mnemonic={mnemonic}
+        />
+      );
     case chooseUsernameId:
-      return (<ChooseUsername usernameExists={usernameExists} avatar={avatar} setUsername={handleUsername} username={username} nextStage={() => setStage(choosePasswordId)} exitStage={() => setStage(accountCreateIntroId)} avatarStage={() => setStage(chooseAvatarId)}></ChooseUsername>);
+      return (
+        <ChooseUsername
+          usernameExists={usernameExists}
+          avatar={avatar}
+          setUsername={handleUsername}
+          username={username}
+          nextStage={() => setStage(choosePasswordId)}
+          exitStage={() => setStage(accountCreateIntroId)}
+          avatarStage={() => setStage(chooseAvatarId)}
+        ></ChooseUsername>
+      );
     case chooseAvatarId:
-      return (<ChooseAvatar avatar={defaultAvatar} exitStage={() => setStage(chooseUsernameId)} setAvatar={setAvatar}></ChooseAvatar>);
+      return (
+        <ChooseAvatar
+          avatar={defaultAvatar}
+          exitStage={() => setStage(chooseUsernameId)}
+          setAvatar={setAvatar}
+        ></ChooseAvatar>
+      );
     case choosePasswordId:
-      return (<ChoosePassword createAccount={createAccountProcess} exitStage={() => setStage(accountCreateIntroId)} setPassword={setPassword} password={password}/>);
+      return (
+        <ChoosePassword
+          createAccount={createAccountProcess}
+          exitStage={() => setStage(accountCreateIntroId)}
+          setPassword={setPassword}
+          password={password}
+        />
+      );
     case creatingAccountId:
-      return (<CreatingAccount accountCreateDone={accountCreateDone} item0={item0} item1={item1} item2={item2} item3={item3}/>);
+      return (
+        <CreatingAccount
+          accountCreateDone={accountCreateDone}
+          item0={item0}
+          item1={item1}
+          item2={item2}
+          item3={item3}
+        />
+      );
     case restoreAccountId:
       return <RestoreAccount></RestoreAccount>;
     default:

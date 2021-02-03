@@ -12,12 +12,12 @@ const outerTheme = createMuiTheme({
     primary: {
       main: "#92e7fa",
       light: "#cecece",
-      background: "#333333"
+      background: "#333333",
     },
     secondary: {
-      main: green[500]
-    }
-  }
+      main: green[500],
+    },
+  },
 });
 
 function getSystem(state) {
@@ -29,8 +29,8 @@ function getAccount(state) {
 }
 
 function App() {
-  const system = useSelector(state => getSystem(state));
-  const account = useSelector(state => getAccount(state));
+  const system = useSelector((state) => getSystem(state));
+  const account = useSelector((state) => getAccount(state));
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -45,52 +45,47 @@ function App() {
         } else {
           // do the api all to see if the user is logged in
           //const fwdUrl = slice(location.pathname);
-          const checkIsLoggedIn = await isLoggedIn(account.username).then(result => {
-            if (result.data.loggedin && system.passWord) {
-              history.push("/drive/root");
-              dispatch({
-                type: "SET_SYSTEM",
-                data: {
-                  unlocked: true
-                }
-              });
-            } else {
-              history.push("/unlock/");
-            }
-          }).catch(e => {
-            return e;
-          });
+          const checkIsLoggedIn = await isLoggedIn(account.username)
+            .then((result) => {
+              if (result.data.loggedin && system.passWord) {
+                history.push("/drive/root");
+                dispatch({
+                  type: "SET_SYSTEM",
+                  data: {
+                    unlocked: true,
+                  },
+                });
+              } else {
+                history.push("/unlock/");
+              }
+            })
+            .catch((e) => {
+              return e;
+            });
         }
       }
-
     }
-    checkAccountStatus().catch(e => console.log(e));
+    checkAccountStatus().catch((e) => console.log(e));
   }, [account.status]);
 
   return (
-    < ThemeProvider theme={
-      outerTheme
-    } > {
-        " "
-      } < div className={
-        styles.swarmcity
-      } > {
-          " "
-        } {
-          pages.map(({ path, exact, component }) => (
-            < Route key={
-              path
-            } {
-              ...{
-                path,
-                exact,
-                component
-              }
-              } />))
-        } {
-          " "
-        } < /div>{" "} <
-        /ThemeProvider >);
+    <ThemeProvider theme={outerTheme}>
+      {" "}
+      <div className={styles.swarmcity}>
+        {" "}
+        {pages.map(({ path, exact, component }) => (
+          <Route
+            key={path}
+            {...{
+              path,
+              exact,
+              component,
+            }}
+          />
+        ))}{" "}
+      </div>{" "}
+    </ThemeProvider>
+  );
 }
 
 export default App;

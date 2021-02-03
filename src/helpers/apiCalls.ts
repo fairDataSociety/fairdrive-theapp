@@ -5,7 +5,7 @@ import FileSaver from "file-saver";
 
 const host = process.env.REACT_APP_FAIROSHOST + "/v0/";
 
-export async function logIn(username, password) {
+export async function logIn(username: string, password: string) {
   try {
     const requestBody = {
       user: username,
@@ -55,7 +55,7 @@ export async function restoreAccount() {
   return true;
 }
 
-export async function isLoggedIn(username) {
+export async function isLoggedIn(username: string) {
   try {
     const requestBody = {
       user: username,
@@ -74,7 +74,7 @@ export async function isLoggedIn(username) {
   }
 }
 
-export async function isUsernamePresent(username) {
+export async function isUsernamePresent(username: string) {
   try {
     const requestBody = {
       user: username,
@@ -94,7 +94,7 @@ export async function isUsernamePresent(username) {
   }
 }
 
-export async function fileUpload(files, directory, onUploadProgress) {
+export async function fileUpload(files:any, directory:any, onUploadProgress:any) {
   const formData = new FormData();
   for (const file of files) {
     formData.append("files", file);
@@ -117,7 +117,7 @@ export async function fileUpload(files, directory, onUploadProgress) {
   return true;
 }
 
-export async function fileDownload(file, filename) {
+export async function fileDownload(file:any, filename:any) {
   try {
     const downloadFile = await axios({
       baseURL: host,
@@ -138,7 +138,7 @@ export async function fileDownload(file, filename) {
   }
 }
 
-export async function getDirectory(directory, password) {
+export async function getDirectory(directory:any, password: string) {
   try {
     const openPod = await axios({
       baseURL: host,
@@ -174,7 +174,7 @@ export async function getDirectory(directory, password) {
   }
 }
 
-export async function createAccount(username, password, mnemonic) {
+export async function createAccount(username: string, password: any, mnemonic: string) {
   try {
     const requestBody = {
       user: username,
@@ -195,7 +195,7 @@ export async function createAccount(username, password, mnemonic) {
   }
 }
 
-function dataURLtoFile(dataurl, filename) {
+function dataURLtoFile(dataurl:any, filename: string) {
   var arr = dataurl.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
@@ -209,7 +209,7 @@ function dataURLtoFile(dataurl, filename) {
   return new File([u8arr], filename, { type: mime });
 }
 
-export async function storeAvatar(avatar) {
+export async function storeAvatar(avatar:any) {
   try {
     //Usage example:
     var file = dataURLtoFile(avatar, "avatar.jpg");
@@ -230,7 +230,7 @@ export async function storeAvatar(avatar) {
   }
 }
 
-async function readAsbase64(blob) {
+async function readAsbase64(blob:any) {
   const tempFileReader = new FileReader();
   return new Promise((resolve, reject) => {
     tempFileReader.onerror = () => {
@@ -245,7 +245,7 @@ async function readAsbase64(blob) {
   });
 }
 
-export async function getAvatar(username) {
+export async function getAvatar(username: string) {
   try {
     const data = {
       username: username,
@@ -266,7 +266,7 @@ export async function getAvatar(username) {
   }
 }
 
-export async function createPod(passWord, podName) {
+export async function createPod(passWord: any, podName: string) {
   try {
     const podRequest = {
       password: passWord,
@@ -283,7 +283,7 @@ export async function createPod(passWord, podName) {
   } catch (error) {}
 }
 
-export async function createDirectory(directoryName) {
+export async function createDirectory(directoryName: string) {
   // Dir = "/" + path + "/"
   try {
     const createPictursDirectory = await axios({
@@ -298,7 +298,7 @@ export async function createDirectory(directoryName) {
   } catch (error) {}
 }
 
-export async function deleteDirectory(directoryName) {
+export async function deleteDirectory(directoryName: string) {
   // Dir = "/" + path + "/"
   try {
     const deleteDirectory = await axios({
@@ -315,12 +315,12 @@ export async function deleteDirectory(directoryName) {
   } catch (error) {}
 }
 
-export async function renameDirectory(newDirectoryName) {
+export async function renameDirectory(newDirectoryName: string) {
   console.log(newDirectoryName);
   return true;
 }
 
-export async function deleteFile(fileName) {
+export async function deleteFile(fileName: string) {
   try {
     const deletePictursDirectory = await axios({
       baseURL: host,
@@ -336,7 +336,7 @@ export async function deleteFile(fileName) {
   } catch (error) {}
 }
 
-export async function shareFile(fileName, userName) {
+export async function shareFile(fileName: string, userName: string) {
   try {
     const shareFileResult = await axios({
       baseURL: host,
@@ -353,11 +353,11 @@ export async function shareFile(fileName, userName) {
   } catch (error) {}
 }
 
-export async function receiveFile(reference) {
+export async function receiveFile(reference: string) {
   return true;
 }
 
-export async function receiveFileInfo(reference) {
+export async function receiveFileInfo(reference: string) {
   try {
     const shareFileInfoResult = await axios({
       baseURL: host,

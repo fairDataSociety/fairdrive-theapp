@@ -287,10 +287,13 @@ a {
   border: 1px solid var(--fds-orange);
   margin-top: 40px;
 }
+.button:active{
+  background-color: --fds-yellow;
+}
 
 .buttontext {
   composes: bodyBold;
-    composes: baseGlowText;
+  composes: baseGlowText;
     cursor: pointer;
 
     text-transform: capitalize;
