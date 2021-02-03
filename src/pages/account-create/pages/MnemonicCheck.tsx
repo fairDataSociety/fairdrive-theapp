@@ -70,7 +70,7 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
           {word0Validity ? (
             <Check
               style={{
-                color: "#92e7fa",
+                color: "#DB7362",
               }}
             ></Check>
           ) : (
@@ -93,7 +93,7 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
           {word1Validity ? (
             <Check
               style={{
-                color: "#92e7fa",
+                color: "#DB7362",
               }}
             ></Check>
           ) : (
@@ -116,7 +116,7 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
           {word2Validity ? (
             <Check
               style={{
-                color: "#92e7fa",
+                color: "#DB7362",
               }}
             ></Check>
           ) : (
@@ -139,7 +139,7 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
           {word3Validity ? (
             <Check
               style={{
-                color: "#92e7fa",
+                color: "#DB7362",
               }}
             ></Check>
           ) : (
@@ -152,7 +152,7 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
         </div>
       </div>
       {word0Validity && word1Validity && word2Validity && word3Validity ? (
-        <div className={styles.button} onClick={nextStage}>
+        <div tabIndex="2" className={styles.button} onClick={nextStage}>
           <div>
             <div className={styles.buttontext}>continue</div>
           </div>

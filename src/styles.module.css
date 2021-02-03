@@ -156,7 +156,7 @@ a {
 
 .loginregistertitle {
   composes: bodyBold;
-  color: #cecece !important;
+  color: #F4944D !important;
   line-height: 36px;
 }
 
@@ -188,7 +188,7 @@ a {
 
 .breadcrumbpath {
   composes: bodyBold;
-  color: #cecece !important;
+  color: #F4944D !important;
 }
 
 .exiticonblue {

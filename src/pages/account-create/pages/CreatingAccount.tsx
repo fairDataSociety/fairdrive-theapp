@@ -18,7 +18,7 @@ export function CreatingAccount({
         {item0 ? (
           <Check
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           ></Check>
         ) : (
@@ -31,7 +31,7 @@ export function CreatingAccount({
         {item0 ? (
           <div
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           >
             Creating User Account
@@ -42,7 +42,7 @@ export function CreatingAccount({
         {item1 ? (
           <Check
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           ></Check>
         ) : (
@@ -55,7 +55,7 @@ export function CreatingAccount({
         {item1 ? (
           <div
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           >
             Creating Fairdrive
@@ -66,7 +66,7 @@ export function CreatingAccount({
         {item2 ? (
           <Check
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           ></Check>
         ) : (
@@ -79,7 +79,7 @@ export function CreatingAccount({
         {item2 ? (
           <div
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           >
             Creating Folders
@@ -90,7 +90,7 @@ export function CreatingAccount({
         {item3 ? (
           <Check
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           ></Check>
         ) : (
@@ -103,7 +103,7 @@ export function CreatingAccount({
         {item3 ? (
           <div
             style={{
-              color: "#92e7fa",
+              color: "#DB7362",
             }}
           >
             Storing Fairdrive Account
@@ -114,7 +114,7 @@ export function CreatingAccount({
       </div>
 
       {item0 && item1 && item2 && item3 ? (
-        <div className={styles.button} onClick={nextStage}>
+        <div tabIndex="2" className={styles.button} onClick={nextStage}>
           <div>
             <div className={styles.buttontext}>To your account</div>
           </div>
