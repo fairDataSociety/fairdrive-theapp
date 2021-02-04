@@ -3,40 +3,51 @@ import styles from "styles.module.css";
 import accountstyles from "../account-create.module.css";
 import { Check } from "@material-ui/icons";
 
-export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
-  console.log(mnemonic[2], mnemonic[4], mnemonic[7], mnemonic[10]);
+export interface Props {
+  nextStage: any;
+  prevStage: any;
+  exitStage: any;
+  mnemonic: any;
+}
+function MnemonicCheck(props: Props) {
+  console.log(
+    props.mnemonic[2],
+    props.mnemonic[4],
+    props.mnemonic[7],
+    props.mnemonic[10]
+  );
 
   const [word0Validity, setWord0Validity] = useState(false);
   const [word1Validity, setWord1Validity] = useState(false);
   const [word2Validity, setWord2Validity] = useState(false);
   const [word3Validity, setWord3Validity] = useState(false);
 
-  const check0Validity = (num, e) => {
-    if (e.target.value === mnemonic[num]) {
+  const check0Validity = (num: any, e: any) => {
+    if (e.target.value === props.mnemonic[num]) {
       setWord0Validity(true);
     } else {
       setWord0Validity(false);
     }
   };
 
-  const check1Validity = (num, e) => {
-    if (e.target.value === mnemonic[num]) {
+  const check1Validity = (num: any, e: any) => {
+    if (e.target.value === props.mnemonic[num]) {
       setWord1Validity(true);
     } else {
       setWord1Validity(false);
     }
   };
 
-  const check2Validity = (num, e) => {
-    if (e.target.value === mnemonic[num]) {
+  const check2Validity = (num: any, e: any) => {
+    if (e.target.value === props.mnemonic[num]) {
       setWord2Validity(true);
     } else {
       setWord2Validity(false);
     }
   };
 
-  const check3Validity = (num, e) => {
-    if (e.target.value === mnemonic[num]) {
+  const check3Validity = (num: any, e: any) => {
+    if (e.target.value === props.mnemonic[num]) {
       setWord3Validity(true);
     } else {
       setWord3Validity(false);
@@ -45,13 +56,13 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
 
   return (
     <div className={accountstyles.container}>
-      <div className={accountstyles.closeButton} onClick={exitStage}>
+      <div className={accountstyles.closeButton} onClick={props.exitStage}>
         <div className={styles.closeicon} />
       </div>
       <div className={accountstyles.title}>Check your backup</div>
       <div className={accountstyles.subtitle}>
         Didn't write it down? You can start over with a{" "}
-        <span className={accountstyles.link} onClick={prevStage}>
+        <span className={accountstyles.link} onClick={props.prevStage}>
           {" "}
           new seed phrase
         </span>
@@ -152,7 +163,7 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
         </div>
       </div>
       {word0Validity && word1Validity && word2Validity && word3Validity ? (
-        <div tabIndex="2" className={styles.button} onClick={nextStage}>
+        <div tabIndex={2} className={styles.button} onClick={props.nextStage}>
           <div>
             <div className={styles.buttontext}>continue</div>
           </div>
@@ -164,4 +175,4 @@ export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
   );
 }
 
-export default MnemonicCheck;
+export default React.memo(MnemonicCheck);

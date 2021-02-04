@@ -1,32 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../drive.module.css";
 import rootStyles from "styles.module.css";
-import urlPath from "helpers/urlPath";
-
-import { CircularProgress, LinearProgress } from "@material-ui/core";
+import urlPath from "../../../../helpers/urlPath";
 
 import { Dialog } from "@material-ui/core";
-import {
-  mdiFolder,
-  mdiFolderPlus,
-  mdiFolderEdit,
-  mdiSettingsHelper,
-  mdiShare,
-  mdiTrashCan,
-  mdiUpload,
-  mdiZipBox,
-} from "@mdi/js";
+import { mdiShare, mdiTrashCan } from "@mdi/js";
 import Icon from "@mdi/react";
 import {
-  createDirectory,
   deleteDirectory,
   deleteFile,
-  fileUpload,
   shareFile,
-} from "helpers/apiCalls";
+} from "../../../../helpers/apiCalls";
 
-export default function FolderDialog({ open, path, refresh, onClose, item }) {
-  console.log("from newdialog: ", open, path);
+export interface Props {
+  open: any;
+  path: any;
+  refresh: any;
+  onClose: any;
+  item: any;
+}
+
+function FolderDialog(props: Props) {
+  console.log("from newdialog: ", props.open, props.path);
 
   const homeId = "homeId";
   const shareId = "shareId";
@@ -45,55 +40,55 @@ export default function FolderDialog({ open, path, refresh, onClose, item }) {
   const [newName, setNewName] = useState();
 
   useEffect(() => {
-    setNewFolderName(item.name);
-    console.log(item);
-  }, [item]);
+    setNewFolderName(props.item.name);
+    console.log(props.item);
+  }, [props.item]);
 
   function handleFolderClose() {
     setFolderContentState(homeId);
-    onClose();
+    props.onClose();
   }
 
-  function handleFolderNameChange(e) {
+  function handleFolderNameChange(e: any) {
     setNewFolderName(e.target.value);
   }
 
-  function handleShareChange(e) {
+  function handleShareChange(e: any) {
     setShareName(e.target.value);
   }
 
   async function handleRename() {
-    refresh(path);
+    props.refresh(props.path);
     handleFolderClose();
   }
 
   async function handleDelete() {
     // what is it?
     let writePath = "";
-    if (path == "root") {
+    if (props.path == "root") {
       writePath = "/";
     } else {
-      writePath = "/" + urlPath(path) + "/";
+      writePath = "/" + urlPath(props.path) + "/";
     }
 
-    if (item.content_type == "inode/directory") {
-      await deleteDirectory(writePath + item.name);
+    if (props.item.content_type == "inode/directory") {
+      await deleteDirectory(writePath + props.item.name);
     } else {
-      await deleteFile(writePath + item.name);
+      await deleteFile(writePath + props.item.name);
     }
     //await deleteFile
-    refresh(path);
+    props.refresh(props.path);
     handleFolderClose();
   }
 
   async function handleShare() {
     let writePath = "";
-    if (path == "root") {
+    if (props.path == "root") {
       writePath = "/";
     } else {
-      writePath = "/" + urlPath(path) + "/";
+      writePath = "/" + urlPath(props.path) + "/";
     }
-    const res = await shareFile(writePath + item.name);
+    const res = await shareFile(writePath + props.item.name);
     console.log(res);
     setShareLink(res);
     setFolderContentState(showShareId);
@@ -106,8 +101,8 @@ export default function FolderDialog({ open, path, refresh, onClose, item }) {
     var copyText = document.getElementById("link");
 
     /* Select the text field */
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    // copyText.select();
+    // copyText.setSelectionRange(0, 99999); /* For mobile devices */
 
     /* Copy the text inside the text field */
     document.execCommand("copy");
@@ -125,9 +120,9 @@ export default function FolderDialog({ open, path, refresh, onClose, item }) {
               <div className={styles.closeicon} />
             </div>
             <div className={styles.menutitle}>
-              <div>Action: {item.name}</div>
+              <div>Action: {props.item.name}</div>
             </div>
-            {item.content_type != "inode/directory" ? (
+            {props.item.content_type != "inode/directory" ? (
               <div className={styles.menuitem} onClick={handleShare}>
                 <Icon
                   path={mdiShare}
@@ -212,7 +207,7 @@ export default function FolderDialog({ open, path, refresh, onClose, item }) {
               <div className={styles.closeicon} />
             </div>
             <div className={styles.menutitle}>
-              <div>Delete {item.name}?</div>
+              <div>Delete {props.item.name}?</div>
             </div>
 
             <div onClick={handleDelete} className={styles.buttonPlace}>
@@ -266,8 +261,9 @@ export default function FolderDialog({ open, path, refresh, onClose, item }) {
   };
 
   return (
-    <Dialog open={open} fullWidth="fullWidth">
+    <Dialog open={props.open} fullWidth={true}>
       <div className={styles.dialogContainer}>{FolderDialogContent()}</div>
     </Dialog>
   );
 }
+export default React.memo(FolderDialog);

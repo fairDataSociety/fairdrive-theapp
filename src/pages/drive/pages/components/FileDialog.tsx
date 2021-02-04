@@ -1,77 +1,54 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../drive.module.css";
-import urlPath from "helpers/urlPath";
+import urlPath from "../../../../helpers/urlPath";
 import rootStyles from "styles.module.css";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
-import {
-  AddCircleOutline,
-  Cloud,
-  Folder,
-  HighlightOff,
-  LibraryMusic,
-  Subject,
-  FileCopySharp,
-} from "@material-ui/icons/";
-import { CircularProgress, LinearProgress } from "@material-ui/core";
 
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@material-ui/core";
-import {
-  mdiFolder,
-  mdiFolderPlus,
-  mdiFolderEdit,
-  mdiSettingsHelper,
-  mdiShare,
-  mdiTrashCan,
-  mdiUpload,
-  mdiZipBox,
-} from "@mdi/js";
-import Icon from "@mdi/react";
-import { fileDownload } from "helpers/apiCalls";
+import { Dialog } from "@material-ui/core";
 
-export default function FileDialog({ open, path, item, refresh, onClose }) {
+import { fileDownload } from "../../../../helpers/apiCalls";
+
+export interface Props {
+  open: any;
+  path: any;
+  item: any;
+  refresh: any;
+  onClose: any;
+}
+function FileDialog(props: Props) {
   const homeId = "homeId";
 
   //const [openNew, setNewOpen] = useState(open);
   const [fileDialogContentState, setFileDialogContentState] = useState(homeId);
   const [fileSize, setFileSize] = useState(0);
-  const [fileCreateDate, setFileCreateDate] = useState();
-  const [fileModDate, setFileModDate] = useState();
+  const [fileCreateDate, setFileCreateDate] = useState({});
+  const [fileModDate, setFileModDate] = useState({});
 
   function handleFileDialogClose() {
     setFileDialogContentState(homeId);
-    onClose();
+    props.onClose();
   }
 
   useEffect(() => {
-    if (item.size) {
-      setFileSize(prettyBytes(parseInt(item.size)));
-      setFileCreateDate(moment.unix(item.creation_time).from());
-      setFileModDate(moment.unix(item.modification_time).from());
+    if (props.item.size) {
+      setFileSize(Number(prettyBytes(parseInt(props.item.size))));
+      setFileCreateDate(moment.unix(props.item.creation_time));
+      setFileModDate(moment.unix(props.item.modification_time));
     }
-  }, [item]);
+  }, [props.item]);
 
   async function handleDownload() {
     let writePath = "";
-    if (path == "root") {
+    if (props.path == "root") {
       writePath = "/";
     } else {
-      writePath = "/" + urlPath(path) + "/";
+      writePath = "/" + urlPath(props.path) + "/";
     }
-    await fileDownload(writePath + item.name, item.name).catch((e) =>
-      console.error(e)
-    );
+    await fileDownload(
+      writePath + props.item.name,
+      props.item.name
+    ).catch((e) => console.error(e));
   }
 
   const FileDialogContent = () => {
@@ -82,8 +59,10 @@ export default function FileDialog({ open, path, item, refresh, onClose }) {
             <div className={styles.close} onClick={handleFileDialogClose}>
               <div className={styles.closeicon} />
             </div>
-            <div className={styles.menutitle}>{item.name}</div>
-            <div className={styles.fileProps}>Type: {item.content_type}</div>
+            <div className={styles.menutitle}>{props.item.name}</div>
+            <div className={styles.fileProps}>
+              Type: {props.item.content_type}
+            </div>
             <div className={styles.fileProps}>Filesize: {fileSize}</div>
             <div className={styles.fileProps}>Created: {fileCreateDate}</div>
             <div className={styles.fileProps}>Modified: {fileModDate}</div>
@@ -98,8 +77,9 @@ export default function FileDialog({ open, path, item, refresh, onClose }) {
     }
   };
   return (
-    <Dialog open={open} fullWidth="fullWidth">
+    <Dialog open={props.open} fullWidth={true}>
       <div className={styles.dialogContainer}>{FileDialogContent()}</div>
     </Dialog>
   );
 }
+export default React.memo(FileDialog);

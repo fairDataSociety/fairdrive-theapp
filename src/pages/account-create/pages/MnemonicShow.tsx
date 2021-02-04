@@ -3,13 +3,18 @@ import main from "styles.module.css";
 import accountstyles from "../account-create.module.css";
 import ethers from "ethers";
 import generateMnemonic from "../../../helpers/utils";
-
-export function MnemonicShow({ nextStage, exitStage, setMnemonic, mnemonic }) {
+export interface Props {
+  nextStage: any;
+  exitStage: any;
+  setMnemonic: any;
+  mnemonic: any;
+}
+function MnemonicShow(props: Props) {
   useEffect(() => {
     createMnemonicArray().then((array) => {
-      setMnemonic(array);
+      props.setMnemonic(array);
     });
-  }, [setMnemonic]);
+  }, [props.setMnemonic]);
 
   async function createMnemonicArray() {
     const mnemonic = await generateMnemonic();
@@ -20,7 +25,7 @@ export function MnemonicShow({ nextStage, exitStage, setMnemonic, mnemonic }) {
 
   return (
     <div className={accountstyles.container}>
-      <div className={accountstyles.closeButton} onClick={exitStage}>
+      <div className={accountstyles.closeButton} onClick={props.exitStage}>
         <div className={main.closeicon} />
       </div>
       <div className={accountstyles.title}>Write down this seed phrase</div>
@@ -29,12 +34,12 @@ export function MnemonicShow({ nextStage, exitStage, setMnemonic, mnemonic }) {
       </div>
 
       <div className={accountstyles.mnemonic}>
-        {mnemonic.map((word, index) => (
+        {props.mnemonic.map((word: any, index: any) => (
           <div key={index}>{index + 1 + ". " + word}</div>
         ))}
       </div>
-      {mnemonic.length >= 1 ? (
-        <div className={main.button} onClick={nextStage}>
+      {props.mnemonic.length >= 1 ? (
+        <div className={main.button} onClick={props.nextStage}>
           <div>
             <div className={main.buttontext}>continue</div>
           </div>
@@ -46,4 +51,4 @@ export function MnemonicShow({ nextStage, exitStage, setMnemonic, mnemonic }) {
   );
 }
 
-export default MnemonicShow;
+export default React.memo(MnemonicShow);

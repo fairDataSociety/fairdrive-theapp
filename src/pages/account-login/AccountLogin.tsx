@@ -3,43 +3,42 @@ import styles from "styles.module.css";
 import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Dialog } from "@material-ui/core";
-import { Input } from "react-advanced-form-addons";
 
-import { logIn, getAvatar } from "helpers/apiCalls";
+import { logIn, getAvatar } from "../../helpers/apiCalls";
 
-function getAccount(state) {
+function getAccount(state: any) {
   return state.account;
 }
 
-function getSystem(state) {
+function getSystem(state: any) {
   return state.system;
 }
+export interface Props {}
 
-export default function AccountLogin({ open }) {
+function AccountLogin(props: Props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const account = useSelector((state) => getAccount(state));
   const system = useSelector((state) => getSystem(state));
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [hasError, setHasError] = useState(false);
 
-  const handleSetUsername = (e) => {
+  const handleSetUsername = (e: any) => {
     setUsername(e.target.value);
     setHasError(false);
   };
 
-  const handleSetPassword = (e) => {
+  const handleSetPassword = (e: any) => {
     setPassword(e.target.value);
     setHasError(false);
   };
 
   async function onLogin() {
-    const isUserLoggedIn = await logIn(account.username, password)
-      .then((res) => {
+    const isUserLoggedIn = await logIn(username, password)
+      .then((res: any) => {
         //const avatar = await getAvatar(account.username);
         //console.log(avatar);
         dispatch({
@@ -62,7 +61,7 @@ export default function AccountLogin({ open }) {
       });
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: any) {
     if (e.charCode === 13) {
       onLogin();
     }
@@ -119,3 +118,4 @@ export default function AccountLogin({ open }) {
     </div>
   );
 }
+export default React.memo(AccountLogin);

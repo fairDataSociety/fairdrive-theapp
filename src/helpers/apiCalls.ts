@@ -7,6 +7,8 @@ const host = process.env.REACT_APP_FAIROSHOST + "/v0/";
 
 export async function logIn(username: string, password: string) {
   try {
+    console.log(username);
+    console.log(password);
     const requestBody = {
       user: username,
       password: password,
@@ -337,7 +339,7 @@ export async function deleteFile(fileName: string) {
   } catch (error) {}
 }
 
-export async function shareFile(fileName: string, userName: string) {
+export async function shareFile(fileName: string) {
   try {
     const shareFileResult = await axios({
       baseURL: host,

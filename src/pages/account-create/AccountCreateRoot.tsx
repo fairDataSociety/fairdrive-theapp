@@ -176,6 +176,8 @@ export function AccountCreateRoot() {
         <ChoosePassword
           createAccount={createAccountProcess}
           exitStage={() => setStage(accountCreateIntroId)}
+          nextStage={() => setStage(choosePasswordId)}
+          restoreStage={() => setStage(choosePasswordId)}
           setPassword={setPassword}
           password={password}
         />
@@ -188,6 +190,7 @@ export function AccountCreateRoot() {
           item1={item1}
           item2={item2}
           item3={item3}
+          nextStage={() => setStage(choosePasswordId)}
         />
       );
     case restoreAccountId:

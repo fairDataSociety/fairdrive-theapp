@@ -3,19 +3,20 @@ import styles from "styles.module.css";
 import accountstyles from "../account-create.module.css";
 import { Check } from "@material-ui/icons";
 
-export function CreatingAccount({
-  accountCreateDone,
-  item0,
-  item1,
-  item2,
-  item3,
-  nextStage,
-}) {
+export interface Props {
+  accountCreateDone: any;
+  item0: any;
+  item1: any;
+  item2: any;
+  item3: any;
+  nextStage: any;
+}
+function CreatingAccount(props: Props) {
   return (
     <div className={accountstyles.formcontainer}>
       <div className={accountstyles.title}>Your Fairdrive is being created</div>
       <div className={accountstyles.statusbox}>
-        {item0 ? (
+        {props.item0 ? (
           <Check
             style={{
               color: "#DB7362",
@@ -28,7 +29,7 @@ export function CreatingAccount({
             }}
           ></Check>
         )}
-        {item0 ? (
+        {props.item0 ? (
           <div
             style={{
               color: "#DB7362",
@@ -39,7 +40,7 @@ export function CreatingAccount({
         ) : (
           <div>Creating User Account</div>
         )}
-        {item1 ? (
+        {props.item1 ? (
           <Check
             style={{
               color: "#DB7362",
@@ -52,7 +53,7 @@ export function CreatingAccount({
             }}
           ></Check>
         )}
-        {item1 ? (
+        {props.item1 ? (
           <div
             style={{
               color: "#DB7362",
@@ -63,7 +64,7 @@ export function CreatingAccount({
         ) : (
           <div>Creating Fairdrive</div>
         )}
-        {item2 ? (
+        {props.item2 ? (
           <Check
             style={{
               color: "#DB7362",
@@ -76,7 +77,7 @@ export function CreatingAccount({
             }}
           ></Check>
         )}
-        {item2 ? (
+        {props.item2 ? (
           <div
             style={{
               color: "#DB7362",
@@ -87,7 +88,7 @@ export function CreatingAccount({
         ) : (
           <div>Creating Folders</div>
         )}
-        {item3 ? (
+        {props.item3 ? (
           <Check
             style={{
               color: "#DB7362",
@@ -100,7 +101,7 @@ export function CreatingAccount({
             }}
           ></Check>
         )}
-        {item3 ? (
+        {props.item3 ? (
           <div
             style={{
               color: "#DB7362",
@@ -113,8 +114,8 @@ export function CreatingAccount({
         )}
       </div>
 
-      {item0 && item1 && item2 && item3 ? (
-        <div tabIndex="2" className={styles.button} onClick={nextStage}>
+      {props.item0 && props.item1 && props.item2 && props.item3 ? (
+        <div tabIndex={2} className={styles.button} onClick={props.nextStage}>
           <div>
             <div className={styles.buttontext}>To your account</div>
           </div>
@@ -126,4 +127,4 @@ export function CreatingAccount({
   );
 }
 
-export default CreatingAccount;
+export default React.memo(CreatingAccount);

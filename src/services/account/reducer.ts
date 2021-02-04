@@ -1,5 +1,4 @@
 import * as t from "./actionTypes";
-import { persistentReducer } from "redux-pouchdb-plus";
 
 // Service > user
 
@@ -8,7 +7,7 @@ const initialState = {
     locked: true
 };
 
-function accountState(state = initialState, action) {
+function accountState(state = initialState, action: any) {
     switch (action.type) {
         case t.SET_ACCOUNT:
             return {
@@ -26,8 +25,6 @@ function accountState(state = initialState, action) {
     }
 }
 
-const account = persistentReducer(accountState, {
-    name: "account"
-});
+const account = accountState
 
 export default account

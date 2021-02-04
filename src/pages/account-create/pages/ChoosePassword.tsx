@@ -2,33 +2,36 @@ import React, { useState } from "react";
 import styles from "styles.module.css";
 import accountstyles from "../account-create.module.css";
 
-export function ChoosePassword({
-  createAccount,
-  exitStage,
-  nextStage,
-  setPassword,
-  password,
-}) {
+export interface Props {
+  exitStage: any;
+  restoreStage: any;
+  createAccount: any;
+  nextStage: any;
+  setPassword: any;
+  password: any;
+}
+
+function ChoosePassword(props: Props) {
   const [passwordMatch, setPasswordMatch] = useState(false);
 
-  const [password1, setPassword1] = useState();
-  const [password2, setPassword2] = useState();
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
 
-  const handlePassword1 = (e) => {
+  const handlePassword1 = (e: any) => {
     setPassword1(e.target.value);
     checkPasswordValidity(e.target.value, password2);
   };
 
-  const handlePassword2 = (e) => {
+  const handlePassword2 = (e: any) => {
     setPassword2(e.target.value);
     checkPasswordValidity(e.target.value, password1);
   };
 
-  const checkPasswordValidity = (a, b) => {
-    if ((a !== "") | (b !== "")) {
+  const checkPasswordValidity = (a: string, b: string) => {
+    if (a !== "" || b !== "") {
       if (a === b) {
         setPasswordMatch(true);
-        setPassword(a);
+        props.setPassword(a);
       } else {
         setPasswordMatch(false);
       }
@@ -37,7 +40,7 @@ export function ChoosePassword({
 
   return (
     <div className={accountstyles.formcontainer}>
-      <div className={accountstyles.closeButton} onClick={exitStage}>
+      <div className={accountstyles.closeButton} onClick={props.exitStage}>
         <div className={styles.closeicon} />
       </div>
       <div className={accountstyles.title}>Choose a password</div>
@@ -66,7 +69,7 @@ export function ChoosePassword({
         />
       </div>
       {passwordMatch ? (
-        <div className={styles.button} onClick={createAccount}>
+        <div className={styles.button} onClick={props.createAccount}>
           <div>
             <div className={styles.buttontext}>set password</div>
           </div>
@@ -77,5 +80,4 @@ export function ChoosePassword({
     </div>
   );
 }
-
-export default ChoosePassword;
+export default React.memo(ChoosePassword);

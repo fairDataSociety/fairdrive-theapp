@@ -3,13 +3,17 @@ import main from "styles.module.css";
 import connect from "../connect.module.css";
 import { useDispatch } from "react-redux";
 
-export function ConnectHome({
-  nextStage,
-  exitStage,
-  appname,
-  appicon,
-  account = { locked: true },
-}) {
+export interface Props {
+  nextStage: any;
+  exitStage: any;
+  appname: any;
+  appicon: any;
+  account: {
+    locked: true;
+  };
+  id: any;
+}
+function ConnectHome(props: Props) {
   console.log("connect home");
   const dispatch = useDispatch();
   return (
@@ -17,25 +21,25 @@ export function ConnectHome({
       <div className={connect.title}>Fairdrive Connect</div>
       <div className={connect.flexer}></div>
 
-      {appicon ? (
+      {props.appicon ? (
         <div>
-          <img src={appicon} className={connect.appicon}></img>
+          <img src={props.appicon} className={connect.appicon}></img>
         </div>
       ) : (
         ""
       )}
-      {appname ? (
+      {props.appname ? (
         <div className={connect.subtitle}>
-          <b>{appname}</b> wants to connect to Fairdrive. It will get it's own
-          folder to write in.
+          <b>{props.appname}</b> wants to connect to Fairdrive. It will get it's
+          own folder to write in.
         </div>
       ) : (
         ""
       )}
-      {appname && appicon ? (
+      {props.appname && props.appicon ? (
         <div>
-          {account.locked ? (
-            <div className={main.button} onClick={nextStage}>
+          {props.account.locked ? (
+            <div className={main.button} onClick={props.nextStage}>
               <div>
                 <div className={main.buttontext}>Allow</div>
               </div>
@@ -58,9 +62,9 @@ export function ConnectHome({
       )}
 
       <div className={connect.flexer}></div>
-      {appname && appicon ? (
+      {props.appname && props.appicon ? (
         <div>
-          {account.locked ? (
+          {props.account.locked ? (
             ""
           ) : (
             <div className={main.link}>Get me out of here</div>
@@ -73,4 +77,4 @@ export function ConnectHome({
   );
 }
 
-export default ConnectHome;
+export default React.memo(ConnectHome);

@@ -2,30 +2,31 @@ import React, { useState, useEffect } from "react";
 import styles from "styles.module.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logIn, getAvatar } from "helpers/apiCalls";
+import { logIn, getAvatar } from "../../helpers/apiCalls";
 
-function getAccount(state) {
+function getAccount(state: any) {
   return state.account;
 }
 
-function getSystem(state) {
+function getSystem(state: any) {
   return state.system;
 }
+export interface Props {}
 
-export default function PasswordUnlock({ open }) {
+function PasswordUnlock(props: Props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const account = useSelector((state) => getAccount(state));
   const system = useSelector((state) => getSystem(state));
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState("");
 
   const [hasError, setHasError] = useState(false);
 
-  const params = useParams();
+  const params: any = useParams();
   const fwdUrl = params.fwdUrl;
 
   console.log("unlock and then fwd to ", fwdUrl);
-  const handleSetPassword = (e) => {
+  const handleSetPassword = (e: any) => {
     setHasError(false);
     setPassword(e.target.value);
   };
@@ -59,7 +60,7 @@ export default function PasswordUnlock({ open }) {
     history.push("/login");
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: any) {
     if (e.charCode === 13) {
       onLogin();
     }
@@ -114,3 +115,4 @@ export default function PasswordUnlock({ open }) {
     </div>
   );
 }
+export default React.memo(PasswordUnlock);

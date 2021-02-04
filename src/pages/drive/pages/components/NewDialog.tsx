@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import styles from "../../drive.module.css";
-import urlPath from "helpers/urlPath";
+import urlPath from "../../../../helpers/urlPath";
 import rootStyles from "styles.module.css";
 
 import { LinearProgress } from "@material-ui/core";
@@ -8,9 +8,16 @@ import { LinearProgress } from "@material-ui/core";
 import { Dialog } from "@material-ui/core";
 import { mdiFolderPlus, mdiUpload } from "@mdi/js";
 import Icon from "@mdi/react";
-import { createDirectory, fileUpload } from "helpers/apiCalls";
+import { createDirectory, fileUpload } from "../../../../helpers/apiCalls";
 
-export default function NewDialog({ open, path, refresh, onClose }) {
+export interface Props {
+  open: any;
+  path: any;
+  refresh: any;
+  onClose: any;
+  item: any;
+}
+function NewDialog(props: Props) {
   const homeId = "homeId";
   const newFolderId = "newFolderId";
   const uploadId = "uploadId";
@@ -29,22 +36,25 @@ export default function NewDialog({ open, path, refresh, onClose }) {
 
   function handleNewClose() {
     setNewDialogContentState(homeId);
-    onClose();
+    props.onClose();
   }
 
-  function handleFolderNameChange(e) {
+  function handleFolderNameChange(e: any) {
     setNewFolderName(e.target.value);
   }
 
-  function handleClick(event) {
-    hiddenFileInput.current.click();
+  function handleClick(event: any) {
+    if (hiddenFileInput && hiddenFileInput.current) {
+      //@ts-ignore: Object is possibly 'null'.
+      hiddenFileInput.current.click();
+    }
   }
 
-  function handleChange(event) {
+  function handleChange(event: any) {
     handleFileUpload(event.target.files);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: any) {
     if (e.charCode === 13) {
       handleNewFolder();
     }
@@ -53,29 +63,33 @@ export default function NewDialog({ open, path, refresh, onClose }) {
   async function handleNewFolder() {
     console.log(newFolderName);
     let writePath = "";
-    if (path == "root") {
+    if (props.path == "root") {
       writePath = "/";
     } else {
-      writePath = "/" + urlPath(path) + "/";
+      writePath = "/" + urlPath(props.path) + "/";
     }
     await createDirectory(writePath + newFolderName);
     //console.log("will create new folder: ", writePath + newFolderName);
-    refresh(path);
+    props.refresh(props.path);
     handleNewClose();
   }
 
-  async function handleFileUpload(files) {
+  async function handleFileUpload(files: any) {
     setNewDialogContentState(uploadingId);
-    await fileUpload(files, urlPath(path), function (progress, total) {
-      setUploadProgress(Math.round((progress / total) * 100));
-      if (progress == total) {
-        setNewDialogContentState(swarmuploadId);
+    await fileUpload(
+      files,
+      urlPath(props.path),
+      function (progress: any, total: any) {
+        setUploadProgress(Math.round((progress / total) * 100));
+        if (progress == total) {
+          setNewDialogContentState(swarmuploadId);
+        }
       }
-    })
+    )
       .then(() => {
         handleNewClose();
         setNewDialogContentState(homeId);
-        refresh(path);
+        props.refresh(props.path);
       })
       .catch(() => {
         setNewDialogContentState(errorId);
@@ -153,7 +167,7 @@ export default function NewDialog({ open, path, refresh, onClose }) {
               <div className={rootStyles.buttontext}>{">"} select files</div>
             </div>
             <input
-              multiple="multiple"
+              multiple={true}
               type="file"
               ref={hiddenFileInput}
               onChange={handleChange}
@@ -212,8 +226,9 @@ export default function NewDialog({ open, path, refresh, onClose }) {
     }
   };
   return (
-    <Dialog open={open} fullWidth="fullWidth">
+    <Dialog open={props.open} fullWidth={true}>
       <div className={styles.dialogContainer}>{NewDialogContent()}</div>
     </Dialog>
   );
 }
+export default React.memo(NewDialog);

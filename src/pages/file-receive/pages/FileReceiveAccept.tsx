@@ -3,36 +3,38 @@ import styles from "../filereceive.module.css";
 import main from "styles.module.css";
 import prettyBytes from "pretty-bytes";
 
-export function FileReceiveAccept({
-  shareId = "",
-  account,
-  fileStat,
-  nextStage,
-  saveFile,
-}) {
+export interface Props {
+  shareId: any;
+  account: any;
+  fileStat: any;
+  nextStage?: any;
+  saveFile?: any;
+}
+function FileReceiveAccept(props: Props) {
   return (
     <div className={styles.container}>
       <div className={styles.title}>Fairdrive Receive</div>
       <div className={styles.flexer}></div>
-      {fileStat ? (
+      {props.fileStat ? (
         <div>
           <img alt="" className={styles.appicon}></img>
         </div>
       ) : (
         ""
       )}
-      {fileStat ? (
+      {props.fileStat ? (
         <div className={styles.subtitle}>
-          <b>{fileStat.name}</b>&nbsp;({prettyBytes(parseInt(fileStat.size))})
-          will be saved to your Inbox folder.
+          <b>{props.fileStat.name}</b>&nbsp;(
+          {prettyBytes(parseInt(props.fileStat.size))}) will be saved to your
+          Inbox folder.
         </div>
       ) : (
         ""
       )}{" "}
-      {fileStat ? (
+      {props.fileStat ? (
         <div>
-          {account.locked ? (
-            <div className={main.button} onClick={saveFile}>
+          {props.account.locked ? (
+            <div className={main.button} onClick={props.saveFile}>
               <div>
                 <div className={main.buttontext}>Save</div>
               </div>
@@ -49,9 +51,9 @@ export function FileReceiveAccept({
         ""
       )}
       <div className={styles.flexer}></div>
-      {fileStat ? (
+      {props.fileStat ? (
         <div>
-          {account.locked ? (
+          {props.account.locked ? (
             ""
           ) : (
             <div className={main.link}>Get me out of here</div>
@@ -63,4 +65,4 @@ export function FileReceiveAccept({
     </div>
   );
 }
-export default FileReceiveAccept;
+export default React.memo(FileReceiveAccept);
