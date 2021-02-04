@@ -23,11 +23,11 @@ function AccountCreateIntro(props: Props) {
         In the next steps you will be creating a Fairdrive Wallet.
       </div>
 
-      <button onClick={props.createStage}>
+      <div className={main.button} onClick={props.createStage}>
         <div>
           <div className={main.buttontext}>create account</div>
         </div>
-      </button>
+      </div>
 
       {/* <div tabIndex="2" className={main.button}>
       <div>
