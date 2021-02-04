@@ -102,6 +102,13 @@ export function AccountCreateRoot() {
 
     return result ? result.isActive : false;
   };
+  const getAccountFromInvite = async (web3Provider: any, invite: any) => {
+    if (invite.indexOf("0x") === -1) {
+      invite = "0x" + invite;
+    }
+
+    return web3Provider.eth.accounts.privateKeyToAccount(invite);
+  };
   // Create account function
   const createAccountProcess = async () => {
     setStage(creatingAccountId);
@@ -120,10 +127,16 @@ export function AccountCreateRoot() {
     const encryptedWallet = await encryptWallet(wallet, password);
     const data: any = JSON.parse(encryptedWallet);
     const Web3Provider = new Web3("http://localhost:8545");
-
+    const inviteWallet = await getAccountFromInvite(
+      Web3Provider,
+      "1ca2e856f6d477ec1785a0c86b35a5942d8c483252fac25893a82903436857de"
+    );
     const logicContract = new Web3Provider.eth.Contract(
       GetLoginLogic.abi as AbiItem[],
-      process.env.REACT_APP_LOGIC
+      process.env.REACT_APP_LOGIC,
+      {
+        from: inviteWallet.address,
+      }
     );
     const storageContract = new Web3Provider.eth.Contract(
       GetLoginStorage.abi as AbiItem[],
@@ -131,7 +144,6 @@ export function AccountCreateRoot() {
     );
 
     const usernameHash = getUsernameHash(username);
-    debugger;
     const info = await logicContract.methods.createUserFromInvite(
       usernameHash,
       "0x" + data.address,
@@ -141,6 +153,8 @@ export function AccountCreateRoot() {
       data.Crypto.mac,
       true
     );
+    debugger;
+
     console.log("\n\n\n----------INFO ACCOUNT---------\n");
     console.log(info);
 
