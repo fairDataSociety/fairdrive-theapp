@@ -9,7 +9,12 @@ import {
   isUsernamePresent,
   storeAvatar,
 } from "../../helpers/apiCalls";
+import { ethers } from "ethers";
+import Web3 from "web3";
+import { AbiItem } from "web3-utils";
 
+import GetLoginLogic from "../../contracts/GetLoginLogic.json";
+import GetLoginStorage from "../../contracts/GetLoginStorage.json";
 // Sub-pages
 import AccountCreateIntro from "./pages/AccountCreateIntro";
 import MnemonicShow from "./pages/MnemonicShow";
@@ -78,10 +83,31 @@ export function AccountCreateRoot() {
       });
   }
 
+  const encryptWallet = async (wallet: any, password: any) => {
+    return await wallet.encrypt(password);
+  };
+  const filterUsername = (username: any) => {
+    return username.trim();
+  };
+
+  const getUsernameHash = (username: any) => {
+    username = filterUsername(username);
+
+    return Web3.utils.keccak256(username);
+  };
+
+  const isUsernameRegistered = async (contract: any, username: any) => {
+    const usernameHash = await getUsernameHash(username);
+    const result = await contract.getUserInfo(usernameHash);
+
+    return result ? result.isActive : false;
+  };
   // Create account function
   const createAccountProcess = async () => {
     setStage(creatingAccountId);
     const mnemonicJoined = mnemonic.join(" ");
+
+    // res: address and mnemonic
     const newUser = await createAccount(
       username,
       password,
@@ -90,6 +116,33 @@ export function AccountCreateRoot() {
       throw new Error("User creation error");
     });
     const avatarStorage = await storeAvatar(avatar);
+    const wallet = ethers.Wallet.fromMnemonic(mnemonicJoined);
+    const encryptedWallet = await encryptWallet(wallet, password);
+    const data: any = JSON.parse(encryptedWallet);
+    const Web3Provider = new Web3("http://localhost:8545");
+
+    const logicContract = new Web3Provider.eth.Contract(
+      GetLoginLogic.abi as AbiItem[],
+      process.env.REACT_APP_LOGIC
+    );
+    const storageContract = new Web3Provider.eth.Contract(
+      GetLoginStorage.abi as AbiItem[],
+      process.env.REACT_APP_STORAGE
+    );
+
+    const usernameHash = getUsernameHash(username);
+    debugger;
+    const info = await logicContract.methods.createUserFromInvite(
+      usernameHash,
+      "0x" + data.address,
+      data.Crypto.ciphertext,
+      data.Crypto.cipherparams.iv,
+      data.Crypto.kdfparams.salt,
+      data.Crypto.mac,
+      true
+    );
+    console.log("\n\n\n----------INFO ACCOUNT---------\n");
+    console.log(info);
 
     setItem0(true);
     await createPod(password, "Fairdrive");
