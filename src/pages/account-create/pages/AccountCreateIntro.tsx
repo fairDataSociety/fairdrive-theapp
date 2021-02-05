@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 export interface Props {
   createStage: any;
   exitStage: any;
+  nextStage: any;
   restoreStage: any;
 }
 
@@ -29,6 +30,13 @@ function AccountCreateIntro(props: Props) {
         </div>
       </div>
 
+      <div className={main.button} onClick={props.nextStage}>
+        <div>
+          <div className={main.buttontext}>
+            create accoun with Fairdrive connect
+          </div>
+        </div>
+      </div>
       {/* <div tabIndex="2" className={main.button}>
       <div>
         <div className={main.buttontext} onClick={restoreStage}>

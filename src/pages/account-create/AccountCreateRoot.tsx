@@ -24,6 +24,7 @@ import ChoosePassword from "./pages/ChoosePassword";
 import ChooseAvatar from "./pages/ChooseAvatar";
 import CreatingAccount from "./pages/CreatingAccount";
 import RestoreAccount from "./pages/RestoreAccount";
+import AccountCreateFairdriveConnect from "./pages/AccountCreateFairdriveConnect";
 // Ids
 const accountCreateIntroId = "accountCreateIntroId";
 const mnemonicShowId = "mnemonicShowId";
@@ -33,7 +34,7 @@ const chooseAvatarId = "chooseAvatarId";
 const choosePasswordId = "choosePasswordId";
 const creatingAccountId = "creatingAccountId";
 const restoreAccountId = "restoreAccountId";
-
+const fairdriveConnectId = "fairdriveConnectId";
 export function AccountCreateRoot() {
   const dispatch = useDispatch();
 
@@ -197,9 +198,23 @@ export function AccountCreateRoot() {
         <AccountCreateIntro
           createStage={() => setStage(mnemonicShowId)}
           restoreStage={() => setStage(restoreAccountId)}
+          nextStage={() => setStage(fairdriveConnectId)}
           exitStage={() => history.goBack()}
         />
       );
+    case fairdriveConnectId:
+      return (
+        <AccountCreateFairdriveConnect
+          username={username}
+          setUsername={handleUsername}
+          setPassword={setPassword}
+          password={password}
+          createAccount={createAccountProcess}
+          exitStage={() => setStage(accountCreateIntroId)}
+          nextStage={() => setStage(accountCreateIntroId)}
+        ></AccountCreateFairdriveConnect>
+      );
+
     case mnemonicShowId:
       return (
         <MnemonicShow
