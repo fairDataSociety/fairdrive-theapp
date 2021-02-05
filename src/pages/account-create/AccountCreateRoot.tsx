@@ -110,20 +110,10 @@ export function AccountCreateRoot() {
 
     return web3Provider.eth.accounts.privateKeyToAccount(invite);
   };
-  // Create account function
-  const createAccountProcess = async () => {
+
+  const createAccountWithFairdriveConnect = async () => {
     setStage(creatingAccountId);
     const mnemonicJoined = mnemonic.join(" ");
-
-    // res: address and mnemonic
-    const newUser = await createAccount(
-      username,
-      password,
-      mnemonicJoined
-    ).catch((e) => {
-      throw new Error("User creation error");
-    });
-    const avatarStorage = await storeAvatar(avatar);
     const wallet = ethers.Wallet.fromMnemonic(mnemonicJoined);
     const encryptedWallet = await encryptWallet(wallet, password);
     const data: any = JSON.parse(encryptedWallet);
@@ -158,6 +148,22 @@ export function AccountCreateRoot() {
 
     console.log("\n\n\n----------INFO ACCOUNT---------\n");
     console.log(info);
+  };
+
+  // Create account function
+  const createAccountProcess = async () => {
+    setStage(creatingAccountId);
+    const mnemonicJoined = mnemonic.join(" ");
+
+    // res: address and mnemonic
+    const newUser = await createAccount(
+      username,
+      password,
+      mnemonicJoined
+    ).catch((e) => {
+      throw new Error("User creation error");
+    });
+    const avatarStorage = await storeAvatar(avatar);
 
     setItem0(true);
     await createPod(password, "Fairdrive");
@@ -209,7 +215,7 @@ export function AccountCreateRoot() {
           setUsername={handleUsername}
           setPassword={setPassword}
           password={password}
-          createAccount={createAccountProcess}
+          createAccount={createAccountWithFairdriveConnect}
           exitStage={() => setStage(accountCreateIntroId)}
           nextStage={() => setStage(accountCreateIntroId)}
         ></AccountCreateFairdriveConnect>
