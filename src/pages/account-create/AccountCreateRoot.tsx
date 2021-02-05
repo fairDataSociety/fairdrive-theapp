@@ -119,10 +119,7 @@ export function AccountCreateRoot() {
     const encryptedWallet = await encryptWallet(randomWallet, password);
     const data: any = JSON.parse(encryptedWallet);
     const Web3Provider = new Web3("http://localhost:8545");
-    const inviteWallet = await getAccountFromInvite(
-      Web3Provider,
-      "1ca2e856f6d477ec1785a0c86b35a5942d8c483252fac25893a82903436857de"
-    );
+    const inviteWallet = await getAccountFromInvite(Web3Provider, invite);
     const logicContract = new Web3Provider.eth.Contract(
       GetLoginLogic.abi as AbiItem[],
       process.env.REACT_APP_LOGIC,
