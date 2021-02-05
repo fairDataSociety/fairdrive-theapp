@@ -2,6 +2,7 @@ import React from "react";
 import main from "styles.module.css";
 // import accountstyles from "../account-create.module.css";
 import { useHistory } from "react-router-dom";
+import accountstyles from "../account-create.module.css";
 
 export interface Props {
   createStage: any;
@@ -18,7 +19,7 @@ function AccountCreateIntro(props: Props) {
   }
 
   return (
-    <div className={main.container}>
+    <div className={accountstyles.formcontainer}>
       <div className={main.title}>Welcome to Fairdrive</div>
       <div className={main.subtitle}>
         In the next steps you will be creating a Fairdrive Wallet.

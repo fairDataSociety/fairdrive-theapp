@@ -124,7 +124,7 @@ export function AccountCreateRoot() {
       GetLoginLogic.abi as AbiItem[],
       process.env.REACT_APP_LOGIC,
       {
-        from: inviteWallet.address,
+        from: data.address,
       }
     );
     const storageContract = new Web3Provider.eth.Contract(
@@ -134,17 +134,15 @@ export function AccountCreateRoot() {
 
     const usernameHash = getUsernameHash(username);
     debugger;
-    const info = await logicContract.methods
-      .createUserFromInvite(
-        usernameHash,
-        "0x" + data.address,
-        data.Crypto.ciphertext,
-        data.Crypto.cipherparams.iv,
-        data.Crypto.kdfparams.salt,
-        data.Crypto.mac,
-        true
-      )
-      .call({ from: data.address });
+    const info = await logicContract.methods.createUserFromInvite(
+      usernameHash,
+      "0x" + data.address,
+      data.Crypto.ciphertext,
+      data.Crypto.cipherparams.iv,
+      data.Crypto.kdfparams.salt,
+      data.Crypto.mac,
+      true
+    );
     debugger;
 
     console.log("\n\n\n----------INFO ACCOUNT---------\n");
