@@ -165,6 +165,11 @@ a {
   color: white;
   text-align: center;
 }
+.subtitle {
+  composes: mainTitle2;
+  color: white;
+  text-align: center;
+}
 
 /* Files */
 .breadcrumb {
