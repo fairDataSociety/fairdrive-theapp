@@ -61,6 +61,7 @@ export function AccountCreateRoot() {
   const [username, setUsername] = useState("");
   const [usernameExists, setUsernameExists] = useState("");
   const [password, setPassword] = useState();
+  const [invite, setInvite] = useState("");
 
   const [accountCreateDone, setAccountCreateDone] = useState(false);
   const [item0, setItem0] = useState(false);
@@ -113,9 +114,9 @@ export function AccountCreateRoot() {
 
   const createAccountWithFairdriveConnect = async () => {
     setStage(creatingAccountId);
-    const mnemonicJoined = mnemonic.join(" ");
-    const wallet = ethers.Wallet.fromMnemonic(mnemonicJoined);
-    const encryptedWallet = await encryptWallet(wallet, password);
+    debugger;
+    var randomWallet = new ethers.Wallet(`0x${invite}`);
+    const encryptedWallet = await encryptWallet(randomWallet, password);
     const data: any = JSON.parse(encryptedWallet);
     const Web3Provider = new Web3("http://localhost:8545");
     const inviteWallet = await getAccountFromInvite(
@@ -135,15 +136,18 @@ export function AccountCreateRoot() {
     );
 
     const usernameHash = getUsernameHash(username);
-    const info = await logicContract.methods.createUserFromInvite(
-      usernameHash,
-      "0x" + data.address,
-      data.Crypto.ciphertext,
-      data.Crypto.cipherparams.iv,
-      data.Crypto.kdfparams.salt,
-      data.Crypto.mac,
-      true
-    );
+    debugger;
+    const info = await logicContract.methods
+      .createUserFromInvite(
+        usernameHash,
+        "0x" + data.address,
+        data.Crypto.ciphertext,
+        data.Crypto.cipherparams.iv,
+        data.Crypto.kdfparams.salt,
+        data.Crypto.mac,
+        true
+      )
+      .call({ from: data.address });
     debugger;
 
     console.log("\n\n\n----------INFO ACCOUNT---------\n");
@@ -215,6 +219,8 @@ export function AccountCreateRoot() {
           setUsername={handleUsername}
           setPassword={setPassword}
           password={password}
+          setInvite={setInvite}
+          invite={invite}
           createAccount={createAccountWithFairdriveConnect}
           exitStage={() => setStage(accountCreateIntroId)}
           nextStage={() => setStage(accountCreateIntroId)}

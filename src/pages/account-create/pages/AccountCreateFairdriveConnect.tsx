@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import styles from "styles.module.css";
 import accountstyles from "../account-create.module.css";
 export interface Props {
-  username: string;
   setUsername: any;
   setPassword: any;
+  setInvite: any;
   password: any;
+  username: string;
+  invite: any;
   createAccount: any;
   exitStage: any;
   nextStage: any;
@@ -16,10 +18,10 @@ function AccountCreateFairdriveConnect(props: Props) {
   const [password, setPassword] = useState("");
   const [invite, setInvite] = useState("");
   const handlePassword = (e: any) => {
-    setPassword(e.target.value);
+    props.setPassword(e.target.value);
   };
   const handleInvite = (e: any) => {
-    setInvite(e.target.value);
+    props.setInvite(e.target.value);
   };
 
   return (
@@ -47,17 +49,17 @@ function AccountCreateFairdriveConnect(props: Props) {
           name="1"
           className={accountstyles.mnemonicinput}
           placeholder="Password"
-          value={password}
+          value={props.password}
           onChange={(e) => handlePassword(e)}
         />
       </div>
       <div className={accountstyles.usernameinputbox}>
         <input
-          type="password"
+          type="text"
           name="2"
           className={accountstyles.mnemonicinput}
           placeholder="Fairconnect Invite"
-          value={invite}
+          value={props.invite}
           onChange={(e) => handleInvite(e)}
         />
       </div>
