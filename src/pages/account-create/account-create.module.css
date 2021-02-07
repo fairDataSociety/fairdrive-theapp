@@ -235,6 +235,20 @@
   border-bottom: 1px solid var(--fds-orange);
 }
 
+.getLoginUsernameInput{
+  composes: bodyBold from "../../styles.module.css";
+  width: 55vw;
+  max-width: 260px;
+  color: var(--text-light);
+  text-align: left;
+  outline: none;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  border: 0px;
+  border-bottom: 1px solid var(--fds-orange);
+  background-color: transparent;
+}
+
 .mnemonicinputbox {
   width: 75vw;
   display: flex;
@@ -255,12 +269,12 @@
   padding-bottom: 5px;
   margin-right: 10px;
   border: 0px;
-  border-bottom: 1px solid var(--text-light);
+  border-bottom: 1px solid var(--fds-orange);
   background-color: transparent;
 }
 
 .mnemonicinput:not(:placeholder-shown) {
-  border-bottom: 1px solid var(--text-light);
+  border-bottom: 1px solid var(--fds-orange);
 }
 
 .passwordflex {

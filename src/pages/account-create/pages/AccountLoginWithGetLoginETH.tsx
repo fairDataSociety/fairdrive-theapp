@@ -12,7 +12,7 @@ export interface Props {
   exitStage: any;
   nextStage: any;
 }
-function AccountCreateFairdriveConnect(props: Props) {
+function AccountLoginWithGetLoginETH(props: Props) {
   const [passwordMatch, setPasswordMatch] = useState(false);
 
   const [password, setPassword] = useState("");
@@ -29,15 +29,15 @@ function AccountCreateFairdriveConnect(props: Props) {
       <div className={accountstyles.closeButton} onClick={props.exitStage}>
         <div className={styles.closeicon} />
       </div>
-      <div className={accountstyles.title}>Choose a username</div>
+      <div className={accountstyles.title}>Connect with GetLoginETH</div>
       <div className={accountstyles.passwordflex} />
       <div className={accountstyles.flexer} />
       <div className={accountstyles.usernameinputbox}>
         <input
           type="text"
           autoFocus={true}
-          className={accountstyles.usernameinput}
-          placeholder="Fairdrive User #1263"
+          className={accountstyles.getLoginUsernameInput}
+          placeholder="Username"
           value={props.username}
           onChange={(e) => props.setUsername(e.target.value)}
         />
@@ -58,17 +58,20 @@ function AccountCreateFairdriveConnect(props: Props) {
           type="text"
           name="2"
           className={accountstyles.mnemonicinput}
-          placeholder="Fairdrive connect Invite"
+          placeholder="GetLogin Invite"
           value={props.invite}
           onChange={(e) => handleInvite(e)}
         />
       </div>
+
       <div className={styles.button} onClick={props.createAccount}>
         <div>
-          <div className={styles.buttontext}>create account</div>
+          <div className={styles.buttontext}>
+            Login with GetLoginETH account
+          </div>
         </div>
       </div>
     </div>
   );
 }
-export default React.memo(AccountCreateFairdriveConnect);
+export default React.memo(AccountLoginWithGetLoginETH);

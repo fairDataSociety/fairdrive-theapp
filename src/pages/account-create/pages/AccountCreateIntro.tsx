@@ -26,13 +26,11 @@ function AccountCreateIntro(props: Props) {
       </div>
       <div className={main.flexer}></div>
 
-
       <div className={main.button} onClick={props.createStage}>
         <div>
           <div className={main.buttontext}>create account</div>
         </div>
       </div>
-
 
       {/* <div tabIndex="2" className={main.button}>
       <div>
