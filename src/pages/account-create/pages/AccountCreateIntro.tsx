@@ -34,7 +34,7 @@ function AccountCreateIntro(props: Props) {
       <div className={main.button} onClick={props.nextStage}>
         <div>
           <div className={main.buttontext}>
-            create account with Fairdrive connect
+            Login with GetLogin
           </div>
         </div>
       </div>
