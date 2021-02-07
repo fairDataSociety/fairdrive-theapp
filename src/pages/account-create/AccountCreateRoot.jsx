@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import defaultAvatar from "images/defaultAvatar.png";
-import {createAccount, createDirectory, createPod, isUsernamePresent, storeAvatar} from "helpers/apiCalls";
+import { createAccount, createDirectory, createPod, isUsernamePresent, storeAvatar } from "helpers/apiCalls";
 
 // Sub-pages
 import AccountCreateIntro from "./pages/AccountCreateIntro";
@@ -26,7 +26,7 @@ const restoreAccountId = "restoreAccountId";
 export function AccountCreateRoot() {
   const dispatch = useDispatch();
 
-  const [stage, setStage] = useState(accountCreateIntroId);
+  const [stage, setStage] = useState(creatingAccountId);
   const history = useHistory();
   // Mnemonic for debugging
   //   const [mnemonic, setMnemonic] = useState([
@@ -98,7 +98,7 @@ export function AccountCreateRoot() {
       balance: 0.0
     };
 
-    dispatch({type: "SET_ACCOUNT", data: userObject});
+    dispatch({ type: "SET_ACCOUNT", data: userObject });
     dispatch({
       type: "SET_SYSTEM",
       data: {
@@ -114,19 +114,19 @@ export function AccountCreateRoot() {
   // Router
   switch (stage) {
     case accountCreateIntroId:
-      return (<AccountCreateIntro createStage={() => setStage(mnemonicShowId)} restoreStage={() => setStage(restoreAccountId)} exitStage={() => history.goBack()}/>);
+      return (<AccountCreateIntro createStage={() => setStage(mnemonicShowId)} restoreStage={() => setStage(restoreAccountId)} exitStage={() => history.goBack()} />);
     case mnemonicShowId:
-      return (<MnemonicShow fairdrive={window.fairdrive} nextStage={() => setStage(mnemonicCheckId)} exitStage={() => setStage(accountCreateIntroId)} setMnemonic={setMnemonic} mnemonic={mnemonic} setCollection={setCollection}/>);
+      return (<MnemonicShow fairdrive={window.fairdrive} nextStage={() => setStage(mnemonicCheckId)} exitStage={() => setStage(accountCreateIntroId)} setMnemonic={setMnemonic} mnemonic={mnemonic} setCollection={setCollection} />);
     case mnemonicCheckId:
-      return (<MnemonicCheck nextStage={() => setStage(chooseUsernameId)} prevStage={() => setStage(mnemonicShowId)} exitStage={() => setStage(accountCreateIntroId)} mnemonic={mnemonic}/>);
+      return (<MnemonicCheck nextStage={() => setStage(chooseUsernameId)} prevStage={() => setStage(mnemonicShowId)} exitStage={() => setStage(accountCreateIntroId)} mnemonic={mnemonic} />);
     case chooseUsernameId:
       return (<ChooseUsername usernameExists={usernameExists} avatar={avatar} setUsername={handleUsername} username={username} nextStage={() => setStage(choosePasswordId)} exitStage={() => setStage(accountCreateIntroId)} avatarStage={() => setStage(chooseAvatarId)}></ChooseUsername>);
     case chooseAvatarId:
       return (<ChooseAvatar avatar={defaultAvatar} exitStage={() => setStage(chooseUsernameId)} setAvatar={setAvatar}></ChooseAvatar>);
     case choosePasswordId:
-      return (<ChoosePassword createAccount={createAccountProcess} exitStage={() => setStage(accountCreateIntroId)} setPassword={setPassword} password={password}/>);
+      return (<ChoosePassword createAccount={createAccountProcess} exitStage={() => setStage(accountCreateIntroId)} setPassword={setPassword} password={password} />);
     case creatingAccountId:
-      return (<CreatingAccount accountCreateDone={accountCreateDone} item0={item0} item1={item1} item2={item2} item3={item3}/>);
+      return (<CreatingAccount accountCreateDone={accountCreateDone} item0={item0} item1={item1} item2={item2} item3={item3} />);
     case restoreAccountId:
       return <RestoreAccount></RestoreAccount>;
     default:

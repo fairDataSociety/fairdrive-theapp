@@ -68,9 +68,9 @@
 
 .link {
 color: var(--fds-orange);
-composes: baseGlowText from "../../styles.module.css";
 text-decoration: underline;
 cursor: pointer;
+text-size: 90%;
 }
 
 .username {
@@ -256,7 +256,7 @@ cursor: pointer;
 }
 
 .mnemonicinput:not(:placeholder-shown) {
-  border-bottom: 1px solid var(--fds-orange);
+  border-bottom: 1px solid var(--text-light);
 }
 
 .passwordflex {
@@ -292,6 +292,7 @@ cursor: pointer;
 }
 
 .statusbox {
+  font-family: "Work Sans";
   margin-top: 40px;
   display: grid;
   grid-template-columns: 20px auto;

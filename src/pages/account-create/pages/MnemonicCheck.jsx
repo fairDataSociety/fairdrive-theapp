@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styles from "styles.module.css";
 import accountstyles from "../account-create.module.css";
-import {Check} from "@material-ui/icons";
+import { Check } from "@material-ui/icons";
 
-export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
+export function MnemonicCheck({ nextStage, prevStage, exitStage, mnemonic }) {
   console.log(mnemonic[2], mnemonic[4], mnemonic[7], mnemonic[10]);
 
   const [word0Validity, setWord0Validity] = useState(false);
@@ -45,7 +45,7 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
 
   return (<div className={accountstyles.container}>
     <div className={accountstyles.closeButton} onClick={exitStage}>
-      <div className={styles.closeicon}/>
+      <div className={styles.closeicon} />
     </div>
     <div className={accountstyles.title}>Check your backup</div>
     <div className={accountstyles.subtitle}>
@@ -62,11 +62,11 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word0Validity
             ? (<Check style={{
-                color: "#DB7362"
-              }}></Check>)
+              color: "#FFFFFF"
+            }}></Check>)
             : (<Check style={{
-                color: "#222222"
-              }}></Check>)
+              color: "#222222"
+            }}></Check>)
         }
       </div>
       <div className={accountstyles.mnemonicinputbox}>
@@ -74,11 +74,11 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word1Validity
             ? (<Check style={{
-                color: "#DB7362"
-              }}></Check>)
+              color: "#FFFFFF"
+            }}></Check>)
             : (<Check style={{
-                color: "#222222"
-              }}></Check>)
+              color: "#222222"
+            }}></Check>)
         }
       </div>
       <div className={accountstyles.mnemonicinputbox}>
@@ -86,11 +86,11 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word2Validity
             ? (<Check style={{
-                color: "#DB7362"
-              }}></Check>)
+              color: "#FFFFFF"
+            }}></Check>)
             : (<Check style={{
-                color: "#222222"
-              }}></Check>)
+              color: "#222222"
+            }}></Check>)
         }
       </div>
       <div className={accountstyles.mnemonicinputbox}>
@@ -98,11 +98,11 @@ export function MnemonicCheck({nextStage, prevStage, exitStage, mnemonic}) {
         {
           word3Validity
             ? (<Check style={{
-                color: "#DB7362"
-              }}></Check>)
+              color: "#FFFFFF"
+            }}></Check>)
             : (<Check style={{
-                color: "#222222"
-              }}></Check>)
+              color: "#222222"
+            }}></Check>)
         }
       </div>
     </div>

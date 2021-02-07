@@ -1,14 +1,15 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:200,300,700");
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
   --border-line: #222222;
   --bg-dark: #242424;
   --bg-shade: #333333;
-  --text-light: #f4944d;
+  --text-light: #ffffff;
   --text-title: #efd96f;
   --text-shade: #db7632;
   --fds-yellow: #efd96f;
-  --fds-orange: #dd7200;
+  --fds-orange: #dd7700;
   --fds-dark: #333333;
   --fds-red: #f63333;
 }
@@ -37,50 +38,51 @@ a {
 }
 
 .mainTitle1 {
-  font-family: 'IBM Plex Mono';
-  font-weight: 400;
+  font-family: 'Work Sans';
+  font-weight: bold;
+  font-weight: 700;
   font-size: 34px;
   letter-spacing: 0;
   line-height: 36px;
 }
 
 .mainTitle2 {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 400;
   font-size: 24px;
   letter-spacing: 0;
   line-height: 36px;
 }
 .mainTitle3 {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 700;
   font-size: 18px;
   letter-spacing: 0px;
   line-height: 32px;
 }
 .mainTitle4 {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 400;
   font-size: 20px;
   letter-spacing: 0;
   line-height: 27px;
 }
 .bodyDefault {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 300;
   font-size: 20px;
   letter-spacing: 0;
   line-height: 19px;
 }
 .bodyBold {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 800;
   font-size: 16px;
   letter-spacing: 0;
   line-height: 19px;
 }
 .bodyDetail {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 200;
   font-size: 20px;
   letter-spacing: 0;
@@ -88,7 +90,7 @@ a {
 }
 
 .smallLight {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 300;
   font-size: 12px;
   letter-spacing: 0;
@@ -96,21 +98,21 @@ a {
 }
 
 .smallBold {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 800;
   font-size: 12px;
   letter-spacing: 0;
   line-height: 15px;
 }
 .smallestLight {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 300;
   font-size: 10px;
   letter-spacing: 0;
   line-height: 13px;
 }
 .smallestBold {
-  font-family: 'IBM Plex Mono';
+  font-family: 'Work Sans';
   font-weight: 800;
   font-size: 10px;
   letter-spacing: 0;
@@ -127,8 +129,9 @@ a {
 
 .link {
   composes: bodyDefault;
+  font-family: "IBM Plex Mono";
+  font-size: 14px;
   color: var(--fds-orange);
-  composes: baseGlowText;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -274,7 +277,6 @@ a {
 
 .button {
   composes: bodyBold;
-  composes: baseGlow;
   min-width: 200px;
   max-width: 280px;
   text-align: center;
@@ -290,11 +292,10 @@ a {
 
 .buttontext {
   composes: bodyBold;
-    composes: baseGlowText;
-    cursor: pointer;
-
-    text-transform: capitalize;
-    color: var(--fds-orange);
+  font-family: "IBM Plex Mono";
+  cursor: pointer;
+  text-transform: capitalize;
+  color: var(--fds-orange);
 }
 
 
