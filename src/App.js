@@ -10,8 +10,8 @@ import { logIn, isLoggedIn } from "helpers/apiCalls";
 const outerTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "#77DDFF",
-      light: "#77DDFF",
+      main: "#dd7700",
+      light: "#dd7700",
       background: "#333333",
     },
     secondary: {
