@@ -26,11 +26,9 @@ body {
 }
 
 .baseGlow {
-  box-shadow: 0px 0px 10px #f4944d, #f4944d 0px 0px 10px inset;
 }
 
 .baseGlowText {
-    text-shadow: 0px 0px 20px #f4944d;
 }
 
 a {
