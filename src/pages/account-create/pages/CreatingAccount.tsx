@@ -23,12 +23,12 @@ function CreatingAccount(props: Props) {
             }}
           ></Check>
         ) : (
-            <Check
-              style={{
-                color: "#333333",
-              }}
-            ></Check>
-          )}
+          <Check
+            style={{
+              color: "#333333",
+            }}
+          ></Check>
+        )}
         {props.item0 ? (
           <div
             style={{
@@ -38,8 +38,8 @@ function CreatingAccount(props: Props) {
             Creating User Account
           </div>
         ) : (
-            <div>Creating User Account</div>
-          )}
+          <div>Creating User Account</div>
+        )}
         {props.item1 ? (
           <Check
             style={{
@@ -47,12 +47,12 @@ function CreatingAccount(props: Props) {
             }}
           ></Check>
         ) : (
-            <Check
-              style={{
-                color: "#333333",
-              }}
-            ></Check>
-          )}
+          <Check
+            style={{
+              color: "#333333",
+            }}
+          ></Check>
+        )}
         {props.item1 ? (
           <div
             style={{
@@ -62,8 +62,8 @@ function CreatingAccount(props: Props) {
             Creating Fairdrive
           </div>
         ) : (
-            <div>Creating Fairdrive</div>
-          )}
+          <div>Creating Fairdrive</div>
+        )}
         {props.item2 ? (
           <Check
             style={{
@@ -71,12 +71,12 @@ function CreatingAccount(props: Props) {
             }}
           ></Check>
         ) : (
-            <Check
-              style={{
-                color: "#333333",
-              }}
-            ></Check>
-          )}
+          <Check
+            style={{
+              color: "#333333",
+            }}
+          ></Check>
+        )}
         {props.item2 ? (
           <div
             style={{
@@ -86,8 +86,8 @@ function CreatingAccount(props: Props) {
             Creating Folders
           </div>
         ) : (
-            <div>Creating Folders</div>
-          )}
+          <div>Creating Folders</div>
+        )}
         {props.item3 ? (
           <Check
             style={{
@@ -95,12 +95,12 @@ function CreatingAccount(props: Props) {
             }}
           ></Check>
         ) : (
-            <Check
-              style={{
-                color: "#333333",
-              }}
-            ></Check>
-          )}
+          <Check
+            style={{
+              color: "#333333",
+            }}
+          ></Check>
+        )}
         {props.item3 ? (
           <div
             style={{
@@ -110,8 +110,8 @@ function CreatingAccount(props: Props) {
             Storing Fairdrive Account
           </div>
         ) : (
-            <div>Storing Fairdrive Account</div>
-          )}
+          <div>Storing Fairdrive Account</div>
+        )}
       </div>
 
       {props.item0 && props.item1 && props.item2 && props.item3 ? (
@@ -121,8 +121,8 @@ function CreatingAccount(props: Props) {
           </div>
         </div>
       ) : (
-          ""
-        )}
+        ""
+      )}
     </div>
   );
 }
