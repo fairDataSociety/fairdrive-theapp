@@ -127,20 +127,24 @@ text-size: 90%;
 }
 
 .button {
-  composes: bodyButton from "../../styles.module.css";
-  composes: baseShadow from "../../styles.module.css";
-  width: 75vw;
+  composes: bodyBold from "../../styles.module.css";
+  composes: baseGlow from "../../styles.module.css";
   min-width: 200px;
-  max-width: 300px;
+  max-width: 280px;
   text-align: center;
   box-sizing: border-box;
-  padding: 30px 42px;
-  border-radius: 2px;
+  padding: 20px 42px;
+  border-radius: 4px;
   cursor: pointer;
-  max-height: 82px;
-  background-color: rgba(255, 255, 255, 0.2);
+  max-height: 62px;
   margin-top: 20px;
+  border: 1px solid var(--fds-orange);
+  margin-top: 40px;
 }
+.button:hover{
+  background-color: --fds-yellow !important;
+}
+
 
 .buttontext {
   color: white;

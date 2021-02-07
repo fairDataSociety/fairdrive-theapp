@@ -168,6 +168,11 @@ a {
   color: white;
   text-align: center;
 }
+.subtitle {
+  composes: mainTitle2;
+  color: white;
+  text-align: center;
+}
 
 /* Files */
 .breadcrumb {
@@ -284,10 +289,11 @@ a {
   padding: 20px 42px;
   border-radius: 4px;
   cursor: pointer;
-  max-height: 62px;
-  margin-top: 20px;
   border: 1px solid var(--fds-orange);
   margin-top: 40px;
+}
+.button:active{
+  background-color: --fds-yellow;
 }
 
 .buttontext {
