@@ -117,13 +117,14 @@ export function AccountCreateRoot() {
     const wallet = ethers.Wallet.fromMnemonic(invite);
     const encryptedWallet = await encryptWallet(wallet, password);
     const data: any = JSON.parse(encryptedWallet);
-    const Web3Provider = new Web3("http://localhost:8545");
-    const inviteWallet = await getAccountFromInvite(Web3Provider, invite);
+    const Web3Provider = new Web3(
+      new Web3.providers.HttpProvider(`${procces.env.GOERLI_ENDPOINT}`)
+    );
     const logicContract = new Web3Provider.eth.Contract(
       GetLoginLogic.abi as AbiItem[],
       process.env.REACT_APP_LOGIC,
       {
-        from: data.address,
+        from: wallet.address,
       }
     );
     const storageContract = new Web3Provider.eth.Contract(
@@ -132,21 +133,47 @@ export function AccountCreateRoot() {
     );
 
     const usernameHash = getUsernameHash(username);
-    debugger;
-    const info = await logicContract.methods.createUserFromInvite(
-      usernameHash,
-      "0x" + data.address,
-      data.Crypto.ciphertext,
-      data.Crypto.cipherparams.iv,
-      data.Crypto.kdfparams.salt,
-      data.Crypto.mac,
-      true
+    const info = await logicContract.methods
+      .createUserFromInvite(
+        usernameHash,
+        "0x" + data.address,
+        data.Crypto.ciphertext,
+        data.Crypto.cipherparams.iv,
+        data.Crypto.kdfparams.salt,
+        data.Crypto.mac,
+        true
+      )
+      .encodeABI();
+    let result = {
+      from: wallet.address,
+      to: process.env.REACT_APP_LOGIC,
+      value: Web3.utils.toWei("0.1", "ether"),
+      data: info,
+    };
+    const signedTx = await signAndSendTx(
+      result,
+      wallet.privateKey,
+      Web3Provider
     );
-    debugger;
 
-    console.log("\n\n\n----------INFO ACCOUNT---------\n");
-    console.log(info);
     await createAccountProcess();
+  };
+  const signAndSendTx = async (
+    result: any,
+    privateKey: string,
+    Web3Provider: Web3
+  ) => {
+    const gasPrice = 2;
+    const gasLimit = 3000000;
+    result.gasLimit = Web3.utils.toHex(gasLimit);
+    result.gasPrice = Web3.utils.toHex(gasPrice * 1e9);
+    let signed: any;
+    signed = await Web3Provider.eth.accounts.signTransaction(
+      result,
+      privateKey
+    );
+
+    return await Web3Provider.eth.sendSignedTransaction(signed.rawTransaction);
   };
 
   // Create account function
@@ -215,6 +242,7 @@ export function AccountCreateRoot() {
           setPassword={setPassword}
           password={password}
           setInvite={setInvite}
+          setMnemonic={setMnemonic}
           invite={invite}
           createAccount={createAccountWithFairdriveConnect}
           exitStage={() => setStage(accountCreateIntroId)}
