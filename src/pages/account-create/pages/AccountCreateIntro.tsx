@@ -24,6 +24,8 @@ function AccountCreateIntro(props: Props) {
       <div className={main.subtitle}>
         In the next steps you will be creating a Fairdrive Wallet.
       </div>
+      <div className={main.flexer}></div>
+
 
       <div className={main.button} onClick={props.createStage}>
         <div>
@@ -31,13 +33,7 @@ function AccountCreateIntro(props: Props) {
         </div>
       </div>
 
-      <div className={main.button} onClick={props.nextStage}>
-        <div>
-          <div className={main.buttontext}>
-            Login with GetLogin
-          </div>
-        </div>
-      </div>
+
       {/* <div tabIndex="2" className={main.button}>
       <div>
         <div className={main.buttontext} onClick={restoreStage}>
@@ -47,9 +43,15 @@ function AccountCreateIntro(props: Props) {
     </div> */}
       <div className={main.flexer}></div>
       <div className={main.flexer}></div>
+      <div className={main.flexer}></div>
+
+      <div className={main.link} onClick={props.nextStage}>
+        Login with GetLogin
+      </div>
+      <div className={main.flexer}></div>
 
       <div className={main.link} onClick={gotoUnlock}>
-        Login with existing account
+        Login with existing Fairdrive account
       </div>
     </div>
   );
