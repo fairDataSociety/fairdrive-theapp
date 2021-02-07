@@ -26,7 +26,7 @@ const restoreAccountId = "restoreAccountId";
 export function AccountCreateRoot() {
   const dispatch = useDispatch();
 
-  const [stage, setStage] = useState(creatingAccountId);
+  const [stage, setStage] = useState(accountCreateIntroId);
   const history = useHistory();
   // Mnemonic for debugging
   //   const [mnemonic, setMnemonic] = useState([
