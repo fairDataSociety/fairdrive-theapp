@@ -130,6 +130,7 @@ a {
   composes: bodyDefault;
   font-family: "IBM Plex Mono";
   font-size: 14px;
+  text-align: center;
   color: var(--fds-orange);
   text-decoration: underline;
   cursor: pointer;
