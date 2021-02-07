@@ -114,7 +114,7 @@ export function AccountCreateRoot() {
 
   const createAccountWithFairdriveConnect = async () => {
     setStage(creatingAccountId);
-    const wallet = ethers.Wallet.fromMnemonic(mnemonic);
+    const wallet = ethers.Wallet.fromMnemonic(invite);
     const encryptedWallet = await encryptWallet(wallet, password);
     const data: any = JSON.parse(encryptedWallet);
     const Web3Provider = new Web3("http://localhost:8545");

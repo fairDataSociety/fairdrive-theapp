@@ -58,7 +58,7 @@ function AccountCreateFairdriveConnect(props: Props) {
           type="text"
           name="2"
           className={accountstyles.mnemonicinput}
-          placeholder="Fairconnect Invite"
+          placeholder="Fairdrive connect Invite"
           value={props.invite}
           onChange={(e) => handleInvite(e)}
         />
