@@ -147,7 +147,6 @@ margin-top: 10px;
 
 .balance {
   composes: bodyBold from "../../styles.module.css";
-  composes: baseGlowText from "../../styles.module.css";
   color:var(--fds-orange);
   line-height: 120%;
 }

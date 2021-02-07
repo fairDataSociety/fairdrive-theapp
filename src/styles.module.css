@@ -26,11 +26,9 @@ body {
 }
 
 .baseGlow {
-  box-shadow: 0px 0px 10px #f4944d, #f4944d 0px 0px 10px inset;
 }
 
 .baseGlowText {
-    text-shadow: 0px 0px 20px #f4944d;
 }
 
 a {
@@ -132,6 +130,7 @@ a {
   composes: bodyDefault;
   font-family: "IBM Plex Mono";
   font-size: 14px;
+  text-align: center;
   color: var(--fds-orange);
   text-decoration: underline;
   cursor: pointer;

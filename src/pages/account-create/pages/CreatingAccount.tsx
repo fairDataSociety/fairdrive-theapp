@@ -80,7 +80,7 @@ function CreatingAccount(props: Props) {
         {props.item2 ? (
           <div
             style={{
-              color: "#DB7362",
+              color: "#FFFFFF",
             }}
           >
             Creating Folders
@@ -91,7 +91,7 @@ function CreatingAccount(props: Props) {
         {props.item3 ? (
           <Check
             style={{
-              color: "#DB7362",
+              color: "#FFFFFF",
             }}
           ></Check>
         ) : (
@@ -104,7 +104,7 @@ function CreatingAccount(props: Props) {
         {props.item3 ? (
           <div
             style={{
-              color: "#DB7362",
+              color: "#FFFFFF",
             }}
           >
             Storing Fairdrive Account
