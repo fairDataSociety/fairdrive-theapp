@@ -24,7 +24,7 @@ import ChoosePassword from "./pages/ChoosePassword";
 import ChooseAvatar from "./pages/ChooseAvatar";
 import CreatingAccount from "./pages/CreatingAccount";
 import RestoreAccount from "./pages/RestoreAccount";
-import AccountCreateFairdriveConnect from "./pages/AccountCreateFairdriveConnect";
+import AccountLoginWithGetLoginETH from "./pages/AccountLoginWithGetLoginETH";
 // Ids
 const accountCreateIntroId = "accountCreateIntroId";
 const mnemonicShowId = "mnemonicShowId";
@@ -209,7 +209,7 @@ export function AccountCreateRoot() {
       );
     case fairdriveConnectId:
       return (
-        <AccountCreateFairdriveConnect
+        <AccountLoginWithGetLoginETH
           username={username}
           setUsername={handleUsername}
           setPassword={setPassword}
@@ -219,7 +219,7 @@ export function AccountCreateRoot() {
           createAccount={createAccountWithFairdriveConnect}
           exitStage={() => setStage(accountCreateIntroId)}
           nextStage={() => setStage(accountCreateIntroId)}
-        ></AccountCreateFairdriveConnect>
+        ></AccountLoginWithGetLoginETH>
       );
 
     case mnemonicShowId:
