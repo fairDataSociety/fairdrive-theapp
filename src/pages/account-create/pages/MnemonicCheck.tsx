@@ -81,7 +81,7 @@ function MnemonicCheck(props: Props) {
           {word0Validity ? (
             <Check
               style={{
-                color: "#DB7362",
+                color: "#FFFFFF",
               }}
             ></Check>
           ) : (
@@ -104,7 +104,7 @@ function MnemonicCheck(props: Props) {
           {word1Validity ? (
             <Check
               style={{
-                color: "#DB7362",
+                color: "#FFFFFF",
               }}
             ></Check>
           ) : (
@@ -127,7 +127,7 @@ function MnemonicCheck(props: Props) {
           {word2Validity ? (
             <Check
               style={{
-                color: "#DB7362",
+                color: "#FFFFFF",
               }}
             ></Check>
           ) : (
@@ -150,7 +150,7 @@ function MnemonicCheck(props: Props) {
           {word3Validity ? (
             <Check
               style={{
-                color: "#DB7362",
+                color: "#FFFFFF",
               }}
             ></Check>
           ) : (

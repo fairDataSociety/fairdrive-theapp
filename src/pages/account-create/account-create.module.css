@@ -67,10 +67,10 @@
 }
 
 .link {
-color: var(--fds-orange);
-composes: baseGlowText from "../../styles.module.css";
-text-decoration: underline;
-cursor: pointer;
+  color: var(--fds-orange);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 90%;
 }
 
 .username {
@@ -235,6 +235,20 @@ cursor: pointer;
   border-bottom: 1px solid var(--fds-orange);
 }
 
+.getLoginUsernameInput{
+  composes: bodyBold from "../../styles.module.css";
+  width: 55vw;
+  max-width: 260px;
+  color: var(--text-light);
+  text-align: left;
+  outline: none;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  border: 0px;
+  border-bottom: 1px solid var(--fds-orange);
+  background-color: transparent;
+}
+
 .mnemonicinputbox {
   width: 75vw;
   display: flex;
@@ -296,6 +310,7 @@ cursor: pointer;
 }
 
 .statusbox {
+  font-family: "Work Sans";
   margin-top: 40px;
   display: grid;
   grid-template-columns: 20px auto;

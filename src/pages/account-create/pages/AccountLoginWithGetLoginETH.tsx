@@ -29,14 +29,15 @@ function AccountLoginWithGetLoginETH(props: Props) {
       <div className={accountstyles.closeButton} onClick={props.exitStage}>
         <div className={styles.closeicon} />
       </div>
-      <div className={accountstyles.title}>Username</div>
+      <div className={accountstyles.title}>Connect with GetLoginETH</div>
       <div className={accountstyles.passwordflex} />
       <div className={accountstyles.flexer} />
       <div className={accountstyles.usernameinputbox}>
         <input
           type="text"
           autoFocus={true}
-          className={accountstyles.usernameinput}
+          className={accountstyles.getLoginUsernameInput}
+          placeholder="Username"
           value={props.username}
           onChange={(e) => props.setUsername(e.target.value)}
         />
@@ -52,6 +53,17 @@ function AccountLoginWithGetLoginETH(props: Props) {
           onChange={(e) => handlePassword(e)}
         />
       </div>
+      <div className={accountstyles.usernameinputbox}>
+        <input
+          type="text"
+          name="2"
+          className={accountstyles.mnemonicinput}
+          placeholder="GetLogin Invite"
+          value={props.invite}
+          onChange={(e) => handleInvite(e)}
+        />
+      </div>
+
       <div className={styles.button} onClick={props.createAccount}>
         <div>
           <div className={styles.buttontext}>
