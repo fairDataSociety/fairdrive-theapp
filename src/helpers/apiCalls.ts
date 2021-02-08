@@ -7,8 +7,6 @@ const host = process.env.REACT_APP_FAIROSHOST + "/v0/";
 
 export async function logIn(username: string, password: string) {
   try {
-    console.log(username);
-    console.log(password);
     const requestBody = {
       user: username,
       password: password,

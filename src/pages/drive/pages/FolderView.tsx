@@ -149,10 +149,9 @@ export function FolderView(props: Props) {
               >
                 {item.name}
               </div>
-              <div>
+              <div onClick={() => toggleFolderMenuShown(item)}>
                 <Icon
                   path={mdiSettingsHelper}
-                  // onClick={() => toggleFolderMenuShown(item)}
                   className={styles.custom}
                   rotate={90}
                   size="36px"
