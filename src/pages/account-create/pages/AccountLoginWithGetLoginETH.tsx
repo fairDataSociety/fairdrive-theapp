@@ -5,6 +5,7 @@ export interface Props {
   setUsername: any;
   setPassword: any;
   setInvite: any;
+  setMnemonic: any;
   password: any;
   username: string;
   invite: any;
@@ -22,6 +23,7 @@ function AccountLoginWithGetLoginETH(props: Props) {
   };
   const handleInvite = (e: any) => {
     props.setInvite(e.target.value);
+    props.setMnemonic(e.target.value.split(" "));
   };
 
   return (

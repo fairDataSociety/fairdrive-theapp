@@ -140,8 +140,8 @@ export function AccountRoot() {
       return (
         <ShortCode
           shortcode={account.shortcode}
-          nextStage={() => setStage("")}
-          exitStage={() => setStage("")}
+          nextStage={() => setStage(shortcodeStage)}
+          exitStage={() => setStage(shortcodeStage)}
           newShort={newShort}
         ></ShortCode>
       );
@@ -149,8 +149,8 @@ export function AccountRoot() {
     case resolveShort:
       return (
         <ResolveShort
-          nextStage={() => setStage("")}
-          exitStage={() => setStage("")}
+          nextStage={() => setStage(resolveShort)}
+          exitStage={() => setStage(resolveShort)}
           resolveShortcode={handleResolveShortcode}
           peerAvatar={account.peerAvatar}
           peerUsername={account.peerUsername}

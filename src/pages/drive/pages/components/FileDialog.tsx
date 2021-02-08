@@ -18,12 +18,11 @@ export interface Props {
 }
 function FileDialog(props: Props) {
   const homeId = "homeId";
-
   //const [openNew, setNewOpen] = useState(open);
   const [fileDialogContentState, setFileDialogContentState] = useState(homeId);
-  const [fileSize, setFileSize] = useState(0);
-  const [fileCreateDate, setFileCreateDate] = useState({});
-  const [fileModDate, setFileModDate] = useState({});
+  const [fileSize, setFileSize] = useState("");
+  const [fileCreateDate, setFileCreateDate] = useState("");
+  const [fileModDate, setFileModDate] = useState("");
 
   function handleFileDialogClose() {
     setFileDialogContentState(homeId);
@@ -32,9 +31,13 @@ function FileDialog(props: Props) {
 
   useEffect(() => {
     if (props.item.size) {
-      setFileSize(Number(prettyBytes(parseInt(props.item.size))));
-      setFileCreateDate(moment.unix(props.item.creation_time));
-      setFileModDate(moment.unix(props.item.modification_time));
+      setFileSize(prettyBytes(parseInt(props.item.size)));
+      setFileCreateDate(
+        moment.unix(props.item.creation_time).format("DD/MM/YYYY HH:mm:ss")
+      );
+      setFileModDate(
+        moment.unix(props.item.modification_time).format("DD/MM/YYYY HH:mm:ss")
+      );
     }
   }, [props.item]);
 
