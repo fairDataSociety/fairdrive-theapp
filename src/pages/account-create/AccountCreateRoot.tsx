@@ -118,7 +118,7 @@ export function AccountCreateRoot() {
     const encryptedWallet = await encryptWallet(wallet, password);
     const data: any = JSON.parse(encryptedWallet);
     const Web3Provider = new Web3(
-      new Web3.providers.HttpProvider(`${procces.env.GOERLI_ENDPOINT}`)
+      new Web3.providers.HttpProvider(`${process.env.GOERLI_ENDPOINT}`)
     );
     const logicContract = new Web3Provider.eth.Contract(
       GetLoginLogic.abi as AbiItem[],
