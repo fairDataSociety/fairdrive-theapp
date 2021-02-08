@@ -112,13 +112,15 @@ export function AccountCreateRoot() {
     return web3Provider.eth.accounts.privateKeyToAccount(invite);
   };
 
-  const createAccountWithFairdriveConnect = async () => {
+  const createAccountWithGetLoginConnect = async () => {
     setStage(creatingAccountId);
     const wallet = ethers.Wallet.fromMnemonic(invite);
     const encryptedWallet = await encryptWallet(wallet, password);
     const data: any = JSON.parse(encryptedWallet);
     const Web3Provider = new Web3(
-      new Web3.providers.HttpProvider(`${process.env.GOERLI_ENDPOINT}`)
+      new Web3.providers.HttpProvider(
+        `${process.env.REACT_APP_GOERLI_ENDPOINT}`
+      )
     );
     const logicContract = new Web3Provider.eth.Contract(
       GetLoginLogic.abi as AbiItem[],
@@ -155,7 +157,6 @@ export function AccountCreateRoot() {
       wallet.privateKey,
       Web3Provider
     );
-
     await createAccountProcess();
   };
   const signAndSendTx = async (
@@ -172,7 +173,6 @@ export function AccountCreateRoot() {
       result,
       privateKey
     );
-
     return await Web3Provider.eth.sendSignedTransaction(signed.rawTransaction);
   };
 
@@ -244,7 +244,7 @@ export function AccountCreateRoot() {
           setInvite={setInvite}
           setMnemonic={setMnemonic}
           invite={invite}
-          createAccount={createAccountWithFairdriveConnect}
+          createAccount={createAccountWithGetLoginConnect}
           exitStage={() => setStage(accountCreateIntroId)}
           nextStage={() => setStage(accountCreateIntroId)}
         ></AccountLoginWithGetLoginETH>
