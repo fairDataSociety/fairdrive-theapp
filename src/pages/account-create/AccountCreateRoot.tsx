@@ -85,8 +85,8 @@ export function AccountCreateRoot() {
       });
   }
 
-  const encryptWallet = async (wallet: any, password: any) => {
-    return await wallet.encrypt(password);
+  const encryptWallet = (wallet: any, password: any) => {
+    return wallet.encrypt(password);
   };
   const filterUsername = (username: any) => {
     return username.trim();
@@ -114,47 +114,47 @@ export function AccountCreateRoot() {
 
   const createAccountWithGetLoginConnect = async () => {
     setStage(creatingAccountId);
-    const wallet = ethers.Wallet.fromMnemonic(invite);
-    const encryptedWallet = await encryptWallet(wallet, password);
-    const data: any = JSON.parse(encryptedWallet);
     const Web3Provider = new Web3(
       new Web3.providers.HttpProvider(
         `${process.env.REACT_APP_GOERLI_ENDPOINT}`
       )
     );
+    const inviteWallet = ethers.Wallet.fromMnemonic(invite);
+    const wallet = Web3Provider.eth.accounts.create();
+    const encryptedWallet = encryptWallet(wallet, password);
+
     const logicContract = new Web3Provider.eth.Contract(
       GetLoginLogic.abi as AbiItem[],
       process.env.REACT_APP_LOGIC,
       {
-        from: wallet.address,
+        from: inviteWallet.address,
       }
     );
     const storageContract = new Web3Provider.eth.Contract(
       GetLoginStorage.abi as AbiItem[],
       process.env.REACT_APP_STORAGE
     );
-
     const usernameHash = getUsernameHash(username);
     const info = await logicContract.methods
       .createUserFromInvite(
         usernameHash,
-        "0x" + data.address,
-        data.Crypto.ciphertext,
-        data.Crypto.cipherparams.iv,
-        data.Crypto.kdfparams.salt,
-        data.Crypto.mac,
+        "0x" + encryptedWallet.address,
+        encryptedWallet.crypto.ciphertext,
+        encryptedWallet.crypto.cipherparams.iv,
+        encryptedWallet.crypto.kdfparams.salt,
+        encryptedWallet.crypto.mac,
         true
       )
       .encodeABI();
     let result = {
-      from: wallet.address,
+      from: inviteWallet.address,
       to: process.env.REACT_APP_LOGIC,
       value: Web3.utils.toWei("0.1", "ether"),
       data: info,
     };
     const signedTx = await signAndSendTx(
       result,
-      wallet.privateKey,
+      inviteWallet.privateKey,
       Web3Provider
     );
     await createAccountProcess();
