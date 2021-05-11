@@ -11,6 +11,28 @@ interface Payload {
 
 const host ="https://api.fairos.io/v0/";
 const podName = "Fairdrive";
+
+export async function createAccount(username: string, password: any, mnemonic: string) {
+  try {
+    const requestBody = {
+      user: username,
+      password: password,
+      mnemonic: mnemonic,
+    };
+
+    const response = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "user/signup",
+      data: qs.stringify(requestBody),
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (e) {
+    console.log("error on timeout", e);
+  }
+}
+
 export const login = async (payload: Payload) => {
   try {
    const {username, password} = payload;
