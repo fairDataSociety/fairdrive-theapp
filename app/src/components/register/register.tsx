@@ -32,6 +32,7 @@ function Register(props: Props) {
     }
 
     actions.storeUserRegistrationInfo(data)
+    actions.getSeedPhrase({})
 
     history.push("/generate-seed");
     window.location.reload();

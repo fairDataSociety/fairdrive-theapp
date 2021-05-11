@@ -9,9 +9,6 @@ import SeedPhrase from '../seedPhrase/seedPhrase'
 import { useHistory, Redirect } from "react-router-dom";
 export interface Props { }
 
-// TODO move to store properly
-const SEED_PHRASE = 'word word word word word word word word word word word word'
-
 function SeedPhraseGen(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
@@ -21,13 +18,11 @@ function SeedPhraseGen(props: Props) {
   const history = useHistory();
 
   async function onContinue() {
-    // TODO
-
-    console.log("Continue");
-
     history.push("/confirm-seed");
     window.location.reload();
   }
+
+  console.log("mnemonic", state.mnemonic)
 
   return (
     <div className={classes.Login}>
@@ -40,7 +35,14 @@ function SeedPhraseGen(props: Props) {
 
       <div className={classes.flexer}></div>
 
-      < SeedPhrase seedPhrase={SEED_PHRASE} />
+      {
+        
+        state.mnemonic ?
+          < SeedPhrase seedPhrase={state.mnemonic} /> :
+          <div>Loading...</div>
+      }
+
+
 
       {/* TODO need T&C checkbox */}
 

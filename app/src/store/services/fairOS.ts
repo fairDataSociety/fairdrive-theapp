@@ -71,9 +71,10 @@ export const login = async (payload: Payload) => {
   }
 }
 
-export const getSeedPhrase = async() =>{
+export const generateSeedPhrase = async() =>{
   // TODO get seed phrase
-  return 'word word word word word word word word word word word word'
+  console.log("Creating seed phrase...")
+  return 'word word word word word word word word word word word word word word word word word word'
 }
 
 export const getPods = async() =>{

@@ -27,14 +27,27 @@ function SeedPhraseConfirm(props: Props) {
     }
   }, [state.userData]);
 
-  async function onContinue() {
-    // TODO
-    console.log("Continue");
+  async function onRegister() {
+    console.log(state.mnemonic);
+    
+    if(!state.mnemonic) return null
+    const seedWords = state.mnemonic.split(" ")
+
+    if(
+      seedWords.length >= 14 &&
+      wordFive === seedWords[4] &&
+      wordEleven === seedWords[10] &&
+      wordFourteen === seedWords[13]
+    ){
+      // TODO
+      console.log("Continue");
+    }
+
+    
   }
 
   return (
     <div className={classes.Login}>
-      {state.password && <Redirect to={"/drive/root"} />}
       <div className={classes.title}>Continue without single-sign-on</div>
 
       <div className={classes.description}>
@@ -48,7 +61,7 @@ function SeedPhraseConfirm(props: Props) {
         type="text"
         setHasError={setHasError}
         setProp={setWordFive}
-        onContinue={onContinue}
+        onContinue={onRegister}
       ></TextField>
 
       <TextField
@@ -56,7 +69,7 @@ function SeedPhraseConfirm(props: Props) {
         type="text"
         setHasError={setHasError}
         setProp={setWordEleven}
-        onContinue={onContinue}
+        onContinue={onRegister}
       ></TextField>
 
       <TextField
@@ -64,7 +77,7 @@ function SeedPhraseConfirm(props: Props) {
         type="text"
         setHasError={setHasError}
         setProp={setWordFourteen}
-        onContinue={onContinue}
+        onContinue={onRegister}
       ></TextField>
 
 
@@ -72,7 +85,7 @@ function SeedPhraseConfirm(props: Props) {
       {/* TODO 3 word inputs to check seeed */}
 
       {hasError ? <div className={classes.errormsg}>Could not login.</div> : ""}
-      <Button text={"Continue"} clickFunction={onContinue}></Button>
+      <Button text={"Register"} clickFunction={onRegister}></Button>
     </div>
   );
 }

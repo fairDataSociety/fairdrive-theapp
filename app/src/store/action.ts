@@ -30,8 +30,14 @@ export const useActions = (state, dispatch) => ({
       type: types.STORE_USER_REGISTRATION_INFO,
       payload: data,
     });
+  },
+  getSeedPhrase: (data) => {
+    dispatch({
+      // TODO fix this - make request
+      type: types.SEED_PHRASE.SEED_PHRASE_SUCCESS,
+      payload: data,
+    });
   }
-
 });
 
 export interface Actions {
@@ -39,4 +45,5 @@ export interface Actions {
   sendFile:(data:any) => void;
   getDirectory:(data:any) => void;
   storeUserRegistrationInfo:(data:any) => void;
+  getSeedPhrase:(data:any) => void;
 }

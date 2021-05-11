@@ -56,7 +56,9 @@ const reducer = (state = initialState, action) => {
     case types.SEED_PHRASE.SEED_PHRASE_SUCCESS:
       return {
         ...state,
-        mnemonic: action.payload
+        // TODO fix this
+        // mnemonic: action.payload
+        mnemonic: 'word word word word word word word word word word word word word word word word word word'
       };
     default:
       return state;

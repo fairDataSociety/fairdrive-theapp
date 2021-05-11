@@ -1,5 +1,5 @@
 import types from "./actionTypes";
-import { login, fileUpload, getDirectory, getSeedPhrase } from "../store/services/fairOS";
+import { login, fileUpload, getDirectory, generateSeedPhrase } from "../store/services/fairOS";
 
 export const applyMiddleware = (dispatch) => (action) => {
   switch (action.type) {
@@ -41,23 +41,19 @@ export const applyMiddleware = (dispatch) => (action) => {
           payload: res,
         });
       })
-    case types.STORE_USER_REGISTRATION_INFO:
-      dispatch({
-        type: types.SEED_PHRASE.SEED_PHRASE_REQUEST,
-        payload: {},
-      })
     case types.SEED_PHRASE.SEED_PHRASE_REQUEST:
-      return getSeedPhrase().then((res) => {
+      console.log("here")
+      return generateSeedPhrase().then((res) => {
         dispatch({
           type: types.SEED_PHRASE.SEED_PHRASE_SUCCESS,
           payload: res,
         });
-      })
-        .catch((err) =>
-          dispatch({
-            type: types.SEED_PHRASE.SEED_PHRASE_FAILED,
-            payload: err.response,
-          }))
+      }).catch((err) =>
+        dispatch({
+          type: types.SEED_PHRASE.SEED_PHRASE_FAILED,
+          payload: err.response,
+        })
+      );
     default:
       dispatch(action);
   }
