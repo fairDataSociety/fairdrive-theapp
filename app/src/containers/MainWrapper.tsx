@@ -4,7 +4,6 @@ import Navbar from "./navbar/navbar";
 import Sidebar from "./sidebar/sidebar";
 import Main from "./main/main";
 import Home from "./home/home";
-import AuthRoute from "./authRoute/authRoute";
 import Login from "./../components/login/login";
 export default function MainWrapper() {
   return (
@@ -16,7 +15,7 @@ export default function MainWrapper() {
           <Route exact path="/create" />
           <Route exact path="/login" component={Login} />
           <Route exact path="/" component={Main} />
-          <Route exact path="/drive/:pod" component={Home} />
+          <Route exact path="/drive/:path" component={Home} />
         </Switch>
       </div>
     </Router>

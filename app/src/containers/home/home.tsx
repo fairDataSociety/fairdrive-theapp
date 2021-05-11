@@ -1,37 +1,42 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams, useHistory } from "react-router-dom";
 import useStyles from "./homeStyles";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
-export interface Props {}
+import { getDirectory } from "../../store/services/fairOS";
+import FileModal from "../../components/fileModal/fileModal";
+export interface Props {
+  directory?: string;
+}
 
-function BoilerPlate(props: Props) {
+function Home(props: Props) {
+  const params: any = useParams();
+  const path = params.path;
   const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
-  const [loadFiles, setLoadfiles] = useState(false);
   const [files, setFiles] = useState(null);
-  const classes = useStyles({ ...props, ...theme });
-  async function getDirectory() {
+
+  //Add action to load files
+  async function loadDirectory() {
     try {
-      await actions.getDirectory({
-        directory: "root",
+      const newPath = path.replace(/&/g, "/");
+      const res = await getDirectory({
+        directory: newPath,
         password: state.password,
       });
+      setFiles(res.entries);
     } catch (e) {
       console.log(e);
     }
   }
-  useEffect(() => {
-    if (!loadFiles) {
-      getDirectory();
-      setLoadfiles(true);
-    }
-  });
 
   useEffect(() => {
-    if (state.entries !== null) {
+    loadDirectory();
+  }, [params]);
+
+  useEffect(() => {
+    if (state.entries !== null && files === null) {
       console.log(state.entries);
       setFiles(state.entries);
     }
@@ -41,15 +46,15 @@ function BoilerPlate(props: Props) {
     <CardGrid>
       {!state.password && <Redirect to={"/"} />}
       {files !== null &&
-        files.map((file) => (
-          <FileCard
-            fileName={file.name}
-            fileSize={file.size}
-            dateCreated={file.dateCreated}
-          />
-        ))}
+        files.map((file) =>
+          file.content_type === "inode/directory" ? (
+            <FileCard file={file} />
+          ) : (
+            <FileModal file={file}></FileModal>
+          )
+        )}
     </CardGrid>
   );
 }
 
-export default React.memo(BoilerPlate);
+export default React.memo(Home);

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./loginStyles";
-import Button from "../button/button";
+import ButtonPill from "../buttonPill/buttonPill";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
@@ -56,7 +56,7 @@ function Login(props: Props) {
         onContinue={onLogin}
       ></TextField>
       {hasError ? <div className={classes.errormsg}>Could not login.</div> : ""}
-      <Button text={"Login"} clickFunction={onLogin}></Button>
+      <ButtonPill text={"Login"} clickFunction={onLogin}></ButtonPill>
       <ButtonLink label="Back" color="grey" path="/"></ButtonLink>
     </div>
   );

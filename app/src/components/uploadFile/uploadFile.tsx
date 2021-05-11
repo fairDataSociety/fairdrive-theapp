@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
-import Button from "../button/button";
+import ButtonPill from "../buttonPill/buttonPill";
 import useStyles from "./uploadFileStyles";
 import TextField from "../textField/textField";
 
@@ -49,7 +49,7 @@ function ShareFile(props: Props) {
         onContinue={shareFile}
       ></TextField>
       <div className={classes.flexer}></div>
-      <Button text={"Save file"} clickFunction={shareFile}></Button>
+      <ButtonPill text={"Save file"} clickFunction={shareFile}></ButtonPill>
     </div>
   );
 }
