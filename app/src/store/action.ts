@@ -24,6 +24,12 @@ export const useActions = (state, dispatch) => ({
       type: types.GET_DIRECTORY.GET_DIRECTORY_REQUEST,
       payload: data,
     });
+  },
+  storeUserRegistrationInfo: (data) => {
+    dispatch({
+      type: types.STORE_USER_REGISTRATION_INFO,
+      payload: data,
+    });
   }
 
 });
@@ -32,4 +38,5 @@ export interface Actions {
   userLogin:(data: any) => void;
   sendFile:(data:any) => void;
   getDirectory:(data:any) => void;
+  storeUserRegistrationInfo:(data:any) => void;
 }

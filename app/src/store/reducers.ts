@@ -13,6 +13,7 @@ export interface State {
   mnemonic: string;
   unlocked: boolean;
   entries: any;
+  inviteCode: string;
 }
 
 const initialState: State = {
@@ -20,30 +21,38 @@ const initialState: State = {
   sessionCookie: "",
   username: "",
   userData: {},
-  fileUploaded:{},
+  fileUploaded: {},
   showPasswordUnlock: false,
   hasUser: false,
   password: null,
   mnemonic: null,
   unlocked: false,
-  entries: null
+  entries: null,
+  inviteCode: '',
 };
 
 const reducer = (state = initialState, action) => {
-  switch (action.type) {  
+  switch (action.type) {
     case types.LOGIN_USER.USER_LOGGED_SUCCESS:
-      return { ...state, userData: action.payload.res.data, unlocked: true, password: action.payload.password,username:action.payload.username };
+      return { ...state, userData: action.payload.res.data, unlocked: true, password: action.payload.password, username: action.payload.username };
     case types.SEND_FILE.FILE_SENT_SUCCESS:
       return { ...state, fileUploaded: action.payload };
     case types.SET_SYSTEM:
-        return {
-          ...state,
-          password: action.payload.password,
-          unlocked: true,
-          username:action.payload.username
-        };
+      return {
+        ...state,
+        password: action.payload.password,
+        unlocked: true,
+        username: action.payload.username
+      };
     case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
-      return { ...state, entries: action.payload.entries, unlocked: true};
+      return { ...state, entries: action.payload.entries, unlocked: true };
+    case types.STORE_USER_REGISTRATION_INFO:
+      return {
+        ...state,
+        username: action.payload.username,
+        password: action.payload.password,
+        inviteCode: action.payload.inviteCode,
+      };
     default:
       return state;
   }

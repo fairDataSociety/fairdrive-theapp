@@ -19,18 +19,19 @@ function Register(props: Props) {
 
   const [hasError, setHasError] = useState(false);
   const history = useHistory();
-  //add UseEffect when state changes to reload it and store it
-  useEffect(() => {
-    if (state.password) {
-      history.push("/drive/root");
-      window.location.reload();
-    }
-  }, [state.userData]);
 
   async function onContinue() {
-    // TODO
+    if(!username || !password) return null
+    // TODO validate inputs
 
-    console.log("Continue");
+    // Store username, password, invite code in store
+    const data = {
+      username,
+      password,
+      inviteCode,
+    }
+
+    actions.storeUserRegistrationInfo(data)
 
     history.push("/generate-seed");
     window.location.reload();
@@ -38,7 +39,6 @@ function Register(props: Props) {
 
   return (
     <div className={classes.Login}>
-      {state.password && <Redirect to={"/drive/root"} />}
       <div className={classes.title}>Account Credentials</div>
 
       <div className={classes.description}>
