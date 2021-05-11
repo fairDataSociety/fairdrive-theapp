@@ -6,6 +6,7 @@ import Main from "./main/main";
 import Home from "./home/home";
 import AuthRoute from "./authRoute/authRoute";
 import Login from "./../components/login/login";
+import Register from "./../components/register/register";
 export default function MainWrapper() {
   return (
     <Router>
@@ -15,6 +16,7 @@ export default function MainWrapper() {
         <Switch>
           <Route exact path="/create" />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
           <Route exact path="/" component={Main} />
           <Route exact path="/drive/:pod" component={Home} />
         </Switch>

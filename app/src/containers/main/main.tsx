@@ -18,6 +18,7 @@ function Main(props: Props) {
       {state.password && <Redirect to={"/drive/root"} />}
 
       <ButtonLink label="Login" color="grey" path="/login"></ButtonLink>
+      <ButtonLink label="Register" color="grey" path="/register"></ButtonLink>
     </div>
   );
 }
