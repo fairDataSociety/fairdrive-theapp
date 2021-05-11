@@ -52,7 +52,6 @@ const useStyles = makeStyles(() =>
       color: '#16181D',
 
       flex: 'none',
-      order: 1,
       flexGrow: 0,
       margin: '16px 0px',
     },
