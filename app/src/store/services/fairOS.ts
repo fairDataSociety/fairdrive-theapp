@@ -33,6 +33,8 @@ export async function createAccount(username: string, password: any, mnemonic: s
   }
 }
 
+
+
 export const login = async (payload: Payload) => {
   try {
    const {username, password} = payload;
@@ -68,6 +70,12 @@ export const login = async (payload: Payload) => {
     throw error;
   }
 }
+
+export const getSeedPhrase = async() =>{
+  // TODO get seed phrase
+  return 'word word word word word word word word word word word word'
+}
+
 export const getPods = async() =>{
   const podResult = await axios({
     baseURL: host,

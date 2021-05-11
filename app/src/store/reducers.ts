@@ -53,6 +53,11 @@ const reducer = (state = initialState, action) => {
         password: action.payload.password,
         inviteCode: action.payload.inviteCode,
       };
+    case types.SEED_PHRASE.SEED_PHRASE_SUCCESS:
+      return {
+        ...state,
+        mnemonic: action.payload
+      };
     default:
       return state;
   }
