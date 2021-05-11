@@ -5,8 +5,12 @@ import useStyles from "../register/registerStyles";
 import Button from "../button/button";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
+import SeedPhrase from '../seedPhrase/seedPhrase'
 import { useHistory, Redirect } from "react-router-dom";
 export interface Props { }
+
+// TODO move to store properly
+const SEED_PHRASE = 'word word word word word word word word word word word word'
 
 function SeedPhraseGen(props: Props) {
   const { state, actions } = useContext(StoreContext);
@@ -30,10 +34,10 @@ function SeedPhraseGen(props: Props) {
   async function onContinue() {
     // TODO
 
-     console.log("Continue");
+    console.log("Continue");
 
-     history.push("/confirm-seed");
-     window.location.reload();
+    history.push("/confirm-seed");
+    window.location.reload();
   }
 
   return (
@@ -48,13 +52,11 @@ function SeedPhraseGen(props: Props) {
 
       <div className={classes.flexer}></div>
 
-      <div className={classes.description}>
-        word word word word
-      </div>
+      < SeedPhrase seedPhrase={SEED_PHRASE} />
 
       {/* TODO need T&C checkbox */}
 
-      {hasError ? <div className={classes.errormsg}>Could not login.</div> : ""}
+      {hasError ? <div className={classes.errormsg}>Please confirm you understand how the seed phrase works.</div> : ""}
       <Button text={"Continue"} clickFunction={onContinue}></Button>
     </div>
   );
