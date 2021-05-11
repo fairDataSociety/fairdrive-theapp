@@ -3,6 +3,7 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import Button from "../button/button";
 import useStyles from "./uploadFileStyles";
+import TextField from "../textField/textField";
 
 export interface Props {
   file: any;
@@ -41,14 +42,12 @@ function ShareFile(props: Props) {
     <div className={classes.dialogBox}>
       <div className={classes.title}>Save file</div>
       <div className={classes.flexer}></div>
-      <input
-        id="username"
-        className={classes.dialogText}
-        type="text"
+      <TextField
         placeholder="File name"
-        onKeyPress={(e) => handleSubmit(e)}
-        onChange={(e) => handleSetFilename(e)}
-      ></input>
+        type="text"
+        setProp={setFilename}
+        onContinue={shareFile}
+      ></TextField>
       <div className={classes.flexer}></div>
       <Button text={"Save file"} clickFunction={shareFile}></Button>
     </div>

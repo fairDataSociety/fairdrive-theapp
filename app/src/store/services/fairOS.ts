@@ -10,7 +10,7 @@ interface Payload {
 }
 
 const host ="https://api.fairos.io/v0/";
-const podName = process.env.REACT_APP_NAME;
+const podName = "Fairdrive";
 export const login = async (payload: Payload) => {
   try {
    const {username, password} = payload;
@@ -190,14 +190,14 @@ export const fileDownload = async (file:any, filename:any) => {
 export const getDirectory = async (payload: Payload) => {
   const {directory, password, podName} = payload;
   try {
-    const openPod = await axios({
-      baseURL: host,
-      method: "POST",
-      url: "pod/open",
-      // add pod as function parameter
-      data: qs.stringify({ password: password, pod: "Fairdrive"}),
-      withCredentials: true,
-    });
+    // const openPod = await axios({
+    //   baseURL: host,
+    //   method: "POST",
+    //   url: "pod/open",
+    //   // add pod as function parameter
+    //   data: qs.stringify({ password: password, pod: "Fairdrive"}),
+    //   withCredentials: true,
+    // });
 
     let data = { dir: "" };
 

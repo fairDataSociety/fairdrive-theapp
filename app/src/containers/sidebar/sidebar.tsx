@@ -11,7 +11,7 @@ function Sidebar(props: Props) {
 
   const classes = useStyles({ ...props, ...theme });
   //Load pods
-  return !state.password && <div className={classes.Sidebar}></div>;
+  return state.password && <div className={classes.Sidebar}></div>;
 }
 
 export default React.memo(Sidebar);
