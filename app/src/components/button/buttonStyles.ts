@@ -19,7 +19,7 @@ const useStyles = makeStyles(() =>
       padding: "20px 42px",
       borderRadius: "4px",
       cursor: 'pointer',
-      border: "1px solid #16181D", 
+      border: "1px solid var(--grey)", 
       backgroundColor: (style: Props & Theme) => style.backgroundGrey,
       "&:hover": {
         color: "#EEF0FF"

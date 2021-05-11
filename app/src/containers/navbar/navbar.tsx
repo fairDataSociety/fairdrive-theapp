@@ -11,7 +11,7 @@ function Navbar(props: Props) {
 
   const classes = useStyles({ ...props, ...theme });
 
-  return !state.password && <div className={classes.Navbar}>Fairdrive</div>;
+  return state.password && <div className={classes.Navbar}>Fairdrive</div>;
 }
 
 export default React.memo(Navbar);

@@ -42,8 +42,8 @@ const reducer = (state = initialState, action) => {
           unlocked: true,
           username:action.payload.username
         };
-        case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
-          return { ...state, entries: action.payload.entries, unlocked: true};
+    case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
+      return { ...state, entries: action.payload.entries, unlocked: true};
     default:
       return state;
   }

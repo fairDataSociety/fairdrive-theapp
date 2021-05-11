@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./navbar/navbar";
 import Sidebar from "./sidebar/sidebar";
 import Main from "./main/main";
+import Home from "./home/home";
+import AuthRoute from "./authRoute/authRoute";
 import Login from "./../components/login/login";
-
 export default function MainWrapper() {
   return (
     <Router>
@@ -12,9 +13,10 @@ export default function MainWrapper() {
         <Navbar></Navbar>
         <Sidebar></Sidebar>
         <Switch>
-          <Route exact path="/" component={Main}></Route>
-          <Route exact path="/login" component={Login} />
           <Route exact path="/create" />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={Main} />
+          <Route exact path="/drive/:pod" component={Home} />
         </Switch>
       </div>
     </Router>

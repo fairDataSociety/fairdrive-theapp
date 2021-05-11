@@ -6,8 +6,9 @@ import useStyles from "./textFieldStyles";
 export interface Props {
   placeholder: string;
   setProp: any;
-  setHasError: any;
+  setHasError?: any;
   onContinue?: any;
+  type: string;
 }
 
 function TextField(props: Props) {
@@ -30,10 +31,9 @@ function TextField(props: Props) {
   return (
     <div className={classes.TextField}>
       <input
-        id="username"
         className={classes.input}
-        type="text"
-        placeholder="Username"
+        type={props.type}
+        placeholder={props.placeholder}
         onKeyPress={(e) => handleSubmit(e)}
         onChange={(e) => handleSetProp(e)}
       ></input>

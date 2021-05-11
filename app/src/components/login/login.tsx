@@ -5,6 +5,7 @@ import useStyles from "./loginStyles";
 import Button from "../button/button";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
+import { useHistory, Redirect } from "react-router-dom";
 export interface Props {}
 
 function Login(props: Props) {
@@ -16,47 +17,32 @@ function Login(props: Props) {
   const [password, setPassword] = useState("");
 
   const [hasError, setHasError] = useState(false);
-
-  const handleSetUsername = (e: any) => {
-    setUsername(e.target.value);
-    setHasError(false);
-  };
-
-  const handleSetPassword = (e: any) => {
-    setPassword(e.target.value);
-    setHasError(false);
-  };
-
-  function handleSubmit(e: any) {
-    if (e.charCode === 13) {
-      onLogin();
-    }
-  }
-
+  const history = useHistory();
   //add UseEffect when state changes to reload it and store it
   useEffect(() => {
-    if (props) {
+    if (state.password) {
+      history.push("/drive/root");
+      window.location.reload();
     }
   }, [state.userData]);
 
   async function onLogin() {
-    // TODO can look at logic from Fairdrive
-    // TODO get API calls for this
-    const data = await actions.userLogin({
+    await actions.userLogin({
       username,
       password,
       podName: "Fairdrive",
     });
-    // setHasError(true);
   }
 
   return (
     <div className={classes.Login}>
+      {state.password && <Redirect to={"/drive/root"} />}
       <div className={classes.title}>Login to Fairdrive app</div>
       <div className={classes.flexer}></div>
 
       <TextField
         placeholder="Username"
+        type="text"
         setHasError={setHasError}
         setProp={setUsername}
         onContinue={onLogin}
@@ -64,6 +50,7 @@ function Login(props: Props) {
 
       <TextField
         placeholder="Password"
+        type="password"
         setHasError={setHasError}
         setProp={setPassword}
         onContinue={onLogin}
