@@ -13,9 +13,9 @@ function SeedPhraseConfirm(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
+  const [wordFive, setWordFive] = useState('')
+  const [wordEleven, setWordEleven] = useState('')
+  const [wordFourteen, setWordFourteen] = useState('')
 
   const [hasError, setHasError] = useState(false);
   const history = useHistory();
@@ -43,9 +43,31 @@ function SeedPhraseConfirm(props: Props) {
 
       <div className={classes.flexer}></div>
 
-      <div className={classes.description}>
-        word word word word
-      </div>
+      <TextField
+        placeholder="Word #5"
+        type="text"
+        setHasError={setHasError}
+        setProp={setWordFive}
+        onContinue={onContinue}
+      ></TextField>
+
+      <TextField
+        placeholder="Word #11"
+        type="text"
+        setHasError={setHasError}
+        setProp={setWordEleven}
+        onContinue={onContinue}
+      ></TextField>
+
+      <TextField
+        placeholder="Word #14"
+        type="text"
+        setHasError={setHasError}
+        setProp={setWordFourteen}
+        onContinue={onContinue}
+      ></TextField>
+
+
 
       {/* TODO 3 word inputs to check seeed */}
 

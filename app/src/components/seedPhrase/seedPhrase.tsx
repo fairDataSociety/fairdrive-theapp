@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "../seedPhrase/seedPhraseStyles";
 
-
-
 export interface Props { seedPhrase: string }
 
 // Simple seed phrase component

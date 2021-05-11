@@ -7,17 +7,14 @@ const useStyles = makeStyles(() =>
   createStyles({
     SeedPhrase: {
       backgroundColor: (style: Props & Theme) => style.backgroundWhite,
-      paddingTop:"10rem",
       height: "100vh",
+      width: '100vh',
       display: "flex",
-      flexDirection: "column",
-      justifyItems: "center",
-      alignItems: "center",
-      overflowX: "hidden",
-      overflowY: "auto",
+      flexDirection: 'row',
     },
     word: {
-      
+      width: '50%',
+      flex: '50%',
     }
   })
 );
