@@ -15,6 +15,7 @@ const host ="https://api.fairos.io/v0/";
 const podName = "Fairdrive";
 
 export async function createAccount(payload: Payload) {
+  console.log('here');
   const {username, password, mnemonic} = payload
   try {
     const requestBody = {
@@ -30,7 +31,8 @@ export async function createAccount(payload: Payload) {
       data: qs.stringify(requestBody),
       withCredentials: true,
     });
-    return response.data;
+
+    return response;
   } catch (e) {
     console.log("error on timeout", e);
   }
@@ -40,6 +42,7 @@ export async function createAccount(payload: Payload) {
 
 export const login = async (payload: Payload) => {
   try {
+  console.log(payload);
    const {username, password} = payload;
     const requestBody = {
       user: username,
@@ -58,8 +61,7 @@ export const login = async (payload: Payload) => {
     const podResult = await getPods();
     if(!podResult.pod_name.includes(podName)){
       await createPod(password);
-    };
-
+    }
     const openPod = await axios({
       baseURL: host,
       method: "POST",
@@ -81,6 +83,29 @@ export const generateSeedPhrase = async() =>{
   return res
 }
 
+export const openPod = async(password) =>{
+  try{
+
+    const openPod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/open",
+      data: qs.stringify({ password: password, pod: podName }),
+      withCredentials: true,
+    });
+    const res = await getDirectory({directory:"root"});
+    if(podName === "Fairdrive" && res.data.entries.length==0){
+      await createDirectory("Documents");
+      await createDirectory("Movies");
+      await createDirectory("Music");
+      await createDirectory("Pictures");
+    }
+    return openPod;
+  } catch(err){
+    console.log(err);
+  }
+}
+
 export const getPods = async() =>{
   const podResult = await axios({
     baseURL: host,
@@ -91,18 +116,33 @@ export const getPods = async() =>{
   return podResult.data;
 }
 export const createPod = async(password: string) =>{
-  try{
-    const openPod = await axios({
-    baseURL: host,
-    method: "POST",
-    url: "pod/new",
-    data: qs.stringify({pod: podName }),
-    withCredentials: true,
-  });
-  return true;
-} catch(err){
-  return err;
+    try{
+      const createPod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/new",
+      data: qs.stringify({password: password, pod: podName }),
+      withCredentials: true,
+    });
+   
+    return true;
+  } catch(err){
+    return err;
+  }
 }
+export async function createDirectory(directoryName: string) {
+  // Dir = "/" + path + "/"
+  try {
+    const createPictursDirectory = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "dir/mkdir",
+      data: qs.stringify({ dir: directoryName }),
+      withCredentials: true,
+    });
+
+    return true;
+  } catch (error) {}
 }
 
 export const logOut = async () => {
@@ -225,14 +265,14 @@ export const fileDownload = async (file:any, filename:any) => {
 export const getDirectory = async (payload: Payload) => {
   const {directory, password, podName} = payload;
   try {
-    // const openPod = await axios({
-    //   baseURL: host,
-    //   method: "POST",
-    //   url: "pod/open",
-    //   // add pod as function parameter
-    //   data: qs.stringify({ password: password, pod: "Fairdrive"}),
-    //   withCredentials: true,
-    // });
+    const openPod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/open",
+      // add pod as function parameter
+      data: qs.stringify({ password: password, pod: "Fairdrive"}),
+      withCredentials: true,
+    });
 
     let data = { dir: "" };
 
