@@ -51,4 +51,5 @@ export interface Actions {
   getDirectory:(data:any) => void;
   storeUserRegistrationInfo:(data:any) => void;
   getSeedPhrase:(data:any) => void;
+  createUser:(data:any) => void;
 }

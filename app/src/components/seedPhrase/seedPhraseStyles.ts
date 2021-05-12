@@ -10,7 +10,7 @@ const useStyles = makeStyles(() =>
       height: "100vh",
       width: '100vh',
       display: "flex",
-      flexDirection: 'row',
+      flexDirection: 'column',
     },
     word: {
       width: '50%',

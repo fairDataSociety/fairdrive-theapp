@@ -14,6 +14,7 @@ export interface State {
   unlocked: boolean;
   entries: any;
   inviteCode: string;
+  address: string;
 }
 
 const initialState: State = {
@@ -29,12 +30,15 @@ const initialState: State = {
   unlocked: false,
   entries: null,
   inviteCode: '',
+  address:''
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN_USER.USER_LOGGED_SUCCESS:
       return { ...state, userData: action.payload.res.data, unlocked: true, password: action.payload.password, username: action.payload.username };
+    case types.CREATE_USER.CREATE_USER_SUCCESS:
+      return {...state, address: action.payload.data, unlocked: false};
     case types.SEND_FILE.FILE_SENT_SUCCESS:
       return { ...state, fileUploaded: action.payload };
     case types.SET_SYSTEM:
@@ -54,7 +58,6 @@ const reducer = (state = initialState, action) => {
         inviteCode: action.payload.inviteCode,
       };
     case types.SEED_PHRASE.SEED_PHRASE_SUCCESS:
-      console.log("payload", action.payload)
       return {
         ...state,
         mnemonic: action.payload

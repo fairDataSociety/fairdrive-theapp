@@ -28,10 +28,6 @@ export const applyMiddleware = (dispatch) => (action) => {
             type: types.CREATE_USER.CREATE_USER_SUCCESS,
             payload: res,
           });
-          dispatch({
-            type: types.LOGIN_USER.USER_LOGIN_REQUEST,
-            payload: action.payload,
-          });
         })
         .catch((err) =>
           dispatch({

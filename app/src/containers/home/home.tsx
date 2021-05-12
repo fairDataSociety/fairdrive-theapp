@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import useStyles from "./homeStyles";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
+import { openPod } from "../../store/services/fairOS";
 export interface Props {}
 
 function BoilerPlate(props: Props) {
