@@ -20,6 +20,15 @@ function Register(props: Props) {
   const [hasError, setHasError] = useState(false);
   const history = useHistory();
 
+  useEffect(() => {
+    
+    if(state.mnemonic !== null) {
+      console.log(state.mnemonic);
+      history.push("/generate-seed");
+    }
+
+  }, [state.mnemonic])
+
   async function onContinue() {
     if(!username || !password) return null
     // TODO validate inputs
@@ -33,9 +42,6 @@ function Register(props: Props) {
 
     actions.storeUserRegistrationInfo(data)
     actions.getSeedPhrase({})
-
-    history.push("/generate-seed");
-    window.location.reload();
   }
 
   return (

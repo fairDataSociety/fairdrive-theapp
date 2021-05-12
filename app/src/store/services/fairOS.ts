@@ -1,9 +1,11 @@
 import axios from "axios";
 import qs from "querystring";
 import FileSaver from "file-saver";
+import generateMnemonic from "../helpers/utils";
 interface Payload {
   username?: string;
   password?: string;
+  mnemonic?: string;
   podName?: string;
   file?: any;
   directory?: string;
@@ -12,7 +14,8 @@ interface Payload {
 const host ="https://api.fairos.io/v0/";
 const podName = "Fairdrive";
 
-export async function createAccount(username: string, password: any, mnemonic: string) {
+export async function createAccount(payload: Payload) {
+  const {username, password, mnemonic} = payload
   try {
     const requestBody = {
       user: username,
@@ -74,7 +77,8 @@ export const login = async (payload: Payload) => {
 export const generateSeedPhrase = async() =>{
   // TODO get seed phrase
   console.log("Creating seed phrase...")
-  return 'word word word word word word word word word word word word word word word word word word'
+  let res = await generateMnemonic()
+  return res
 }
 
 export const getPods = async() =>{

@@ -54,11 +54,10 @@ const reducer = (state = initialState, action) => {
         inviteCode: action.payload.inviteCode,
       };
     case types.SEED_PHRASE.SEED_PHRASE_SUCCESS:
+      console.log("payload", action.payload)
       return {
         ...state,
-        // TODO fix this
-        // mnemonic: action.payload
-        mnemonic: 'word word word word word word word word word word word word word word word word word word'
+        mnemonic: action.payload
       };
     default:
       return state;

@@ -33,11 +33,16 @@ export const useActions = (state, dispatch) => ({
   },
   getSeedPhrase: (data) => {
     dispatch({
-      // TODO fix this - make request
-      type: types.SEED_PHRASE.SEED_PHRASE_SUCCESS,
+      type: types.SEED_PHRASE.SEED_PHRASE_REQUEST,
       payload: data,
     });
-  }
+  },
+  createUser: (data) => {
+    dispatch({
+      type: types.CREATE_USER.CREATE_USER_REQUEST,
+      payload: data,
+    });
+  },
 });
 
 export interface Actions {

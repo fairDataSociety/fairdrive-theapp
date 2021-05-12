@@ -19,16 +19,9 @@ function SeedPhraseConfirm(props: Props) {
 
   const [hasError, setHasError] = useState(false);
   const history = useHistory();
-  //add UseEffect when state changes to reload it and store it
-  useEffect(() => {
-    if (state.password) {
-      history.push("/drive/root");
-      window.location.reload();
-    }
-  }, [state.userData]);
 
   async function onRegister() {
-    console.log(state.mnemonic);
+    console.log("in confirm component", state.mnemonic);
     
     if(!state.mnemonic) return null
     const seedWords = state.mnemonic.split(" ")
@@ -42,8 +35,6 @@ function SeedPhraseConfirm(props: Props) {
       // TODO
       console.log("Continue");
     }
-
-    
   }
 
   return (
