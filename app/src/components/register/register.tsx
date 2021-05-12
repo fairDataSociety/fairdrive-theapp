@@ -6,7 +6,8 @@ import Button from "../button/button";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
-export interface Props { }
+import { isUsernamePresent } from "../../store/services/fairOS";
+export interface Props {}
 
 function Register(props: Props) {
   const { state, actions } = useContext(StoreContext);
@@ -21,16 +22,15 @@ function Register(props: Props) {
   const history = useHistory();
 
   useEffect(() => {
-    
-    if(state.mnemonic !== null) {
+    if (state.mnemonic !== null) {
       console.log(state.mnemonic);
       history.push("/generate-seed");
     }
-
-  }, [state.mnemonic])
+  }, [state.mnemonic]);
 
   async function onContinue() {
-    if(!username || !password) return null
+    if (await isUsernamePresent(username)) return false;
+    if (!username || !password) return null;
     // TODO validate inputs
 
     // Store username, password, invite code in store
@@ -38,10 +38,10 @@ function Register(props: Props) {
       username,
       password,
       inviteCode,
-    }
+    };
 
-    actions.storeUserRegistrationInfo(data)
-    actions.getSeedPhrase({})
+    actions.storeUserRegistrationInfo(data);
+    actions.getSeedPhrase({});
   }
 
   return (
@@ -49,7 +49,9 @@ function Register(props: Props) {
       <div className={classes.title}>Account Credentials</div>
 
       <div className={classes.description}>
-        Depending on the option you choose, you’ll either get to log back in or register a new account. All of this will be automatically determined for you.
+        Depending on the option you choose, you’ll either get to log back in or
+        register a new account. All of this will be automatically determined for
+        you.
       </div>
 
       <div className={classes.flexer}></div>

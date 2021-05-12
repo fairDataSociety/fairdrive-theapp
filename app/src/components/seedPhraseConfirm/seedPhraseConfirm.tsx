@@ -70,11 +70,7 @@ function SeedPhraseConfirm(props: Props) {
       await createPod(state.password);
 
       setPodCreated(true);
-      await createDirectory("Documents");
-      await createDirectory("Movies");
-      await createDirectory("Music");
-      await createDirectory("Pictures");
-      setFolderCreated(true);
+
       history.push("/drive/root");
       setRegisterLoader(true);
     }
