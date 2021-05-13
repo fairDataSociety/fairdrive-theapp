@@ -3,6 +3,9 @@
 Demo: https://app.fairdrive.io
 
 Create .env file and copy content from env.example
+For testing puproses use credentials:
+voltron
+test1234
 To run locally:
 
 - clone repo
