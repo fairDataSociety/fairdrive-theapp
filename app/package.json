@@ -1,0 +1,71 @@
+{
+  "name": "fairdrive-app",
+  "version": "0.0.1",
+  "description": "Linum Labs Internal Boilerplate",
+  "author": "Kent Fourie",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.tsx",
+  "dependencies": {
+    "@ethersproject/providers": "^5.0.24",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/styles": "^4.11.3",
+    "@portis/web3": "^2.0.0-beta.59",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.41",
+    "@types/react-dom": "^16.9.8",
+    "@walletconnect/web3-provider": "^1.3.1",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "@web3-react/portis-connector": "^6.1.9",
+    "@web3-react/torus-connector": "^6.1.9",
+    "cross-env": "7.0.3",
+    "ethers": "4.0.38",
+    "file-saver": "^2.0.5",
+    "fortmatic": "^2.2.1",
+    "moment": "^2.29.1",
+    "react": "^16.13.1",
+    "react-click-away-listener": "^2.0.0",
+    "react-copy-to-clipboard": "^5.0.2",
+    "react-dom": "^16.13.1",
+    "react-hooks-helper": "^1.6.0",
+    "react-identicons": "^1.2.4",
+    "react-jazzicon": "^0.1.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-transition-group": "^4.4.1",
+    "typescript": "~3.7.2",
+    "web3": "^1.2.9",
+    "web3modal": "^1.9.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {},
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}

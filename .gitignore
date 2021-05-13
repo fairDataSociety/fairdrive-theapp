@@ -1,0 +1,13 @@
+app/node_modules/
+app/src/interfaces/
+app/dist/
+app/build/
+app/yarn.lock
+app/yarn-error.log
+app/.env
+app/.DS_Store
+app/package-lock.json
+app/debug.log
+example/
+old-app/
+.DS_Store
