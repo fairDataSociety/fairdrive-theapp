@@ -190,11 +190,26 @@ export const createPod = async(password: string) =>{
       const openPod = await axios({
       baseURL: host,
       method: "POST",
-      url: "pod/new",
+      url: "pod/open",
       data: {pod_name: podName, password: password },
       withCredentials: true,
     });
     return true;
+  } catch(err){
+    return err;
+  }
+}
+
+export const closePod = async(password: string) =>{
+  try{
+      const closePod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/close",
+      data: {pod_name: podName, password: password },
+      withCredentials: true,
+    });
+    return closePod;
   } catch(err){
     return err;
   }
@@ -215,6 +230,73 @@ export const openPod = async(password: string, podName: string) =>{
   }
 }
 
+export const syncPod = async(password: string, podName: string) =>{
+  try{
+      const syncPodRes = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/sync",
+      withCredentials: true,
+    });
+    return syncPodRes;
+  } catch(err){
+    return err;
+  }
+}
+export const sharePod = async(password: string, podName: string) =>{
+  try{
+      const sharePodRes = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/share",
+      data: {pod_name: podName, password: password },
+      withCredentials: true,
+    });
+    return sharePodRes;
+  } catch(err){
+    return err;
+  }
+}
+
+export const deletePod = async(password: string, podName: string) =>{
+  try{
+      const deletePodRes = await axios({
+      baseURL: host,
+      method: "DELETE",
+      url: "pod/delete",
+      data: {pod_name: podName},
+      withCredentials: true,
+    });
+    return deletePodRes;
+  } catch(err){
+    return err;
+  }
+}
+
+export const getPods = async() => {
+  const podResult = await axios({
+    baseURL: host,
+    method: "GET",
+    url: "pod/ls",
+    withCredentials: true,
+  });
+  return podResult;
+}
+
+export const getPodStats = async(payload:Payload) => {
+  try{
+    const deletePodRes = await axios({
+    baseURL: host,
+    method: "GET",
+    url: "pod/stat",
+    data: {pod_name: payload.podName},
+    withCredentials: true,
+  });
+  return deletePodRes;
+} catch(err){
+  return err;
+}
+}
 export const showReceivedPodInfo = async(payload: Payload) =>{
   const podResult = await axios({
     baseURL: host,
@@ -238,15 +320,7 @@ export const receivePod = async(payload: Payload) =>{
   return podResult;
 }
 
-export const getPods = async() => {
-  const podResult = await axios({
-    baseURL: host,
-    method: "GET",
-    url: "pod/ls",
-    withCredentials: true,
-  });
-  return podResult;
-}
+
 
 
 
