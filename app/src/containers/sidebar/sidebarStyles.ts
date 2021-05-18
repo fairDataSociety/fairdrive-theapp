@@ -7,8 +7,8 @@ const useStyles = makeStyles(() =>
     Sidebar: {
       backgroundColor: (style: Props & Theme) => style.backgroundBlack,
       borderBottom: "1px solid lightgrey",
-      width: "10rem",
-      height: "100vh",
+      width: "17rem",
+      height: "120vh",
       position: "absolute",
       display: "flex",
       justifyContent: "space-between",

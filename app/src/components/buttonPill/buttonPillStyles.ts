@@ -6,14 +6,13 @@ import { Props } from "./buttonPill";
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      // from bodyBold in Fairdrive:
       fontWeight: 'bold',
       fontSize: '16px',
       letterSpacing: '0',
       lineHeight: '19px',
       // custom
-      minWidth: "200px",
-      maxWidth: "280px",
+      minWidth: "40rem",
+      maxWidth: "55rem",
       textAlign: 'center',
       boxSizing: 'border-box',
       padding: "20px 42px",
@@ -26,6 +25,7 @@ const useStyles = makeStyles(() =>
       },
       margin:"0 auto 2rem auto"
     },
+
   })
 );
 

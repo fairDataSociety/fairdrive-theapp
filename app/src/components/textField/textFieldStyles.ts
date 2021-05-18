@@ -6,11 +6,11 @@ import { Props } from "./textField";
 const useStyles = makeStyles(() =>
   createStyles({
     TextField: {
-      width: "75vw",
       display: "flex",
+      background: ' #EEF0FF',
       flexDirection: "column",
-      placeItems: "center center",
-      marginBottom: '40px',
+      placeItems: "center",
+      margin: '4rem 0 0 0',
       color:"#16181D",
     },
     input: {
@@ -21,14 +21,17 @@ const useStyles = makeStyles(() =>
       letterSpacing: '0',
       lineHeight: '19px',
       // custom
-      width: "205px",
+      width:"40rem",
+      height:"5rem",
       textAlign: 'left',
-      paddingBottom: '5px',
-      border: "0px",
-      borderBottom: "1px solid #16181D",
+      paddingBottom: '1rem',
+      border: "1px solid var(--black)",
       backgroundColor: "transparent",
+      borderRadius:"1rem",
+      padding:"1rem",
       color:"#16181D",
       outline: 'none',
+      background:"transparent",
     },
   })
 );

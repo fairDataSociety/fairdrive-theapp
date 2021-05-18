@@ -6,23 +6,28 @@ import { Props } from "./fileModal";
 const useStyles = makeStyles(() =>
   createStyles({
     modalContainer:{
-      height: "100%",
+      height: "100vh",
       width:"50rem",
-      marginLeft: "calc(100% - 50rem)",
+      marginLeft: "calc(100% - 45rem)",
+      overflowX: "hidden",
+      overflowY: "auto",
     },
     fileModal:{
       padding:"3.5rem",
       background: (style: Props & Theme) => style.backgroundWhite,
       border: "1px solid var(--grey)",
-      height: "100%",
-      width:"50rem",
+      height: "100vh",
+      width:"45rem",
       margin: "0rem",
       justifyContent: "flex-end",
       textAlign: "center",
       // display: "flex",
       flexDirection: "column",
       alignItems: "left",
-      cursor:"pointer"
+      cursor:"pointer",
+      overflowX: "hidden",
+      overflowY: "auto",
+      
     },
     title:{
       font:(style: Props & Theme) => style.typography.p2,
@@ -34,13 +39,19 @@ const useStyles = makeStyles(() =>
 
     },
     iconContainer: {
-      margin: "0 1rem 0 1rem",
       width: "100%",
-      height: "50rem",
+      height: "45rem",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       borderRadius: "50%",
+    },
+    imagePreview:{
+      width: "100%",
+      height: "45rem",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
     Icon: {
       width: "8rem",

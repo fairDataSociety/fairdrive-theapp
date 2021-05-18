@@ -8,13 +8,23 @@ const useStyles = makeStyles(() =>
     Home: {
       // we merge Props & Theme interfaces and call this merged object "style".
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
-      backgroundColor: (style: Props & Theme) => style.backgroundWhite,
-      left:"15rem",
-      top:"15rem",
-      width: "100%",
-      height: "auto",
+      backgroundColor: "transparent",
       position:"absolute",
-      display: "flex",
+      display:"flex",
+      flexDirection:"column",
+      margin: "7rem 0 0 19rem",
+
+    },
+    buttonNavBar:{
+      marginLeft: "auto",
+      marginRight: "0"
+    },
+    uploadInput:{
+      opacity:"0"
+    },
+    Icon: {
+      width: "5rem",
+      height: "5rem",
     },
   })
 );

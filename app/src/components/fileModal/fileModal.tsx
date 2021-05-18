@@ -7,7 +7,8 @@ import FileCard from "../cards/fileCard";
 import { InfoIcon } from "../icons/icons";
 import ButtonPill from "../buttonPill/buttonPill";
 import urlPath from "../../store/helpers/urlPath";
-import { fileDownload } from "../../store/services/fairOS";
+import writePath from "../../store/helpers/writePath";
+import { fileDownload, filePreview } from "../../store/services/fairOS";
 import { useParams } from "react-router-dom";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
@@ -28,7 +29,8 @@ function FileModal(props: Props) {
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
-
+  const [blob, setBlob] = useState(null);
+  let blobFile;
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
@@ -37,22 +39,24 @@ function FileModal(props: Props) {
     }
   }, [file]);
 
-  const handleOpen = () => {
+  const handleOpen = async () => {
+    const newPath = writePath(path);
+
+    blobFile = window.URL.createObjectURL(
+      await filePreview(newPath + file.name)
+    );
+    setBlob(blobFile);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    URL.revokeObjectURL(blobFile);
   };
   async function handleDownload() {
-    let writePath = "";
-    if (path == "root") {
-      writePath = "/";
-    } else {
-      writePath = "/" + urlPath(path) + "/";
-    }
-    await fileDownload(writePath + props.file.name, props.file.name).catch(
-      (e) => console.error(e)
+    const newPath = writePath(path);
+    await fileDownload(newPath + props.file.name, props.file.name).catch((e) =>
+      console.error(e)
     );
   }
   const classes = useStyles({ ...props, ...theme });
@@ -73,7 +77,12 @@ function FileModal(props: Props) {
           <div className={classes.header}>Previewing File</div>
 
           <div className={classes.iconContainer}>
-            <InfoIcon className={classes.Icon} />
+            {!file.content_type.includes("image") && (
+              <InfoIcon className={classes.Icon} />
+            )}
+            {file.content_type.includes("image") && (
+              <img className={classes.imagePreview} src={blob}></img>
+            )}
           </div>
 
           <p className={classes.title}>{file.name}</p>

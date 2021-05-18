@@ -5,6 +5,7 @@ import useStyles from "./cardHeaderStyles";
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   heading: string;
+  isDirectory?: boolean;
 }
 
 function CardHeader(props: Props) {

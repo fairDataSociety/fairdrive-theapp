@@ -1,12 +1,14 @@
 import axios from "axios";
 import qs from "querystring";
 import FileSaver from "file-saver";
+import urlPath from '../helpers/urlPath';
 interface Payload {
   username?: string;
   password?: string;
   podName?: string;
   file?: any;
   directory?: string;
+  files?:any;
 }
 
 const host ="https://api.fairos.io/v0/";
@@ -147,46 +149,51 @@ export const isUsernamePresent = async (username: string) => {
   }
 }
 
-export const fileUpload = async (fileData: any) => {
-  let formData = new FormData();
-  var file = new File([fileData.file], fileData.filename);
-  formData.append("files", file);
-  formData.append("pod_dir", "/" );
-  formData.append("block_size", "64Mb");
-  const uploadFiles = await axios({
-    baseURL: host,
-    method: "POST",
-    url: "file/upload",
-    data: formData,
-    withCredentials: true
-  });
-
-  return true;
-}
-
-
-// export const fileUpload = async (files:any, directory:any, onUploadProgress:any) => {
-//   const formData = new FormData();
-//   for (const file of files) {
-//     formData.append("files", file);
-//   }
-//   formData.append("pod_dir", "/" + directory);
+// export const fileUpload = async (fileData: any) => {
+//   let formData = new FormData();
+//   var file = new File([fileData.file], fileData.filename);
+//   formData.append("files", file);
+//   formData.append("pod_dir", "/" );
 //   formData.append("block_size", "64Mb");
-
 //   const uploadFiles = await axios({
 //     baseURL: host,
 //     method: "POST",
 //     url: "file/upload",
 //     data: formData,
-//     withCredentials: true,
-//     onUploadProgress: function (event) {
-//       onUploadProgress(event.loaded, event.total);
-//     },
+//     withCredentials: true
 //   });
 
-//   console.log(uploadFiles);
 //   return true;
 // }
+
+
+export const fileUpload = async (payload:Payload) => {
+  const {files, directory} = payload;
+  // const newPath = writePath(path);
+  let writePath = "";
+  if (directory == "root") {
+    writePath = "/";
+  } else {
+    writePath = "/" + urlPath(directory);
+  }
+  const formData = new FormData();
+  for (const file of files) {
+    formData.append("files", file);
+  }
+  formData.append("pod_dir", writePath);
+  formData.append("block_size", "64Mb");
+
+  const uploadFiles = await axios({
+    baseURL: host,
+    method: "POST",
+    url: "file/upload",
+    data: formData,
+    withCredentials: true,
+  });
+
+  console.log(uploadFiles);
+  return true;
+}
 
 export const fileDownload = async (file:any, filename:any) => {
   try {
@@ -204,6 +211,22 @@ export const fileDownload = async (file:any, filename:any) => {
 
     //const blob = new Blob(downloadFile.data)
     return downloadFile;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const filePreview = async (file:any) => {
+  try {
+    const downloadFile = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "file/download",
+      data: qs.stringify({ file: file }),
+      responseType: "blob",
+      withCredentials: true,
+    });
+    return downloadFile.data;
   } catch (error) {
     throw error;
   }
@@ -280,6 +303,21 @@ export const storeAvatar = async (avatar:any) => {
     console.log("error on timeout", e);
   }
 }
+export async function createDirectory(directoryName: string) {
+  // Dir = "/" + path + "/"
+  try {
+    const createDirectory = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "dir/mkdir",
+      data: qs.stringify({ dir: directoryName }),
+      withCredentials: true,
+    });
+
+    return true;
+  } catch (error) {}
+}
+
 
 async function readAsbase64(blob:any) {
   const tempFileReader = new FileReader();

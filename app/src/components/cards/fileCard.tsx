@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardWrapper from "./cardWrapper/cardWrapper";
 import CardHeader from "./cardHeader/cardHeader";
 import CardBody from "./cardBody/cardBody";
-import { InfoIcon } from "../icons/icons";
+import { InfoIcon, Folder } from "../icons/icons";
 import { useHistory, Redirect } from "react-router-dom";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
@@ -14,6 +14,7 @@ export interface Props {
 
 function FileCard(props: Props) {
   const { file } = props;
+
   const history = useHistory();
   async function onFileClick() {
     if (file.content_type === "inode/directory") {
@@ -24,8 +25,11 @@ function FileCard(props: Props) {
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
-
+  const [Icon, setIcon] = useState(null);
   useEffect(() => {
+    file.content_type === "inode/directory"
+      ? setIcon(Folder)
+      : setIcon(InfoIcon);
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
       setFileCreateDate(
@@ -39,7 +43,11 @@ function FileCard(props: Props) {
 
   return (
     <CardWrapper onFileClick={onFileClick} size={props.size}>
-      <CardHeader Icon={InfoIcon} heading={file.name} />
+      <CardHeader
+        isDirectory={file.content_type === "inode/directory"}
+        Icon={Icon}
+        heading={file.name}
+      />
       <CardBody fileSize={fileSize} dateCreated={fileCreateDate} />
     </CardWrapper>
   );
