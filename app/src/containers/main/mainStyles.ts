@@ -4,7 +4,7 @@ import { Props } from "./main";
 const useStyles = makeStyles(() =>
   createStyles({
     Main: {
-      padding:"23rem 0 23rem 0",
+      padding:"23rem 0 30rem 0",
       backgroundColor: (style: Props & Theme) => style.backgroundWhite,
       width: "auto",
       height: "100vh",

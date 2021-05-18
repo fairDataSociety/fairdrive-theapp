@@ -12,6 +12,7 @@ export interface State {
   password: string;
   mnemonic: string;
   unlocked: boolean;
+  searchQuery:string;
   entries: any;
 }
 
@@ -26,6 +27,7 @@ const initialState: State = {
   password: null,
   mnemonic: null,
   unlocked: false,
+  searchQuery:null,
   entries: null
 };
 
@@ -44,6 +46,11 @@ const reducer = (state = initialState, action) => {
         };
     case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
       return { ...state, entries: action.payload.entries, unlocked: true};
+    case types.SET_SEARCH_QUERY:
+        return {
+          ...state,
+          searchQuery: action.payload
+        };
     default:
       return state;
   }

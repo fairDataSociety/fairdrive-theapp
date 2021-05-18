@@ -11,8 +11,9 @@ const useStyles = makeStyles(() =>
       justifyContent: "center",
       backgroundColor: "transparent",
       color: (style: Theme & Props) => style.textColor,
-      borderBottom: "1px solid var(--grey)", 
-      width:"100%"
+      borderBottom:  (style: Theme & Props) => style.isDirectory?"":"1px solid var(--grey)", 
+      width:"100%",
+      height:"15rem"
     },
     iconContainer: {
       margin: "0 0 1rem 0",

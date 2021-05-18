@@ -13,7 +13,7 @@ export const useActions = (state, dispatch) => ({
       payload: "",
     });
   },
-  sendFile:(data)=>{
+  uploadFile:(data)=>{
     dispatch({
       type: types.SEND_FILE.SEND_FILE_REQUEST,
       payload: data,
@@ -24,12 +24,19 @@ export const useActions = (state, dispatch) => ({
       type: types.GET_DIRECTORY.GET_DIRECTORY_REQUEST,
       payload: data,
     });
+  },
+  setSearchQuery:(data)=>{
+    dispatch({
+      type: types.SET_SEARCH_QUERY,
+      payload: data,
+    });
   }
 
 });
 
 export interface Actions {
   userLogin:(data: any) => void;
-  sendFile:(data:any) => void;
+  uploadFile:(data:any) => void;
   getDirectory:(data:any) => void;
+  setSearchQuery:(data:any) => void;
 }

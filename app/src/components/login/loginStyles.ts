@@ -16,14 +16,18 @@ const useStyles = makeStyles(() =>
       overflowX: "hidden",
       overflowY: "auto",
     },
+    header:{
+      padding:"1rem 0 1rem 0",
+      font: (style: Props & Theme) => style.typography.p1,
+      marginBottom:"2rem"
+    },
     flexer: {
-      margin: "40px",
+      margin: "3rem",
     },
     title: {
       margin: "20px",
-      fontFamily: 'Work Sans',
       fontWeight: 'bold',
-      fontSize: '34px',
+      font: (style: Props & Theme) => style.typography.h1,
       letterSpacing: '0',
       lineHeight: '36px',
       marginBottom: '20px',

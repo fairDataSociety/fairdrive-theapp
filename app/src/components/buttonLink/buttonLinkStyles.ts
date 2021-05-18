@@ -3,6 +3,11 @@ import { makeStyles, createStyles } from "@material-ui/styles";
 import { Theme } from "../../store/themeContext/themes";
 import { Props } from "./buttonLink";
 
+const size = {
+  large:"55rem",
+  medium:"40rem",
+  small:"20rem"
+}
 const useStyles = makeStyles(() =>
   createStyles({
     ButtonLink: {
@@ -12,8 +17,8 @@ const useStyles = makeStyles(() =>
       letterSpacing: '0',
       lineHeight: '19px',
       // custom
-      minWidth: "200px",
-      maxWidth: "280px",
+      minWidth: "40rem",
+      maxWidth: "55rem",
       textAlign: 'center',
       boxSizing: 'border-box',
       padding: "20px 42px",

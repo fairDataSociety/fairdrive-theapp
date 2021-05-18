@@ -30,10 +30,10 @@ function ShareFile(props: Props) {
 
   const shareFile = async () => {
     try {
-      await actions.sendFile({
-        file: props.file,
-        filename: filename,
-      });
+      // await actions.sendFile({
+      //   file: props.file,
+      //   filename: filename,
+      // });
     } catch (e) {
       console.log(e);
     }
