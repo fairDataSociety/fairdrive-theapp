@@ -5,7 +5,10 @@ import urlPath from '../helpers/urlPath';
 interface Payload {
   username?: string;
   password?: string;
+  mnemonic?: string
+  address?: string;
   podName?: string;
+  podReference?: string;
   file?: any;
   directory?: string;
   files?:any;
@@ -14,19 +17,18 @@ interface Payload {
 const host ="https://api.fairos.io/v0/";
 const podName = "Fairdrive";
 
-export async function createAccount(username: string, password: any, mnemonic: string) {
+export async function createAccount(payload: Payload) {
   try {
-    const requestBody = {
-      user: username,
-      password: password,
-      mnemonic: mnemonic,
-    };
 
     const response = await axios({
       baseURL: host,
       method: "POST",
       url: "user/signup",
-      data: qs.stringify(requestBody),
+      data: {
+        user_name: payload.username,
+        password: payload.password,
+        mnemonic: payload.mnemonic,
+      },
       withCredentials: true,
     });
     return response.data;
@@ -38,60 +40,44 @@ export async function createAccount(username: string, password: any, mnemonic: s
 export const login = async (payload: Payload) => {
   try {
    const {username, password} = payload;
-    const requestBody = {
-      user: username,
-      password: password,
-    };
-
 
     const response = await axios({
       baseURL: host,
       url: "user/login",
       method: "POST",
-      data: qs.stringify(requestBody),
+      data: {
+        user_name: username,
+        password: password,
+      },
       withCredentials: true,
     });
 
     const podResult = await getPods();
-    if(!podResult.pod_name.includes(podName)){
+    if(!podResult.data.pod_name.includes(podName)){
       await createPod(password);
     };
 
-    const openPod = await axios({
-      baseURL: host,
-      method: "POST",
-      url: "pod/open",
-      data: qs.stringify({ password: password, pod: podName }),
-      withCredentials: true,
-    });
-
+    const resPod = await openPod(password,podName);
+    
     return { res: response };
   } catch (error) {
     throw error;
   }
 }
-export const getPods = async() =>{
-  const podResult = await axios({
-    baseURL: host,
-    method: "GET",
-    url: "pod/ls",
-    withCredentials: true,
-  });
-  return podResult.data;
-}
-export const createPod = async(password: string) =>{
-  try{
-    const openPod = await axios({
+
+export const importUser = async( payload: Payload) =>{
+  const response = await axios({
     baseURL: host,
     method: "POST",
-    url: "pod/new",
-    data: qs.stringify({pod: podName }),
+    url: "user/import",
+    data: {
+      user_name: payload.username,
+      password: payload.password,
+      address: payload.address
+    },
     withCredentials: true,
   });
-  return true;
-} catch(err){
-  return err;
-}
+  return response;
 }
 
 export const logOut = async () => {
@@ -110,7 +96,7 @@ export const logOut = async () => {
 }
 
 
-export const isLoggedIn = async (username: string) => {
+export const userLoggedIn = async (username: string) => {
   try {
     const requestBody = {
       user: username,
@@ -132,7 +118,7 @@ export const isLoggedIn = async (username: string) => {
 export const isUsernamePresent = async (username: string) => {
   try {
     const requestBody = {
-      user: username,
+      user_name: username,
     };
 
     const response = await axios({
@@ -148,6 +134,122 @@ export const isUsernamePresent = async (username: string) => {
     throw error;
   }
 }
+
+export const exportUser = async () => {
+  try {
+    const response = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "user/export",
+      withCredentials: true,
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export const deleteUser = async (payload: Payload) => {
+  try {
+    const response = await axios({
+      baseURL: host,
+      method: "DELETE",
+      url: "user/delete",
+      data: {
+        password: payload.password
+      },
+      withCredentials: true,
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const userStats = async () => {
+  try {
+    const response = await axios({
+      baseURL: host,
+      method: "GET",
+      url: "user/stat",
+      withCredentials: true,
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export const createPod = async(password: string) =>{
+  try{
+      const openPod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/new",
+      data: {pod_name: podName, password: password },
+      withCredentials: true,
+    });
+    return true;
+  } catch(err){
+    return err;
+  }
+}
+
+export const openPod = async(password: string, podName: string) =>{
+  try{
+      const openPod = await axios({
+      baseURL: host,
+      method: "POST",
+      url: "pod/open",
+      data: {pod_name: podName, password: password },
+      withCredentials: true,
+    });
+    return openPod;
+  } catch(err){
+    return err;
+  }
+}
+
+export const showReceivedPodInfo = async(payload: Payload) =>{
+  const podResult = await axios({
+    baseURL: host,
+    method: "GET",
+    url: "pod/receiveinfo",
+    params:{reference:payload.podReference},
+    withCredentials: true,
+  });
+  return podResult;
+}
+
+
+export const receivePod = async(payload: Payload) =>{
+  const podResult = await axios({
+    baseURL: host,
+    method: "GET",
+    url: "pod/receive",
+    params:{reference:payload.podReference},
+    withCredentials: true,
+  });
+  return podResult;
+}
+
+export const getPods = async() => {
+  const podResult = await axios({
+    baseURL: host,
+    method: "GET",
+    url: "pod/ls",
+    withCredentials: true,
+  });
+  return podResult;
+}
+
+
+
 
 // export const fileUpload = async (fileData: any) => {
 //   let formData = new FormData();
