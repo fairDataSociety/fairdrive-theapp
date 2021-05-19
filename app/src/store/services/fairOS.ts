@@ -14,7 +14,7 @@ interface Payload {
   files?:any;
 }
 
-const host ="https://api.fairos.io/v0/";
+const host ="http://localhost:9090/v1/";
 const podName = "Fairdrive";
 
 export async function createAccount(payload: Payload) {
@@ -24,10 +24,13 @@ export async function createAccount(payload: Payload) {
       baseURL: host,
       method: "POST",
       url: "user/signup",
-      data: {
+      data: JSON.stringify({
         user_name: payload.username,
         password: payload.password,
         mnemonic: payload.mnemonic,
+      }),
+      headers:{
+        'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
@@ -48,6 +51,9 @@ export const login = async (payload: Payload) => {
       data: {
         user_name: username,
         password: password,
+      },
+      headers:{
+        'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
@@ -75,6 +81,9 @@ export const importUser = async( payload: Payload) =>{
       password: payload.password,
       address: payload.address
     },
+    headers:{
+      'Content-Type': 'application/json'
+    },
     withCredentials: true,
   });
   return response;
@@ -86,6 +95,9 @@ export const logOut = async () => {
       baseURL: host,
       method: "POST",
       url: "user/logout",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
 
@@ -106,6 +118,9 @@ export const userLoggedIn = async (username: string) => {
       method: "GET",
       url: "user/isloggedin",
       params: qs.stringify(requestBody, "brackets"),
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
 
@@ -126,6 +141,9 @@ export const isUsernamePresent = async (username: string) => {
       method: "GET",
       url: "user/present",
       params: qs.stringify(requestBody, "brackets"),
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
 
@@ -141,6 +159,9 @@ export const exportUser = async () => {
       baseURL: host,
       method: "POST",
       url: "user/export",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
 
@@ -157,6 +178,9 @@ export const deleteUser = async (payload: Payload) => {
       baseURL: host,
       method: "DELETE",
       url: "user/delete",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       data: {
         password: payload.password
       },
@@ -175,6 +199,9 @@ export const userStats = async () => {
       baseURL: host,
       method: "GET",
       url: "user/stat",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
 
@@ -191,6 +218,9 @@ export const createPod = async(password: string) =>{
       baseURL: host,
       method: "POST",
       url: "pod/open",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       data: {pod_name: podName, password: password },
       withCredentials: true,
     });
@@ -206,6 +236,9 @@ export const closePod = async(password: string) =>{
       baseURL: host,
       method: "POST",
       url: "pod/close",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       data: {pod_name: podName, password: password },
       withCredentials: true,
     });
@@ -221,6 +254,9 @@ export const openPod = async(password: string, podName: string) =>{
       baseURL: host,
       method: "POST",
       url: "pod/open",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       data: {pod_name: podName, password: password },
       withCredentials: true,
     });
@@ -236,6 +272,9 @@ export const syncPod = async(password: string, podName: string) =>{
       baseURL: host,
       method: "POST",
       url: "pod/sync",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
     return syncPodRes;
@@ -249,6 +288,9 @@ export const sharePod = async(password: string, podName: string) =>{
       baseURL: host,
       method: "POST",
       url: "pod/share",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       data: {pod_name: podName, password: password },
       withCredentials: true,
     });
@@ -264,6 +306,9 @@ export const deletePod = async(password: string, podName: string) =>{
       baseURL: host,
       method: "DELETE",
       url: "pod/delete",
+      headers:{
+        'Content-Type': 'application/json'
+      },
       data: {pod_name: podName},
       withCredentials: true,
     });
@@ -278,6 +323,9 @@ export const getPods = async() => {
     baseURL: host,
     method: "GET",
     url: "pod/ls",
+    headers:{
+      'Content-Type': 'application/json'
+    },
     withCredentials: true,
   });
   return podResult;
@@ -290,6 +338,9 @@ export const getPodStats = async(payload:Payload) => {
     method: "GET",
     url: "pod/stat",
     data: {pod_name: payload.podName},
+    headers:{
+      'Content-Type': 'application/json'
+    },
     withCredentials: true,
   });
   return deletePodRes;
@@ -303,6 +354,9 @@ export const showReceivedPodInfo = async(payload: Payload) =>{
     method: "GET",
     url: "pod/receiveinfo",
     params:{reference:payload.podReference},
+    headers:{
+      'Content-Type': 'application/json'
+    },
     withCredentials: true,
   });
   return podResult;
@@ -315,6 +369,9 @@ export const receivePod = async(payload: Payload) =>{
     method: "GET",
     url: "pod/receive",
     params:{reference:payload.podReference},
+    headers:{
+      'Content-Type': 'application/json'
+    },
     withCredentials: true,
   });
   return podResult;
@@ -363,7 +420,12 @@ export const fileUpload = async (payload:Payload) => {
     baseURL: host,
     method: "POST",
     url: "file/upload",
-    data: formData,
+    data: {
+      reference: formData
+    },
+    headers:{
+      'Content-Type': 'application/json'
+    },
     withCredentials: true,
   });
 
@@ -378,6 +440,9 @@ export const fileDownload = async (file:any, filename:any) => {
       method: "POST",
       url: "file/download",
       data: qs.stringify({ file: file }),
+      headers:{
+        'Content-Type': 'application/json'
+      },
       responseType: "blob",
       withCredentials: true,
     });
@@ -399,6 +464,9 @@ export const filePreview = async (file:any) => {
       method: "POST",
       url: "file/download",
       data: qs.stringify({ file: file }),
+      headers:{
+        'Content-Type': 'application/json'
+      },
       responseType: "blob",
       withCredentials: true,
     });
@@ -435,7 +503,10 @@ export const getDirectory = async (payload: Payload) => {
       baseURL: host,
       method: "GET",
       url: "dir/ls",
-      params: data,
+      data: {dir: data},
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
 
@@ -517,8 +588,11 @@ export const deleteFile = async (fileName: string) => {
       baseURL: host,
       method: "DELETE",
       url: "file/delete",
-      params: {
+      data: {
         file: fileName,
+      },
+      headers:{
+        'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
@@ -533,9 +607,12 @@ export const shareFile = async (fileName: string) => {
       baseURL: host,
       method: "POST",
       url: "file/share",
-      params: {
+      data: {
         file: fileName,
         to: "anon",
+      },
+      headers:{
+        'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
@@ -551,8 +628,11 @@ export const receiveFileInfo = async (reference: string) => {
       baseURL: host,
       method: "POST",
       url: "file/receiveinfo",
-      params: {
+      data: {
         ref: reference,
+      },
+      headers:{
+        'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
