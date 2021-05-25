@@ -34,7 +34,7 @@ function Home(props: Props) {
         directory: newPath,
         password: state.password,
       });
-      setFiles(res.entries);
+      setFiles(res.files);
       actions.getDirectory({
         directory: newPath,
         password: state.password,

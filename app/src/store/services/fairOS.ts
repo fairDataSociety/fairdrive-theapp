@@ -2,6 +2,7 @@ import axios from "axios";
 import qs from "querystring";
 import FileSaver from "file-saver";
 import urlPath from '../helpers/urlPath';
+import { write } from 'fs';
 interface Payload {
   username?: string;
   password?: string;
@@ -337,7 +338,7 @@ export const getPodStats = async(payload:Payload) => {
     baseURL: host,
     method: "GET",
     url: "pod/stat",
-    data: {pod_name: payload.podName},
+    params: qs.stringify({pod_name: payload.podName}, "brackets"),
     headers:{
       'Content-Type': 'application/json'
     },
@@ -353,7 +354,7 @@ export const showReceivedPodInfo = async(payload: Payload) =>{
     baseURL: host,
     method: "GET",
     url: "pod/receiveinfo",
-    params:{reference:payload.podReference},
+    params:qs.stringify({reference:payload.podReference},"brackets"),
     headers:{
       'Content-Type': 'application/json'
     },
@@ -368,7 +369,7 @@ export const receivePod = async(payload: Payload) =>{
     baseURL: host,
     method: "GET",
     url: "pod/receive",
-    params:{reference:payload.podReference},
+    params:qs.stringify({reference:payload.podReference},"brackets"),
     headers:{
       'Content-Type': 'application/json'
     },
@@ -413,18 +414,20 @@ export const fileUpload = async (payload:Payload) => {
   for (const file of files) {
     formData.append("files", file);
   }
-  formData.append("pod_dir", writePath);
-  formData.append("block_size", "64Mb");
-
+  formData.append("dir_path", writePath);
+  formData.append("block_size", "64Mb")
+  let data = {
+    dir_path: writePath,
+    block_size: "64Mb",
+    files: files
+  }
   const uploadFiles = await axios({
     baseURL: host,
     method: "POST",
     url: "file/upload",
-    data: {
-      reference: formData
-    },
+    data: formData,
     headers:{
-      'Content-Type': 'application/json'
+      "Content-type":"multiple/form-data"
     },
     withCredentials: true,
   });
@@ -433,16 +436,26 @@ export const fileUpload = async (payload:Payload) => {
   return true;
 }
 
-export const fileDownload = async (file:any, filename:any) => {
+export const fileDownload = async (files:any, filename:any, directory: string) => {
   try {
+    let writePath = "";
+    if (directory == "root") {
+      writePath = "/";
+    } else {
+      writePath = "/" + urlPath(directory);
+    }
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append("files", file);
+    }
+    formData.append("file_path", writePath);
+    formData.append("block_size", "64Mb")
+
     const downloadFile = await axios({
       baseURL: host,
       method: "POST",
       url: "file/download",
-      data: qs.stringify({ file: file }),
-      headers:{
-        'Content-Type': 'application/json'
-      },
+      data: formData,
       responseType: "blob",
       withCredentials: true,
     });
@@ -457,13 +470,23 @@ export const fileDownload = async (file:any, filename:any) => {
   }
 }
 
-export const filePreview = async (file:any) => {
+export const filePreview = async (file:any, directory: string) => {
   try {
+    console.log(directory);
+    let writePath = "";
+    if (directory == "root") {
+      writePath = "/";
+    } else {
+      writePath = "/" + urlPath(directory) + "/";
+    }
+
+    const formData = new FormData();
+    formData.append("file_path", writePath + file);
     const downloadFile = await axios({
       baseURL: host,
       method: "POST",
       url: "file/download",
-      data: qs.stringify({ file: file }),
+      data: formData,
       headers:{
         'Content-Type': 'application/json'
       },
@@ -488,22 +511,22 @@ export const getDirectory = async (payload: Payload) => {
     //   withCredentials: true,
     // });
 
-    let data = { dir: "" };
+    let data = { dir_path: "" };
 
     if (directory == "root") {
       data = {
-        dir: "/",
+        dir_path: "/",
       };
     } else {
       data = {
-        dir: "/" + directory,
+        dir_path: "/" + directory,
       };
     }
     const response = await axios({
       baseURL: host,
       method: "GET",
       url: "dir/ls",
-      data: {dir: data},
+      params:data,
       headers:{
         'Content-Type': 'application/json'
       },
@@ -550,14 +573,26 @@ export const storeAvatar = async (avatar:any) => {
     console.log("error on timeout", e);
   }
 }
-export async function createDirectory(directoryName: string) {
+export async function createDirectory(directory: string,directoryName: string) {
   // Dir = "/" + path + "/"
+
+  let data = { dir_path: ""};
+
+  if (directory == "root") {
+    data = {
+      dir_path: "/",
+    };
+  } else {
+    data = {
+      dir_path: "/" + directory,
+    };
+  }
   try {
     const createDirectory = await axios({
       baseURL: host,
       method: "POST",
       url: "dir/mkdir",
-      data: qs.stringify({ dir: directoryName }),
+      data: { dir_path:data.dir_path,dir_name: directoryName },
       withCredentials: true,
     });
 
