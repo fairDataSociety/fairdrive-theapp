@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./loginStyles";
-import Button from "../button/button";
+import ButtonPill from "../buttonPill/buttonPill";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
@@ -37,8 +37,14 @@ function Login(props: Props) {
   return (
     <div className={classes.Login}>
       {state.password && <Redirect to={"/drive/root"} />}
-      <div className={classes.title}>Login to Fairdrive app</div>
-      <div className={classes.flexer}></div>
+      <div className={classes.header}>
+        <div className={classes.title}>Account Credentials</div>
+        <p>
+          Depending on the option you choose, you’ll either get to log back in
+          or register a new account. All of this will be automatically
+          determined for you.
+        </p>
+      </div>
 
       <TextField
         placeholder="Username"
@@ -55,8 +61,10 @@ function Login(props: Props) {
         setProp={setPassword}
         onContinue={onLogin}
       ></TextField>
+      <div className={classes.flexer}></div>
+
       {hasError ? <div className={classes.errormsg}>Could not login.</div> : ""}
-      <Button text={"Login"} clickFunction={onLogin}></Button>
+      <ButtonPill text={"Login"} clickFunction={onLogin}></ButtonPill>
       <ButtonLink label="Back" color="grey" path="/"></ButtonLink>
     </div>
   );

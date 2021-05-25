@@ -6,13 +6,12 @@ const useStyles = makeStyles(() =>
   createStyles({
     CardBody: {
       width: "100%",
-      height: "auto",
       backgroundColor: "transparent",
-      color: (style: Theme & Props) => style.textColor,
+      color: (style: Theme & Props) => style.textColorMain,
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      margin: "auto 0 3rem 0",
+      margin: "1rem 0 2rem 0",
     },
 
   })

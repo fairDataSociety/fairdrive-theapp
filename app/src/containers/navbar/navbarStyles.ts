@@ -5,18 +5,21 @@ import { Props } from "./navbar";
 const useStyles = makeStyles(() =>
   createStyles({
     Navbar: {
-      backgroundColor: (style: Props & Theme) => style.backgroundBlack,
-      color: (style: Props & Theme) => style.textColorHighlight,
-      font:(style: Props & Theme) => style.typography.h1,
+      backgroundColor: (style: Props & Theme) => style.backgroundShade3,
+      color: (style: Props & Theme) => style.textColorSecond,
+      font:(style: Props & Theme) => style.typography.h2,
       paddingLeft:"1.5rem",
-      borderBottom: "1px solid lightgrey",
       width: "100%",
       height: "6rem",
       position: "absolute",
       display: "flex",
-      justifyContent: "space-between",
+      alignItems:"center",
+      flexDirection:"row",
       left: 0,
       top: 0,
+    },
+    searchBar:{
+      marginLeft:"2rem",
     },
     walletConnectButton: {
       padding: "1rem 2rem",
@@ -26,8 +29,43 @@ const useStyles = makeStyles(() =>
       borderRadius: "2rem",
     },
     logo: {
-      height: "50%",
-      margin: "auto auto auto 5rem",
+      margin: "1rem",
+    },
+    TextField: {
+      display: "flex",
+      flexDirection: "row",
+      border: "1px solid var(--white)",
+      color:(style: Props & Theme) => style.textColorSecond,
+      padding:"0.5rem",
+      width: "45rem",
+
+    },
+    input: {
+      fontFamily: 'Work Sans',
+      fontWeight: 'normal', //TODO can this be thinner???
+      fontSize: '18px',
+      letterSpacing: '0',
+      lineHeight: '17px',
+      // custom
+      textAlign: 'left',
+      width: "45rem",
+      paddingBottom: '5px',
+      color:(style: Props & Theme) => style.textColorSecond,
+      border: "0px",
+      backgroundColor: "transparent",
+      outline: 'none',
+    },
+    iconContainer: {
+      width: "2rem",
+      height: "2rem",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight:"1rem"
+    },
+    Icon: {
+      width: "2rem",
+      height: "2rem",
     },
   })
 );

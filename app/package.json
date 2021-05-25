@@ -1,5 +1,5 @@
 {
-  "name": "fairdrive-connect",
+  "name": "fairdrive-app",
   "version": "0.0.1",
   "description": "Linum Labs Internal Boilerplate",
   "author": "Kent Fourie",
@@ -9,6 +9,7 @@
   "source": "src/index.tsx",
   "dependencies": {
     "@ethersproject/providers": "^5.0.24",
+    "@material-ui/core": "^4.11.4",
     "@material-ui/styles": "^4.11.3",
     "@portis/web3": "^2.0.0-beta.59",
     "@types/node": "^12.0.0",
@@ -23,6 +24,7 @@
     "ethers": "4.0.38",
     "file-saver": "^2.0.5",
     "fortmatic": "^2.2.1",
+    "moment": "^2.29.1",
     "react": "^16.13.1",
     "react-click-away-listener": "^2.0.0",
     "react-copy-to-clipboard": "^5.0.2",

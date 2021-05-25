@@ -5,15 +5,15 @@ import { Props } from "./sidebar";
 const useStyles = makeStyles(() =>
   createStyles({
     Sidebar: {
-      backgroundColor: (style: Props & Theme) => style.backgroundBlack,
+      backgroundColor: (style: Props & Theme) => style.backgroundShade3,
       borderBottom: "1px solid lightgrey",
-      width: "10rem",
-      height: "100vh",
+      width: "17rem",
+      height: "120vh",
       position: "absolute",
       display: "flex",
       justifyContent: "space-between",
       left: 0,
-      top:"5rem",
+      top:"6rem",
       paddingTop:"10rem",
       flexDirection: "column",
     },

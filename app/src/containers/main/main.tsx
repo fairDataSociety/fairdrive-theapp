@@ -4,6 +4,7 @@ import ButtonLink from "../../components/buttonLink/buttonLink";
 import { StoreContext } from "../../store/store";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { Redirect } from "react-router-dom";
+import FileModal from "../../components/fileModal/fileModal";
 
 export interface Props {}
 
@@ -16,7 +17,6 @@ function Main(props: Props) {
     <div className={classes.Main}>
       {/* <Login></Login> */}
       {state.password && <Redirect to={"/drive/root"} />}
-
       <ButtonLink label="Login" color="grey" path="/login"></ButtonLink>
       <ButtonLink label="Register" color="grey" path="/register"></ButtonLink>
     </div>

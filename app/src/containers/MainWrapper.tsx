@@ -4,15 +4,18 @@ import Navbar from "./navbar/navbar";
 import Sidebar from "./sidebar/sidebar";
 import Main from "./main/main";
 import Home from "./home/home";
-import AuthRoute from "./authRoute/authRoute";
 import Login from "./../components/login/login";
 import Register from "./../components/register/register";
 import SeedPhraseGen from "./../components/seedPhraseGen/seedPhraseGen";
 import SeedPhraseConfirm from "./../components/seedPhraseConfirm/seedPhraseConfirm";
+import { ThemeContext } from "../store/themeContext/themeContext";
+import useStyles from "./main/mainStyles";
 export default function MainWrapper() {
+  const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...theme });
   return (
     <Router>
-      <div className="Main">
+      <div>
         <Navbar></Navbar>
         <Sidebar></Sidebar>
         <Switch>
@@ -22,7 +25,7 @@ export default function MainWrapper() {
           <Route exact path="/generate-seed" component={SeedPhraseGen} />
           <Route exact path="/confirm-seed" component={SeedPhraseConfirm} />
           <Route exact path="/" component={Main} />
-          <Route exact path="/drive/:pod" component={Home} />
+          <Route exact path="/drive/:path" component={Home} />
         </Switch>
       </div>
     </Router>

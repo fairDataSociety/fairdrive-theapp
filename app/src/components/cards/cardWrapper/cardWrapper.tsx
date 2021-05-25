@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../../store/themeContext/themeContext";
 import useStyles from "./cardWrapperStyles";
+import { Link } from "react-router-dom";
 
-type Sizes = "small" | "smallest" | "regular";
+type Sizes = "small" | "regular" | "big";
 
 export interface Props {
   size?: Sizes;
   children: React.ReactNode;
+  onFileClick: any;
 }
 
 function CardWrapper(props: Props) {
@@ -14,7 +16,11 @@ function CardWrapper(props: Props) {
 
   const classes = useStyles({ ...props, ...theme });
 
-  return <div className={classes.CardWrapper}>{props.children}</div>;
+  return (
+    <div onClick={props.onFileClick} className={classes.CardWrapper}>
+      {props.children}
+    </div>
+  );
 }
 
 export default React.memo(CardWrapper);

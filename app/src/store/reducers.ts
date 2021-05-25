@@ -12,6 +12,7 @@ export interface State {
   password: string;
   mnemonic: string;
   unlocked: boolean;
+  searchQuery:string;
   entries: any;
   inviteCode: string;
   address: string;
@@ -28,6 +29,7 @@ const initialState: State = {
   password: null,
   mnemonic: null,
   unlocked: false,
+  searchQuery: null,
   entries: null,
   inviteCode: '',
   address:''
@@ -62,6 +64,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         mnemonic: action.payload
       };
+    case types.SET_SEARCH_QUERY:
+        return {
+          ...state,
+          searchQuery: action.payload
+        };
     default:
       return state;
   }

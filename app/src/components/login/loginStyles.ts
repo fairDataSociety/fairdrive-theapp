@@ -6,7 +6,7 @@ import { Props } from "./login";
 const useStyles = makeStyles(() =>
   createStyles({
     Login: {
-      backgroundColor: (style: Props & Theme) => style.backgroundWhite,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark,
       paddingTop:"10rem",
       height: "100vh",
       display: "flex",
@@ -16,18 +16,22 @@ const useStyles = makeStyles(() =>
       overflowX: "hidden",
       overflowY: "auto",
     },
+    header:{
+      padding:"1rem 0 1rem 0",
+      font: (style: Props & Theme) => style.typography.p1,
+      marginBottom:"2rem"
+    },
     flexer: {
-      margin: "40px",
+      margin: "3rem",
     },
     title: {
       margin: "20px",
-      fontFamily: 'Work Sans',
       fontWeight: 'bold',
-      fontSize: '34px',
+      font: (style: Props & Theme) => style.typography.h1,
+      color:(style: Props & Theme) => style.textColorMain,
       letterSpacing: '0',
       lineHeight: '36px',
       marginBottom: '20px',
-      color: '#16181D',
       textAlign: 'center',
     },
     errormsg: {
