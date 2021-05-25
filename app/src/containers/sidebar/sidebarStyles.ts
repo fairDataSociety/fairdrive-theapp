@@ -5,7 +5,7 @@ import { Props } from "./sidebar";
 const useStyles = makeStyles(() =>
   createStyles({
     Sidebar: {
-      backgroundColor: (style: Props & Theme) => style.backgroundBlack,
+      backgroundColor: (style: Props & Theme) => style.backgroundShade3,
       borderBottom: "1px solid lightgrey",
       width: "17rem",
       height: "120vh",
@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
       display: "flex",
       justifyContent: "space-between",
       left: 0,
-      top:"5rem",
+      top:"6rem",
       paddingTop:"10rem",
       flexDirection: "column",
     },

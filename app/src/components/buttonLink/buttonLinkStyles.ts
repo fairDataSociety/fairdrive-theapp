@@ -30,7 +30,7 @@ const useStyles = makeStyles(() =>
         color: "#EEF0FF"
       },
       textTransform: 'capitalize',
-      color: '#16181D',
+      color:(style: Props & Theme) => style.textColorMain,
     },
   })
 );

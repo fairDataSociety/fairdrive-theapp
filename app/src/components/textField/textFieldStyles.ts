@@ -11,6 +11,13 @@ const useStyles = makeStyles(() =>
       flexDirection: "column",
       placeItems: "center",
       margin: '4rem 0 0 0',
+      backgroundColor: (style: Props & Theme) => style.backgroundShade2,
+      paddingBottom: '1rem',
+      border: "1px solid var(--black)",
+      borderRadius:"1rem",
+
+      textAlign: 'left',
+      padding:"1rem",
       color:"#16181D",
     },
     input: {
@@ -22,16 +29,10 @@ const useStyles = makeStyles(() =>
       lineHeight: '19px',
       // custom
       width:"40rem",
-      height:"5rem",
-      textAlign: 'left',
-      paddingBottom: '1rem',
-      border: "1px solid var(--black)",
-      backgroundColor: "transparent",
-      borderRadius:"1rem",
-      padding:"1rem",
-      color:"#16181D",
+      height:"4rem",
+      color:(style: Props & Theme) => style.textColorMain,
       outline: 'none',
-      background:"transparent",
+      backgroundColor: (style: Props & Theme) => style.backgroundShade2,
     },
   })
 );

@@ -14,7 +14,8 @@ const useStyles = makeStyles(() =>
     },
     fileModal:{
       padding:"3.5rem",
-      background: (style: Props & Theme) => style.backgroundWhite,
+      backgroundColor: (style: Props & Theme) => style.backgroundShade3,
+      color: (style: Props & Theme) => style.textColorMain,
       border: "1px solid var(--grey)",
       height: "100vh",
       width:"45rem",

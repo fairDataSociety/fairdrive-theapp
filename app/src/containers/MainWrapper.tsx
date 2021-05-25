@@ -5,10 +5,14 @@ import Sidebar from "./sidebar/sidebar";
 import Main from "./main/main";
 import Home from "./home/home";
 import Login from "./../components/login/login";
+import { ThemeContext } from "../store/themeContext/themeContext";
+import useStyles from "./main/mainStyles";
 export default function MainWrapper() {
+  const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...theme });
   return (
     <Router>
-      <div className="Main">
+      <div>
         <Navbar></Navbar>
         <Sidebar></Sidebar>
         <Switch>
