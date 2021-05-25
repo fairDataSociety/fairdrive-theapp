@@ -8,8 +8,10 @@ import FileCard from "../../components/cards/fileCard";
 import { fileUpload, getDirectory } from "../../store/services/fairOS";
 import FileModal from "../../components/fileModal/fileModal";
 import sortByProp from "../../store/helpers/sort";
-import { Upload } from "../../components/icons/icons";
+import { Plus, Upload } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
+import { Modal } from "@material-ui/core";
+import NewFolder from "../../components/newFolder/newFolder";
 
 export interface Props {
   directory?: string;
@@ -21,6 +23,8 @@ function Home(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [files, setFiles] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [folderCreated, setFolderCreated] = useState(false);
   const classes = useStyles({ ...props, ...theme });
   const toSortProp = "name";
   const [toSort, setToSort] = useState(toSortProp);
@@ -48,7 +52,10 @@ function Home(props: Props) {
     loadDirectory();
     state.fileUploaded = false;
     state.searchQuery = null;
-  }, [params, state.fileUploaded]);
+    if (folderCreated === true) {
+      setOpen(false);
+    }
+  }, [params, state.fileUploaded, folderCreated]);
 
   useEffect(() => {
     // setFiles(state.entries);
@@ -71,6 +78,12 @@ function Home(props: Props) {
   async function handleFileUpload(files: any) {
     actions.uploadFile({ files, directory: urlPath(path) });
   }
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <div className={classes.Home}>
       <div className={classes.buttonNavBar}>
@@ -81,7 +94,18 @@ function Home(props: Props) {
           ref={inputFile}
           onChange={(e) => handleFileUpload(e.target.files)}
         ></input>
+        <Plus onClick={handleOpen} className={classes.Icon}></Plus>
       </div>
+      <div className={classes.buttonNavBar}></div>
+      <Modal
+        className={classes.modalContainer}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <NewFolder setResponse={setFolderCreated}></NewFolder>
+      </Modal>
       <CardGrid>
         {!state.password && <Redirect to={"/"} />}
         {files !== null &&

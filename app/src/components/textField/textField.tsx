@@ -18,7 +18,7 @@ function TextField(props: Props) {
   const classes = useStyles({ ...props, ...theme });
   const handleSetProp = (e: any) => {
     props.setProp(e.target.value);
-    props.setHasError(false);
+    // props.setHasError(false);
   };
 
   function handleSubmit(e: any) {
