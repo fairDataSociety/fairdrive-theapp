@@ -2,9 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
-import Button from "../button/button";
-import ButtonLink from "../buttonLink/buttonLink";
-import TextField from "../textField/textField";
+import ButtonPill from "../buttonPill/buttonPill";
 import SeedPhrase from "../seedPhrase/seedPhrase";
 import { useHistory, Redirect } from "react-router-dom";
 export interface Props {}
@@ -33,8 +31,6 @@ function SeedPhraseGen(props: Props) {
         is important. This seed will allow you to recover your account.
       </div>
 
-      <div className={classes.flexer}></div>
-
       {state.mnemonic ? (
         <SeedPhrase seedPhrase={state.mnemonic} />
       ) : (
@@ -50,7 +46,7 @@ function SeedPhraseGen(props: Props) {
       ) : (
         ""
       )}
-      <Button text={"Continue"} clickFunction={onContinue}></Button>
+      <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
     </div>
   );
 }

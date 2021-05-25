@@ -6,7 +6,8 @@ import { Props } from "./seedPhraseConfirm";
 const useStyles = makeStyles(() =>
   createStyles({
     Login: {
-      backgroundColor: (style: Props & Theme) => style.backgroundWhite,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark,
+      color:(style: Props & Theme) => style.textColorMain,
       paddingTop:"10rem",
       height: "100vh",
       display: "flex",

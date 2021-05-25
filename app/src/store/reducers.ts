@@ -22,7 +22,7 @@ const initialState: State = {
   token: "",
   sessionCookie: "",
   username: "",
-  userData: {},
+  userData: null,
   fileUploaded: {},
   showPasswordUnlock: false,
   hasUser: false,

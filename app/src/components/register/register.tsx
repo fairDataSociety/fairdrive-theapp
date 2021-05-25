@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./registerStyles";
-import Button from "../button/button";
+import ButtonPill from "../buttonPill/buttonPill";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
@@ -29,7 +29,7 @@ function Register(props: Props) {
   }, [state.mnemonic]);
 
   async function onContinue() {
-    if (await isUsernamePresent(username)) return false;
+    // if (await isUsernamePresent(username)) return false;
     if (!username || !password) return null;
     // TODO validate inputs
 
@@ -54,8 +54,6 @@ function Register(props: Props) {
         you.
       </div>
 
-      <div className={classes.flexer}></div>
-
       <TextField
         placeholder="Username"
         type="text"
@@ -72,15 +70,15 @@ function Register(props: Props) {
         onContinue={onContinue}
       ></TextField>
 
-      <TextField
+      {/* <TextField
         placeholder="Invite Code"
         type="text"
         setHasError={setHasError}
         setProp={setInviteCode}
         onContinue={onContinue}
-      ></TextField>
+      ></TextField> */}
       {hasError ? <div className={classes.errormsg}>Could not login.</div> : ""}
-      <Button text={"Continue"} clickFunction={onContinue}></Button>
+      <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
     </div>
   );
 }

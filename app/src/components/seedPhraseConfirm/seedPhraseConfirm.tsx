@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
-import Button from "../button/button";
+import ButtonPill from "../buttonPill/buttonPill";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
@@ -70,11 +70,22 @@ function SeedPhraseConfirm(props: Props) {
       await createPod(state.password);
 
       setPodCreated(true);
-
-      history.push("/drive/root");
-      setRegisterLoader(true);
+      actions.userLogin({ username: state.username, password: state.password });
     }
   }
+
+  useEffect(() => {
+    if (!state.mnemonic) return null;
+    const seedWords = state.mnemonic.split(" ");
+    if (
+      wordFive === seedWords[4] &&
+      wordEleven === seedWords[10] &&
+      wordTwelve === seedWords[11] &&
+      state.userData
+    ) {
+      history.push("/drive/root");
+    }
+  }, [state.userData]);
 
   return (
     <div>
@@ -87,8 +98,6 @@ function SeedPhraseConfirm(props: Props) {
             or register a new account. All of this will be automatically
             determined for you.
           </div>
-
-          <div className={classes.flexer}></div>
 
           <TextField
             placeholder="Word #5"
@@ -114,7 +123,7 @@ function SeedPhraseConfirm(props: Props) {
             onContinue={onRegister}
           ></TextField>
 
-          <Button text={"Register"} clickFunction={onRegister}></Button>
+          <ButtonPill text={"Register"} clickFunction={onRegister}></ButtonPill>
         </div>
       )}
     </div>
