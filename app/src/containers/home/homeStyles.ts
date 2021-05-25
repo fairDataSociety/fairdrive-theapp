@@ -17,14 +17,22 @@ const useStyles = makeStyles(() =>
     },
     buttonNavBar:{
       marginLeft: "auto",
-      marginRight: "0"
+      marginRight: "2rem"
     },
     uploadInput:{
-      opacity:"0"
+      opacity:"0",
+      width:"0",
+      height:"0"
     },
     Icon: {
       width: "5rem",
       height: "5rem",
+      margin:"0.5rem"
+    },
+    modalContainer:{
+      marginLeft: "calc(100% - 50rem)",
+      overflowX: "hidden",
+      overflowY: "auto",
     },
   })
 );
