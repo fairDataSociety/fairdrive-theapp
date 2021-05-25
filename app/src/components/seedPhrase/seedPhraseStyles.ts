@@ -8,15 +8,10 @@ const useStyles = makeStyles(() =>
     SeedPhrase: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark,
       color:(style: Props & Theme) => style.textColorMain,
-      height: "100vh",
-      width: '100vh',
       display: "flex",
-      flexDirection: 'column',
+      flexDirection: 'row',
+      marginBottom:"2rem"
     },
-    word: {
-      width: '50%',
-      flex: '50%',
-    }
   })
 );
 
