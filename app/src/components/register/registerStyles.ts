@@ -18,26 +18,18 @@ const useStyles = makeStyles(() =>
     },
     title: {
       fontWeight: 'bold',
-      font: (style: Props & Theme) => style.typography.h1,
-      color:(style: Props & Theme) => style.textColorMain,
+      font: (style: Props & Theme) => style.typography.h3,
+      color:(style: Props & Theme) => style.textColorPrimary,
       textAlign: 'center',
     },
     description: {
-      font: (style: Props & Theme) => style.typography.p1,
-      color:(style: Props & Theme) => style.textColorMain,
+      font: (style: Props & Theme) => style.typography.body1,
+      color:(style: Props & Theme) => style.textColorPrimary,
       marginBottom: "10rem",
     },
     errormsg: {
       // from bodyBold in Fairdrive:
-      fontFamily: 'Work Sans',
-      fontWeight: 'bold',
-      fontSize: '16px',
-      letterSpacing: '0',
-      // custom
-      color: '#f63333',
-      textAlign: 'center',
-      margin: "0px 0px 0px 0px",
-      lineHeight: '14px',
+      
     },
     buttons:{
       display:"flex",

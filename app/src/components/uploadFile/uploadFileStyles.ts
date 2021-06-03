@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
       margin: "40px",
     },
     dialogBox: {
-      backgroundColor: (style: Props & Theme) => style.backgroundGrey,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       width: "500px",
       height: "500px",
       display: "flex",

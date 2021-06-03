@@ -5,7 +5,7 @@ import { Props } from "./sidebar";
 const useStyles = makeStyles(() =>
   createStyles({
     Sidebar: {
-      backgroundColor: (style: Props & Theme) => style.backgroundShade3,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       borderBottom: "1px solid lightgrey",
       width: "17rem",
       height: "120vh",

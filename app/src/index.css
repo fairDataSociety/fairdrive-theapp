@@ -9,18 +9,20 @@
 
   /* COLORS */
 
-  --almost-white: #dad9d8;
-  --white: white;
-  --grey: #88898E;
-  --lightgrey: #606060;
-  --almost-black: #121212;
-  --black: black;
-  --error: #db324d;
-  --main-black:#101113;
+
+  --dark: #101113;
+  --dark4: #17191D;
+  --dark3: #202226;
+  --dark2: #27292E;
+  --dark1: #36383F;
+  --light3: #494B50;
+  --light2: #82848E;
+  --light1: #CED0DD;
+  --white: #EEF0FF;
 
   /* FONTS */
   --font1: "Work Sans";
-  --font1: "Space Mono";
+  --font2: "Space Mono";
 
   /* BREAKPOINTS */
   --tabletBreakpoint: 1000px;

@@ -18,14 +18,14 @@ const useStyles = makeStyles(() =>
     },
     Title:{
       alignItems: "left",
-      font:(style: Props & Theme) => style.typography.h2,
-      color:(style: Props & Theme) => style.textColorMain,
+      font:(style: Props & Theme) => style.typography.h3,
+      color:(style: Props & Theme) => style.textColorPrimary,
       borderBottom: "1px solid var(--grey)"
     },
     Body:{
       margin: '5rem 0 0 0',
-      font:(style: Props & Theme) => style.typography.p1,
-      color:(style: Props & Theme) => style.textColorMain,
+      font:(style: Props & Theme) => style.typography.body1,
+      color:(style: Props & Theme) => style.textColorPrimary,
 
     }
   })
