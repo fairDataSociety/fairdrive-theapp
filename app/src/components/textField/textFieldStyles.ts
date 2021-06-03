@@ -10,9 +10,9 @@ const useStyles = makeStyles(() =>
       background: ' #EEF0FF',
       flexDirection: "column",
       placeItems: "center",
-      backgroundColor: (style: Props & Theme) => style.backgroundShade2,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark2,
       paddingBottom: '1rem',
-      border: "1px solid var(--black)",
+      border: "1px solid var(--light3)",
       borderRadius:"1rem",
       marginBottom:"2.5rem",
       textAlign: 'left',
@@ -22,9 +22,9 @@ const useStyles = makeStyles(() =>
     input: {
       width:"40rem",
       height:"2.5rem",
-      color:(style: Props & Theme) => style.textColorMain,
+      color:(style: Props & Theme) => style.textColorPrimary,
       outline: 'none',
-      backgroundColor: (style: Props & Theme) => style.backgroundShade2,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark2,
     },
   })
 );

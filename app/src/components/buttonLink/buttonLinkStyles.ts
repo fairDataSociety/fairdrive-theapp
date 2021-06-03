@@ -25,12 +25,12 @@ const useStyles = makeStyles(() =>
       borderRadius: "4px",
       cursor: 'pointer',
       border: "1px solid #16181D", 
-      backgroundColor: (style: Props & Theme) => style.backgroundGrey,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark,
       "&:hover": {
-        color: "#EEF0FF"
+        backgroundColor: (style: Props & Theme) => style.backgroundDark4,
       },
       textTransform: 'capitalize',
-      color:(style: Props & Theme) => style.textColorMain,
+      color:(style: Props & Theme) => style.textColorPrimary,
     },
   })
 );

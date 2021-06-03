@@ -19,8 +19,8 @@ const useStyles = makeStyles(() =>
       borderRadius: "4px",
       cursor: 'pointer',
       border: "1px solid var(--grey)", 
-      backgroundColor: (style: Props & Theme) => style.backgroundGrey,
-      color:(style: Props & Theme) => style.textColorMain,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark4,
+      color:(style: Props & Theme) => style.textColorPrimary,
       margin:"0 auto 2rem auto"
     },
 

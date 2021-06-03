@@ -14,9 +14,9 @@ const useStyles = makeStyles(() =>
     },
     fileModal:{
       padding:"3.5rem",
-      backgroundColor: (style: Props & Theme) => style.backgroundShade3,
-      color: (style: Props & Theme) => style.textColorMain,
-      border: "1px solid var(--grey)",
+      backgroundColor: (style: Props & Theme) => style.backgroundDark3,
+      color: (style: Props & Theme) => style.textColorPrimary,
+      border: "1px solid var(--dark3)",
       height: "100vh",
       width:"45rem",
       margin: "0rem",
@@ -31,11 +31,11 @@ const useStyles = makeStyles(() =>
       
     },
     title:{
-      font:(style: Props & Theme) => style.typography.p2,
+      font:(style: Props & Theme) => style.typography.body1,
     },
     header:{
-      font:(style: Props & Theme) => style.typography.p2,
-      borderBottom: "1px solid var(--grey)",
+      font:(style: Props & Theme) => style.typography.body1,
+      borderBottom: "1px solid var(--dark3)",
       padding:"1rem"
 
     },

@@ -56,16 +56,7 @@ const useStyles = makeStyles(() =>
       margin: '16px 0px',
     },
     errormsg: {
-      // from bodyBold in Fairdrive:
-      fontFamily: 'Work Sans',
-      fontWeight: 'bold',
-      fontSize: '16px',
-      letterSpacing: '0',
-      // custom
-      color: '#f63333',
-      textAlign: 'center',
-      margin: "0px 0px 0px 0px",
-      lineHeight: '14px',
+
     },
     buttons:{
       display:"flex",

@@ -7,7 +7,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     SeedPhrase: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark,
-      color:(style: Props & Theme) => style.textColorMain,
+      color:(style: Props & Theme) => style.textColorPrimary,
       display: "flex",
       flexDirection: 'row',
       marginBottom:"2rem"

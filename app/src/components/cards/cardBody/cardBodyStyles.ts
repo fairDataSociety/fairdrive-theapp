@@ -7,7 +7,7 @@ const useStyles = makeStyles(() =>
     CardBody: {
       width: "100%",
       backgroundColor: "transparent",
-      color: (style: Theme & Props) => style.textColorMain,
+      color: (style: Theme & Props) => style.textColorPrimary,
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
