@@ -39,8 +39,12 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN_USER.USER_LOGGED_SUCCESS:
       return { ...state, userData: action.payload.res.data, unlocked: true, password: action.payload.password, username: action.payload.username };
+    case types.LOGIN_USER.USER_LOGGED_FAILED:
+        return { ...state, unlocked: false, errMsg:action.payload.res };
     case types.CREATE_USER.CREATE_USER_SUCCESS:
-      return {...state, address: action.payload.data, unlocked: false};
+      return {...state, address: action.payload.data, unlocked: true, errMsg:''};
+    case types.CREATE_USER.CREATE_USER_FAILED:
+      return { ...state, unlocked: false, errMsg:action.payload.res };
     case types.SEND_FILE.FILE_SENT_SUCCESS:
       return { ...state, fileUploaded: action.payload };
     case types.SET_SYSTEM:
