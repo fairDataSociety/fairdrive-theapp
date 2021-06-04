@@ -22,7 +22,7 @@ function Navbar(props: Props) {
       <Link to={"/"} className={classes.logo}>
         Fairdrive
       </Link>
-      {state.password && (
+      {state.userData && (
         <div className={classes.searchBar}>
           <div className={classes.TextField}>
             <div className={classes.iconContainer}>

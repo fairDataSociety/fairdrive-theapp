@@ -11,7 +11,7 @@ const sizes = {
 const useStyles = makeStyles(() =>
   createStyles({
     CardWrapper: {
-      background: (style: Props & Theme) => style.backgroundWhite,
+      background: (style: Props & Theme) => style.backgroundDark3,
       left:"10rem",
       border: "1px solid var(--grey)",
       borderRadius: "1.5rem",

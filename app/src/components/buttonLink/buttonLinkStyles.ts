@@ -24,13 +24,18 @@ const useStyles = makeStyles(() =>
       padding: "20px 42px",
       borderRadius: "4px",
       cursor: 'pointer',
-      border: "1px solid #16181D", 
-      backgroundColor: (style: Props & Theme) => style.backgroundGrey,
+      border: "1px solid var(--dark3)", 
+      backgroundColor: (style: Props & Theme) => style.backgroundLight3,
+      color:(style: Props & Theme) => style.textColorPrimary,
+      font: (style: Props & Theme) => style.typography.h6,
       "&:hover": {
-        color: "#EEF0FF"
+        font: (style: Props & Theme) => style.typography.h5,
+      },
+      "&:active": {
+        font: (style: Props & Theme) => style.typography.h4,
+        border: "1px solid var(--white)", 
       },
       textTransform: 'capitalize',
-      color: '#16181D',
     },
   })
 );

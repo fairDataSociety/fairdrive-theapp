@@ -5,7 +5,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     Main: {
       padding:"23rem 0 30rem 0",
-      backgroundColor: (style: Props & Theme) => style.backgroundWhite,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark,
       width: "auto",
       height: "100vh",
       display:"flex",
@@ -16,6 +16,9 @@ const useStyles = makeStyles(() =>
     },
     test:{
       cursor:"pointer"
+    },
+    App:{
+      backgroundColor: (style: Props & Theme) => style.backgroundDark,
     }
   })
 );

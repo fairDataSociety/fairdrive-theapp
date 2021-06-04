@@ -5,11 +5,10 @@ import { Props } from "./navbar";
 const useStyles = makeStyles(() =>
   createStyles({
     Navbar: {
-      backgroundColor: (style: Props & Theme) => style.backgroundBlack,
-      color: (style: Props & Theme) => style.textColorHighlight,
-      font:(style: Props & Theme) => style.typography.h2,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark4,
+      color: (style: Props & Theme) => style.textColorSecondary,
+      font:(style: Props & Theme) => style.typography.h4,
       paddingLeft:"1.5rem",
-      borderBottom: "1px solid lightgrey",
       width: "100%",
       height: "6rem",
       position: "absolute",
@@ -36,7 +35,7 @@ const useStyles = makeStyles(() =>
       display: "flex",
       flexDirection: "row",
       border: "1px solid var(--white)",
-      color:(style: Props & Theme) => style.textColorHighlight,
+      color:(style: Props & Theme) => style.textColorSecondary,
       padding:"0.5rem",
       width: "45rem",
 
@@ -51,7 +50,7 @@ const useStyles = makeStyles(() =>
       textAlign: 'left',
       width: "45rem",
       paddingBottom: '5px',
-      color:(style: Props & Theme) => style.textColorHighlight,
+      color:(style: Props & Theme) => style.textColorSecondary,
       border: "0px",
       backgroundColor: "transparent",
       outline: 'none',

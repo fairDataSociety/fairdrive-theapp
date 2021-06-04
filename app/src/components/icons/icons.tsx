@@ -8,6 +8,7 @@ import { ReactComponent as Switch } from "../../media/UI/switch.svg";
 import { ReactComponent as Search } from "../../media/UI/search.svg";
 import { ReactComponent as Folder } from "../../media/UI/folder.svg";
 import { ReactComponent as Upload } from "../../media/UI/upload.svg";
+import { ReactComponent as Plus } from "../../media/UI/plus.svg";
 
 export const icons = {
   QuestionMark: QuestionMark,
@@ -25,4 +26,5 @@ export {
   Switch,
   Search,
   Upload,
+  Plus,
 };

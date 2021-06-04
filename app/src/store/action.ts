@@ -25,6 +25,24 @@ export const useActions = (state, dispatch) => ({
       payload: data,
     });
   },
+  storeUserRegistrationInfo: (data) => {
+    dispatch({
+      type: types.STORE_USER_REGISTRATION_INFO,
+      payload: data,
+    });
+  },
+  getSeedPhrase: (data) => {
+    dispatch({
+      type: types.SEED_PHRASE.SEED_PHRASE_REQUEST,
+      payload: data,
+    });
+  },
+  createUser: (data) => {
+    dispatch({
+      type: types.CREATE_USER.CREATE_USER_REQUEST,
+      payload: data,
+    });
+  },
   setSearchQuery:(data)=>{
     dispatch({
       type: types.SET_SEARCH_QUERY,
@@ -38,5 +56,8 @@ export interface Actions {
   userLogin:(data: any) => void;
   uploadFile:(data:any) => void;
   getDirectory:(data:any) => void;
+  storeUserRegistrationInfo:(data:any) => void;
+  getSeedPhrase:(data:any) => void;
+  createUser:(data:any) => void;
   setSearchQuery:(data:any) => void;
 }
