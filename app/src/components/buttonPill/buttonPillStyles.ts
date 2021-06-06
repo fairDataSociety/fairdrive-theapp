@@ -6,10 +6,7 @@ import { Props } from "./buttonPill";
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      fontWeight: 'bold',
-      fontSize: '16px',
-      letterSpacing: '0',
-      lineHeight: '19px',
+
       // custom
       minWidth: "40rem",
       maxWidth: "55rem",

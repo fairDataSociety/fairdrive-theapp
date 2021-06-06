@@ -26,6 +26,8 @@ export default function MainWrapper() {
           <Route exact path="/confirm-seed" component={SeedPhraseConfirm} />
           <Route exact path="/" component={Main} />
           <Route exact path="/drive/:path" component={Home} />
+          <Route exact path="/explore"/>
+          <Route exact path="/overview"/>
         </Switch>
       </div>
     </Router>
