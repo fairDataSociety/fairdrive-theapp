@@ -7,15 +7,14 @@ const useStyles = makeStyles(() =>
     Sidebar: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       borderBottom: "1px solid lightgrey",
-      width: "17rem",
-      height: "120vh",
+      width: "12rem",
+      height: "100vh",
       position: "absolute",
       display: "flex",
-      justifyContent: "space-between",
       left: 0,
       top:"6rem",
-      paddingTop:"10rem",
       flexDirection: "column",
+      alignItems:"center",
     },
     walletConnectButton: {
       padding: "1rem 2rem",
@@ -24,10 +23,7 @@ const useStyles = makeStyles(() =>
       margin: "auto 5rem auto auto",
       borderRadius: "2rem",
     },
-    logo: {
-      height: "50%",
-      margin: "auto auto auto 5rem",
-    },
+
   })
 );
 

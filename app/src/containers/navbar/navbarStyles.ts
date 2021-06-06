@@ -5,8 +5,8 @@ import { Props } from "./navbar";
 const useStyles = makeStyles(() =>
   createStyles({
     Navbar: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      color: (style: Props & Theme) => style.textColorSecondary,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark3,
+      color: (style: Props & Theme) => style.textColorPrimary,
       font:(style: Props & Theme) => style.typography.h4,
       paddingLeft:"1.5rem",
       width: "100%",

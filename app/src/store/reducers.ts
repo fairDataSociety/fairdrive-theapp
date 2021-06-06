@@ -16,6 +16,7 @@ export interface State {
   entries: any;
   inviteCode: string;
   address: string;
+  errMsg:string;
 }
 
 const initialState: State = {
@@ -32,7 +33,8 @@ const initialState: State = {
   searchQuery: null,
   entries: null,
   inviteCode: '',
-  address:''
+  address:'',
+  errMsg:''
 };
 
 const reducer = (state = initialState, action) => {
