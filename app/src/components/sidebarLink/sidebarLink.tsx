@@ -7,19 +7,20 @@ import { Link } from "react-router-dom";
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   title: string;
+  path: string;
 }
 
 function SidebarLink(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const { Icon, title } = props;
+  const { Icon, title, path } = props;
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <div className={classes.SidebarLink}>
+    <Link className={classes.SidebarLink} to={path}>
       <Icon className={classes.Icon} />
-      <Link to={"/"}>{title}</Link>
-    </div>
+      {title}
+    </Link>
   );
 }
 
