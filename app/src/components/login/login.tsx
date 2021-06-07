@@ -6,6 +6,7 @@ import ButtonPill from "../buttonPill/buttonPill";
 import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
+import welcomeImage from "../../media/images/welcome-image.png";
 export interface Props {}
 
 function Login(props: Props) {
@@ -37,35 +38,42 @@ function Login(props: Props) {
   return (
     <div className={classes.Login}>
       {state.password && <Redirect to={"/drive/root"} />}
-      <div className={classes.header}>
-        <div className={classes.title}>Account Credentials</div>
-        <p>
-          Depending on the option you choose, you’ll either get to log back in
-          or register a new account. All of this will be automatically
-          determined for you.
-        </p>
+      <img src={welcomeImage}></img>
+      <div className={classes.loginContainer}>
+        <div className={classes.header}>
+          <div className={classes.title}>Account Credentials</div>
+          <p>
+            Depending on the option you choose, you’ll either get to log back in
+            or register a new account. All of this will be automatically
+            determined for you.
+          </p>
+        </div>
+
+        <TextField
+          placeholder="Username"
+          type="text"
+          setHasError={setHasError}
+          setProp={setUsername}
+          onContinue={onLogin}
+        ></TextField>
+
+        <TextField
+          placeholder="Password"
+          type="password"
+          setHasError={setHasError}
+          setProp={setPassword}
+          onContinue={onLogin}
+        ></TextField>
+        <div className={classes.flexer}></div>
+
+        {hasError ? (
+          <div className={classes.errormsg}>Could not login.</div>
+        ) : (
+          ""
+        )}
+        <ButtonPill text={"Login"} clickFunction={onLogin}></ButtonPill>
+        <ButtonLink label="Back" color="grey" path="/"></ButtonLink>
       </div>
-
-      <TextField
-        placeholder="Username"
-        type="text"
-        setHasError={setHasError}
-        setProp={setUsername}
-        onContinue={onLogin}
-      ></TextField>
-
-      <TextField
-        placeholder="Password"
-        type="password"
-        setHasError={setHasError}
-        setProp={setPassword}
-        onContinue={onLogin}
-      ></TextField>
-      <div className={classes.flexer}></div>
-
-      {hasError ? <div className={classes.errormsg}>Could not login.</div> : ""}
-      <ButtonPill text={"Login"} clickFunction={onLogin}></ButtonPill>
-      <ButtonLink label="Back" color="grey" path="/"></ButtonLink>
     </div>
   );
 }
