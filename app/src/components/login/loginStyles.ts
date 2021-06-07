@@ -10,6 +10,16 @@ const useStyles = makeStyles(() =>
       paddingTop:"10rem",
       height: "100vh",
       display: "flex",
+      flexDirection: "row",
+      justifyItems: "center",
+      alignItems: "center",
+      overflowX: "hidden",
+      overflowY: "auto",
+      textAlign:"center"
+    },
+    loginContainer:{
+      paddingLeft:"24rem",
+      display: "flex",
       flexDirection: "column",
       justifyItems: "center",
       alignItems: "center",
@@ -18,7 +28,7 @@ const useStyles = makeStyles(() =>
     },
     header:{
       padding:"1rem 0 1rem 0",
-      font: (style: Props & Theme) => style.typography.body1,
+      font: (style: Props & Theme) => style.typography.caption1,
       marginBottom:"2rem"
     },
     flexer: {
@@ -27,7 +37,7 @@ const useStyles = makeStyles(() =>
     title: {
       margin: "20px",
       fontWeight: 'bold',
-      font: (style: Props & Theme) => style.typography.h3,
+      font: (style: Props & Theme) => style.typography.h4,
       color:(style: Props & Theme) => style.textColorPrimary,
       letterSpacing: '0',
       lineHeight: '36px',

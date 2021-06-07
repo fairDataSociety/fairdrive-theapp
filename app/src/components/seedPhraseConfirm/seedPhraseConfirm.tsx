@@ -4,6 +4,8 @@ import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
 import ButtonPill from "../buttonPill/buttonPill";
 import ButtonLink from "../buttonLink/buttonLink";
+import welcomeImage from "../../media/images/welcome-image.png";
+
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
 import {
@@ -91,39 +93,46 @@ function SeedPhraseConfirm(props: Props) {
     <div>
       {!registerLoader && (
         <div className={classes.Login}>
-          <div className={classes.title}>Continue without single-sign-on</div>
+          <img src={welcomeImage}></img>
 
-          <div className={classes.description}>
-            Depending on the option you choose, you’ll either get to log back in
-            or register a new account. All of this will be automatically
-            determined for you.
+          <div className={classes.registerContainer}>
+            <div className={classes.title}>Continue without single-sign-on</div>
+
+            <div className={classes.description}>
+              Depending on the option you choose, you’ll either get to log back
+              in or register a new account. All of this will be automatically
+              determined for you.
+            </div>
+
+            <TextField
+              placeholder="Word #5"
+              type="text"
+              setHasError={setHasError}
+              setProp={setWordFive}
+              onContinue={onRegister}
+            ></TextField>
+
+            <TextField
+              placeholder="Word #11"
+              type="text"
+              setHasError={setHasError}
+              setProp={setWordEleven}
+              onContinue={onRegister}
+            ></TextField>
+
+            <TextField
+              placeholder="Word #12"
+              type="text"
+              setHasError={setHasError}
+              setProp={setWordTwelve}
+              onContinue={onRegister}
+            ></TextField>
+
+            <ButtonPill
+              text={"Register"}
+              clickFunction={onRegister}
+            ></ButtonPill>
           </div>
-
-          <TextField
-            placeholder="Word #5"
-            type="text"
-            setHasError={setHasError}
-            setProp={setWordFive}
-            onContinue={onRegister}
-          ></TextField>
-
-          <TextField
-            placeholder="Word #11"
-            type="text"
-            setHasError={setHasError}
-            setProp={setWordEleven}
-            onContinue={onRegister}
-          ></TextField>
-
-          <TextField
-            placeholder="Word #12"
-            type="text"
-            setHasError={setHasError}
-            setProp={setWordTwelve}
-            onContinue={onRegister}
-          ></TextField>
-
-          <ButtonPill text={"Register"} clickFunction={onRegister}></ButtonPill>
         </div>
       )}
     </div>

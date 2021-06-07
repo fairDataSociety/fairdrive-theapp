@@ -31,13 +31,13 @@ const useStyles = makeStyles(() =>
     },
     Type: {
       color: "var(--grey2)",
-      font: (style: Theme & Props) => style.typography.h4,
+      font: (style: Theme & Props) => style.typography.body1,
       margin: "1rem",
       textTransform: "uppercase",
     },
     Title: {
       color: (style: Theme & Props) => style.textColorPrimary,
-      font: (style: Theme & Props) => style.typography.h3,
+      font: (style: Theme & Props) => style.typography.h6,
       margin: "1rem 0 auto 0",
       textOverflow: "ellipsis",
       display: "-webkit-box",

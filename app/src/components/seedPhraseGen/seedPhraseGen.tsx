@@ -5,6 +5,8 @@ import useStyles from "../register/registerStyles";
 import ButtonPill from "../buttonPill/buttonPill";
 import SeedPhrase from "../seedPhrase/seedPhrase";
 import { useHistory, Redirect } from "react-router-dom";
+import welcomeImage from "../../media/images/welcome-image.png";
+
 export interface Props {}
 
 function SeedPhraseGen(props: Props) {
@@ -23,30 +25,34 @@ function SeedPhraseGen(props: Props) {
 
   return (
     <div className={classes.Login}>
-      <div className={classes.title}>Registering account...</div>
+      <img src={welcomeImage}></img>
 
-      <div className={classes.description}>
-        Your seed phrase is used to generate and recover your account Please
-        save these 12 words on a piece of paper or a hardware wallet. The order
-        is important. This seed will allow you to recover your account.
-      </div>
+      <div className={classes.registerContainer}>
+        <div className={classes.title}>Registering account...</div>
 
-      {state.mnemonic ? (
-        <SeedPhrase seedPhrase={state.mnemonic} />
-      ) : (
-        <div>Loading...</div>
-      )}
-
-      {/* TODO need T&C checkbox */}
-
-      {hasError ? (
-        <div className={classes.errormsg}>
-          Please confirm you understand how the seed phrase works.
+        <div className={classes.description}>
+          Your seed phrase is used to generate and recover your account Please
+          save these 12 words on a piece of paper or a hardware wallet. The
+          order is important. This seed will allow you to recover your account.
         </div>
-      ) : (
-        ""
-      )}
-      <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
+
+        {state.mnemonic ? (
+          <SeedPhrase seedPhrase={state.mnemonic} />
+        ) : (
+          <div>Loading...</div>
+        )}
+
+        {/* TODO need T&C checkbox */}
+
+        {hasError ? (
+          <div className={classes.errormsg}>
+            Please confirm you understand how the seed phrase works.
+          </div>
+        ) : (
+          ""
+        )}
+        <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
+      </div>
     </div>
   );
 }
