@@ -15,6 +15,8 @@ const useStyles = makeStyles(() =>
       alignItems: "center",
       overflowX: "hidden",
       overflowY: "auto",
+      textAlign:"center"
+
     },
     registerContainer:{
       paddingLeft:"24rem",
@@ -27,7 +29,7 @@ const useStyles = makeStyles(() =>
     },
     title: {
       fontWeight: 'bold',
-      font: (style: Props & Theme) => style.typography.h3,
+      font: (style: Props & Theme) => style.typography.h4,
       color:(style: Props & Theme) => style.textColorPrimary,
       textAlign: 'center',
     },
