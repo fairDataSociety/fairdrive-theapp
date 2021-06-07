@@ -1,19 +1,23 @@
 import { makeStyles, createStyles } from "@material-ui/styles";
 import { Theme } from "../../store/themeContext/themes";
-import { Props } from "./getStarted";
+import { Props } from "./setUpCards";
 
 const useStyles = makeStyles(() =>
   createStyles({
+    cards: {
+      display: 'flex'
+    },
     container: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
-      borderRadius: "2rem",
+      borderRadius: "1rem",
       width: '51rem',
       height: '36.5rem',
-      padding: '4rem 3rem',
+      padding: '4rem',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
+      margin: '1rem',
     },
     icon: {
       fill: (style: Props & Theme) => style.backgroundLight2,

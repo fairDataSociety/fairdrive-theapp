@@ -20,6 +20,8 @@ import { ReactComponent as SearchFD } from "../../media/fairdrive/Search.svg";
 import { ReactComponent as Settings } from "../../media/fairdrive/Settings.svg";
 import { ReactComponent as Time } from "../../media/fairdrive/Time.svg";
 import { ReactComponent as StartFolder } from "../../media/UI/getStartedFolder.svg";
+import { ReactComponent as Dapps } from "../../media/UI/dapps.svg";
+import { ReactComponent as Complete } from "../../media/UI/complete.svg";
 
 
 export const icons = {
@@ -50,4 +52,6 @@ export {
   SearchFD,
   Settings,
   Time,
+  Dapps,
+  Complete
 };
