@@ -15,17 +15,17 @@ const useStyles = makeStyles(() =>
       alignItems:"center",
       flexDirection:"column",
       paddingBottom:"2rem",
-      font: (style: Props & Theme) => style.typography.h6,
+      font: (style: Props & Theme) => style.typography.body1,
       color:(style: Props & Theme) => style.textColorSecondary,
       "&:hover": {
-        font: (style: Props & Theme) => style.typography.h5,
+        font: (style: Props & Theme) => style.typography.body3,
         color:(style: Props & Theme) => style.textColorPrimary,
         '& svg': {
           fill:(style: Props & Theme) => style.textColorPrimary
         }
       },
       "&:active": {
-        font: (style: Props & Theme) => style.typography.h5,
+        font: (style: Props & Theme) => style.typography.body2,
         color:(style: Props & Theme) => style.textColorPrimary,
         '& svg': {
           fill:(style: Props & Theme) => style.textColorPrimary
