@@ -10,7 +10,7 @@ const useStyles = makeStyles(() =>
     container: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       borderRadius: "1rem",
-      width: '51rem',
+      width: '41rem',
       height: '36.5rem',
       padding: '4rem',
       display: 'flex',
@@ -25,14 +25,14 @@ const useStyles = makeStyles(() =>
       height: '7rem'
     },
     header: {
-      font: (style: Props & Theme) => style.typography.h2,
+      font: (style: Props & Theme) => style.typography.h6,
     },
     body: {
-      font: (style: Props & Theme) => style.typography.h4,
+      font: (style: Props & Theme) => style.typography.body1,
       color: (style: Props & Theme) => style.textColorSecondary,
     },
     button: {
-      font: (style: Props & Theme) => style.typography.h4,
+      font: (style: Props & Theme) => style.typography.body1,
       border: (style: Props & Theme) => `1px solid ${style.textColorPrimary}`,
       borderRadius: '0.5rem',
       padding: '1rem 2rem',
