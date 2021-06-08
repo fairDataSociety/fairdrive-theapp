@@ -6,10 +6,7 @@ import { Props } from "./buttonPill";
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      fontWeight: 'bold',
-      fontSize: '16px',
-      letterSpacing: '0',
-      lineHeight: '19px',
+
       // custom
       minWidth: "40rem",
       maxWidth: "55rem",
@@ -21,12 +18,12 @@ const useStyles = makeStyles(() =>
       border: "1px solid var(--dark3)", 
       backgroundColor: (style: Props & Theme) => style.backgroundLight3,
       color:(style: Props & Theme) => style.textColorPrimary,
-      font: (style: Props & Theme) => style.typography.h6,
+      font: (style: Props & Theme) => style.typography.body1,
       "&:hover": {
-        font: (style: Props & Theme) => style.typography.h5,
+        font: (style: Props & Theme) => style.typography.body3,
       },
       "&:active": {
-        font: (style: Props & Theme) => style.typography.h4,
+        font: (style: Props & Theme) => style.typography.body2,
         border: "1px solid var(--white)", 
       },
       margin:"0 auto 2rem auto"

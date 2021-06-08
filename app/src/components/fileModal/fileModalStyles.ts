@@ -60,7 +60,7 @@ const useStyles = makeStyles(() =>
       margin: "auto",
     },
     fileInfoContainer:{
-      font:(style: Props & Theme) => style.typography.h3,
+      font:(style: Props & Theme) => style.typography.body1,
       paddingTop:"3.5rem",
       display: "flex",
       flexDirection: "row",

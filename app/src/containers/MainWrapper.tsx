@@ -10,6 +10,7 @@ import SeedPhraseGen from "./../components/seedPhraseGen/seedPhraseGen";
 import SeedPhraseConfirm from "./../components/seedPhraseConfirm/seedPhraseConfirm";
 import { ThemeContext } from "../store/themeContext/themeContext";
 import useStyles from "./main/mainStyles";
+import Overview from "./overview/overview";
 export default function MainWrapper() {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
@@ -26,6 +27,8 @@ export default function MainWrapper() {
           <Route exact path="/confirm-seed" component={SeedPhraseConfirm} />
           <Route exact path="/" component={Main} />
           <Route exact path="/drive/:path" component={Home} />
+          <Route exact path="/explore" />
+          <Route exact path="/overview" component={Overview} />
         </Switch>
       </div>
     </Router>

@@ -9,6 +9,20 @@ import { ReactComponent as Search } from "../../media/UI/search.svg";
 import { ReactComponent as Folder } from "../../media/UI/folder.svg";
 import { ReactComponent as Upload } from "../../media/UI/upload.svg";
 import { ReactComponent as Plus } from "../../media/UI/plus.svg";
+import { ReactComponent as Bell } from "../../media/fairdrive/Bell.svg";
+import { ReactComponent as Dashboard } from "../../media/fairdrive/Dashboard.svg";
+import { ReactComponent as Drive } from "../../media/fairdrive/Drive.svg";
+import { ReactComponent as Filter } from "../../media/fairdrive/Filter.svg";
+import { ReactComponent as Globe } from "../../media/fairdrive/Globe.svg";
+import { ReactComponent as Image } from "../../media/fairdrive/Image.svg";
+import { ReactComponent as Profile } from "../../media/fairdrive/Profile.svg";
+import { ReactComponent as SearchFD } from "../../media/fairdrive/Search.svg";
+import { ReactComponent as Settings } from "../../media/fairdrive/Settings.svg";
+import { ReactComponent as Time } from "../../media/fairdrive/Time.svg";
+import { ReactComponent as StartFolder } from "../../media/UI/getStartedFolder.svg";
+import { ReactComponent as Dapps } from "../../media/UI/dapps.svg";
+import { ReactComponent as Complete } from "../../media/UI/complete.svg";
+
 
 export const icons = {
   QuestionMark: QuestionMark,
@@ -16,6 +30,7 @@ export const icons = {
 };
 
 export {
+  StartFolder,
   Spinner,
   Success,
   Fail,
@@ -27,4 +42,16 @@ export {
   Search,
   Upload,
   Plus,
+  Bell,
+  Dashboard,
+  Drive,
+  Filter,
+  Globe,
+  Image,
+  Profile,
+  SearchFD,
+  Settings,
+  Time,
+  Dapps,
+  Complete
 };

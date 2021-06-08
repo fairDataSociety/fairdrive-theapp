@@ -44,7 +44,6 @@ export async function createAccount(payload: Payload) {
 
 export const login = async (payload: Payload) => {
   try {
-  console.log(payload);
    const {username, password} = payload;
     const requestBody = {
       user: username,
