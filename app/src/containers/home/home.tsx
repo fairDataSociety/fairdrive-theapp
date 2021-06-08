@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
-import { Redirect, useParams, useHistory } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import useStyles from "./homeStyles";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
@@ -108,7 +108,7 @@ function Home(props: Props) {
       </Modal>
       <CardGrid>
         {!state.password && <Redirect to={"/"} />}
-        {files !== null &&
+        {files !== null ? (
           files
             .sort(sortByProp(toSort, orderProp))
             .map((file) =>
@@ -117,7 +117,10 @@ function Home(props: Props) {
               ) : (
                 <FileModal file={file}></FileModal>
               )
-            )}
+            )
+        ) : (
+          <div>Loading files..</div>
+        )}
       </CardGrid>
     </div>
   );

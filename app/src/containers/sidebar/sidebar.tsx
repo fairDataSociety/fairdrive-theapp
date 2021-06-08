@@ -16,9 +16,21 @@ function Sidebar(props: Props) {
   return (
     state.userData && (
       <div className={classes.Sidebar}>
-        <SidebarLink Icon={Dashboard} title="Overview"></SidebarLink>
-        <SidebarLink Icon={Drive} title="Drive"></SidebarLink>
-        <SidebarLink Icon={Globe} title="Explore"></SidebarLink>
+        <SidebarLink
+          Icon={Dashboard}
+          title="Overview"
+          path="/overview"
+        ></SidebarLink>
+        <SidebarLink
+          Icon={Drive}
+          title="Drive"
+          path="/drive/root"
+        ></SidebarLink>
+        <SidebarLink
+          Icon={Globe}
+          title="Explore"
+          path="/overview"
+        ></SidebarLink>
       </div>
     )
   );
