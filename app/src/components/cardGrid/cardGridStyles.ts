@@ -6,7 +6,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     CardGrid: {
       backgroundColor: "transparent",
-      height: "100vh",
+      height: "80vh",
       overflowX: "hidden",
       overflowY: "auto",
       flexDirection: "column",

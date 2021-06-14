@@ -10,7 +10,7 @@ const useStyles = makeStyles(() =>
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
       backgroundColor: (style: Props & Theme) => style.backgroundDark,
       width:"50rem",
-      height:"30rem",
+      height:"40rem",
       display: "flex",
       flexDirection: "column",
       padding:"2.5rem",
