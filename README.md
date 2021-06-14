@@ -28,7 +28,7 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 Demo: https://app.fairdrive.io
 
-# To run locally with remote api:
+### To run locally with remote api:
 
 - clone repo
 - yarn
@@ -37,7 +37,7 @@ Demo: https://app.fairdrive.io
 
 (nvm use 10)
 
-# To run locally with local api:
+### To run locally with local api:
 
 -> clone repo
 -> clone fairos repo -> https://github.com/fairDataSociety/fairOS-dfs
