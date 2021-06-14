@@ -17,7 +17,6 @@ function Main(props: Props) {
     <div className={classes.Main}>
       {/* <Login></Login> */}
       {state.password && <Redirect to={"/drive/root"} />}
-      <PodSidebar></PodSidebar>
       <ButtonLink label="Login" color="grey" path="/login"></ButtonLink>
       <ButtonLink label="Register" color="grey" path="/register"></ButtonLink>
     </div>

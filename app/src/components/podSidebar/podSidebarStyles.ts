@@ -8,7 +8,7 @@ const useStyles = makeStyles(() =>
       // we merge Props & Theme interfaces and call this merged object "style".
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-
+      height: "100vh",
       display:"flex",
       alignItems:"center",
       flexDirection: "column",

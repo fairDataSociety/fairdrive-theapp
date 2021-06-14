@@ -5,8 +5,9 @@ import { Redirect, useParams } from "react-router-dom";
 import useStyles from "./homeStyles";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
-import { fileUpload, getDirectory } from "../../store/services/fairOS";
+import { getDirectory } from "../../store/services/fairOS";
 import FileModal from "../../components/fileModal/fileModal";
+import PodSidebar from "../../components/podSidebar/podSidebar";
 import sortByProp from "../../store/helpers/sort";
 import { Plus, Upload } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
@@ -86,6 +87,8 @@ function Home(props: Props) {
   };
   return (
     <div className={classes.Home}>
+      <PodSidebar></PodSidebar>
+
       <div className={classes.buttonNavBar}>
         <Upload onClick={onIconClick} className={classes.Icon}></Upload>
         <input

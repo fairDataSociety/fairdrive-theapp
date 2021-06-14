@@ -12,7 +12,7 @@ const useStyles = makeStyles(() =>
       position:"absolute",
       display:"flex",
       flexDirection:"column",
-      margin: "7rem 0 0 14rem",
+      margin: "6rem 0 0 12rem",
 
     },
     buttonNavBar:{
