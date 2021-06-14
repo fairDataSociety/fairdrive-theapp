@@ -9,6 +9,7 @@ export interface Props {
   setFiles?: any;
   color?: string;
   textColor?: string;
+  size?: string;
 }
 
 function ButtonPill(props: Props) {
