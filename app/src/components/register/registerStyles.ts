@@ -19,7 +19,7 @@ const useStyles = makeStyles(() =>
 
     },
     registerContainer:{
-      paddingLeft:"24rem",
+      paddingLeft:"7rem",
       display: "flex",
       flexDirection: "column",
       justifyItems: "center",
