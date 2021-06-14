@@ -6,26 +6,34 @@ import { Props } from "./textField";
 const useStyles = makeStyles(() =>
   createStyles({
     TextField: {
+      width:"40rem",
+      height:"4rem",
       display: "flex",
-      background: ' #EEF0FF',
       flexDirection: "column",
       placeItems: "center",
-      backgroundColor: (style: Props & Theme) => style.backgroundDark2,
+      backgroundColor: (style: Props & Theme) => style.disabled?style.backgroundDark1: style.backgroundDark2,
       paddingBottom: '1rem',
-      border: "1px solid var(--light3)",
+      border:(style: Props & Theme) => style.disabled?"1px solid var(--dark1)": "1px solid var(--light3)",
       borderRadius:"1rem",
       marginBottom:"2.5rem",
       textAlign: 'left',
       padding:"1rem",
-      color:"#16181D",
-    },
-    input: {
-      width:"40rem",
-      height:"2.5rem",
+      font: (style: Props & Theme) => style.typography.body2,
       color:(style: Props & Theme) => style.textColorPrimary,
-      outline: 'none',
-      backgroundColor: (style: Props & Theme) => style.backgroundDark2,
+      "&:hover": {
+        border:(style: Props & Theme) => style.disabled?"1px solid var(--dark1)": "1px solid var(--white)", 
+        color:"var(--white)",
+      },
+      "&:focus":{
+        color:"var(--white)",
+        border: "1px solid var(--light2)", 
+      },
+      "&:invalid":{
+        color:"var(--white)",
+        border: "1px solid var(--red)", 
+      }
     },
+    
   })
 );
 
