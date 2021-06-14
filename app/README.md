@@ -6,11 +6,12 @@ Fairdrive is a dApp that enables decentralized storage on Swarm. It consists of 
 
 ## What is Fairdrive Protocol
 
-Fairdrive Protocol is dapp built on top of Fairos to serve other dapps as a integration plug and play app that can be injected into components. Visit the Fairdrive Protocol documentation and github repository here.
+Fairdrive Protocol is dapp built on top of Fairos to serve other dapps as a integration plug and play app that can be injected into components. Visit the Fairdrive Protocol documentation and github repository here -> https://github.com/fairDataSociety/fairdrive-protocol.
 
 Fairdrive consists of these parts:
 
 - Fairdrive > a dapp
+- Fairdrive Protocol -> app that communicates with FairOS
 - FairOS > a filesystem running on Swarm
 
 ## How does it work
