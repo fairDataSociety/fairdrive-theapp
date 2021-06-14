@@ -31,6 +31,7 @@ function FileModal(props: Props) {
   const [fileModDate, setFileModDate] = useState("");
   const [blob, setBlob] = useState(null);
   let blobFile;
+  
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
