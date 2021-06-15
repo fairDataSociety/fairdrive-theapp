@@ -22,6 +22,7 @@ import { ReactComponent as Time } from "../../media/fairdrive/Time.svg";
 import { ReactComponent as StartFolder } from "../../media/UI/getStartedFolder.svg";
 import { ReactComponent as Dapps } from "../../media/UI/dapps.svg";
 import { ReactComponent as Complete } from "../../media/UI/complete.svg";
+import { ReactComponent as Close } from "../../media/UI/close.svg";
 
 
 export const icons = {
@@ -53,5 +54,6 @@ export {
   Settings,
   Time,
   Dapps,
-  Complete
+  Complete,
+  Close
 };
