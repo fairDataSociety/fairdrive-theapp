@@ -3,11 +3,8 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import ButtonLink from "../buttonLink/buttonLink";
-import welcomeImage from "../../media/images/welcome-image.png";
 
 import TextField from "../textField/textField";
-import { useHistory, Redirect } from "react-router-dom";
 import {
   createAccount,
   createDirectory,
@@ -29,28 +26,29 @@ function SeedPhraseConfirm(props: Props) {
   const [podCreated, setPodCreated] = useState(false);
   const [folderCreated, setFolderCreated] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
-    async function createNewPod() {
-      if (state.address) {
-        try {
-          setUserCreated(true);
-          await createPod(state.password);
-
-          setPodCreated(true);
-          await createDirectory("Documents");
-          await createDirectory("Movies");
-          await createDirectory("Music");
-          await createDirectory("Pictures");
-          setFolderCreated(true);
-          history.push("/drive/root");
-        } catch (err) {
-          console.log(err);
-        }
-      }
+    if (userCreated) {
+      createPods();
     }
-  }, [state.address]);
+  }, [userCreated]);
+
+  useEffect(() => {
+    if (podCreated) {
+      createDirectories();
+    }
+  }, [podCreated]);
+  const createDirectories = async () => {
+    await createDirectory("Documents");
+    await createDirectory("Movies");
+    await createDirectory("Music");
+    await createDirectory("Pictures");
+    setFolderCreated(true);
+  };
+  const createPods = async () => {
+    await createPod(state.password);
+    setPodCreated(true);
+  };
   async function onRegister() {
     console.log("in confirm component", state.mnemonic);
 
@@ -68,33 +66,27 @@ function SeedPhraseConfirm(props: Props) {
         password: state.password,
         mnemonic: state.mnemonic,
       });
-      setUserCreated(true);
-      await createPod(state.password);
-
-      setPodCreated(true);
       actions.userLogin({ username: state.username, password: state.password });
+      setUserCreated(true);
     }
   }
 
-  useEffect(() => {
-    if (!state.mnemonic) return null;
-    const seedWords = state.mnemonic.split(" ");
-    if (
-      wordFive === seedWords[4] &&
-      wordEleven === seedWords[10] &&
-      wordTwelve === seedWords[11] &&
-      state.userData
-    ) {
-      history.push("/drive/root");
-    }
-  }, [state.userData]);
+  // useEffect(() => {
+  //   if (!state.mnemonic) return null;
+  //   const seedWords = state.mnemonic.split(" ");
+  //   if (
+  //     wordFive === seedWords[4] &&
+  //     wordEleven === seedWords[10] &&
+  //     wordTwelve === seedWords[11] &&
+  //     state.userData
+  //   ) {
+  //   }
+  // }, [state.userData]);
 
   return (
     <div>
       {!registerLoader && (
         <div className={classes.Login}>
-          <img src={welcomeImage}></img>
-
           <div className={classes.registerContainer}>
             <div className={classes.title}>Continue without single-sign-on</div>
 

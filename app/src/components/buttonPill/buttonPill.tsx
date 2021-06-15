@@ -17,11 +17,11 @@ function ButtonPill(props: Props) {
   const { theme } = useContext(ThemeContext);
   const { text, clickFunction } = props;
   const classes = useStyles({ ...props, ...theme });
-  useEffect(() => {
-    if (props.setFiles) {
-      props.setFiles(state.entries);
-    }
-  }, [state.entries]);
+  // useEffect(() => {
+  //   if (props.setFiles) {
+  //     props.setFiles(state.entries);
+  //   }
+  // }, [state.entries]);
   return (
     <div className={classes.button} onClick={clickFunction}>
       {text}

@@ -4,10 +4,10 @@ import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
 import ButtonPill from "../buttonPill/buttonPill";
 import SeedPhrase from "../seedPhrase/seedPhrase";
-import { useHistory, Redirect } from "react-router-dom";
-import welcomeImage from "../../media/images/welcome-image.png";
 
-export interface Props {}
+export interface Props {
+  onContinue: any;
+}
 
 function SeedPhraseGen(props: Props) {
   const { state, actions } = useContext(StoreContext);
@@ -15,18 +15,15 @@ function SeedPhraseGen(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   const [hasError, setHasError] = useState(false);
-  const history = useHistory();
 
-  async function onContinue() {
-    history.push("/confirm-seed");
-  }
+  // async function onContinue() {
+  //   history.push("/confirm-seed");
+  // }
 
   console.log("mnemonic", state.mnemonic);
 
   return (
     <div className={classes.Login}>
-      <img src={welcomeImage}></img>
-
       <div className={classes.registerContainer}>
         <div className={classes.title}>Registering account...</div>
 
@@ -51,7 +48,10 @@ function SeedPhraseGen(props: Props) {
         ) : (
           ""
         )}
-        <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
+        <ButtonPill
+          text={"Continue"}
+          clickFunction={props.onContinue}
+        ></ButtonPill>
       </div>
     </div>
   );
