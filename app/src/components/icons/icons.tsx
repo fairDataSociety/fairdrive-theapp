@@ -55,5 +55,7 @@ export {
   Settings,
   Time,
   Dapps,
-  Complete
+  Complete,
+  Kebab,
+  Close
 };
