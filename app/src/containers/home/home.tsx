@@ -18,7 +18,7 @@ export interface Props {
 function Home(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState([]);
   const [open, setOpen] = useState(false);
   const [folderCreated, setFolderCreated] = useState(false);
   const classes = useStyles({ ...props, ...theme });
@@ -50,12 +50,12 @@ function Home(props: Props) {
   }, [state.fileUploaded, folderCreated, state.directory]);
 
   useEffect(() => {
-    setFiles(state.entries);
+    if (state.entries !== null) setFiles(state.entries);
   }, [state.entries]);
 
   useEffect(() => {
     if (state.searchQuery === "" && files.length !== state.entries.length) {
-      setFiles(state.entries);
+      loadDirectory();
     } else if (state.searchQuery !== null) {
       const filterFiles = state.entries.filter((file) =>
         file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
