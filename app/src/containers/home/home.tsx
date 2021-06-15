@@ -5,9 +5,8 @@ import { Redirect, useParams } from "react-router-dom";
 import useStyles from "./homeStyles";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
-import { getDirectory } from "../../store/services/fairOS";
+import { fileUpload, getDirectory } from "../../store/services/fairOS";
 import FileModal from "../../components/fileModal/fileModal";
-import PodSidebar from "../../components/podSidebar/podSidebar";
 import sortByProp from "../../store/helpers/sort";
 import { Plus, Upload } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
@@ -56,6 +55,7 @@ function Home(props: Props) {
     if (folderCreated === true) {
       setOpen(false);
     }
+    // eslint-disable-next-line
   }, [params, state.fileUploaded, folderCreated]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function Home(props: Props) {
       );
       setFiles(filterFiles);
     }
-  }, [state.searchQuery]);
+  }, [state.entries, state.searchQuery]);
   const onIconClick = () => {
     // `current` points to the mounted file input element
     inputFile.current.click();
@@ -87,8 +87,6 @@ function Home(props: Props) {
   };
   return (
     <div className={classes.Home}>
-      <PodSidebar></PodSidebar>
-
       <div className={classes.buttonNavBar}>
         <Upload onClick={onIconClick} className={classes.Icon}></Upload>
         <input
@@ -107,14 +105,14 @@ function Home(props: Props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <NewFolder setResponse={setFolderCreated}></NewFolder>
+        <NewFolder setResponse={setFolderCreated} />
       </Modal>
-      <CardGrid>
+      <CardGrid className={classes.cardGrid}>
         {!state.password && <Redirect to={"/"} />}
         {files !== null ? (
           files
             .sort(sortByProp(toSort, orderProp))
-            .map((file) =>
+            .map((file: any) =>
               file.content_type === "inode/directory" ? (
                 <FileCard file={file} />
               ) : (
