@@ -13,6 +13,7 @@ const useStyles = makeStyles(() =>
       alignItems:"center",
       flexDirection: "column",
       padding:"2rem",
+      marginLeft:"12rem",
       width:"28rem",
       font: (style: Props & Theme) => style.typography.caption1,
     },

@@ -39,9 +39,19 @@ function BoilerPlate(props: Props) {
         Switch from shared to private pod to see Home pod
       </div>
       <div className={classes.pods}>
-        <ButtonPill clickFunction={() => {}} text="Create new pod"></ButtonPill>
+        <ButtonPill
+          clickFunction={() => {}}
+          size="medium"
+          text="Create new pod"
+        ></ButtonPill>
         {pods.map((pod) => {
-          return <ButtonPill clickFunction={() => {}} text={pod}></ButtonPill>;
+          return (
+            <ButtonPill
+              clickFunction={() => {}}
+              size="medium"
+              text={pod}
+            ></ButtonPill>
+          );
         })}
       </div>
       <div className={classes.switchPods}>

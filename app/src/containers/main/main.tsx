@@ -11,8 +11,6 @@ export interface Props {}
 function Main(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const [showRegisterComponent, setShowRegisterComponent] = useState(false);
-  const [showLoginComponent, setShowLoginComponent] = useState(false);
   const classes = useStyles({ ...props, ...theme });
   useEffect(() => {
     console.log(state.userData);
