@@ -78,6 +78,7 @@ function Home(props: Props) {
   };
   return (
     <div className={classes.Home}>
+      {/* Needs to go into buttonNavbar component */}
       <div className={classes.buttonNavBar}>
         <Upload onClick={onIconClick} className={classes.Icon}></Upload>
         <input

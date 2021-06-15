@@ -3,9 +3,8 @@ import useStyles from "./mainStyles";
 import ButtonPill from "../../components/buttonPill/buttonPill";
 import { StoreContext } from "../../store/store";
 import { ThemeContext } from "../../store/themeContext/themeContext";
-import Login from "../../components/login/login";
 import Home from "../home/home";
-import Register from "../../components/register/register";
+import LoginRegisterPage from "../loginRegisterPage/loginRegisterPage";
 
 export interface Props {}
 
@@ -23,39 +22,7 @@ function Main(props: Props) {
       {state.userData?.code === 200 ? (
         <Home></Home>
       ) : (
-        !showRegisterComponent &&
-        !showLoginComponent && (
-          <div className={classes.loginRegisterButtons}>
-            {" "}
-            <ButtonPill
-              text="Login"
-              color="grey"
-              clickFunction={() => {
-                setShowLoginComponent(true);
-                setShowRegisterComponent(false);
-              }}
-            />
-            <ButtonPill
-              text="Register"
-              color="grey"
-              clickFunction={() => {
-                setShowLoginComponent(false);
-                setShowRegisterComponent(true);
-              }}
-            />
-          </div>
-        )
-      )}
-      {state.userData?.code !== 200 && showLoginComponent && (
-        <Login
-          backFunction={() => {
-            setShowLoginComponent(false);
-            setShowRegisterComponent(false);
-          }}
-        ></Login>
-      )}
-      {state.userData?.code !== 200 && showRegisterComponent && (
-        <Register></Register>
+        <LoginRegisterPage></LoginRegisterPage>
       )}
     </div>
   );
