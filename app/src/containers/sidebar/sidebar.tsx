@@ -6,35 +6,46 @@ import SidebarItem from "../../components/sidebarItem/sidebarItem";
 import { Drive, Dashboard, Globe } from "../../components/icons/icons";
 
 export interface Props {
+  showPodSidebar: boolean;
+  setShowPodSidebar: any;
+  sidebarItem: string;
   setSidebarItem: any;
 }
 
 function Sidebar(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-
+  const { showPodSidebar, setShowPodSidebar, sidebarItem, setSidebarItem } =
+    props;
   const classes = useStyles({ ...props, ...theme });
   //Load pods
+  const switchPages = async (pageName: string) => {
+    if (pageName === sidebarItem) {
+      setShowPodSidebar(!showPodSidebar);
+    } else {
+      setSidebarItem(pageName);
+    }
+  };
   return (
     state.userData && (
       <div className={classes.Sidebar}>
         <SidebarItem
           onClick={() => {
-            props.setSidebarItem("Overview");
+            switchPages("Overview");
           }}
           Icon={Dashboard}
           title="Overview"
         />
         <SidebarItem
           onClick={() => {
-            props.setSidebarItem("Drive");
+            switchPages("Drive");
           }}
           Icon={Drive}
           title="Drive"
         />
         <SidebarItem
           onClick={() => {
-            props.setSidebarItem("Explore");
+            switchPages("Explore");
           }}
           Icon={Globe}
           title="Explore"

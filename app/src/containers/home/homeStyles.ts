@@ -10,7 +10,7 @@ const useStyles = makeStyles(() =>
 			backgroundColor: 'transparent',
 			position: 'absolute',
 			display: 'flex',
-			flexDirection: 'column',
+			flexDirection: 'row',
 			width: 'calc(100vw - 12rem)',
 			top: '6rem',
 		},
