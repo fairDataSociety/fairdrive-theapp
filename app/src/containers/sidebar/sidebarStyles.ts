@@ -11,7 +11,6 @@ const useStyles = makeStyles(() =>
 			position: 'absolute',
 			display: 'flex',
 			left: 0,
-			top: '6rem',
 			flexDirection: 'column',
 			alignItems: 'center',
 		},

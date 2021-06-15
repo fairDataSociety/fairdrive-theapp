@@ -1,31 +1,26 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
-import useStyles from "./sidebarLinkStyles";
-import { NavLink } from "react-router-dom";
+import useStyles from "./sidebarItemStyles";
 
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   title: string;
-  path: string;
+  onClick: any;
 }
 
-function SidebarLink(props: Props) {
+function SidebarItem(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const { Icon, title, path } = props;
+  const { Icon, title } = props;
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <div
-      //   activeClassName={classes.activeSidebarLink}
-      className={classes.SidebarLink}
-      //   to={path}
-    >
+    <div onClick={props.onClick} className={classes.SidebarItem}>
       <Icon className={classes.Icon} />
       {title}
     </div>
   );
 }
 
-export default React.memo(SidebarLink);
+export default React.memo(SidebarItem);

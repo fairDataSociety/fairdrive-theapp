@@ -1,11 +1,11 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
 import { Theme } from '../../store/themeContext/themes';
-import { Props } from './sidebarLink';
+import { Props } from './sidebarItem';
 
 const useStyles = makeStyles(() =>
 	createStyles({
-		SidebarLink: {
+		SidebarItem: {
 			// we merge Props & Theme interfaces and call this merged object "style".
 			//component props and ui theme properties are available on the style object (yay auto-complete!!).
 			// backgroundColor: (style: Props & Theme) => style.backgroundDark,
@@ -32,7 +32,7 @@ const useStyles = makeStyles(() =>
 				},
 			},
 		},
-		activeSidebarLink: {
+		activeSidebarItem: {
 			color: 'teal',
 		},
 		Icon: {

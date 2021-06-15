@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./overviewStyles";
-import SetupCards from "../../components/setUpCards/setUpCards";
+import SetupCards from "../setUpCards/setUpCards";
 export interface Props {}
 
 function Overview(props: Props) {
