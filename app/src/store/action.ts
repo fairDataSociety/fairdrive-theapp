@@ -48,6 +48,12 @@ export const useActions = (state, dispatch) => ({
       type: types.SET_SEARCH_QUERY,
       payload: data,
     });
+  },
+  setDirectory:(data)=>{
+    dispatch({
+      type: types.SET_DIRECTORY,
+      payload: data,
+    });
   }
 
 });
@@ -60,4 +66,5 @@ export interface Actions {
   getSeedPhrase:(data:any) => void;
   createUser:(data:any) => void;
   setSearchQuery:(data:any) => void;
+  setDirectory:(data: any) => void;
 }
