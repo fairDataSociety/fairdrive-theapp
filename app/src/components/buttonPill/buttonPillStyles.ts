@@ -8,12 +8,12 @@ const useStyles = makeStyles(() =>
     button: {
 
       // custom
-      minWidth: (style: Props & Theme) => style.size ==="small"? "10rem ":"20rem",
+      minWidth: (style: Props & Theme) => style.size ==="small"? "10rem ":"40rem",
       maxWidth:  (style: Props & Theme) => style.size ==="small"? "12rem ": "55rem",
       textAlign: 'center',
       boxSizing: 'border-box',
       borderRadius: (style: Props & Theme) => style.size ==="small"? "0" : "1rem",
-      padding:"1rem",
+      padding:"2rem",
       cursor: 'pointer',
       border:"1px solid var(--dark3)", 
       backgroundColor: (style: Props & Theme) => style.backgroundLight3,
