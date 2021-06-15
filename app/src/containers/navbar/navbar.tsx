@@ -3,7 +3,7 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./navbarStyles";
 import { Link } from "react-router-dom";
-import SearchBar from '../../components/searchBar/searchBar';
+import SearchBar from "../../components/searchBar/searchBar";
 
 export interface Props {}
 
@@ -17,9 +17,7 @@ function Navbar(props: Props) {
       <Link to={"/"} className={classes.logo}>
         Fairdrive
       </Link>
-      {!state.userData && (
-        <SearchBar />
-      )}
+      {state.userData && <SearchBar />}
     </div>
   );
 }

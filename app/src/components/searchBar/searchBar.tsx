@@ -10,7 +10,6 @@ function SearchBar(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  const [searchQuery, setSearchQuery] = useState("");
   const handleSetProp = (e: any) => {
     actions.setSearchQuery(e.target.value);
   };
@@ -28,7 +27,7 @@ function SearchBar(props: Props) {
           onChange={(e) => handleSetProp(e)}
         ></input>
         <div className={classes.iconContainer}>
-            <Close className={classes.Icon} onClick={() => {}}/>
+          <Close className={classes.Icon} onClick={() => {}} />
         </div>
       </div>
     </div>
