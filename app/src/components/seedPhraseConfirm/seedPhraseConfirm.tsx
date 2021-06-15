@@ -32,25 +32,28 @@ function SeedPhraseConfirm(props: Props) {
   const history = useHistory();
 
   useEffect(() => {
-    async function createNewPod() {
-      if (state.address) {
-        try {
-          setUserCreated(true);
-          await createPod(state.password);
-
-          setPodCreated(true);
-          await createDirectory("Documents");
-          await createDirectory("Movies");
-          await createDirectory("Music");
-          await createDirectory("Pictures");
-          setFolderCreated(true);
-          history.push("/drive/root");
-        } catch (err) {
-          console.log(err);
-        }
-      }
+    if (userCreated) {
+      createPods();
     }
-  }, [state.address]);
+  }, [userCreated]);
+
+  useEffect(() => {
+    if (podCreated) {
+      createDirectories();
+    }
+  }, [podCreated]);
+  const createDirectories = async () => {
+    await createDirectory("Documents");
+    await createDirectory("Movies");
+    await createDirectory("Music");
+    await createDirectory("Pictures");
+    setFolderCreated(true);
+    history.push("/drive/root");
+  };
+  const createPods = async () => {
+    await createPod(state.password);
+    setPodCreated(true);
+  };
   async function onRegister() {
     console.log("in confirm component", state.mnemonic);
 
@@ -68,11 +71,8 @@ function SeedPhraseConfirm(props: Props) {
         password: state.password,
         mnemonic: state.mnemonic,
       });
-      setUserCreated(true);
-      await createPod(state.password);
-
-      setPodCreated(true);
       actions.userLogin({ username: state.username, password: state.password });
+      setUserCreated(true);
     }
   }
 
@@ -93,8 +93,6 @@ function SeedPhraseConfirm(props: Props) {
     <div>
       {!registerLoader && (
         <div className={classes.Login}>
-          <img src={welcomeImage}></img>
-
           <div className={classes.registerContainer}>
             <div className={classes.title}>Continue without single-sign-on</div>
 

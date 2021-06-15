@@ -16,6 +16,7 @@ export interface State {
 	inviteCode: string;
 	address: string;
 	errMsg: string;
+	directory: string;
 }
 
 const initialState: State = {
@@ -34,6 +35,7 @@ const initialState: State = {
 	inviteCode: '',
 	address: '',
 	errMsg: '',
+	directory:'root'
 };
 
 const reducer = (state = initialState, action) => {
@@ -85,6 +87,11 @@ const reducer = (state = initialState, action) => {
 				...state,
 				searchQuery: action.payload,
 			};
+		case types.SET_DIRECTORY:
+			return {
+				...state,
+				directory: action.payload,
+			}
 		default:
 			return state;
 	}

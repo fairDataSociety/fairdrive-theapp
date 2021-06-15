@@ -7,6 +7,8 @@ import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
 import { useHistory, Redirect } from "react-router-dom";
 import { isUsernamePresent } from "../../store/services/fairOS";
+import SeedPhraseGen from "../seedPhraseGen/seedPhraseGen";
+import SeedPhraseConfirm from "../seedPhraseConfirm/seedPhraseConfirm";
 import welcomeImage from "../../media/images/welcome-image.png";
 
 export interface Props {}
@@ -22,11 +24,15 @@ function Register(props: Props) {
 
   const [hasError, setHasError] = useState(false);
   const history = useHistory();
-
+  const [showRegisterArea, setShowRegisterArea] = useState(true);
+  const [showMnemonicArea, setShowMnemonicArea] = useState(false);
+  const [showMnemonicInputArea, setShowMnemonicInputArea] = useState(false);
   useEffect(() => {
     if (state.mnemonic !== null) {
       console.log(state.mnemonic);
-      history.push("/generate-seed");
+      setShowRegisterArea(false);
+      setShowMnemonicArea(true);
+      setShowMnemonicInputArea(false);
     }
   }, [state.mnemonic]);
 
@@ -50,45 +56,49 @@ function Register(props: Props) {
     <div className={classes.Login}>
       <img src={welcomeImage}></img>
 
-      <div className={classes.registerContainer}>
-        <div className={classes.title}>Account Credentials</div>
+      {showRegisterArea && (
+        <div className={classes.registerContainer}>
+          <div className={classes.title}>Account Credentials</div>
 
-        <div className={classes.description}>
-          Depending on the option you choose, you’ll either get to log back in
-          or register a new account. All of this will be automatically
-          determined for you.
+          <div className={classes.description}>
+            Depending on the option you choose, you’ll either get to log back in
+            or register a new account. All of this will be automatically
+            determined for you.
+          </div>
+
+          <TextField
+            placeholder="Username"
+            type="text"
+            setHasError={setHasError}
+            setProp={setUsername}
+            onContinue={onContinue}
+          ></TextField>
+
+          <TextField
+            placeholder="Password"
+            type="password"
+            setHasError={setHasError}
+            setProp={setPassword}
+            onContinue={onContinue}
+          ></TextField>
+          {hasError ? (
+            <div className={classes.errormsg}>Could not login.</div>
+          ) : (
+            ""
+          )}
+          <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
         </div>
-
-        <TextField
-          placeholder="Username"
-          type="text"
-          setHasError={setHasError}
-          setProp={setUsername}
-          onContinue={onContinue}
-        ></TextField>
-
-        <TextField
-          placeholder="Password"
-          type="password"
-          setHasError={setHasError}
-          setProp={setPassword}
-          onContinue={onContinue}
-        ></TextField>
-
-        {/* <TextField
-  placeholder="Invite Code"
-  type="text"
-  setHasError={setHasError}
-  setProp={setInviteCode}
-  onContinue={onContinue}
-></TextField> */}
-        {hasError ? (
-          <div className={classes.errormsg}>Could not login.</div>
-        ) : (
-          ""
-        )}
-        <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
-      </div>
+      )}
+      {showMnemonicArea && (
+        <SeedPhraseGen
+          onContinue={() => {
+            setShowRegisterArea(false);
+            setShowMnemonicArea(false);
+            setShowMnemonicInputArea(true);
+          }}
+        ></SeedPhraseGen>
+      )}
+      {showMnemonicInputArea && <SeedPhraseConfirm></SeedPhraseConfirm>}
     </div>
   );
 }

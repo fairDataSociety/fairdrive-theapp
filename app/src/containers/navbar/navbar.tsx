@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./navbarStyles";
-import { Link } from "react-router-dom";
 import SearchBar from "../../components/searchBar/searchBar";
 
 export interface Props {}
@@ -14,9 +13,14 @@ function Navbar(props: Props) {
 
   return (
     <div className={classes.Navbar}>
-      <Link to={"/"} className={classes.logo}>
+      <div
+        onClick={() => {
+          actions.setDirectory("root");
+        }}
+        className={classes.logo}
+      >
         Fairdrive
-      </Link>
+      </div>
       {state.userData && <SearchBar />}
     </div>
   );

@@ -30,17 +30,12 @@ function Home(props: Props) {
   const [toSort, setToSort] = useState(toSortProp);
   const orderProp = "asc";
   const inputFile = useRef(null);
-  //Add action to load files
+
   async function loadDirectory() {
     try {
-      const newPath = path.replace(/&/g, "/");
-      const res = await getDirectory({
-        directory: newPath,
-        password: state.password,
-      });
-      setFiles(res.entries);
+      setFiles(null);
       actions.getDirectory({
-        directory: newPath,
+        directory: state.directory,
         password: state.password,
       });
     } catch (e) {
@@ -56,14 +51,14 @@ function Home(props: Props) {
       setOpen(false);
     }
     // eslint-disable-next-line
-  }, [params, state.fileUploaded, folderCreated]);
+  }, [state.fileUploaded, folderCreated, state.directory]);
 
   useEffect(() => {
     setFiles(state.entries);
   }, [state.entries]);
 
   useEffect(() => {
-    if (state.searchQuery === "") {
+    if (state.searchQuery === "" && files.length !== state.entries.length) {
       setFiles(state.entries);
     } else if (state.searchQuery !== null) {
       const filterFiles = state.entries.filter((file) =>
@@ -71,7 +66,7 @@ function Home(props: Props) {
       );
       setFiles(filterFiles);
     }
-  }, [state.entries, state.searchQuery]);
+  }, [state.searchQuery]);
   const onIconClick = () => {
     // `current` points to the mounted file input element
     inputFile.current.click();

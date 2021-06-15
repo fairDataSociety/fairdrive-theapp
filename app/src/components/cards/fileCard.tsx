@@ -1,57 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import CardWrapper from './cardWrapper/cardWrapper';
-import CardHeader from './cardHeader/cardHeader';
-import CardBody from './cardBody/cardBody';
-import { InfoIcon, Folder } from '../icons/icons';
-import { useHistory } from 'react-router-dom';
-import prettyBytes from 'pretty-bytes';
-import moment from 'moment';
-type Sizes = 'small' | 'regular' | 'big';
+import React, { useContext, useEffect, useState } from "react";
+import CardWrapper from "./cardWrapper/cardWrapper";
+import CardHeader from "./cardHeader/cardHeader";
+import CardBody from "./cardBody/cardBody";
+import { InfoIcon, Folder } from "../icons/icons";
+import { useHistory } from "react-router-dom";
+import prettyBytes from "pretty-bytes";
+import moment from "moment";
+import actionTypes from "../../store/actionTypes";
+import { StoreContext } from "../../store/store";
+type Sizes = "small" | "regular" | "big";
 export interface Props {
-	size?: Sizes;
-	file: any;
+  size?: Sizes;
+  file: any;
 }
 
 function FileCard(props: Props) {
-	const { file } = props;
+  const { file } = props;
+  const { actions } = useContext(StoreContext);
 
-	const history = useHistory();
-	async function onFileClick() {
-		if (file.content_type === 'inode/directory') {
-			history.push(`/drive/${file.name}`);
-		}
-	}
+  const history = useHistory();
+  async function onFileClick() {
+    if (file.content_type === "inode/directory") {
+      console.log(file.name);
+      actions.setDirectory(file.name);
+    }
+  }
 
-	const [fileSize, setFileSize] = useState('');
-	const [fileCreateDate, setFileCreateDate] = useState('');
-	const [fileModDate, setFileModDate] = useState('');
-	const [Icon, setIcon] = useState(null);
+  const [fileSize, setFileSize] = useState("");
+  const [fileCreateDate, setFileCreateDate] = useState("");
+  const [fileModDate, setFileModDate] = useState("");
+  const [Icon, setIcon] = useState(null);
 
-	useEffect(() => {
-		file.content_type === 'inode/directory'
-			? setIcon(Folder)
-			: setIcon(InfoIcon);
-		if (file.size) {
-			setFileSize(prettyBytes(parseInt(file.size)));
-			setFileCreateDate(
-				moment.unix(file.creation_time).format('DD/MM/YYYY HH:mm:ss')
-			);
-			setFileModDate(
-				moment.unix(file.modification_time).format('DD/MM/YYYY HH:mm:ss')
-			);
-		}
-	}, [file]);
+  useEffect(() => {
+    file.content_type === "inode/directory"
+      ? setIcon(Folder)
+      : setIcon(InfoIcon);
+    if (file.size) {
+      setFileSize(prettyBytes(parseInt(file.size)));
+      setFileCreateDate(
+        moment.unix(file.creation_time).format("DD/MM/YYYY HH:mm:ss")
+      );
+      setFileModDate(
+        moment.unix(file.modification_time).format("DD/MM/YYYY HH:mm:ss")
+      );
+    }
+  }, [file]);
 
-	return (
-		<CardWrapper onFileClick={onFileClick} size={props.size}>
-			<CardHeader
-				isDirectory={file.content_type === 'inode/directory'}
-				Icon={Icon}
-				heading={file.name}
-			/>
-			<CardBody fileSize={fileSize} dateCreated={fileCreateDate} />
-		</CardWrapper>
-	);
+  return (
+    <CardWrapper onFileClick={onFileClick} size={props.size}>
+      <CardHeader
+        isDirectory={file.content_type === "inode/directory"}
+        Icon={Icon}
+        heading={file.name}
+      />
+      <CardBody fileSize={fileSize} dateCreated={fileCreateDate} />
+    </CardWrapper>
+  );
 }
 
 export default React.memo(FileCard);
