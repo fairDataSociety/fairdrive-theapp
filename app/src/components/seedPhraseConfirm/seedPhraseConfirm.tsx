@@ -3,11 +3,8 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import ButtonLink from "../buttonLink/buttonLink";
-import welcomeImage from "../../media/images/welcome-image.png";
 
 import TextField from "../textField/textField";
-import { useHistory, Redirect } from "react-router-dom";
 import {
   createAccount,
   createDirectory,
@@ -29,7 +26,6 @@ function SeedPhraseConfirm(props: Props) {
   const [podCreated, setPodCreated] = useState(false);
   const [folderCreated, setFolderCreated] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     if (userCreated) {
@@ -48,7 +44,6 @@ function SeedPhraseConfirm(props: Props) {
     await createDirectory("Music");
     await createDirectory("Pictures");
     setFolderCreated(true);
-    history.push("/drive/root");
   };
   const createPods = async () => {
     await createPod(state.password);
@@ -76,18 +71,17 @@ function SeedPhraseConfirm(props: Props) {
     }
   }
 
-  useEffect(() => {
-    if (!state.mnemonic) return null;
-    const seedWords = state.mnemonic.split(" ");
-    if (
-      wordFive === seedWords[4] &&
-      wordEleven === seedWords[10] &&
-      wordTwelve === seedWords[11] &&
-      state.userData
-    ) {
-      history.push("/drive/root");
-    }
-  }, [state.userData]);
+  // useEffect(() => {
+  //   if (!state.mnemonic) return null;
+  //   const seedWords = state.mnemonic.split(" ");
+  //   if (
+  //     wordFive === seedWords[4] &&
+  //     wordEleven === seedWords[10] &&
+  //     wordTwelve === seedWords[11] &&
+  //     state.userData
+  //   ) {
+  //   }
+  // }, [state.userData]);
 
   return (
     <div>

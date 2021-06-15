@@ -13,18 +13,16 @@ export default function MainWrapper() {
   const classes = useStyles(theme);
 
   return (
-    <Router>
-      <div className={classes.App}>
-        <Navbar />
-        <Sidebar />
-
-        <Switch>
+    <div className={classes.App}>
+      <Navbar />
+      <Sidebar />
+      <Main></Main>
+      {/* <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/drive/:path" component={Home} />
           <Route exact path="/explore" />
           <Route exact path="/overview" component={Overview} />
-        </Switch>
-      </div>
-    </Router>
+        </Switch> */}
+    </div>
   );
 }

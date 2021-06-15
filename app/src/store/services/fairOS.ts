@@ -94,13 +94,7 @@ export const openPod = async(password) =>{
       data: qs.stringify({ password: password, pod: podName }),
       withCredentials: true,
     });
-    const res = await getDirectory({directory:"root"});
-    if(podName === "Fairdrive" && res.data.entries.length==0){
-      await createDirectory("Documents");
-      await createDirectory("Movies");
-      await createDirectory("Music");
-      await createDirectory("Pictures");
-    }
+
     return openPod;
   } catch(err){
     console.log(err);
@@ -273,14 +267,14 @@ export const filePreview = async (file:any) => {
 export const getDirectory = async (payload: Payload) => {
   const {directory, password, podName} = payload;
   try {
-    const openPod = await axios({
-      baseURL: host,
-      method: "POST",
-      url: "pod/open",
-      // add pod as function parameter
-      data: qs.stringify({ password: password, pod: "Fairdrive"}),
-      withCredentials: true,
-    });
+    // const openPod = await axios({
+    //   baseURL: host,
+    //   method: "POST",
+    //   url: "pod/open",
+    //   // add pod as function parameter
+    //   data: qs.stringify({ password: password, pod: "Fairdrive"}),
+    //   withCredentials: true,
+    // });
 
     let data = { dir: "" };
 

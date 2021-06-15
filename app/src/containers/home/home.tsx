@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
-import { Redirect, useParams } from "react-router-dom";
 import useStyles from "./homeStyles";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
-import { fileUpload, getDirectory } from "../../store/services/fairOS";
 import FileModal from "../../components/fileModal/fileModal";
 import sortByProp from "../../store/helpers/sort";
 import { Plus, Upload } from "../../components/icons/icons";
@@ -18,8 +16,6 @@ export interface Props {
 }
 
 function Home(props: Props) {
-  const params: any = useParams();
-  let path = params.path;
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [files, setFiles] = useState(null);
@@ -72,7 +68,7 @@ function Home(props: Props) {
     inputFile.current.click();
   };
   async function handleFileUpload(files: any) {
-    actions.uploadFile({ files, directory: urlPath(path) });
+    actions.uploadFile({ files, directory: urlPath(state.directory) });
   }
   const handleClose = () => {
     setOpen(false);
@@ -103,7 +99,6 @@ function Home(props: Props) {
         <NewFolder setResponse={setFolderCreated} />
       </Modal>
       <CardGrid className={classes.cardGrid}>
-        {!state.password && <Redirect to={"/"} />}
         {files !== null ? (
           files
             .sort(sortByProp(toSort, orderProp))

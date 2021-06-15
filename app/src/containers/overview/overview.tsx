@@ -3,8 +3,6 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./overviewStyles";
 import SetupCards from "../../components/setUpCards/setUpCards";
-import { Redirect } from "react-router-dom";
-
 export interface Props {}
 
 function Overview(props: Props) {
@@ -15,8 +13,6 @@ function Overview(props: Props) {
 
   return (
     <div className={classes.Home}>
-      {!state.password && <Redirect to={"/"} />}
-
       <SetupCards></SetupCards>
     </div>
   );

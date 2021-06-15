@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useStyles from "./mainStyles";
 import ButtonPill from "../../components/buttonPill/buttonPill";
 import { StoreContext } from "../../store/store";
 import { ThemeContext } from "../../store/themeContext/themeContext";
-import { Redirect } from "react-router-dom";
 import Login from "../../components/login/login";
+import Home from "../home/home";
 import Register from "../../components/register/register";
 
 export interface Props {}
@@ -15,32 +15,38 @@ function Main(props: Props) {
   const [showRegisterComponent, setShowRegisterComponent] = useState(false);
   const [showLoginComponent, setShowLoginComponent] = useState(false);
   const classes = useStyles({ ...props, ...theme });
+  useEffect(() => {
+    console.log(state.userData);
+  }, [state.userData]);
   return (
     <div className={classes.Main}>
-      {/* <Login></Login> */}
-      {state.password && <Redirect to={"/drive/root"} />}
-      {!showRegisterComponent && !showLoginComponent && (
-        <div className={classes.loginRegisterButtons}>
-          {" "}
-          <ButtonPill
-            text="Login"
-            color="grey"
-            clickFunction={() => {
-              setShowLoginComponent(true);
-              setShowRegisterComponent(false);
-            }}
-          />
-          <ButtonPill
-            text="Register"
-            color="grey"
-            clickFunction={() => {
-              setShowLoginComponent(false);
-              setShowRegisterComponent(true);
-            }}
-          />
-        </div>
+      {state.userData?.code === 200 ? (
+        <Home></Home>
+      ) : (
+        !showRegisterComponent &&
+        !showLoginComponent && (
+          <div className={classes.loginRegisterButtons}>
+            {" "}
+            <ButtonPill
+              text="Login"
+              color="grey"
+              clickFunction={() => {
+                setShowLoginComponent(true);
+                setShowRegisterComponent(false);
+              }}
+            />
+            <ButtonPill
+              text="Register"
+              color="grey"
+              clickFunction={() => {
+                setShowLoginComponent(false);
+                setShowRegisterComponent(true);
+              }}
+            />
+          </div>
+        )
       )}
-      {showLoginComponent && (
+      {state.userData?.code !== 200 && showLoginComponent && (
         <Login
           backFunction={() => {
             setShowLoginComponent(false);
@@ -48,7 +54,9 @@ function Main(props: Props) {
           }}
         ></Login>
       )}
-      {showRegisterComponent && <Register></Register>}
+      {state.userData?.code !== 200 && showRegisterComponent && (
+        <Register></Register>
+      )}
     </div>
   );
 }

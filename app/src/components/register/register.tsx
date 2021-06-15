@@ -3,10 +3,7 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./registerStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
-import { useHistory, Redirect } from "react-router-dom";
-import { isUsernamePresent } from "../../store/services/fairOS";
 import SeedPhraseGen from "../seedPhraseGen/seedPhraseGen";
 import SeedPhraseConfirm from "../seedPhraseConfirm/seedPhraseConfirm";
 import welcomeImage from "../../media/images/welcome-image.png";
@@ -23,7 +20,6 @@ function Register(props: Props) {
   const [inviteCode, setInviteCode] = useState("");
 
   const [hasError, setHasError] = useState(false);
-  const history = useHistory();
   const [showRegisterArea, setShowRegisterArea] = useState(true);
   const [showMnemonicArea, setShowMnemonicArea] = useState(false);
   const [showMnemonicInputArea, setShowMnemonicInputArea] = useState(false);

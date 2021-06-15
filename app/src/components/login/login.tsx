@@ -3,9 +3,7 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./loginStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
-import { useHistory, Redirect } from "react-router-dom";
 import welcomeImage from "../../media/images/welcome-image.png";
 
 export interface Props {
@@ -21,15 +19,7 @@ function Login(props: Props) {
   const [password, setPassword] = useState("");
 
   const [hasError, setHasError] = useState(false);
-  const history = useHistory();
   //add UseEffect when state changes to reload it and store it
-  useEffect(() => {
-    if (state.password) {
-      history.push("/drive/root");
-      window.location.reload();
-    }
-    // eslint-disable-next-line
-  }, [state.userData]);
 
   async function onLogin() {
     actions.userLogin({
@@ -41,7 +31,6 @@ function Login(props: Props) {
 
   return (
     <div className={classes.Login}>
-      {state.password && <Redirect to={"/drive/root"} />}
       <div className={classes.imageContainer}>
         <img
           alt="lego man for login"

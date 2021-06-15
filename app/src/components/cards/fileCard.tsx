@@ -16,13 +16,16 @@ export interface Props {
 
 function FileCard(props: Props) {
   const { file } = props;
-  const { actions } = useContext(StoreContext);
+  const { state, actions } = useContext(StoreContext);
 
   const history = useHistory();
   async function onFileClick() {
     if (file.content_type === "inode/directory") {
-      console.log(file.name);
-      actions.setDirectory(file.name);
+      const newDirectory =
+        state.directory !== "root"
+          ? state.directory + "/" + file.name
+          : file.name;
+      actions.setDirectory(newDirectory);
     }
   }
 
