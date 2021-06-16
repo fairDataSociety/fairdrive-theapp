@@ -28,6 +28,10 @@ import { ReactComponent as PodChevron } from "../../media/UI/pod_chevron.svg";
 import { ReactComponent as PodInfo } from "../../media/UI/pod_info.svg";
 import { ReactComponent as QuestionCircle } from "../../media/UI/question_small.svg";
 import { ReactComponent as Chevron } from "../../media/UI/chevron.svg";
+import { ReactComponent as Download } from "../../media/UI/download.svg";
+import { ReactComponent as Hide } from "../../media/UI/hide.svg";
+import { ReactComponent as Share } from "../../media/UI/share.svg";
+import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
 
 
 export const icons = {
@@ -36,7 +40,11 @@ export const icons = {
 };
 
 export {
+  UploadIcon,
   PodInfo,
+  Hide,
+  Share,
+  Download,
   PodChevron,
   StartFolder,
   Spinner,

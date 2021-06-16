@@ -32,9 +32,7 @@ const useStyles = makeStyles(() =>
       borderBottom: "2.5px  solid var(--dark1)",
       margin: "0 2.5rem 0 2.5rem",
     },
-    podInfoWrapper: {
-      flexDirection: "row",
-    },
+  
     podButton: {
       minWidth: (style: Props & Theme) =>"20rem",
       maxWidth:  (style: Props & Theme) => "55rem",
@@ -62,6 +60,9 @@ const useStyles = makeStyles(() =>
       transitionProperty: "display, opacity",
       transitionDuration: ".2s",
       transitionTimingFunction: "cubic-bezier(0.820, 0.085, 0.395, 0.895)",
+    },
+    podInfoWrapper: {
+      flexDirection: "row",
     },
     podInfo: {
       marginLeft:"1rem",
