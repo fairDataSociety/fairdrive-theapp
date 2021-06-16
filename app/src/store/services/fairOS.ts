@@ -454,7 +454,7 @@ export const fileDownload = async ( filename:any, directory: string, podName: st
     if (directory == "root") {
       writePath = "/";
     } else {
-      writePath = "/" + urlPath(directory);
+      writePath = "/" + urlPath(directory)+"/";
     }
     const formData = new FormData();
     formData.append("file_path", writePath+filename);
