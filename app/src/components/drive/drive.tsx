@@ -11,7 +11,9 @@ import { Plus, Upload } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
 import NewFolder from "../../components/newFolder/newFolder";
 
-export interface Props {}
+export interface Props {
+  isPodBarOpen: boolean
+}
 
 function BoilerPlate(props: Props) {
   const { state, actions } = useContext(StoreContext);

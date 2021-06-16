@@ -26,9 +26,9 @@ function Home(props: Props) {
         sidebarItem={sidebarItem}
         setSidebarItem={setSidebarItem}
       />
-      {showPodSidebar && <PodSidebar></PodSidebar>}
-      {sidebarItem === "Drive" && <Drive></Drive>}
-      {sidebarItem === "Overview" && <Overview></Overview>}
+      <PodSidebar isOpen={showPodSidebar} route={sidebarItem}></PodSidebar>
+      {sidebarItem === "Drive" && <Drive isPodBarOpen={showPodSidebar}></Drive>}
+      {sidebarItem === "Overview" && <Overview isPodBarOpen={showPodSidebar}></Overview>}
     </div>
   );
 }
