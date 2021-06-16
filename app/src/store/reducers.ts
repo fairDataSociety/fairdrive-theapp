@@ -13,6 +13,7 @@ export interface State {
 	unlocked: boolean;
 	searchQuery: string;
 	entries: any;
+	dirs: any;
 	inviteCode: string;
 	address: string;
 	errMsg: string;
@@ -35,6 +36,7 @@ const initialState: State = {
 	unlocked: false,
 	searchQuery: null,
 	entries: null,
+	dirs: null,
 	inviteCode: '',
 	address: '',
 	errMsg: '',
@@ -75,7 +77,7 @@ const reducer = (state = initialState, action) => {
 				username: action.payload.username,
 			};
 		case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
-			return { ...state, entries: action.payload.files, unlocked: true };
+			return { ...state, entries: action.payload.files,dirs:action.payload.dirs,  unlocked: true };
 		case types.STORE_USER_REGISTRATION_INFO:
 			return {
 				...state,

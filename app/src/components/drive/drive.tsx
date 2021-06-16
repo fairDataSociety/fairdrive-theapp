@@ -33,6 +33,7 @@ function BoilerPlate(props: Props) {
       actions.getDirectory({
         directory: state.directory,
         password: state.password,
+        podName: state.podName,
       });
     } catch (e) {
       console.log(e);
@@ -47,7 +48,7 @@ function BoilerPlate(props: Props) {
       setOpen(false);
     }
     // eslint-disable-next-line
-  }, [state.fileUploaded, folderCreated, state.directory]);
+  }, [state.fileUploaded, folderCreated, state.directory, state.podName]);
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
@@ -100,16 +101,13 @@ function BoilerPlate(props: Props) {
         <NewFolder setResponse={setFolderCreated} />
       </Modal>
       <CardGrid className={classes.cardGrid}>
+        {state.dirs !== null &&
+          state.dirs !== undefined &&
+          state.dirs.map((dir: any) => <FileCard file={dir}></FileCard>)}
         {files !== null && files !== undefined ? (
           files
             .sort(sortByProp(toSort, orderProp))
-            .map((file: any) =>
-              file.content_type === "inode/directory" ? (
-                <FileCard file={file} />
-              ) : (
-                <FileModal file={file}></FileModal>
-              )
-            )
+            .map((file: any) => <FileModal file={file}></FileModal>)
         ) : (
           <div>Loading files..</div>
         )}

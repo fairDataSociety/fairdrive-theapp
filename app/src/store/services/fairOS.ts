@@ -17,7 +17,6 @@ interface Payload {
 }
 
 const host ="https://fairos.testeron.pro/v1/";
-const podName = "Fairdrive";
 // const host ="https://api.fairos.io/v0/";
 const podNameDefault = "Fairdrive";
 
@@ -67,11 +66,11 @@ export const login = async (payload: Payload) => {
     });
 
     const podResult = await getPods();
-    if(!podResult.data.pod_name.includes(podName)){
+    if(!podResult.data.pod_name.includes(podNameDefault)){
       await createPod({password, podNameDefault});
     };
 
-    const resPod = await openPod({password,podName});
+    const resPod = await openPod({password,podNameDefault});
 
 
     return { res: response };
@@ -237,7 +236,7 @@ export const createPod = async(payload: any) =>{
       headers:{
         'Content-Type': 'application/json'
       },
-      data: {password: password,pod_name: "Fairdrive" },
+      data: {password: password,pod_name: podName },
       withCredentials: true,
     });
     return true;
@@ -246,8 +245,9 @@ export const createPod = async(payload: any) =>{
   }
 }
 
-export const closePod = async(password: string) =>{
+export const closePod = async(payload: any) =>{
   try{
+      const {password, podName} = payload
       const closePod = await axios({
       baseURL: host,
       method: "POST",
@@ -266,7 +266,7 @@ export const closePod = async(password: string) =>{
 
 export const openPod = async(payload: any) =>{
   try{
-    const {password } = payload;
+    const {password, podName } = payload;
       const openPod = await axios({
       baseURL: host,
       method: "POST",
@@ -274,7 +274,7 @@ export const openPod = async(payload: any) =>{
       headers:{
         'Content-Type': 'application/json'
       },
-      data: {pod_name: podName, password: password },
+      data: {pod_name: podName === undefined || podName === null? podNameDefault: podName, password: password },
       withCredentials: true,
     });
     return openPod;
@@ -345,7 +345,6 @@ export const getPods = async() => {
     },
     withCredentials: true,
   });
-  debugger;
   return podResult;
 }
 
@@ -453,7 +452,7 @@ export const fileUpload = async (payload:Payload) => {
   return true;
 }
 
-export const fileDownload = async ( filename:any, directory: string) => {
+export const fileDownload = async ( filename:any, directory: string, podName: string) => {
   try {
     let writePath = "";
     if (directory == "root") {
@@ -463,7 +462,7 @@ export const fileDownload = async ( filename:any, directory: string) => {
     }
     const formData = new FormData();
     formData.append("file_path", writePath+filename);
-    formData.append("pod_name", "Fairdrive")
+    formData.append("pod_name", podName)
 
 
     const downloadFile = await axios({
@@ -484,7 +483,7 @@ export const fileDownload = async ( filename:any, directory: string) => {
   }
 }
 
-export const filePreview = async (file:any, directory: string) => {
+export const filePreview = async (file:any, directory: string, podName) => {
   try {
     console.log(directory);
     let writePath = "";
@@ -496,7 +495,7 @@ export const filePreview = async (file:any, directory: string) => {
 
     const formData = new FormData();
     formData.append("file_path", writePath + file);
-    formData.append("pod_name", "Fairdrive");
+    formData.append("pod_name", podName);
 
     const downloadFile = await axios({
       baseURL: host,
@@ -527,7 +526,7 @@ export const getDirectory = async (payload: Payload) => {
     //   withCredentials: true,
     // });
 
-    let data = { dir_path: "", pod_name: "Fairdrive" };
+    let data = { dir_path: "", pod_name: podName === undefined || podName === null? podNameDefault: podName};
 
     if (directory == "root") {
       data = {
@@ -591,14 +590,14 @@ export const storeAvatar = async (avatar:any) => {
     console.log("error on timeout", e);
   }
 }
-export async function createDirectory(directory: string,directoryName: string) {
+export async function createDirectory(directory: string,directoryName: string, podName: string) {
   // Dir = "/" + path + "/"
 
   let data = { dir_path: ""};
 
   if (directory == "root") {
     data = {
-      dir_path: "/",
+      dir_path: "/"+directoryName,
     };
   } else {
     data = {
@@ -610,7 +609,10 @@ export async function createDirectory(directory: string,directoryName: string) {
       baseURL: host,
       method: "POST",
       url: "dir/mkdir",
-      data: { dir_path:data.dir_path,dir_name: directoryName },
+      data: JSON.stringify({ dir_path:data.dir_path,dir_name: directoryName, pod_name:podName }),
+      headers:{
+        'Content-Type': 'application/json'
+      },
       withCredentials: true,
     });
 

@@ -39,14 +39,14 @@ function SeedPhraseConfirm(props: Props) {
     }
   }, [podCreated]);
   const createDirectories = async () => {
-    await createDirectory("root", "Documents");
-    await createDirectory("root", "Movies");
-    await createDirectory("root", "Music");
-    await createDirectory("root", "Pictures");
+    await createDirectory("root", "Documents", "Fairdrive");
+    await createDirectory("root", "Movies", "Fairdrive");
+    await createDirectory("root", "Music", "Fairdrive");
+    await createDirectory("root", "Pictures", "Fairdrive");
     setFolderCreated(true);
   };
   const createPods = async () => {
-    await createPod(state.password);
+    await createPod({ password: state.password, podName: "Fairdrive" });
     setPodCreated(true);
   };
   async function onRegister() {
