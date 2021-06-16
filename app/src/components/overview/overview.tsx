@@ -3,7 +3,9 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./overviewStyles";
 import SetupCards from "../setUpCards/setUpCards";
-export interface Props {}
+export interface Props {
+  isPodBarOpen: boolean
+}
 
 function Overview(props: Props) {
   const { state, actions } = useContext(StoreContext);
