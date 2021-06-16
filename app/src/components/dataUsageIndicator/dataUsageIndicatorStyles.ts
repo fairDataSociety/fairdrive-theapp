@@ -4,9 +4,15 @@ import { Props } from "./dataUsageIndicator";
 
 const useStyles = makeStyles(() =>
   createStyles({
+    container: {
+      height: '35rem',
+      display: 'flex',
+      alignItems: 'space-between',
+      flexDirection: 'column',
+      margin: '2rem',
+    },
     wrapper: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      margin: '20rem 5rem',
       width: '75rem', 
       height: '20rem',
       padding: '4rem',
@@ -32,8 +38,22 @@ const useStyles = makeStyles(() =>
       font: (style: Props & Theme) => style.typography.body3,
       margin: '0 1rem',
     },
+    refermessage: {
+      font: (style: Props & Theme) => style.typography.caption1,
+      display: 'flex',
+      height: '2.5rem',
+      alignItems: 'center',
+      marginTop: '3rem'
+    },
+    icon: {
+      width: '2.5rem'
+    },
     button: {
-     marginLeft: '7rem'
+     background: (style: Props & Theme) => style.backgroundLight3,
+     padding: '1.5rem',
+     borderRadius: '0.5rem',
+     marginTop: '3rem',
+     width: '20rem'
     }
   })
 );

@@ -24,6 +24,8 @@ import { ReactComponent as Dapps } from "../../media/UI/dapps.svg";
 import { ReactComponent as Complete } from "../../media/UI/complete.svg";
 import { ReactComponent as Close } from "../../media/UI/close.svg";
 import { ReactComponent as Kebab } from "../../media/UI/kebab.svg";
+import { ReactComponent as QuestionCircle } from "../../media/UI/question_small.svg";
+import { ReactComponent as Chevron } from "../../media/UI/chevron.svg";
 
 
 export const icons = {
@@ -57,5 +59,7 @@ export {
   Dapps,
   Complete,
   Kebab,
-  Close
+  Close,
+  QuestionCircle,
+  Chevron
 };
