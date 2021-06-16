@@ -511,15 +511,17 @@ export const getDirectory = async (payload: Payload) => {
     //   withCredentials: true,
     // });
 
-    let data = { dir_path: "" };
+    let data = { dir_path: "", pod_name: "Fairdrive" };
 
     if (directory == "root") {
       data = {
         dir_path: "/",
+        pod_name: "Fairdrive" 
       };
     } else {
       data = {
         dir_path: "/" + directory,
+        pod_name: "Fairdrive" 
       };
     }
     const response = await axios({
