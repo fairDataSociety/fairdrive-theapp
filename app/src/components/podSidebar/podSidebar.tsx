@@ -13,9 +13,9 @@ function PodSidebar(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   useEffect(() => {
-    if (state.podChanged)
+    if (state.podsOpened.includes(state.podName))
       actions.getDirectory({ directory: "root", podName: state.podName });
-  }, [state.podChanged, state.podName]);
+  }, [state.podName, state.podsOpened]);
 
   return (
     <div className={classes.BoilerPlate}>
