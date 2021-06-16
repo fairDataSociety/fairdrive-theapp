@@ -13,12 +13,15 @@ export interface State {
 	unlocked: boolean;
 	searchQuery: string;
 	entries: any;
+	dirs: any;
 	inviteCode: string;
 	address: string;
 	errMsg: string;
 	directory: string;
 	pods: any;
 	podMsg: any;
+	podName: string;
+	podsOpened: any;
 }
 
 const initialState: State = {
@@ -34,12 +37,15 @@ const initialState: State = {
 	unlocked: false,
 	searchQuery: null,
 	entries: null,
+	dirs: null,
 	inviteCode: '',
 	address: '',
 	errMsg: '',
 	directory:'root',
 	pods:[],
-	podMsg: null
+	podMsg: null,
+	podName:"Fairdrive",
+	podsOpened:[]
 };
 
 const reducer = (state = initialState, action) => {
@@ -73,7 +79,7 @@ const reducer = (state = initialState, action) => {
 				username: action.payload.username,
 			};
 		case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
-			return { ...state, entries: action.payload.entries, unlocked: true };
+			return { ...state, entries: action.payload.files,dirs:action.payload.dirs};
 		case types.STORE_USER_REGISTRATION_INFO:
 			return {
 				...state,
@@ -99,17 +105,23 @@ const reducer = (state = initialState, action) => {
 		case types.GET_PODS.GET_PODS_SUCCESS:
 			return {
 				...state,
-				pods: action.payload.pod_name,
+				pods: action.payload.data.pod_name,
 			};
 		case types.OPEN_POD.OPEN_POD_SUCCESS:
 			return {
 				...state,
-				podMsg: action.payload,
+				podsOpened: [...state.podsOpened, state.podName]
+
 			};
 		case types.OPEN_POD.OPEN_POD_FAIL:
 			return {
 				...state,
-				podMSg: action.payload.pod_name,
+				podMSg: action.payload,
+			};
+		case types.SET_POD_NAME:
+			return {
+				...state,
+				podName: action.payload
 			};
 		default:
 			return state;

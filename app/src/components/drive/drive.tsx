@@ -33,6 +33,7 @@ function BoilerPlate(props: Props) {
       actions.getDirectory({
         directory: state.directory,
         password: state.password,
+        podName: state.podName,
       });
     } catch (e) {
       console.log(e);
@@ -68,7 +69,11 @@ function BoilerPlate(props: Props) {
     inputFile.current.click();
   };
   async function handleFileUpload(files: any) {
-    actions.uploadFile({ files, directory: urlPath(state.directory) });
+    actions.uploadFile({
+      files,
+      directory: urlPath(state.directory),
+      podName: state.podName,
+    });
   }
   const handleClose = () => {
     setOpen(false);
@@ -100,19 +105,18 @@ function BoilerPlate(props: Props) {
         <NewFolder setResponse={setFolderCreated} />
       </Modal>
       <CardGrid className={classes.cardGrid}>
-        {files !== null ? (
+        {state.dirs !== null &&
+          state.dirs !== undefined &&
+          state.dirs.map((dir: any) => <FileCard file={dir}></FileCard>)}
+        {files !== null &&
+          files !== undefined &&
           files
             .sort(sortByProp(toSort, orderProp))
-            .map((file: any) =>
-              file.content_type === "inode/directory" ? (
-                <FileCard file={file} />
-              ) : (
-                <FileModal file={file}></FileModal>
-              )
-            )
-        ) : (
-          <div>Loading files..</div>
-        )}
+            .map((file: any) => <FileModal file={file}></FileModal>)}
+        {state.dirs === null ||
+          state.dirs === undefined ||
+          files === null ||
+          (files === undefined && <div>Loading files..</div>)}
       </CardGrid>
     </div>
   );

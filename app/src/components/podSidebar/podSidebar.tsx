@@ -3,20 +3,19 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./podSidebarStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import { getPods } from "../../store/services/fairOS";
 
 export interface Props {}
 
-function BoilerPlate(props: Props) {
+function PodSidebar(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });
 
   useEffect(() => {
-    if (state.podMsg?.status === 200)
-      actions.getDirectory({ directory: "root" });
-  }, [state.podMsg]);
+    if (state.podsOpened.includes(state.podName))
+      actions.getDirectory({ directory: "root", podName: state.podName });
+  }, [state.podName, state.podsOpened]);
 
   return (
     <div className={classes.BoilerPlate}>
@@ -45,7 +44,9 @@ function BoilerPlate(props: Props) {
           return (
             <ButtonPill
               clickFunction={() => {
-                actions.openPod({ password: state.password, podName: pod });
+                actions.setPodName(pod);
+                if (!state.podsOpened.includes(pod))
+                  actions.openPod({ password: state.password, podName: pod });
               }}
               size="medium"
               text={pod}
@@ -60,4 +61,4 @@ function BoilerPlate(props: Props) {
   );
 }
 
-export default React.memo(BoilerPlate);
+export default React.memo(PodSidebar);

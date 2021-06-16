@@ -10,6 +10,7 @@ import writePath from "../../store/helpers/writePath";
 import { fileDownload, filePreview } from "../../store/services/fairOS";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
+import urlPath from "src/store/helpers/urlPath";
 export interface Props {
   file: any;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -40,7 +41,7 @@ function FileModal(props: Props) {
     const newPath = writePath(state.directory);
 
     blobFile = window.URL.createObjectURL(
-      await filePreview(newPath + file.name)
+      await filePreview(file.name, urlPath(state.directory), state.podName)
     );
     setBlob(blobFile);
     setOpen(true);
@@ -52,9 +53,11 @@ function FileModal(props: Props) {
   };
   async function handleDownload() {
     const newPath = writePath(state.directory);
-    await fileDownload(newPath + props.file.name, props.file.name).catch((e) =>
-      console.error(e)
-    );
+    await fileDownload(
+      props.file.name,
+      urlPath(state.directory),
+      state.podName
+    ).catch((e) => console.error(e));
   }
   const classes = useStyles({ ...props, ...theme });
 
