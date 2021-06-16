@@ -104,13 +104,15 @@ function BoilerPlate(props: Props) {
         {state.dirs !== null &&
           state.dirs !== undefined &&
           state.dirs.map((dir: any) => <FileCard file={dir}></FileCard>)}
-        {files !== null && files !== undefined ? (
+        {files !== null &&
+          files !== undefined &&
           files
             .sort(sortByProp(toSort, orderProp))
-            .map((file: any) => <FileModal file={file}></FileModal>)
-        ) : (
-          <div>Loading files..</div>
-        )}
+            .map((file: any) => <FileModal file={file}></FileModal>)}
+        {state.dirs !== null &&
+          state.dirs !== undefined &&
+          files !== null &&
+          files !== undefined && <div>Loading files..</div>}
       </CardGrid>
     </div>
   );

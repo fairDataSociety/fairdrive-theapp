@@ -6,7 +6,7 @@ import ButtonPill from "../buttonPill/buttonPill";
 
 export interface Props {}
 
-function BoilerPlate(props: Props) {
+function PodSidebar(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
@@ -63,4 +63,4 @@ function BoilerPlate(props: Props) {
   );
 }
 
-export default React.memo(BoilerPlate);
+export default React.memo(PodSidebar);

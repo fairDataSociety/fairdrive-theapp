@@ -44,6 +44,7 @@ function SeedPhraseConfirm(props: Props) {
     await createDirectory("root", "Music", "Fairdrive");
     await createDirectory("root", "Pictures", "Fairdrive");
     setFolderCreated(true);
+    actions.getPods();
   };
   const createPods = async () => {
     await createPod({ password: state.password, podName: "Fairdrive" });
