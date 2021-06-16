@@ -73,7 +73,7 @@ const reducer = (state = initialState, action) => {
 				username: action.payload.username,
 			};
 		case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
-			return { ...state, entries: action.payload.entries, unlocked: true };
+			return { ...state, entries: action.payload.files, unlocked: true };
 		case types.STORE_USER_REGISTRATION_INFO:
 			return {
 				...state,
@@ -99,7 +99,7 @@ const reducer = (state = initialState, action) => {
 		case types.GET_PODS.GET_PODS_SUCCESS:
 			return {
 				...state,
-				pods: action.payload.pod_name,
+				pods: action.payload.data.pod_name,
 			};
 		case types.OPEN_POD.OPEN_POD_SUCCESS:
 			return {
@@ -109,7 +109,7 @@ const reducer = (state = initialState, action) => {
 		case types.OPEN_POD.OPEN_POD_FAIL:
 			return {
 				...state,
-				podMSg: action.payload.pod_name,
+				podMSg: action.payload,
 			};
 		default:
 			return state;

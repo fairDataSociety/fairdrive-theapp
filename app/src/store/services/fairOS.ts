@@ -16,7 +16,7 @@ interface Payload {
   files?:any;
 }
 
-const host ="http://localhost:9090/v1/";
+const host ="https://fairos.testeron.pro/v1/";
 const podName = "Fairdrive";
 // const host ="https://api.fairos.io/v0/";
 const podNameDefault = "Fairdrive";
@@ -68,10 +68,10 @@ export const login = async (payload: Payload) => {
 
     const podResult = await getPods();
     if(!podResult.data.pod_name.includes(podName)){
-      await createPod(password);
+      await createPod({password, podNameDefault});
     };
 
-    const resPod = await openPod(password,podName);
+    const resPod = await openPod({password,podName});
 
 
     return { res: response };
@@ -227,16 +227,17 @@ export const userStats = async () => {
 }
 
 
-export const createPod = async(password: string) =>{
+export const createPod = async(payload: any) =>{
   try{
-      const openPod = await axios({
+      const{password, podName} = payload;
+      const newPod = await axios({
       baseURL: host,
       method: "POST",
-      url: "pod/open",
+      url: "pod/new",
       headers:{
         'Content-Type': 'application/json'
       },
-      data: {pod_name: podName, password: password },
+      data: {password: password,pod_name: "Fairdrive" },
       withCredentials: true,
     });
     return true;
@@ -263,8 +264,9 @@ export const closePod = async(password: string) =>{
   }
 }
 
-export const openPod = async(password: string, podName: string) =>{
+export const openPod = async(payload: any) =>{
   try{
+    const {password } = payload;
       const openPod = await axios({
       baseURL: host,
       method: "POST",
@@ -343,6 +345,7 @@ export const getPods = async() => {
     },
     withCredentials: true,
   });
+  debugger;
   return podResult;
 }
 
@@ -429,7 +432,8 @@ export const fileUpload = async (payload:Payload) => {
     formData.append("files", file);
   }
   formData.append("dir_path", writePath);
-  formData.append("block_size", "64Mb")
+  formData.append("block_size", "64Mb");
+  formData.append("pod_name", "Fairdrive")
   let data = {
     dir_path: writePath,
     block_size: "64Mb",
@@ -449,7 +453,7 @@ export const fileUpload = async (payload:Payload) => {
   return true;
 }
 
-export const fileDownload = async (files:any, filename:any, directory: string) => {
+export const fileDownload = async ( filename:any, directory: string) => {
   try {
     let writePath = "";
     if (directory == "root") {
@@ -458,11 +462,9 @@ export const fileDownload = async (files:any, filename:any, directory: string) =
       writePath = "/" + urlPath(directory);
     }
     const formData = new FormData();
-    for (const file of files) {
-      formData.append("files", file);
-    }
-    formData.append("file_path", writePath);
-    formData.append("block_size", "64Mb")
+    formData.append("file_path", writePath+filename);
+    formData.append("pod_name", "Fairdrive")
+
 
     const downloadFile = await axios({
       baseURL: host,
@@ -494,6 +496,8 @@ export const filePreview = async (file:any, directory: string) => {
 
     const formData = new FormData();
     formData.append("file_path", writePath + file);
+    formData.append("pod_name", "Fairdrive");
+
     const downloadFile = await axios({
       baseURL: host,
       method: "POST",

@@ -39,10 +39,10 @@ function SeedPhraseConfirm(props: Props) {
     }
   }, [podCreated]);
   const createDirectories = async () => {
-    await createDirectory("Documents");
-    await createDirectory("Movies");
-    await createDirectory("Music");
-    await createDirectory("Pictures");
+    await createDirectory("root", "Documents");
+    await createDirectory("root", "Movies");
+    await createDirectory("root", "Music");
+    await createDirectory("root", "Pictures");
     setFolderCreated(true);
   };
   const createPods = async () => {

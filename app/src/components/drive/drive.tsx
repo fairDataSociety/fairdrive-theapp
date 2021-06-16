@@ -100,7 +100,7 @@ function BoilerPlate(props: Props) {
         <NewFolder setResponse={setFolderCreated} />
       </Modal>
       <CardGrid className={classes.cardGrid}>
-        {files !== null ? (
+        {files !== null && files !== undefined ? (
           files
             .sort(sortByProp(toSort, orderProp))
             .map((file: any) =>

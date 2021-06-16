@@ -41,7 +41,7 @@ function FileModal(props: Props) {
     const newPath = writePath(state.directory);
 
     blobFile = window.URL.createObjectURL(
-      await filePreview(file.name, urlPath(path))
+      await filePreview(file.name, urlPath(state.directory))
     );
     setBlob(blobFile);
     setOpen(true);
@@ -53,11 +53,9 @@ function FileModal(props: Props) {
   };
   async function handleDownload() {
     const newPath = writePath(state.directory);
-    await fileDownload(
-      newPath + props.file.name,
-      props.file.name,
-      state.directory
-    ).catch((e) => console.error(e));
+    await fileDownload(props.file.name, urlPath(state.directory)).catch((e) =>
+      console.error(e)
+    );
   }
   const classes = useStyles({ ...props, ...theme });
 

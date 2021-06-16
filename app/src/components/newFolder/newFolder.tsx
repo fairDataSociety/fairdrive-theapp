@@ -15,7 +15,7 @@ function NewFolder(props: Props) {
   const classes = useStyles({ ...props, ...theme });
   const [folder, setFolderName] = useState(null);
   const createFolder = async () => {
-    props.setResponse(await createDirectory(folder));
+    props.setResponse(await createDirectory(state.directory, folder));
   };
   return (
     <div className={classes.BoilerPlate}>

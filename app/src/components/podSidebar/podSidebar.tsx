@@ -3,7 +3,6 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./podSidebarStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import { getPods } from "../../store/services/fairOS";
 
 export interface Props {}
 
