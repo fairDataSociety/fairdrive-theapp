@@ -1,13 +1,14 @@
 import axios from "axios";
 import qs from "querystring";
 import FileSaver from "file-saver";
+import generateMnemonic from "../helpers/utils";
 import urlPath from '../helpers/urlPath';
 import { write } from 'fs';
 interface Payload {
   username?: string;
   password?: string;
-  mnemonic?: string
   address?: string;
+  mnemonic?: string;
   podName?: string;
   podReference?: string;
   file?: any;
@@ -17,8 +18,11 @@ interface Payload {
 
 const host ="http://localhost:9090/v1/";
 const podName = "Fairdrive";
+// const host ="https://api.fairos.io/v0/";
+const podNameDefault = "Fairdrive";
 
 export async function createAccount(payload: Payload) {
+  const {username, password, mnemonic} = payload
   try {
 
     const response = await axios({
@@ -35,11 +39,14 @@ export async function createAccount(payload: Payload) {
       },
       withCredentials: true,
     });
-    return response.data;
+
+    return response;
   } catch (e) {
     console.log("error on timeout", e);
   }
 }
+
+
 
 export const login = async (payload: Payload) => {
   try {
@@ -65,7 +72,8 @@ export const login = async (payload: Payload) => {
     };
 
     const resPod = await openPod(password,podName);
-    
+
+
     return { res: response };
   } catch (error) {
     throw error;
@@ -88,6 +96,12 @@ export const importUser = async( payload: Payload) =>{
     withCredentials: true,
   });
   return response;
+}
+export const generateSeedPhrase = async() =>{
+  // TODO get seed phrase
+  console.log("Creating seed phrase...")
+  let res = await generateMnemonic()
+  return res
 }
 
 export const logOut = async () => {
@@ -432,7 +446,6 @@ export const fileUpload = async (payload:Payload) => {
     withCredentials: true,
   });
 
-  console.log(uploadFiles);
   return true;
 }
 
@@ -460,7 +473,6 @@ export const fileDownload = async (files:any, filename:any, directory: string) =
       withCredentials: true,
     });
 
-    console.log(downloadFile);
     FileSaver.saveAs(downloadFile.data, filename);
 
     //const blob = new Blob(downloadFile.data)

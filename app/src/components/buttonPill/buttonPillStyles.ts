@@ -6,22 +6,26 @@ import { Props } from "./buttonPill";
 const useStyles = makeStyles(() =>
   createStyles({
     button: {
-      fontWeight: 'bold',
-      fontSize: '16px',
-      letterSpacing: '0',
-      lineHeight: '19px',
+
       // custom
-      minWidth: "40rem",
-      maxWidth: "55rem",
+      minWidth: (style: Props & Theme) => style.size ==="small"? "10rem ":style.size ==="medium"?"20rem":"40rem",
+      maxWidth:  (style: Props & Theme) => style.size ==="small"? "12rem ": "55rem",
       textAlign: 'center',
       boxSizing: 'border-box',
-      padding: "20px 42px",
-      borderRadius: "4px",
+      borderRadius: (style: Props & Theme) => style.size ==="small"? "0" : "1rem",
+      padding:"2rem",
       cursor: 'pointer',
-      border: "1px solid var(--grey)", 
-      backgroundColor: (style: Props & Theme) => style.backgroundGrey,
+      border:"1px solid var(--dark3)", 
+      backgroundColor: (style: Props & Theme) => style.backgroundLight3,
+      color:(style: Props & Theme) => style.textColorPrimary,
+      font: (style: Props & Theme) => style.typography.body1,
       "&:hover": {
-        color: "#EEF0FF"
+        font: (style: Props & Theme) => style.size ==="small"? style.typography.caption2: style.typography.body3,
+        border: "1px solid var(--white)", 
+      },
+      "&:active": {
+        font: (style: Props & Theme) => style.size ==="small"? style.typography.caption3: style.typography.body2,
+        border: "1px solid var(--white)", 
       },
       margin:"0 auto 2rem auto"
     },

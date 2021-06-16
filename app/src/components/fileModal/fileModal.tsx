@@ -6,12 +6,11 @@ import Modal from "@material-ui/core/Modal";
 import FileCard from "../cards/fileCard";
 import { InfoIcon } from "../icons/icons";
 import ButtonPill from "../buttonPill/buttonPill";
-import urlPath from "../../store/helpers/urlPath";
 import writePath from "../../store/helpers/writePath";
 import { fileDownload, filePreview } from "../../store/services/fairOS";
-import { useParams } from "react-router-dom";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
+import urlPath from "src/store/helpers/urlPath";
 export interface Props {
   file: any;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -24,13 +23,12 @@ function FileModal(props: Props) {
   const [open, setOpen] = React.useState(false);
   const { Icon, file, downloadFile } = props;
 
-  const params: any = useParams();
-  const path = params.path;
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
   const [blob, setBlob] = useState(null);
   let blobFile;
+
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
@@ -40,7 +38,7 @@ function FileModal(props: Props) {
   }, [file]);
 
   const handleOpen = async () => {
-    const newPath = writePath(path);
+    const newPath = writePath(state.directory);
 
     blobFile = window.URL.createObjectURL(
       await filePreview(file.name, urlPath(path))
@@ -54,11 +52,11 @@ function FileModal(props: Props) {
     URL.revokeObjectURL(blobFile);
   };
   async function handleDownload() {
-    const newPath = writePath(path);
+    const newPath = writePath(state.directory);
     await fileDownload(
       newPath + props.file.name,
       props.file.name,
-      urlPath(path)
+      state.directory
     ).catch((e) => console.error(e));
   }
   const classes = useStyles({ ...props, ...theme });

@@ -21,16 +21,21 @@ const useStyles = makeStyles(() =>
       maxWidth: "55rem",
       textAlign: 'center',
       boxSizing: 'border-box',
-      padding: "20px 42px",
+      padding: "2rem",
       borderRadius: "4px",
       cursor: 'pointer',
-      border: "1px solid #16181D", 
-      backgroundColor: (style: Props & Theme) => style.backgroundGrey,
+      border: "1px solid var(--dark3)", 
+      backgroundColor: (style: Props & Theme) => style.backgroundLight3,
+      color:(style: Props & Theme) => style.textColorPrimary,
+      font: (style: Props & Theme) => style.typography.body1,
       "&:hover": {
-        color: "#EEF0FF"
+        font: (style: Props & Theme) => style.typography.body3,
+      },
+      "&:active": {
+        font: (style: Props & Theme) => style.typography.body2,
+        border: "1px solid var(--white)", 
       },
       textTransform: 'capitalize',
-      color: '#16181D',
     },
   })
 );

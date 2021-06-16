@@ -8,7 +8,7 @@ const useStyles = makeStyles(() =>
     BoilerPlate: {
       // we merge Props & Theme interfaces and call this merged object "style".
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
-      backgroundColor: (style: Props & Theme) => style.backgroundGrey,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark,
     },
   })
 );

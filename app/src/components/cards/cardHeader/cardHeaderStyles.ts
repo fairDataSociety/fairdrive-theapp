@@ -10,8 +10,8 @@ const useStyles = makeStyles(() =>
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: "transparent",
-      color: (style: Theme & Props) => style.textColor,
-      borderBottom:  (style: Theme & Props) => style.isDirectory?"":"1px solid var(--grey)", 
+      color: (style: Theme & Props) => style.textColorPrimary,
+      borderBottom:  (style: Theme & Props) => style.isDirectory?"":"1px solid var(--dark3)", 
       width:"100%",
       height:"15rem"
     },
@@ -31,13 +31,13 @@ const useStyles = makeStyles(() =>
     },
     Type: {
       color: "var(--grey2)",
-      font: (style: Theme & Props) => style.typography.h4,
+      font: (style: Theme & Props) => style.typography.body1,
       margin: "1rem",
       textTransform: "uppercase",
     },
     Title: {
-      color: (style: Theme & Props) => style.textColor,
-      font: (style: Theme & Props) => style.typography.h3,
+      color: (style: Theme & Props) => style.textColorPrimary,
+      font: (style: Theme & Props) => style.typography.h6,
       margin: "1rem 0 auto 0",
       textOverflow: "ellipsis",
       display: "-webkit-box",
@@ -46,8 +46,8 @@ const useStyles = makeStyles(() =>
       "-webkit-box-orient": "vertical",
     },
     Description: {
-      color: (style: Theme & Props) => style.textColor,
-      font: (style: Theme & Props) => style.typography.p2,
+      color: (style: Theme & Props) => style.textColorPrimary,
+      font: (style: Theme & Props) => style.typography.body1,
     },
   })
 );

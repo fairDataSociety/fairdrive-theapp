@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CardWrapper from "./cardWrapper/cardWrapper";
 import CardHeader from "./cardHeader/cardHeader";
 import CardBody from "./cardBody/cardBody";
 import { InfoIcon, Folder } from "../icons/icons";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
+import actionTypes from "../../store/actionTypes";
+import { StoreContext } from "../../store/store";
 type Sizes = "small" | "regular" | "big";
 export interface Props {
   size?: Sizes;
@@ -14,11 +16,16 @@ export interface Props {
 
 function FileCard(props: Props) {
   const { file } = props;
+  const { state, actions } = useContext(StoreContext);
 
   const history = useHistory();
   async function onFileClick() {
     if (file.content_type === "inode/directory") {
-      history.push(`/drive/${file.name}`);
+      const newDirectory =
+        state.directory !== "root"
+          ? state.directory + "/" + file.name
+          : file.name;
+      actions.setDirectory(newDirectory);
     }
   }
 
@@ -26,6 +33,7 @@ function FileCard(props: Props) {
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
   const [Icon, setIcon] = useState(null);
+
   useEffect(() => {
     file.content_type === "inode/directory"
       ? setIcon(Folder)
