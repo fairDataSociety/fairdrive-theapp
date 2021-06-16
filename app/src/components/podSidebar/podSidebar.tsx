@@ -39,7 +39,7 @@ function PodSidebar(props: Props) {
 
   return (
     <div className={classes.podDrawer}>
-       <Toggle show={props.route !== "Overview"} isLeft={isPrivate} setLeft={setIsPrivate}/>
+       <Toggle show={props.route !== "Overview" && props.route !== "Explore"} isLeft={isPrivate} setLeft={setIsPrivate}/>
           <div className={classes.podInfoWrapper}>
             <PodInfo className={classes.podInfo} />
             <div className={classes.information}>
@@ -61,7 +61,7 @@ function PodSidebar(props: Props) {
                 </div>
               );
             })}
-          </div> :
+          </div> : props.route !== "Explore" ? 
           <div className={classes.pods}>
             {state.pods.map((pod) => {
               return (
@@ -71,7 +71,7 @@ function PodSidebar(props: Props) {
                 </div>
               );
             })}
-          </div> }
+          </div>  : <></>}
           <div className={classes.podInfoWrapper}>
             <PodInfo className={classes.podInfo} />
             <div className={classes.information}>

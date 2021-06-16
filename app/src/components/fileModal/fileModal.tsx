@@ -39,7 +39,7 @@ function FileModal(props: Props) {
   }, [file]);
 
   const handleOpen = async () => {
-    if(!open){
+  
     const newPath = writePath(state.directory);
 
     blobFile = window.URL.createObjectURL(
@@ -47,7 +47,7 @@ function FileModal(props: Props) {
     );
     setBlob(blobFile);
     setOpen(true);
-    }
+    
   };
 
   const handleClose = async () => {
