@@ -14,10 +14,9 @@ interface Payload {
 }
 
 const host ="https://api.fairos.io/v0/";
-const podName = "Fairdrive";
+const podNameDefault = "Fairdrive";
 
 export async function createAccount(payload: Payload) {
-  console.log('here');
   const {username, password, mnemonic} = payload
   try {
     const requestBody = {
@@ -60,14 +59,14 @@ export const login = async (payload: Payload) => {
     });
 
     const podResult = await getPods();
-    if(!podResult.pod_name.includes(podName)){
+    if(!podResult.pod_name.includes(podNameDefault)){
       await createPod(password);
     }
     const openPod = await axios({
       baseURL: host,
       method: "POST",
       url: "pod/open",
-      data: qs.stringify({ password: password, pod: podName }),
+      data: qs.stringify({ password: password, pod: podNameDefault }),
       withCredentials: true,
     });
 
@@ -84,14 +83,14 @@ export const generateSeedPhrase = async() =>{
   return res
 }
 
-export const openPod = async(password) =>{
+export const openPod = async(payload: any) =>{
   try{
-
+    const {password, podName} = payload
     const openPod = await axios({
       baseURL: host,
       method: "POST",
       url: "pod/open",
-      data: qs.stringify({ password: password, pod: podName }),
+      data: qs.stringify({ password: password, pod: podName === null ? podNameDefault : podName }),
       withCredentials: true,
     });
 
@@ -116,7 +115,7 @@ export const createPod = async(password: string) =>{
       baseURL: host,
       method: "POST",
       url: "pod/new",
-      data: qs.stringify({password: password, pod: podName }),
+      data: qs.stringify({password: password, pod: podNameDefault }),
       withCredentials: true,
     });
    
@@ -223,7 +222,6 @@ export const fileUpload = async (payload:Payload) => {
     withCredentials: true,
   });
 
-  console.log(uploadFiles);
   return true;
 }
 
@@ -238,7 +236,6 @@ export const fileDownload = async (file:any, filename:any) => {
       withCredentials: true,
     });
 
-    console.log(downloadFile);
     FileSaver.saveAs(downloadFile.data, filename);
 
     //const blob = new Blob(downloadFile.data)

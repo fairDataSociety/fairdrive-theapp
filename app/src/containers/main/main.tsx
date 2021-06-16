@@ -12,9 +12,7 @@ function Main(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  useEffect(() => {
-    console.log(state.userData);
-  }, [state.userData]);
+
   return (
     <div className={classes.Main}>
       {state.userData?.code === 200 ? (

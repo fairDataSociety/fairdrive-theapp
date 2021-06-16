@@ -1,5 +1,5 @@
 import types from "./actionTypes";
-import { login, fileUpload, getDirectory, generateSeedPhrase, createAccount } from "../store/services/fairOS";
+import { login, fileUpload, getDirectory, generateSeedPhrase, createAccount, getPods, openPod } from "../store/services/fairOS";
 
 export const applyMiddleware = (dispatch) => (action) => {
   switch (action.type) {
@@ -56,7 +56,6 @@ export const applyMiddleware = (dispatch) => (action) => {
         });
       })
     case types.SEED_PHRASE.SEED_PHRASE_REQUEST:
-      console.log("here")
       return generateSeedPhrase().then((res) => {
         dispatch({
           type: types.SEED_PHRASE.SEED_PHRASE_SUCCESS,
@@ -65,6 +64,30 @@ export const applyMiddleware = (dispatch) => (action) => {
       }).catch((err) =>
         dispatch({
           type: types.SEED_PHRASE.SEED_PHRASE_FAILED,
+          payload: err.response,
+        })
+      );
+    case types.GET_PODS.GET_PODS_REQUEST:
+      return getPods().then((res) => {
+        dispatch({
+          type: types.GET_PODS.GET_PODS_SUCCESS,
+          payload: res,
+        });
+      }).catch((err) =>
+        dispatch({
+          type: types.GET_PODS.GET_PODS_FAIL,
+          payload: err.response,
+        })
+      );
+    case types.OPEN_POD.OPEN_POD_REQUEST:
+      return openPod(action.payload).then((res) => {
+        dispatch({
+          type: types.OPEN_POD.OPEN_POD_SUCCESS,
+          payload: res,
+        });
+      }).catch((err) =>
+        dispatch({
+          type: types.OPEN_POD.OPEN_POD_FAIL,
           payload: err.response,
         })
       );
