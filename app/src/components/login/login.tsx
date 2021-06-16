@@ -27,6 +27,7 @@ function Login(props: Props) {
       password,
       podName: "Fairdrive",
     });
+    actions.getPods();
   }
 
   return (

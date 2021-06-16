@@ -12,15 +12,12 @@ function BoilerPlate(props: Props) {
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });
-  // const [pods, setPods] = useState(null);
-  const pods = ["One", "Two", "Three"];
+
   useEffect(() => {
-    loadPods();
-  });
-  const loadPods = async () => {
-    // setPods();
-    // const res = await getPods();
-  };
+    if (state.podMsg?.status === 200)
+      actions.getDirectory({ directory: "root" });
+  }, [state.podMsg]);
+
   return (
     <div className={classes.BoilerPlate}>
       <div className={classes.rowButtons}>
@@ -44,10 +41,12 @@ function BoilerPlate(props: Props) {
           size="medium"
           text="Create new pod"
         ></ButtonPill>
-        {pods.map((pod) => {
+        {state.pods.map((pod) => {
           return (
             <ButtonPill
-              clickFunction={() => {}}
+              clickFunction={() => {
+                actions.openPod({ password: state.password, podName: pod });
+              }}
               size="medium"
               text={pod}
             ></ButtonPill>

@@ -54,6 +54,17 @@ export const useActions = (state, dispatch) => ({
       type: types.SET_DIRECTORY,
       payload: data,
     });
+  },
+  getPods:()=>{
+    dispatch({
+      type: types.GET_PODS.GET_PODS_REQUEST,
+    });
+  },
+  openPod:(data)=>{
+    dispatch({
+      type: types.OPEN_POD.OPEN_POD_REQUEST,
+      payload: data,
+    });
   }
 
 });
@@ -67,4 +78,6 @@ export interface Actions {
   createUser:(data:any) => void;
   setSearchQuery:(data:any) => void;
   setDirectory:(data: any) => void;
+  getPods:() => void;
+  openPod:(data: any) => void;
 }

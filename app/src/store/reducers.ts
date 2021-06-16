@@ -17,6 +17,8 @@ export interface State {
 	address: string;
 	errMsg: string;
 	directory: string;
+	pods: any;
+	podMsg: any;
 }
 
 const initialState: State = {
@@ -35,7 +37,9 @@ const initialState: State = {
 	inviteCode: '',
 	address: '',
 	errMsg: '',
-	directory:'root'
+	directory:'root',
+	pods:[],
+	podMsg: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -92,6 +96,21 @@ const reducer = (state = initialState, action) => {
 				...state,
 				directory: action.payload,
 			}
+		case types.GET_PODS.GET_PODS_SUCCESS:
+			return {
+				...state,
+				pods: action.payload.pod_name,
+			};
+		case types.OPEN_POD.OPEN_POD_SUCCESS:
+			return {
+				...state,
+				podMsg: action.payload,
+			};
+		case types.OPEN_POD.OPEN_POD_FAIL:
+			return {
+				...state,
+				podMSg: action.payload.pod_name,
+			};
 		default:
 			return state;
 	}
