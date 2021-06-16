@@ -4,7 +4,7 @@ import { StoreContext } from "../../store/store";
 import useStyles from "./fileModalStyles";
 import Modal from "@material-ui/core/Modal";
 import FileCard from "../cards/fileCard";
-import { InfoIcon } from "../icons/icons";
+import { InfoIcon, Folder, Close, Download, Upload, Hide, Share, UploadIcon } from "../icons/icons";
 import ButtonPill from "../buttonPill/buttonPill";
 import writePath from "../../store/helpers/writePath";
 import { fileDownload, filePreview } from "../../store/services/fairOS";
@@ -15,6 +15,7 @@ export interface Props {
   file: any;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   downloadFile?: boolean;
+  open?: boolean
 }
 
 function FileModal(props: Props) {
@@ -38,6 +39,7 @@ function FileModal(props: Props) {
   }, [file]);
 
   const handleOpen = async () => {
+    if(!open){
     const newPath = writePath(state.directory);
 
     blobFile = window.URL.createObjectURL(
@@ -45,11 +47,16 @@ function FileModal(props: Props) {
     );
     setBlob(blobFile);
     setOpen(true);
+    }
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    URL.revokeObjectURL(blobFile);
+  const handleClose = async () => {
+    if(open){
+      URL.revokeObjectURL(blobFile);
+      setBlob(null);
+      setOpen(false);
+    }
+   
   };
   async function handleDownload() {
     const newPath = writePath(state.directory);
@@ -59,11 +66,11 @@ function FileModal(props: Props) {
       state.podName
     ).catch((e) => console.error(e));
   }
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...props, open, ...theme });
 
   return (
     <div>
-      <div onClick={handleOpen}>
+      <div  onClick={handleOpen}>
         <FileCard file={props.file} />
       </div>
       <Modal
@@ -74,8 +81,10 @@ function FileModal(props: Props) {
         aria-describedby="simple-modal-description"
       >
         <div className={classes.fileModal} onClick={handleOpen}>
-          <div className={classes.header}>Previewing File</div>
-
+          <div className={classes.headerWrapper}>
+          <Folder className={classes.headerIcon}/><div className={classes.header}>Preview File</div> <Close className={classes.closeIcon}  onClick={handleClose}/>
+          </div>
+          <div className={classes.divider}></div>
           <div className={classes.iconContainer}>
             {!file.content_type.includes("image") && (
               <InfoIcon className={classes.Icon} />
@@ -84,37 +93,41 @@ function FileModal(props: Props) {
               <img className={classes.imagePreview} src={blob}></img>
             )}
           </div>
-
+          <div className={classes.divider}></div>
+          <div className={classes.titleWrapper}>
           <p className={classes.title}>{file.name}</p>
+          <p className={classes.fileLocation}>{'/' + urlPath(state.directory)}</p>
+          </div>
           <div className={classes.fileInfoContainer}>
             <div className={classes.leftContainer}>
               <div className={classes.pair}>
-                <p className={classes.label}>Created</p>
-                <p>{fileCreateDate}</p>
+                <p className={classes.label}>File size</p>
+                <p className={classes.value}>{fileSize}</p>
               </div>
               <div>
-                <p className={classes.label}>File size</p>
-                <p>{fileSize}</p>
+                <p className={classes.label}>Created</p>
+                <p className={classes.value}>{fileCreateDate}</p>
               </div>
             </div>
             <div className={classes.rightContainer}>
               <div className={classes.pair}>
                 <p className={classes.label}>Modified</p>
-                <p>{fileModDate}</p>
+                <p className={classes.value}>{fileModDate}</p>
               </div>
               <div>
                 <p className={classes.label}>File type</p>
-                <p>{file.content_type}</p>
+                <p className={classes.value}>{file.content_type}</p>
               </div>
             </div>
           </div>
-          <div>
-            <ButtonPill
-              clickFunction={handleDownload}
-              text={"Download"}
-              textColor={"white"}
-            ></ButtonPill>
+          <div className={classes.actionBar}>
+          <Hide className={classes.icon} onClick={handleDownload}/>
+           <Share className={classes.icon} onClick={handleDownload}/>
+           <Download className={classes.icon} onClick={handleDownload}/>
+           <UploadIcon className={classes.icon} onClick={handleDownload}/>
           </div>
+    
+         
         </div>
       </Modal>
     </div>
