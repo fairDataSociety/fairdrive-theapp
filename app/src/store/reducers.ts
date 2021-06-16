@@ -21,6 +21,8 @@ export interface State {
 	pods: any;
 	podMsg: any;
 	podName: string;
+	podChanged: boolean;
+	podsOpened: any;
 }
 
 const initialState: State = {
@@ -43,7 +45,9 @@ const initialState: State = {
 	directory:'root',
 	pods:[],
 	podMsg: null,
-	podName:"Fairdrive"
+	podName:"Fairdrive",
+	podChanged: true,
+	podsOpened:[]
 };
 
 const reducer = (state = initialState, action) => {
@@ -77,7 +81,7 @@ const reducer = (state = initialState, action) => {
 				username: action.payload.username,
 			};
 		case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
-			return { ...state, entries: action.payload.files,dirs:action.payload.dirs,  unlocked: true };
+			return { ...state, entries: action.payload.files,dirs:action.payload.dirs, podMsg:null, podChanged:false };
 		case types.STORE_USER_REGISTRATION_INFO:
 			return {
 				...state,
@@ -109,6 +113,8 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				podMsg: action.payload,
+				podsOpened: [...state.podsOpened, state.podName]
+
 			};
 		case types.OPEN_POD.OPEN_POD_FAIL:
 			return {
@@ -118,7 +124,7 @@ const reducer = (state = initialState, action) => {
 		case types.SET_POD_NAME:
 			return {
 				...state,
-				podName: action.payload,
+				podName: action.payload, podChanged:true
 			};
 		default:
 			return state;

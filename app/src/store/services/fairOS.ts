@@ -418,7 +418,7 @@ export const receivePod = async(payload: Payload) =>{
 
 
 export const fileUpload = async (payload:Payload) => {
-  const {files, directory} = payload;
+  const {files, directory, podName} = payload;
   // const newPath = writePath(path);
   let writePath = "";
   if (directory == "root") {
@@ -432,12 +432,8 @@ export const fileUpload = async (payload:Payload) => {
   }
   formData.append("dir_path", writePath);
   formData.append("block_size", "64Mb");
-  formData.append("pod_name", "Fairdrive")
-  let data = {
-    dir_path: writePath,
-    block_size: "64Mb",
-    files: files
-  }
+  formData.append("pod_name", podName)
+
   const uploadFiles = await axios({
     baseURL: host,
     method: "POST",
@@ -525,18 +521,18 @@ export const getDirectory = async (payload: Payload) => {
     //   data: qs.stringify({ password: password, pod: "Fairdrive"}),
     //   withCredentials: true,
     // });
-
-    let data = { dir_path: "", pod_name: podName === undefined || podName === null? podNameDefault: podName};
+    const pod_name = podName === undefined || podName === null? podNameDefault: podName
+    let data = { dir_path: "", pod_name: pod_name};
 
     if (directory == "root") {
       data = {
         dir_path: "/",
-        pod_name: "Fairdrive" 
+        pod_name: pod_name
       };
     } else {
       data = {
         dir_path: "/" + directory,
-        pod_name: "Fairdrive" 
+        pod_name: pod_name
       };
     }
     const response = await axios({

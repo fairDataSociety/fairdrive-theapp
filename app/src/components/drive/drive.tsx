@@ -48,7 +48,7 @@ function BoilerPlate(props: Props) {
       setOpen(false);
     }
     // eslint-disable-next-line
-  }, [state.fileUploaded, folderCreated, state.directory, state.podName]);
+  }, [state.fileUploaded, folderCreated, state.directory]);
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
@@ -69,7 +69,11 @@ function BoilerPlate(props: Props) {
     inputFile.current.click();
   };
   async function handleFileUpload(files: any) {
-    actions.uploadFile({ files, directory: urlPath(state.directory) });
+    actions.uploadFile({
+      files,
+      directory: urlPath(state.directory),
+      podName: state.podName,
+    });
   }
   const handleClose = () => {
     setOpen(false);
@@ -109,10 +113,10 @@ function BoilerPlate(props: Props) {
           files
             .sort(sortByProp(toSort, orderProp))
             .map((file: any) => <FileModal file={file}></FileModal>)}
-        {state.dirs !== null &&
-          state.dirs !== undefined &&
-          files !== null &&
-          files !== undefined && <div>Loading files..</div>}
+        {state.dirs === null ||
+          state.dirs === undefined ||
+          files === null ||
+          (files === undefined && <div>Loading files..</div>)}
       </CardGrid>
     </div>
   );

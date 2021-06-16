@@ -30,9 +30,6 @@ function Login(props: Props) {
     actions.getPods();
   }
 
-  useEffect(() => {
-    console.log(state.pods);
-  }, [state.pods]);
   return (
     <div className={classes.Login}>
       <div className={classes.imageContainer}>

@@ -13,12 +13,9 @@ function PodSidebar(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   useEffect(() => {
-    if (state.podMsg?.status === 200)
-      actions.getDirectory({ directory: "root" });
-  }, [state.podMsg]);
-  useEffect(() => {
-    console.log(state.podName);
-  }, [state.podName]);
+    if (state.podChanged)
+      actions.getDirectory({ directory: "root", podName: state.podName });
+  }, [state.podChanged, state.podName]);
 
   return (
     <div className={classes.BoilerPlate}>
@@ -48,7 +45,8 @@ function PodSidebar(props: Props) {
             <ButtonPill
               clickFunction={() => {
                 actions.setPodName(pod);
-                actions.openPod({ password: state.password, podName: pod });
+                if (!state.podsOpened.includes(pod))
+                  actions.openPod({ password: state.password, podName: pod });
               }}
               size="medium"
               text={pod}
