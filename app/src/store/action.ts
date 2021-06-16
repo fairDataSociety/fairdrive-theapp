@@ -65,6 +65,12 @@ export const useActions = (state, dispatch) => ({
       type: types.OPEN_POD.OPEN_POD_REQUEST,
       payload: data,
     });
+  },
+  setPodName:(data) =>{
+    dispatch({
+      type: types.SET_POD_NAME,
+      payload: data,
+    });
   }
 
 });
@@ -80,4 +86,5 @@ export interface Actions {
   setDirectory:(data: any) => void;
   getPods:() => void;
   openPod:(data: any) => void;
+  setPodName:(data: any) => void;
 }

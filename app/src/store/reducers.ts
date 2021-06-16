@@ -19,6 +19,7 @@ export interface State {
 	directory: string;
 	pods: any;
 	podMsg: any;
+	podName: string;
 }
 
 const initialState: State = {
@@ -39,7 +40,8 @@ const initialState: State = {
 	errMsg: '',
 	directory:'root',
 	pods:[],
-	podMsg: null
+	podMsg: null,
+	podName:"Fairdrive"
 };
 
 const reducer = (state = initialState, action) => {
@@ -110,6 +112,11 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				podMSg: action.payload,
+			};
+		case types.SET_POD_NAME:
+			return {
+				...state,
+				podName: action.payload,
 			};
 		default:
 			return state;

@@ -16,6 +16,9 @@ function BoilerPlate(props: Props) {
     if (state.podMsg?.status === 200)
       actions.getDirectory({ directory: "root" });
   }, [state.podMsg]);
+  useEffect(() => {
+    console.log(state.podName);
+  }, [state.podName]);
 
   return (
     <div className={classes.BoilerPlate}>
@@ -44,6 +47,7 @@ function BoilerPlate(props: Props) {
           return (
             <ButtonPill
               clickFunction={() => {
+                actions.setPodName(pod);
                 actions.openPod({ password: state.password, podName: pod });
               }}
               size="medium"
