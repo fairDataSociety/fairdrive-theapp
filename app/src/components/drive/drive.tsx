@@ -6,6 +6,7 @@ import { Modal } from "@material-ui/core";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
+import UploadModal from "../../components/uploadModal/uploadModal";
 import sortByProp from "../../store/helpers/sort";
 import { ButtonPlus, Folder, Plus, PodChevron, PodInfo, ShareIcon, Upload, UploadIcon } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
@@ -21,6 +22,7 @@ function BoilerPlate(props: Props) {
 
   const [files, setFiles] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openUpload, setOpenUpload] = useState(false);
   const [folderCreated, setFolderCreated] = useState(false);
   const toSortProp = "name";
   const [toSort, setToSort] = useState(toSortProp);
@@ -80,6 +82,9 @@ function BoilerPlate(props: Props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleUploadModal = async (value) => {
+    setOpenUpload(value);
+  };
   const handleOpen = () => {
     setOpen(true);
   };
@@ -104,7 +109,7 @@ function BoilerPlate(props: Props) {
          </div>
          <div className={classes.actionWrapper} >
          <div className={classes.actionRow}>
-           <div className={classes.actionButton}><UploadIcon className={classes.buttonIcon} onClick={onIconClick}/>Upload</div>
+           <div className={classes.actionButton}><UploadModal open={openUpload} handleUploadModal={handleUploadModal}><UploadIcon className={classes.buttonIcon} onClick={() =>handleUploadModal(true)}/>Upload</UploadModal></div>
            <div className={classes.actionText}>Upload Files from your local storage</div>
            </div>
            <div className={classes.actionRow}>
@@ -118,6 +123,7 @@ function BoilerPlate(props: Props) {
          </div>
     
       <div className={classes.buttonNavBar}></div>
+      
       <Modal
         className={classes.modalContainer}
         open={open}

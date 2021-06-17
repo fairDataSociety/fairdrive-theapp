@@ -190,13 +190,13 @@ const useStyles = makeStyles(() =>
 		padding:"1.2rem 1.5rem 1.2rem 1.5rem",
 		backgroundColor: (style: Props & Theme) => style.backgroundDark3,
 		color:(style: Props & Theme) => style.textColorPrimary,
-		font: (style: Props & Theme) => style.typography.caption1,
+		font: (style: Props & Theme) => style.typography.caption2,
 		"&:hover": {
 		  //font: (style: Props & Theme) => style.typography.body3,
 		  border: "1px solid var(--white)", 
 		},
 		"&:active": {
-		  font: (style: Props & Theme) =>  style.typography.body2,
+		  font: (style: Props & Theme) =>  style.typography.caption1,
 		  border: "1px solid var(--white)", 
 		},
 		float: "left"
