@@ -7,7 +7,7 @@ import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
 import sortByProp from "../../store/helpers/sort";
-import { Plus, Upload } from "../../components/icons/icons";
+import { Folder, Plus, PodChevron, Upload, UploadIcon } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
 import NewFolder from "../../components/newFolder/newFolder";
 
@@ -86,7 +86,11 @@ function BoilerPlate(props: Props) {
   return (
     <div className={classes.BoilerPlate}>
       {/* Needs to go into buttonNavbar component */}
-      <div className={classes.buttonNavBar}>
+      <div className={classes.headerWrapper}>
+        <div className={classes.headerButton} onClick={onIconClick}> <Folder className={classes.folder}/><PodChevron className={classes.chev}/></div>
+         <div className={classes.header}>Private Pod</div> 
+      </div>
+      {/* <div className={classes.buttonNavBar}>
         <Upload onClick={onIconClick} className={classes.Icon}></Upload>
         <input
           className={classes.uploadInput}
@@ -95,7 +99,7 @@ function BoilerPlate(props: Props) {
           onChange={(e) => handleFileUpload(e.target.files)}
         ></input>
         <Plus onClick={handleOpen} className={classes.Icon}></Plus>
-      </div>
+      </div> */}
       <div className={classes.buttonNavBar}></div>
       <Modal
         className={classes.modalContainer}
