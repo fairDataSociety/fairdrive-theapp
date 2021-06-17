@@ -3,7 +3,10 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "./fileListStyles";
 import FileListHeader from "./fileListHeader";
 import FileListBody from "./fileListBody";
-export interface Props {}
+import { StoreContext } from "src/store/store";
+export interface Props {
+  isPodBarOpen: boolean;
+}
 
 const dummyFileData = [
   {
@@ -31,26 +34,31 @@ const dummyFileData = [
 
 function FileList(props: Props) {
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const { state, actions } = useContext(StoreContext);
 
+  const classes = useStyles({ ...props, ...theme });
   return (
-    <div className={classes.container}>
-      <FileListHeader />
-      <div className={classes.fileContainer}>
-        {dummyFileData.map((d) => {
-          return (
-            <FileListBody
-              name={d.name}
-              type={d.type}
-              size={d.size}
-              created={d.created}
-              modified={d.modified}
-              file={d}
-            ></FileListBody>
-          );
-        })}
+    state.entries !== null && (
+      <div className={classes.container}>
+        <FileListHeader isPodBarOpen={props.isPodBarOpen} />
+        <div className={classes.fileContainer}>
+          {state.entries !== undefined &&
+            state.entries.map((d) => {
+              return (
+                <FileListBody
+                  name={d.name}
+                  type={d.type}
+                  size={d.size}
+                  created={d.created}
+                  modified={d.modified}
+                  file={d}
+                  isPodBarOpen={props.isPodBarOpen}
+                ></FileListBody>
+              );
+            })}
+        </div>
       </div>
-    </div>
+    )
   );
 }
 

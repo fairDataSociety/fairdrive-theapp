@@ -114,7 +114,13 @@ const useStyles = makeStyles(() =>
     podChevron: {
       float:"right",
       marginTop:"0.8rem",
-    }
+    },
+    modalContainer: {
+			left: 'calc(100% - 65rem)',
+			top: 'calc(100% - 65rem)',
+			overflowX: 'hidden',
+			overflowY: 'auto',
+		},
   })
 );
 
