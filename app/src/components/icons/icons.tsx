@@ -32,9 +32,12 @@ import { ReactComponent as Download } from "../../media/UI/download.svg";
 import { ReactComponent as Hide } from "../../media/UI/hide.svg";
 import { ReactComponent as Share } from "../../media/UI/share.svg";
 import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
+import { ReactComponent as FilterIcon } from "../../media/optionIcons/Filter.svg";
+import { ReactComponent as GridIcon } from "../../media/optionIcons/GridIcon.svg";
+import { ReactComponent as ListIcon } from "../../media/optionIcons/ListIcon.svg";
+import { ReactComponent as DAppIcon } from "../../media/fairdrive/DApps.svg";
 import { ReactComponent as ShareIcon } from "../../media/UI/share_icon.svg";
 import { ReactComponent as ButtonPlus } from "../../media/UI/button_plus.svg";
-
 
 export const icons = {
   QuestionMark: QuestionMark,
@@ -77,5 +80,9 @@ export {
   Kebab,
   Close,
   QuestionCircle,
-  Chevron
+  Chevron,
+  FilterIcon,
+  ListIcon,
+  GridIcon,
+  DAppIcon,
 };
