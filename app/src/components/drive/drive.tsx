@@ -12,7 +12,7 @@ import urlPath from "../../store/helpers/urlPath";
 import NewFolder from "../../components/newFolder/newFolder";
 
 export interface Props {
-  isPodBarOpen: boolean
+  isPodBarOpen: boolean;
 }
 
 function BoilerPlate(props: Props) {
@@ -130,7 +130,9 @@ function BoilerPlate(props: Props) {
       <CardGrid className={classes.cardGrid}>
         {state.dirs !== null &&
           state.dirs !== undefined &&
-          state.dirs.map((dir: any) => <FileCard file={dir}></FileCard>)}
+          state.dirs.map((dir: any) => (
+            <FileCard file={dir} isDirectory={true}></FileCard>
+          ))}
         {files !== null &&
           files !== undefined &&
           files
