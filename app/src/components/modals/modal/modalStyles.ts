@@ -8,7 +8,7 @@ const useStyles = makeStyles(() =>
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       border: (style: Props & Theme) => `1px solid ${style.backgroundDark2}`,
       width:"50rem",
-      height:"40rem",
+      minHeight:"25rem",
       display: "flex",
       flexDirection: "column",
       padding:"2.5rem",
@@ -32,17 +32,29 @@ const useStyles = makeStyles(() =>
       right: '3rem',
       top: '3rem',
     },
+    flex: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-evenly',
+    },
+    body: {
+      padding: '3rem 0',
+    },
     buttonContainer: {
-      width: '90%',
-      position: 'absolute',
-      bottom: '3rem',
       display: 'flex',
       justifyContent: 'center',
     },
     button: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark1,
       maxWidth: "25rem",
-      padding: '1.5rem',
+      padding: '1.5rem 3rem',
+      borderRadius: '0.5rem'
+    },
+    disabledButton: {
+      backgroundColor: (style: Props & Theme) => style.backgroundDark1,
+      color: (style: Props & Theme) => style.backgroundLight3,
+      maxWidth: "25rem",
+      padding: '1.5rem 3rem',
       borderRadius: '0.5rem'
     }
   })

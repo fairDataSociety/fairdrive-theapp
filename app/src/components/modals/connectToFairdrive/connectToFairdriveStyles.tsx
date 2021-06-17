@@ -4,9 +4,6 @@ import { Props } from "./connectToFairdrive";
 
 const useStyles = makeStyles(() =>
   createStyles({
-    BoilerPlate: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark,
-    },
     label: {
     font: (style: Props & Theme) => style.typography.caption2,
     marginBottom: "1.5rem",

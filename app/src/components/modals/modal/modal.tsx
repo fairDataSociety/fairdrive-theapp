@@ -10,6 +10,8 @@ export interface Props {
   handleClick?: () => void;
   heading: string;
   button?: string;
+  disabledButton?: string;
+  icon?: boolean;
 }
 
 function Modal(props: Props) {
@@ -25,13 +27,20 @@ function Modal(props: Props) {
     <ClickAwayListener onClickAway={handleClickAway}>
       <div className={classes.wrapper}>
         <div className={classes.header}>
-          <ModalFolder className={classes.icon} />
+          {props.icon && <ModalFolder className={classes.icon} />}
           {props.heading}
           <Close className={classes.closeIcon} onClick={props.handleClick} />
         </div>
-        <div>{props.children}</div>
+        <div className={classes.flex}>
+        <div className={classes.body}>{props.children}</div>
         <div className={classes.buttonContainer}>
-          <button className={classes.button}>{props.button}</button>
+          {props.button && (
+            <button className={classes.button}>{props.button}</button>
+          )}
+          {props.disabledButton && (
+            <button className={classes.disabledButton}>{props.disabledButton}</button>
+          )}
+        </div>
         </div>
       </div>
     </ClickAwayListener>
