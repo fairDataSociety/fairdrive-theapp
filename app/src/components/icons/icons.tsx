@@ -32,6 +32,7 @@ import { ReactComponent as Download } from "../../media/UI/download.svg";
 import { ReactComponent as Hide } from "../../media/UI/hide.svg";
 import { ReactComponent as Share } from "../../media/UI/share.svg";
 import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
+import { ReactComponent as ModalFolder } from "../../media/UI/modalfolder.svg";
 
 
 export const icons = {
@@ -73,5 +74,6 @@ export {
   Kebab,
   Close,
   QuestionCircle,
-  Chevron
+  Chevron,
+  ModalFolder
 };

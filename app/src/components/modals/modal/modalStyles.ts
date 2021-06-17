@@ -1,0 +1,51 @@
+import { makeStyles, createStyles } from "@material-ui/styles";
+import { Theme } from "../../../store/themeContext/themes";
+import { Props } from "./modal";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    wrapper: {
+      backgroundColor: (style: Props & Theme) => style.backgroundDark3,
+      border: (style: Props & Theme) => `1px solid ${style.backgroundDark2}`,
+      width:"50rem",
+      height:"40rem",
+      display: "flex",
+      flexDirection: "column",
+      padding:"2.5rem",
+      marginBottom:"1rem",
+      borderRadius: '1rem',
+      position: 'relative',
+    },
+    header: {
+      font: (style: Props & Theme) => style.typography.body3,
+      borderBottom: (style: Props & Theme) => `1px solid ${style.backgroundDark1}`,
+      paddingBottom: '2rem',
+      display: "flex",
+      alignItems: 'center',
+    },
+    icon: {
+      marginRight: '1rem'
+    },
+    closeIcon: {
+      stroke: (style: Props & Theme) => style.backgroundLight1,
+      position: 'absolute',
+      right: '3rem',
+      top: '3rem',
+    },
+    buttonContainer: {
+      width: '90%',
+      position: 'absolute',
+      bottom: '3rem',
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    button: {
+      backgroundColor: (style: Props & Theme) => style.backgroundDark1,
+      maxWidth: "25rem",
+      padding: '1.5rem',
+      borderRadius: '0.5rem'
+    }
+  })
+);
+
+export default useStyles;
