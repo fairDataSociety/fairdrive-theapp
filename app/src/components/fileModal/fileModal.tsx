@@ -4,7 +4,16 @@ import { StoreContext } from "../../store/store";
 import useStyles from "./fileModalStyles";
 import Modal from "@material-ui/core/Modal";
 import FileCard from "../cards/fileCard";
-import { InfoIcon, Folder, Close, Download, Upload, Hide, Share, UploadIcon } from "../icons/icons";
+import {
+  InfoIcon,
+  Folder,
+  Close,
+  Download,
+  Upload,
+  Hide,
+  Share,
+  UploadIcon,
+} from "../icons/icons";
 import ButtonPill from "../buttonPill/buttonPill";
 import writePath from "../../store/helpers/writePath";
 import { fileDownload, filePreview } from "../../store/services/fairOS";
@@ -15,7 +24,7 @@ export interface Props {
   file: any;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   downloadFile?: boolean;
-  open?: boolean
+  open?: boolean;
 }
 
 function FileModal(props: Props) {
@@ -39,7 +48,6 @@ function FileModal(props: Props) {
   }, [file]);
 
   const handleOpen = async () => {
-  
     const newPath = writePath(state.directory);
 
     blobFile = window.URL.createObjectURL(
@@ -47,16 +55,14 @@ function FileModal(props: Props) {
     );
     setBlob(blobFile);
     setOpen(true);
-    
   };
 
   const handleClose = async () => {
-    if(open){
+    if (open) {
       URL.revokeObjectURL(blobFile);
       setBlob(null);
       setOpen(false);
     }
-   
   };
   async function handleDownload() {
     const newPath = writePath(state.directory);
@@ -70,8 +76,8 @@ function FileModal(props: Props) {
 
   return (
     <div>
-      <div  onClick={handleOpen}>
-        <FileCard file={props.file} />
+      <div onClick={handleOpen}>
+        <FileCard file={props.file} isDirectory={false} />
       </div>
       <Modal
         className={classes.modalContainer}
@@ -82,7 +88,9 @@ function FileModal(props: Props) {
       >
         <div className={classes.fileModal} onClick={handleOpen}>
           <div className={classes.headerWrapper}>
-          <Folder className={classes.headerIcon}/><div className={classes.header}>Preview File</div> <Close className={classes.closeIcon}  onClick={handleClose}/>
+            <Folder className={classes.headerIcon} />
+            <div className={classes.header}>Preview File</div>{" "}
+            <Close className={classes.closeIcon} onClick={handleClose} />
           </div>
           <div className={classes.divider}></div>
           <div className={classes.iconContainer}>
@@ -95,8 +103,10 @@ function FileModal(props: Props) {
           </div>
           <div className={classes.divider}></div>
           <div className={classes.titleWrapper}>
-          <p className={classes.title}>{file.name}</p>
-          <p className={classes.fileLocation}>{'/' + urlPath(state.directory)}</p>
+            <p className={classes.title}>{file.name}</p>
+            <p className={classes.fileLocation}>
+              {"/" + urlPath(state.directory)}
+            </p>
           </div>
           <div className={classes.fileInfoContainer}>
             <div className={classes.leftContainer}>
@@ -121,13 +131,11 @@ function FileModal(props: Props) {
             </div>
           </div>
           <div className={classes.actionBar}>
-          <Hide className={classes.icon} onClick={handleDownload}/>
-           <Share className={classes.icon} onClick={handleDownload}/>
-           <Download className={classes.icon} onClick={handleDownload}/>
-           <UploadIcon className={classes.icon} onClick={handleDownload}/>
+            <Hide className={classes.icon} onClick={handleDownload} />
+            <Share className={classes.icon} onClick={handleDownload} />
+            <Download className={classes.icon} onClick={handleDownload} />
+            <UploadIcon className={classes.icon} onClick={handleDownload} />
           </div>
-    
-         
         </div>
       </Modal>
     </div>

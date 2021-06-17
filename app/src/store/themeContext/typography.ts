@@ -5,7 +5,7 @@ export const typography = {
   h3: "400 6rem var(--font1)",
   h4: "400 4rem var(--font1)",
   h5: "600 3rem var(--font1)",
-  h6: "600 2.5rem var(--font1)",
+  h6: "500 2rem var(--font1)",
   subtitleLarge: "500 2rem var(--font1)",
   subtitleSmall: "400 1.75rem var(--font1)",
   body1: "400 2rem var(--font1)",
