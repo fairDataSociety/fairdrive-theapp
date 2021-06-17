@@ -7,7 +7,7 @@ import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
 import sortByProp from "../../store/helpers/sort";
-import { Folder, Plus, PodChevron, Upload, UploadIcon } from "../../components/icons/icons";
+import { Folder, Plus, PodChevron, PodInfo, ShareIcon, Upload, UploadIcon } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
 import NewFolder from "../../components/newFolder/newFolder";
 
@@ -88,8 +88,35 @@ function BoilerPlate(props: Props) {
       {/* Needs to go into buttonNavbar component */}
       <div className={classes.headerWrapper}>
         <div className={classes.headerButton} onClick={onIconClick}> <Folder className={classes.folder}/><PodChevron className={classes.chev}/></div>
-         <div className={classes.header}>Private Pod</div> 
+         <div className={classes.header}>Private Pod</div>
+     
       </div>
+      <div className={classes.midWrapper} >
+         <div className={classes.midHeader}>Inventory</div>
+         <div className={classes.divider}></div>
+         <div className={classes.infoWrapper}>
+            <PodInfo className={classes.infoIcon} />
+            <div className={classes.information}>
+            All your content including what you have shared with others marked with a 
+            </div>
+            <ShareIcon className={classes.shareIcon} />
+          </div>
+         </div>
+         <div className={classes.actionWrapper} >
+         <div className={classes.actionRow}>
+           <div className={classes.actionButton}>Upload</div>
+           <div className={classes.actionText}>Upload Files from your local storage</div>
+           </div>
+           <div className={classes.actionRow}>
+           <div className={classes.actionButton}>Create New File</div>
+           <div className={classes.actionText}>Create new files with our markdown editor: Fairtext</div>
+           </div>       
+           <div className={classes.actionRow}>
+           <div className={classes.actionButton}>Create New Folder</div>
+           <div className={classes.actionText}>Create new folders in this pod</div>
+           </div>             
+         </div>
+    
       {/* <div className={classes.buttonNavBar}>
         <Upload onClick={onIconClick} className={classes.Icon}></Upload>
         <input

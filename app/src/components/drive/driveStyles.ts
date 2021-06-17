@@ -23,12 +23,30 @@ const useStyles = makeStyles(() =>
 		padding: '2rem 2rem 2rem 0rem',
 		width: "100%",
 		flexDirection: "row",
+		
 		//marginBottom: "2rem",
 		height:"10rem",
 		display:"flex",
 		position:'relative',
-		marginBottom: "4rem",
 		textAlign: 'left',
+	},
+	midWrapper : {
+		padding: '2rem 2rem 2rem 0rem',
+		width: "100%",
+		flexDirection: "column",
+		//marginBottom: "2rem",
+		marginLeft:"1.6rem",
+		height:"15rem",
+		display:"flex",
+		position:'relative',
+		textAlign: 'left',
+	},
+	midHeader: {
+		font: (style: Props & Theme) => style.typography.h5,
+		color: (style: Props & Theme) => style.textColorHoverSelected,
+		//margin: "2rem 1.5rem 2rem 0rem",
+		float: 'left',
+		margin: "2.5rem 1.5rem 1.5rem 0rem",
 	},
 	header: {
 		font: (style: Props & Theme) => style.typography.h6,
@@ -87,6 +105,10 @@ const useStyles = makeStyles(() =>
       width: "0",
       height: "0",
     },
+	divider: {
+		borderBottom: "2.5px  solid var(--white)",
+		width: "13rem",
+	},
     Icon: {
       width: "5rem",
       height: "5rem",
@@ -97,6 +119,86 @@ const useStyles = makeStyles(() =>
       overflowX: "hidden",
       overflowY: "auto",
     },
+
+	//info
+	infoWrapper: {
+		flexDirection: "row",
+		padding: "1.5rem 0 1.5rem 0"
+	  },
+	  infoIcon: {
+		width: "2rem",
+		height: "2rem",
+		margin: "1rem 0 0 0",
+		float: "left"
+	  },
+	  shareIcon: {
+		width: "4rem",
+		height: "4rem",
+		// margin: "1rem 0 1rem 1rem",
+		float: "left"
+	  },
+	  information:{
+		overflow:"hidden",
+		float:"left",
+		height: (props: Props & Theme) =>  "4rem",
+		color:(style: Props & Theme) => style.textColorSecondary,
+		font: (style: Props & Theme) => style.typography.caption1,
+		margin: "1rem 0rem 2rem 1.5rem",
+		paddingRight: "1rem",
+		transitionProperty: "height",
+		transitionDuration: ".2s",
+		transitionTimingFunction: "ease-out",
+  
+	  },
+	  	  //action area
+	  actionWrapper : {
+		marginLeft:"1.6rem",
+		marginTop:"1rem",
+		flexDirection: "column",
+	  },
+
+	  actionRow:{
+		flexDirection: "row",
+		height: "8rem",
+		width: "100%",
+		alignItems: "left",
+		textAlign: 'left',
+		position: 'static',
+		padding:"2rem 0rem 1rem 0",
+		cursor: 'pointer',
+		//border:"1px solid var(--dark3)", 
+		//backgroundColor: (style: Props & Theme) => style.backgroundLight3,
+		color:(style: Props & Theme) => style.textColorSecondary,
+		font: (style: Props & Theme) => style.typography.body2,
+	  },
+	  actionButton: {
+		minWidth: (style: Props & Theme) =>"8rem",
+		maxWidth:  (style: Props & Theme) => "25rem",
+		overflow: 'auto',
+		textAlign: 'center',
+		boxSizing: 'border-box',
+		borderRadius: (style: Props & Theme) => "0.5rem",
+		cursor: 'pointer',
+		border:"1px solid var(--light3)", 
+		padding:"1.2rem 1.5rem 1.2rem 1.5rem",
+		backgroundColor: (style: Props & Theme) => style.backgroundDark3,
+		color:(style: Props & Theme) => style.textColorPrimary,
+		font: (style: Props & Theme) => style.typography.caption1,
+		"&:hover": {
+		  //font: (style: Props & Theme) => style.typography.body3,
+		  border: "1px solid var(--white)", 
+		},
+		"&:active": {
+		  font: (style: Props & Theme) =>  style.typography.body2,
+		  border: "1px solid var(--white)", 
+		},
+		float: "left"
+	  },
+	  actionText : {
+		margin: "1rem",
+		paddingLeft: "1rem",
+		float: "left"
+	  }
   })
 );
 

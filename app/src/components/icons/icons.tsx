@@ -32,6 +32,7 @@ import { ReactComponent as Download } from "../../media/UI/download.svg";
 import { ReactComponent as Hide } from "../../media/UI/hide.svg";
 import { ReactComponent as Share } from "../../media/UI/share.svg";
 import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
+import { ReactComponent as ShareIcon } from "../../media/UI/share_icon.svg";
 
 
 export const icons = {
@@ -40,6 +41,7 @@ export const icons = {
 };
 
 export {
+  ShareIcon,
   UploadIcon,
   PodInfo,
   Hide,
