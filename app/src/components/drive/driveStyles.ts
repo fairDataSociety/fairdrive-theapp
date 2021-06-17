@@ -81,6 +81,13 @@ const useStyles = makeStyles(() =>
 		height: "2rem",
 		marginRight: "0.5rem",
 	},
+	buttonIcon: {
+		float:'left',
+		width: '1.5rem',
+		height: "1.5rem",
+		marginRight: "0.8rem",
+		marginTop: "0.2rem",
+	},
 	chev: {
 		float:'right',
 		width: '1rem',
