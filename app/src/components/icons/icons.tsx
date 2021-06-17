@@ -33,6 +33,7 @@ import { ReactComponent as Hide } from "../../media/UI/hide.svg";
 import { ReactComponent as Share } from "../../media/UI/share.svg";
 import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
 import { ReactComponent as ModalFolder } from "../../media/UI/modalfolder.svg";
+import { ReactComponent as Copy } from "../../media/UI/copy.svg";
 
 
 export const icons = {
@@ -75,5 +76,6 @@ export {
   Close,
   QuestionCircle,
   Chevron,
-  ModalFolder
+  ModalFolder,
+  Copy
 };
