@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
       position: "absolute",
       display:"flex",
       flexDirection:"column",
-      margin: "7rem 0 0 2rem",
+      margin: "3rem 0 0 0",
       marginLeft: (props: Props & Theme) => props.isPodBarOpen? "50rem": "17rem",
       transitionProperty: "margin-left",
       transitionDuration: ".2s",

@@ -19,7 +19,7 @@ const useStyles = makeStyles(() =>
       height: (style: Props & Theme) => height[style.size] ?? height.regular,
       margin: (style: Props & Theme) => style.size === "big" ? "0rem": "1.5rem",
       border: (style: Props & Theme) => `1px solid ${style.backgroundDark1}`,
-      left:"10rem",
+      // left:"10rem",
       borderRadius: "1rem",
       padding:"3rem",
       textAlign: "center",

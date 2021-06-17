@@ -8,7 +8,19 @@ import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
 import UploadModal from "../../components/uploadModal/uploadModal";
 import sortByProp from "../../store/helpers/sort";
-import { ButtonPlus, Folder, Plus, PodChevron, PodInfo, ShareIcon, Upload, UploadIcon } from "../../components/icons/icons";
+
+import ButtonNavbar from "../buttonNavbar/buttonNavbar";
+import FileList from "../fileList/fileList";
+import {
+  ButtonPlus,
+  Folder,
+  Plus,
+  PodChevron,
+  PodInfo,
+  ShareIcon,
+  Upload,
+  UploadIcon,
+} from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
 import NewFolder from "../../components/newFolder/newFolder";
 
@@ -16,18 +28,19 @@ export interface Props {
   isPodBarOpen: boolean;
 }
 
-function BoilerPlate(props: Props) {
+function Drive(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const [files, setFiles] = useState([]);
+  const [folderCreated, setFolderCreated] = useState(true);
+  const [showGrid, setShowGrid] = useState(false);
   const [open, setOpen] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
   const [folderCreated, setFolderCreated] = useState(false);
   const toSortProp = "name";
   const [toSort, setToSort] = useState(toSortProp);
   const orderProp = "asc";
-  const inputFile = useRef(null);
 
   const classes = useStyles({ ...props, ...theme });
 
@@ -48,11 +61,9 @@ function BoilerPlate(props: Props) {
     loadDirectory();
     state.fileUploaded = false;
     state.searchQuery = null;
-    if (folderCreated === true) {
-      setOpen(false);
-    }
+
     // eslint-disable-next-line
-  }, [state.fileUploaded, folderCreated, state.directory]);
+  }, [state.fileUploaded, state.directory, folderCreated]);
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
@@ -91,20 +102,30 @@ function BoilerPlate(props: Props) {
   return (
     <div className={classes.BoilerPlate}>
       {/* Needs to go into buttonNavbar component */}
-      <div className={classes.headerWrapper}>
-        <div className={classes.headerButton} > <Folder className={classes.folder}/><PodChevron className={classes.chev}/></div>
-         <div className={classes.header}>Private Pod</div>
-     
+
+      <ButtonNavbar
+        folderCreated={folderCreated}
+        setFolderCreated={setFolderCreated}
+        showGrid={showGrid}
+        setShowGrid={setShowGrid}
+      ></ButtonNavbar>
+      <div className={classes.midWrapper}>
+        <div className={classes.midHeader}>Inventory</div>
+        <div className={classes.divider}></div>
+        <div className={classes.infoWrapper}>
+          <PodInfo className={classes.infoIcon} />
+          <div className={classes.information}>
+            All your content including what you have shared with others marked
+            with a
+          </div>
+          <ShareIcon className={classes.shareIcon} />
+        </div>
       </div>
-      <div className={classes.midWrapper} >
-         <div className={classes.midHeader}>Inventory</div>
-         <div className={classes.divider}></div>
-         <div className={classes.infoWrapper}>
-            <PodInfo className={classes.infoIcon} />
-            <div className={classes.information}>
-            All your content including what you have shared with others marked with a 
-            </div>
-            <ShareIcon className={classes.shareIcon} />
+      <div className={classes.actionWrapper}>
+        <div className={classes.actionRow}>
+          <div className={classes.actionButton}>
+            <UploadIcon className={classes.buttonIcon} onClick={() => {}} />
+            Upload
           </div>
          </div>
          <div className={classes.actionWrapper} >
@@ -123,8 +144,7 @@ function BoilerPlate(props: Props) {
          </div>
     
       <div className={classes.buttonNavBar}></div>
-      
-      <Modal
+      {/* <Modal
         className={classes.modalContainer}
         open={open}
         onClose={handleClose}
@@ -132,25 +152,29 @@ function BoilerPlate(props: Props) {
         aria-describedby="simple-modal-description"
       >
         <NewFolder setResponse={setFolderCreated} />
-      </Modal>
-      <CardGrid className={classes.cardGrid}>
-        {state.dirs !== null &&
-          state.dirs !== undefined &&
-          state.dirs.map((dir: any) => (
-            <FileCard file={dir} isDirectory={true}></FileCard>
-          ))}
-        {files !== null &&
-          files !== undefined &&
-          files
-            .sort(sortByProp(toSort, orderProp))
-            .map((file: any) => <FileModal file={file}></FileModal>)}
-        {state.dirs === null ||
-          state.dirs === undefined ||
-          files === null ||
-          (files === undefined && <div>Loading files..</div>)}
-      </CardGrid>
+      </Modal> */}
+      {showGrid ? (
+        <CardGrid className={classes.cardGrid}>
+          {state.dirs !== null &&
+            state.dirs !== undefined &&
+            state.dirs.map((dir: any) => (
+              <FileCard file={dir} isDirectory={true}></FileCard>
+            ))}
+          {files !== null &&
+            files !== undefined &&
+            files
+              .sort(sortByProp(toSort, orderProp))
+              .map((file: any) => <FileModal file={file}></FileModal>)}
+          {state.dirs === null ||
+            state.dirs === undefined ||
+            files === null ||
+            (files === undefined && <div>Loading files..</div>)}
+        </CardGrid>
+      ) : (
+        <FileList isPodBarOpen={props.isPodBarOpen}></FileList>
+      )}
     </div>
   );
 }
 
-export default React.memo(BoilerPlate);
+export default React.memo(Drive);

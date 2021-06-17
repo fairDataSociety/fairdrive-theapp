@@ -16,7 +16,8 @@ interface Payload {
   files?:any;
 }
 
-const host ="https://fairos.testeron.pro/v1/";
+const host = "https://fairos.testeron.pro/v1/";
+// const host = "http://localhost:9090";
 // const host ="https://api.fairos.io/v0/";
 const podNameDefault = "Fairdrive";
 
@@ -241,7 +242,7 @@ export const createPod = async(payload: any) =>{
     });
     return true;
   } catch(err){
-    return err;
+    return false;
   }
 }
 

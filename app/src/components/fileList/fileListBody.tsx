@@ -6,10 +6,11 @@ import { Kebab } from "../icons/icons";
 export interface Props {
   file: any;
   name: any;
-  type:any;
-  size:any;
+  type: any;
+  size: any;
   created: any;
   modified: any;
+  isPodBarOpen: boolean;
 }
 function FileListBody(props: Props) {
   const { theme } = useContext(ThemeContext);
