@@ -98,13 +98,14 @@ function Drive(props: Props) {
   return (
     <div className={classes.BoilerPlate}>
       {/* Needs to go into buttonNavbar component */}
-
+      <div className={classes.navBarWrapper}>
       <ButtonNavbar
         folderCreated={folderCreated}
         setFolderCreated={setFolderCreated}
         showGrid={showGrid}
         setShowGrid={setShowGrid}
       ></ButtonNavbar>
+           </div>
       <div className={classes.midWrapper}>
         <div className={classes.midHeader}>Inventory</div>
         <div className={classes.divider}></div>
@@ -161,7 +162,7 @@ function Drive(props: Props) {
             (files === undefined && <div>Loading files..</div>)}
         </CardGrid>
       ) : (
-        <FileList isPodBarOpen={props.isPodBarOpen}></FileList>
+        <FileList  isPodBarOpen={props.isPodBarOpen}></FileList>
       )}
     </div>
   );

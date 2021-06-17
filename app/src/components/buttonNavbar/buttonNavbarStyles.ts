@@ -19,7 +19,13 @@ const useStyles = makeStyles(() =>
 			width: '2.5rem',
 			height: '2.5rem',
 		},
-    IconContainer:{
+    iconContainerWrapper : {
+      float:"left",
+      flexDirection: "row",
+      width: "30rem"
+    },
+    iconContainer:{
+      float:"left",
       width:"5rem",
       height:"5rem",
 			margin: '1rem',
@@ -50,13 +56,7 @@ const useStyles = makeStyles(() =>
 			overflowX: 'hidden',
 			overflowY: 'auto',
 		},
-    buttonNavBar: {
-      marginRight: "4rem",
-			height: '8rem',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'flex-end',
-		},
+
     headerWrapper: {
       padding: '2rem 2rem 2rem 0rem',
       width: "100%",

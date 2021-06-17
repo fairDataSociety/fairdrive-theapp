@@ -11,6 +11,7 @@ const useStyles = makeStyles(() =>
       backgroundColor: (style: Props & Theme) => style.backgroundDark,
       position: "absolute",
       display: "flex",
+	  width: "100%",
       flexDirection: "column",
       margin: "0 0 0 2rem",
       marginLeft: (props: Props & Theme) =>
@@ -19,6 +20,13 @@ const useStyles = makeStyles(() =>
       transitionDuration: ".2s",
       transitionTimingFunction: "cubic-bezier(0.820, 0.085, 0.395, 0.895)",
     },
+	navBarWrapper: {
+		marginRight: (props: Props & Theme) =>
+        props.isPodBarOpen ? "30rem" : "0",
+		transitionProperty: "margin-right",
+		transitionDuration: ".2s",
+		transitionTimingFunction: "cubic-bezier(0.820, 0.085, 0.395, 0.895)",
+	},
 	headerWrapper: {
 		padding: '2rem 2rem 2rem 0rem',
 		width: "100%",
