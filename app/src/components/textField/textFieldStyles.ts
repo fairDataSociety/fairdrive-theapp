@@ -12,12 +12,11 @@ const useStyles = makeStyles(() =>
       flexDirection: "column",
       placeItems: "center",
       backgroundColor: (style: Props & Theme) => style.disabled?style.backgroundDark1: style.backgroundDark2,
-      paddingBottom: '1rem',
+      padding: '2rem',
       border:(style: Props & Theme) => style.disabled?"1px solid var(--dark1)": "1px solid var(--light3)",
-      borderRadius:"1rem",
+      borderRadius:"0.5rem",
       marginBottom:"2.5rem",
       textAlign: 'left',
-      padding:"1rem",
       font: (style: Props & Theme) => style.typography.body2,
       color:(style: Props & Theme) => style.textColorPrimary,
       "&:hover": {
@@ -33,7 +32,14 @@ const useStyles = makeStyles(() =>
         border: "1px solid var(--red)", 
       }
     },
-    
+    input: {
+      background: (style: Props & Theme) => style.backgroundDark2,
+      border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
+      padding: "1.5rem",
+      width: "100%",
+      marginBottom: "2rem",
+      borderRadius: '0.5rem'
+    },
   })
 );
 

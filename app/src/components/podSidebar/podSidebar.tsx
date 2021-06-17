@@ -7,7 +7,7 @@ import Toggle from "../toggle/toggle";
 import { getPods, createPod } from "../../store/services/fairOS";
 import { PodChevron, PodInfo } from "../icons/icons";
 import { Modal } from "@material-ui/core";
-import CreateNew from "../createNew/createNew";
+import CreateNew from "../modals/createNew/createNew";
 
 export interface Props {
   isOpen: boolean;
@@ -119,10 +119,9 @@ function PodSidebar(props: Props) {
         aria-describedby="simple-modal-description"
       >
         <CreateNew
-          onClick={createNewPod}
+          handleClick={createNewPod}
           setProp={setPodName}
-          title="New Pod"
-          label="Pod Name"
+          type="Pod"
         ></CreateNew>
       </Modal>
     </div>

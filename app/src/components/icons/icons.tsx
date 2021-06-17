@@ -84,7 +84,7 @@ export {
   QuestionCircle,
   Chevron,
   ModalFolder,
-  Copy
+  Copy,
   FilterIcon,
   ListIcon,
   GridIcon,

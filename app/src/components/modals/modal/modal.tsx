@@ -55,7 +55,7 @@ function Modal(props: Props) {
           </div>
           <div className={classes.buttonContainer}>
             {props.button && (
-              <button className={classes.button}>{props.button}</button>
+              <button className={classes.button} onClick={props.handleClick}>{props.button}</button>
             )}
             {props.disabledButton && (
               <button className={classes.disabledButton}>
