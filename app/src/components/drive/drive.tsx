@@ -7,7 +7,7 @@ import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
 import sortByProp from "../../store/helpers/sort";
-import { Plus, Upload } from "../../components/icons/icons";
+import { ButtonPlus, Folder, Plus, PodChevron, PodInfo, ShareIcon, Upload, UploadIcon } from "../../components/icons/icons";
 import urlPath from "../../store/helpers/urlPath";
 import NewFolder from "../../components/newFolder/newFolder";
 
@@ -86,16 +86,37 @@ function BoilerPlate(props: Props) {
   return (
     <div className={classes.BoilerPlate}>
       {/* Needs to go into buttonNavbar component */}
-      <div className={classes.buttonNavBar}>
-        <Upload onClick={onIconClick} className={classes.Icon}></Upload>
-        <input
-          className={classes.uploadInput}
-          type="file"
-          ref={inputFile}
-          onChange={(e) => handleFileUpload(e.target.files)}
-        ></input>
-        <Plus onClick={handleOpen} className={classes.Icon}></Plus>
+      <div className={classes.headerWrapper}>
+        <div className={classes.headerButton} > <Folder className={classes.folder}/><PodChevron className={classes.chev}/></div>
+         <div className={classes.header}>Private Pod</div>
+     
       </div>
+      <div className={classes.midWrapper} >
+         <div className={classes.midHeader}>Inventory</div>
+         <div className={classes.divider}></div>
+         <div className={classes.infoWrapper}>
+            <PodInfo className={classes.infoIcon} />
+            <div className={classes.information}>
+            All your content including what you have shared with others marked with a 
+            </div>
+            <ShareIcon className={classes.shareIcon} />
+          </div>
+         </div>
+         <div className={classes.actionWrapper} >
+         <div className={classes.actionRow}>
+           <div className={classes.actionButton}><UploadIcon className={classes.buttonIcon} onClick={onIconClick}/>Upload</div>
+           <div className={classes.actionText}>Upload Files from your local storage</div>
+           </div>
+           <div className={classes.actionRow}>
+           <div className={classes.actionButton}><ButtonPlus className={classes.buttonIcon} onClick={handleOpen} />Create New File</div>
+           <div className={classes.actionText}>Create new files with our markdown editor: Fairtext</div>
+           </div>       
+           <div className={classes.actionRow}>
+           <div className={classes.actionButton}><ButtonPlus className={classes.buttonIcon}/>Create New Folder</div>
+           <div className={classes.actionText}>Create new folders in this pod</div>
+           </div>             
+         </div>
+    
       <div className={classes.buttonNavBar}></div>
       <Modal
         className={classes.modalContainer}
