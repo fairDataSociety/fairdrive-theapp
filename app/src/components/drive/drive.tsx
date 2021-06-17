@@ -6,6 +6,7 @@ import { Modal } from "@material-ui/core";
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
+import UploadModal from "../../components/uploadModal/uploadModal";
 import sortByProp from "../../store/helpers/sort";
 
 import ButtonNavbar from "../buttonNavbar/buttonNavbar";
@@ -32,8 +33,10 @@ function Drive(props: Props) {
   const { theme } = useContext(ThemeContext);
 
   const [files, setFiles] = useState([]);
-  const [folderCreated, setFolderCreated] = useState(true);
   const [showGrid, setShowGrid] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [openUpload, setOpenUpload] = useState(false);
+  const [folderCreated, setFolderCreated] = useState(false);
   const toSortProp = "name";
   const [toSort, setToSort] = useState(toSortProp);
   const orderProp = "asc";
@@ -76,16 +79,33 @@ function Drive(props: Props) {
     }
   }, [state.searchQuery]);
 
+  async function handleFileUpload(files: any) {
+    actions.uploadFile({
+      files,
+      directory: urlPath(state.directory),
+      podName: state.podName,
+    });
+  }
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleUploadModal = async (value) => {
+    setOpenUpload(value);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <div className={classes.BoilerPlate}>
       {/* Needs to go into buttonNavbar component */}
-
+      <div className={classes.navBarWrapper}>
       <ButtonNavbar
         folderCreated={folderCreated}
         setFolderCreated={setFolderCreated}
         showGrid={showGrid}
         setShowGrid={setShowGrid}
       ></ButtonNavbar>
+           </div>
       <div className={classes.midWrapper}>
         <div className={classes.midHeader}>Inventory</div>
         <div className={classes.divider}></div>
@@ -98,36 +118,22 @@ function Drive(props: Props) {
           <ShareIcon className={classes.shareIcon} />
         </div>
       </div>
-      <div className={classes.actionWrapper}>
-        <div className={classes.actionRow}>
-          <div className={classes.actionButton}>
-            <UploadIcon className={classes.buttonIcon} onClick={() => {}} />
-            Upload
-          </div>
-          <div className={classes.actionText}>
-            Upload Files from your local storage
-          </div>
-        </div>
-        <div className={classes.actionRow}>
-          <div className={classes.actionButton}>
-            <ButtonPlus className={classes.buttonIcon} onClick={() => {}} />
-            Create New File
-          </div>
-          <div className={classes.actionText}>
-            Create new files with our markdown editor: Fairtext
-          </div>
-        </div>
-        <div className={classes.actionRow}>
-          <div className={classes.actionButton}>
-            <ButtonPlus className={classes.buttonIcon} />
-            Create New Folder
-          </div>
-          <div className={classes.actionText}>
-            Create new folders in this pod
-          </div>
-        </div>
-      </div>
 
+         <div className={classes.actionWrapper} >
+         <div className={classes.actionRow}>
+           <div className={classes.actionButton}><UploadModal open={openUpload} handleUploadModal={handleUploadModal}><UploadIcon className={classes.buttonIcon} onClick={() =>handleUploadModal(true)}/>Upload</UploadModal></div>
+           <div className={classes.actionText}>Upload Files from your local storage</div>
+           </div>
+           <div className={classes.actionRow}>
+           <div className={classes.actionButton}><ButtonPlus className={classes.buttonIcon} onClick={handleOpen} />Create New File</div>
+           <div className={classes.actionText}>Create new files with our markdown editor: Fairtext</div>
+           </div>       
+           <div className={classes.actionRow}>
+           <div className={classes.actionButton}><ButtonPlus className={classes.buttonIcon}/>Create New Folder</div>
+           <div className={classes.actionText}>Create new folders in this pod</div>
+           </div>             
+         </div>
+    
       <div className={classes.buttonNavBar}></div>
       {/* <Modal
         className={classes.modalContainer}
@@ -156,7 +162,7 @@ function Drive(props: Props) {
             (files === undefined && <div>Loading files..</div>)}
         </CardGrid>
       ) : (
-        <FileList isPodBarOpen={props.isPodBarOpen}></FileList>
+        <FileList  isPodBarOpen={props.isPodBarOpen}></FileList>
       )}
     </div>
   );

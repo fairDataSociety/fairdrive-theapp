@@ -50,7 +50,6 @@ function ButtonNavbar(props: Props) {
     }
   }, [folderCreated]);
   return (
-    <div className={classes.buttonNavBar}>
       <div className={classes.headerWrapper}>
         <div className={classes.headerButton}>
           {" "}
@@ -59,7 +58,8 @@ function ButtonNavbar(props: Props) {
         </div>
         <div className={classes.header}>Private Pod</div>
         {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
-        <div className={classes.IconContainer}>
+        <div className={classes.iconContainerWrapper}>
+        <div className={classes.iconContainer}>
           {!showGrid ? (
             <GridIcon
               onClick={() => {
@@ -75,12 +75,13 @@ function ButtonNavbar(props: Props) {
               className={classes.Icon}
             ></ListIcon>
           )}
-        </div>
-        <div className={classes.IconContainer}>
+          </div>
+          <div className={classes.iconContainer}>
           <FilterIcon
             onClick={onIconClick}
             className={classes.Icon}
           ></FilterIcon>
+        </div>
         </div>
         <input
           className={classes.uploadInput}
@@ -99,7 +100,6 @@ function ButtonNavbar(props: Props) {
           <NewFolder setResponse={setFolderCreated} />
         </Modal>
       </div>
-    </div>
   );
 }
 
