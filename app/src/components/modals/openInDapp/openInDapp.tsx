@@ -13,7 +13,7 @@ function OpenInDapp(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <Modal heading='Open in FairPhoto' disabledButton='Open'>
+    <Modal heading='Open in FairPhoto' disabledButton='Open' icon={true}>
       <p className={classes.text}>Coming soon...</p>
     </Modal>
   );
