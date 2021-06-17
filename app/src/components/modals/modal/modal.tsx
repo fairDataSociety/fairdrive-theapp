@@ -35,22 +35,24 @@ function Modal(props: Props) {
           <Close className={classes.closeIcon} onClick={props.handleClick} />
         </div>
         <div className={classes.flex}>
-          <div className={classes.body}>{props.children}</div>
+          <div className={classes.body}>
+            <div>{props.children}</div>
           {props.confirmMessage && (
             <p className={classes.confirmMessage}>
-              You are about to confirm this link.
+              {props.confirmMessage}
             </p>
           )}
           {props.notifyMessage && (
             <p className={classes.notifyMessage}>
-              You are about to confirm this link.
+              {props.notifyMessage}
             </p>
           )}
           {props.errorMessage && (
             <p className={classes.errorMessage}>
-              You are about to confirm this link.
+              {props.errorMessage}
             </p>
           )}
+          </div>
           <div className={classes.buttonContainer}>
             {props.button && (
               <button className={classes.button}>{props.button}</button>

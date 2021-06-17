@@ -36,7 +36,7 @@ const useStyles = makeStyles(() =>
     flex: {
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-evenly",
+      justifyContent: "space-between",
     },
     body: {
       padding: "3rem 0",
