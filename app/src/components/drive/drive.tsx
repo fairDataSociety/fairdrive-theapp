@@ -33,7 +33,6 @@ function Drive(props: Props) {
   const { theme } = useContext(ThemeContext);
 
   const [files, setFiles] = useState([]);
-  const [folderCreated, setFolderCreated] = useState(true);
   const [showGrid, setShowGrid] = useState(false);
   const [open, setOpen] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
@@ -79,10 +78,7 @@ function Drive(props: Props) {
       setFiles(filterFiles);
     }
   }, [state.searchQuery]);
-  const onIconClick = () => {
-    // `current` points to the mounted file input element
-    inputFile.current.click();
-  };
+
   async function handleFileUpload(files: any) {
     actions.uploadFile({
       files,
@@ -121,13 +117,7 @@ function Drive(props: Props) {
           <ShareIcon className={classes.shareIcon} />
         </div>
       </div>
-      <div className={classes.actionWrapper}>
-        <div className={classes.actionRow}>
-          <div className={classes.actionButton}>
-            <UploadIcon className={classes.buttonIcon} onClick={() => {}} />
-            Upload
-          </div>
-         </div>
+
          <div className={classes.actionWrapper} >
          <div className={classes.actionRow}>
            <div className={classes.actionButton}><UploadModal open={openUpload} handleUploadModal={handleUploadModal}><UploadIcon className={classes.buttonIcon} onClick={() =>handleUploadModal(true)}/>Upload</UploadModal></div>
