@@ -589,7 +589,6 @@ export const storeAvatar = async (avatar:any) => {
 }
 export async function createDirectory(directory: string,directoryName: string, podName: string) {
   // Dir = "/" + path + "/"
-
   let data = { dir_path: ""};
 
   if (directory == "root") {
@@ -598,7 +597,7 @@ export async function createDirectory(directory: string,directoryName: string, p
     };
   } else {
     data = {
-      dir_path: "/" + directory,
+      dir_path: "/" + directory + "/"+directoryName,
     };
   }
   try {

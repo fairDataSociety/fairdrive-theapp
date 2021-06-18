@@ -13,8 +13,6 @@ import {
 } from "../../components/icons/icons";
 import NewFolder from "../../components/newFolder/newFolder";
 export interface Props {
-  setFolderCreated: any;
-  folderCreated: boolean;
   setShowGrid: any;
   showGrid: boolean;
 }
@@ -25,7 +23,7 @@ function ButtonNavbar(props: Props) {
   const [open, setOpen] = useState(false);
   const classes = useStyles({ ...props, ...theme });
   const inputFile = useRef(null);
-  const { folderCreated, setFolderCreated, showGrid, setShowGrid } = props;
+  const { showGrid, setShowGrid } = props;
 
   const onIconClick = () => {
     // `current` points to the mounted file input element
@@ -38,27 +36,17 @@ function ButtonNavbar(props: Props) {
       podName: state.podName,
     });
   }
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  useEffect(() => {
-    if (folderCreated === true) {
-      setOpen(false);
-    }
-  }, [folderCreated]);
+
   return (
-      <div className={classes.headerWrapper}>
-        <div className={classes.headerButton}>
-          {" "}
-          <Folder className={classes.folder} />
-          <PodChevron className={classes.chev} />
-        </div>
-        <div className={classes.header}>Private Pod</div>
-        {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
-        <div className={classes.iconContainerWrapper}>
+    <div className={classes.headerWrapper}>
+      <div className={classes.headerButton}>
+        {" "}
+        <Folder className={classes.folder} />
+        <PodChevron className={classes.chev} />
+      </div>
+      <div className={classes.header}>Private Pod</div>
+      {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
+      <div className={classes.iconContainerWrapper}>
         <div className={classes.iconContainer}>
           {!showGrid ? (
             <GridIcon
@@ -75,31 +63,21 @@ function ButtonNavbar(props: Props) {
               className={classes.Icon}
             ></ListIcon>
           )}
-          </div>
-          <div className={classes.iconContainer}>
+        </div>
+        <div className={classes.iconContainer}>
           <FilterIcon
             onClick={onIconClick}
             className={classes.Icon}
           ></FilterIcon>
         </div>
-        </div>
-        <input
-          className={classes.uploadInput}
-          type="file"
-          ref={inputFile}
-          onChange={(e) => handleFileUpload(e.target.files)}
-        ></input>
-        {/* <Plus onClick={handleOpen} className={classes.Icon}></Plus> */}
-        <Modal
-          className={classes.modalContainer}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
-          <NewFolder setResponse={setFolderCreated} />
-        </Modal>
       </div>
+      <input
+        className={classes.uploadInput}
+        type="file"
+        ref={inputFile}
+        onChange={(e) => handleFileUpload(e.target.files)}
+      ></input>
+    </div>
   );
 }
 
