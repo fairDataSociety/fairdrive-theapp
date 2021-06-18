@@ -109,7 +109,7 @@ function Drive(props: Props) {
 	};
 
   return (
-    <div className={classes.BoilerPlate}>
+    <div className={classes.Drive}>
       {/* Needs to go into buttonNavbar component */}
       <div className={classes.navBarWrapper}>
         <ButtonNavbar
