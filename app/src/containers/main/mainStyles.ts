@@ -4,7 +4,7 @@ import { Props } from './main';
 const useStyles = makeStyles(() =>
 	createStyles({
 		Main: {
-
+			overflow: 'hidden',
 		},
 
 		loginRegisterButtons: {

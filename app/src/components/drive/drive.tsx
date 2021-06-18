@@ -21,12 +21,12 @@ import { CreateNew } from "../modals/createNew/createNew";
 import { createDirectory } from "src/store/services/fairOS";
 
 export interface Props {
-  isPodBarOpen: boolean;
+	isPodBarOpen: boolean;
 }
 
 function Drive(props: Props) {
-  const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+	const { state, actions } = useContext(StoreContext);
+	const { theme } = useContext(ThemeContext);
 
   const [files, setFiles] = useState([]);
   const [showGrid, setShowGrid] = useState(false);
@@ -40,28 +40,28 @@ function Drive(props: Props) {
   const [toSort, setToSort] = useState(toSortProp);
   const orderProp = "asc";
 
-  const classes = useStyles({ ...props, ...theme });
+	const classes = useStyles({ ...props, ...theme });
 
-  async function loadDirectory() {
-    try {
-      setFiles(null);
-      actions.getDirectory({
-        directory: state.directory,
-        password: state.password,
-        podName: state.podName,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  }
+	async function loadDirectory() {
+		try {
+			setFiles(null);
+			actions.getDirectory({
+				directory: state.directory,
+				password: state.password,
+				podName: state.podName,
+			});
+		} catch (e) {
+			console.log(e);
+		}
+	}
 
-  useEffect(() => {
-    loadDirectory();
-    state.fileUploaded = false;
-    state.searchQuery = null;
+	useEffect(() => {
+		loadDirectory();
+		state.fileUploaded = false;
+		state.searchQuery = null;
 
-    // eslint-disable-next-line
-  }, [state.fileUploaded, state.directory, responseCreation]);
+		// eslint-disable-next-line
+	}, [state.fileUploaded, state.directory, responseCreation]);
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
@@ -80,36 +80,36 @@ function Drive(props: Props) {
     // eslint-disable-next-line
   }, [state.searchQuery]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleCloseDappModal = () => {
-    setOpenDappModal(false);
-  };
-  const handleOpenDappModal = () => {
-    setOpenDappModal(true);
-  };
-  const handleUploadModal = async (value) => {
-    setOpenUpload(value);
-  };
+	const handleClose = () => {
+		setOpen(false);
+	};
+	const handleOpen = () => {
+		setOpen(true);
+	};
+	const handleCloseDappModal = () => {
+		setOpenDappModal(false);
+	};
+	const handleOpenDappModal = () => {
+		setOpenDappModal(true);
+	};
+	const handleUploadModal = async (value) => {
+		setOpenUpload(value);
+	};
 
-  useEffect(() => {
-    if (responseCreation === true) {
-      setOpen(false);
-      setResponseCreation(false);
-    }
-  }, [responseCreation]);
-  const createNewFolder = async () => {
-    setResponseCreation(
-      await createDirectory(state.directory, folderName, state.podName)
-    );
-  };
+	useEffect(() => {
+		if (responseCreation === true) {
+			setOpen(false);
+			setResponseCreation(false);
+		}
+	}, [responseCreation]);
+	const createNewFolder = async () => {
+		setResponseCreation(
+			await createDirectory(state.directory, folderName, state.podName)
+		);
+	};
 
   return (
-    <div className={classes.BoilerPlate}>
+    <div className={classes.Drive}>
       {/* Needs to go into buttonNavbar component */}
       <div className={classes.navBarWrapper}>
         <ButtonNavbar
@@ -177,8 +177,8 @@ function Drive(props: Props) {
         </div> </>}
       </div>
 
-      <div className={classes.buttonNavBar}></div>
-      {/* <Modal
+			<div className={classes.buttonNavBar}></div>
+			{/* <Modal
         className={classes.modalContainer}
         open={open}
         onClose={handleClose}
@@ -187,56 +187,52 @@ function Drive(props: Props) {
       >
         <NewFolder setResponse={setFolderCreated} />
       </Modal> */}
-      <Modal
-        className={classes.modalContainer}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <CreateNew
-          handleClick={createNewFolder}
-          handleClose={handleClose}
-          setProp={setFolderName}
-          type="Folder"
-        ></CreateNew>
-      </Modal>
+			<Modal
+				className={classes.modalContainer}
+				open={open}
+				onClose={handleClose}
+				aria-labelledby='simple-modal-title'
+				aria-describedby='simple-modal-description'>
+				<CreateNew
+					handleClick={createNewFolder}
+					handleClose={handleClose}
+					setProp={setFolderName}
+					type='Folder'></CreateNew>
+			</Modal>
 
-      <Modal
-        className={classes.modalContainer}
-        open={openDappModal}
-        onClose={handleCloseDappModal}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <OpenInDapp
-          handleClose={handleCloseDappModal}
-          dapp="Markdown Editor"
-        ></OpenInDapp>
-      </Modal>
+			<Modal
+				className={classes.modalContainer}
+				open={openDappModal}
+				onClose={handleCloseDappModal}
+				aria-labelledby='simple-modal-title'
+				aria-describedby='simple-modal-description'>
+				<OpenInDapp
+					handleClose={handleCloseDappModal}
+					dapp='Markdown Editor'></OpenInDapp>
+			</Modal>
 
-      {showGrid ? (
-        <CardGrid className={classes.cardGrid}>
-          {state.dirs !== null &&
-            state.dirs !== undefined &&
-            state.dirs.map((dir: any) => (
-              <FileCard file={dir} isDirectory={true}></FileCard>
-            ))}
-          {files !== null &&
-            files !== undefined &&
-            files
-              .sort(sortByProp(toSort, orderProp))
-              .map((file: any) => <FileModal file={file}></FileModal>)}
-          {state.dirs === null ||
-            state.dirs === undefined ||
-            files === null ||
-            (files === undefined && <div>Loading files..</div>)}
-        </CardGrid>
-      ) : (
-        <FileList isPodBarOpen={props.isPodBarOpen}></FileList>
-      )}
-    </div>
-  );
+			{showGrid ? (
+				<CardGrid className={classes.cardGrid}>
+					{state.dirs !== null &&
+						state.dirs !== undefined &&
+						state.dirs.map((dir: any) => (
+							<FileCard file={dir} isDirectory={true}></FileCard>
+						))}
+					{files !== null &&
+						files !== undefined &&
+						files
+							.sort(sortByProp(toSort, orderProp))
+							.map((file: any) => <FileModal file={file}></FileModal>)}
+					{state.dirs === null ||
+						state.dirs === undefined ||
+						files === null ||
+						(files === undefined && <div>Loading files..</div>)}
+				</CardGrid>
+			) : (
+				<FileList isPodBarOpen={props.isPodBarOpen}></FileList>
+			)}
+		</div>
+	);
 }
 
 export default React.memo(Drive);

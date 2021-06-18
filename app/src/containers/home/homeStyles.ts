@@ -1,5 +1,4 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
-// import interface for component Props and Theme
 
 const useStyles = makeStyles(() =>
 	createStyles({
@@ -9,7 +8,7 @@ const useStyles = makeStyles(() =>
 			position: 'absolute',
 			display: 'flex',
 			flexDirection: 'row',
-			width: 'calc(100vw - 12rem)',
+			width: '100vw',
 			top: '6rem',
 		},
 		buttonNavBar: {
