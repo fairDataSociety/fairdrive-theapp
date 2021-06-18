@@ -86,7 +86,9 @@ const useStyles = makeStyles(() =>
 
     },
     pods:{
-      padding:"1rem"
+      padding:"1rem",
+      overflow:"scroll",
+      height:"32rem"
     },
     // PODROW STYLES
     podRow:{
