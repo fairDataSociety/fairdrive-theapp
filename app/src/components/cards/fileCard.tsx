@@ -6,7 +6,6 @@ import { InfoIcon, Folder } from "../icons/icons";
 import { useHistory } from "react-router-dom";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
-import actionTypes from "../../store/actionTypes";
 import { StoreContext } from "../../store/store";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import DropDown from "../dropDown/dropDown";
@@ -23,7 +22,7 @@ function FileCard(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-
+// eslint-disable-next-line
   const history = useHistory();
   async function onFileClick() {
     if (file.content_type === "inode/directory") {
@@ -37,6 +36,7 @@ function FileCard(props: Props) {
 
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
+  // eslint-disable-next-line
   const [fileModDate, setFileModDate] = useState("");
   const [Icon, setIcon] = useState(null);
   const [dropdown, setDropdown] = useState(false);

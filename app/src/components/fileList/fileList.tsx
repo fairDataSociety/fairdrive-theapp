@@ -8,33 +8,9 @@ export interface Props {
   isPodBarOpen: boolean;
 }
 
-const dummyFileData = [
-  {
-    name: "Photos of my cat",
-    type: "Image",
-    size: "30MB",
-    created: "20/05/2021",
-    modified: "30/06/2021",
-  },
-  {
-    name: "Top secret recipe",
-    type: "PDF",
-    size: "20KB",
-    created: "20/05/2021",
-    modified: "30/06/2021",
-  },
-  {
-    name: "Some map to Narnia",
-    type: "PDF",
-    size: "300KB",
-    created: "20/05/2021",
-    modified: "30/06/2021",
-  },
-];
-
 function FileList(props: Props) {
   const { theme } = useContext(ThemeContext);
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
 
   const classes = useStyles({ ...props, ...theme });
   return (

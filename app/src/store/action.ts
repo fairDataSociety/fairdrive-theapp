@@ -25,6 +25,12 @@ export const useActions = (state, dispatch) => ({
       payload: data,
     });
   },
+  setPrivatePod:(data)=>{
+    dispatch({
+      type: types.SET_PRIVATE_POD,
+      payload: data,
+    });
+  },
   storeUserRegistrationInfo: (data) => {
     dispatch({
       type: types.STORE_USER_REGISTRATION_INFO,
@@ -87,4 +93,5 @@ export interface Actions {
   getPods:() => void;
   openPod:(data: any) => void;
   setPodName:(data: any) => void;
+  setPrivatePod:(data: any) => void;
 }

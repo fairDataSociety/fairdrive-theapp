@@ -3,7 +3,6 @@ import qs from "querystring";
 import FileSaver from "file-saver";
 import generateMnemonic from "../helpers/utils";
 import urlPath from '../helpers/urlPath';
-import { write } from 'fs';
 interface Payload {
   username?: string;
   password?: string;
@@ -22,7 +21,7 @@ const host = "https://fairos.testeron.pro/v1/";
 const podNameDefault = "Fairdrive";
 
 export async function createAccount(payload: Payload) {
-  const {username, password, mnemonic} = payload
+  //const {username, password, mnemonic} = payload
   try {
 
     const response = await axios({
@@ -71,7 +70,7 @@ export const login = async (payload: Payload) => {
       await createPod({password, podNameDefault});
     };
 
-    const resPod = await openPod({password,podNameDefault});
+    //const resPod = await openPod({password,podNameDefault});
 
 
     return { res: response };
@@ -230,6 +229,7 @@ export const userStats = async () => {
 export const createPod = async(payload: any) =>{
   try{
       const{password, podName} = payload;
+      // eslint-disable-next-line
       const newPod = await axios({
       baseURL: host,
       method: "POST",
@@ -317,7 +317,7 @@ export const sharePod = async(password: string, podName: string) =>{
     return err;
   }
 }
-
+// eslint-disable-next-line
 export const deletePod = async(password: string, podName: string) =>{
   try{
       const deletePodRes = await axios({
@@ -422,7 +422,7 @@ export const fileUpload = async (payload:Payload) => {
   const {files, directory, podName} = payload;
   // const newPath = writePath(path);
   let writePath = "";
-  if (directory == "root") {
+  if (directory === "root") {
     writePath = "/";
   } else {
     writePath = "/" + urlPath(directory);
@@ -435,6 +435,7 @@ export const fileUpload = async (payload:Payload) => {
   formData.append("block_size", "64Mb");
   formData.append("pod_name", podName)
 
+  // eslint-disable-next-line
   const uploadFiles = await axios({
     baseURL: host,
     method: "POST",
@@ -452,7 +453,7 @@ export const fileUpload = async (payload:Payload) => {
 export const fileDownload = async ( filename:any, directory: string, podName: string) => {
   try {
     let writePath = "";
-    if (directory == "root") {
+    if (directory === "root") {
       writePath = "/";
     } else {
       writePath = "/" + urlPath(directory)+"/";
@@ -484,7 +485,7 @@ export const filePreview = async (file:any, directory: string, podName) => {
   try {
     console.log(directory);
     let writePath = "";
-    if (directory == "root") {
+    if (directory === "root") {
       writePath = "/";
     } else {
       writePath = "/" + urlPath(directory) + "/";
@@ -512,6 +513,7 @@ export const filePreview = async (file:any, directory: string, podName) => {
 }
 
 export const getDirectory = async (payload: Payload) => {
+  // eslint-disable-next-line
   const {directory, password, podName} = payload;
   try {
     // const openPod = await axios({
@@ -525,7 +527,7 @@ export const getDirectory = async (payload: Payload) => {
     const pod_name = podName === undefined || podName === null? podNameDefault: podName
     let data = { dir_path: "", pod_name: pod_name};
 
-    if (directory == "root") {
+    if (directory === "root") {
       data = {
         dir_path: "/",
         pod_name: pod_name
@@ -591,7 +593,7 @@ export async function createDirectory(directory: string,directoryName: string, p
   // Dir = "/" + path + "/"
   let data = { dir_path: ""};
 
-  if (directory == "root") {
+  if (directory === "root") {
     data = {
       dir_path: "/"+directoryName,
     };
@@ -601,6 +603,7 @@ export async function createDirectory(directory: string,directoryName: string, p
     };
   }
   try {
+    // eslint-disable-next-line
     const createDirectory = await axios({
       baseURL: host,
       method: "POST",
@@ -616,7 +619,7 @@ export async function createDirectory(directory: string,directoryName: string, p
   } catch (error) {}
 }
 
-
+// eslint-disable-next-line
 async function readAsbase64(blob:any) {
   const tempFileReader = new FileReader();
   return new Promise((resolve, reject) => {
@@ -635,6 +638,7 @@ async function readAsbase64(blob:any) {
 
 export const deleteFile = async (fileName: string) => {
   try {
+    // eslint-disable-next-line
     const deletePictursDirectory = await axios({
       baseURL: host,
       method: "DELETE",

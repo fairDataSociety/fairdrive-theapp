@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../../../store/themeContext/themeContext";
-import { StoreContext } from "../../../store/store";
-import ClickAwayListener from "react-click-away-listener";
 import { Close, ModalFolder } from "../../icons/icons";
 import useStyles from "./modalStyles";
 import Overlay from "src/components/overlay/overlay";
@@ -20,7 +18,6 @@ export interface Props {
 }
 
 function Modal(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./driveStyles";
@@ -13,16 +13,10 @@ import ButtonNavbar from "../buttonNavbar/buttonNavbar";
 import FileList from "../fileList/fileList";
 import {
   ButtonPlus,
-  Folder,
-  Plus,
-  PodChevron,
   PodInfo,
   ShareIcon,
-  Upload,
   UploadIcon,
 } from "../../components/icons/icons";
-import urlPath from "../../store/helpers/urlPath";
-import NewFolder from "../../components/newFolder/newFolder";
 import { CreateNew } from "../modals/createNew/createNew";
 import { createDirectory } from "src/store/services/fairOS";
 
@@ -42,6 +36,7 @@ function Drive(props: Props) {
   const [openUpload, setOpenUpload] = useState(false);
   const [responseCreation, setResponseCreation] = useState(false);
   const toSortProp = "name";
+  // eslint-disable-next-line
   const [toSort, setToSort] = useState(toSortProp);
   const orderProp = "asc";
 
@@ -70,6 +65,7 @@ function Drive(props: Props) {
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
+    // eslint-disable-next-line
   }, [state.entries]);
 
   useEffect(() => {
@@ -81,6 +77,7 @@ function Drive(props: Props) {
       );
       setFiles(filterFiles);
     }
+    // eslint-disable-next-line
   }, [state.searchQuery]);
 
   const handleClose = () => {
@@ -121,20 +118,20 @@ function Drive(props: Props) {
         ></ButtonNavbar>
       </div>
       <div className={classes.midWrapper}>
-        <div className={classes.midHeader}>Inventory</div>
+
+        <div className={classes.midHeader}>{state.isPrivatePod ? "Inventory" : "Inbox (Read Only)"}</div>
         <div className={classes.divider}></div>
         <div className={classes.infoWrapper}>
           <PodInfo className={classes.infoIcon} />
           <div className={classes.information}>
-            All your content including what you have shared with others marked
-            with a
+          {state.isPrivatePod ? "All your content including what you have shared with others marked with a" : "(All links to content shared with you) Links Shared by Username"}
           </div>
           <ShareIcon className={classes.shareIcon} />
         </div>
       </div>
 
       <div className={classes.actionWrapper}>
-        <div className={classes.actionRow}>
+       {state.isPrivatePod ?  <> <div className={classes.actionRow}>
           <div className={classes.actionButton}>
             <UploadModal
               open={openUpload}
@@ -168,7 +165,16 @@ function Drive(props: Props) {
           <div className={classes.actionText}>
             Create new folders in this pod
           </div>
-        </div>
+        </div> </>:   <>
+        <div className={classes.actionRow}>
+          <div className={classes.actionButton} onClick={handleOpen}>
+            <ButtonPlus className={classes.buttonIcon} />
+            Add
+          </div>
+          <div className={classes.actionText}>
+          Add Files Via Link
+          </div>
+        </div> </>}
       </div>
 
       <div className={classes.buttonNavBar}></div>

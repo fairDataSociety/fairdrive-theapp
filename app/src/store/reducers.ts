@@ -22,6 +22,7 @@ export interface State {
 	podMsg: any;
 	podName: string;
 	podsOpened: any;
+	isPrivatePod: boolean;
 }
 
 const initialState: State = {
@@ -36,6 +37,7 @@ const initialState: State = {
 	mnemonic: null,
 	unlocked: false,
 	searchQuery: null,
+	isPrivatePod: false,
 	entries: null,
 	dirs: null,
 	inviteCode: '',
@@ -69,6 +71,8 @@ const reducer = (state = initialState, action) => {
 			};
 		case types.CREATE_USER.CREATE_USER_FAILED:
 			return { ...state, unlocked: false, errMsg: action.payload.res };
+		case types.SET_PRIVATE_POD:
+			return { ...state, isPrivatePod: action.payload };
 		case types.SEND_FILE.FILE_SENT_SUCCESS:
 			return { ...state, fileUploaded: action.payload };
 		case types.SET_SYSTEM:

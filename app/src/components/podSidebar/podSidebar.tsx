@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./podSidebarStyles";
-import ButtonPill from "../buttonPill/buttonPill";
 import Toggle from "../toggle/toggle";
-import { getPods, createPod } from "../../store/services/fairOS";
+import { createPod } from "../../store/services/fairOS";
 import { PodChevron, PodInfo } from "../icons/icons";
 import { Modal } from "@material-ui/core";
 import CreateNew from "../modals/createNew/createNew";
@@ -26,6 +25,7 @@ function PodSidebar(props: Props) {
   useEffect(() => {
     if (state.podsOpened.includes(state.podName))
       actions.getDirectory({ directory: "root", podName: state.podName });
+      // eslint-disable-next-line
   }, [state.podName, state.podsOpened]);
 
   const setPod = async (pod) => {
@@ -54,7 +54,13 @@ function PodSidebar(props: Props) {
   useEffect(() => {
     actions.getPods();
     setPodCreated(false);
+    // eslint-disable-next-line
   }, [podCreated]);
+
+  useEffect(() => {
+    actions.setPrivatePod(isPrivate)
+    // eslint-disable-next-line
+  }, [isPrivate])
 
   return (
     <div className={classes.podDrawer}>
