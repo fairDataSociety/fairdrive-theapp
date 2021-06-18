@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./searchBarStyles";
@@ -7,7 +7,7 @@ import { Search, Close } from "../icons/icons";
 export interface Props {}
 
 function SearchBar(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
   const handleSetProp = (e: any) => {

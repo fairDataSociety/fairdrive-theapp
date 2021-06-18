@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
 import useStyles from "./textFieldStyles";
 
 export interface Props {
@@ -13,7 +12,6 @@ export interface Props {
 }
 
 function TextField(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

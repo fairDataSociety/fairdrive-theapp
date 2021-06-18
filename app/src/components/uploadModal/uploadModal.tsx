@@ -40,6 +40,7 @@ function UploadModal(props: Props) {
   }
   useEffect(() => {
     handleClose();
+    // eslint-disable-next-line
   }, [state.entries]);
 
   const handleOpen = async () => {
@@ -78,7 +79,7 @@ function UploadModal(props: Props) {
               <InfoIcon className={classes.Icon} />
             )}
             {file && file.type.includes("image") && (
-              <img className={classes.imagePreview} src={blob}></img>
+              <img className={classes.imagePreview} src={blob} alt="img" ></img>
             )}
           </div>
           <div className={classes.divider}></div>

@@ -1,6 +1,4 @@
 import { makeStyles, createStyles } from "@material-ui/styles";
-import { Theme } from "../../store/themeContext/themes";
-import { Props } from "./overlay"
 
 const useStyles = makeStyles(() =>
 	createStyles({

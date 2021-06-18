@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
 import useStyles from "./sidebarItemStyles";
 
 export interface Props {
@@ -10,7 +9,6 @@ export interface Props {
 }
 
 function SidebarItem(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const { Icon, title } = props;
   const classes = useStyles({ ...props, ...theme });

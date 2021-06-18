@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
@@ -10,10 +10,10 @@ export interface Props {
 }
 
 function SeedPhraseGen(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-
+  // eslint-disable-next-line
   const [hasError, setHasError] = useState(false);
 
   // async function onContinue() {
