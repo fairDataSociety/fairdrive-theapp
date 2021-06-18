@@ -61,6 +61,7 @@ const useStyles = makeStyles(() =>
 			transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
 		},
 		podInfoWrapper: {
+      marginTop:"1rem",
 			flexDirection: 'row',
 		},
 		podInfo: {
@@ -95,7 +96,7 @@ const useStyles = makeStyles(() =>
 		},
 		pods: {
 			padding: '1rem',
-			minHeight: '32rem',
+			minHeight: '28rem',
 			overflowX: 'hidden',
 			height: 'auto',
 		},

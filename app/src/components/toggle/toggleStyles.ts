@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
         overflow: 'auto',
         position: "relative",
         top: (style: Props & Theme) => style.show ? "0": "-10rem",
-        height: (style: Props & Theme) => style.show ? "auto": "0",
+        height: (style: Props & Theme) => style.show ? "10rem": "0",
         transitionProperty: "height, top",
         transitionDuration: ".2s",
         transitionTimingFunction: "cubic-bezier(0.820, 0.085, 0.395, 0.895)",
