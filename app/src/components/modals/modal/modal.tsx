@@ -9,6 +9,7 @@ import Overlay from "src/components/overlay/overlay";
 export interface Props {
   children?: React.ReactNode;
   handleClick?: () => void;
+  handleClose?: () => void;
   heading: string;
   button?: string;
   disabledButton?: string;
@@ -33,30 +34,26 @@ function Modal(props: Props) {
         <div className={classes.header}>
           {props.icon && <ModalFolder className={classes.icon} />}
           {props.heading}
-          <Close className={classes.closeIcon} onClick={props.handleClick} />
+          <Close className={classes.closeIcon} onClick={props.handleClose} />
         </div>
         <div className={classes.flex}>
           <div className={classes.body}>
             <div>{props.children}</div>
-          {props.confirmMessage && (
-            <p className={classes.confirmMessage}>
-              {props.confirmMessage}
-            </p>
-          )}
-          {props.notifyMessage && (
-            <p className={classes.notifyMessage}>
-              {props.notifyMessage}
-            </p>
-          )}
-          {props.errorMessage && (
-            <p className={classes.errorMessage}>
-              {props.errorMessage}
-            </p>
-          )}
+            {props.confirmMessage && (
+              <p className={classes.confirmMessage}>{props.confirmMessage}</p>
+            )}
+            {props.notifyMessage && (
+              <p className={classes.notifyMessage}>{props.notifyMessage}</p>
+            )}
+            {props.errorMessage && (
+              <p className={classes.errorMessage}>{props.errorMessage}</p>
+            )}
           </div>
           <div className={classes.buttonContainer}>
             {props.button && (
-              <button className={classes.button} onClick={props.handleClick}>{props.button}</button>
+              <button className={classes.button} onClick={props.handleClick}>
+                {props.button}
+              </button>
             )}
             {props.disabledButton && (
               <button className={classes.disabledButton}>

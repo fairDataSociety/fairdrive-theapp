@@ -8,7 +8,7 @@ import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
 import UploadModal from "../../components/uploadModal/uploadModal";
 import sortByProp from "../../store/helpers/sort";
-
+import OpenInDapp from "../modals/openInDapp/openInDapp";
 import ButtonNavbar from "../buttonNavbar/buttonNavbar";
 import FileList from "../fileList/fileList";
 import {
@@ -37,6 +37,7 @@ function Drive(props: Props) {
   const [files, setFiles] = useState([]);
   const [showGrid, setShowGrid] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openDappModal, setOpenDappModal] = useState(false);
   const [folderName, setFolderName] = useState(null);
   const [openUpload, setOpenUpload] = useState(false);
   const [responseCreation, setResponseCreation] = useState(false);
@@ -82,22 +83,22 @@ function Drive(props: Props) {
     }
   }, [state.searchQuery]);
 
-  async function handleFileUpload(files: any) {
-    actions.uploadFile({
-      files,
-      directory: urlPath(state.directory),
-      podName: state.podName,
-    });
-  }
   const handleClose = () => {
     setOpen(false);
-  };
-  const handleUploadModal = async (value) => {
-    setOpenUpload(value);
   };
   const handleOpen = () => {
     setOpen(true);
   };
+  const handleCloseDappModal = () => {
+    setOpenDappModal(false);
+  };
+  const handleOpenDappModal = () => {
+    setOpenDappModal(true);
+  };
+  const handleUploadModal = async (value) => {
+    setOpenUpload(value);
+  };
+
   useEffect(() => {
     if (responseCreation === true) {
       setOpen(false);
@@ -151,7 +152,7 @@ function Drive(props: Props) {
           </div>
         </div>
         <div className={classes.actionRow}>
-          <div className={classes.actionButton}>
+          <div className={classes.actionButton} onClick={handleOpenDappModal}>
             <ButtonPlus className={classes.buttonIcon} />
             Create New File
           </div>
@@ -189,10 +190,25 @@ function Drive(props: Props) {
       >
         <CreateNew
           handleClick={createNewFolder}
+          handleClose={handleClose}
           setProp={setFolderName}
           type="Folder"
         ></CreateNew>
       </Modal>
+
+      <Modal
+        className={classes.modalContainer}
+        open={openDappModal}
+        onClose={handleCloseDappModal}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <OpenInDapp
+          handleClose={handleCloseDappModal}
+          dapp="Markdown Editor"
+        ></OpenInDapp>
+      </Modal>
+
       {showGrid ? (
         <CardGrid className={classes.cardGrid}>
           {state.dirs !== null &&

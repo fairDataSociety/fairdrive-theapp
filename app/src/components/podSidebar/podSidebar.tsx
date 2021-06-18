@@ -116,6 +116,7 @@ function PodSidebar(props: Props) {
       >
         <CreateNew
           handleClick={createNewPod}
+          handleClose={handleClose}
           setProp={setPodName}
           type="Pod"
         ></CreateNew>

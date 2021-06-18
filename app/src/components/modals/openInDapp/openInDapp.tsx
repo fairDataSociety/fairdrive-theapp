@@ -6,6 +6,7 @@ import Modal from "../modal/modal";
 
 export interface Props {
   dapp: string;
+  handleClose: () => void;
 }
 
 function OpenInDapp(props: Props) {
@@ -20,6 +21,7 @@ function OpenInDapp(props: Props) {
       disabledButton="Open"
       icon={true}
       notifyMessage="Coming soon..."
+      handleClose={props.handleClose}
     ></Modal>
   );
 }
