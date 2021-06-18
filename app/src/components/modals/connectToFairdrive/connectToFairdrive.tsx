@@ -3,8 +3,11 @@ import { ThemeContext } from "../../../store/themeContext/themeContext";
 import { StoreContext } from "../../../store/store";
 import useStyles from "./connectToFairdriveStyles";
 import Modal from "../modal/modal";
+import TextField from "src/components/textField/textField";
 
-export interface Props {}
+export interface Props {
+  setProp: any;
+}
 
 function ConnectToFairdrive(props: Props) {
   const { state, actions } = useContext(StoreContext);
@@ -15,9 +18,17 @@ function ConnectToFairdrive(props: Props) {
   return (
     <Modal heading='Connect to Fairdrive' button='Authorize'>
       <p className={classes.label}>USERNAME</p>
-      <input className={classes.input} placeholder='Enter here...'/>
+      <TextField
+         placeholder={`Enter here...`}
+          setProp={props.setProp}
+          type="text"
+      ></TextField>
       <p className={classes.label}>PASSWORD</p>
-      <input className={classes.input} placeholder='Enter here...'/>
+      <TextField
+         placeholder={`Enter here...`}
+          setProp={props.setProp}
+          type="text"
+      ></TextField>
     </Modal>
   );
 }

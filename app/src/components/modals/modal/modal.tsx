@@ -4,6 +4,7 @@ import { StoreContext } from "../../../store/store";
 import ClickAwayListener from "react-click-away-listener";
 import { Close, ModalFolder } from "../../icons/icons";
 import useStyles from "./modalStyles";
+import Overlay from "src/components/overlay/overlay";
 
 export interface Props {
   children?: React.ReactNode;
@@ -27,7 +28,7 @@ function Modal(props: Props) {
   };
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
+    <Overlay handleClickAway={handleClickAway}>
       <div className={classes.wrapper}>
         <div className={classes.header}>
           {props.icon && <ModalFolder className={classes.icon} />}
@@ -65,7 +66,7 @@ function Modal(props: Props) {
           </div>
         </div>
       </div>
-    </ClickAwayListener>
+    </Overlay>
   );
 }
 

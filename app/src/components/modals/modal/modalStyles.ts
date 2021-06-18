@@ -7,6 +7,7 @@ const useStyles = makeStyles(() =>
     wrapper: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       border: (style: Props & Theme) => `1px solid ${style.backgroundDark2}`,
+      color: (style: Props & Theme) => style.backgroundWhite,
       width: "50rem",
       minHeight: "25rem",
       display: "flex",

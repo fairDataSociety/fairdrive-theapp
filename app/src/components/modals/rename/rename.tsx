@@ -3,66 +3,28 @@ import { ThemeContext } from "../../../store/themeContext/themeContext";
 import { StoreContext } from "../../../store/store";
 import useStyles from "./renameStyles";
 import Modal from "../modal/modal";
+import TextField from "src/components/textField/textField";
 
-export interface Props {}
+export interface Props {
+  type: string;
+  setProp: any;
+}
 
-export function RenameFolder(props: Props) {
+export function Rename(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <Modal heading='Rename Folder' icon={true} button='Save'>
-      <p className={classes.label}>Name your folder</p>
-      <input className={classes.input} placeholder='File Name'/>
-      <p>You are about to rename this folder</p>
+    <Modal heading={`Rename ${props.type}`} icon={true} button='Save'>
+      <p className={classes.label}>Name your {props.type}</p>
+      <TextField
+       placeholder={`${props.type} name`}
+       setProp={props.setProp}
+       type="text"
+      ></TextField>
+      <p>{`You are about to rename this ${props.type}`}</p>
     </Modal>
   );
 }
-
-export function RenameFile(props: Props) {
-    const { state, actions } = useContext(StoreContext);
-    const { theme } = useContext(ThemeContext);
-  
-    const classes = useStyles({ ...props, ...theme });
-  
-    return (
-      <Modal heading='Rename File' icon={true} button='Save'>
-        <p className={classes.label}>Name your file</p>
-        <input className={classes.input} placeholder='File Name'/>
-        <p>You are about to rename this file</p>
-      </Modal>
-    );
-  }
-
-  export function RenameAlbum(props: Props) {
-    const { state, actions } = useContext(StoreContext);
-    const { theme } = useContext(ThemeContext);
-  
-    const classes = useStyles({ ...props, ...theme });
-  
-    return (
-      <Modal heading='Rename Album' icon={true} button='Save'>
-        <p className={classes.label}>Name your album</p>
-        <input className={classes.input} placeholder='File Name'/>
-        <p>You are about to rename this album</p>
-      </Modal>
-    );
-  }
-
-  export function RenamePhoto(props: Props) {
-    const { state, actions } = useContext(StoreContext);
-    const { theme } = useContext(ThemeContext);
-  
-    const classes = useStyles({ ...props, ...theme });
-  
-    return (
-      <Modal heading='Rename Photo' icon={true} button='Save'>
-        <p className={classes.label}>Name your photo</p>
-        <input className={classes.input} placeholder='File Name'/>
-        <p>You are about to rename this photo</p>
-      </Modal>
-    );
-  }
-

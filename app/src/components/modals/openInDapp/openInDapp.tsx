@@ -4,7 +4,9 @@ import { StoreContext } from "../../../store/store";
 import useStyles from "./openInDappStyles";
 import Modal from "../modal/modal";
 
-export interface Props {}
+export interface Props {
+  dapp: string;
+}
 
 function OpenInDapp(props: Props) {
   const { state, actions } = useContext(StoreContext);
@@ -14,7 +16,7 @@ function OpenInDapp(props: Props) {
 
   return (
     <Modal
-      heading="Open in FairPhoto"
+      heading={`Open in ${props.dapp}`}
       disabledButton="Open"
       icon={true}
       notifyMessage="Coming soon..."
