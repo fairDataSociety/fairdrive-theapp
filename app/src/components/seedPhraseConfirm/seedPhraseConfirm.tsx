@@ -9,7 +9,6 @@ import {
   createAccount,
   createDirectory,
   createPod,
-  openPod,
 } from "../../store/services/fairOS";
 export interface Props {}
 
@@ -21,22 +20,27 @@ function SeedPhraseConfirm(props: Props) {
   const [wordFive, setWordFive] = useState("");
   const [wordEleven, setWordEleven] = useState("");
   const [wordTwelve, setWordTwelve] = useState("");
+  // eslint-disable-next-line
   const [registerLoader, setRegisterLoader] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
   const [podCreated, setPodCreated] = useState(false);
+  // eslint-disable-next-line
   const [folderCreated, setFolderCreated] = useState(false);
+  // eslint-disable-next-line
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (userCreated) {
       createPods();
     }
+    // eslint-disable-next-line
   }, [userCreated]);
 
   useEffect(() => {
     if (podCreated) {
       createDirectories();
     }
+    // eslint-disable-next-line
   }, [podCreated]);
   const createDirectories = async () => {
     await createDirectory("root", "Documents", "Fairdrive");

@@ -9,12 +9,10 @@ import {
   Folder,
   Close,
   Download,
-  Upload,
   Hide,
   Share,
   UploadIcon,
 } from "../icons/icons";
-import ButtonPill from "../buttonPill/buttonPill";
 import writePath from "../../store/helpers/writePath";
 import { fileDownload, filePreview } from "../../store/services/fairOS";
 import prettyBytes from "pretty-bytes";
@@ -28,10 +26,10 @@ export interface Props {
 }
 
 function FileModal(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = React.useState(false);
-  const { Icon, file, downloadFile } = props;
+  const { file } = props;
 
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
@@ -48,6 +46,7 @@ function FileModal(props: Props) {
   }, [file]);
 
   const handleOpen = async () => {
+    // eslint-disable-next-line
     const newPath = writePath(state.directory);
 
     blobFile = window.URL.createObjectURL(
@@ -65,6 +64,7 @@ function FileModal(props: Props) {
     }
   };
   async function handleDownload() {
+    // eslint-disable-next-line
     const newPath = writePath(state.directory);
     await fileDownload(
       props.file.name,
@@ -98,7 +98,7 @@ function FileModal(props: Props) {
               <InfoIcon className={classes.Icon} />
             )}
             {file.content_type.includes("image") && (
-              <img className={classes.imagePreview} src={blob}></img>
+              <img className={classes.imagePreview} src={blob} alt="img"></img>
             )}
           </div>
           <div className={classes.divider}></div>

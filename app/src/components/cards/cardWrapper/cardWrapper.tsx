@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../../store/themeContext/themeContext";
 import useStyles from "./cardWrapperStyles";
-import { Link } from "react-router-dom";
 
 type Sizes = "small" | "regular" | "big";
 

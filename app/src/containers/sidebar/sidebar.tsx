@@ -13,7 +13,7 @@ export interface Props {
 }
 
 function Sidebar(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const { showPodSidebar, setShowPodSidebar, sidebarItem, setSidebarItem } =
     props;

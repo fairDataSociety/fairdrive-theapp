@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./buttonNavbarStyles";
-import { Modal } from "@material-ui/core";
 import urlPath from "src/store/helpers/urlPath";
 import {
   Folder,
@@ -11,7 +10,6 @@ import {
   ListIcon,
   FilterIcon,
 } from "../../components/icons/icons";
-import NewFolder from "../../components/newFolder/newFolder";
 export interface Props {
   setShowGrid: any;
   showGrid: boolean;
@@ -20,7 +18,6 @@ export interface Props {
 function ButtonNavbar(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const [open, setOpen] = useState(false);
   const classes = useStyles({ ...props, ...theme });
   const inputFile = useRef(null);
   const { showGrid, setShowGrid } = props;
@@ -44,7 +41,7 @@ function ButtonNavbar(props: Props) {
         <Folder className={classes.folder} />
         <PodChevron className={classes.chev} />
       </div>
-      <div className={classes.header}>Private Pod</div>
+      <div className={classes.header}>{state.isPrivatePod ? "Private Pod" : "Shared Pod"}</div>
       {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
       <div className={classes.iconContainerWrapper}>
         <div className={classes.iconContainer}>

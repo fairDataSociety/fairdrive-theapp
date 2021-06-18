@@ -17,6 +17,7 @@ function Register(props: Props) {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  // eslint-disable-next-line
   const [inviteCode, setInviteCode] = useState("");
 
   const [hasError, setHasError] = useState(false);
@@ -50,7 +51,7 @@ function Register(props: Props) {
 
   return (
     <div className={classes.Login}>
-      <img src={welcomeImage}></img>
+      <img src={welcomeImage} alt="alt"></img>
 
       {showRegisterArea && (
         <div className={classes.registerContainer}>
