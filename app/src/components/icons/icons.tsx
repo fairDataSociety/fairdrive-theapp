@@ -38,6 +38,8 @@ import { ReactComponent as ListIcon } from "../../media/optionIcons/ListIcon.svg
 import { ReactComponent as DAppIcon } from "../../media/fairdrive/DApps.svg";
 import { ReactComponent as ShareIcon } from "../../media/UI/share_icon.svg";
 import { ReactComponent as ButtonPlus } from "../../media/UI/button_plus.svg";
+import { ReactComponent as ModalFolder } from "../../media/UI/modalfolder.svg";
+import { ReactComponent as Copy } from "../../media/UI/copy.svg";
 
 export const icons = {
   QuestionMark: QuestionMark,
@@ -81,6 +83,8 @@ export {
   Close,
   QuestionCircle,
   Chevron,
+  ModalFolder,
+  Copy,
   FilterIcon,
   ListIcon,
   GridIcon,
