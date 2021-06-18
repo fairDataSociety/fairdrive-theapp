@@ -160,7 +160,12 @@ const useStyles = makeStyles(() =>
 		actionBar : {
 			width: "100%",
 			flexDirection: "row"
-		}
+		},
+		uploadInput: {
+			opacity: '0',
+			width: '0',
+			height: '0',
+		},
 	})
 );
 

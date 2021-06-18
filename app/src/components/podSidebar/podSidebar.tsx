@@ -40,11 +40,7 @@ function PodSidebar(props: Props) {
   const handleOpen = () => {
     setOpen(true);
   };
-  useEffect(() => {
-    if (state) {
-      setOpen(false);
-    }
-  }, [state]);
+
   const setOverview = async (pod) => {
     debugger;
     // await actions.setPodName(pod);
@@ -120,6 +116,7 @@ function PodSidebar(props: Props) {
       >
         <CreateNew
           handleClick={createNewPod}
+          handleClose={handleClose}
           setProp={setPodName}
           type="Pod"
         ></CreateNew>
