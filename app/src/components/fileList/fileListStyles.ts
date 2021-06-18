@@ -12,7 +12,8 @@ const useStyles = makeStyles(() =>
       transitionProperty: "margin-left",
       transitionDuration: ".7s",
       transitionTimingFunction: "cubic-bezier(0.820, 0.085, 0.395, 0.895)",
-      margin: '2rem'
+      margin: '2rem',
+      overflow:"scroll"
     },
     headerwrapper: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark2,
