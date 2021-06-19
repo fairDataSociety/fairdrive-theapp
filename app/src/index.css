@@ -1,74 +1,84 @@
-@import url("https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300;400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Montserrat:200,300,700");
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300,700');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 :root {
-  font-size: 8px;
-  font-family: var(--font1);
-  position: relative;
+	font-size: 6px;
+	z-index: 0;
+	font-family: var(--font1);
+	position: relative;
 
-  /* COLORS */
+	/* COLORS */
 
+	--dark: #101113;
+	--dark4: #17191d;
+	--dark3: #202226;
+	--dark2: #27292e;
+	--dark1: #36383f;
+	--light3: #494b50;
+	--light2: #82848e;
+	--light1: #ced0dd;
+	--white: #eef0ff;
 
-  --dark: #101113;
-  --dark4: #17191D;
-  --dark3: #202226;
-  --dark2: #27292E;
-  --dark1: #36383F;
-  --light3: #494B50;
-  --light2: #82848E;
-  --light1: #CED0DD;
-  --white: #EEF0FF;
+	/* FONTS */
+	--font1: 'Work Sans';
+	--font2: 'Space Mono';
 
-  /* FONTS */
-  --font1: "Work Sans";
-  --font2: "Space Mono";
+	/* BREAKPOINTS */
+	--tabletBreakpoint: 899px;
+	--smallLaptopBreakpoint: 1299px;
+	--largeScreenBreakpoint: 1919px;
 
-  /* BREAKPOINTS */
-  --tabletBreakpoint: 1000px;
-  --smallLaptopBreakpoint: 1441px;
-  --largeScreenBreakpoint: 1919px;
+	/* TRANSITIONS */
 
-  /* TRANSITIONS */
-
-  --transition: all 200ms ease-in-out;
+	--transition: all 200ms ease-in-out;
 }
+
+/* body {
+	height: 100vh;
+} */
 
 input {
-  border: none;
-  outline: none;
-  background-color: transparent;
+	border: none;
+	outline: none;
+	background-color: transparent;
 }
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 button {
-  border: none;
-  cursor: pointer;
-  background: none;
-  user-select: none;
-  color: inherit;
-  font: inherit;
+	border: none;
+	cursor: pointer;
+	background: none;
+	user-select: none;
+	color: inherit;
+	font: inherit;
 }
 button:active {
-  outline: none;
+	outline: none;
 }
 button:focus {
-  outline: 0;
+	outline: 0;
 }
 li {
-  list-style: none;
+	list-style: none;
 }
 a {
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
 }
 
-@media screen and (min-width: 1301px) {
-  :root {
-    font-size: 10px;
-  }
+@media screen and (min-width: 1299px) {
+	:root {
+		font-size: 8px;
+	}
+}
+
+@media screen and (min-width: 1919px) {
+	:root {
+		font-size: 10px;
+	}
 }

@@ -21,7 +21,7 @@ const useStyles = makeStyles(() =>
       maxWidth: "55rem",
       textAlign: 'center',
       boxSizing: 'border-box',
-      padding: "20px 42px",
+      padding: "2rem",
       borderRadius: "4px",
       cursor: 'pointer',
       border: "1px solid var(--dark3)", 

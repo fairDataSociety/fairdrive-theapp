@@ -3,16 +3,12 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "../register/registerStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import ButtonLink from "../buttonLink/buttonLink";
-import welcomeImage from "../../media/images/welcome-image.png";
 
 import TextField from "../textField/textField";
-import { useHistory, Redirect } from "react-router-dom";
 import {
   createAccount,
   createDirectory,
   createPod,
-  openPod,
 } from "../../store/services/fairOS";
 export interface Props {}
 
@@ -24,33 +20,40 @@ function SeedPhraseConfirm(props: Props) {
   const [wordFive, setWordFive] = useState("");
   const [wordEleven, setWordEleven] = useState("");
   const [wordTwelve, setWordTwelve] = useState("");
+  // eslint-disable-next-line
   const [registerLoader, setRegisterLoader] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
   const [podCreated, setPodCreated] = useState(false);
+  // eslint-disable-next-line
   const [folderCreated, setFolderCreated] = useState(false);
+  // eslint-disable-next-line
   const [hasError, setHasError] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
-    async function createNewPod() {
-      if (state.address) {
-        try {
-          setUserCreated(true);
-          await createPod(state.password);
-
-          setPodCreated(true);
-          await createDirectory("Documents");
-          await createDirectory("Movies");
-          await createDirectory("Music");
-          await createDirectory("Pictures");
-          setFolderCreated(true);
-          history.push("/drive/root");
-        } catch (err) {
-          console.log(err);
-        }
-      }
+    if (userCreated) {
+      createPods();
     }
-  }, [state.address]);
+    // eslint-disable-next-line
+  }, [userCreated]);
+
+  useEffect(() => {
+    if (podCreated) {
+      createDirectories();
+    }
+    // eslint-disable-next-line
+  }, [podCreated]);
+  const createDirectories = async () => {
+    await createDirectory("root", "Documents", "Fairdrive");
+    await createDirectory("root", "Movies", "Fairdrive");
+    await createDirectory("root", "Music", "Fairdrive");
+    await createDirectory("root", "Pictures", "Fairdrive");
+    setFolderCreated(true);
+    actions.getPods();
+  };
+  const createPods = async () => {
+    await createPod({ password: state.password, podName: "Fairdrive" });
+    setPodCreated(true);
+  };
   async function onRegister() {
     console.log("in confirm component", state.mnemonic);
 
@@ -68,33 +71,27 @@ function SeedPhraseConfirm(props: Props) {
         password: state.password,
         mnemonic: state.mnemonic,
       });
-      setUserCreated(true);
-      await createPod(state.password);
-
-      setPodCreated(true);
       actions.userLogin({ username: state.username, password: state.password });
+      setUserCreated(true);
     }
   }
 
-  useEffect(() => {
-    if (!state.mnemonic) return null;
-    const seedWords = state.mnemonic.split(" ");
-    if (
-      wordFive === seedWords[4] &&
-      wordEleven === seedWords[10] &&
-      wordTwelve === seedWords[11] &&
-      state.userData
-    ) {
-      history.push("/drive/root");
-    }
-  }, [state.userData]);
+  // useEffect(() => {
+  //   if (!state.mnemonic) return null;
+  //   const seedWords = state.mnemonic.split(" ");
+  //   if (
+  //     wordFive === seedWords[4] &&
+  //     wordEleven === seedWords[10] &&
+  //     wordTwelve === seedWords[11] &&
+  //     state.userData
+  //   ) {
+  //   }
+  // }, [state.userData]);
 
   return (
     <div>
       {!registerLoader && (
         <div className={classes.Login}>
-          <img src={welcomeImage}></img>
-
           <div className={classes.registerContainer}>
             <div className={classes.title}>Continue without single-sign-on</div>
 

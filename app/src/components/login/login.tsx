@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./loginStyles";
 import ButtonPill from "../buttonPill/buttonPill";
-import ButtonLink from "../buttonLink/buttonLink";
 import TextField from "../textField/textField";
-import { useHistory, Redirect } from "react-router-dom";
 import welcomeImage from "../../media/images/welcome-image.png";
-export interface Props {}
+
+export interface Props {
+  backFunction: any;
+}
 
 function Login(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -18,27 +19,27 @@ function Login(props: Props) {
   const [password, setPassword] = useState("");
 
   const [hasError, setHasError] = useState(false);
-  const history = useHistory();
   //add UseEffect when state changes to reload it and store it
-  useEffect(() => {
-    if (state.password) {
-      history.push("/drive/root");
-      window.location.reload();
-    }
-  }, [state.userData]);
 
   async function onLogin() {
-    await actions.userLogin({
+    actions.userLogin({
       username,
       password,
       podName: "Fairdrive",
     });
+    actions.getPods();
   }
 
   return (
     <div className={classes.Login}>
-      {state.password && <Redirect to={"/drive/root"} />}
-      <img src={welcomeImage}></img>
+      <div className={classes.imageContainer}>
+        <img
+          alt="lego man for login"
+          className={classes.image}
+          src={welcomeImage}
+        />
+      </div>
+
       <div className={classes.loginContainer}>
         <div className={classes.header}>
           <div className={classes.title}>Account Credentials</div>
@@ -55,7 +56,7 @@ function Login(props: Props) {
           setHasError={setHasError}
           setProp={setUsername}
           onContinue={onLogin}
-        ></TextField>
+        />
 
         <TextField
           placeholder="Password"
@@ -63,16 +64,15 @@ function Login(props: Props) {
           setHasError={setHasError}
           setProp={setPassword}
           onContinue={onLogin}
-        ></TextField>
-        <div className={classes.flexer}></div>
+        />
 
-        {hasError ? (
-          <div className={classes.errormsg}>Could not login.</div>
-        ) : (
-          ""
-        )}
-        <ButtonPill text={"Login"} clickFunction={onLogin}></ButtonPill>
-        <ButtonLink label="Back" color="grey" path="/"></ButtonLink>
+        {hasError && <div className={classes.errormsg}>Could not login.</div>}
+        <ButtonPill text={"Login"} clickFunction={onLogin} />
+        <ButtonPill
+          text="Back"
+          color="grey"
+          clickFunction={props.backFunction}
+        />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const useStyles = makeStyles(() =>
     },
     Title:{
       alignItems: "left",
-      font:(style: Props & Theme) => style.typography.h3,
+      font:(style: Props & Theme) => style.typography.h4,
       color:(style: Props & Theme) => style.textColorPrimary,
       borderBottom: "1px solid var(--grey)"
     },

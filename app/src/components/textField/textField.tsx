@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
 import useStyles from "./textFieldStyles";
 
 export interface Props {
@@ -9,10 +8,10 @@ export interface Props {
   setHasError?: any;
   onContinue?: any;
   type: string;
+  disabled?: boolean;
 }
 
 function TextField(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });
@@ -29,13 +28,14 @@ function TextField(props: Props) {
     }
   }
   return (
-    <div className={classes.TextField}>
+    <div>
       <input
-        className={classes.input}
+        className={classes.TextField}
         type={props.type}
         placeholder={props.placeholder}
         onKeyPress={(e) => handleSubmit(e)}
         onChange={(e) => handleSetProp(e)}
+        disabled={props.disabled}
       ></input>
     </div>
   );

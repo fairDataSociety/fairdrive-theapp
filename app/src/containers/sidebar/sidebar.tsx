@@ -2,35 +2,54 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./sidebarStyles";
-import SidebarLink from "../../components/sidebarLink/sidebarLink";
+import SidebarItem from "../../components/sidebarItem/sidebarItem";
 import { Drive, Dashboard, Globe } from "../../components/icons/icons";
 
-export interface Props {}
+export interface Props {
+  showPodSidebar: boolean;
+  setShowPodSidebar: any;
+  sidebarItem: string;
+  setSidebarItem: any;
+}
 
 function Sidebar(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-
+  const { showPodSidebar, setShowPodSidebar, sidebarItem, setSidebarItem } =
+    props;
   const classes = useStyles({ ...props, ...theme });
   //Load pods
+  const switchPages = async (pageName: string) => {
+    if (pageName === sidebarItem) {
+      setShowPodSidebar(!showPodSidebar);
+    } else {
+      setSidebarItem(pageName);
+    }
+  };
   return (
     state.userData && (
       <div className={classes.Sidebar}>
-        <SidebarLink
+        <SidebarItem
+          onClick={() => {
+            switchPages("Overview");
+          }}
           Icon={Dashboard}
           title="Overview"
-          path="/overview"
-        ></SidebarLink>
-        <SidebarLink
+        />
+        <SidebarItem
+          onClick={() => {
+            switchPages("Drive");
+          }}
           Icon={Drive}
           title="Drive"
-          path="/drive/root"
-        ></SidebarLink>
-        <SidebarLink
+        />
+        <SidebarItem
+          onClick={() => {
+            switchPages("Explore");
+          }}
           Icon={Globe}
           title="Explore"
-          path="/overview"
-        ></SidebarLink>
+        />
       </div>
     )
   );
