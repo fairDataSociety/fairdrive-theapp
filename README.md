@@ -28,7 +28,7 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 Demo: https://app.fairdrive.io
 
-# To run locally with remote api:
+### To run locally with remote api:
 
 - clone repo
 - yarn
@@ -37,14 +37,14 @@ Demo: https://app.fairdrive.io
 
 (nvm use 10)
 
-# To run locally with local api:
+### To run locally with local api:
 
--> clone repo
--> clone fairos repo -> https://github.com/fairDataSociety/fairOS-dfs
--> install bee client -> https://docs.ethswarm.org/docs/installation/manual/
--> install truffle/hardhat to start eth network (or create infura endpoint)
--> inside fairdrive app run yarn
--> yarn start
+- clone repo
+- clone fairos repo -> https://github.com/fairDataSociety/fairOS-dfs
+- install bee client -> https://docs.ethswarm.org/docs/installation/manual/
+- install truffle/hardhat to start eth network (or create infura endpoint)
+- inside fairdrive app run yarn
+- yarn start
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
