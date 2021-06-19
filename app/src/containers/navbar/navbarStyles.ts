@@ -15,6 +15,7 @@ const useStyles = makeStyles(() =>
 			alignItems: 'center',
 			flexDirection: 'row',
 			position: 'absolute',
+			justifyContent: 'flex-end',
 			left: 0,
 			top: 0,
 		},
@@ -26,9 +27,48 @@ const useStyles = makeStyles(() =>
 			borderRadius: '2rem',
 		},
 		logo: {
-			margin: '1rem',
+			width: '15rem',
+			position: 'absolute',
+			top: '-0.4rem',
+			left: '0rem',
 			cursor:"pointer"
 		},
+		navItems: {
+			display: 'flex',
+			alignItems: 'center',
+			margin: '0 3rem'
+		},
+		refer: {
+			background: (style: Props & Theme) => style.backgroundLight2,
+			color: (style: Props & Theme) => style.textColorPrimary,
+			font: (style: Props & Theme) => style.typography.caption1,
+			padding: '1.2rem',
+			borderRadius: '0.5rem'
+		},
+		dappIcon: {
+			position: 'relative',
+			width: '3.5rem',
+			margin: '0 1.5rem',
+			fill: (style: Props & Theme) => style.backgroundLight2,
+		},
+		profileIcon: {
+			position: 'relative',
+			fill: (style: Props & Theme) => style.backgroundLight2,
+			marginRight: '1.5rem',
+		},
+		activity: {
+			position: 'relative',
+			color: (style: Props & Theme) => style.backgroundLight2,
+			font: (style: Props & Theme) => style.typography.caption1
+		},
+		dropdown: {
+			position: 'absolute',
+			top: '5rem',
+			right: '40rem',
+		},
+		listItem: {
+			margin: '1.5rem 0'
+		}
 	})
 );
 

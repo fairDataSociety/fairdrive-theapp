@@ -27,6 +27,7 @@ const useStyles = makeStyles(() =>
       display: "flex",
       flexDirection: "column",
       alignSelf: "center",
+      zIndex: 1,
     },
     heading: {},
     subheading: {},

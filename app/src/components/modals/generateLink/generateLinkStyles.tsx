@@ -10,6 +10,7 @@ const useStyles = makeStyles(() =>
         textTransform: 'uppercase'
     },
     body: {
+      font: (style: Props & Theme) => style.typography.body1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

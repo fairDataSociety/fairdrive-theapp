@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./navbarStyles";
-import SearchBar from "../../components/searchBar/searchBar";
+import NavItems from "../../components/navItems/navItems";
+import { Logo } from "src/components/icons/icons";
 
 export interface Props {}
 
@@ -19,9 +20,9 @@ function Navbar(props: Props) {
         }}
         className={classes.logo}
       >
-        Fairdrive
+        <Logo className={classes.logo} />
       </div>
-      {state.userData && <SearchBar />}
+      {state.userData && <NavItems />}
     </div>
   );
 }
