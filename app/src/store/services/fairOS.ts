@@ -15,7 +15,8 @@ interface Payload {
   files?:any;
 }
 
-const host = "https://fairos.testeron.pro/v1/";
+const host = process.env.REACT_APP_FAIROSHOST;
+// const host = "https://fairos.testeron.pro/v1/";
 // const host = "http://localhost:9090";
 // const host ="https://api.fairos.io/v0/";
 const podNameDefault = "Fairdrive";
