@@ -41,6 +41,11 @@ import { ReactComponent as ShareIcon } from "../../media/UI/share_icon.svg";
 import { ReactComponent as ButtonPlus } from "../../media/UI/button_plus.svg";
 import { ReactComponent as ModalFolder } from "../../media/UI/modalfolder.svg";
 import { ReactComponent as Copy } from "../../media/UI/copy.svg";
+import { ReactComponent as LinumLabs } from "../../media/fairdrive/linumlabs.svg";
+import { ReactComponent as FairdData } from "../../media/fairdrive/fairdata.svg";
+import { ReactComponent as Github } from "../../media/socialMedia/github.svg";
+import { ReactComponent as Medium } from "../../media/socialMedia/medium.svg";
+import { ReactComponent as Discord } from "../../media/socialMedia/discord.svg";
 
 export const icons = {
   QuestionMark: QuestionMark,
@@ -91,4 +96,9 @@ export {
   GridIcon,
   DAppIcon,
   Logo,
+  LinumLabs,
+FairdData,
+Github,
+Medium,
+Discord
 };
