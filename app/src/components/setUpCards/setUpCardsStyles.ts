@@ -8,9 +8,9 @@ const useStyles = makeStyles(() =>
       display: 'flex'
     },
     container: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark3,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark4,
       borderRadius: "1rem",
-      width: '41rem',
+      width: '50rem',
       height: '36.5rem',
       padding: '4rem',
       display: 'flex',
@@ -18,6 +18,7 @@ const useStyles = makeStyles(() =>
       justifyContent: 'space-between',
       alignItems: 'flex-start',
       margin: '1rem',
+      border: '2px solid var(--dark2)'
     },
     icon: {
       fill: (style: Props & Theme) => style.backgroundLight2,

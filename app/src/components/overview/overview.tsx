@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "./overviewStyles";
 import SetupCards from "../setUpCards/setUpCards";
+import PodsPreview from "../podsPreview/podsPreview";
+import DataUsageIndicator from "../dataUsageIndicator/dataUsageIndicator";
 export interface Props {
-  isPodBarOpen: boolean
+  isPodBarOpen: boolean;
 }
 
 function Overview(props: Props) {
@@ -14,6 +16,10 @@ function Overview(props: Props) {
   return (
     <div className={classes.Home}>
       <SetupCards></SetupCards>
+      <div className={classes.flex}>
+        <PodsPreview />
+        <DataUsageIndicator />
+      </div>
     </div>
   );
 }

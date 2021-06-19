@@ -5,16 +5,23 @@ import { Props } from "./dataUsageIndicator";
 const useStyles = makeStyles(() =>
   createStyles({
     container: {
-      height: '35rem',
+      height: '45rem',
       display: 'flex',
       alignItems: 'space-between',
       flexDirection: 'column',
-      margin: '2rem',
+      margin: '2rem 1rem 2rem 2rem',
+    },
+    heading: {
+      font: (style: Props & Theme) => style.typography.h5,
+      padding: '1rem 0',
+      borderBottom: '2px solid var(--light1)',
+      width: '20rem',
+      marginBottom: '2rem',
     },
     wrapper: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      width: '75rem', 
-      height: '20rem',
+      width: '60rem', 
+      height: '15rem',
       padding: '4rem',
       display: 'flex',
       alignItems: 'center',
@@ -40,6 +47,7 @@ const useStyles = makeStyles(() =>
     },
     refermessage: {
       font: (style: Props & Theme) => style.typography.caption1,
+      width: '60rem', 
       display: 'flex',
       height: '2.5rem',
       alignItems: 'center',
