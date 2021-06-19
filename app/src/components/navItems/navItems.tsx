@@ -84,7 +84,7 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )}
-      {referModal && <GenerateLink variants="refer" />}
+      {referModal && <GenerateLink variant="refer" />}
     </div>
   );
 }
