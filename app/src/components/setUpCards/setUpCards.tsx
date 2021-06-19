@@ -14,19 +14,19 @@ function SetupCards(props: Props) {
       icon: <StartFolder className={classes.icon} />,
       header: "Get started with your Drive",
       body: "Start interacting with the Fairdrive ecosystem, launch your Subpods and explore new ways to organize your files.",
-      button: "Upload your first file",
+      button: "Create in Fairtext",
     },
     {
       icon: <Dapps className={classes.icon} />,
-      header: "Get started with DApps",
-      body: "Start interacting with the Fairdrive ecosystem, launch your Subpods and explore new ways to organize your files.",
-      button: "Explore DApps",
+      header: "Explore Public Pods",
+      body: "Explore Public pods that are in the Fair Data Society Ecosystem",
+      button: "Explore Public Pods",
     },
     {
       icon: <Complete className={classes.icon} />,
       header: "Complete your profile",
-      body: "Start interacting with the Fairdrive ecosystem, launch your Subpods and explore new ways to organize your files.",
-      button: "Go to profile",
+      body: "Complete your profile with an avatar of your choice that can be seenon Fairdrive",
+      button: "Edit Your Profile",
     },
   ];
 

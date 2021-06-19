@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
     },
     wrapper: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark,
-      width: '44rem',
+      width: '42rem',
       margin: '2rem',
       height: '32rem',
       position: 'relative'

@@ -20,6 +20,7 @@ function DataUsageIndicator(props: Props) {
 
   return (
     // <div className={classes.container}>
+    // <div className={classes.heading}>Your Storage</div>
     // <div className={classes.wrapper}>
     //   <CircularProgress percentage={percentage} />
     //   <div className={classes.description}>
@@ -42,6 +43,7 @@ function DataUsageIndicator(props: Props) {
     // Uncomment to view populated component
     // This is demo version
     <div className={classes.container}>
+      <div className={classes.heading}>Your Storage</div>
       <div className={classes.wrapper}>
         <CircularProgress percentage={percentage} />
         <div className={classes.description}>
