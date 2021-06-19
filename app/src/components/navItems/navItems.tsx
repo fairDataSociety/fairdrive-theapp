@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
 import useStyles from "../../containers/navbar/navbarStyles";
 import ClickAwayListener from "react-click-away-listener";
 import SearchBar from "../searchBar/searchBar";
@@ -11,7 +10,6 @@ import DropDown from "src/components/dropDown/dropDown";
 export interface Props {}
 
 function NavItems(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
   const [referModal, setReferModal] = useState(false);

@@ -22,10 +22,6 @@ function Modal(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const handleClickAway = () => {
-    console.log("");
-  };
-
   return (
     <Overlay handleClickAway={props.handleClickAway}>
       <div className={classes.wrapper}>

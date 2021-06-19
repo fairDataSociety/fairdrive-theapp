@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../../store/themeContext/themeContext";
-import { StoreContext } from "../../../store/store";
 import CopyToClipboard from "react-copy-to-clipboard";
 import useStyles from "./generateLinkStyles";
 import Modal from "../modal/modal";
@@ -14,7 +13,6 @@ export interface Props {
 }
 
 function GenerateLink(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [, setCopied] = useState(false);
   const classes = useStyles({ ...props, ...theme });
