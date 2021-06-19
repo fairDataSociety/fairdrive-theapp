@@ -8,6 +8,7 @@ export interface Props {
   children?: React.ReactNode;
   handleClick?: () => void;
   handleClose?: () => void;
+  handleClickAway?: () => void;
   heading: string;
   button?: string;
   disabledButton?: string;
@@ -26,7 +27,7 @@ function Modal(props: Props) {
   };
 
   return (
-    <Overlay handleClickAway={handleClickAway}>
+    <Overlay handleClickAway={props.handleClickAway}>
       <div className={classes.wrapper}>
         <div className={classes.header}>
           {props.icon && <ModalFolder className={classes.icon} />}

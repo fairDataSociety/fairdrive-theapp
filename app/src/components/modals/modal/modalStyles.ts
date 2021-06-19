@@ -41,6 +41,7 @@ const useStyles = makeStyles(() =>
     },
     body: {
       padding: "3rem 0",
+      font: (style: Props & Theme) => style.typography.caption1,
     },
     confirmMessage: {
       font: (style: Props & Theme) => style.typography.caption1,

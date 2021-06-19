@@ -19,6 +19,7 @@ import { ReactComponent as Profile } from "../../media/fairdrive/Profile.svg";
 import { ReactComponent as SearchFD } from "../../media/fairdrive/Search.svg";
 import { ReactComponent as Settings } from "../../media/fairdrive/Settings.svg";
 import { ReactComponent as Time } from "../../media/fairdrive/Time.svg";
+import { ReactComponent as Logo } from "../../media/fairdrive/logo.svg";
 import { ReactComponent as StartFolder } from "../../media/UI/getStartedFolder.svg";
 import { ReactComponent as Dapps } from "../../media/UI/dapps.svg";
 import { ReactComponent as Complete } from "../../media/UI/complete.svg";
@@ -35,7 +36,7 @@ import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
 import { ReactComponent as FilterIcon } from "../../media/optionIcons/Filter.svg";
 import { ReactComponent as GridIcon } from "../../media/optionIcons/GridIcon.svg";
 import { ReactComponent as ListIcon } from "../../media/optionIcons/ListIcon.svg";
-import { ReactComponent as DAppIcon } from "../../media/fairdrive/DApps.svg";
+import { ReactComponent as DAppIcon } from "../../media/UI/dapp_square.svg";
 import { ReactComponent as ShareIcon } from "../../media/UI/share_icon.svg";
 import { ReactComponent as ButtonPlus } from "../../media/UI/button_plus.svg";
 import { ReactComponent as ModalFolder } from "../../media/UI/modalfolder.svg";
@@ -89,4 +90,5 @@ export {
   ListIcon,
   GridIcon,
   DAppIcon,
+  Logo,
 };
