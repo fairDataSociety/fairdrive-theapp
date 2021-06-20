@@ -21,12 +21,12 @@ import { CreateNew } from "../modals/createNew/createNew";
 import { createDirectory } from "src/store/services/fairOS";
 
 export interface Props {
-	isPodBarOpen: boolean;
+  isPodBarOpen: boolean;
 }
 
 function Drive(props: Props) {
-	const { state, actions } = useContext(StoreContext);
-	const { theme } = useContext(ThemeContext);
+  const { state, actions } = useContext(StoreContext);
+  const { theme } = useContext(ThemeContext);
 
   const [files, setFiles] = useState([]);
   const [showGrid, setShowGrid] = useState(false);
@@ -40,28 +40,28 @@ function Drive(props: Props) {
   const [toSort, setToSort] = useState(toSortProp);
   const orderProp = "asc";
 
-	const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...props, ...theme });
 
-	async function loadDirectory() {
-		try {
-			setFiles(null);
-			actions.getDirectory({
-				directory: state.directory,
-				password: state.password,
-				podName: state.podName,
-			});
-		} catch (e) {
-			console.log(e);
-		}
-	}
+  async function loadDirectory() {
+    try {
+      setFiles(null);
+      actions.getDirectory({
+        directory: state.directory,
+        password: state.password,
+        podName: state.podName,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
-	useEffect(() => {
-		loadDirectory();
-		state.fileUploaded = false;
-		state.searchQuery = null;
+  useEffect(() => {
+    loadDirectory();
+    state.fileUploaded = false;
+    state.searchQuery = null;
 
-		// eslint-disable-next-line
-	}, [state.fileUploaded, state.directory, responseCreation]);
+    // eslint-disable-next-line
+  }, [state.fileUploaded, state.directory, responseCreation]);
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
@@ -69,44 +69,45 @@ function Drive(props: Props) {
   }, [state.entries]);
 
   useEffect(() => {
-    if (state.searchQuery === "" && files.length !== state.entries.length) {
-      setFiles(state.entries);
-    } else if (state.searchQuery !== null) {
-      const filterFiles = state.entries.filter((file) =>
-        file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-      );
-      setFiles(filterFiles);
-    }
+    if (files !== undefined && files !== null)
+      if (state.searchQuery === "" && files?.length !== state.entries?.length) {
+        setFiles(state.entries);
+      } else if (state.searchQuery !== null) {
+        const filterFiles = state.entries.filter((file) =>
+          file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+        );
+        setFiles(filterFiles);
+      }
     // eslint-disable-next-line
   }, [state.searchQuery]);
 
-	const handleClose = () => {
-		setOpen(false);
-	};
-	const handleOpen = () => {
-		setOpen(true);
-	};
-	const handleCloseDappModal = () => {
-		setOpenDappModal(false);
-	};
-	const handleOpenDappModal = () => {
-		setOpenDappModal(true);
-	};
-	const handleUploadModal = async (value) => {
-		setOpenUpload(value);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleCloseDappModal = () => {
+    setOpenDappModal(false);
+  };
+  const handleOpenDappModal = () => {
+    setOpenDappModal(true);
+  };
+  const handleUploadModal = async (value) => {
+    setOpenUpload(value);
+  };
 
-	useEffect(() => {
-		if (responseCreation === true) {
-			setOpen(false);
-			setResponseCreation(false);
-		}
-	}, [responseCreation]);
-	const createNewFolder = async () => {
-		setResponseCreation(
-			await createDirectory(state.directory, folderName, state.podName)
-		);
-	};
+  useEffect(() => {
+    if (responseCreation === true) {
+      setOpen(false);
+      setResponseCreation(false);
+    }
+  }, [responseCreation]);
+  const createNewFolder = async () => {
+    setResponseCreation(
+      await createDirectory(state.directory, folderName, state.podName)
+    );
+  };
 
   return (
     <div className={classes.Drive}>
@@ -118,67 +119,79 @@ function Drive(props: Props) {
         ></ButtonNavbar>
       </div>
       <div className={classes.midWrapper}>
-
-        <div className={classes.midHeader}>{state.isPrivatePod ? "Inventory" : "Inbox (Read Only)"}</div>
+        <div className={classes.midHeader}>
+          {state.isPrivatePod ? "Inventory" : "Inbox (Read Only)"}
+        </div>
         <div className={classes.divider}></div>
         <div className={classes.infoWrapper}>
           <PodInfo className={classes.infoIcon} />
           <div className={classes.information}>
-          {state.isPrivatePod ? "All your content including what you have shared with others marked with a" : "(All links to content shared with you) Links Shared by Username"}
+            {state.isPrivatePod
+              ? "All your content including what you have shared with others marked with a"
+              : "(All links to content shared with you) Links Shared by Username"}
           </div>
           <ShareIcon className={classes.shareIcon} />
         </div>
       </div>
 
       <div className={classes.actionWrapper}>
-       {state.isPrivatePod ?  <> <div className={classes.actionRow}>
-          <div className={classes.actionButton}>
-            <UploadModal
-              open={openUpload}
-              handleUploadModal={handleUploadModal}
-            >
-              <UploadIcon
-                className={classes.buttonIcon}
-                onClick={() => handleUploadModal(true)}
-              />
-              Upload
-            </UploadModal>
-          </div>
-          <div className={classes.actionText}>
-            Upload Files from your local storage
-          </div>
-        </div>
-        <div className={classes.actionRow}>
-          <div className={classes.actionButton} onClick={handleOpenDappModal}>
-            <ButtonPlus className={classes.buttonIcon} />
-            Create New File
-          </div>
-          <div className={classes.actionText}>
-            Create new files with our markdown editor: Fairtext
-          </div>
-        </div>
-        <div className={classes.actionRow}>
-          <div className={classes.actionButton} onClick={handleOpen}>
-            <ButtonPlus className={classes.buttonIcon} />
-            Create New Folder
-          </div>
-          <div className={classes.actionText}>
-            Create new folders in this pod
-          </div>
-        </div> </>:   <>
-        <div className={classes.actionRow}>
-          <div className={classes.actionButton} onClick={handleOpen}>
-            <ButtonPlus className={classes.buttonIcon} />
-            Add
-          </div>
-          <div className={classes.actionText}>
-          Add Files Via Link
-          </div>
-        </div> </>}
+        {state.isPrivatePod ? (
+          <>
+            {" "}
+            <div className={classes.actionRow}>
+              <div className={classes.actionButton}>
+                <UploadModal
+                  open={openUpload}
+                  handleUploadModal={handleUploadModal}
+                >
+                  <UploadIcon
+                    className={classes.buttonIcon}
+                    onClick={() => handleUploadModal(true)}
+                  />
+                  Upload
+                </UploadModal>
+              </div>
+              <div className={classes.actionText}>
+                Upload Files from your local storage
+              </div>
+            </div>
+            <div className={classes.actionRow}>
+              <div
+                className={classes.actionButton}
+                onClick={handleOpenDappModal}
+              >
+                <ButtonPlus className={classes.buttonIcon} />
+                Create New File
+              </div>
+              <div className={classes.actionText}>
+                Create new files with our markdown editor: Fairtext
+              </div>
+            </div>
+            <div className={classes.actionRow}>
+              <div className={classes.actionButton} onClick={handleOpen}>
+                <ButtonPlus className={classes.buttonIcon} />
+                Create New Folder
+              </div>
+              <div className={classes.actionText}>
+                Create new folders in this pod
+              </div>
+            </div>{" "}
+          </>
+        ) : (
+          <>
+            <div className={classes.actionRow}>
+              <div className={classes.actionButton} onClick={handleOpen}>
+                <ButtonPlus className={classes.buttonIcon} />
+                Add
+              </div>
+              <div className={classes.actionText}>Add Files Via Link</div>
+            </div>{" "}
+          </>
+        )}
       </div>
 
-			<div className={classes.buttonNavBar}></div>
-			{/* <Modal
+      <div className={classes.buttonNavBar}></div>
+      {/* <Modal
         className={classes.modalContainer}
         open={open}
         onClose={handleClose}
@@ -187,52 +200,56 @@ function Drive(props: Props) {
       >
         <NewFolder setResponse={setFolderCreated} />
       </Modal> */}
-			<Modal
-				className={classes.modalContainer}
-				open={open}
-				onClose={handleClose}
-				aria-labelledby='simple-modal-title'
-				aria-describedby='simple-modal-description'>
-				<CreateNew
-					handleClick={createNewFolder}
-					handleClose={handleClose}
-					setProp={setFolderName}
-					type='Folder'></CreateNew>
-			</Modal>
+      <Modal
+        className={classes.modalContainer}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <CreateNew
+          handleClick={createNewFolder}
+          handleClose={handleClose}
+          setProp={setFolderName}
+          type="Folder"
+        ></CreateNew>
+      </Modal>
 
-			<Modal
-				className={classes.modalContainer}
-				open={openDappModal}
-				onClose={handleCloseDappModal}
-				aria-labelledby='simple-modal-title'
-				aria-describedby='simple-modal-description'>
-				<OpenInDapp
-					handleClose={handleCloseDappModal}
-					dapp='Markdown Editor'></OpenInDapp>
-			</Modal>
+      <Modal
+        className={classes.modalContainer}
+        open={openDappModal}
+        onClose={handleCloseDappModal}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <OpenInDapp
+          handleClose={handleCloseDappModal}
+          dapp="Markdown Editor"
+        ></OpenInDapp>
+      </Modal>
 
-			{showGrid ? (
-				<CardGrid className={classes.cardGrid}>
-					{state.dirs !== null &&
-						state.dirs !== undefined &&
-						state.dirs.map((dir: any) => (
-							<FileCard file={dir} isDirectory={true}></FileCard>
-						))}
-					{files !== null &&
-						files !== undefined &&
-						files
-							.sort(sortByProp(toSort, orderProp))
-							.map((file: any) => <FileModal file={file}></FileModal>)}
-					{state.dirs === null ||
-						state.dirs === undefined ||
-						files === null ||
-						(files === undefined && <div>Loading files..</div>)}
-				</CardGrid>
-			) : (
-				<FileList isPodBarOpen={props.isPodBarOpen}></FileList>
-			)}
-		</div>
-	);
+      {showGrid ? (
+        <CardGrid className={classes.cardGrid}>
+          {state.dirs !== null &&
+            state.dirs !== undefined &&
+            state.dirs.map((dir: any) => (
+              <FileCard file={dir} isDirectory={true}></FileCard>
+            ))}
+          {files !== null &&
+            files !== undefined &&
+            files
+              .sort(sortByProp(toSort, orderProp))
+              .map((file: any) => <FileModal file={file}></FileModal>)}
+          {state.dirs === null ||
+            state.dirs === undefined ||
+            files === null ||
+            (files === undefined && <div>Loading files..</div>)}
+        </CardGrid>
+      ) : (
+        <FileList isPodBarOpen={props.isPodBarOpen}></FileList>
+      )}
+    </div>
+  );
 }
 
 export default React.memo(Drive);
