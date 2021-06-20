@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import useStyles from "./circularProgressStyles";
@@ -10,7 +9,6 @@ export interface Props {
 }
 
 function CircularProgress(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -30,7 +28,6 @@ function CircularProgress(props: Props) {
           textColor: "#EEF0FF",
           trailColor: "#27292E",
           backgroundColor: "#3e98c7",
-          // borderRadius: '5px',
         })}
       />
     </div>

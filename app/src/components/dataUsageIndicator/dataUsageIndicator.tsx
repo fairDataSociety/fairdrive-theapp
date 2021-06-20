@@ -3,6 +3,9 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "./dataUsageIndicatorStyles";
 import CircularProgress from "../circularProgress/circularProgress";
 import { QuestionCircle } from "../icons/icons";
+import { useState } from "react";
+import GenerateLink from "../modals/generateLink/generateLink";
+import ClickAwayListener from "react-click-away-listener";
 
 export interface Props {
   // uncomment when populating with real values
@@ -15,6 +18,7 @@ export interface Props {
 function DataUsageIndicator(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
+  const [showRefer, setShowRefer] = useState(false);
 
   const percentage = 80;
 
@@ -37,7 +41,14 @@ function DataUsageIndicator(props: Props) {
     //    <QuestionCircle className={classes.icon} />
     //    <p>Refer A friend to gain more storage. Read up on how to do this on our community channels</p>
     //  </div>
-    //  <button className={classes.button}>Refer a friend</button>
+    //   <button className={classes.button} onClick={() => setShowRefer(true)}>
+    //      Refer a friend
+    //    </button>
+    //    {showRefer && (
+    //    <ClickAwayListener onClickAway={() => setShowRefer(false)}>
+    //      <GenerateLink variant="refer" />
+    //    </ClickAwayListener>
+    //    )}
     // </div>
 
     // Uncomment to view populated component
@@ -63,7 +74,12 @@ function DataUsageIndicator(props: Props) {
           community channels
         </p>
       </div>
-      <button className={classes.button}>Refer a friend</button>
+      <ClickAwayListener onClickAway={() => setShowRefer(false)}>
+        <button className={classes.button} onClick={() => setShowRefer(true)}>
+          Refer a friend
+        </button>
+      </ClickAwayListener>
+      {showRefer && <GenerateLink variant="refer" />}
     </div>
   );
 }
