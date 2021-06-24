@@ -29,7 +29,7 @@ function Drive(props: Props) {
   const { theme } = useContext(ThemeContext);
 
   const [files, setFiles] = useState([]);
-  const [showGrid, setShowGrid] = useState(false);
+  const [showGrid, setShowGrid] = useState(true);
   const [open, setOpen] = useState(false);
   const [openDappModal, setOpenDappModal] = useState(false);
   const [folderName, setFolderName] = useState(null);

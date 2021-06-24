@@ -14,7 +14,7 @@ export interface Props {
 function Home(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  const [sidebarItem, setSidebarItem] = useState("Overview");
+  const [sidebarItem, setSidebarItem] = useState("Drive");
   const [showPodSidebar, setShowPodSidebar] = useState(false);
   return (
     <div className={classes.Home}>
@@ -24,10 +24,15 @@ function Home(props: Props) {
         sidebarItem={sidebarItem}
         setSidebarItem={setSidebarItem}
       />
-      <PodSidebar isOpen={sidebarItem !== "Explore" && showPodSidebar} route={sidebarItem}></PodSidebar>
+      <PodSidebar
+        isOpen={sidebarItem !== "Explore" && showPodSidebar}
+        route={sidebarItem}
+      ></PodSidebar>
       {sidebarItem === "Drive" && <Drive isPodBarOpen={showPodSidebar}></Drive>}
-      {sidebarItem === "Overview" && <Overview isPodBarOpen={showPodSidebar}></Overview>}
-      {sidebarItem === "Explore" && <></>}
+      {/* {sidebarItem === "Overview" && (
+        <Overview isPodBarOpen={showPodSidebar}></Overview>
+      )}
+      {sidebarItem === "Explore" && <></>} */}
     </div>
   );
 }

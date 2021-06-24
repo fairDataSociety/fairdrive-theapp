@@ -29,13 +29,13 @@ function Sidebar(props: Props) {
   return (
     state.userData && (
       <div className={classes.Sidebar}>
-        <SidebarItem
+        {/* <SidebarItem
           onClick={() => {
             switchPages("Overview");
           }}
           Icon={Dashboard}
           title="Overview"
-        />
+        /> */}
         <SidebarItem
           onClick={() => {
             switchPages("Drive");
@@ -43,13 +43,13 @@ function Sidebar(props: Props) {
           Icon={Drive}
           title="Drive"
         />
-        <SidebarItem
+        {/* <SidebarItem
           onClick={() => {
             switchPages("Explore");
           }}
           Icon={Globe}
           title="Explore"
-        />
+        /> */}
       </div>
     )
   );
