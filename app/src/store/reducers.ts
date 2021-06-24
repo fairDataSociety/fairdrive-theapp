@@ -37,7 +37,7 @@ const initialState: State = {
 	mnemonic: null,
 	unlocked: false,
 	searchQuery: null,
-	isPrivatePod: false,
+	isPrivatePod: true,
 	entries: null,
 	dirs: null,
 	inviteCode: '',

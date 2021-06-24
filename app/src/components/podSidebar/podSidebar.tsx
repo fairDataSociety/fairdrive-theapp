@@ -16,16 +16,19 @@ export interface Props {
 function PodSidebar(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const [isPrivate, setIsPrivate] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(true);
   const classes = useStyles({ ...props, ...theme });
   const pods = ["Private Pod", "Shared Pod", "My Photos"];
   const [open, setOpen] = useState(false);
   const [podName, setPodName] = useState("");
   const [podCreated, setPodCreated] = useState(false);
   useEffect(() => {
+    setPod("Fairdrive");
+  });
+  useEffect(() => {
     if (state.podsOpened.includes(state.podName))
       actions.getDirectory({ directory: "root", podName: state.podName });
-      // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [state.podName, state.podsOpened]);
 
   const setPod = async (pod) => {
@@ -58,9 +61,9 @@ function PodSidebar(props: Props) {
   }, [podCreated]);
 
   useEffect(() => {
-    actions.setPrivatePod(isPrivate)
+    actions.setPrivatePod(isPrivate);
     // eslint-disable-next-line
-  }, [isPrivate])
+  }, [isPrivate]);
 
   return (
     <div className={classes.podDrawer}>
