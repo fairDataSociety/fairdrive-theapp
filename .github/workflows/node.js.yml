@@ -33,4 +33,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn
-    - run: yarn build
+    - name: build
+      run: yarn build
+      env:
+        CI: false
+    - run: yarn deploy

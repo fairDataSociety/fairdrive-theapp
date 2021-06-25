@@ -35,9 +35,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI=false react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "rm -r /home/ubuntu/www/app.fairdrive.fairdatasociety.org && mv ./build /home/ubuntu/www/app.fairdrive.fairdatasociety.org"
+
   },
   "eslintConfig": {
     "extends": "react-app"
