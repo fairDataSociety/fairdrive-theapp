@@ -42,6 +42,11 @@ function SeedPhraseConfirm(props: Props) {
     }
     // eslint-disable-next-line
   }, [podCreated]);
+  useEffect(() => {
+    if (folderCreated) {
+      actions.userLogin({ username: state.username, password: state.password });
+    }
+  }, [folderCreated]);
   const createDirectories = async () => {
     await createDirectory("root", "Documents", "Fairdrive");
     await createDirectory("root", "Movies", "Fairdrive");
@@ -71,7 +76,6 @@ function SeedPhraseConfirm(props: Props) {
         password: state.password,
         mnemonic: state.mnemonic,
       });
-      actions.userLogin({ username: state.username, password: state.password });
       setUserCreated(true);
     }
   }

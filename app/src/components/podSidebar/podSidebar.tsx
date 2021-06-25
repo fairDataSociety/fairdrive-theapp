@@ -30,7 +30,6 @@ function PodSidebar(props: Props) {
   }, [state.podName, state.podsOpened]);
 
   const setPod = async (pod) => {
-    debugger;
     actions.setPodName(pod);
     if (!state.podsOpened.includes(pod))
       actions.openPod({ password: state.password, podName: pod });
