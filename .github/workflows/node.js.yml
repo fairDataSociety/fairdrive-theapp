@@ -21,6 +21,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Create .env file
+      run: |
+          touch .env
+          echo REACT_APP_FAIROSHOST=https://fairos.fairdatasociety.org/v1/ >> .env
+          echo REACT_APP_FAIRDRIVEHOST=https://app.fairdrive.io >> .env
+          echo REACT_APP_NAME=Fairdrive >> .env
+          cat .env
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
