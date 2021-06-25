@@ -22,9 +22,7 @@ function PodSidebar(props: Props) {
   const [open, setOpen] = useState(false);
   const [podName, setPodName] = useState("");
   const [podCreated, setPodCreated] = useState(false);
-  useEffect(() => {
-    setPod("Fairdrive");
-  });
+
   useEffect(() => {
     if (state.podsOpened.includes(state.podName))
       actions.getDirectory({ directory: "root", podName: state.podName });
