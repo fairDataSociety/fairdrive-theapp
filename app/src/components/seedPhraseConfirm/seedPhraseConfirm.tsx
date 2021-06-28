@@ -9,6 +9,7 @@ import {
   createAccount,
   createDirectory,
   createPod,
+  userLoggedIn,
 } from "../../store/services/fairOS";
 export interface Props {}
 
@@ -23,42 +24,16 @@ function SeedPhraseConfirm(props: Props) {
   // eslint-disable-next-line
   const [registerLoader, setRegisterLoader] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
-  const [podCreated, setPodCreated] = useState(false);
-  // eslint-disable-next-line
-  const [folderCreated, setFolderCreated] = useState(false);
+
   // eslint-disable-next-line
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     if (userCreated) {
-      createPods();
-    }
-    // eslint-disable-next-line
-  }, [userCreated]);
-
-  useEffect(() => {
-    if (podCreated) {
-      createDirectories();
-    }
-    // eslint-disable-next-line
-  }, [podCreated]);
-  useEffect(() => {
-    if (folderCreated) {
       actions.userLogin({ username: state.username, password: state.password });
     }
-  }, [folderCreated]);
-  const createDirectories = async () => {
-    await createDirectory("root", "Documents", "Fairdrive");
-    await createDirectory("root", "Movies", "Fairdrive");
-    await createDirectory("root", "Music", "Fairdrive");
-    await createDirectory("root", "Pictures", "Fairdrive");
-    setFolderCreated(true);
-    actions.getPods();
-  };
-  const createPods = async () => {
-    await createPod({ password: state.password, podName: "Fairdrive" });
-    setPodCreated(true);
-  };
+  }, [userCreated]);
+
   async function onRegister() {
     console.log("in confirm component", state.mnemonic);
 
@@ -79,18 +54,6 @@ function SeedPhraseConfirm(props: Props) {
       setUserCreated(true);
     }
   }
-
-  // useEffect(() => {
-  //   if (!state.mnemonic) return null;
-  //   const seedWords = state.mnemonic.split(" ");
-  //   if (
-  //     wordFive === seedWords[4] &&
-  //     wordEleven === seedWords[10] &&
-  //     wordTwelve === seedWords[11] &&
-  //     state.userData
-  //   ) {
-  //   }
-  // }, [state.userData]);
 
   return (
     <div>
