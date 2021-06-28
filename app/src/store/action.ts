@@ -79,10 +79,12 @@ export const useActions = (state, dispatch) => ({
     });
   }
 
+
 });
 
 export interface Actions {
   userLogin:(data: any) => void;
+  userLogout:() => void;
   uploadFile:(data:any) => void;
   getDirectory:(data:any) => void;
   storeUserRegistrationInfo:(data:any) => void;
