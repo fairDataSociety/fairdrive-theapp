@@ -9,7 +9,10 @@ import DropDown from "src/components/dropDown/dropDown";
 import { StoreContext } from "src/store/store";
 import { logOut } from "src/store/services/fairOS";
 
-export interface Props {}
+export interface Props {
+  setShowTerms?: (data) => void;
+  showTerms?: boolean;
+}
 
 function NavItems(props: Props) {
   const { state, actions } = useContext(StoreContext);

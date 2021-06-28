@@ -9,7 +9,10 @@ import {
   Discord,
 } from "src/components/icons/icons";
 
-export interface Props {}
+export interface Props {
+  setShowTerms: (data) => void;
+  showTerms: boolean;
+}
 
 function Footer(props: Props) {
   const { theme } = useContext(ThemeContext);
@@ -18,22 +21,66 @@ function Footer(props: Props) {
   return (
     <div className={classes.footer}>
       <div className={classes.links}>
-        <FairdData className={classes.link} />
-        <LinumLabs className={classes.link} style={{height: '7rem'}} />
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          className={classes.linkItem}
+          href="https://fairdatasociety.org/"
+        >
+          <FairdData className={classes.link} />
+        </a>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          className={classes.linkItem}
+          href="https://linumlabs.com"
+        >
+          <LinumLabs className={classes.link} style={{ height: "7rem" }} />
+        </a>
       </div>
       <div className={classes.links}>
-          <div className={classes.text}>
-              <span className={classes.footerText}>© 2021 Fairdrive. All rights reserved</span>
-              <span className={classes.footerText}>*</span>
-              <span className={classes.footerText}>Terms and conditions</span>
-              <span className={classes.footerText}>*</span>
-              <span className={classes.footerText}>Privacy Policy </span>
-              <div className={classes.divider}></div>
-              <span className={classes.footerText}>Sand box environment</span>
-          </div>
-          <Github className={classes.link} />
-          <Medium className={classes.link} />
-          <Discord className={classes.link}  />
+        <div className={classes.text}>
+          <span className={classes.footerText}>
+            © 2021 Fairdrive. All rights reserved
+          </span>
+          <span className={classes.footerText}>*</span>
+          <span
+            className={classes.linkItem}
+            onClick={() => {
+              props.setShowTerms(true);
+            }}
+          >
+            Terms and conditions
+          </span>
+          <span className={classes.footerText}>*</span>
+          <div className={classes.divider}></div>
+          <span className={classes.footerText}>Sand box environment</span>
+        </div>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          className={classes.linkItem}
+          href="https://github.com/fairDataSociety/"
+        >
+          <Github className={classes.linkIcon} />
+        </a>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          className={classes.linkItem}
+          href="https://medium.com/fair-data-society"
+        >
+          {" "}
+          <Medium className={classes.linkIcon} />
+        </a>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          className={classes.linkItem}
+          href="https://fairdatasociety.org/"
+        >
+          <Discord className={classes.linkIcon} />
+        </a>
       </div>
     </div>
   );

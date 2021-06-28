@@ -20,6 +20,20 @@ const useStyles = makeStyles(() =>
 			bottom: 0,
             zIndex:5
 		},
+        linkItem: {
+			margin: 'auto',
+            cursor:"pointer",   
+            '&:hover': {
+				filter: 'brightness(1.6)',
+			},
+		},
+		linkIcon: {
+			height: '3rem',
+			margin: '0 1.5rem',
+			'&:hover': {
+				filter: 'brightness(1.6)',
+			},
+		},
         text: {
             color: (style: Props & Theme) => style.textColorSecondary,
             font: (style: Props & Theme) => style.typography.caption1,
