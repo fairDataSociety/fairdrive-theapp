@@ -18,8 +18,8 @@ function FileList(props: Props) {
       <div className={classes.container}>
         <FileListHeader isPodBarOpen={props.isPodBarOpen} />
         <div className={classes.fileContainer}>
-          {state.entries !== undefined &&
-            state.entries.map((d) => {
+          {state.dirs !== undefined &&
+            state.dirs.map((d) => {
               return (
                 <FileListBody
                   name={d.name}
@@ -27,6 +27,20 @@ function FileList(props: Props) {
                   size={d.size}
                   created={d.created}
                   modified={d.modified}
+                  file={d}
+                  isPodBarOpen={props.isPodBarOpen}
+                ></FileListBody>
+              );
+            })}
+          {state.entries !== undefined &&
+            state.entries.map((d) => {
+              return (
+                <FileListBody
+                  name={d.name}
+                  type={d.content_type}
+                  size={d.size}
+                  created={d.creation_date}
+                  modified={d.date_modified}
                   file={d}
                   isPodBarOpen={props.isPodBarOpen}
                 ></FileListBody>

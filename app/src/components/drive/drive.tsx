@@ -252,7 +252,9 @@ function Drive(props: Props) {
           {state.dirs === null ||
             state.dirs === undefined ||
             files === null ||
-            (files === undefined && <div>Loading files..</div>)}
+            (files === undefined && state.dirs === undefined && (
+              <div>Loading files..</div>
+            ))}
         </CardGrid>
       ) : (
         <FileList isPodBarOpen={props.isPodBarOpen}></FileList>

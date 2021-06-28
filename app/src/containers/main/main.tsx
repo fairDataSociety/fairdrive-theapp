@@ -17,12 +17,12 @@ function Main(props: Props) {
     <div className={classes.Main}>
       {state.userData?.code === 200 ? (
         <>
-        <Home></Home>
-        <Footer />
+          <Home></Home>
         </>
       ) : (
         <LoginRegisterPage></LoginRegisterPage>
       )}
+      <Footer />
     </div>
   );
 }
