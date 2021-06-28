@@ -82,10 +82,10 @@ const useStyles = makeStyles(() =>
 			width: '22rem',
 			height: (props: Props & Theme) =>
 				props.route === 'Overview'
-					? '11rem'
+					? '14rem'
 					: props.route !== 'Explore'
-					? '5rem'
-					: '2.5rem',
+					? '8rem'
+					: '5.5rem',
 			color: (style: Props & Theme) => style.textColorSecondary,
 			font: (style: Props & Theme) => style.typography.caption1,
 			margin: '2rem 2rem 1rem 0.1rem',
