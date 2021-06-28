@@ -39,6 +39,8 @@ export async function createAccount(payload: Payload) {
       },
       withCredentials: true,
     });
+    await createPod({password:payload.password, podName:"Home"});
+    await createPod({password:payload.password, podName:"Photos"});
 
     return response;
   } catch (e) {

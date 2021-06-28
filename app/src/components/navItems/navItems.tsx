@@ -6,10 +6,16 @@ import SearchBar from "../searchBar/searchBar";
 import { Profile, DAppIcon } from "src/components/icons/icons";
 import GenerateLink from "src/components/modals/generateLink/generateLink";
 import DropDown from "src/components/dropDown/dropDown";
+import { StoreContext } from "src/store/store";
+import { logOut } from "src/store/services/fairOS";
 
-export interface Props {}
+export interface Props {
+  setShowTerms?: (data) => void;
+  showTerms?: boolean;
+}
 
 function NavItems(props: Props) {
+  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
   const [referModal, setReferModal] = useState(false);
@@ -32,13 +38,13 @@ function NavItems(props: Props) {
 
   return (
     <div className={classes.navItems}>
-      <ClickAwayListener onClickAway={() => setReferModal(false)}>
+      {/* <ClickAwayListener onClickAway={() => setReferModal(false)}>
         <button className={classes.refer} onClick={handleClick}>
           Refer A Friend
         </button>
-      </ClickAwayListener>
+      </ClickAwayListener> */}
       <SearchBar />
-      <DAppIcon onClick={handleDappClick} className={classes.dappIcon} />
+      {/* <DAppIcon onClick={handleDappClick} className={classes.dappIcon} />
       {dappDropdown && (
         <ClickAwayListener onClickAway={() => setDappDropdown(false)}>
           <div className={classes.dropdown}>
@@ -47,20 +53,23 @@ function NavItems(props: Props) {
             </DropDown>
           </div>
         </ClickAwayListener>
-      )}
+      )} */}
       <Profile onClick={handleAvatarClick} className={classes.profileIcon} />
       {avatarDropdown && (
         <ClickAwayListener onClickAway={() => setAvatarDropdown(false)}>
           <div className={classes.dropdown}>
-            <DropDown
-              variant="secondary"
-              heading="Fairdrop User Name Login (Coming soon)"
-            >
+            <DropDown variant="secondary" heading={state.username}>
               <ul>
-                <li className={classes.listItem}>Account Info</li>
+                {/* <li className={classes.listItem}>Account Info</li>
                 <li className={classes.listItem}>Security (coming soon)</li>
-                <li className={classes.listItem}>Dapp centre (coming soon)</li>
-                <li className={classes.listItem} style={{ color: "red" }}>
+                <li className={classes.listItem}>Dapp centre (coming soon)</li> */}
+                <li
+                  className={classes.listItem}
+                  onClick={() => {
+                    actions.userLogout();
+                  }}
+                  style={{ color: "red" }}
+                >
                   Logout
                 </li>
               </ul>
@@ -68,7 +77,7 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )}
-      <div onClick={handleActivityClick} className={classes.activity}>
+      {/* <div onClick={handleActivityClick} className={classes.activity}>
         Activity
       </div>
       {activityDropdown && (
@@ -84,7 +93,7 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )}
-      {referModal && <GenerateLink variant="refer" />}
+      {referModal && <GenerateLink variant="refer" />} */}
     </div>
   );
 }

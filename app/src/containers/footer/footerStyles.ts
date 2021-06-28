@@ -1,3 +1,4 @@
+import zIndex from '@material-ui/core/styles/zIndex';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '../../store/themeContext/themes';
 import { Props } from './footer';
@@ -8,7 +9,7 @@ const useStyles = makeStyles(() =>
 			backgroundColor: (style: Props & Theme) => style.backgroundDark,
 			color: (style: Props & Theme) => style.textColorPrimary,
 			font: (style: Props & Theme) => style.typography.h4,
-			width: '90%',
+			width: '100%',
 			height: '6rem',
 			display: 'flex',
 			alignItems: 'center',
@@ -17,7 +18,21 @@ const useStyles = makeStyles(() =>
 			justifyContent: 'space-between',
 			left: 0,
 			bottom: 0,
-            marginLeft: '15rem'
+            zIndex:5
+		},
+        linkItem: {
+			margin: 'auto',
+            cursor:"pointer",   
+            '&:hover': {
+				filter: 'brightness(1.6)',
+			},
+		},
+		linkIcon: {
+			height: '3rem',
+			margin: '0 1.5rem',
+			'&:hover': {
+				filter: 'brightness(1.6)',
+			},
 		},
         text: {
             color: (style: Props & Theme) => style.textColorSecondary,

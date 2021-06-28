@@ -4,7 +4,6 @@ import { StoreContext } from "../../store/store";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import Home from "../home/home";
 import LoginRegisterPage from "../loginRegisterPage/loginRegisterPage";
-import Footer from "../footer/footer";
 
 export interface Props {}
 
@@ -17,8 +16,7 @@ function Main(props: Props) {
     <div className={classes.Main}>
       {state.userData?.code === 200 ? (
         <>
-        <Home></Home>
-        <Footer />
+          <Home></Home>
         </>
       ) : (
         <LoginRegisterPage></LoginRegisterPage>

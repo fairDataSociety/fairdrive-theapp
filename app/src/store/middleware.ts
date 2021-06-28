@@ -1,5 +1,5 @@
 import types from "./actionTypes";
-import { login, fileUpload, getDirectory, generateSeedPhrase, createAccount, getPods, openPod } from "../store/services/fairOS";
+import { login, fileUpload, getDirectory, generateSeedPhrase, createAccount, getPods, openPod, logOut } from "../store/services/fairOS";
 
 export const applyMiddleware = (dispatch) => (action) => {
   switch (action.type) {
@@ -32,6 +32,20 @@ export const applyMiddleware = (dispatch) => (action) => {
         .catch((err) =>
           dispatch({
             type: types.CREATE_USER.CREATE_USER_FAILED,
+            payload: err.response,
+          })
+        );
+    case types.LOG_OUT_USER.USER_LOG_OUT_REQUEST:
+      return logOut()
+        .then((res) => {
+          dispatch({
+            type: types.LOG_OUT_USER.USER_LOGGED_OUT_SUCCESS,
+            payload: res,
+          });
+        })
+        .catch((err) =>
+          dispatch({
+            type: types.LOG_OUT_USER.USER_LOGGED_OUT_FAILED,
             payload: err.response,
           })
         );
