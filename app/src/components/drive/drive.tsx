@@ -195,7 +195,7 @@ function Drive(props: Props) {
         </div>
       ) : (
         <div className={classes.actionText}>
-          Open one of your pods to access files
+          Open one of your pods by clicking on Drive to access files
         </div>
       )}
 
