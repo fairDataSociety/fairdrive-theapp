@@ -651,7 +651,7 @@ export const deleteFile = async (fileName: string) => {
   } catch (error) {}
 }
 
-export const shareFile = async (fileName: string) => {
+export const shareFile = async (fileName: string,path_file, podName: string) => {
   try {
     const shareFileResult = await axios({
       baseURL: host,
@@ -659,15 +659,16 @@ export const shareFile = async (fileName: string) => {
       url: "file/share",
       data: {
         file: fileName,
-        to: "anon",
+        dest_user: "anon",
+        file_path: path_file+fileName,
+        pod_name:podName
       },
       headers:{
         'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
-
-    return shareFileResult.data.sharing_reference;
+    return shareFileResult.data.file_sharing_reference;
   } catch (error) {}
 }
 

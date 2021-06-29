@@ -14,7 +14,11 @@ import {
   UploadIcon,
 } from "../icons/icons";
 import writePath from "../../store/helpers/writePath";
-import { fileDownload, filePreview } from "../../store/services/fairOS";
+import {
+  fileDownload,
+  filePreview,
+  shareFile,
+} from "../../store/services/fairOS";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
@@ -63,7 +67,7 @@ function FileModal(props: Props) {
       setOpen(false);
     }
   };
-  async function handleDownload() {
+  const handleDownload = async () => {
     // eslint-disable-next-line
     const newPath = writePath(state.directory);
     await fileDownload(
@@ -71,7 +75,15 @@ function FileModal(props: Props) {
       urlPath(state.directory),
       state.podName
     ).catch((e) => console.error(e));
-  }
+  };
+  const handleShare = async () => {
+    const res = await shareFile(
+      props.file.name,
+      writePath(state.directory),
+      state.podName
+    );
+    alert(res);
+  };
   const classes = useStyles({ ...props, open, ...theme });
 
   return (
@@ -132,7 +144,7 @@ function FileModal(props: Props) {
           </div>
           <div className={classes.actionBar}>
             <Hide className={classes.icon} onClick={handleDownload} />
-            <Share className={classes.icon} onClick={handleDownload} />
+            <Share className={classes.icon} onClick={handleShare} />
             <Download className={classes.icon} onClick={handleDownload} />
             <UploadIcon className={classes.icon} onClick={handleDownload} />
           </div>
