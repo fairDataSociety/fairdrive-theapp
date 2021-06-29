@@ -44,12 +44,14 @@ function Drive(props: Props) {
 
   async function loadDirectory() {
     try {
-      setFiles(null);
-      actions.getDirectory({
-        directory: state.directory,
-        password: state.password,
-        podName: state.podName,
-      });
+      if (state.podName.length > 0) {
+        setFiles(null);
+        actions.getDirectory({
+          directory: state.directory,
+          password: state.password,
+          podName: state.podName,
+        });
+      }
     } catch (e) {
       console.log(e);
     }
