@@ -79,7 +79,7 @@ function UploadModal(props: Props) {
               <InfoIcon className={classes.Icon} />
             )}
             {file && file.type.includes("image") && (
-              <img className={classes.imagePreview} src={blob} alt="img" ></img>
+              <img className={classes.imagePreview} src={blob} alt="img"></img>
             )}
           </div>
           <div className={classes.divider}></div>
