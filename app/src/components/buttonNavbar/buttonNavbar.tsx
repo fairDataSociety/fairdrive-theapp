@@ -36,11 +36,11 @@ function ButtonNavbar(props: Props) {
 
   return (
     <div className={classes.headerWrapper}>
-      <div className={classes.headerButton}>
+      {/* <div className={classes.headerButton}>
         {" "}
         <Folder className={classes.folder} />
         <PodChevron className={classes.chev} />
-      </div>
+      </div> */}
       <div className={classes.header}>{state.podName}</div>
       {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
       <div className={classes.iconContainerWrapper}>
