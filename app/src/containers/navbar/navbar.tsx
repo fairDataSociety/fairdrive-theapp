@@ -5,7 +5,10 @@ import useStyles from "./navbarStyles";
 import NavItems from "../../components/navItems/navItems";
 import { Logo } from "src/components/icons/icons";
 
-export interface Props {}
+export interface Props {
+  setShowTerms?: (data) => void;
+  showTerms?: boolean;
+}
 
 function Navbar(props: Props) {
   const { state, actions } = useContext(StoreContext);
@@ -16,6 +19,7 @@ function Navbar(props: Props) {
     <div className={classes.Navbar}>
       <div
         onClick={() => {
+          props.setShowTerms(false);
           actions.setDirectory("root");
         }}
         className={classes.logo}

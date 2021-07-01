@@ -46,7 +46,7 @@ const initialState: State = {
 	directory:'root',
 	pods:[],
 	podMsg: null,
-	podName:"Fairdrive",
+	podName:"",
 	podsOpened:[]
 };
 
@@ -62,6 +62,22 @@ const reducer = (state = initialState, action) => {
 			};
 		case types.LOGIN_USER.USER_LOGGED_FAILED:
 			return { ...state, unlocked: false, errMsg: action?.payload?.res };
+		case types.LOG_OUT_USER.USER_LOGGED_OUT_SUCCESS:
+			return {
+				...state,
+				userData: null,
+				unlocked: false,
+				password: null,
+				username: null,
+			};
+		case types.LOG_OUT_USER.USER_LOGGED_OUT_FAILED:
+			return {
+				...state,
+				userData: null,
+				unlocked: false,
+				password: null,
+				username: null,
+			};
 		case types.CREATE_USER.CREATE_USER_SUCCESS:
 			return {
 				...state,

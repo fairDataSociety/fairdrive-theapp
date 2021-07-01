@@ -46,6 +46,7 @@ import { ReactComponent as FairdData } from "../../media/fairdrive/fairdata.svg"
 import { ReactComponent as Github } from "../../media/socialMedia/github.svg";
 import { ReactComponent as Medium } from "../../media/socialMedia/medium.svg";
 import { ReactComponent as Discord } from "../../media/socialMedia/discord.svg";
+import { ReactComponent as Warning } from "../../media/optionIcons/warning.svg";
 
 export const icons = {
   QuestionMark: QuestionMark,
@@ -97,8 +98,9 @@ export {
   DAppIcon,
   Logo,
   LinumLabs,
-FairdData,
-Github,
-Medium,
-Discord
+  Warning,
+  FairdData,
+  Github,
+  Medium,
+  Discord,
 };

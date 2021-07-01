@@ -15,11 +15,11 @@ interface Payload {
   files?:any;
 }
 
-const host = "https://fairos.testeron.pro/v1/";
-// const host = process.env.REACT_APP_FAIROSHOST;
+const host = process.env.REACT_APP_FAIROSHOST;
+// const host = "https://fairos.testeron.pro/v1/";
 // const host = "http://localhost:9090";
 // const host ="https://api.fairos.io/v0/";
-const podNameDefault = "Fairdrive";
+const podNameDefault = "Home";
 
 export async function createAccount(payload: Payload) {
   //const {username, password, mnemonic} = payload
@@ -39,6 +39,8 @@ export async function createAccount(payload: Payload) {
       },
       withCredentials: true,
     });
+    await createPod({password:payload.password, podName:"Home"});
+    await createPod({password:payload.password, podName:"Photos"});
 
     return response;
   } catch (e) {
@@ -65,14 +67,6 @@ export const login = async (payload: Payload) => {
       },
       withCredentials: true,
     });
-
-    const podResult = await getPods();
-    if(!podResult.data.pod_name.includes(podNameDefault)){
-      await createPod({password, podNameDefault});
-    };
-
-    //const resPod = await openPod({password,podNameDefault});
-
 
     return { res: response };
   } catch (error) {

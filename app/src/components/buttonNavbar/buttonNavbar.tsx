@@ -36,12 +36,12 @@ function ButtonNavbar(props: Props) {
 
   return (
     <div className={classes.headerWrapper}>
-      <div className={classes.headerButton}>
+      {/* <div className={classes.headerButton}>
         {" "}
         <Folder className={classes.folder} />
         <PodChevron className={classes.chev} />
-      </div>
-      <div className={classes.header}>{state.isPrivatePod ? "Private Pod" : "Shared Pod"}</div>
+      </div> */}
+      <div className={classes.header}>{state.podName}</div>
       {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
       <div className={classes.iconContainerWrapper}>
         <div className={classes.iconContainer}>
@@ -61,12 +61,12 @@ function ButtonNavbar(props: Props) {
             ></ListIcon>
           )}
         </div>
-        <div className={classes.iconContainer}>
+        {/* <div className={classes.iconContainer}>
           <FilterIcon
             onClick={onIconClick}
             className={classes.Icon}
           ></FilterIcon>
-        </div>
+        </div> */}
       </div>
       <input
         className={classes.uploadInput}
