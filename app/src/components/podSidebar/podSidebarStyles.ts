@@ -27,7 +27,7 @@ const useStyles = makeStyles(() =>
 			flexDirection: 'row',
 		},
 		divider: {
-			borderBottom: '2.5px  solid var(--dark1)',
+			borderBottom: (style: Props & Theme) =>  `2.5px solid ${style.backgroundDark1}`,
 			margin: '0 2.5rem 0 2.5rem',
 		},
 
@@ -39,18 +39,18 @@ const useStyles = makeStyles(() =>
 			boxSizing: 'border-box',
 			borderRadius: (style: Props & Theme) => '0.5rem',
 			cursor: 'pointer',
-			border: '1px solid var(--light3)',
+			border: (style: Props & Theme) =>  `1px solid ${style.backgroundDark3}`,
 			padding: '1.5rem',
 			backgroundColor: (style: Props & Theme) => style.backgroundDark2,
 			color: (style: Props & Theme) => style.textColorPrimary,
 			font: (style: Props & Theme) => style.typography.body2,
 			'&:hover': {
 				//font: (style: Props & Theme) => style.typography.body3,
-				border: '1px solid var(--white)',
+				border: (style: Props & Theme) =>  `1px solid ${style.backgroundWhite}`,
 			},
 			'&:active': {
 				font: (style: Props & Theme) => style.typography.body2,
-				border: '1px solid var(--white)',
+				border: (style: Props & Theme) =>  `1px solid ${style.backgroundWhite}`,
 			},
 			margin: '2rem auto 1rem 3rem',
 			opacity: (props: Props & Theme) => (props.route === 'Overview' ? 0 : 1),
@@ -109,8 +109,6 @@ const useStyles = makeStyles(() =>
 			position: 'static',
 			padding: '3rem 0rem 1rem 0',
 			cursor: 'pointer',
-			//border:"1px solid var(--dark3)",
-			//backgroundColor: (style: Props & Theme) => style.backgroundLight3,
 			color: (style: Props & Theme) => style.textColorSecondary,
 			font: (style: Props & Theme) => style.typography.body1,
 			'&:hover': {

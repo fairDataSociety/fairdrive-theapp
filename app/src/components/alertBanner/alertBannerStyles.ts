@@ -14,7 +14,8 @@ const useStyles = makeStyles(() =>
 			justifyContent: 'space-evenly',
 			alignItems: 'center',
 			borderRadius: '1rem',
-			border: '1px solid var(--light3)',
+			border: (style: Props & Theme) =>`1px solid ${style.backgroundLight3}`,
+			color: (style: Props & Theme) => style.textColorPrimary,
 		},
 		warningIcon: {
 			float: 'left',
@@ -26,17 +27,17 @@ const useStyles = makeStyles(() =>
 		},
 		agree: {
 			margin: 'auto',
-			border: '1px solid var(--light3)',
+			border:  (style: Props & Theme) =>`1px solid ${style.backgroundLight3}`,
 			borderRadius: (style: Props & Theme) => '0.5rem',
 			cursor: 'pointer',
 			padding: '1rem 2rem',
 			color: (style: Props & Theme) => style.textColorPrimary,
 			font: (style: Props & Theme) => style.typography.caption1,
 			'&:hover': {
-				border: '1px solid var(--white)',
+				border: (style: Props & Theme) => `1px solid ${style.backgroundWhite}`,
 			},
 			'&:active': {
-				border: '1px solid var(--white)',
+				border:  (style: Props & Theme) => `1px solid ${style.backgroundWhite}`,
 			},
 		},
 		warning: {

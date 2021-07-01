@@ -56,7 +56,7 @@ const useStyles = makeStyles(() =>
             margin: '0 1.5rem',
         },
         divider: {
-            border: '1px solid var(--dark1)',
+            border: (style: Props & Theme) => `1px solid ${style.backgroundDark1}`,
             height: '3rem',
             width: '1px',
             margin: '0 0.5rem',

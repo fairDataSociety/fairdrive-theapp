@@ -48,6 +48,8 @@ import { ReactComponent as Medium } from "../../media/socialMedia/medium.svg";
 import { ReactComponent as Discord } from "../../media/socialMedia/discord.svg";
 import { ReactComponent as Warning } from "../../media/optionIcons/warning.svg";
 
+import { ReactComponent as Moon } from "../../media/optionIcons/Moon.svg";
+import { ReactComponent as Sun } from "../../media/optionIcons/Sun.svg";
 export const icons = {
   QuestionMark: QuestionMark,
   NavRight: NavRight,
@@ -103,4 +105,6 @@ export {
   Github,
   Medium,
   Discord,
+  Moon,
+  Sun,
 };
