@@ -22,6 +22,9 @@ import {
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
+import GenerateLink from "../modals/generateLink/generateLink";
+import { setRef } from "@material-ui/core";
+
 export interface Props {
   file: any;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -33,14 +36,18 @@ function FileModal(props: Props) {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = React.useState(false);
+  const [openShareLink, setOpenShareLink] = React.useState(false);
   const { file } = props;
 
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
   const [blob, setBlob] = useState(null);
+  const [refLink, setRefLink] = useState("");
   let blobFile;
-
+  const handleCloseShareLink = () => {
+    setOpenShareLink(false);
+  };
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
@@ -82,7 +89,8 @@ function FileModal(props: Props) {
       writePath(state.directory),
       state.podName
     );
-    alert(res);
+    setRefLink(res);
+    setOpenShareLink(true);
   };
   const classes = useStyles({ ...props, open, ...theme });
 
@@ -149,6 +157,20 @@ function FileModal(props: Props) {
             <UploadIcon className={classes.icon} onClick={handleDownload} />
           </div>
         </div>
+      </Modal>
+
+      <Modal
+        className={classes.modalContainer}
+        open={openShareLink}
+        onClose={handleCloseShareLink}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <GenerateLink
+          variant="share"
+          link={refLink}
+          handleClose={handleCloseShareLink}
+        ></GenerateLink>
       </Modal>
     </div>
   );

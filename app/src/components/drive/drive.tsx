@@ -235,10 +235,10 @@ function Drive(props: Props) {
           handleClick={createNewfile}
           handleClose={handleCloseDappModal}
           setProp={setFolderName}
+          isRefLink={true}
           type="File"
         ></CreateNew>
       </Modal>
-
       {showGrid ? (
         <CardGrid className={classes.cardGrid}>
           {state.dirs !== null &&
