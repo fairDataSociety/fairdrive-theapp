@@ -18,7 +18,7 @@ import {
   UploadIcon,
 } from "../../components/icons/icons";
 import { CreateNew } from "../modals/createNew/createNew";
-import { createDirectory } from "src/store/services/fairOS";
+import { createDirectory, receiveFileInfo } from "src/store/services/fairOS";
 
 export interface Props {
   isPodBarOpen: boolean;
@@ -31,6 +31,7 @@ function Drive(props: Props) {
   const [files, setFiles] = useState([]);
   const [showGrid, setShowGrid] = useState(true);
   const [open, setOpen] = useState(false);
+  const [openImportFile, setOpenImportFile] = useState(false);
   const [openDappModal, setOpenDappModal] = useState(false);
   const [folderName, setFolderName] = useState(null);
   const [openUpload, setOpenUpload] = useState(false);
@@ -110,6 +111,11 @@ function Drive(props: Props) {
       await createDirectory(state.directory, folderName, state.podName)
     );
   };
+  const createNewfile = async () => {
+    setResponseCreation(
+      await receiveFileInfo(folderName, state.podName, state.directory)
+    );
+  };
 
   return (
     <div className={classes.Drive}>
@@ -161,18 +167,18 @@ function Drive(props: Props) {
                   Upload Files from your local storage
                 </div>
               </div>
-              {/* <div className={classes.actionRow}>
-              <div
-                className={classes.actionButton}
-                onClick={handleOpenDappModal}
-              >
-                <ButtonPlus className={classes.buttonIcon} />
-                Create New File
+              <div className={classes.actionRow}>
+                <div
+                  className={classes.actionButton}
+                  onClick={handleOpenDappModal}
+                >
+                  <ButtonPlus className={classes.buttonIcon} />
+                  Import file
+                </div>
+                <div className={classes.actionText}>
+                  Import file using reference
+                </div>
               </div>
-              <div className={classes.actionText}>
-                Create new files with markdown editor: Fairtext
-              </div>
-            </div> */}
               <div className={classes.actionRow}>
                 <div className={classes.actionButton} onClick={handleOpen}>
                   <ButtonPlus className={classes.buttonIcon} />
@@ -202,15 +208,7 @@ function Drive(props: Props) {
       )}
 
       <div className={classes.buttonNavBar}></div>
-      {/* <Modal
-        className={classes.modalContainer}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <NewFolder setResponse={setFolderCreated} />
-      </Modal> */}
+
       <Modal
         className={classes.modalContainer}
         open={open}
@@ -233,12 +231,14 @@ function Drive(props: Props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <OpenInDapp
+        <CreateNew
+          handleClick={createNewfile}
           handleClose={handleCloseDappModal}
-          dapp="Markdown Editor"
-        ></OpenInDapp>
+          setProp={setFolderName}
+          isRefLink={true}
+          type="File"
+        ></CreateNew>
       </Modal>
-
       {showGrid ? (
         <CardGrid className={classes.cardGrid}>
           {state.dirs !== null &&

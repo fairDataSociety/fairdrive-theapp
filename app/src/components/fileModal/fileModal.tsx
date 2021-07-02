@@ -14,10 +14,17 @@ import {
   UploadIcon,
 } from "../icons/icons";
 import writePath from "../../store/helpers/writePath";
-import { fileDownload, filePreview } from "../../store/services/fairOS";
+import {
+  fileDownload,
+  filePreview,
+  shareFile,
+} from "../../store/services/fairOS";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
+import GenerateLink from "../modals/generateLink/generateLink";
+import { setRef } from "@material-ui/core";
+
 export interface Props {
   file: any;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -29,14 +36,18 @@ function FileModal(props: Props) {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = React.useState(false);
+  const [openShareLink, setOpenShareLink] = React.useState(false);
   const { file } = props;
 
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
   const [blob, setBlob] = useState(null);
+  const [refLink, setRefLink] = useState("");
   let blobFile;
-
+  const handleCloseShareLink = () => {
+    setOpenShareLink(false);
+  };
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
@@ -63,7 +74,7 @@ function FileModal(props: Props) {
       setOpen(false);
     }
   };
-  async function handleDownload() {
+  const handleDownload = async () => {
     // eslint-disable-next-line
     const newPath = writePath(state.directory);
     await fileDownload(
@@ -71,7 +82,16 @@ function FileModal(props: Props) {
       urlPath(state.directory),
       state.podName
     ).catch((e) => console.error(e));
-  }
+  };
+  const handleShare = async () => {
+    const res = await shareFile(
+      props.file.name,
+      writePath(state.directory),
+      state.podName
+    );
+    setRefLink(res);
+    setOpenShareLink(true);
+  };
   const classes = useStyles({ ...props, open, ...theme });
 
   return (
@@ -132,11 +152,25 @@ function FileModal(props: Props) {
           </div>
           <div className={classes.actionBar}>
             <Hide className={classes.icon} onClick={handleDownload} />
-            <Share className={classes.icon} onClick={handleDownload} />
+            <Share className={classes.icon} onClick={handleShare} />
             <Download className={classes.icon} onClick={handleDownload} />
             <UploadIcon className={classes.icon} onClick={handleDownload} />
           </div>
         </div>
+      </Modal>
+
+      <Modal
+        className={classes.modalContainer}
+        open={openShareLink}
+        onClose={handleCloseShareLink}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <GenerateLink
+          variant="share"
+          link={refLink}
+          handleClose={handleCloseShareLink}
+        ></GenerateLink>
       </Modal>
     </div>
   );

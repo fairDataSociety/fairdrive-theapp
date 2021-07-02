@@ -651,7 +651,7 @@ export const deleteFile = async (fileName: string) => {
   } catch (error) {}
 }
 
-export const shareFile = async (fileName: string) => {
+export const shareFile = async (fileName: string,path_file, podName: string) => {
   try {
     const shareFileResult = await axios({
       baseURL: host,
@@ -659,34 +659,50 @@ export const shareFile = async (fileName: string) => {
       url: "file/share",
       data: {
         file: fileName,
-        to: "anon",
+        dest_user: "0xb6F04fbd387BeC6b50513D727FaD3fCA1FF23601",
+        file_path: path_file+fileName,
+        pod_name:podName
       },
       headers:{
         'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
-
-    return shareFileResult.data.sharing_reference;
+    return shareFileResult.data.file_sharing_reference;
   } catch (error) {}
 }
 
 
-export const receiveFileInfo = async (reference: string) => {
+export const receiveFileInfo = async (reference: string, podName: string, directory: string) => {
   try {
+    let data = { dir_path: "", pod_name: podName, sharing_ref: reference};
+    if (directory === "root") {
+      data = {
+        dir_path: "/",
+        pod_name: podName,
+        sharing_ref: reference
+      };
+    } else {
+      data = {
+        dir_path: "/" + directory,
+        pod_name: podName,
+        sharing_ref: reference
+      };
+    }
     const shareFileInfoResult = await axios({
       baseURL: host,
-      method: "POST",
-      url: "file/receiveinfo",
+      method: "GET",
+      url: "file/receive",
+      params:data,
       data: {
         ref: reference,
+        pod_name: podName
       },
       headers:{
         'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
-
     return shareFileInfoResult.data;
   } catch (error) {}
 }
