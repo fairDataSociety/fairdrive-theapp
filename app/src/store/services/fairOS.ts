@@ -374,12 +374,20 @@ export const showReceivedPodInfo = async (payload: Payload) => {
   return podResult;
 };
 
-export const receivePod = async (payload: Payload) => {
+interface ReceivePayload {
+  podReference: string;
+  pod_name: string;
+}
+export const receivePod = async (payload: ReceivePayload) => {
+  debugger;
   const podResult = await axios({
     baseURL: host,
     method: "GET",
     url: "pod/receive",
-    params: qs.stringify({ reference: payload.podReference }, "brackets"),
+    params: qs.stringify(
+      { reference: payload.podReference, pod_name: payload.pod_name },
+      "brackets"
+    ),
     headers: {
       "Content-Type": "application/json",
     },
@@ -666,7 +674,7 @@ export const shareFile = async (
       url: "file/share",
       data: {
         file: fileName,
-        dest_user: "0xb6F04fbd387BeC6b50513D727FaD3fCA1FF23601",
+        dest_user: "anon",
         file_path: path_file + fileName,
         pod_name: podName,
       },

@@ -3,7 +3,7 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./podSidebarStyles";
 import Toggle from "../toggle/toggle";
-import { createPod } from "../../store/services/fairOS";
+import { createPod, receivePod } from "../../store/services/fairOS";
 import { PodChevron, PodInfo } from "../icons/icons";
 import { Modal } from "@material-ui/core";
 import CreateNew from "../modals/createNew/createNew";
@@ -22,6 +22,7 @@ function PodSidebar(props: Props) {
   const [open, setOpen] = useState(false);
   const [podName, setPodName] = useState("");
   const [podCreated, setPodCreated] = useState(false);
+  const [podRef, setPodRef] = useState("");
 
   useEffect(() => {
     if (state.podsOpened.includes(state.podName)) {
@@ -66,6 +67,12 @@ function PodSidebar(props: Props) {
     actions.setPrivatePod(isPrivate);
     // eslint-disable-next-line
   }, [isPrivate]);
+
+  const importPod = async () => {
+    receivePod({ podReference: podRef, pod_name: "imported pod" })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className={classes.podDrawer}>
@@ -118,6 +125,7 @@ function PodSidebar(props: Props) {
         </div>
       </div>
       {/* <Plus onClick={handleOpen} className={classes.Icon}></Plus> */}
+
       <Modal
         className={classes.modalContainer}
         open={open}
@@ -126,9 +134,10 @@ function PodSidebar(props: Props) {
         aria-describedby="simple-modal-description"
       >
         <CreateNew
-          handleClick={createNewPod}
+          handleClick={importPod}
           handleClose={handleClose}
-          setProp={setPodName}
+          isRefLink
+          setProp={setPodRef}
           type="Pod"
         ></CreateNew>
       </Modal>
