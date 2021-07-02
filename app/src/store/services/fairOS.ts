@@ -376,12 +376,13 @@ export const showReceivedPodInfo = async(payload: Payload) =>{
 }
 
 
-export const receivePod = async(payload: Payload) =>{
+export const receivePod = async(podReference: string) =>{
   const podResult = await axios({
     baseURL: host,
     method: "GET",
     url: "pod/receive",
-    params:qs.stringify({reference:payload.podReference},"brackets"),
+    params:{reference: podReference},
+    data:{reference: podReference},
     headers:{
       'Content-Type': 'application/json'
     },
