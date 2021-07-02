@@ -384,12 +384,10 @@ export const receivePod = async (payload: ReceivePayload) => {
     baseURL: host,
     method: "GET",
     url: "pod/receive",
-    params: qs.stringify(
-      { reference: payload.podReference, pod_name: payload.pod_name },
-      "brackets"
-    ),
-    headers: {
-      "Content-Type": "application/json",
+    params:{reference: payload.podReference, pod_name: payload.pod_name},
+    data:{reference: payload.podReference, pod_name: payload.pod_name},
+    headers:{
+      'Content-Type': 'application/json'
     },
     withCredentials: true,
   });
@@ -711,13 +709,10 @@ export const receiveFileInfo = async (
       baseURL: host,
       method: "GET",
       url: "file/receive",
-      params: data,
-      data: {
-        ref: reference,
-        pod_name: podName,
-      },
-      headers: {
-        "Content-Type": "application/json",
+      params:data,
+      data: data,
+      headers:{
+        'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
