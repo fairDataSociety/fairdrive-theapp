@@ -24,7 +24,6 @@ function GenerateLink(props: Props) {
     setTimeout(() => {
       setCopied(false);
     }, 1000);
-    alert("Copied to clipboard");
   };
   const shortLink = `${props.link.slice(0, 6)}...${props.link.slice(
     props.link.length - 5
