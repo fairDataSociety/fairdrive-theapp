@@ -24,7 +24,7 @@ const useStyles = makeStyles(() =>
       padding: "2rem",
       borderRadius: "4px",
       cursor: 'pointer',
-      border: "1px solid var(--dark3)", 
+      border:  (style: Props & Theme) => `1px solid ${style.backgroundDark3}`,
       backgroundColor: (style: Props & Theme) => style.backgroundLight3,
       color:(style: Props & Theme) => style.textColorPrimary,
       font: (style: Props & Theme) => style.typography.body1,
@@ -33,7 +33,7 @@ const useStyles = makeStyles(() =>
       },
       "&:active": {
         font: (style: Props & Theme) => style.typography.body2,
-        border: "1px solid var(--white)", 
+        border: (style: Props & Theme) => `1px solid ${style.backgroundWhite}`, 
       },
       textTransform: 'capitalize',
     },

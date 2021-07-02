@@ -6,9 +6,10 @@ const useStyles = makeStyles(() =>
 		App: {
 			backgroundColor: (theme: Theme) => theme.backgroundDark,
 			height: '100vh',
-			color: 'white',
 			fontSize: '2rem',
 			overflow: 'hidden',
+			color: (theme: Theme) => theme.textColorPrimary,
+
 		},
 		routeContainer: {
 			width: 'calc(100% - 12rem)',

@@ -3,7 +3,7 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "../../containers/navbar/navbarStyles";
 import ClickAwayListener from "react-click-away-listener";
 import SearchBar from "../searchBar/searchBar";
-import { Profile, DAppIcon } from "src/components/icons/icons";
+import { Profile, DAppIcon, Moon, Sun } from "src/components/icons/icons";
 import GenerateLink from "src/components/modals/generateLink/generateLink";
 import DropDown from "src/components/dropDown/dropDown";
 import { StoreContext } from "src/store/store";
@@ -16,12 +16,12 @@ export interface Props {
 
 function NavItems(props: Props) {
   const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
   const [referModal, setReferModal] = useState(false);
   const [dappDropdown, setDappDropdown] = useState(false);
   const [avatarDropdown, setAvatarDropdown] = useState(false);
   const [activityDropdown, setActivityDropdown] = useState(false);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const classes = useStyles({ ...props, ...theme });
 
   const handleClick = () => {
     setReferModal(true);
@@ -55,6 +55,13 @@ function NavItems(props: Props) {
         </ClickAwayListener>
       )} */}
       <Profile onClick={handleAvatarClick} className={classes.profileIcon} />
+      <div onClick={toggleTheme}>
+        {theme.name === "light" ? (
+          <Moon className={classes.themeIcon} />
+        ) : (
+          <Sun className={classes.themeIcon} />
+        )}
+      </div>
       {avatarDropdown && (
         <ClickAwayListener onClickAway={() => setAvatarDropdown(false)}>
           <div className={classes.dropdown}>

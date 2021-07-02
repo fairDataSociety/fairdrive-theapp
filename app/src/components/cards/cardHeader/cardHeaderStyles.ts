@@ -9,7 +9,6 @@ const useStyles = makeStyles(() =>
       flexDirection: "column",
       backgroundColor: "transparent",
       color: (style: Theme & Props) => style.textColorPrimary,
-      // borderBottom:  (style: Theme & Props) => style.isDirectory?"":"1px solid var(--dark3)", 
       width:"100%",
       height:"18rem",
       position: 'relative',
