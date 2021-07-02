@@ -139,6 +139,7 @@ function Drive(props: Props) {
           handleClose={() => setShowSharePodPopup(false)}
           link={refLink}
           variant="share"
+          notifyMessage="Share this Pod with a friend via this reference"
         />
       )}
       <div className={classes.navBarWrapper}>
