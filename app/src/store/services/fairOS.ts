@@ -694,10 +694,7 @@ export const receiveFileInfo = async (reference: string, podName: string, direct
       method: "GET",
       url: "file/receive",
       params:data,
-      data: {
-        ref: reference,
-        pod_name: podName
-      },
+      data: data,
       headers:{
         'Content-Type': 'application/json'
       },
