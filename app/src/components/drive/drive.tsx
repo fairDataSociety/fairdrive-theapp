@@ -18,7 +18,12 @@ import {
   UploadIcon,
 } from "../../components/icons/icons";
 import { CreateNew } from "../modals/createNew/createNew";
-import { createDirectory, receiveFileInfo } from "src/store/services/fairOS";
+import {
+  createDirectory,
+  receiveFileInfo,
+  sharePod,
+} from "src/store/services/fairOS";
+import GenerateLink from "../modals/generateLink/generateLink";
 
 export interface Props {
   isPodBarOpen: boolean;
@@ -36,6 +41,8 @@ function Drive(props: Props) {
   const [folderName, setFolderName] = useState(null);
   const [openUpload, setOpenUpload] = useState(false);
   const [responseCreation, setResponseCreation] = useState(false);
+  const [showSharePodPopup, setShowSharePodPopup] = useState(false);
+  const [refLink, setRefLink] = useState("0000000000000");
   const toSortProp = "name";
   // eslint-disable-next-line
   const [toSort, setToSort] = useState(toSortProp);
@@ -100,6 +107,13 @@ function Drive(props: Props) {
     setOpenUpload(value);
   };
 
+  const handleShare = async () => {
+    debugger;
+    const res = await sharePod(state.password, state.podName);
+    setRefLink(res);
+    setShowSharePodPopup(true);
+  };
+
   useEffect(() => {
     if (responseCreation === true) {
       setOpen(false);
@@ -120,11 +134,19 @@ function Drive(props: Props) {
   return (
     <div className={classes.Drive}>
       {/* Needs to go into buttonNavbar component */}
+      {showSharePodPopup && refLink && (
+        <GenerateLink
+          handleClose={() => setShowSharePodPopup(false)}
+          link={refLink}
+          variant="share"
+        />
+      )}
       <div className={classes.navBarWrapper}>
         <ButtonNavbar
           showGrid={showGrid}
           setShowGrid={setShowGrid}
-        ></ButtonNavbar>
+          handleShare={handleShare}
+        />
       </div>
       {state.podName !== "" ? (
         <div className={classes.midWrapper}>

@@ -25,9 +25,10 @@ function GenerateLink(props: Props) {
       setCopied(false);
     }, 1000);
   };
-  const shortLink = `${props.link.slice(0, 6)}...${props.link.slice(
-    props.link.length - 5
-  )}`;
+
+  const { link } = props;
+
+  const shortLink = `${link.slice(0, 6)}...${link.slice(link.length - 5)}`;
 
   return (
     <Modal
