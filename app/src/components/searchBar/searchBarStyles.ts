@@ -6,7 +6,7 @@ const useStyles = makeStyles(() =>
 	createStyles({
 		searchBar: {
 			marginLeft: '2rem',
-			border: '1px solid var(--dark1)',
+			border: (style: Props & Theme) =>  `1px solid ${style.backgroundDark1}`,
 			borderRadius: '0.5rem',
 		},
 		TextField: {

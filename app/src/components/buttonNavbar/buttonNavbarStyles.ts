@@ -34,17 +34,17 @@ const useStyles = makeStyles(() =>
       justifyContent:'center',
 			color: (style: Props & Theme) => style.backgroundLight3,
       background: (style: Props & Theme) => style.backgroundDark4,
-      border:"2px solid var(--light3)",
+      border:(style: Props & Theme) => `2px solid ${style.backgroundLight3}`,
       borderRadius:"1rem",
       "&:hover":{
 				color: (style: Props & Theme) => style.backgroundLight2,
-        border:"2px solid var(--light2)",
+        border:(style: Props & Theme) => `2px solid ${style.backgroundLight2}`,
 				'& svg': {
 					fill: (style: Props & Theme) => style.backgroundLight2,
 				},
 			},
 			'&:active': {
-        border:"2px solid var(--white)",
+        border:(style: Props & Theme) => `2px solid ${style.backgroundWhite}`,
 				color: (style: Props & Theme) => style.textColorPrimary,
 				'& svg': {
 					fill: (style: Props & Theme) => style.textColorPrimary,
@@ -86,12 +86,12 @@ const useStyles = makeStyles(() =>
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
       borderRadius: (style: Props & Theme) => "0.5rem",
       cursor: 'pointer',
-      border:"1px solid var(--light3)", 
+      border:(style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
       margin:"1.6rem",
       padding:"1.5rem",
       "&:hover": {
         //font: (style: Props & Theme) => style.typography.body3,
-        border: "1px solid var(--white)", 
+        border: (style: Props & Theme) => `1px solid ${style.backgroundWhite}`,
       
         }, 
     },

@@ -19,7 +19,7 @@ const useStyles = makeStyles(() =>
         }
       },
       height: "auto",
-      border: "1px solid var(--dark2)",
+      border: (style: Props & Theme) =>  `1px solid ${style.backgroundDark2}`,
       borderRadius: "1rem",
       margin: "2rem",
       padding: "2rem",
@@ -36,9 +36,9 @@ const useStyles = makeStyles(() =>
       borderBottom: (style: Props & Theme) => {
         switch (style.variant) {
           case "primary":
-            return "2px solid var(--white)";
+            return `2px solid ${style.backgroundWhite}`;
           case "secondary":
-            return "2px solid var(--white)";
+            return `2px solid ${style.backgroundWhite}`;
           case "tertiary":
             return "none";
         }

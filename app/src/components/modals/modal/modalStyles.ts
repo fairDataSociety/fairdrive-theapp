@@ -60,7 +60,7 @@ const useStyles = makeStyles(() =>
       justifyContent: "center",
     },
     button: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark1,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark4,
       maxWidth: "25rem",
       padding: "1.5rem 3rem",
       borderRadius: "0.5rem",
