@@ -9,6 +9,7 @@ export interface Props {
   onContinue?: any;
   type: string;
   disabled?: boolean;
+  autoFocus?: boolean
 }
 
 function TextField(props: Props) {
@@ -30,6 +31,7 @@ function TextField(props: Props) {
   return (
     <div>
       <input
+        autoFocus={props.autoFocus}
         className={classes.TextField}
         type={props.type}
         placeholder={props.placeholder}

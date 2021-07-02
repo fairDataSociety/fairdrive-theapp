@@ -51,6 +51,7 @@ function Login(props: Props) {
         </div>
 
         <TextField
+          autoFocus
           placeholder="Username"
           type="text"
           setHasError={setHasError}

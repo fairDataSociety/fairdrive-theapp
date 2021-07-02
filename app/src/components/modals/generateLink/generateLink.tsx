@@ -3,7 +3,7 @@ import { ThemeContext } from "../../../store/themeContext/themeContext";
 import CopyToClipboard from "react-copy-to-clipboard";
 import useStyles from "./generateLinkStyles";
 import Modal from "../modal/modal";
-import { Copy } from "../../icons/icons";
+import { Copy, Complete } from "../../icons/icons";
 
 type Variants = "share" | "refer";
 export interface Props {
@@ -16,7 +16,7 @@ export interface Props {
 
 function GenerateLink(props: Props) {
   const { theme } = useContext(ThemeContext);
-  const [, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false);
   const classes = useStyles({ ...props, ...theme });
 
   const copyHandler = () => {
@@ -24,7 +24,6 @@ function GenerateLink(props: Props) {
     setTimeout(() => {
       setCopied(false);
     }, 1000);
-    alert("Copied to clipboard");
   };
   const shortLink = `${props.link.slice(0, 6)}...${props.link.slice(
     props.link.length - 5
@@ -48,12 +47,19 @@ function GenerateLink(props: Props) {
       <p className={classes.label}>
         {props.variant === "refer" ? "Refer a friend" : "Sharing Link"}
       </p>
-      <CopyToClipboard onCopy={copyHandler} text={props.link}>
-        <div className={classes.body}>
-          <p>{shortLink}</p>
-          <Copy />
-        </div>
-      </CopyToClipboard>
+
+      <div className={classes.body}>
+        <p>{copied ? "Copied!" : shortLink}</p>
+        <CopyToClipboard onCopy={copyHandler} text={props.link}>
+          {copied ? (
+            <Complete className={classes.icon} />
+          ) : (
+            <button>
+              <Copy className={classes.icon} />
+            </button>
+          )}
+        </CopyToClipboard>
+      </div>
     </Modal>
   );
 }

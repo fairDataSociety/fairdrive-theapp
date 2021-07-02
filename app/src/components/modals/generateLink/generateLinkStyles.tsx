@@ -5,17 +5,24 @@ import { Props } from "./generateLink";
 const useStyles = makeStyles(() =>
   createStyles({
     label: {
-        font: (style: Props & Theme) => style.typography.caption2,
-        marginBottom: "1.5rem",
-        textTransform: 'uppercase'
+      font: (style: Props & Theme) => style.typography.caption2,
+      marginBottom: "1.5rem",
+      textTransform: "uppercase",
     },
     body: {
       font: (style: Props & Theme) => style.typography.body1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        margin: '3rem 1rem'
-    }
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      margin: "3rem 1rem",
+      height: "4rem",
+    },
+    icon: {
+      width: "3rem",
+      "&:hover": {
+        filter: "brightness(1.2)",
+      },
+    },
   })
 );
 
