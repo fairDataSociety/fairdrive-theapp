@@ -37,7 +37,6 @@ function Drive(props: Props) {
   const [showGrid, setShowGrid] = useState(true);
   const [open, setOpen] = useState(false);
   const [openImportFile, setOpenImportFile] = useState(false);
-  const [openDappModal, setOpenDappModal] = useState(false);
   const [folderName, setFolderName] = useState(null);
   const [openUpload, setOpenUpload] = useState(false);
   const [responseCreation, setResponseCreation] = useState(false);
@@ -97,11 +96,11 @@ function Drive(props: Props) {
   const handleOpen = () => {
     setOpen(true);
   };
-  const handleCloseDappModal = () => {
-    setOpenDappModal(false);
+  const handleCloseImportFile = () => {
+    setOpenImportFile(false);
   };
-  const handleOpenDappModal = () => {
-    setOpenDappModal(true);
+  const handleOpenImportFile = () => {
+    setOpenImportFile(true);
   };
   const handleUploadModal = async (value) => {
     setOpenUpload(value);
@@ -193,7 +192,7 @@ function Drive(props: Props) {
               <div className={classes.actionRow}>
                 <div
                   className={classes.actionButton}
-                  onClick={handleOpenDappModal}
+                  onClick={handleOpenImportFile}
                 >
                   <ButtonPlus className={classes.buttonIcon} />
                   Import file
@@ -249,14 +248,14 @@ function Drive(props: Props) {
 
       <Modal
         className={classes.modalContainer}
-        open={openDappModal}
-        onClose={handleCloseDappModal}
+        open={openImportFile}
+        onClose={handleCloseImportFile}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
         <CreateNew
           handleClick={createNewfile}
-          handleClose={handleCloseDappModal}
+          handleClose={handleCloseImportFile}
           setProp={setFolderName}
           isRefLink={true}
           type="File"
