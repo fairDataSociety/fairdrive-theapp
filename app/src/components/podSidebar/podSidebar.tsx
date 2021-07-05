@@ -5,7 +5,7 @@ import useStyles from "./podSidebarStyles";
 import Toggle from "../toggle/toggle";
 import { createPod, receivePod } from "../../store/services/fairOS";
 import { PodChevron, PodInfo } from "../icons/icons";
-import { Modal } from "@material-ui/core";
+import { Modal, setRef } from "@material-ui/core";
 import CreateNew from "../modals/createNew/createNew";
 
 export interface Props {
@@ -42,6 +42,8 @@ function PodSidebar(props: Props) {
   };
   const handleClose = () => {
     setOpen(false);
+    setPodName("");
+    setPodRef("");
   };
   const handleOpen = () => {
     setOpen(true);
@@ -133,13 +135,23 @@ function PodSidebar(props: Props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <CreateNew
-          handleClick={importPod}
-          handleClose={handleClose}
-          isRefLink
-          setProp={setPodRef}
-          type="Pod"
-        ></CreateNew>
+        {isPrivate ? (
+          <CreateNew
+            handleClick={createNewPod}
+            handleClose={handleClose}
+            isRefLink={!isPrivate}
+            setProp={setPodName}
+            type="Pod"
+          ></CreateNew>
+        ) : (
+          <CreateNew
+            handleClick={importPod}
+            handleClose={handleClose}
+            isRefLink={!isPrivate}
+            setProp={setPodRef}
+            type="Pod"
+          ></CreateNew>
+        )}
       </Modal>
     </div>
   );
