@@ -3,16 +3,11 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./buttonNavbarStyles";
 import urlPath from "src/store/helpers/urlPath";
-import {
-  Folder,
-  PodChevron,
-  GridIcon,
-  ListIcon,
-  FilterIcon,
-} from "../../components/icons/icons";
+import { GridIcon, ListIcon, Share } from "../../components/icons/icons";
 export interface Props {
   setShowGrid: any;
   showGrid: boolean;
+  handleShare: () => Promise<void>;
 }
 
 function ButtonNavbar(props: Props) {
@@ -44,23 +39,27 @@ function ButtonNavbar(props: Props) {
       <div className={classes.header}>{state.podName}</div>
       {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
       <div className={classes.iconContainerWrapper}>
-        <div className={classes.iconContainer}>
+        {state.podName && (
+          <button
+            className={classes.iconContainer}
+            onClick={() => props.handleShare()}
+          >
+            <Share className={classes.Icon} />
+          </button>
+        )}
+
+        <button
+          onClick={() => {
+            setShowGrid(!showGrid);
+          }}
+          className={classes.iconContainer}
+        >
           {!showGrid ? (
-            <GridIcon
-              onClick={() => {
-                setShowGrid(true);
-              }}
-              className={classes.Icon}
-            ></GridIcon>
+            <GridIcon className={classes.Icon} />
           ) : (
-            <ListIcon
-              onClick={() => {
-                setShowGrid(false);
-              }}
-              className={classes.Icon}
-            ></ListIcon>
+            <ListIcon className={classes.Icon} />
           )}
-        </div>
+        </button>
         {/* <div className={classes.iconContainer}>
           <FilterIcon
             onClick={onIconClick}

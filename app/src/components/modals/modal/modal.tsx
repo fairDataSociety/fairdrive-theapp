@@ -23,12 +23,14 @@ function Modal(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <Overlay handleClickAway={props.handleClickAway}>
+    <Overlay handleClickAway={props.handleClose}>
       <div className={classes.wrapper}>
         <div className={classes.header}>
           {props.icon && <ModalFolder className={classes.icon} />}
           {props.heading}
-          <Close className={classes.closeIcon} onClick={props.handleClose} />
+          <button onClick={props.handleClose}>
+            <Close className={classes.closeIcon} />
+          </button>
         </div>
         <div className={classes.flex}>
           <div className={classes.body}>
