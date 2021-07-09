@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./textFieldStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './textFieldStyles';
 
 export interface Props {
   placeholder: string;
@@ -9,7 +9,8 @@ export interface Props {
   onContinue?: any;
   type: string;
   disabled?: boolean;
-  autoFocus?: boolean
+  autoFocus?: boolean;
+  className?: string;
 }
 
 function TextField(props: Props) {
@@ -32,7 +33,7 @@ function TextField(props: Props) {
     <div>
       <input
         autoFocus={props.autoFocus}
-        className={classes.TextField}
+        className={`${classes.TextField} ${props.className}`}
         type={props.type}
         placeholder={props.placeholder}
         onKeyPress={(e) => handleSubmit(e)}
