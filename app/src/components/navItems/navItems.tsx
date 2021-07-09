@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "../../containers/navbar/navbarStyles";
-import ClickAwayListener from "react-click-away-listener";
-import SearchBar from "../searchBar/searchBar";
-import { Profile, DAppIcon, Moon, Sun } from "src/components/icons/icons";
-import GenerateLink from "src/components/modals/generateLink/generateLink";
-import DropDown from "src/components/dropDown/dropDown";
-import { StoreContext } from "src/store/store";
-import { logOut } from "src/store/services/fairOS";
+import React, { useContext, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from '../../containers/navbar/navbarStyles';
+import ClickAwayListener from 'react-click-away-listener';
+import SearchBar from '../searchBar/searchBar';
+import { Profile, Moon, Sun } from 'src/components/icons/icons';
+import DropDown from 'src/components/dropDown/dropDown';
+import { StoreContext } from 'src/store/store';
+import { logOut } from 'src/store/services/fairOS';
+import Blockies from 'react-blockies';
 
 export interface Props {
   setShowTerms?: (data) => void;
@@ -54,9 +54,20 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )} */}
-      <Profile onClick={handleAvatarClick} className={classes.profileIcon} />
+      <button
+        aria-label="show login dropdown menu"
+        className={classes.avatarButton}
+        onClick={handleAvatarClick}
+      >
+        <Blockies
+          bgColor={theme.backgroundDark2}
+          seed={state.username}
+          className={classes.blockie}
+        />
+      </button>
+
       <div onClick={toggleTheme}>
-        {theme.name === "light" ? (
+        {theme.name === 'light' ? (
           <Moon className={classes.themeIcon} />
         ) : (
           <Sun className={classes.themeIcon} />
@@ -75,7 +86,7 @@ function NavItems(props: Props) {
                   onClick={() => {
                     actions.userLogout();
                   }}
-                  style={{ color: "red" }}
+                  style={{ color: 'red' }}
                 >
                   Logout
                 </li>
