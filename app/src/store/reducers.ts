@@ -94,10 +94,31 @@ const reducer = (state: State = initialState, action: any) => {
     case types.LOG_OUT_USER.USER_LOGGED_OUT_SUCCESS:
       return {
         ...state,
+        token: '',
+        sessionCookie: '',
+        username: '',
         userData: null,
-        unlocked: false,
+        fileUploaded: {},
+        showPasswordUnlock: false,
+        hasUser: false,
         password: null,
-        username: null,
+        mnemonic: null,
+        unlocked: false,
+        searchQuery: null,
+        isPrivatePod: true,
+        entries: null,
+        dirs: null,
+        inviteCode: '',
+        address: '',
+        errMsg: '',
+        directory: 'root',
+        pods: [],
+        podMsg: null,
+        podName: '',
+        podsOpened: [],
+        flags: {
+          loginStatus: '',
+        },
       };
     case types.LOG_OUT_USER.USER_LOGGED_OUT_FAILED:
       return {
