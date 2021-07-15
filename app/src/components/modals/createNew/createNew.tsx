@@ -10,6 +10,7 @@ export interface Props {
   handleClick: () => void;
   handleClose: () => void;
   setProp?: any;
+  propValue: any;
 }
 
 export function CreateNew(props: Props) {
@@ -32,6 +33,7 @@ export function CreateNew(props: Props) {
             placeholder={`${props.type} Name`}
             setProp={props.setProp}
             type="text"
+            propValue={props.propValue}
           ></TextField>
           <p>You are about to create a new {props.type}</p>
         </div>
@@ -41,6 +43,7 @@ export function CreateNew(props: Props) {
           <TextField
             placeholder={`${props.type} Link`}
             setProp={props.setProp}
+            propValue={props.propValue}
             type="text"
           ></TextField>
           <p>You are about to import a new {props.type}</p>

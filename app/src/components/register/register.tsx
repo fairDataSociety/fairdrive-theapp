@@ -68,6 +68,7 @@ function Register(props: Props) {
             type="text"
             setHasError={setHasError}
             setProp={setUsername}
+            propValue={username}
             onContinue={onContinue}
           ></TextField>
 
@@ -76,6 +77,7 @@ function Register(props: Props) {
             type="password"
             setHasError={setHasError}
             setProp={setPassword}
+            propValue={password}
             onContinue={onContinue}
           ></TextField>
           {hasError ? (

@@ -34,10 +34,12 @@ function Drive(props: Props) {
   const { theme } = useContext(ThemeContext);
 
   const [files, setFiles] = useState([]);
+  const [folders, setFolders] = useState([]);
   const [showGrid, setShowGrid] = useState(true);
   const [open, setOpen] = useState(false);
   const [openImportFile, setOpenImportFile] = useState(false);
-  const [folderName, setFolderName] = useState(null);
+  const [folderName, setFolderName] = useState("");
+  const [fileName, setFileName] = useState("");
   const [openUpload, setOpenUpload] = useState(false);
   const [responseCreation, setResponseCreation] = useState(false);
   const [showSharePodPopup, setShowSharePodPopup] = useState(false);
@@ -53,11 +55,13 @@ function Drive(props: Props) {
     try {
       if (state.podName.length > 0) {
         setFiles(null);
+        setFolders(null);
         actions.getDirectory({
           directory: state.directory,
           password: state.password,
           podName: state.podName,
         });
+        console.log(state.dirs);
       }
     } catch (e) {
       console.log(e);
@@ -74,19 +78,33 @@ function Drive(props: Props) {
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
+    if (state.dirs !== null) setFolders(state.dirs);
     // eslint-disable-next-line
   }, [state.entries]);
 
   useEffect(() => {
-    if (files !== undefined && files !== null)
+    if (
+      files !== undefined &&
+      files !== null &&
+      folders !== undefined &&
+      folders !== null
+    )
       if (state.searchQuery === "" && files?.length !== state.entries?.length) {
         setFiles(state.entries);
-      } else if (state.searchQuery !== null) {
-        const filterFiles = state.entries.filter((file) =>
-          file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-        );
-        setFiles(filterFiles);
       }
+    if (state.searchQuery === "" && folders?.length !== state.dirs?.length) {
+      setFolders(state.dirs);
+    }
+    if (state.searchQuery !== null) {
+      const filterFiles = state.entries.filter((file) =>
+        file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+      );
+      setFiles(filterFiles);
+      const filterFolders = state.dirs.filter((dir) =>
+        dir.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+      );
+      setFolders(filterFolders);
+    }
     // eslint-disable-next-line
   }, [state.searchQuery]);
 
@@ -126,7 +144,7 @@ function Drive(props: Props) {
   };
   const createNewfile = async () => {
     setResponseCreation(
-      await receiveFileInfo(folderName, state.podName, state.directory)
+      await receiveFileInfo(fileName, state.podName, state.directory)
     );
   };
 
@@ -242,6 +260,7 @@ function Drive(props: Props) {
           handleClick={createNewFolder}
           handleClose={handleClose}
           setProp={setFolderName}
+          propValue={folderName}
           type="Folder"
         ></CreateNew>
       </Modal>
@@ -256,16 +275,17 @@ function Drive(props: Props) {
         <CreateNew
           handleClick={createNewfile}
           handleClose={handleCloseImportFile}
-          setProp={setFolderName}
+          setProp={setFileName}
+          propValue={fileName}
           isRefLink={true}
           type="File"
         ></CreateNew>
       </Modal>
       {showGrid ? (
         <CardGrid className={classes.cardGrid}>
-          {state.dirs !== null &&
-            state.dirs !== undefined &&
-            state.dirs.map((dir: any) => (
+          {folders !== null &&
+            folders !== undefined &&
+            folders.map((dir: any) => (
               <FileCard file={dir} isDirectory={true}></FileCard>
             ))}
           {files !== null &&

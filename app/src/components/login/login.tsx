@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
-import useStyles from './loginStyles';
-import ButtonPill from '../buttonPill/buttonPill';
-import TextField from '../textField/textField';
-import welcomeImage from '../../media/images/welcome-image.png';
-import { CirclePart } from '../icons/icons';
-import { useEffect } from 'react';
+import React, { useContext, useState } from "react";
+import { ThemeContext } from "../../store/themeContext/themeContext";
+import { StoreContext } from "../../store/store";
+import useStyles from "./loginStyles";
+import ButtonPill from "../buttonPill/buttonPill";
+import TextField from "../textField/textField";
+import welcomeImage from "../../media/images/welcome-image.png";
+import { CirclePart } from "../icons/icons";
+import { useEffect } from "react";
 
 export interface Props {
   backFunction: any;
@@ -17,8 +17,8 @@ function Login(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [password, setPassword] = useState("");
 
   const [hasError, setHasError] = useState(false);
   //add UseEffect when state changes to reload it and store it
@@ -27,17 +27,16 @@ function Login(props: Props) {
     actions.userLogin({
       username,
       password,
-      podName: 'Fairdrive',
+      podName: "Fairdrive",
     });
     actions.getPods();
   }
-
   useEffect(() => {
-    if (state.flags.loginStatus === 'fail') {
+    if (state.flags.loginStatus === "fail") {
       setHasError(true);
       setTimeout(() => setHasError(false), 2000);
     }
-  }, [state.flags.loginStatus]);
+  }, [state.flags.loginStatus, username]);
 
   return (
     <div className={classes.Login}>
@@ -65,6 +64,7 @@ function Login(props: Props) {
           type="text"
           setHasError={setHasError}
           setProp={setUsername}
+          propValue={username}
           onContinue={onLogin}
         />
 
@@ -74,14 +74,15 @@ function Login(props: Props) {
           setHasError={setHasError}
           setProp={setPassword}
           onContinue={onLogin}
+          propValue={password}
           className={classes.bottomTextField}
         />
 
         <div className={classes.feedbackContainer}>
-          {state.flags.loginStatus === 'loading' && (
+          {state.flags.loginStatus === "loading" && (
             <CirclePart className={classes.spinner} />
           )}
-          {state.flags.loginStatus === 'success' && (
+          {state.flags.loginStatus === "success" && (
             <p className={classes.feedbackMessage}>
               Success!! 🥳 Please wait...
             </p>
@@ -93,7 +94,7 @@ function Login(props: Props) {
           )}
         </div>
 
-        <ButtonPill text={'Login'} clickFunction={onLogin} />
+        <ButtonPill text={"Login"} clickFunction={onLogin} />
         <ButtonPill
           text="Back"
           color="grey"

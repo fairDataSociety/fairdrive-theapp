@@ -7,6 +7,7 @@ import TextField from "src/components/textField/textField";
 
 export interface Props {
   setProp: any;
+  propValue: any;
 }
 
 function ConnectToFairdrive(props: Props) {
@@ -16,18 +17,20 @@ function ConnectToFairdrive(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <Modal heading='Connect to Fairdrive' button='Authorize'>
+    <Modal heading="Connect to Fairdrive" button="Authorize">
       <p className={classes.label}>USERNAME</p>
       <TextField
-         placeholder={`Enter here...`}
-          setProp={props.setProp}
-          type="text"
+        placeholder={`Enter here...`}
+        setProp={props.setProp}
+        type="text"
+        propValue={props.propValue}
       ></TextField>
       <p className={classes.label}>PASSWORD</p>
       <TextField
-         placeholder={`Enter here...`}
-          setProp={props.setProp}
-          type="text"
+        placeholder={`Enter here...`}
+        setProp={props.setProp}
+        type="text"
+        propValue={props.propValue}
       ></TextField>
     </Modal>
   );

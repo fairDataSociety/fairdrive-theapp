@@ -141,6 +141,7 @@ function PodSidebar(props: Props) {
             handleClose={handleClose}
             isRefLink={!isPrivate}
             setProp={setPodName}
+            propValue={podName}
             type="Pod"
           ></CreateNew>
         ) : (
@@ -149,6 +150,7 @@ function PodSidebar(props: Props) {
             handleClose={handleClose}
             isRefLink={!isPrivate}
             setProp={setPodRef}
+            propValue={podRef}
             type="Pod"
           ></CreateNew>
         )}

@@ -8,6 +8,7 @@ import { Logo } from "src/components/icons/icons";
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
+  isLoggedIn?: boolean;
 }
 
 function Navbar(props: Props) {
@@ -24,6 +25,7 @@ function Navbar(props: Props) {
         }}
         className={classes.logo}
       >
+        <h1>{props.isLoggedIn}</h1>
         <Logo className={classes.logo} />
       </div>
       {state.userData && <NavItems />}

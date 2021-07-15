@@ -50,7 +50,6 @@ export async function createAccount(payload: Payload) {
 export const login = async (payload: Payload) => {
   try {
     const { username, password } = payload;
-
     const response = await axios({
       baseURL: host,
       url: "user/login",
@@ -64,7 +63,7 @@ export const login = async (payload: Payload) => {
       },
       withCredentials: true,
     });
-
+    localStorage.setItem('username', username);
     return { res: response };
   } catch (error) {
     throw error;
@@ -116,13 +115,15 @@ export const logOut = async () => {
 export const userLoggedIn = async (username: string) => {
   try {
     const requestBody = {
-      user: username,
+      user_name: username,
     };
 
     const response = await axios({
+      baseURL: host,
       method: "GET",
       url: "user/isloggedin",
-      params: qs.stringify(requestBody, "brackets"),
+      data:requestBody,
+      params: qs.stringify({user_name:username}, "brackets"),
       headers: {
         "Content-Type": "application/json",
       },

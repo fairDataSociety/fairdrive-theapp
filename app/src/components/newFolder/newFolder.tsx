@@ -24,6 +24,7 @@ function NewFolder(props: Props) {
       <CreateNew
         onClick={createFolder}
         setProp={setFolderName}
+        propValue={folder}
         title="New Folder"
         label="Folder Name"
       ></CreateNew>

@@ -7,6 +7,7 @@ import TextField from "../../textField/textField";
 
 export interface Props {
   setProp: any;
+  propValue: any;
 }
 
 function AddLink(props: Props) {
@@ -23,11 +24,12 @@ function AddLink(props: Props) {
       confirmMessage="You are about to confirm this link."
     >
       <p className={classes.label}>Link shared with you</p>
-      
+
       <TextField
-         placeholder={`Paste link here`}
-          setProp={props.setProp}
-          type="text"
+        placeholder={`Paste link here`}
+        setProp={props.setProp}
+        type="text"
+        propValue={props.propValue}
       ></TextField>
       <input className={classes.input} placeholder="Paste link here" />
     </Modal>

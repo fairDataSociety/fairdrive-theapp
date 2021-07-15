@@ -32,7 +32,7 @@ function SeedPhraseConfirm(props: Props) {
     if (userCreated) {
       actions.userLogin({ username: state.username, password: state.password });
     }
-  }, [userCreated]);
+  }, [actions, state.password, state.username, userCreated]);
 
   async function onRegister() {
     console.log("in confirm component", state.mnemonic);
@@ -73,6 +73,7 @@ function SeedPhraseConfirm(props: Props) {
               type="text"
               setHasError={setHasError}
               setProp={setWordFive}
+              propValue={wordFive}
               onContinue={onRegister}
             ></TextField>
 
@@ -81,6 +82,7 @@ function SeedPhraseConfirm(props: Props) {
               type="text"
               setHasError={setHasError}
               setProp={setWordEleven}
+              propValue={wordEleven}
               onContinue={onRegister}
             ></TextField>
 
@@ -88,6 +90,7 @@ function SeedPhraseConfirm(props: Props) {
               placeholder="Word #12"
               type="text"
               setHasError={setHasError}
+              propValue={wordTwelve}
               setProp={setWordTwelve}
               onContinue={onRegister}
             ></TextField>
