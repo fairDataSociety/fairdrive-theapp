@@ -87,7 +87,7 @@ function PodSidebar(props: Props) {
         <PodInfo className={classes.podInfo} />
         <div className={classes.information}>
           {props.route === "Overview"
-            ? "These below pods are automatically generateed for your Owned Content (Home pod) and Shared Content (Shared Pod"
+            ? "These below pods are automatically generated for your Owned Content (Home pod) and Shared Content (Shared Pod"
             : "Switch from Shared to Owned to see Home Pod"}
         </div>
       </div>
@@ -120,12 +120,12 @@ function PodSidebar(props: Props) {
       ) : (
         <></>
       )}
-      <div className={classes.podInfoWrapper}>
+      {/* <div className={classes.podInfoWrapper}>
         <PodInfo className={classes.podInfo} />
         <div className={classes.information}>
           Photos pod is an auto generated Pod that can be used with Fairphoto.
         </div>
-      </div>
+      </div> */}
       {/* <Plus onClick={handleOpen} className={classes.Icon}></Plus> */}
 
       <Modal
