@@ -5,7 +5,6 @@ import useStyles from "./fileModalStyles";
 import Modal from "@material-ui/core/Modal";
 import FileCard from "../cards/fileCard";
 import {
-  InfoIcon,
   Folder,
   Close,
   Download,
@@ -23,7 +22,7 @@ import prettyBytes from "pretty-bytes";
 import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
 import GenerateLink from "../modals/generateLink/generateLink";
-import { setRef } from "@material-ui/core";
+import FilePreview from "../filePreview/filePreview";
 
 export interface Props {
   file: any;
@@ -42,9 +41,8 @@ function FileModal(props: Props) {
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
-  const [blob, setBlob] = useState(null);
   const [refLink, setRefLink] = useState("");
-  let blobFile;
+
   const handleCloseShareLink = () => {
     setOpenShareLink(false);
   };
@@ -57,20 +55,11 @@ function FileModal(props: Props) {
   }, [file]);
 
   const handleOpen = async () => {
-    // eslint-disable-next-line
-    const newPath = writePath(state.directory);
-
-    blobFile = window.URL.createObjectURL(
-      await filePreview(file.name, urlPath(state.directory), state.podName)
-    );
-    setBlob(blobFile);
     setOpen(true);
   };
 
   const handleClose = async () => {
     if (open) {
-      URL.revokeObjectURL(blobFile);
-      setBlob(null);
       setOpen(false);
     }
   };
@@ -114,12 +103,12 @@ function FileModal(props: Props) {
           </div>
           <div className={classes.divider}></div>
           <div className={classes.iconContainer}>
-            {!file.content_type.includes("image") && (
-              <InfoIcon className={classes.Icon} />
-            )}
-            {file.content_type.includes("image") && (
-              <img className={classes.imagePreview} src={blob} alt="img"></img>
-            )}
+            <FilePreview
+              contentType={file.content_type}
+              filename={file.name}
+              directory={urlPath(state.directory)}
+              podName={state.podName}
+            />
           </div>
           <div className={classes.divider}></div>
           <div className={classes.titleWrapper}>

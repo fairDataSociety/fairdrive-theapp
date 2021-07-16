@@ -13,10 +13,16 @@ import { Video } from "../../classes/video-resolver/types"
 import { filePreview } from "../../../../store/services/fairOS"
 
 type FilePreviewVideoProps = {
-  downloadUrl: string
+  filename: string
+  directory: string
+  podName: string
 }
 
-const FilePreviewVideo: React.FC<FilePreviewVideoProps> = ({ downloadUrl }) => {
+const FilePreviewVideo: React.FC<FilePreviewVideoProps> = ({
+  filename,
+  directory,
+  podName,
+}) => {
   const [title, setTitle] = useState<string>()
   const [externalLink, setExternalLink] = useState<string>()
   const [image, setImage] = useState<SwarmImageReader | undefined>()
@@ -40,7 +46,7 @@ const FilePreviewVideo: React.FC<FilePreviewVideoProps> = ({ downloadUrl }) => {
     const indexApiPath = process.env.REACT_APP_ETHERNA_INDEX_API_PATH
     const beeHost = process.env.REACT_APP_BEE_HOST
     const videoResolver = new VideoResolver(indexApiPath, beeHost)
-    const video = await videoResolver.resolveVideoWithPath(downloadUrl)
+    const video = await videoResolver.resolveVideoWithPath(`${directory}/${filename}`)
 
     if (video && video.meta) {
       setTitle(video.meta.title)
@@ -52,7 +58,7 @@ const FilePreviewVideo: React.FC<FilePreviewVideoProps> = ({ downloadUrl }) => {
       setExternalLink(`${process.env.REACT_APP_ETHERNA_HOST}/watch?v=${video.manifestHash}`)
     }
 
-    const preview = await filePreview(downloadUrl)
+    const preview = await filePreview(filename, directory, podName)
     setVideoSrc(window.URL.createObjectURL(preview))
 
     setIsLoading(false)
