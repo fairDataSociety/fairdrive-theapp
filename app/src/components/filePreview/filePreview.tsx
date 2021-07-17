@@ -16,7 +16,7 @@ function FilePreview({
   podName,
 }: FilePreviewProps) {
   const extensionsTypes = Object.keys(FilePreview.extensions)
-  const extensionType = extensionsTypes.find(type => contentType.includes(type))
+  const extensionType = extensionsTypes.find(type => new RegExp(type).test(contentType))
 
   if (extensionType) {
     const ExtensionComponent = FilePreview.extensions[extensionType] as React.FC<FilePreviewInfo>
@@ -45,7 +45,7 @@ function FilePreview({
 
 // Extensions ------
 FilePreview.extensions = {
-  "video/mp4": FilePreviewVideo
+  "video/*": FilePreviewVideo
 }
 // -----------------
 
