@@ -27,7 +27,7 @@ function Footer(props: Props) {
           className={classes.linkItem}
           href="https://fairdatasociety.org/"
         >
-          <FairdData className={classes.link} />
+          <FairdData className={classes.link} style={{ height: "5rem" }} />
         </a>
         <a
           rel="noopener noreferrer"
