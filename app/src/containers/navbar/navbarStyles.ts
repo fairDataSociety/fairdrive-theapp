@@ -28,9 +28,9 @@ const useStyles = makeStyles(() =>
 		},
 		logo: {
 			color: (style: Props & Theme) => style.textColorPrimary,
-			width: '15rem',
+			width: '18rem',
 			position: 'absolute',
-			top: '-0.4rem',
+			top: '0rem',
 			left: '0rem',
 			cursor:"pointer"
 		},
