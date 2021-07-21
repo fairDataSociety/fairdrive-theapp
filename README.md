@@ -25,7 +25,7 @@ Demo: http://fairdrive.fairdatasociety.org/
 
 Ensure that you have Docker, Git and wget installed. Verify that ports 3000, 1633, 1634, 1635 are available.
 
-1. One-liner for installing Fairdrive (Bee node, FairOS and Fairdrive): `wget https://gist.github.com/IgorShadurin/ed828b21e5904b3ad65b69e22e117e17/raw/36ac2396c7ea371559202df35108ec4b74a3e9d4/docker-compose.yml`
+1. One-liner for installing Fairdrive (Bee node, FairOS and Fairdrive) extracted from this repo: `wget https://raw.githubusercontent.com/fairDataSociety/fairdrive-theapp/master/docker-compose.yml`
 2. `docker compose up`
 3. open http://localhost:9090 to check that FairOS is running successfully.
 4. open http://localhost:3000 to view and use Fairdrive in the browser.
