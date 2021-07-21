@@ -82,14 +82,14 @@ function Footer(props: Props) {
           {" "}
           <Medium className={classes.linkIcon} />
         </a>
-        <a
+        {/* <a
           rel="noopener noreferrer"
           target="_blank"
           className={classes.linkItem}
           href="https://fairdatasociety.org/"
         >
           <Discord className={classes.linkIcon} />
-        </a>
+        </a> */}
       </div>
     </div>
   );
