@@ -7,6 +7,7 @@ import {
   Github,
   Medium,
   Discord,
+  Swarm,
 } from "src/components/icons/icons";
 
 export interface Props {
@@ -24,11 +25,19 @@ function Footer(props: Props) {
         <a
           rel="noopener noreferrer"
           target="_blank"
+          href="https://www.ethswarm.org/"
+        >
+          <Swarm className={classes.linkIcon} />
+        </a>
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
           className={classes.linkItem}
           href="https://fairdatasociety.org/"
         >
           <FairdData className={classes.link} style={{ height: "5rem" }} />
         </a>
+
         <a
           rel="noopener noreferrer"
           target="_blank"
