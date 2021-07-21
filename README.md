@@ -1,18 +1,11 @@
 # Fairdrive
 
+Where innovation, interoperability and decentralization unite in the name of fair data.
+Fairdrive is a community-driven initiative with the mission to empower freedom. By enabling decentralized storage, developers can create and build interoperable, decentralized and open-sourced dApps so users can reclaim their privacy, own their data and control their digital identity.
+
 ## What is Fairdrive
 
-Fairdrive is a dApp that enables decentralized storage on Swarm. It consists of a typical "Drive" interface with files and folders, and a BZZ wallet to manage token balances and keypairs. Under the hood, FairOS is running a filesystem on top of Ethereum Swarm. And it uses Fairdrive Protocol to communicate with FairOS.
-
-## What is Fairdrive Protocol
-
-Fairdrive Protocol is dapp built on top of Fairos to serve other dapps as a integration plug and play app that can be injected into components. Visit the Fairdrive Protocol documentation and github repository here -> https://github.com/fairDataSociety/fairdrive-protocol.
-
-Fairdrive consists of these parts:
-
-- Fairdrive > a dapp
-- Fairdrive Protocol -> app that communicates with FairOS
-- FairOS > a filesystem running on Swarm
+Fairdrive is a dApp that enables decentralized storage on Swarm. It consists of a typical "Drive" interface with files and folders, and a BZZ wallet to manage token balances and keypairs. Under the hood, FairOS is running a filesystem on top of Ethereum Swarm. Fairdrive Protocol is used to communicate with FairOS.
 
 ## How does it work
 
@@ -26,28 +19,20 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 ## Development
 
-Demo: https://app.fairdrive.io
+Demo: http://fairdrive.fairdatasociety.org/
+Run locally with local API:
+Ensure that you have Docker, Git and wget installed. Verify that ports 3000, 1633, 1634, 1635 are available.
 
-### To run locally with remote api:
+1. One-liner for installing Fairdrive (Bee node, FairOS and Fairdrive): `wget https://gist.github.com/IgorShadurin/ed828b21e5904b3ad65b69e22e117e17/raw/36ac2396c7ea371559202df35108ec4b74a3e9d4/docker-compose.yml`
+2. `docker compose up`
+3. open http://localhost:9090 to check that FairOS is running successfully.
+4. open http://localhost:3000 to view and use Fairdrive in the browser.
 
-- clone repo
-- yarn
-- edit env variable -> add fairos host (eg api.fairos.io)
-- yarn start
-
-(nvm use 10)
-
-### To run locally with local api:
-
-- clone repo
-- clone fairos repo -> https://github.com/fairDataSociety/fairOS-dfs
-- install bee client -> https://docs.ethswarm.org/docs/installation/manual/
-- install truffle/hardhat to start eth network (or create infura endpoint)
-- inside fairdrive app run yarn
-- yarn start
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+How to fund your node with test tokens?
+Copy wallet from YOUR logs.
+Open official SWARM faucet https://discord.com/channels/799027393297514537/841664915218628619 and fund your wallet with 10 gBZZ + 0.5 gETH
+For gBZZ: Request in any channel “/faucet sprinkle + your address”
+For gETH: https://faucet.goerli.mudit.blog/
+If this process takes some time, which it may, please run "docker compose up" again.
+Wait until bee will deploy chequebook and this message appears "fairos_1 | time="2021-07-10T19:30:11Z" level=info msg="fairOS-dfs API server listening on port: 9090""
+Open http://localhost:9090 in your browser and you can see a few lines with information about fairOS. These lines will appear only after chequebook deployment.
