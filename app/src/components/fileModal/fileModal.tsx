@@ -14,6 +14,7 @@ import {
 } from "../icons/icons";
 import writePath from "../../store/helpers/writePath";
 import {
+  deleteFile,
   fileDownload,
   filePreview,
   shareFile,
@@ -81,6 +82,13 @@ function FileModal(props: Props) {
     setRefLink(res);
     setOpenShareLink(true);
   };
+  const handleDelete = async () => {
+    const res = await deleteFile({
+      file_name: props.file.name,
+      path: writePath(state.directory),
+      podName: state.podName,
+    });
+  };
   const classes = useStyles({ ...props, open, ...theme });
 
   return (
@@ -140,10 +148,10 @@ function FileModal(props: Props) {
             </div>
           </div>
           <div className={classes.actionBar}>
-            <Hide className={classes.icon} onClick={handleDownload} />
+            {/* <Hide className={classes.icon} onClick={handleDelete} /> */}
             <Share className={classes.icon} onClick={handleShare} />
             <Download className={classes.icon} onClick={handleDownload} />
-            <UploadIcon className={classes.icon} onClick={handleDownload} />
+            {/* <UploadIcon className={classes.icon} onClick={handleDownload} /> */}
           </div>
         </div>
       </Modal>

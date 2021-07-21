@@ -641,15 +641,19 @@ async function readAsbase64(blob: any) {
   });
 }
 
-export const deleteFile = async (fileName: string) => {
+export const deleteFile = async (payload: any) => {
   try {
     // eslint-disable-next-line
+    const {file_name, podName, path} = payload
+ 
     const deletePictursDirectory = await axios({
       baseURL: host,
       method: "DELETE",
       url: "file/delete",
       data: {
-        file: fileName,
+        file: file_name,
+        pod_name: podName,
+        file_path: path
       },
       headers: {
         "Content-Type": "application/json",
