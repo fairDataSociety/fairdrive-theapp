@@ -32,10 +32,15 @@ Ensure that you have Docker, Git and wget installed. Verify that ports 3000, 163
 
 ## How to fund your node with test tokens?
 
-- Copy wallet from YOUR logs.
-- Open official SWARM faucet https://discord.com/channels/799027393297514537/841664915218628619 and fund your wallet with 10 gBZZ + 0.5 gETH
-- For gBZZ: Request in any channel “/faucet sprinkle + your address”
-- For gETH: https://faucet.goerli.mudit.blog/
-  If this process takes some time, which it may, please run "docker compose up" again.
-  Wait until bee will deploy chequebook and this message appears "fairos_1 | time="2021-07-10T19:30:11Z" level=info msg="fairOS-dfs API server listening on port: 9090""
-  Open http://localhost:9090 in your browser and you can see a few lines with information about fairOS. These lines will appear only after chequebook deployment.
+- Copy wallet from YOUR logs:
+  - open docker and bee-1_1.
+  - Your address should be at the start of the docker terminal, beside “using ethereum address”
+- Open official SWARM faucet: https://discord.com/channels/799027393297514537/841664915218628619 to fund your wallet with 10 gBZZ + 0.5 gETH
+  - For gBZZ: Request in any channel “/faucet sprinkle + your address”
+  - For gETH: https://faucet.goerli.mudit.blog/
+
+If this process takes some time - which it may - please run "docker compose up" again.
+
+Wait for bee to deploy chequebook and this message appears "fairos_1 | time="2021-07-10T19:30:11Z" level=info msg="fairOS-dfs API server listening on port: 9090""
+
+Open http://localhost:9090 in your browser and you can see a few lines with information about FairOS. These lines will appear only after chequebook deployment.
