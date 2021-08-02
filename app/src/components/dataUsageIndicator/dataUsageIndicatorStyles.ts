@@ -14,7 +14,7 @@ const useStyles = makeStyles(() =>
     heading: {
       font: (style: Props & Theme) => style.typography.h5,
       padding: '1rem 0',
-      borderBottom: '2px solid var(--light1)',
+      borderBottom: (style: Props & Theme) =>  `2px solid ${style.backgroundLight1}`,
       width: '20rem',
       marginBottom: '2rem',
     },
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       alignItems: 'center',
       borderRadius: '1rem',
-      border: '2px solid var(--dark2)'
+      border: (style: Props & Theme) =>  `2px solid ${style.backgroundDark2}`,
     },
     description: {
       margin: '3rem',

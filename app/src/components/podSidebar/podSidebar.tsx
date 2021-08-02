@@ -3,9 +3,9 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./podSidebarStyles";
 import Toggle from "../toggle/toggle";
-import { createPod } from "../../store/services/fairOS";
+import { createPod, receivePod } from "../../store/services/fairOS";
 import { PodChevron, PodInfo } from "../icons/icons";
-import { Modal } from "@material-ui/core";
+import { Modal, setRef } from "@material-ui/core";
 import CreateNew from "../modals/createNew/createNew";
 
 export interface Props {
@@ -22,6 +22,7 @@ function PodSidebar(props: Props) {
   const [open, setOpen] = useState(false);
   const [podName, setPodName] = useState("");
   const [podCreated, setPodCreated] = useState(false);
+  const [podRef, setPodRef] = useState("");
 
   useEffect(() => {
     if (state.podsOpened.includes(state.podName)) {
@@ -41,6 +42,8 @@ function PodSidebar(props: Props) {
   };
   const handleClose = () => {
     setOpen(false);
+    setPodName("");
+    setPodRef("");
   };
   const handleOpen = () => {
     setOpen(true);
@@ -67,6 +70,12 @@ function PodSidebar(props: Props) {
     // eslint-disable-next-line
   }, [isPrivate]);
 
+  const importPod = async () => {
+    receivePod({ podReference: podRef, pod_name: "imported pod" })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className={classes.podDrawer}>
       <Toggle
@@ -78,7 +87,7 @@ function PodSidebar(props: Props) {
         <PodInfo className={classes.podInfo} />
         <div className={classes.information}>
           {props.route === "Overview"
-            ? "These below pods are automatically generateed for your Owned Content (Home pod) and Shared Content (Shared Pod"
+            ? "These below pods are automatically generated for your Owned Content (Home pod) and Shared Content (Shared Pod"
             : "Switch from Shared to Owned to see Home Pod"}
         </div>
       </div>
@@ -111,13 +120,14 @@ function PodSidebar(props: Props) {
       ) : (
         <></>
       )}
-      <div className={classes.podInfoWrapper}>
+      {/* <div className={classes.podInfoWrapper}>
         <PodInfo className={classes.podInfo} />
         <div className={classes.information}>
           Photos pod is an auto generated Pod that can be used with Fairphoto.
         </div>
-      </div>
+      </div> */}
       {/* <Plus onClick={handleOpen} className={classes.Icon}></Plus> */}
+
       <Modal
         className={classes.modalContainer}
         open={open}
@@ -125,12 +135,25 @@ function PodSidebar(props: Props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <CreateNew
-          handleClick={createNewPod}
-          handleClose={handleClose}
-          setProp={setPodName}
-          type="Pod"
-        ></CreateNew>
+        {isPrivate ? (
+          <CreateNew
+            handleClick={createNewPod}
+            handleClose={handleClose}
+            isRefLink={!isPrivate}
+            setProp={setPodName}
+            propValue={podName}
+            type="Pod"
+          ></CreateNew>
+        ) : (
+          <CreateNew
+            handleClick={importPod}
+            handleClose={handleClose}
+            isRefLink={!isPrivate}
+            setProp={setPodRef}
+            propValue={podRef}
+            type="Pod"
+          ></CreateNew>
+        )}
       </Modal>
     </div>
   );

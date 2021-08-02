@@ -10,6 +10,7 @@ export interface Props {
   label: string;
   title: string;
   setProp: any;
+  propValue: any;
 }
 
 function CreateNew(props: Props) {
@@ -27,6 +28,7 @@ function CreateNew(props: Props) {
           placeholder="Enter here..."
           setProp={props.setProp}
           type="text"
+          propValue={props.propValue}
         ></TextField>
         <ButtonPill clickFunction={props.onClick} text="Confirm"></ButtonPill>
       </div>

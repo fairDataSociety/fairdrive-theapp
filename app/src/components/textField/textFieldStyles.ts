@@ -13,23 +13,23 @@ const useStyles = makeStyles(() =>
       placeItems: "center",
       backgroundColor: (style: Props & Theme) => style.disabled?style.backgroundDark1: style.backgroundDark2,
       padding: '2rem',
-      border:(style: Props & Theme) => style.disabled?"1px solid var(--dark1)": "1px solid var(--light3)",
+      border:(style: Props & Theme) => style.disabled?`1px solid ${style.backgroundDark1}`: `1px solid ${style.backgroundLight3}`,
       borderRadius:"0.5rem",
       marginBottom:"2.5rem",
       textAlign: 'left',
       font: (style: Props & Theme) => style.typography.body2,
       color:(style: Props & Theme) => style.textColorPrimary,
       "&:hover": {
-        border:(style: Props & Theme) => style.disabled?"1px solid var(--dark1)": "1px solid var(--white)", 
-        color:"var(--white)",
+        border:(style: Props & Theme) => style.disabled?`1px solid ${style.backgroundDark1}`: `1px solid ${style.backgroundWhite}`, 
+        color:(style: Props & Theme) => style.textColorPrimary,
       },
       "&:focus":{
-        color:"var(--white)",
-        border: "1px solid var(--light2)", 
+        color:(style: Props & Theme) => style.textColorPrimary,
+        border:(style: Props & Theme) =>  `1px solid ${style.backgroundLight2}`, 
       },
       "&:invalid":{
-        color:"var(--white)",
-        border: "1px solid var(--red)", 
+        color: (style: Props & Theme) => style.textColorSecondary,
+        border: (style: Props & Theme) => `1px solid ${style.red}`, 
       }
     },
     input: {

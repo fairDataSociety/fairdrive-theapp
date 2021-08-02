@@ -5,17 +5,19 @@ import useStyles from "./loginStyles";
 import ButtonPill from "../buttonPill/buttonPill";
 import TextField from "../textField/textField";
 import welcomeImage from "../../media/images/welcome-image.png";
+import { CirclePart } from "../icons/icons";
+import { useEffect } from "react";
 
 export interface Props {
   backFunction: any;
 }
 
 function Login(props: Props) {
-  const { actions } = useContext(StoreContext);
+  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(localStorage.getItem("username"));
   const [password, setPassword] = useState("");
 
   const [hasError, setHasError] = useState(false);
@@ -29,6 +31,12 @@ function Login(props: Props) {
     });
     actions.getPods();
   }
+  useEffect(() => {
+    if (state.flags.loginStatus === "fail") {
+      setHasError(true);
+      setTimeout(() => setHasError(false), 2000);
+    }
+  }, [state.flags.loginStatus, username]);
 
   return (
     <div className={classes.Login}>
@@ -51,10 +59,12 @@ function Login(props: Props) {
         </div>
 
         <TextField
+          autoFocus
           placeholder="Username"
           type="text"
           setHasError={setHasError}
           setProp={setUsername}
+          propValue={username}
           onContinue={onLogin}
         />
 
@@ -64,9 +74,26 @@ function Login(props: Props) {
           setHasError={setHasError}
           setProp={setPassword}
           onContinue={onLogin}
+          propValue={password}
+          className={classes.bottomTextField}
         />
 
-        {hasError && <div className={classes.errormsg}>Could not login.</div>}
+        <div className={classes.feedbackContainer}>
+          {state.flags.loginStatus === "loading" && (
+            <CirclePart className={classes.spinner} />
+          )}
+          {state.flags.loginStatus === "success" && (
+            <p className={classes.feedbackMessage}>
+              Success!! 🥳 Please wait...
+            </p>
+          )}
+          {hasError && (
+            <p className={`${classes.feedbackMessage} ${classes.error}`}>
+              Invalid credentials, please try again.
+            </p>
+          )}
+        </div>
+
         <ButtonPill text={"Login"} clickFunction={onLogin} />
         <ButtonPill
           text="Back"

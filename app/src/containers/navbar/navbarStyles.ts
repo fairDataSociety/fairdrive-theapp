@@ -27,9 +27,10 @@ const useStyles = makeStyles(() =>
 			borderRadius: '2rem',
 		},
 		logo: {
-			width: '15rem',
+			color: (style: Props & Theme) => style.textColorPrimary,
+			width: '18rem',
 			position: 'absolute',
-			top: '-0.4rem',
+			top: '0rem',
 			left: '0rem',
 			cursor:"pointer"
 		},
@@ -70,7 +71,17 @@ const useStyles = makeStyles(() =>
 		},
 		listItem: {
 			margin: '1.5rem 0'
-		}
+		},
+		themeIcon: {
+			display: 'flex',
+			margin: 'auto',
+			width: '2.5rem',
+			height: '2.5rem',
+			fill: (style: Props & Theme) => style.textColorPrimary,
+			alignItems: 'center',
+			cursor: 'pointer',
+			userSelect: 'none',
+		},
 	})
 );
 

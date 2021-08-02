@@ -60,10 +60,15 @@ const useStyles = makeStyles(() =>
       justifyContent: "center",
     },
     button: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark1,
-      maxWidth: "25rem",
+      backgroundColor: (style: Props & Theme) => style.backgroundDark4,
+      maxWidth: "35rem",
+      minWidth: "20rem",
+      maxHeight: "9rem",
+      minHeight: "6rem",
       padding: "1.5rem 3rem",
       borderRadius: "0.5rem",
+      font: (style: Props & Theme) => style.typography.caption1,
+
     },
     disabledButton: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark1,

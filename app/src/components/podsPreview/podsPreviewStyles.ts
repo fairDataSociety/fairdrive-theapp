@@ -17,7 +17,7 @@ const useStyles = makeStyles(() =>
     header: {
       font: (style: Props & Theme) => style.typography.h5,
       padding: '1rem 0',
-      borderBottom: '2px solid var(--light1)',
+      borderBottom: (style: Props & Theme) =>  `2px solid ${style.backgroundLight1}`,
       width: '17rem',
       marginBottom: '7rem', 
     },
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() =>
     },
     button: {
       font: (style: Props & Theme) => style.typography.body1,
-      border: '1px solid var(--white)',
+      border: (style: Props & Theme) =>  `1px solid ${style.backgroundWhite}`,
       width: '17rem',
       padding: '1.5rem 1rem',
       display: 'flex',

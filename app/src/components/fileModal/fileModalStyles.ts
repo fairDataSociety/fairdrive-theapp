@@ -20,7 +20,7 @@ const useStyles = makeStyles(() =>
 			padding: '0rem 3.5rem 3.5rem 3.5rem',
 			backgroundColor: (style: Props & Theme) => style.backgroundDark3,
 			color: (style: Props & Theme) => style.textColorPrimary,
-			border: '1px solid var(--dark3)',
+			border: (style: Props & Theme) =>  `1px solid ${style.backgroundDark3}`,
 			height: '100%',
 			width: '45rem',
 			margin: '0rem',
@@ -121,7 +121,7 @@ const useStyles = makeStyles(() =>
 			width: '50%',
 		},
 		divider: {
-		  borderBottom: "2.5px  solid var(--dark1)",
+		  borderBottom: (style: Props & Theme) =>  `2.5px solid ${style.backgroundDark1}`,
 		  margin: "0rem 0rem 2rem 0rem",
 		  position:'relative',
 		},
@@ -149,12 +149,12 @@ const useStyles = makeStyles(() =>
 			boxSizing: 'border-box',
 			borderRadius: (style: Props & Theme) => "0.5rem",
 			cursor: 'pointer',
-			border:"1px solid var(--light3)", 
+			border: (style: Props & Theme) =>  `1px solid ${style.backgroundLight3}`,
 			margin:"1.6rem",
 			padding:"1rem",
 			"&:hover": {
 				//font: (style: Props & Theme) => style.typography.body3,
-				border: "1px solid var(--white)", 
+				border: (style: Props & Theme) =>  `1px solid ${style.backgroundWhite}`,
 			  }, 
 		},
 		actionBar : {

@@ -20,7 +20,7 @@ const useStyles = makeStyles(() =>
       alignItems: "left",
       font:(style: Props & Theme) => style.typography.h4,
       color:(style: Props & Theme) => style.textColorPrimary,
-      borderBottom: "1px solid var(--grey)"
+      borderBottom:  (style: Props & Theme) => `1px solid ${style.backgroundDark3}`,
     },
     Body:{
       margin: '5rem 0 0 0',

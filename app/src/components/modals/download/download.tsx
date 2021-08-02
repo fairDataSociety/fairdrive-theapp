@@ -6,8 +6,9 @@ import Modal from "../modal/modal";
 import TextField from "../../textField/textField";
 
 export interface Props {
-  setProp: any,
+  setProp: any;
   type: string;
+  propValue: any;
 }
 
 export function Download(props: Props) {
@@ -17,12 +18,13 @@ export function Download(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <Modal heading={`Download ${props.type}`} icon={true} button='Download'>
+    <Modal heading={`Download ${props.type}`} icon={true} button="Download">
       <p className={classes.label}>Destination</p>
       <TextField
-         placeholder={`Choose Destination on your local storage`}
-          setProp={props.setProp}
-          type="text"
+        placeholder={`Choose Destination on your local storage`}
+        setProp={props.setProp}
+        type="text"
+        propValue={props.propValue}
       ></TextField>
       <p>{`You are about to download this ${props.type}`}</p>
     </Modal>

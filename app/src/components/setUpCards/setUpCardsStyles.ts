@@ -18,7 +18,7 @@ const useStyles = makeStyles(() =>
       justifyContent: 'space-between',
       alignItems: 'flex-start',
       margin: '1rem',
-      border: '2px solid var(--dark2)'
+      border: (style: Props & Theme) =>  `2px solid ${style.backgroundDark2}`
     },
     icon: {
       fill: (style: Props & Theme) => style.backgroundLight2,

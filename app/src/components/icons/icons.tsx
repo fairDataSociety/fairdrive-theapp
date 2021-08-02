@@ -20,6 +20,8 @@ import { ReactComponent as SearchFD } from "../../media/fairdrive/Search.svg";
 import { ReactComponent as Settings } from "../../media/fairdrive/Settings.svg";
 import { ReactComponent as Time } from "../../media/fairdrive/Time.svg";
 import { ReactComponent as Logo } from "../../media/fairdrive/logo.svg";
+import { ReactComponent as Swarm } from "../../media/fairdrive/swarm.svg";
+
 import { ReactComponent as StartFolder } from "../../media/UI/getStartedFolder.svg";
 import { ReactComponent as Dapps } from "../../media/UI/dapps.svg";
 import { ReactComponent as Complete } from "../../media/UI/complete.svg";
@@ -47,7 +49,10 @@ import { ReactComponent as Github } from "../../media/socialMedia/github.svg";
 import { ReactComponent as Medium } from "../../media/socialMedia/medium.svg";
 import { ReactComponent as Discord } from "../../media/socialMedia/discord.svg";
 import { ReactComponent as Warning } from "../../media/optionIcons/warning.svg";
+import { ReactComponent as CirclePart } from "../../media/spinners/circle_part.svg";
 
+import { ReactComponent as Moon } from "../../media/optionIcons/Moon.svg";
+import { ReactComponent as Sun } from "../../media/optionIcons/Sun.svg";
 export const icons = {
   QuestionMark: QuestionMark,
   NavRight: NavRight,
@@ -103,4 +108,8 @@ export {
   Github,
   Medium,
   Discord,
+  Moon,
+  Sun,
+  CirclePart,
+  Swarm,
 };

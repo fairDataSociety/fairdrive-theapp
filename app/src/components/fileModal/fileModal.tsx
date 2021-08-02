@@ -5,7 +5,6 @@ import useStyles from "./fileModalStyles";
 import Modal from "@material-ui/core/Modal";
 import FileCard from "../cards/fileCard";
 import {
-  InfoIcon,
   Folder,
   Close,
   Download,
@@ -14,10 +13,18 @@ import {
   UploadIcon,
 } from "../icons/icons";
 import writePath from "../../store/helpers/writePath";
-import { fileDownload, filePreview } from "../../store/services/fairOS";
+import {
+  deleteFile,
+  fileDownload,
+  filePreview,
+  shareFile,
+} from "../../store/services/fairOS";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
+import GenerateLink from "../modals/generateLink/generateLink";
+import FilePreview from "../filePreview/filePreview";
+
 export interface Props {
   file: any;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -29,14 +36,17 @@ function FileModal(props: Props) {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = React.useState(false);
+  const [openShareLink, setOpenShareLink] = React.useState(false);
   const { file } = props;
 
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   const [fileModDate, setFileModDate] = useState("");
-  const [blob, setBlob] = useState(null);
-  let blobFile;
+  const [refLink, setRefLink] = useState("");
 
+  const handleCloseShareLink = () => {
+    setOpenShareLink(false);
+  };
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
@@ -46,24 +56,15 @@ function FileModal(props: Props) {
   }, [file]);
 
   const handleOpen = async () => {
-    // eslint-disable-next-line
-    const newPath = writePath(state.directory);
-
-    blobFile = window.URL.createObjectURL(
-      await filePreview(file.name, urlPath(state.directory), state.podName)
-    );
-    setBlob(blobFile);
     setOpen(true);
   };
 
   const handleClose = async () => {
     if (open) {
-      URL.revokeObjectURL(blobFile);
-      setBlob(null);
       setOpen(false);
     }
   };
-  async function handleDownload() {
+  const handleDownload = async () => {
     // eslint-disable-next-line
     const newPath = writePath(state.directory);
     await fileDownload(
@@ -71,7 +72,23 @@ function FileModal(props: Props) {
       urlPath(state.directory),
       state.podName
     ).catch((e) => console.error(e));
-  }
+  };
+  const handleShare = async () => {
+    const res = await shareFile(
+      props.file.name,
+      writePath(state.directory),
+      state.podName
+    );
+    setRefLink(res);
+    setOpenShareLink(true);
+  };
+  const handleDelete = async () => {
+    const res = await deleteFile({
+      file_name: props.file.name,
+      path: writePath(state.directory),
+      podName: state.podName,
+    });
+  };
   const classes = useStyles({ ...props, open, ...theme });
 
   return (
@@ -94,12 +111,12 @@ function FileModal(props: Props) {
           </div>
           <div className={classes.divider}></div>
           <div className={classes.iconContainer}>
-            {!file.content_type.includes("image") && (
-              <InfoIcon className={classes.Icon} />
-            )}
-            {file.content_type.includes("image") && (
-              <img className={classes.imagePreview} src={blob} alt="img"></img>
-            )}
+            <FilePreview
+              contentType={file.content_type}
+              filename={file.name}
+              directory={urlPath(state.directory)}
+              podName={state.podName}
+            />
           </div>
           <div className={classes.divider}></div>
           <div className={classes.titleWrapper}>
@@ -131,12 +148,26 @@ function FileModal(props: Props) {
             </div>
           </div>
           <div className={classes.actionBar}>
-            <Hide className={classes.icon} onClick={handleDownload} />
-            <Share className={classes.icon} onClick={handleDownload} />
+            {/* <Hide className={classes.icon} onClick={handleDelete} /> */}
+            <Share className={classes.icon} onClick={handleShare} />
             <Download className={classes.icon} onClick={handleDownload} />
-            <UploadIcon className={classes.icon} onClick={handleDownload} />
+            {/* <UploadIcon className={classes.icon} onClick={handleDownload} /> */}
           </div>
         </div>
+      </Modal>
+
+      <Modal
+        className={classes.modalContainer}
+        open={openShareLink}
+        onClose={handleCloseShareLink}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <GenerateLink
+          variant="share"
+          link={refLink}
+          handleClose={handleCloseShareLink}
+        ></GenerateLink>
       </Modal>
     </div>
   );

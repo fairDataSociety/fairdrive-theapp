@@ -26,7 +26,7 @@ function ShareFile(props: Props) {
   }
   useEffect(() => {
     props.setUploadRes(state.fileUploaded);
-  }, [state.fileUploaded]);
+  }, [props, state.fileUploaded]);
 
   const shareFile = async () => {
     try {
@@ -46,6 +46,7 @@ function ShareFile(props: Props) {
         placeholder="File name"
         type="text"
         setProp={setFilename}
+        propValue={filename}
         onContinue={shareFile}
       ></TextField>
       <div className={classes.flexer}></div>

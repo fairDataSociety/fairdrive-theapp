@@ -17,7 +17,6 @@ export default function MainWrapper() {
     <div className={classes.App}>
       <Navbar showTerms={showTerms} setShowTerms={setShowTerms} />
       {showBanner && <AlertBanner setShowBanner={setShowBanner} />}
-
       {!showTerms && <Main></Main>}
       {showTerms && <TermsAndConditions></TermsAndConditions>}
       <Footer showTerms={showTerms} setShowTerms={setShowTerms} />

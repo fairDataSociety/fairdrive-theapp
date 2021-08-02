@@ -15,17 +15,17 @@ const useStyles = makeStyles(() =>
       borderRadius: (style: Props & Theme) => style.size ==="small"? "0" : "1rem",
       padding:"2rem",
       cursor: 'pointer',
-      border:"1px solid var(--dark3)", 
+      border:(style: Props & Theme) => `1px solid ${style.backgroundDark3}`, 
       backgroundColor: (style: Props & Theme) => style.backgroundLight3,
       color:(style: Props & Theme) => style.textColorPrimary,
       font: (style: Props & Theme) => style.typography.body1,
       "&:hover": {
         font: (style: Props & Theme) => style.size ==="small"? style.typography.caption2: style.typography.body3,
-        border: "1px solid var(--white)", 
+        border: (style: Props & Theme) => `1px solid ${style.backgroundWhite}`,
       },
       "&:active": {
         font: (style: Props & Theme) => style.size ==="small"? style.typography.caption3: style.typography.body2,
-        border: "1px solid var(--white)", 
+        border: (style: Props & Theme) => `1px solid ${style.backgroundWhite}`,
       },
       margin:"0 auto 2rem auto"
     },
