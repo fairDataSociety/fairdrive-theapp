@@ -55,12 +55,15 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )} */}
-      <Blockies
-        onClick={handleAvatarClick}
-        bgColor={theme.backgroundDark2}
-        seed={state.userStats.reference}
-        className={classes.blockie}
-      />
+      {state.userStats !== null && (
+        <div onClick={handleAvatarClick}>
+          <Blockies
+            bgColor={theme.backgroundDark2}
+            seed={state.userStats.reference}
+            className={classes.blockie}
+          />{" "}
+        </div>
+      )}
       <div onClick={toggleTheme}>
         {theme.name === "light" ? (
           <Moon className={classes.themeIcon} />
