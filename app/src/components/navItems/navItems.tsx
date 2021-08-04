@@ -9,7 +9,7 @@ import GenerateLink from "src/components/modals/generateLink/generateLink";
 import DropDown from "src/components/dropDown/dropDown";
 import { StoreContext } from "src/store/store";
 import { logOut } from "src/store/services/fairOS";
-
+import Blockies from "react-blockies";
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -55,11 +55,15 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )} */}
-      <img
-        onClick={handleAvatarClick}
-        className={classes.profileIcon}
-        src={state.userStats.avatar}
-      />
+      {state.userStats !== null && (
+        <div onClick={handleAvatarClick}>
+          <Blockies
+            bgColor={theme.backgroundDark2}
+            seed={state.userStats.reference}
+            className={classes.blockie}
+          />{" "}
+        </div>
+      )}
       <div onClick={toggleTheme}>
         {theme.name === "light" ? (
           <Moon className={classes.themeIcon} />

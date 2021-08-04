@@ -53,6 +53,13 @@ const useStyles = makeStyles(() =>
 			margin: '0 1.5rem',
 			fill: (style: Props & Theme) => style.backgroundLight2,
 		},
+		blockie: {
+			fill: (style: Props & Theme) => style.backgroundLight2,
+			width:"4rem",
+			height:"4rem",
+			marginLeft:"1rem",
+			marginRight: '1.5rem',
+		  },
 		profileIcon: {
 			position: 'relative',
 			width:"4rem",

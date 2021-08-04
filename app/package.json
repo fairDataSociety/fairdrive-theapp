@@ -19,6 +19,7 @@
     "fortmatic": "^2.2.1",
     "moment": "^2.29.1",
     "react": "^16.13.1",
+    "react-blockies": "^1.4.1",
     "react-circular-progressbar": "^2.0.4",
     "react-click-away-listener": "^2.0.0",
     "react-copy-to-clipboard": "^5.0.2",
