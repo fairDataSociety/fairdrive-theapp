@@ -3,6 +3,9 @@ import qs from "querystring";
 import FileSaver from "file-saver";
 import generateMnemonic from "../helpers/utils";
 import urlPath from "../helpers/urlPath";
+import makeBlockie from 'ethereum-blockies-base64';
+
+
 interface Payload {
   username?: string;
   password?: string;
@@ -64,6 +67,7 @@ export const login = async (payload: Payload) => {
       withCredentials: true,
     });
     localStorage.setItem('username', username);
+
     return { res: response };
   } catch (error) {
     throw error;
@@ -209,7 +213,8 @@ export const userStats = async () => {
       },
       withCredentials: true,
     });
-
+    const imageSrc = makeBlockie(response.data.reference);
+    response.data.avatar = imageSrc;
     return response;
   } catch (error) {
     throw error;
@@ -567,26 +572,6 @@ function dataURLtoFile(dataurl: any, filename: string) {
   return new File([u8arr], filename, { type: mime });
 }
 
-export const storeAvatar = async (avatar: any) => {
-  try {
-    //Usage example:
-    var file = dataURLtoFile(avatar, "avatar.jpg");
-
-    const formData = new FormData();
-    formData.append("avatar", file);
-
-    const response = await axios({
-      baseURL: host,
-      method: "POST",
-      url: "user/avatar",
-      data: formData,
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (e) {
-    console.log("error on timeout", e);
-  }
-};
 export async function createDirectory(
   directory: string,
   directoryName: string,
