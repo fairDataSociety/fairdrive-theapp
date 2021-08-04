@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "../../containers/navbar/navbarStyles";
@@ -54,7 +55,11 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )} */}
-      <Profile onClick={handleAvatarClick} className={classes.profileIcon} />
+      <img
+        onClick={handleAvatarClick}
+        className={classes.profileIcon}
+        src={state.userStats.avatar}
+      />
       <div onClick={toggleTheme}>
         {theme.name === "light" ? (
           <Moon className={classes.themeIcon} />

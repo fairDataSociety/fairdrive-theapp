@@ -27,6 +27,7 @@ export interface State {
   podMsg: any;
   podName: string;
   podsOpened: any;
+  userStats: any;
   isPrivatePod: boolean;
   flags: Flags;
 }
@@ -54,6 +55,7 @@ const initialState: State = {
   podMsg: null,
   podName: '',
   podsOpened: [],
+  userStats: null,
   flags: {
     loginStatus: '',
   },
@@ -180,6 +182,16 @@ const reducer = (state: State = initialState, action: any) => {
       return {
         ...state,
         pods: action.payload.data.pod_name,
+      };
+    case types.GET_USER_STATS.GET_USER_STATS_SUCCESS:
+      return {
+        ...state,
+        userStats: action.payload.data,
+      };
+    case types.GET_USER_STATS.GET_USER_STATS_FAILED:
+      return {
+          ...state,
+          podMSg: action.payload,
       };
     case types.OPEN_POD.OPEN_POD_SUCCESS:
       return {

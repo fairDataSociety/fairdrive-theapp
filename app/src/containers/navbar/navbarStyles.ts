@@ -55,7 +55,8 @@ const useStyles = makeStyles(() =>
 		},
 		profileIcon: {
 			position: 'relative',
-			fill: (style: Props & Theme) => style.backgroundLight2,
+			width:"4rem",
+			height:"4rem",
 			marginLeft:"1rem",
 			marginRight: '1.5rem',
 		},
