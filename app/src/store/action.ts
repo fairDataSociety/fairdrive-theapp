@@ -69,7 +69,12 @@ export const useActions = (state, dispatch) => ({
       type: types.GET_PODS.GET_PODS_REQUEST,
     });
   },
-  openPod: (data) => {
+  getUserStats: () =>{
+    dispatch({
+      type: types.GET_USER_STATS.GET_USER_STATS_REQUEST,
+    });
+  },
+   openPod: (data) => {
     dispatch({
       type: types.OPEN_POD.OPEN_POD_REQUEST,
       payload: data,
@@ -94,6 +99,7 @@ export interface Actions {
   setSearchQuery: (data: any) => void;
   setDirectory: (data: any) => void;
   getPods: () => void;
+  getUserStats: () => void;
   openPod: (data: any) => void;
   setPodName: (data: any) => void;
   setPrivatePod: (data: any) => void;

@@ -1,5 +1,5 @@
 import types from "./actionTypes";
-import { login, fileUpload, getDirectory, generateSeedPhrase, createAccount, getPods, openPod, logOut } from "../store/services/fairOS";
+import { login, fileUpload, getDirectory, generateSeedPhrase, createAccount, getPods, openPod, logOut, userStats } from "../store/services/fairOS";
 
 export const applyMiddleware = (dispatch) => (action) => {
   switch (action.type) {
@@ -18,6 +18,19 @@ export const applyMiddleware = (dispatch) => (action) => {
         .catch((err) =>
           dispatch({
             type: types.LOGIN_USER.USER_LOGGED_FAILED,
+            payload: err.response,
+          })
+        );
+    case types.GET_USER_STATS.GET_USER_STATS_REQUEST:
+      return userStats()
+          .then((res) => {
+            dispatch({
+              type: types.GET_USER_STATS.GET_USER_STATS_SUCCESS,
+              payload: res,
+            });
+          }).catch((err) =>
+          dispatch({
+            type: types.GET_USER_STATS.GET_USER_STATS_FAILED,
             payload: err.response,
           })
         );
