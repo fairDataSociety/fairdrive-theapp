@@ -62,7 +62,7 @@ services:
     restart: unless-stopped
     ports:
       - "9090:9090"
-    command: --cors-origins "http://localhost:3000" --beeHost "bee-1" --cookieDomain "localhost"
+    command: server --cors-origins "http://localhost:3000" --beeHost "bee-1" --cookieDomain "localhost"
     volumes:
       - fairos-1:/root/.fairOS/dfs
     depends_on:
