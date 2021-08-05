@@ -319,7 +319,7 @@ export const sharePod = async (password: string, podName: string) => {
   }
 };
 // eslint-disable-next-line
-export const deletePod = async (password: string, podName: string) => {
+export const deletePod = async (podName: string) => {
   try {
     const deletePodRes = await axios({
       baseURL: host,
@@ -643,9 +643,8 @@ export const deleteFile = async (payload: any) => {
       method: "DELETE",
       url: "file/delete",
       data: {
-        file: file_name,
         pod_name: podName,
-        file_path: path
+        file_path:`${path}${file_name}`
       },
       headers: {
         "Content-Type": "application/json",
@@ -654,7 +653,34 @@ export const deleteFile = async (payload: any) => {
     });
 
     return true;
-  } catch (error) { }
+  } catch (error) {
+
+  }
+};
+
+export const deleteFolder = async (payload: any) => {
+  try {
+    // eslint-disable-next-line
+    const {podName, path} = payload
+ 
+    const deleteDirectory = await axios({
+      baseURL: host,
+      method: "DELETE",
+      url: "dir/rmdir",
+      data: {
+        pod_name: podName,
+        dir_path: path
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
+
+    return true;
+  } catch (error) {
+
+  }
 };
 
 export const shareFile = async (

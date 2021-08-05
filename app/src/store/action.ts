@@ -22,6 +22,24 @@ export const useActions = (state, dispatch) => ({
       payload: data,
     });
   },
+  deleteFile: (data) => {
+    dispatch({
+      type: types.DELETE_FILE.DELETE_FILE_REQUEST,
+      payload: data,
+    });
+  },
+  deleteFolder: (data) => {
+    dispatch({
+      type: types.DELETE_FOLDER.DELETE_FOLDER_REQUEST,
+      payload: data,
+    });
+  },
+  deletePod: (data) => {
+    dispatch({
+      type: types.DELETE_POD.DELETE_POD_REQUEST,
+      payload: data,
+    });
+  },
   cancelUpload: (requestId: string) => {
     dispatch({
       type: types.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS,
@@ -97,6 +115,9 @@ export const useActions = (state, dispatch) => ({
 export interface Actions {
   userLogin: (data: any) => void;
   userLogout: () => void;
+  deleteFile: (data: any) => void;
+  deleteFolder: (data: any) => void;
+  deletePod: (data: any) => void;
   uploadFile: (data: any) => void;
   cancelUpload: (requestId: string) => void;
   getDirectory: (data: any) => void;
