@@ -4,8 +4,9 @@ import { StoreContext } from "../../store/store";
 import useStyles from "./buttonNavbarStyles";
 import urlPath from "src/store/helpers/urlPath";
 import { GridIcon, ListIcon, Share } from "../../components/icons/icons";
+import { IUploadFIle } from "../../types/requests/UploadFile";
 export interface Props {
-  setShowGrid: any;
+  setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
   showGrid: boolean;
   handleShare: () => Promise<void>;
 }
@@ -21,7 +22,7 @@ function ButtonNavbar(props: Props) {
     // `current` points to the mounted file input element
     inputFile.current.click();
   };
-  async function handleFileUpload(files: any) {
+  async function handleFileUpload(files: FileList) {
     actions.uploadFile({
       files,
       directory: urlPath(state.directory),

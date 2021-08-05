@@ -1,5 +1,5 @@
 export interface IUploadFIle {
-  files: unknown;
+  files: FileList;
   directory: string;
   podName: string;
 }

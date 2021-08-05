@@ -3,6 +3,7 @@ import { IUploadFIle } from "../types/requests/UploadFile";
 import { IGetDirectory } from "../types/requests/GetDirectory";
 import { IStoreUserRegistrationInfo } from "../types/requests/StoreUserRegistrationInfo";
 import { IOpenPod } from "../types/requests/OpenPod";
+import { State } from "./reducerTypes";
 
 export const ACTION_TYPES = {
   SEND_FILE: {
@@ -69,7 +70,6 @@ export const ACTION_TYPES = {
 };
 
 export type TActionTypes = Readonly<typeof ACTION_TYPES>;
-
 export interface Actions {
   userLogin: (data: IUserLogin) => void;
   userLogout: () => void;
@@ -87,3 +87,8 @@ export interface Actions {
   setPodName: (data: string) => void;
   setPrivatePod: (data: boolean) => void;
 }
+
+export type TUseActions = (
+  state: State,
+  dispatch: React.Dispatch<any>
+) => Actions;

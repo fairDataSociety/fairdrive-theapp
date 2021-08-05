@@ -1,6 +1,6 @@
-import { ACTION_TYPES } from "./actionTypes";
+import { ACTION_TYPES, TUseActions } from "./actionTypes";
 
-export const useActions = (state, dispatch) => ({
+export const useActions: TUseActions = (state, dispatch) => ({
   userLogin: (data) => {
     dispatch({
       type: ACTION_TYPES.LOGIN_USER.USER_LOGIN_REQUEST,
@@ -93,21 +93,3 @@ export const useActions = (state, dispatch) => ({
     });
   },
 });
-
-export interface Actions {
-  userLogin: (data: any) => void;
-  userLogout: () => void;
-  uploadFile: (data: any) => void;
-  cancelUpload: (requestId: string) => void;
-  getDirectory: (data: any) => void;
-  storeUserRegistrationInfo: (data: any) => void;
-  getSeedPhrase: (data: any) => void;
-  createUser: (data: any) => void;
-  setSearchQuery: (data: any) => void;
-  setDirectory: (data: any) => void;
-  getPods: () => void;
-  getUserStats: () => void;
-  openPod: (data: any) => void;
-  setPodName: (data: any) => void;
-  setPrivatePod: (data: any) => void;
-}

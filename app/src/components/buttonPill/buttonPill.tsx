@@ -3,16 +3,14 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "./buttonPillStyles";
 
 export interface Props {
-  clickFunction: any;
+  clickFunction: () => void;
   text: string;
-  setFiles?: any;
   color?: string;
   textColor?: string;
   size?: string;
 }
 
 function ButtonPill(props: Props) {
-  
   const { theme } = useContext(ThemeContext);
   const { text, clickFunction } = props;
   const classes = useStyles({ ...props, ...theme });

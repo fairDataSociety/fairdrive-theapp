@@ -1,19 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import prettyBytes from "pretty-bytes";
+import moment from "moment";
+import useStyles from "./fileCardStyles";
+
+// Context
+import { StoreContext } from "../../store/store";
+import { ThemeContext } from "../../store/themeContext/themeContext";
+
+// Components
 import CardWrapper from "./cardWrapper/cardWrapper";
 import CardHeader from "./cardHeader/cardHeader";
 import CardBody from "./cardBody/cardBody";
 import { InfoIcon, Folder } from "../icons/icons";
-import { useHistory } from "react-router-dom";
-import prettyBytes from "pretty-bytes";
-import moment from "moment";
-import { StoreContext } from "../../store/store";
-import { ThemeContext } from "../../store/themeContext/themeContext";
 import DropDown from "../dropDown/dropDown";
-import useStyles from "./fileCardStyles";
+
+// Types
+import { IFile } from "../../types/models/File";
+import { IDirectory } from "../../types/models/Directory";
 type Sizes = "small" | "regular" | "big";
 export interface Props {
   size?: Sizes;
-  file: any;
+  file: IDirectory | IFile;
   isDirectory: boolean;
 }
 
@@ -22,7 +30,7 @@ function FileCard(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const history = useHistory();
   async function onFileClick() {
     if (file.content_type === "inode/directory") {
@@ -45,13 +53,15 @@ function FileCard(props: Props) {
     file.content_type === "inode/directory"
       ? setIcon(Folder)
       : setIcon(InfoIcon);
-    if (file.size) {
-      setFileSize(prettyBytes(parseInt(file.size)));
+    if ((file as IFile).size !== undefined) {
+      setFileSize(prettyBytes(parseInt((file as IFile).size)));
       setFileCreateDate(
-        moment.unix(file.creation_time).format("DD/MM/YYYY HH:mm:ss")
+        moment.unix(parseInt(file.creation_time)).format("DD/MM/YYYY HH:mm:ss")
       );
       setFileModDate(
-        moment.unix(file.modification_time).format("DD/MM/YYYY HH:mm:ss")
+        moment
+          .unix(parseInt(file.modification_time))
+          .format("DD/MM/YYYY HH:mm:ss")
       );
     }
   }, [file]);
@@ -75,17 +85,17 @@ function FileCard(props: Props) {
           isDirectory={props.isDirectory}
         />
         {dropdown && (
-        <div className={classes.dropdown}>
-        <DropDown variant="primary" heading="Preview">
-          <ul>
-           <li className={classes.listItem}>Hide</li>
-           <li className={classes.listItem}>View Hidden Files</li>
-           <li className={classes.listItem}>Download</li>
-           <li className={classes.listItem}>Accept and Open</li>
-          </ul>
-        </DropDown>
-        </div>
-      )}
+          <div className={classes.dropdown}>
+            <DropDown variant="primary" heading="Preview">
+              <ul>
+                <li className={classes.listItem}>Hide</li>
+                <li className={classes.listItem}>View Hidden Files</li>
+                <li className={classes.listItem}>Download</li>
+                <li className={classes.listItem}>Accept and Open</li>
+              </ul>
+            </DropDown>
+          </div>
+        )}
       </CardWrapper>
     </>
   );

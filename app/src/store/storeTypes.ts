@@ -1,5 +1,5 @@
 import { State } from "./reducerTypes";
-import { Actions } from "./action";
+import { Actions } from "./actionTypes";
 
 export interface IContextProps {
   state: State;

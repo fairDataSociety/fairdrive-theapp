@@ -1,5 +1,5 @@
 export interface IGetDirectory {
   directory: string;
-  password: string;
+  password?: string;
   podName: string;
 }
