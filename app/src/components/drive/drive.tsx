@@ -80,7 +80,7 @@ function Drive(props: Props) {
     if (state.entries !== null) setFiles(state.entries);
     if (state.dirs !== null) setFolders(state.dirs);
     // eslint-disable-next-line
-  }, [state.entries]);
+  }, [state.entries, state.dirs]);
 
   useEffect(() => {
     if (
@@ -283,9 +283,9 @@ function Drive(props: Props) {
       </Modal>
       {showGrid ? (
         <CardGrid className={classes.cardGrid}>
-          {folders !== null &&
-            folders !== undefined &&
-            folders.map((dir: any) => (
+          {state.dirs !== null &&
+            state.dirs !== undefined &&
+            state.dirs.map((dir: any) => (
               <FileCard file={dir} isDirectory={true}></FileCard>
             ))}
           {files !== null &&

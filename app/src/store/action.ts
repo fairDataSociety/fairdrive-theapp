@@ -22,6 +22,12 @@ export const useActions = (state, dispatch) => ({
       payload: data,
     });
   },
+  cancelUpload: (requestId: string) => {
+    dispatch({
+      type: types.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS,
+      payload: requestId,
+    });
+  },
   getDirectory: (data) => {
     dispatch({
       type: types.GET_DIRECTORY.GET_DIRECTORY_REQUEST,
@@ -92,6 +98,7 @@ export interface Actions {
   userLogin: (data: any) => void;
   userLogout: () => void;
   uploadFile: (data: any) => void;
+  cancelUpload: (requestId: string) => void;
   getDirectory: (data: any) => void;
   storeUserRegistrationInfo: (data: any) => void;
   getSeedPhrase: (data: any) => void;
