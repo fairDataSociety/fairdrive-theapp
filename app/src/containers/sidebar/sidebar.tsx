@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./sidebarStyles";
-import SidebarItem from "../../components/sidebarItem/sidebarItem";
-import { Drive, Dashboard, Globe } from "../../components/icons/icons";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './sidebarStyles';
+import SidebarItem from '../../components/sidebarItem/sidebarItem';
+import { Drive, Dashboard, Globe } from '../../components/icons/icons';
 
 export interface Props {
   showPodSidebar: boolean;
@@ -38,7 +38,7 @@ function Sidebar(props: Props) {
         /> */}
         <SidebarItem
           onClick={() => {
-            switchPages("Drive");
+            switchPages('Drive');
           }}
           Icon={Drive}
           title="Drive"

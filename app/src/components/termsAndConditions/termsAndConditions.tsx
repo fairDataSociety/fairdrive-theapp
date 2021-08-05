@@ -1,6 +1,6 @@
-import React from "react";
-import { useTheme } from "../../store/themeContext/themeContext";
-import useStyles from "./termsAndConditionsStyles";
+import React from 'react';
+import { useTheme } from '../../store/themeContext/themeContext';
+import useStyles from './termsAndConditionsStyles';
 
 export interface Props {}
 

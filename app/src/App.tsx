@@ -4,13 +4,13 @@ import { ThemeProvider } from './store/themeContext/themeContext';
 import MainWrapper from './containers/MainWrapper';
 
 const App = () => {
-	return (
-		<StoreProvider>
-			<ThemeProvider>
-				<MainWrapper />
-			</ThemeProvider>
-		</StoreProvider>
-	);
+  return (
+    <StoreProvider>
+      <ThemeProvider>
+        <MainWrapper />
+      </ThemeProvider>
+    </StoreProvider>
+  );
 };
 
 export default App;

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
-import useStyles from "./loginRegisterPageStyles";
-import ButtonPill from "../../components/buttonPill/buttonPill";
-import { StoreContext } from "../../store/store";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import Login from "../../components/login/login";
-import Register from "../../components/register/register";
+import React, { useContext, useState } from 'react';
+import useStyles from './loginRegisterPageStyles';
+import ButtonPill from '../../components/buttonPill/buttonPill';
+import { StoreContext } from '../../store/store';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import Login from '../../components/login/login';
+import Register from '../../components/register/register';
 
 export interface Props {}
 
@@ -19,7 +19,7 @@ function Main(props: Props) {
     <div className={classes.Main}>
       {!showRegisterComponent && !showLoginComponent && (
         <div className={classes.loginRegisterButtons}>
-          {" "}
+          {' '}
           <ButtonPill
             text="Login"
             color="grey"

@@ -1,9 +1,9 @@
-import React, { useContext, useRef } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./buttonNavbarStyles";
-import urlPath from "src/store/helpers/urlPath";
-import { GridIcon, ListIcon, Share } from "../../components/icons/icons";
+import React, { useContext, useRef } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './buttonNavbarStyles';
+import urlPath from 'src/store/helpers/urlPath';
+import { GridIcon, ListIcon, Share } from '../../components/icons/icons';
 export interface Props {
   setShowGrid: any;
   showGrid: boolean;

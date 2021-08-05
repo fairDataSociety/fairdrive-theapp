@@ -1,15 +1,15 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
-import { Theme } from "../../store/themeContext/themes";
-import { Props } from "./setUpCards";
+import { makeStyles, createStyles } from '@material-ui/styles';
+import { Theme } from '../../store/themeContext/themes';
+import { Props } from './setUpCards';
 
 const useStyles = makeStyles(() =>
   createStyles({
     cards: {
-      display: 'flex'
+      display: 'flex',
     },
     container: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      borderRadius: "1rem",
+      borderRadius: '1rem',
       width: '50rem',
       height: '36.5rem',
       padding: '4rem',
@@ -18,12 +18,12 @@ const useStyles = makeStyles(() =>
       justifyContent: 'space-between',
       alignItems: 'flex-start',
       margin: '1rem',
-      border: (style: Props & Theme) =>  `2px solid ${style.backgroundDark2}`
+      border: (style: Props & Theme) => `2px solid ${style.backgroundDark2}`,
     },
     icon: {
       fill: (style: Props & Theme) => style.backgroundLight2,
       width: '7rem',
-      height: '7rem'
+      height: '7rem',
     },
     header: {
       font: (style: Props & Theme) => style.typography.h6,
@@ -37,7 +37,6 @@ const useStyles = makeStyles(() =>
       border: (style: Props & Theme) => `1px solid ${style.textColorPrimary}`,
       borderRadius: '0.5rem',
       padding: '1rem 2rem',
-
     },
   })
 );

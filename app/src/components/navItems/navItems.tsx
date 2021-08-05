@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "../../containers/navbar/navbarStyles";
-import ClickAwayListener from "react-click-away-listener";
-import SearchBar from "../searchBar/searchBar";
-import { Profile, DAppIcon, Moon, Sun } from "src/components/icons/icons";
-import GenerateLink from "src/components/modals/generateLink/generateLink";
-import DropDown from "src/components/dropDown/dropDown";
-import { StoreContext } from "src/store/store";
-import { logOut } from "src/store/services/fairOS";
-import Blockies from "react-blockies";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from '../../containers/navbar/navbarStyles';
+import ClickAwayListener from 'react-click-away-listener';
+import SearchBar from '../searchBar/searchBar';
+import { Profile, DAppIcon, Moon, Sun } from 'src/components/icons/icons';
+import GenerateLink from 'src/components/modals/generateLink/generateLink';
+import DropDown from 'src/components/dropDown/dropDown';
+import { StoreContext } from 'src/store/store';
+import { logOut } from 'src/store/services/fairOS';
+import Blockies from 'react-blockies';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -67,11 +67,11 @@ function NavItems(props: Props) {
           bgColor={theme.backgroundDark2}
           seed={walletAddress}
           className={classes.blockie}
-        />{" "}
+        />{' '}
       </div>
 
       <div onClick={toggleTheme}>
-        {theme.name === "light" ? (
+        {theme.name === 'light' ? (
           <Moon className={classes.themeIcon} />
         ) : (
           <Sun className={classes.themeIcon} />
@@ -90,7 +90,7 @@ function NavItems(props: Props) {
                   onClick={() => {
                     actions.userLogout();
                   }}
-                  style={{ color: "red" }}
+                  style={{ color: 'red' }}
                 >
                   Logout
                 </li>

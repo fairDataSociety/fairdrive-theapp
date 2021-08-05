@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "../register/registerStyles";
-import ButtonPill from "../buttonPill/buttonPill";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from '../register/registerStyles';
+import ButtonPill from '../buttonPill/buttonPill';
 
-import TextField from "../textField/textField";
+import TextField from '../textField/textField';
 import {
   createAccount,
   createDirectory,
   createPod,
   userLoggedIn,
-} from "../../store/services/fairOS";
+} from '../../store/services/fairOS';
 export interface Props {}
 
 function SeedPhraseConfirm(props: Props) {
@@ -18,9 +18,9 @@ function SeedPhraseConfirm(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const [wordFive, setWordFive] = useState("");
-  const [wordEleven, setWordEleven] = useState("");
-  const [wordTwelve, setWordTwelve] = useState("");
+  const [wordFive, setWordFive] = useState('');
+  const [wordEleven, setWordEleven] = useState('');
+  const [wordTwelve, setWordTwelve] = useState('');
   // eslint-disable-next-line
   const [registerLoader, setRegisterLoader] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
@@ -35,10 +35,10 @@ function SeedPhraseConfirm(props: Props) {
   }, [actions, state.password, state.username, userCreated]);
 
   async function onRegister() {
-    console.log("in confirm component", state.mnemonic);
+    console.log('in confirm component', state.mnemonic);
 
     if (!state.mnemonic) return null;
-    const seedWords = state.mnemonic.split(" ");
+    const seedWords = state.mnemonic.split(' ');
 
     if (
       wordFive === seedWords[4] &&
@@ -96,7 +96,7 @@ function SeedPhraseConfirm(props: Props) {
             ></TextField>
 
             <ButtonPill
-              text={"Register"}
+              text={'Register'}
               clickFunction={onRegister}
             ></ButtonPill>
           </div>

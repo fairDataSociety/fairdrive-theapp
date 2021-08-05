@@ -75,12 +75,12 @@ export const useActions = (state, dispatch) => ({
       type: types.GET_PODS.GET_PODS_REQUEST,
     });
   },
-  getUserStats: () =>{
+  getUserStats: () => {
     dispatch({
       type: types.GET_USER_STATS.GET_USER_STATS_REQUEST,
     });
   },
-   openPod: (data) => {
+  openPod: (data) => {
     dispatch({
       type: types.OPEN_POD.OPEN_POD_REQUEST,
       payload: data,

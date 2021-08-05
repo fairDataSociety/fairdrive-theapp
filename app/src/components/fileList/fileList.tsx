@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./fileListStyles";
-import FileListHeader from "./fileListHeader";
-import FileListBody from "./fileListBody";
-import { StoreContext } from "src/store/store";
-import moment from "moment";
-import prettyBytes from "pretty-bytes";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './fileListStyles';
+import FileListHeader from './fileListHeader';
+import FileListBody from './fileListBody';
+import { StoreContext } from 'src/store/store';
+import moment from 'moment';
+import prettyBytes from 'pretty-bytes';
 
 export interface Props {
   isPodBarOpen: boolean;
@@ -28,10 +28,10 @@ function FileList(props: Props) {
                   name={d.name}
                   type={d.content_type}
                   size={d.size}
-                  created={moment.unix(d.creation_time).format("DD/MM/YYYY")}
+                  created={moment.unix(d.creation_time).format('DD/MM/YYYY')}
                   modified={moment
                     .unix(d.modification_time)
-                    .format("DD/MM/YYYY")}
+                    .format('DD/MM/YYYY')}
                   file={d}
                   isPodBarOpen={props.isPodBarOpen}
                 ></FileListBody>
@@ -44,10 +44,10 @@ function FileList(props: Props) {
                   name={d.name}
                   type={d.content_type}
                   size={prettyBytes(parseInt(d.size))}
-                  created={moment.unix(d.creation_time).format("DD/MM/YYYY")}
+                  created={moment.unix(d.creation_time).format('DD/MM/YYYY')}
                   modified={moment
                     .unix(d.modification_time)
-                    .format("DD/MM/YYYY")}
+                    .format('DD/MM/YYYY')}
                   file={d}
                   isPodBarOpen={props.isPodBarOpen}
                 ></FileListBody>

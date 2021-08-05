@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
-import { StoreContext } from "../../store/store";
-import useStyles from "./uploadModalProgressStyles";
+import React, { useContext } from 'react';
+import { StoreContext } from '../../store/store';
+import useStyles from './uploadModalProgressStyles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-export interface Props {
-
-}
+export interface Props {}
 
 function bytesToSize(bytes) {
   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -22,25 +20,32 @@ function UploadModalProgress(props: Props) {
     return null;
   }
 
-
   return (
     <div>
-      {state.fileUploadProgress.map(request => {
-        const percentage = Math.ceil(request.progressEvent.loaded * 100 / request.progressEvent.total);
-        return <div key={request.requestId} className={classes.progressItem}>
-          <div className={classes.percentage}>
-            {percentage}% of {bytesToSize(request.progressEvent.total)}
+      {state.fileUploadProgress.map((request) => {
+        const percentage = Math.ceil(
+          (request.progressEvent.loaded * 100) / request.progressEvent.total
+        );
+        return (
+          <div key={request.requestId} className={classes.progressItem}>
+            <div className={classes.percentage}>
+              {percentage}% of {bytesToSize(request.progressEvent.total)}
+            </div>
+            <div>
+              <LinearProgress variant="determinate" value={percentage} />
+            </div>
+            <div>
+              <a
+                onClick={() => {
+                  request.cancelFn.cancel();
+                  actions.cancelUpload(request.requestId);
+                }}
+              >
+                Cancel
+              </a>
+            </div>
           </div>
-          <div>
-            <LinearProgress variant="determinate" value={percentage} />
-          </div>
-          <div>
-            <a onClick={() => {
-              request.cancelFn.cancel();
-              actions.cancelUpload(request.requestId)
-            }}>Cancel</a>
-          </div>  
-        </div>
+        );
       })}
     </div>
   );

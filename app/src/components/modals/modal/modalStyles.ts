@@ -1,6 +1,6 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
-import { Theme } from "../../../store/themeContext/themes";
-import { Props } from "./modal";
+import { makeStyles, createStyles } from '@material-ui/styles';
+import { Theme } from '../../../store/themeContext/themes';
+import { Props } from './modal';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -8,39 +8,39 @@ const useStyles = makeStyles(() =>
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       border: (style: Props & Theme) => `1px solid ${style.backgroundDark2}`,
       color: (style: Props & Theme) => style.backgroundWhite,
-      width: "50rem",
-      minHeight: "25rem",
-      display: "flex",
-      flexDirection: "column",
-      padding: "2.5rem",
-      marginBottom: "1rem",
-      borderRadius: "1rem",
-      position: "relative",
+      width: '50rem',
+      minHeight: '25rem',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '2.5rem',
+      marginBottom: '1rem',
+      borderRadius: '1rem',
+      position: 'relative',
     },
     header: {
       font: (style: Props & Theme) => style.typography.body3,
       borderBottom: (style: Props & Theme) =>
         `1px solid ${style.backgroundDark1}`,
-      paddingBottom: "2rem",
-      display: "flex",
-      alignItems: "center",
+      paddingBottom: '2rem',
+      display: 'flex',
+      alignItems: 'center',
     },
     icon: {
-      marginRight: "1rem",
+      marginRight: '1rem',
     },
     closeIcon: {
       stroke: (style: Props & Theme) => style.backgroundLight1,
-      position: "absolute",
-      right: "3rem",
-      top: "3rem",
+      position: 'absolute',
+      right: '3rem',
+      top: '3rem',
     },
     flex: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
     },
     body: {
-      padding: "3rem 0",
+      padding: '3rem 0',
       font: (style: Props & Theme) => style.typography.caption1,
     },
     confirmMessage: {
@@ -56,26 +56,25 @@ const useStyles = makeStyles(() =>
       color: (style: Props & Theme) => style.red,
     },
     buttonContainer: {
-      display: "flex",
-      justifyContent: "center",
+      display: 'flex',
+      justifyContent: 'center',
     },
     button: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      maxWidth: "35rem",
-      minWidth: "20rem",
-      maxHeight: "9rem",
-      minHeight: "6rem",
-      padding: "1.5rem 3rem",
-      borderRadius: "0.5rem",
+      maxWidth: '35rem',
+      minWidth: '20rem',
+      maxHeight: '9rem',
+      minHeight: '6rem',
+      padding: '1.5rem 3rem',
+      borderRadius: '0.5rem',
       font: (style: Props & Theme) => style.typography.caption1,
-
     },
     disabledButton: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark1,
       color: (style: Props & Theme) => style.backgroundLight3,
-      maxWidth: "25rem",
-      padding: "1.5rem 3rem",
-      borderRadius: "0.5rem",
+      maxWidth: '25rem',
+      padding: '1.5rem 3rem',
+      borderRadius: '0.5rem',
     },
   })
 );

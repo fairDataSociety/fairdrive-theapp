@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { useEffect } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./textFieldStyles";
+import React, { useContext } from 'react';
+import { useEffect } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './textFieldStyles';
 
 export interface Props {
   placeholder: string;
@@ -21,7 +21,7 @@ function TextField(props: Props) {
 
   const classes = useStyles({ ...props, ...theme });
   useEffect(() => {
-    const username = localStorage.getItem("username");
+    const username = localStorage.getItem('username');
     if (props.isPropUsername) {
       props.setProp(username);
     }

@@ -1,29 +1,29 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./driveStyles";
-import { Modal } from "@material-ui/core";
-import CardGrid from "../../components/cardGrid/cardGrid";
-import FileCard from "../../components/cards/fileCard";
-import FileModal from "../../components/fileModal/fileModal";
-import UploadModal from "../../components/uploadModal/uploadModal";
-import sortByProp from "../../store/helpers/sort";
-import OpenInDapp from "../modals/openInDapp/openInDapp";
-import ButtonNavbar from "../buttonNavbar/buttonNavbar";
-import FileList from "../fileList/fileList";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './driveStyles';
+import { Modal } from '@material-ui/core';
+import CardGrid from '../../components/cardGrid/cardGrid';
+import FileCard from '../../components/cards/fileCard';
+import FileModal from '../../components/fileModal/fileModal';
+import UploadModal from '../../components/uploadModal/uploadModal';
+import sortByProp from '../../store/helpers/sort';
+import OpenInDapp from '../modals/openInDapp/openInDapp';
+import ButtonNavbar from '../buttonNavbar/buttonNavbar';
+import FileList from '../fileList/fileList';
 import {
   ButtonPlus,
   PodInfo,
   ShareIcon,
   UploadIcon,
-} from "../../components/icons/icons";
-import { CreateNew } from "../modals/createNew/createNew";
+} from '../../components/icons/icons';
+import { CreateNew } from '../modals/createNew/createNew';
 import {
   createDirectory,
   receiveFileInfo,
   sharePod,
-} from "src/store/services/fairOS";
-import GenerateLink from "../modals/generateLink/generateLink";
+} from 'src/store/services/fairOS';
+import GenerateLink from '../modals/generateLink/generateLink';
 
 export interface Props {
   isPodBarOpen: boolean;
@@ -38,16 +38,16 @@ function Drive(props: Props) {
   const [showGrid, setShowGrid] = useState(true);
   const [open, setOpen] = useState(false);
   const [openImportFile, setOpenImportFile] = useState(false);
-  const [folderName, setFolderName] = useState("");
-  const [fileName, setFileName] = useState("");
+  const [folderName, setFolderName] = useState('');
+  const [fileName, setFileName] = useState('');
   const [openUpload, setOpenUpload] = useState(false);
   const [responseCreation, setResponseCreation] = useState(false);
   const [showSharePodPopup, setShowSharePodPopup] = useState(false);
-  const [refLink, setRefLink] = useState("0000000000000");
-  const toSortProp = "name";
+  const [refLink, setRefLink] = useState('0000000000000');
+  const toSortProp = 'name';
   // eslint-disable-next-line
   const [toSort, setToSort] = useState(toSortProp);
-  const orderProp = "asc";
+  const orderProp = 'asc';
 
   const classes = useStyles({ ...props, ...theme });
 
@@ -89,10 +89,10 @@ function Drive(props: Props) {
       folders !== undefined &&
       folders !== null
     )
-      if (state.searchQuery === "" && files?.length !== state.entries?.length) {
+      if (state.searchQuery === '' && files?.length !== state.entries?.length) {
         setFiles(state.entries);
       }
-    if (state.searchQuery === "" && folders?.length !== state.dirs?.length) {
+    if (state.searchQuery === '' && folders?.length !== state.dirs?.length) {
       setFolders(state.dirs);
     }
     if (state.searchQuery !== null) {
@@ -166,18 +166,18 @@ function Drive(props: Props) {
           handleShare={handleShare}
         />
       </div>
-      {state.podName !== "" ? (
+      {state.podName !== '' ? (
         <div className={classes.midWrapper}>
           <div className={classes.midHeader}>
-            {state.isPrivatePod ? "Inventory" : "Inbox (Read Only)"}
+            {state.isPrivatePod ? 'Inventory' : 'Inbox (Read Only)'}
           </div>
           <div className={classes.divider}></div>
           <div className={classes.infoWrapper}>
             <PodInfo className={classes.infoIcon} />
             <div className={classes.information}>
               {state.isPrivatePod
-                ? "All your content including what you have shared with others marked with a"
-                : "(All links to content shared with you) Links Shared by Username"}
+                ? 'All your content including what you have shared with others marked with a'
+                : '(All links to content shared with you) Links Shared by Username'}
             </div>
             <ShareIcon className={classes.shareIcon} />
           </div>
@@ -185,11 +185,11 @@ function Drive(props: Props) {
       ) : (
         <></>
       )}
-      {state.podName !== "" ? (
+      {state.podName !== '' ? (
         <div className={classes.actionWrapper}>
           {state.isPrivatePod ? (
             <>
-              {" "}
+              {' '}
               <div className={classes.actionRow}>
                 <div className={classes.actionButton}>
                   <UploadModal
@@ -227,7 +227,7 @@ function Drive(props: Props) {
                 <div className={classes.actionText}>
                   Create new folders in this pod
                 </div>
-              </div>{" "}
+              </div>{' '}
             </>
           ) : (
             <>
@@ -237,7 +237,7 @@ function Drive(props: Props) {
                   Add
                 </div>
                 <div className={classes.actionText}>Add Files Via Link</div>
-              </div>{" "}
+              </div>{' '}
             </>
           )}
         </div>

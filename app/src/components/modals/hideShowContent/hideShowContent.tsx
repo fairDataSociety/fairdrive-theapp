@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../../store/themeContext/themeContext";
-import { StoreContext } from "../../../store/store";
-import Modal from "../modal/modal";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../store/themeContext/themeContext';
+import { StoreContext } from '../../../store/store';
+import Modal from '../modal/modal';
 
 export interface Props {}
 

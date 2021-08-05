@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import useStyles from "./mainStyles";
-import { StoreContext } from "../../store/store";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import Home from "../home/home";
-import LoginRegisterPage from "../loginRegisterPage/loginRegisterPage";
+import React, { useContext } from 'react';
+import useStyles from './mainStyles';
+import { StoreContext } from '../../store/store';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import Home from '../home/home';
+import LoginRegisterPage from '../loginRegisterPage/loginRegisterPage';
 
 export interface Props {}
 

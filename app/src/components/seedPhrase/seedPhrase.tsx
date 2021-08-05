@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "../seedPhrase/seedPhraseStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from '../seedPhrase/seedPhraseStyles';
 
 export interface Props {
   seedPhrase: string;
@@ -16,7 +16,7 @@ function SeedPhrase(props: Props) {
   return (
     <div className={classes.SeedPhrase}>
       <div>
-        {props.seedPhrase.split(" ").map((word, index) => {
+        {props.seedPhrase.split(' ').map((word, index) => {
           return (
             <div>
               {index + 1}. {word}

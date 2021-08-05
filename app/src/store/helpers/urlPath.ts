@@ -1,4 +1,3 @@
-export default function urlPath(path:any) {
-    return path.replace(/&/g, "/");
-  }
-  
+export default function urlPath(path: any) {
+  return path.replace(/&/g, '/');
+}

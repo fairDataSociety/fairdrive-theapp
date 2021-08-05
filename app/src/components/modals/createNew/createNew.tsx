@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../../store/themeContext/themeContext";
-import useStyles from "./createNewStyles";
-import TextField from "../../textField/textField";
-import Modal from "../modal/modal";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../store/themeContext/themeContext';
+import useStyles from './createNewStyles';
+import TextField from '../../textField/textField';
+import Modal from '../modal/modal';
 
 export interface Props {
   type: string;

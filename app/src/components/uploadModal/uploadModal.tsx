@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./uploadModalStyles";
-import Modal from "@material-ui/core/Modal";
-import { InfoIcon, Folder, Close, UploadIcon } from "../icons/icons";
-import urlPath from "src/store/helpers/urlPath";
-import UploadModalProgress from "../uploadModalProgress/uploadModalProgress";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './uploadModalStyles';
+import Modal from '@material-ui/core/Modal';
+import { InfoIcon, Folder, Close, UploadIcon } from '../icons/icons';
+import urlPath from 'src/store/helpers/urlPath';
+import UploadModalProgress from '../uploadModalProgress/uploadModalProgress';
 
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -35,7 +35,7 @@ function UploadModal(props: Props) {
       blobFile = URL.createObjectURL(file);
       setFile(file);
       setBlob(blobFile);
-  
+
       actions.uploadFile({
         files,
         directory: urlPath(state.directory),
@@ -61,7 +61,7 @@ function UploadModal(props: Props) {
   };
 
   const classes = useStyles({ ...props, open, ...theme });
- 
+
   return (
     <div>
       <div onClick={handleOpen}>{props.children}</div>
@@ -72,24 +72,23 @@ function UploadModal(props: Props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        
         <div className={classes.fileModal} onClick={handleOpen}>
           <div className={classes.headerWrapper}>
             <Folder className={classes.headerIcon} />
-            <div className={classes.header}>Upload File</div>{" "}
+            <div className={classes.header}>Upload File</div>{' '}
             <Close className={classes.closeIcon} onClick={handleClose} />
           </div>
           <div className={classes.divider}></div>
 
           <div className={classes.iconContainer}>
-            {file && !file.type.includes("image") && (
+            {file && !file.type.includes('image') && (
               <InfoIcon className={classes.Icon} />
             )}
-            {file && file.type.includes("image") && (
+            {file && file.type.includes('image') && (
               <img className={classes.imagePreview} src={blob} alt="img"></img>
             )}
           </div>
- 
+
           <UploadModalProgress />
 
           <div className={classes.divider}></div>

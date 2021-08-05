@@ -1,14 +1,12 @@
-import React from "react"
+import React from 'react';
 
-import useStyles from "./filePreviewStyles";
-import { InfoIcon } from "../icons/icons";
+import useStyles from './filePreviewStyles';
+import { InfoIcon } from '../icons/icons';
 
 const FilePreviewFallback = () => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  return (
-    <InfoIcon className={classes.Icon} />
-  )
-}
+  return <InfoIcon className={classes.Icon} />;
+};
 
-export default FilePreviewFallback
+export default FilePreviewFallback;

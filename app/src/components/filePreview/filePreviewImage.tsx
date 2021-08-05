@@ -1,41 +1,39 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react';
 
-import { FilePreviewInfo } from "./types"
-import useStyles from "./filePreviewStyles"
-import { filePreview } from "../../store/services/fairOS"
+import { FilePreviewInfo } from './types';
+import useStyles from './filePreviewStyles';
+import { filePreview } from '../../store/services/fairOS';
 
-type FilePreviewImageProps = FilePreviewInfo
+type FilePreviewImageProps = FilePreviewInfo;
 
 const FilePreviewImage: React.FC<FilePreviewImageProps> = ({
   filename,
   directory,
   podName,
 }) => {
-  const [src, setSrc] = useState<string>()
-  const classes = useStyles()
+  const [src, setSrc] = useState<string>();
+  const classes = useStyles();
 
   useEffect(() => {
-    loadImage()
+    loadImage();
 
-    return () => unloadImage()
-  }, [])
+    return () => unloadImage();
+  }, []);
 
   const loadImage = async () => {
     const imgSrc = window.URL.createObjectURL(
       await filePreview(filename, directory, podName)
     );
-    setSrc(imgSrc)
-  }
+    setSrc(imgSrc);
+  };
 
   const unloadImage = () => {
-    URL.revokeObjectURL(src)
-  }
+    URL.revokeObjectURL(src);
+  };
 
-  if (!src) return null
+  if (!src) return null;
 
-  return (
-    <img className={classes.imagePreview} src={src}></img>
-  )
-}
+  return <img className={classes.imagePreview} src={src}></img>;
+};
 
-export default FilePreviewImage
+export default FilePreviewImage;

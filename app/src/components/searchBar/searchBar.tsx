@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./searchBarStyles";
-import { Search, Close } from "../icons/icons";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './searchBarStyles';
+import { Search, Close } from '../icons/icons';
 
 export interface Props {}
 

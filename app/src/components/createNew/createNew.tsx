@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./createNewStyles";
-import TextField from "../textField/textField";
-import ButtonPill from "../buttonPill/buttonPill";
+import React, { useContext, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './createNewStyles';
+import TextField from '../textField/textField';
+import ButtonPill from '../buttonPill/buttonPill';
 
 export interface Props {
   onClick: any;

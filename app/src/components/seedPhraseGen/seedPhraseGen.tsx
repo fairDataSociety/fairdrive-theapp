@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "../register/registerStyles";
-import ButtonPill from "../buttonPill/buttonPill";
-import SeedPhrase from "../seedPhrase/seedPhrase";
+import React, { useContext, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from '../register/registerStyles';
+import ButtonPill from '../buttonPill/buttonPill';
+import SeedPhrase from '../seedPhrase/seedPhrase';
 
 export interface Props {
   onContinue: any;
@@ -20,7 +20,7 @@ function SeedPhraseGen(props: Props) {
   //   history.push("/confirm-seed");
   // }
 
-  console.log("mnemonic", state.mnemonic);
+  console.log('mnemonic', state.mnemonic);
 
   return (
     <div className={classes.Login}>
@@ -46,10 +46,10 @@ function SeedPhraseGen(props: Props) {
             Please confirm you understand how the seed phrase works.
           </div>
         ) : (
-          ""
+          ''
         )}
         <ButtonPill
-          text={"Continue"}
+          text={'Continue'}
           clickFunction={props.onContinue}
         ></ButtonPill>
       </div>

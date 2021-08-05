@@ -1,13 +1,13 @@
-import React from "react"
+import React from 'react';
 
-import { FilePreviewInfo } from "./types"
-import FilePreviewImage from "./filePreviewImage"
-import FilePreviewFallback from "./filePreviewFallback"
-import FilePreviewVideo from "../../extensions/etherna/components/filePreviewVideo/filePreviewVideo"
+import { FilePreviewInfo } from './types';
+import FilePreviewImage from './filePreviewImage';
+import FilePreviewFallback from './filePreviewFallback';
+import FilePreviewVideo from '../../extensions/etherna/components/filePreviewVideo/filePreviewVideo';
 
 type FilePreviewProps = FilePreviewInfo & {
-  contentType: string
-}
+  contentType: string;
+};
 
 function FilePreview({
   contentType,
@@ -15,11 +15,15 @@ function FilePreview({
   directory,
   podName,
 }: FilePreviewProps) {
-  const extensionsTypes = Object.keys(FilePreview.extensions)
-  const extensionType = extensionsTypes.find(type => new RegExp(type).test(contentType))
+  const extensionsTypes = Object.keys(FilePreview.extensions);
+  const extensionType = extensionsTypes.find((type) =>
+    new RegExp(type).test(contentType)
+  );
 
   if (extensionType) {
-    const ExtensionComponent = FilePreview.extensions[extensionType] as React.FC<FilePreviewInfo>
+    const ExtensionComponent = FilePreview.extensions[
+      extensionType
+    ] as React.FC<FilePreviewInfo>;
 
     return (
       <ExtensionComponent
@@ -27,26 +31,26 @@ function FilePreview({
         directory={directory}
         podName={podName}
       />
-    )
+    );
   }
 
-  if (contentType.includes("image")) {
+  if (contentType.includes('image')) {
     return (
       <FilePreviewImage
         filename={filename}
         directory={directory}
         podName={podName}
       />
-    )
+    );
   }
 
-  return <FilePreviewFallback />
+  return <FilePreviewFallback />;
 }
 
 // Extensions ------
 FilePreview.extensions = {
-  "video/*": FilePreviewVideo
-}
+  'video/*': FilePreviewVideo,
+};
 // -----------------
 
-export default FilePreview
+export default FilePreview;

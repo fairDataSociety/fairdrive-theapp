@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./buttonLinkStyles";
-import { Link } from "react-router-dom";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './buttonLinkStyles';
+import { Link } from 'react-router-dom';
 export interface Props {
   color: string;
   label: string;

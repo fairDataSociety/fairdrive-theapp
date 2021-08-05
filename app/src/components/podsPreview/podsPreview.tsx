@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./podsPreviewStyles";
-import PodActivity from "./podActivity";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './podsPreviewStyles';
+import PodActivity from './podActivity';
 
 export interface Props {}
 

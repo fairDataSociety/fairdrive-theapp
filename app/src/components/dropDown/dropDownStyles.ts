@@ -1,6 +1,6 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
-import { Theme } from "../../store/themeContext/themes";
-import { Props } from "./dropDown";
+import { makeStyles, createStyles } from '@material-ui/styles';
+import { Theme } from '../../store/themeContext/themes';
+import { Props } from './dropDown';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -10,41 +10,41 @@ const useStyles = makeStyles(() =>
       font: (style: Props & Theme) => style.typography.body3,
       width: (style: Props & Theme) => {
         switch (style.variant) {
-          case "primary":
-            return "25rem";
-          case "secondary":
-            return "36rem";
-          case "tertiary":
-            return "36rem";
+          case 'primary':
+            return '25rem';
+          case 'secondary':
+            return '36rem';
+          case 'tertiary':
+            return '36rem';
         }
       },
-      height: "auto",
-      border: (style: Props & Theme) =>  `1px solid ${style.backgroundDark2}`,
-      borderRadius: "1rem",
-      margin: "2rem",
-      padding: "2rem",
-      textAlign: "left",
-      display: "flex",
-      flexDirection: "column",
-      alignSelf: "center",
+      height: 'auto',
+      border: (style: Props & Theme) => `1px solid ${style.backgroundDark2}`,
+      borderRadius: '1rem',
+      margin: '2rem',
+      padding: '2rem',
+      textAlign: 'left',
+      display: 'flex',
+      flexDirection: 'column',
+      alignSelf: 'center',
       zIndex: 1,
     },
     heading: {},
     subheading: {},
     divider: {
-      height: "5px",
+      height: '5px',
       borderBottom: (style: Props & Theme) => {
         switch (style.variant) {
-          case "primary":
+          case 'primary':
             return `2px solid ${style.backgroundWhite}`;
-          case "secondary":
+          case 'secondary':
             return `2px solid ${style.backgroundWhite}`;
-          case "tertiary":
-            return "none";
+          case 'tertiary':
+            return 'none';
         }
       },
-      width: "100%",
-      margin: "1rem 0",
+      width: '100%',
+      margin: '1rem 0',
     },
     body: {
       font: (style: Props & Theme) => style.typography.body1,

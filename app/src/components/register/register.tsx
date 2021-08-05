@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./registerStyles";
-import ButtonPill from "../buttonPill/buttonPill";
-import TextField from "../textField/textField";
-import SeedPhraseGen from "../seedPhraseGen/seedPhraseGen";
-import SeedPhraseConfirm from "../seedPhraseConfirm/seedPhraseConfirm";
-import welcomeImage from "../../media/images/welcome-image.png";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './registerStyles';
+import ButtonPill from '../buttonPill/buttonPill';
+import TextField from '../textField/textField';
+import SeedPhraseGen from '../seedPhraseGen/seedPhraseGen';
+import SeedPhraseConfirm from '../seedPhraseConfirm/seedPhraseConfirm';
+import welcomeImage from '../../media/images/welcome-image.png';
 
 export interface Props {}
 
@@ -15,10 +15,10 @@ function Register(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   // eslint-disable-next-line
-  const [inviteCode, setInviteCode] = useState("");
+  const [inviteCode, setInviteCode] = useState('');
 
   const [hasError, setHasError] = useState(false);
   const [showRegisterArea, setShowRegisterArea] = useState(true);
@@ -83,9 +83,9 @@ function Register(props: Props) {
           {hasError ? (
             <div className={classes.errormsg}>Could not login.</div>
           ) : (
-            ""
+            ''
           )}
-          <ButtonPill text={"Continue"} clickFunction={onContinue}></ButtonPill>
+          <ButtonPill text={'Continue'} clickFunction={onContinue}></ButtonPill>
         </div>
       )}
       {showMnemonicArea && (

@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./buttonPillStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './buttonPillStyles';
 
 export interface Props {
   clickFunction: any;
@@ -12,7 +12,6 @@ export interface Props {
 }
 
 function ButtonPill(props: Props) {
-  
   const { theme } = useContext(ThemeContext);
   const { text, clickFunction } = props;
   const classes = useStyles({ ...props, ...theme });

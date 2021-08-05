@@ -1,5 +1,5 @@
 export type FilePreviewInfo = {
-  filename: string
-  directory: string
-  podName: string
-}
+  filename: string;
+  directory: string;
+  podName: string;
+};

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import ButtonPill from "../buttonPill/buttonPill";
-import useStyles from "./uploadFileStyles";
-import TextField from "../textField/textField";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import ButtonPill from '../buttonPill/buttonPill';
+import useStyles from './uploadFileStyles';
+import TextField from '../textField/textField';
 
 export interface Props {
   file: any;
@@ -13,7 +13,7 @@ export interface Props {
 function ShareFile(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const [filename, setFilename] = useState("");
+  const [filename, setFilename] = useState('');
 
   const classes = useStyles({ ...props, ...theme });
   const handleSetFilename = (e: any) => {
@@ -50,7 +50,7 @@ function ShareFile(props: Props) {
         onContinue={shareFile}
       ></TextField>
       <div className={classes.flexer}></div>
-      <ButtonPill text={"Save file"} clickFunction={shareFile}></ButtonPill>
+      <ButtonPill text={'Save file'} clickFunction={shareFile}></ButtonPill>
     </div>
   );
 }

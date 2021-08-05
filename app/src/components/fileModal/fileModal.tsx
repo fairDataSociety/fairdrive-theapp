@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./fileModalStyles";
-import Modal from "@material-ui/core/Modal";
-import FileCard from "../cards/fileCard";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './fileModalStyles';
+import Modal from '@material-ui/core/Modal';
+import FileCard from '../cards/fileCard';
 import {
   Folder,
   Close,
@@ -11,19 +11,19 @@ import {
   Hide,
   Share,
   UploadIcon,
-} from "../icons/icons";
-import writePath from "../../store/helpers/writePath";
+} from '../icons/icons';
+import writePath from '../../store/helpers/writePath';
 import {
   deleteFile,
   fileDownload,
   filePreview,
   shareFile,
-} from "../../store/services/fairOS";
-import prettyBytes from "pretty-bytes";
-import moment from "moment";
-import urlPath from "src/store/helpers/urlPath";
-import GenerateLink from "../modals/generateLink/generateLink";
-import FilePreview from "../filePreview/filePreview";
+} from '../../store/services/fairOS';
+import prettyBytes from 'pretty-bytes';
+import moment from 'moment';
+import urlPath from 'src/store/helpers/urlPath';
+import GenerateLink from '../modals/generateLink/generateLink';
+import FilePreview from '../filePreview/filePreview';
 
 export interface Props {
   file: any;
@@ -39,10 +39,10 @@ function FileModal(props: Props) {
   const [openShareLink, setOpenShareLink] = React.useState(false);
   const { file } = props;
 
-  const [fileSize, setFileSize] = useState("");
-  const [fileCreateDate, setFileCreateDate] = useState("");
-  const [fileModDate, setFileModDate] = useState("");
-  const [refLink, setRefLink] = useState("");
+  const [fileSize, setFileSize] = useState('');
+  const [fileCreateDate, setFileCreateDate] = useState('');
+  const [fileModDate, setFileModDate] = useState('');
+  const [refLink, setRefLink] = useState('');
 
   const handleCloseShareLink = () => {
     setOpenShareLink(false);
@@ -50,8 +50,8 @@ function FileModal(props: Props) {
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
-      setFileCreateDate(moment.unix(file.creation_time).format("DD/MM/YYYY"));
-      setFileModDate(moment.unix(file.modification_time).format("DD/MM/YYYY"));
+      setFileCreateDate(moment.unix(file.creation_time).format('DD/MM/YYYY'));
+      setFileModDate(moment.unix(file.modification_time).format('DD/MM/YYYY'));
     }
   }, [file]);
 
@@ -106,7 +106,7 @@ function FileModal(props: Props) {
         <div className={classes.fileModal} onClick={handleOpen}>
           <div className={classes.headerWrapper}>
             <Folder className={classes.headerIcon} />
-            <div className={classes.header}>Preview File</div>{" "}
+            <div className={classes.header}>Preview File</div>{' '}
             <Close className={classes.closeIcon} onClick={handleClose} />
           </div>
           <div className={classes.divider}></div>
@@ -122,7 +122,7 @@ function FileModal(props: Props) {
           <div className={classes.titleWrapper}>
             <p className={classes.title}>{file.name}</p>
             <p className={classes.fileLocation}>
-              {"/" + urlPath(state.directory)}
+              {'/' + urlPath(state.directory)}
             </p>
           </div>
           <div className={classes.fileInfoContainer}>
