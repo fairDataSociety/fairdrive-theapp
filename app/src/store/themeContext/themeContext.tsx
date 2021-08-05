@@ -1,24 +1,19 @@
 import React, { createContext, useContext, useState } from "react";
-import { themes, Theme } from "./themes";
+import { themes } from "./themes";
 
-interface ContextProps {
-  theme: Theme;
-  toggleTheme: () => void;
-}
+import { IContextProps, IThemeProvider } from "./themeContextTypes";
 
-export const ThemeContext = createContext({} as ContextProps);
+export const ThemeContext = createContext({} as IContextProps);
 
-export function ThemeProvider(props: any) {
+export function ThemeProvider({ children }: IThemeProvider): JSX.Element {
   const [theme, setTheme] = useState(themes.dark);
   // when consuming this context, to toggle the theme, call toggleTheme();
-  const toggleTheme: any = () => {
+  const toggleTheme = (): void => {
     theme.name === "light" ? setTheme(themes.dark) : setTheme(themes.light);
   };
   const value = { theme, toggleTheme };
   return (
-    <ThemeContext.Provider value={value}>
-      {props.children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
 

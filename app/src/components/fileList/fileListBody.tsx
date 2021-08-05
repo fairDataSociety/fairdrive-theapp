@@ -5,11 +5,11 @@ import { Kebab } from "../icons/icons";
 
 export interface Props {
   file: any;
-  name: any;
-  type: any;
-  size: any;
-  created: any;
-  modified: any;
+  name: string;
+  type: string;
+  size: string;
+  created: string;
+  modified: string;
   isPodBarOpen: boolean;
 }
 function FileListBody(props: Props) {
