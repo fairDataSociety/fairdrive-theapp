@@ -1,6 +1,6 @@
-import types from './actionTypes';
+import types from "./actionTypes";
 
-type Status = string | 'loading' | 'success' | 'fail';
+type Status = string | "loading" | "success" | "fail";
 
 interface Flags {
   loginStatus: Status;
@@ -10,6 +10,9 @@ export interface State {
   sessionCookie: string;
   username: string;
   userData: any;
+  fileDeleted: any;
+  folderDeleted: any;
+  podDeleted: any;
   fileUploaded: any;
   showPasswordUnlock: boolean;
   hasUser: boolean;
@@ -34,11 +37,14 @@ export interface State {
 }
 
 const initialState: State = {
-  token: '',
-  sessionCookie: '',
-  username: '',
+  token: "",
+  sessionCookie: "",
+  username: "",
   userData: null,
   fileUploaded: {},
+  fileDeleted: {},
+  folderDeleted: {},
+  podDeleted: {},
   showPasswordUnlock: false,
   hasUser: false,
   password: null,
@@ -48,17 +54,17 @@ const initialState: State = {
   isPrivatePod: true,
   entries: null,
   dirs: null,
-  inviteCode: '',
-  address: '',
-  errMsg: '',
-  directory: 'root',
+  inviteCode: "",
+  address: "",
+  errMsg: "",
+  directory: "root",
   pods: [],
   podMsg: null,
-  podName: '',
+  podName: "",
   podsOpened: [],
   userStats: null,
   flags: {
-    loginStatus: '',
+    loginStatus: "",
   },
   fileUploadProgress: []
 };
@@ -102,7 +108,7 @@ const reducer = (state: State = initialState, action: any) => {
         username: action.payload.username,
         flags: {
           ...state.flags,
-          loginStatus: 'success',
+          loginStatus: "success",
         },
       };
     case types.LOGIN_USER.USER_LOGGED_FAILED:
@@ -112,7 +118,7 @@ const reducer = (state: State = initialState, action: any) => {
         errMsg: action?.payload?.res,
         flags: {
           ...state.flags,
-          loginStatus: 'fail',
+          loginStatus: "fail",
         },
       };
     case types.LOGIN_USER.USER_LOGIN_PENDING:
@@ -120,17 +126,20 @@ const reducer = (state: State = initialState, action: any) => {
         ...state,
         flags: {
           ...state.flags,
-          loginStatus: 'loading',
+          loginStatus: "loading",
         },
       };
     case types.LOG_OUT_USER.USER_LOGGED_OUT_SUCCESS:
       return {
         ...state,
-        token: '',
-        sessionCookie: '',
-        username: '',
+        token: "",
+        sessionCookie: "",
+        username: "",
         userData: null,
         fileUploaded: {},
+        fileDeleted: {},
+        folderDeleted: {},
+        podDeleted: {},
         showPasswordUnlock: false,
         hasUser: false,
         password: null,
@@ -140,16 +149,16 @@ const reducer = (state: State = initialState, action: any) => {
         isPrivatePod: true,
         entries: null,
         dirs: null,
-        inviteCode: '',
-        address: '',
-        errMsg: '',
-        directory: 'root',
+        inviteCode: "",
+        address: "",
+        errMsg: "",
+        directory: "root",
         pods: [],
         podMsg: null,
-        podName: '',
+        podName: "",
         podsOpened: [],
         flags: {
-          loginStatus: '',
+          loginStatus: "",
         },
       };
     case types.LOG_OUT_USER.USER_LOGGED_OUT_FAILED:
@@ -165,7 +174,7 @@ const reducer = (state: State = initialState, action: any) => {
         ...state,
         address: action.payload.data,
         unlocked: true,
-        errMsg: '',
+        errMsg: "",
       };
     case types.CREATE_USER.CREATE_USER_FAILED:
       return { ...state, unlocked: false, errMsg: action.payload.res };
@@ -173,6 +182,12 @@ const reducer = (state: State = initialState, action: any) => {
       return { ...state, isPrivatePod: action.payload };
     case types.SEND_FILE.FILE_SENT_SUCCESS:
       return { ...state, fileUploaded: action.payload };
+    case types.DELETE_FILE.FILE_DELETE_SUCCESS:
+      return { ...state, fileDeleted: action.payload };
+    case types.DELETE_FOLDER.FOLDER_DELETE_SUCCESS:
+      return { ...state, folderDeleted: action.payload };
+    case types.DELETE_POD.POD_DELETE_SUCCESS:
+      return { ...state, podDeleted: action.payload };
     case types.SET_SYSTEM:
       return {
         ...state,
