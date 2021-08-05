@@ -62,12 +62,26 @@ export const applyMiddleware = (dispatch) => (action) => {
             payload: err.response,
           })
         );
-    case types.SEND_FILE.SEND_FILE_REQUEST:
-      return fileUpload(action.payload).then((res) => {
+    case types.SEND_FILE.SEND_FILE_REQUEST: {
+      const {uploadRequest, requestId} = fileUpload(action.payload, (requestId, progressEvent, cancelFn) => {
+        dispatch({
+          type: types.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST,
+          payload: {progressEvent, requestId, cancelFn},
+        });
+      })
+      
+      uploadRequest.then((res) => {
         dispatch({
           type: types.SEND_FILE.FILE_SENT_SUCCESS,
           payload: res,
         });
+
+        setTimeout(() => {
+          dispatch({
+            type: types.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS,
+            payload: requestId,
+          });
+        }, 2500)
       })
         .catch((err) =>
           dispatch({
@@ -75,6 +89,9 @@ export const applyMiddleware = (dispatch) => (action) => {
             payload: err.response,
           })
         );
+
+      break;
+    }
     case types.GET_DIRECTORY.GET_DIRECTORY_REQUEST:
       return getDirectory(action.payload).then((res) => {
         dispatch({
