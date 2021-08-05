@@ -10,13 +10,12 @@ import {
   Download,
   Hide,
   Share,
+  // eslint-disable-next-line
   UploadIcon,
 } from "../icons/icons";
 import writePath from "../../store/helpers/writePath";
 import {
-  deleteFile,
   fileDownload,
-  filePreview,
   shareFile,
 } from "../../store/services/fairOS";
 import prettyBytes from "pretty-bytes";
@@ -33,7 +32,7 @@ export interface Props {
 }
 
 function FileModal(props: Props) {
-  const { state } = useContext(StoreContext);
+  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = React.useState(false);
   const [openShareLink, setOpenShareLink] = React.useState(false);
@@ -83,7 +82,7 @@ function FileModal(props: Props) {
     setOpenShareLink(true);
   };
   const handleDelete = async () => {
-    const res = await deleteFile({
+    actions.deleteFile({
       file_name: props.file.name,
       path: writePath(state.directory),
       podName: state.podName,
@@ -93,8 +92,8 @@ function FileModal(props: Props) {
 
   return (
     <div>
-      <div onClick={handleOpen}>
-        <FileCard file={props.file} isDirectory={false} />
+      <div>
+        <FileCard file={props.file} isDirectory={false} onFileClick={handleOpen}/>
       </div>
       <Modal
         className={classes.modalContainer}
@@ -148,7 +147,7 @@ function FileModal(props: Props) {
             </div>
           </div>
           <div className={classes.actionBar}>
-            {/* <Hide className={classes.icon} onClick={handleDelete} /> */}
+            <Hide className={classes.icon} onClick={handleDelete} />
             <Share className={classes.icon} onClick={handleShare} />
             <Download className={classes.icon} onClick={handleDownload} />
             {/* <UploadIcon className={classes.icon} onClick={handleDownload} /> */}

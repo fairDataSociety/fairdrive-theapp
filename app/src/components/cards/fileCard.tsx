@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import CardWrapper from "./cardWrapper/cardWrapper";
 import CardHeader from "./cardHeader/cardHeader";
 import CardBody from "./cardBody/cardBody";
-import { InfoIcon, Folder } from "../icons/icons";
+import { InfoIcon, Folder, Kebab } from "../icons/icons";
 import { useHistory } from "react-router-dom";
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
@@ -10,11 +10,15 @@ import { StoreContext } from "../../store/store";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import DropDown from "../dropDown/dropDown";
 import useStyles from "./fileCardStyles";
+import writePath from "src/store/helpers/writePath";
+import { shortenTitle } from "src/store/helpers/utils";
+import ClickAwayListener from "react-click-away-listener";
 type Sizes = "small" | "regular" | "big";
 export interface Props {
   size?: Sizes;
   file: any;
   isDirectory: boolean;
+  onFileClick?: () => void;
 }
 
 function FileCard(props: Props) {
@@ -22,18 +26,8 @@ function FileCard(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-// eslint-disable-next-line
+  // eslint-disable-next-line
   const history = useHistory();
-  async function onFileClick() {
-    if (file.content_type === "inode/directory") {
-      const newDirectory =
-        state.directory !== "root"
-          ? state.directory + "/" + file.name
-          : file.name;
-      actions.setDirectory(newDirectory);
-    }
-  }
-
   const [fileSize, setFileSize] = useState("");
   const [fileCreateDate, setFileCreateDate] = useState("");
   // eslint-disable-next-line
@@ -56,38 +50,70 @@ function FileCard(props: Props) {
     }
   }, [file]);
 
-  const handleClick = () => {
-    setDropdown(!dropdown);
+  const handleDelete = async () => {
+    actions.deleteFile({
+      file_name: props.file.name,
+      path: writePath(state.directory),
+      podName: state.podName,
+    });
   };
 
+  async function onFileClick() {
+    if (file.content_type === "inode/directory") {
+      const newDirectory =
+        state.directory !== "root"
+          ? state.directory + "/" + file.name
+          : file.name;
+      actions.setDirectory(newDirectory);
+    }
+  }
+
+  const displayFileName =
+    file.name.length > 22 ? shortenTitle(file.name) : file.name;
+
   return (
-    <>
-      <CardWrapper onFileClick={onFileClick} size={props.size}>
-        <CardHeader
-          isDirectory={props.isDirectory}
-          Icon={Icon}
-          heading={file.name}
-          handleClick={handleClick}
-        />
+    <div className={classes.wrapper}>
+      <Kebab
+        className={classes.kebabIcon}
+        onClick={() => setDropdown(!dropdown)}
+      />
+      <CardWrapper onFileClick={props.onFileClick} size={props.size}>
+        <div>
+          <CardHeader
+            isDirectory={props.isDirectory}
+            Icon={Icon}
+            heading={displayFileName}
+          />
+        </div>
         <CardBody
           fileSize={fileSize}
           dateCreated={fileCreateDate}
           isDirectory={props.isDirectory}
         />
-        {dropdown && (
-        <div className={classes.dropdown}>
-        <DropDown variant="primary" heading="Preview">
-          <ul>
-           <li className={classes.listItem}>Hide</li>
-           <li className={classes.listItem}>View Hidden Files</li>
-           <li className={classes.listItem}>Download</li>
-           <li className={classes.listItem}>Accept and Open</li>
-          </ul>
-        </DropDown>
-        </div>
-      )}
       </CardWrapper>
-    </>
+      {dropdown && (
+        <ClickAwayListener onClickAway={() => setDropdown(!dropdown)}>
+          <div className={classes.dropdown}>
+            <DropDown variant="primary" heading="Preview">
+              <ul>
+                <li className={classes.listItem}>
+                  <button onClick={handleDelete}>Hide</button>
+                </li>
+                <li className={classes.listItem}>
+                  <button>View Hidden Files</button>
+                </li>
+                <li className={classes.listItem}>
+                  <button>Download</button>
+                </li>
+                <li className={classes.listItem}>
+                  <button>Accept and Open</button>
+                </li>
+              </ul>
+            </DropDown>
+          </div>
+        </ClickAwayListener>
+      )}
+    </div>
   );
 }
 

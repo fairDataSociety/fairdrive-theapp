@@ -72,9 +72,13 @@ function Drive(props: Props) {
     loadDirectory();
     state.fileUploaded = false;
     state.searchQuery = null;
-
     // eslint-disable-next-line
-  }, [state.fileUploaded, state.directory, responseCreation]);
+  }, [
+    state.fileUploaded,
+    state.directory,
+    responseCreation,
+    state.fileDeleted,
+  ]);
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
