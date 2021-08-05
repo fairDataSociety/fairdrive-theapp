@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "../../containers/navbar/navbarStyles";
 import ClickAwayListener from "react-click-away-listener";
@@ -21,6 +21,7 @@ function NavItems(props: Props) {
   const [dappDropdown, setDappDropdown] = useState(false);
   const [avatarDropdown, setAvatarDropdown] = useState(false);
   const [activityDropdown, setActivityDropdown] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -36,6 +37,11 @@ function NavItems(props: Props) {
   const handleActivityClick = () => {
     setActivityDropdown(true);
   };
+  useEffect(() => {
+    if (state.userStats !== null && walletAddress == null) {
+      setWalletAddress(state.userStats.reference);
+    }
+  }, [state.userStats, walletAddress]);
 
   return (
     <div className={classes.navItems}>
@@ -55,15 +61,15 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )} */}
-      {state.userStats !== null && (
-        <div onClick={handleAvatarClick}>
-          <Blockies
-            bgColor={theme.backgroundDark2}
-            seed={state.userStats.reference}
-            className={classes.blockie}
-          />{" "}
-        </div>
-      )}
+
+      <div onClick={handleAvatarClick}>
+        <Blockies
+          bgColor={theme.backgroundDark2}
+          seed={walletAddress}
+          className={classes.blockie}
+        />{" "}
+      </div>
+
       <div onClick={toggleTheme}>
         {theme.name === "light" ? (
           <Moon className={classes.themeIcon} />
