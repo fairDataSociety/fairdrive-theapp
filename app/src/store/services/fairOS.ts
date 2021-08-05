@@ -3,6 +3,9 @@ import qs from "querystring";
 import FileSaver from "file-saver";
 import generateMnemonic from "../helpers/utils";
 import urlPath from "../helpers/urlPath";
+import makeBlockie from 'ethereum-blockies-base64';
+
+
 interface Payload {
   username?: string;
   password?: string;
@@ -15,6 +18,7 @@ interface Payload {
   files?: any;
 }
 
+// const host = "https://fairos.fairdatasociety.org/v1/"
 const host = process.env.REACT_APP_FAIROSHOST;
 // const host = "https://fairos.testeron.pro/v1/";
 // const host = "http://localhost:9090";
@@ -64,6 +68,7 @@ export const login = async (payload: Payload) => {
       withCredentials: true,
     });
     localStorage.setItem('username', username);
+
     return { res: response };
   } catch (error) {
     throw error;
@@ -122,8 +127,8 @@ export const userLoggedIn = async (username: string) => {
       baseURL: host,
       method: "GET",
       url: "user/isloggedin",
-      data:requestBody,
-      params: qs.stringify({user_name:username}, "brackets"),
+      data: requestBody,
+      params: qs.stringify({ user_name: username }, "brackets"),
       headers: {
         "Content-Type": "application/json",
       },
@@ -209,7 +214,8 @@ export const userStats = async () => {
       },
       withCredentials: true,
     });
-
+    const imageSrc = makeBlockie(response.data.reference);
+    response.data.avatar = imageSrc;
     return response;
   } catch (error) {
     throw error;
@@ -385,9 +391,9 @@ export const receivePod = async (payload: ReceivePayload) => {
     baseURL: host,
     method: "GET",
     url: "pod/receive",
-    params:{reference: payload.podReference, pod_name: payload.pod_name},
-    data:{reference: payload.podReference, pod_name: payload.pod_name},
-    headers:{
+    params: { reference: payload.podReference, pod_name: payload.pod_name },
+    data: { reference: payload.podReference, pod_name: payload.pod_name },
+    headers: {
       'Content-Type': 'application/json'
     },
     withCredentials: true,
@@ -395,24 +401,21 @@ export const receivePod = async (payload: ReceivePayload) => {
   return podResult;
 };
 
-// export const fileUpload = async (fileData: any) => {
-//   let formData = new FormData();
-//   var file = new File([fileData.file], fileData.filename);
-//   formData.append("files", file);
-//   formData.append("pod_dir", "/" );
-//   formData.append("block_size", "64Mb");
-//   const uploadFiles = await axios({
-//     baseURL: host,
-//     method: "POST",
-//     url: "file/upload",
-//     data: formData,
-//     withCredentials: true
-//   });
+function makeid(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+  }
+  return result;
+}
 
-//   return true;
-// }
+export const fileUpload = (payload: Payload, onUploadProgress: (request: string, progressEvent, cancelFn) => void) => {
 
-export const fileUpload = async (payload: Payload) => {
+  const requestId = makeid(6);
+
   const { files, directory, podName } = payload;
   // const newPath = writePath(path);
   let writePath = "";
@@ -429,19 +432,28 @@ export const fileUpload = async (payload: Payload) => {
   formData.append("block_size", "64Mb");
   formData.append("pod_name", podName);
 
+  const cancelFn = axios.CancelToken.source();
+
   // eslint-disable-next-line
-  const uploadFiles = await axios({
+  const uploadRequest = axios({
     baseURL: host,
+
     method: "POST",
     url: "file/upload",
+    onUploadProgress : (progressEvent) => {
+      onUploadProgress(requestId, progressEvent, cancelFn);
+    },
     data: formData,
+    cancelToken: cancelFn.token,
     headers: {
       "Content-type": "multiple/form-data",
     },
     withCredentials: true,
-  });
+  })
 
-  return true;
+  return {
+    uploadRequest, cancelFn, requestId
+  };
 };
 
 export const fileDownload = async (
@@ -567,26 +579,6 @@ function dataURLtoFile(dataurl: any, filename: string) {
   return new File([u8arr], filename, { type: mime });
 }
 
-export const storeAvatar = async (avatar: any) => {
-  try {
-    //Usage example:
-    var file = dataURLtoFile(avatar, "avatar.jpg");
-
-    const formData = new FormData();
-    formData.append("avatar", file);
-
-    const response = await axios({
-      baseURL: host,
-      method: "POST",
-      url: "user/avatar",
-      data: formData,
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (e) {
-    console.log("error on timeout", e);
-  }
-};
 export async function createDirectory(
   directory: string,
   directoryName: string,
@@ -622,7 +614,7 @@ export async function createDirectory(
     });
 
     return true;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 // eslint-disable-next-line
@@ -644,8 +636,8 @@ async function readAsbase64(blob: any) {
 export const deleteFile = async (payload: any) => {
   try {
     // eslint-disable-next-line
-    const {file_name, podName, path} = payload
- 
+    const { file_name, podName, path } = payload
+
     const deletePictursDirectory = await axios({
       baseURL: host,
       method: "DELETE",
@@ -662,7 +654,7 @@ export const deleteFile = async (payload: any) => {
     });
 
     return true;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const shareFile = async (
@@ -687,7 +679,7 @@ export const shareFile = async (
       withCredentials: true,
     });
     return shareFileResult?.data?.file_sharing_reference;
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const receiveFileInfo = async (
@@ -714,13 +706,13 @@ export const receiveFileInfo = async (
       baseURL: host,
       method: "GET",
       url: "file/receive",
-      params:data,
+      params: data,
       data: data,
-      headers:{
+      headers: {
         'Content-Type': 'application/json'
       },
       withCredentials: true,
     });
     return shareFileInfoResult.data;
-  } catch (error) {}
+  } catch (error) { }
 };

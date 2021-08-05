@@ -30,6 +30,7 @@ function Login(props: Props) {
       podName: "Fairdrive",
     });
     actions.getPods();
+    actions.getUserStats();
   }
   useEffect(() => {
     if (state.flags.loginStatus === "fail") {

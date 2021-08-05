@@ -27,8 +27,10 @@ export interface State {
   podMsg: any;
   podName: string;
   podsOpened: any;
+  userStats: any;
   isPrivatePod: boolean;
   flags: Flags;
+  fileUploadProgress: Array<{ progressEvent: ProgressEvent, cancelFn, requestId: string }>;
 }
 
 const initialState: State = {
@@ -54,13 +56,43 @@ const initialState: State = {
   podMsg: null,
   podName: '',
   podsOpened: [],
+  userStats: null,
   flags: {
     loginStatus: '',
   },
+  fileUploadProgress: []
 };
 
 const reducer = (state: State = initialState, action: any) => {
   switch (action.type) {
+
+    case types.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST:
+
+      let patched = false;
+      let fileUploadProgress = state.fileUploadProgress.map(progressItem => {
+        if (progressItem.requestId === action.payload.requestId) {
+          patched = true;
+          return action.payload;
+        }
+        return progressItem
+      })
+
+      if (!patched) {
+        fileUploadProgress = [...state.fileUploadProgress, action.payload]
+      }
+
+      return {
+        ...state,
+        fileUploadProgress
+      }
+
+    case types.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS:
+      return {
+        ...state,
+        fileUploadProgress: state.fileUploadProgress.filter(progressItem => progressItem.requestId !== action.payload)
+      }
+
+
     case types.LOGIN_USER.USER_LOGGED_SUCCESS:
       return {
         ...state,
@@ -180,6 +212,16 @@ const reducer = (state: State = initialState, action: any) => {
       return {
         ...state,
         pods: action.payload.data.pod_name,
+      };
+    case types.GET_USER_STATS.GET_USER_STATS_SUCCESS:
+      return {
+        ...state,
+        userStats: action.payload.data,
+      };
+    case types.GET_USER_STATS.GET_USER_STATS_FAILED:
+      return {
+          ...state,
+          podMSg: action.payload,
       };
     case types.OPEN_POD.OPEN_POD_SUCCESS:
       return {

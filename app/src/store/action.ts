@@ -22,6 +22,12 @@ export const useActions = (state, dispatch) => ({
       payload: data,
     });
   },
+  cancelUpload: (requestId: string) => {
+    dispatch({
+      type: types.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS,
+      payload: requestId,
+    });
+  },
   getDirectory: (data) => {
     dispatch({
       type: types.GET_DIRECTORY.GET_DIRECTORY_REQUEST,
@@ -69,7 +75,12 @@ export const useActions = (state, dispatch) => ({
       type: types.GET_PODS.GET_PODS_REQUEST,
     });
   },
-  openPod: (data) => {
+  getUserStats: () =>{
+    dispatch({
+      type: types.GET_USER_STATS.GET_USER_STATS_REQUEST,
+    });
+  },
+   openPod: (data) => {
     dispatch({
       type: types.OPEN_POD.OPEN_POD_REQUEST,
       payload: data,
@@ -87,6 +98,7 @@ export interface Actions {
   userLogin: (data: any) => void;
   userLogout: () => void;
   uploadFile: (data: any) => void;
+  cancelUpload: (requestId: string) => void;
   getDirectory: (data: any) => void;
   storeUserRegistrationInfo: (data: any) => void;
   getSeedPhrase: (data: any) => void;
@@ -94,6 +106,7 @@ export interface Actions {
   setSearchQuery: (data: any) => void;
   setDirectory: (data: any) => void;
   getPods: () => void;
+  getUserStats: () => void;
   openPod: (data: any) => void;
   setPodName: (data: any) => void;
   setPrivatePod: (data: any) => void;

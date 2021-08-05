@@ -29,7 +29,7 @@ const useStyles = makeStyles(() =>
 			// display: "flex",
 			flexDirection: 'column',
 			alignItems: 'left',
-			cursor: 'pointer',
+			// cursor: 'pointer',
 			overflowX: 'hidden',
 			right: (props: Props & Theme) => props.open ? '25rem' : '0rem',
 			transitionProperty: "right",

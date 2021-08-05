@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import useStyles from "../../containers/navbar/navbarStyles";
 import ClickAwayListener from "react-click-away-listener";
@@ -8,7 +9,7 @@ import GenerateLink from "src/components/modals/generateLink/generateLink";
 import DropDown from "src/components/dropDown/dropDown";
 import { StoreContext } from "src/store/store";
 import { logOut } from "src/store/services/fairOS";
-
+import Blockies from "react-blockies";
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -20,6 +21,7 @@ function NavItems(props: Props) {
   const [dappDropdown, setDappDropdown] = useState(false);
   const [avatarDropdown, setAvatarDropdown] = useState(false);
   const [activityDropdown, setActivityDropdown] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -35,6 +37,11 @@ function NavItems(props: Props) {
   const handleActivityClick = () => {
     setActivityDropdown(true);
   };
+  useEffect(() => {
+    if (state.userStats !== null && walletAddress == null) {
+      setWalletAddress(state.userStats.reference);
+    }
+  }, [state.userStats, walletAddress]);
 
   return (
     <div className={classes.navItems}>
@@ -54,7 +61,15 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )} */}
-      <Profile onClick={handleAvatarClick} className={classes.profileIcon} />
+
+      <div onClick={handleAvatarClick}>
+        <Blockies
+          bgColor={theme.backgroundDark2}
+          seed={walletAddress}
+          className={classes.blockie}
+        />{" "}
+      </div>
+
       <div onClick={toggleTheme}>
         {theme.name === "light" ? (
           <Moon className={classes.themeIcon} />
