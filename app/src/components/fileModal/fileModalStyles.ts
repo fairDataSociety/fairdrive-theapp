@@ -10,7 +10,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       overflow: 'hidden',
       position: 'relative',
-      marginLeft: 'calc(100% - 45rem)',
+      // marginLeft: 'calc(100% - 45rem)',
       overflowX: 'hidden',
       overflowY: 'auto',
       flexDirection: 'column',
