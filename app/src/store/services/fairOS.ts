@@ -12,9 +12,9 @@ interface Payload {
   mnemonic?: string;
   podName?: string;
   podReference?: string;
-  file?: any;
+  file?: FileList;
   directory?: string;
-  files?: any;
+  files?: FileList;
 }
 
 // const host = "https://fairos.fairdatasociety.org/v1/"
@@ -435,9 +435,10 @@ export const fileUpload = (
     writePath = "/" + urlPath(directory);
   }
   const formData = new FormData();
-  for (const file of files) {
+  Array.from(files).forEach((file) => {
     formData.append("files", file);
-  }
+  });
+
   formData.append("dir_path", writePath);
   formData.append("block_size", "64Mb");
   formData.append("pod_name", podName);

@@ -1,4 +1,4 @@
-import { ACTION_TYPES, TActionTypes } from "./actionTypes";
+import { ACTION_TYPES, TActionTypes, Actions } from "./actionTypes";
 
 import { State } from "./reducerTypes";
 
@@ -33,10 +33,12 @@ const initialState: State = {
 };
 
 interface IBaseAction {
-  types: [];
+  type: string;
+  // TODO: Type properly each possible payload
+  payload: any;
 }
 
-const reducer = (state: State = initialState, action: any) => {
+const reducer = (state: State = initialState, action: IBaseAction) => {
   switch (action.type) {
     case ACTION_TYPES.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST:
       let patched = false;
