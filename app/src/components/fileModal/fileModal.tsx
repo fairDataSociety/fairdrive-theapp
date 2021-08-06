@@ -23,9 +23,9 @@ import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
 import GenerateLink from "../modals/generateLink/generateLink";
 import FilePreview from "../filePreview/filePreview";
-
+import { IFile } from "../../types/models/File";
 export interface Props {
-  file: any;
+  file: IFile;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   downloadFile?: boolean;
   open?: boolean;
@@ -49,8 +49,12 @@ function FileModal(props: Props) {
   useEffect(() => {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
-      setFileCreateDate(moment.unix(file.creation_time).format("DD/MM/YYYY"));
-      setFileModDate(moment.unix(file.modification_time).format("DD/MM/YYYY"));
+      setFileCreateDate(
+        moment.unix(parseInt(file.creation_time)).format("DD/MM/YYYY")
+      );
+      setFileModDate(
+        moment.unix(parseInt(file.modification_time)).format("DD/MM/YYYY")
+      );
     }
   }, [file]);
 

@@ -3,8 +3,10 @@ import { ThemeContext } from "../../../store/themeContext/themeContext";
 import useStyles from "./fileListBodyStyles";
 import { Kebab } from "../../icons/icons";
 
+import { IFile } from "../../../types/models/File";
+import { IDirectory } from "../../../types/models/Directory";
 export interface Props {
-  file: unknown;
+  file: IFile | IDirectory;
   name: string;
   type: string;
   size: string;
@@ -15,7 +17,7 @@ export interface Props {
 function FileListBody(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  // const { name, type, size, created, modified } = props.file;
+
   return (
     <div className={classes.fileWrapper}>
       <div className={classes.fileName}>{props.name}</div>

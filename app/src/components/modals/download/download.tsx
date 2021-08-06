@@ -6,9 +6,9 @@ import Modal from "../modal/modal";
 import TextField from "../../textField/textField";
 
 export interface Props {
-  setProp: any;
+  setProp: (data: string) => void;
   type: string;
-  propValue: any;
+  propValue: string;
 }
 
 export function Download(props: Props) {

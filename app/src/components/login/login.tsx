@@ -9,7 +9,7 @@ import { CirclePart } from "../icons/icons";
 import { useEffect } from "react";
 
 export interface Props {
-  backFunction: any;
+  backFunction: () => void;
 }
 
 function Login(props: Props) {

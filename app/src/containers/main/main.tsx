@@ -5,6 +5,8 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import Home from "../home/home";
 import LoginRegisterPage from "../loginRegisterPage/loginRegisterPage";
 
+import { HTTP_CODES } from "../../types/http/HTTPCodes";
+
 export interface Props {}
 
 function Main(props: Props) {
@@ -14,7 +16,7 @@ function Main(props: Props) {
 
   return (
     <div className={classes.Main}>
-      {state.userData?.code === 200 ? (
+      {state.userData?.code === HTTP_CODES.OK ? (
         <>
           <Home></Home>
         </>
