@@ -28,18 +28,19 @@ function FileList(props: Props) {
         <div>
           {state.dirs !== undefined &&
             sortyByCurrentFilter(state.dirs, props.currentFilter).map(
-              (directory) => {
+              (directory: any) => {
                 return (
                   <FileListBody
+                    key={directory}
                     name={directory.name}
                     type={directory.content_type}
                     size={directory.size}
                     created={moment
                       .unix(parseInt(directory.creation_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     modified={moment
                       .unix(parseInt(directory.modification_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     file={directory}
                     isPodBarOpen={props.isPodBarOpen}
                   ></FileListBody>
@@ -48,18 +49,19 @@ function FileList(props: Props) {
             )}
           {state.entries !== undefined &&
             sortyByCurrentFilter(state.entries, props.currentFilter).map(
-              (entry) => {
+              (entry: any) => {
                 return (
                   <FileListBody
+                    key={entry}
                     name={entry.name}
                     type={entry.content_type}
                     size={prettyBytes(parseInt(entry.size))}
                     created={moment
                       .unix(parseInt(entry.creation_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     modified={moment
                       .unix(parseInt(entry.modification_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     file={entry}
                     isPodBarOpen={props.isPodBarOpen}
                   ></FileListBody>

@@ -18,6 +18,7 @@
     "file-saver": "^2.0.5",
     "fortmatic": "^2.2.1",
     "moment": "^2.29.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-blockies": "^1.4.1",
     "react-circular-progressbar": "^2.0.4",
@@ -35,7 +36,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "rm -r /home/ubuntu/www/app.fairdrive.fairdatasociety.org && mv ./build /home/ubuntu/www/app.fairdrive.fairdatasociety.org"
+    "deploy": "rm -r /home/ubuntu/www/app.fairdrive.fairdatasociety.org && mv ./build /home/ubuntu/www/app.fairdrive.fairdatasociety.org",
+    "lint": "eslint --ext .tsx,.ts src/"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,6 +62,11 @@
     "@types/react": "^17.0.11",
     "@types/react-dom": "^17.0.7",
     "@types/react-router-dom": "^5.1.7",
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.24.0",
+    "prettier": "2.3.2",
     "typescript": "^4.3.2"
   },
   "resolutions": {

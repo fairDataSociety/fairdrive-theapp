@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./overviewStyles";
-import SetupCards from "../setUpCards/setUpCards";
-import PodsPreview from "../podsPreview/podsPreview";
-import DataUsageIndicator from "../dataUsageIndicator/dataUsageIndicator";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './overviewStyles';
+import SetupCards from '../setUpCards/setUpCards';
+import PodsPreview from '../podsPreview/podsPreview';
+import DataUsageIndicator from '../dataUsageIndicator/dataUsageIndicator';
 export interface Props {
   isPodBarOpen: boolean;
 }

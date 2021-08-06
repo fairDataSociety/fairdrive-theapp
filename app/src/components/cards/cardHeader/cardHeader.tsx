@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import { Kebab } from "src/components/icons/icons";
-import { ThemeContext } from "../../../store/themeContext/themeContext";
-import useStyles from "./cardHeaderStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../store/themeContext/themeContext';
+import useStyles from './cardHeaderStyles';
 
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;

@@ -1,3 +1,3 @@
-import useToggle from "./useToggle";
+import useToggle from './useToggle';
 
 export { useToggle };

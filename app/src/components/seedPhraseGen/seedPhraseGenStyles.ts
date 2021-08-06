@@ -1,26 +1,26 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
+import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
-import { Theme } from "../../store/themeContext/themes";
-import { Props } from "./seedPhraseGen";
+import { Theme } from '../../store/themeContext/themes';
+import { Props } from './seedPhraseGen';
 
 const useStyles = makeStyles(() =>
   createStyles({
     Login: {
       backgroundColor: (style: Props & Theme) => style.backgroundWhite,
-      paddingTop:"10rem",
-      height: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyItems: "center",
-      alignItems: "center",
-      overflowX: "hidden",
-      overflowY: "auto",
+      paddingTop: '10rem',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyItems: 'center',
+      alignItems: 'center',
+      overflowX: 'hidden',
+      overflowY: 'auto',
     },
     flexer: {
-      margin: "40px",
+      margin: '40px',
     },
     title: {
-      margin: "20px",
+      margin: '20px',
       fontFamily: 'Work Sans',
       fontWeight: 'bold',
       fontSize: '34px',
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() =>
       // height: '40px',
       // left: '0px',
       // top: '56px',
-      
+
       fontFamily: 'Tomorrow',
       fontStyle: 'normal',
       fontWeight: 'normal',
@@ -55,13 +55,11 @@ const useStyles = makeStyles(() =>
       flexGrow: 0,
       margin: '16px 0px',
     },
-    errormsg: {
-
+    errormsg: {},
+    buttons: {
+      display: 'flex',
+      flexDirection: 'row',
     },
-    buttons:{
-      display:"flex",
-      flexDirection: "row",
-    }
   })
 );
 

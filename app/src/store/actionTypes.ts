@@ -1,8 +1,3 @@
-import { IUserLogin } from "../types/requests/UserLogin";
-import { IUploadFIle } from "../types/requests/UploadFile";
-import { IGetDirectory } from "../types/requests/GetDirectory";
-import { IStoreUserRegistrationInfo } from "../types/requests/StoreUserRegistrationInfo";
-import { IOpenPod } from "../types/requests/OpenPod";
 import { State } from "./reducerTypes";
 
 export const ACTION_TYPES = {
@@ -28,10 +23,10 @@ export const ACTION_TYPES = {
     POD_DELETE_SUCCESS:"POD_DELETE_SUCCESS",
     DELETE_POD_FAILED:"DELETE_POD_FAILED",
   },
-  GET_DIRECTORY:{
-    GET_DIRECTORY_REQUEST:"GET_DIRECTORY_REQUEST",
-    GET_DIRECTORY_SUCCESS:"GET_DIRECTORY_SUCCESS",
-    GET_DIRECTORY_FAILED:"GET_DIRECTORY_FAILED",
+  GET_DIRECTORY: {
+    GET_DIRECTORY_REQUEST: 'GET_DIRECTORY_REQUEST',
+    GET_DIRECTORY_SUCCESS: 'GET_DIRECTORY_SUCCESS',
+    GET_DIRECTORY_FAILED: 'GET_DIRECTORY_FAILED',
   },
   LOGIN_USER: {
     USER_LOGIN_REQUEST: "USER_LOGIN_REQUEST",

@@ -1,3 +1,3 @@
-import SwarmImg from "./swarmImg"
+import SwarmImg from './swarmImg';
 
-export default SwarmImg
+export default SwarmImg;

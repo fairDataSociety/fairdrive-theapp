@@ -37,15 +37,16 @@ function FileCard(props: Props) {
   const classes = useStyles({ ...props, ...theme });
   // eslint-disable-next-line
   const history = useHistory();
-  const [fileSize, setFileSize] = useState("");
-  const [fileCreateDate, setFileCreateDate] = useState("");
+
+  const [fileSize, setFileSize] = useState('');
+  const [fileCreateDate, setFileCreateDate] = useState('');
   // eslint-disable-next-line
-  const [fileModDate, setFileModDate] = useState("");
+  const [fileModDate, setFileModDate] = useState('');
   const [Icon, setIcon] = useState(null);
   const [dropdown, setDropdown] = useState(false);
 
   useEffect(() => {
-    file.content_type === "inode/directory"
+    file.content_type === 'inode/directory'
       ? setIcon(Folder)
       : setIcon(InfoIcon);
     if ((file as IFile).size !== undefined) {

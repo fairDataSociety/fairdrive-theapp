@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./podSidebarStyles";
-import Toggle from "../toggle/toggle";
-import { createPod, receivePod } from "../../store/services/fairOS";
-import { PodChevron, PodInfo } from "../icons/icons";
-import { Modal, setRef } from "@material-ui/core";
-import CreateNew from "../modals/createNew/createNew";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './podSidebarStyles';
+import Toggle from '../toggle/toggle';
+import { createPod, receivePod } from '../../store/services/fairOS';
+import { PodChevron, PodInfo } from '../icons/icons';
+import { Modal } from '@material-ui/core';
+import CreateNew from '../modals/createNew/createNew';
 
 export interface Props {
   isOpen: boolean;
@@ -18,11 +18,11 @@ function PodSidebar(props: Props) {
   const { theme } = useContext(ThemeContext);
   const [isPrivate, setIsPrivate] = useState(true);
   const classes = useStyles({ ...props, ...theme });
-  const pods = ["Private Pod", "Shared Pod", "My Photos"];
+  const pods = ['Private Pod', 'Shared Pod', 'My Photos'];
   const [open, setOpen] = useState(false);
-  const [podName, setPodName] = useState("");
+  const [podName, setPodName] = useState('');
   const [podCreated, setPodCreated] = useState(false);
-  const [podRef, setPodRef] = useState("");
+  const [podRef, setPodRef] = useState('');
 
   useEffect(() => {
     if (state.podsOpened.includes(state.podName)) {
@@ -36,24 +36,24 @@ function PodSidebar(props: Props) {
 
   const setPod = async (pod) => {
     actions.setPodName(pod);
-    actions.setDirectory("root");
+    actions.setDirectory('root');
     if (!state.podsOpened.includes(pod))
       actions.openPod({ password: state.password, podName: pod });
   };
   const handleClose = () => {
     setOpen(false);
-    setPodName("");
-    setPodRef("");
+    setPodName('');
+    setPodRef('');
   };
   const handleOpen = () => {
     setOpen(true);
   };
 
-  const setOverview = async (pod) => {
-    // await actions.setPodName(pod);
-    // if (!state.podsOpened.includes(pod))
-    //   await actions.openPod({ password: state.password, podName: pod });
-  };
+  // const setOverview = async (pod) => {
+  // await actions.setPodName(pod);
+  // if (!state.podsOpened.includes(pod))
+  //   await actions.openPod({ password: state.password, podName: pod });
+  // };
   const createNewPod = async () => {
     await createPod({ password: state.password, podName });
     handleClose();
@@ -71,7 +71,7 @@ function PodSidebar(props: Props) {
   }, [isPrivate]);
 
   const importPod = async () => {
-    receivePod({ podReference: podRef, pod_name: "imported pod" })
+    receivePod({ podReference: podRef, pod_name: 'imported pod' })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -79,38 +79,46 @@ function PodSidebar(props: Props) {
   return (
     <div className={classes.podDrawer}>
       <Toggle
-        show={props.route !== "Overview" && props.route !== "Explore"}
+        show={props.route !== 'Overview' && props.route !== 'Explore'}
         isLeft={isPrivate}
         setLeft={setIsPrivate}
       />
       <div className={classes.podInfoWrapper}>
         <PodInfo className={classes.podInfo} />
         <div className={classes.information}>
-          {props.route === "Overview"
-            ? "These below pods are automatically generated for your Owned Content (Home pod) and Shared Content (Shared Pod"
-            : "Switch from Shared to Owned to see Home Pod"}
+          {props.route === 'Overview'
+            ? 'These below pods are automatically generated for your Owned Content (Home pod) and Shared Content (Shared Pod'
+            : 'Switch from Shared to Owned to see Home Pod'}
         </div>
       </div>
       <div className={classes.divider}></div>
       <button className={classes.podButton} onClick={handleOpen}>
-        {isPrivate ? "Create Pod" : "Import Pod"}
+        {isPrivate ? 'Create Pod' : 'Import Pod'}
       </button>
-      {props.route === "Overview" ? (
+      {props.route === 'Overview' ? (
         <div className={classes.pods}>
-          {pods.map((pod) => {
+          {pods.map((pod, index) => {
             return (
-              <div className={classes.podRow} onClick={() => setOverview(pod)}>
+              <div
+                key={index}
+                className={classes.podRow}
+                // onClick={() => setOverview(pod)}
+              >
                 <label>{pod}</label>
                 <PodChevron className={classes.podChevron} />
               </div>
             );
           })}
         </div>
-      ) : props.route !== "Explore" ? (
+      ) : props.route !== 'Explore' ? (
         <div className={classes.pods}>
-          {state.pods.map((pod) => {
+          {state.pods.map((pod, index) => {
             return (
-              <div className={classes.podRow} onClick={() => setPod(pod)}>
+              <div
+                key={index}
+                className={classes.podRow}
+                onClick={() => setPod(pod)}
+              >
                 <label>{pod}</label>
                 <PodChevron className={classes.podChevron} />
               </div>
