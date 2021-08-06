@@ -121,6 +121,7 @@ function FileModal(props: Props) {
           <div className={classes.divider}></div>
           <div className={classes.iconContainer}>
             <FilePreview
+              file={file}
               contentType={file.content_type}
               filename={file.name}
               directory={urlPath(state.directory)}
