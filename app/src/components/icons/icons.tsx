@@ -36,6 +36,7 @@ import { ReactComponent as Hide } from "../../media/UI/hide.svg";
 import { ReactComponent as Share } from "../../media/UI/share.svg";
 import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
 import { ReactComponent as FilterIcon } from "../../media/optionIcons/Filter.svg";
+import { ReactComponent as SortingIcon } from "../../media/optionIcons/SortingIcon.svg";
 import { ReactComponent as GridIcon } from "../../media/optionIcons/GridIcon.svg";
 import { ReactComponent as ListIcon } from "../../media/optionIcons/ListIcon.svg";
 import { ReactComponent as DAppIcon } from "../../media/UI/dapp_square.svg";
@@ -98,6 +99,7 @@ export {
   ModalFolder,
   Copy,
   FilterIcon,
+  SortingIcon,
   ListIcon,
   GridIcon,
   DAppIcon,
