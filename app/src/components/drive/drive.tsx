@@ -312,13 +312,15 @@ function Drive(props: Props) {
           {state.dirs !== null &&
             state.dirs !== undefined &&
             sortyByCurrentFilter(state.dirs, currentFilter).map((dir: any) => {
-              return <FileCard file={dir} isDirectory={true}></FileCard>;
+              return (
+                <FileCard key={dir} file={dir} isDirectory={true}></FileCard>
+              );
             })}
           {state.entries !== null &&
             state.entries !== undefined &&
             sortyByCurrentFilter(state.entries, currentFilter).map(
               (file: any) => {
-                return <FileModal file={file}></FileModal>;
+                return <FileModal key={file.name} file={file}></FileModal>;
               }
             )}
           {!!state.dirs ||
