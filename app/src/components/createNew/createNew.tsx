@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from '../../store/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
+// import { StoreContext } from '../../store/store';
 import useStyles from './createNewStyles';
 import TextField from '../textField/textField';
 import ButtonPill from '../buttonPill/buttonPill';
@@ -13,7 +13,7 @@ export interface Props {
   propValue: string | null;
 }
 
-function CreateNew(props: Props) {
+function CreateNew(props: Props): JSX.Element {
   // const { state, actions } = useContext(Sto  reContext);
   const { theme } = useContext(ThemeContext);
 

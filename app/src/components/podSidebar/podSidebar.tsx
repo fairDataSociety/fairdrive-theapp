@@ -49,7 +49,7 @@ function PodSidebar(props: Props) {
     setOpen(true);
   };
 
-  const setOverview = async (pod) => {
+  const setOverview = async (pod: string) => {
     // await actions.setPodName(pod);
     // if (!state.podsOpened.includes(pod))
     //   await actions.openPod({ password: state.password, podName: pod });

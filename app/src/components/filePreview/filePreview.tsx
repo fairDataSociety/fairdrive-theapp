@@ -14,7 +14,7 @@ function FilePreview({
   filename,
   directory,
   podName,
-}: FilePreviewProps) {
+}: FilePreviewProps): JSX.Element {
   const extensionsTypes = Object.keys(FilePreview.extensions);
   const extensionType = extensionsTypes.find((type) =>
     new RegExp(type).test(contentType)

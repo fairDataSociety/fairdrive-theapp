@@ -1,30 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
-import useStyles from './fileModalStyles';
-import Modal from '@material-ui/core/Modal';
-import FileCard from '../cards/fileCard';
-import {
-  Folder,
-  Close,
-  Download,
-  Hide,
-  Share,
-  UploadIcon,
-} from '../icons/icons';
+import prettyBytes from 'pretty-bytes';
+import moment from 'moment';
 import writePath from '../../store/helpers/writePath';
 import {
-  deleteFile,
+  // deleteFile,
   fileDownload,
-  filePreview,
   shareFile,
-} from "../../store/services/fairOS";
-import prettyBytes from "pretty-bytes";
-import moment from "moment";
-import urlPath from "src/store/helpers/urlPath";
-import GenerateLink from "../modals/generateLink/generateLink";
-import FilePreview from "../filePreview/filePreview";
-import { IFile } from "../../types/models/File";
+} from '../../store/services/fairOS';
+
+// Contexts
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import urlPath from 'src/store/helpers/urlPath';
+
+// Components
+import useStyles from './fileModalStyles';
+import Modal from '@material-ui/core/Modal';
+import FilePreview from '../filePreview/filePreview';
+import FileCard from '../cards/fileCard';
+import GenerateLink from '../modals/generateLink/generateLink';
+
+// Icons
+import { Folder, Close, Download, Share } from '../icons/icons';
+
+// Types
+import { IFile } from '../../types/models/File';
 export interface Props {
   file: IFile;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -51,10 +51,10 @@ function FileModal(props: Props) {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
       setFileCreateDate(
-        moment.unix(parseInt(file.creation_time)).format("DD/MM/YYYY")
+        moment.unix(parseInt(file.creation_time)).format('DD/MM/YYYY')
       );
       setFileModDate(
-        moment.unix(parseInt(file.modification_time)).format("DD/MM/YYYY")
+        moment.unix(parseInt(file.modification_time)).format('DD/MM/YYYY')
       );
     }
   }, [file]);
@@ -86,13 +86,13 @@ function FileModal(props: Props) {
     setRefLink(res);
     setOpenShareLink(true);
   };
-  const handleDelete = async () => {
-    const res = await deleteFile({
-      file_name: props.file.name,
-      path: writePath(state.directory),
-      podName: state.podName,
-    });
-  };
+  // const handleDelete = async () => {
+  //   const res = await deleteFile({
+  //     file_name: props.file.name,
+  //     path: writePath(state.directory),
+  //     podName: state.podName,
+  //   });
+  // };
   const classes = useStyles({ ...props, open, ...theme });
 
   return (

@@ -13,7 +13,7 @@ export interface Props {
   propValue: string;
 }
 
-export function CreateNew(props: Props) {
+export function CreateNew(props: Props): JSX.Element {
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

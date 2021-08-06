@@ -1,10 +1,10 @@
-import React, { useContext, useRef } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./buttonNavbarStyles";
-import urlPath from "src/store/helpers/urlPath";
-import { GridIcon, ListIcon, Share } from "../../components/icons/icons";
-import { IUploadFIle } from "../../types/requests/UploadFile";
+import React, { useContext, useRef } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './buttonNavbarStyles';
+import urlPath from 'src/store/helpers/urlPath';
+import { GridIcon, ListIcon, Share } from '../../components/icons/icons';
+// import { IUploadFIle } from "../../types/requests/UploadFile";
 export interface Props {
   setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
   showGrid: boolean;
@@ -18,10 +18,10 @@ function ButtonNavbar(props: Props) {
   const inputFile = useRef(null);
   const { showGrid, setShowGrid } = props;
 
-  const onIconClick = () => {
-    // `current` points to the mounted file input element
-    inputFile.current.click();
-  };
+  // const onIconClick = () => {
+  //   // `current` points to the mounted file input element
+  //   inputFile.current.click();
+  // };
   async function handleFileUpload(files: FileList) {
     actions.uploadFile({
       files,

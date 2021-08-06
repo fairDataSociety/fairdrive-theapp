@@ -1,13 +1,13 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
 import { Theme } from '../../store/themeContext/themes';
-import { Props } from './seedPhraseConfirm';
+// import { Props } from './seedPhraseConfirm';
 
 const useStyles = makeStyles(() =>
   createStyles({
     Login: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark,
-      color: (style: Props & Theme) => style.textColorPrimary,
+      backgroundColor: (style: Theme) => style.backgroundDark,
+      color: (style: Theme) => style.textColorPrimary,
       paddingTop: '10rem',
       height: '100vh',
       display: 'flex',

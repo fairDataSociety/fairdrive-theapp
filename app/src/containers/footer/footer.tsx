@@ -6,7 +6,6 @@ import {
   FairdData,
   Github,
   Medium,
-  Discord,
   Swarm,
 } from 'src/components/icons/icons';
 

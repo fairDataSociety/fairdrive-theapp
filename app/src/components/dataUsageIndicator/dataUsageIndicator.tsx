@@ -7,16 +7,16 @@ import { useState } from 'react';
 import GenerateLink from '../modals/generateLink/generateLink';
 import ClickAwayListener from 'react-click-away-listener';
 
-export interface Props {
-  heading: string;
-  usedSpace: string;
-  spaceLeft: string;
-  handleClick: () => void;
-}
+// export interface Props {
+//   heading: string;
+//   usedSpace: string;
+//   spaceLeft: string;
+//   handleClick: () => void;
+// }
 
-function DataUsageIndicator(props: Props) {
+function DataUsageIndicator() {
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
   const [showRefer, setShowRefer] = useState(false);
 
   const percentage = 80;

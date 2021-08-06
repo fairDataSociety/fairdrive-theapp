@@ -4,7 +4,7 @@ import useStyles from './homeStyles';
 
 import Sidebar from '../sidebar/sidebar';
 import Drive from '../../components/drive/drive';
-import Overview from '../../components/overview/overview';
+// import Overview from '../../components/overview/overview';
 import PodSidebar from '../../components/podSidebar/podSidebar';
 
 export interface Props {

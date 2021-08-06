@@ -84,7 +84,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'row',
       display: 'flex',
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      borderRadius: (style: Props & Theme) => '0.5rem',
+      borderRadius: '0.5rem',
       cursor: 'pointer',
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
       margin: '1.6rem',

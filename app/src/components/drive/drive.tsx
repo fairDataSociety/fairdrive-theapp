@@ -1,31 +1,31 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from "../../store/themeContext/themeContext";
+import { ThemeContext } from '../../store/themeContext/themeContext';
 
 // Store
-import { StoreContext } from "../../store/store";
+import { StoreContext } from '../../store/store';
 import {
   createDirectory,
   receiveFileInfo,
   sharePod,
-} from "src/store/services/fairOS";
+} from 'src/store/services/fairOS';
 
 // Components
-import CardGrid from "../../components/cardGrid/cardGrid";
-import FileCard from "../../components/cards/fileCard";
-import FileModal from "../../components/fileModal/fileModal";
-import UploadModal from "../../components/uploadModal/uploadModal";
-import OpenInDapp from "../modals/openInDapp/openInDapp";
-import ButtonNavbar from "../buttonNavbar/buttonNavbar";
-import FileList from "../fileList/fileList";
-import { CreateNew } from "../modals/createNew/createNew";
-import GenerateLink from "../modals/generateLink/generateLink";
+import CardGrid from '../../components/cardGrid/cardGrid';
+import FileCard from '../../components/cards/fileCard';
+import FileModal from '../../components/fileModal/fileModal';
+import UploadModal from '../../components/uploadModal/uploadModal';
+// import OpenInDapp from '../modals/openInDapp/openInDapp';
+import ButtonNavbar from '../buttonNavbar/buttonNavbar';
+import FileList from '../fileList/fileList';
+import { CreateNew } from '../modals/createNew/createNew';
+import GenerateLink from '../modals/generateLink/generateLink';
 
 // Hooks and helpers
-import useStyles from "./driveStyles";
-import { Modal } from "@material-ui/core";
-import sortByProp from "../../store/helpers/sort";
+import useStyles from './driveStyles';
+import { Modal } from '@material-ui/core';
+import sortByProp from '../../store/helpers/sort';
 
 // Icons
 import {
@@ -33,10 +33,10 @@ import {
   PodInfo,
   ShareIcon,
   UploadIcon,
-} from "../../components/icons/icons";
+} from '../../components/icons/icons';
 
 // Types
-import { IFile } from "../../types/models/File";
+import { IFile } from '../../types/models/File';
 export interface Props {
   isPodBarOpen: boolean;
 }
