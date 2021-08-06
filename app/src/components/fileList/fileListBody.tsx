@@ -23,7 +23,7 @@ function FileListBody(props: Props) {
       <div className={classes.fileInfo}>{props.size}</div>
       <div className={classes.fileInfo}>{props.created}</div>
       <div className={classes.fileInfo}>{props.modified}</div>
-      <Kebab onClick={() => {}} />
+      <Kebab />
     </div>
   );
 }

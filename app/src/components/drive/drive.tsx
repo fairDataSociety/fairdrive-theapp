@@ -8,7 +8,7 @@ import FileCard from '../../components/cards/fileCard';
 import FileModal from '../../components/fileModal/fileModal';
 import UploadModal from '../../components/uploadModal/uploadModal';
 import sortByProp from '../../store/helpers/sort';
-import OpenInDapp from '../modals/openInDapp/openInDapp';
+// import OpenInDapp from '../modals/openInDapp/openInDapp';
 import ButtonNavbar from '../buttonNavbar/buttonNavbar';
 import FileList from '../fileList/fileList';
 import {
@@ -125,7 +125,6 @@ function Drive(props: Props) {
   };
 
   const handleShare = async () => {
-    debugger;
     const res = await sharePod(state.password, state.podName);
     setRefLink(res);
     setShowSharePodPopup(true);
@@ -285,14 +284,16 @@ function Drive(props: Props) {
         <CardGrid className={classes.cardGrid}>
           {state.dirs !== null &&
             state.dirs !== undefined &&
-            state.dirs.map((dir: any) => (
-              <FileCard file={dir} isDirectory={true}></FileCard>
+            state.dirs.map((dir, index) => (
+              <FileCard key={index} file={dir} isDirectory={true}></FileCard>
             ))}
           {files !== null &&
             files !== undefined &&
             files
               .sort(sortByProp(toSort, orderProp))
-              .map((file: any) => <FileModal file={file}></FileModal>)}
+              .map((file, index) => (
+                <FileModal key={index} file={file}></FileModal>
+              ))}
           {state.dirs === null ||
             state.dirs === undefined ||
             files === null ||

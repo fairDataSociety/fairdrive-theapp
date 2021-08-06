@@ -22,9 +22,10 @@ function FileList(props: Props) {
         <FileListHeader isPodBarOpen={props.isPodBarOpen} />
         <div className={classes.fileContainer}>
           {state.dirs !== undefined &&
-            state.dirs.map((d) => {
+            state.dirs.map((d, index) => {
               return (
                 <FileListBody
+                  key={index}
                   name={d.name}
                   type={d.content_type}
                   size={d.size}
@@ -38,9 +39,10 @@ function FileList(props: Props) {
               );
             })}
           {state.entries !== undefined &&
-            state.entries.map((d) => {
+            state.entries.map((d, index) => {
               return (
                 <FileListBody
+                  key={index}
                   name={d.name}
                   type={d.content_type}
                   size={prettyBytes(parseInt(d.size))}

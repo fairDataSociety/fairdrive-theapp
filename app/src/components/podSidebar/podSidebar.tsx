@@ -5,7 +5,7 @@ import useStyles from './podSidebarStyles';
 import Toggle from '../toggle/toggle';
 import { createPod, receivePod } from '../../store/services/fairOS';
 import { PodChevron, PodInfo } from '../icons/icons';
-import { Modal, setRef } from '@material-ui/core';
+import { Modal } from '@material-ui/core';
 import CreateNew from '../modals/createNew/createNew';
 
 export interface Props {
@@ -97,9 +97,13 @@ function PodSidebar(props: Props) {
       </button>
       {props.route === 'Overview' ? (
         <div className={classes.pods}>
-          {pods.map((pod) => {
+          {pods.map((pod, index) => {
             return (
-              <div className={classes.podRow} onClick={() => setOverview(pod)}>
+              <div
+                key={index}
+                className={classes.podRow}
+                onClick={() => setOverview(pod)}
+              >
                 <label>{pod}</label>
                 <PodChevron className={classes.podChevron} />
               </div>
@@ -108,9 +112,13 @@ function PodSidebar(props: Props) {
         </div>
       ) : props.route !== 'Explore' ? (
         <div className={classes.pods}>
-          {state.pods.map((pod) => {
+          {state.pods.map((pod, index) => {
             return (
-              <div className={classes.podRow} onClick={() => setPod(pod)}>
+              <div
+                key={index}
+                className={classes.podRow}
+                onClick={() => setPod(pod)}
+              >
                 <label>{pod}</label>
                 <PodChevron className={classes.podChevron} />
               </div>
