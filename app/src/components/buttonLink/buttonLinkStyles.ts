@@ -3,11 +3,6 @@ import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '../../store/themeContext/themes';
 import { Props } from './buttonLink';
 
-const size = {
-  large: '55rem',
-  medium: '40rem',
-  small: '20rem',
-};
 const useStyles = makeStyles(() =>
   createStyles({
     ButtonLink: {

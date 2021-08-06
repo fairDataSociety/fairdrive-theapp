@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../../store/themeContext/themeContext';
-import { StoreContext } from '../../../store/store';
 import useStyles from './downloadStyles';
 import Modal from '../modal/modal';
 import TextField from '../../textField/textField';
@@ -12,7 +11,6 @@ export interface Props {
 }
 
 export function Download(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

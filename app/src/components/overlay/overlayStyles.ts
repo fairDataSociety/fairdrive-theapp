@@ -8,19 +8,11 @@ const useStyles = makeStyles(() =>
       left: 0,
       width: '100vw',
       height: '100vh',
-      backgroundColor: 'rgba(73,75,80,0.51)',
-      zIndex: 10,
-    },
-    dialogCenter: {
-      position: 'absolute',
-      margin: 'auto',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      zIndex: 100,
+      backgroundColor: 'rgba(73,75,80,0.51)',
+      zIndex: 6,
     },
   })
 );

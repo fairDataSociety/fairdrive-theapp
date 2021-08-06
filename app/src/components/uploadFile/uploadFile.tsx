@@ -11,19 +11,11 @@ export interface Props {
 }
 
 function ShareFile(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [filename, setFilename] = useState('');
 
   const classes = useStyles({ ...props, ...theme });
-  const handleSetFilename = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilename(e.target.value);
-  };
-  function handleSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.charCode === 13) {
-      shareFile();
-    }
-  }
   useEffect(() => {
     props.setUploadRes(state.fileUploaded);
   }, [props, state.fileUploaded]);

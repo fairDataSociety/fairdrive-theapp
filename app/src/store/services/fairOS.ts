@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from 'axios';
-import qs from 'querystring';
-import FileSaver from 'file-saver';
-import generateMnemonic from '../helpers/utils';
-import urlPath from '../helpers/urlPath';
-import makeBlockie from 'ethereum-blockies-base64';
-import { AxiosPromise, CancelTokenSource } from 'axios';
+import axios from "axios";
+import qs from "querystring";
+import FileSaver from "file-saver";
+import generateMnemonic from "../helpers/utils";
+import urlPath from "../helpers/urlPath";
+import makeBlockie from "ethereum-blockies-base64";
+
 interface Payload {
   username?: string;
   password?: string;
@@ -25,14 +25,9 @@ const host = process.env.REACT_APP_FAIROSHOST;
 // const host ="https://api.fairos.io/v0/";
 const podNameDefault = 'Home';
 
-interface IRegularAPIResponse {
-  code: number;
-  message: string;
-}
-
 export async function createAccount(
   payload: Payload
-): Promise<AxiosResponse<IRegularAPIResponse>> {
+) {
   //const {username, password, mnemonic} = payload
   try {
     const response = await axios({
@@ -60,7 +55,7 @@ export async function createAccount(
 
 export const login = async (
   payload: Payload
-): Promise<{ res: AxiosResponse<IRegularAPIResponse> }> => {
+) => {
   try {
     const { username, password } = payload;
     const response = await axios({
@@ -76,7 +71,7 @@ export const login = async (
       },
       withCredentials: true,
     });
-    localStorage.setItem('username', username);
+    localStorage.setItem("username", username);
 
     return { res: response };
   } catch (error) {
@@ -101,6 +96,7 @@ export const importUser = async (
     },
     withCredentials: true,
   });
+  
   return response;
 };
 export const generateSeedPhrase = async (): Promise<string> => {
@@ -121,6 +117,7 @@ export const logOut = async () => {
       },
       withCredentials: true,
     });
+    
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -146,6 +143,7 @@ export const userLoggedIn = async (
       },
       withCredentials: true,
     });
+    
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -170,6 +168,7 @@ export const isUsernamePresent = async (
       },
       withCredentials: true,
     });
+    
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -187,6 +186,7 @@ export const exportUser = async () => {
       },
       withCredentials: true,
     });
+    
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -229,6 +229,7 @@ export const userStats = async () => {
     });
     const imageSrc = makeBlockie(response.data.reference);
     response.data.avatar = imageSrc;
+    
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -273,6 +274,7 @@ export const closePod = async (payload: {
       data: { pod_name: podName, password: password },
       withCredentials: true,
     });
+    
     return closePod;
   } catch (err) {
     return err;
@@ -282,7 +284,7 @@ export const closePod = async (payload: {
 export const openPod = async (payload: {
   password: string;
   podName: string;
-}): Promise<AxiosResponse<IRegularAPIResponse>> => {
+}) => {
   try {
     const { password, podName } = payload;
     const openPod = await axios({
@@ -299,6 +301,7 @@ export const openPod = async (payload: {
       },
       withCredentials: true,
     });
+    
     return openPod;
   } catch (err) {
     return err;
@@ -316,6 +319,7 @@ export const syncPod = async () => {
       },
       withCredentials: true,
     });
+    
     return syncPodRes;
   } catch (err) {
     return err;
@@ -336,6 +340,7 @@ export const sharePod = async (
       data: { pod_name: podName, password: password },
       withCredentials: true,
     });
+    
     return sharePodRes?.data?.pod_sharing_reference;
   } catch (err) {
     return err;
@@ -354,18 +359,14 @@ export const deletePod = async (podName: string) => {
       data: { pod_name: podName },
       withCredentials: true,
     });
+    
     return deletePodRes;
   } catch (err) {
     return err;
   }
 };
 
-interface IGetPods {
-  pod_name: string[];
-  shared_pod_name: string[];
-}
-
-export const getPods = async (): Promise<AxiosResponse<IGetPods>> => {
+export const getPods = async () => {
   const podResult = await axios({
     baseURL: host,
     method: 'GET',
@@ -375,6 +376,7 @@ export const getPods = async (): Promise<AxiosResponse<IGetPods>> => {
     },
     withCredentials: true,
   });
+  
   return podResult;
 };
 
@@ -392,6 +394,7 @@ export const getPodStats = async (
       },
       withCredentials: true,
     });
+    
     return deletePodRes;
   } catch (err) {
     return err;
@@ -410,6 +413,7 @@ export const showReceivedPodInfo = async (
     },
     withCredentials: true,
   });
+  
   return podResult;
 };
 
@@ -431,6 +435,7 @@ export const receivePod = async (
     },
     withCredentials: true,
   });
+  
   return podResult;
 };
 
@@ -448,11 +453,7 @@ function makeid(length) {
 export const fileUpload = (
   payload: Payload,
   onUploadProgress: (request: string, progressEvent, cancelFn) => void
-): {
-  uploadRequest: AxiosPromise;
-  cancelFn: CancelTokenSource;
-  requestId: string;
-} => {
+) => {
   const requestId = makeid(6);
 
   const { files, directory, podName } = payload;
@@ -489,6 +490,7 @@ export const fileUpload = (
     },
     withCredentials: true,
   });
+  
   return {
     uploadRequest,
     cancelFn,
@@ -522,6 +524,7 @@ export const fileDownload = async (
     });
 
     FileSaver.saveAs(downloadFile.data, filename);
+    
     //const blob = new Blob(downloadFile.data)
     return downloadFile;
   } catch (error) {
@@ -533,7 +536,7 @@ export const filePreview = async (
   file: string,
   directory: string,
   podName: string
-): Promise<Blob> => {
+) => {
   try {
     console.log(directory);
     let writePath = '';
@@ -558,6 +561,7 @@ export const filePreview = async (
       responseType: 'blob',
       withCredentials: true,
     });
+    
     return downloadFile.data;
   } catch (error) {
     return Promise.reject(error);
@@ -566,7 +570,7 @@ export const filePreview = async (
 
 export const getDirectory = async (
   payload: Payload
-): Promise<AxiosResponse<Record<string, never>>> => {
+) => {
   const { directory, podName } = payload;
   try {
     // const openPod = await axios({
@@ -602,6 +606,7 @@ export const getDirectory = async (
       },
       withCredentials: true,
     });
+    
     return response.data;
   } catch (error) {
     return Promise.reject(error);
@@ -626,7 +631,8 @@ export async function createDirectory(
     };
   }
   try {
-    await axios({
+    // eslint-disable-next-line
+    const createDirectory = await axios({
       baseURL: host,
       method: 'POST',
       url: 'dir/mkdir',
@@ -693,6 +699,7 @@ export const deleteFolder = async (payload: Payload) => {
       },
       withCredentials: true,
     });
+    
     return true;
   } catch (error) {
     return error;
@@ -758,6 +765,7 @@ export const receiveFileInfo = async (
       },
       withCredentials: true,
     });
+    
     return shareFileInfoResult.data;
   } catch (error) {
     return error;

@@ -9,7 +9,7 @@ export interface Props {
 }
 
 function NewFolder(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

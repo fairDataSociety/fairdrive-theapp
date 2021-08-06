@@ -278,40 +278,34 @@ function Drive(props: Props) {
       <Modal
         className={classes.modalContainer}
         open={open}
-        disableBackdropClick
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <div tabIndex={-1}>
-          <CreateNew
-            handleClick={createNewFolder}
-            handleClose={handleClose}
-            setProp={setFolderName}
-            propValue={folderName}
-            type="Folder"
-          ></CreateNew>
-        </div>
+        <CreateNew
+          handleClick={createNewFolder}
+          handleClose={handleClose}
+          setProp={setFolderName}
+          propValue={folderName}
+          type="Folder"
+        ></CreateNew>
       </Modal>
 
       <Modal
         className={classes.modalContainer}
         open={openImportFile}
-        disableBackdropClick
         onClose={handleCloseImportFile}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <div tabIndex={-1}>
-          <CreateNew
-            handleClick={createNewfile}
-            handleClose={handleCloseImportFile}
-            setProp={setFileName}
-            propValue={fileName}
-            isRefLink={true}
-            type="File"
-          ></CreateNew>
-        </div>
+        <CreateNew
+          handleClick={createNewfile}
+          handleClose={handleCloseImportFile}
+          setProp={setFileName}
+          propValue={fileName}
+          isRefLink={true}
+          type="File"
+        ></CreateNew>
       </Modal>
       {showGrid ? (
         <CardGrid className={classes.cardGrid}>

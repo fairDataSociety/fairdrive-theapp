@@ -1,9 +1,8 @@
-import React, { useContext, forwardRef } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from '../../../store/themeContext/themeContext';
 import { Close, ModalFolder } from '../../icons/icons';
 import useStyles from './modalStyles';
 import Overlay from 'src/components/overlay/overlay';
-import PropTypes from 'prop-types';
 
 export interface Props {
   children?: React.ReactNode;
@@ -19,13 +18,13 @@ export interface Props {
   errorMessage?: string;
 }
 
-const Modal = forwardRef<HTMLDivElement, Props>((props, ref) => {
+function Modal(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   return (
     <Overlay handleClickAway={props.handleClose}>
-      <div ref={ref} className={classes.wrapper}>
+      <div className={classes.wrapper}>
         <div className={classes.header}>
           {props.icon && <ModalFolder className={classes.icon} />}
           {props.heading}
@@ -62,19 +61,6 @@ const Modal = forwardRef<HTMLDivElement, Props>((props, ref) => {
       </div>
     </Overlay>
   );
-});
+}
 
-Modal.propTypes = {
-  children: PropTypes.element,
-  handleClick: PropTypes.func,
-  handleClose: PropTypes.func,
-  handleClickAway: PropTypes.func,
-  heading: PropTypes.string.isRequired,
-  button: PropTypes.string,
-  disabledButton: PropTypes.string,
-  icon: PropTypes.bool,
-  confirmMessage: PropTypes.string,
-  notifyMessage: PropTypes.string,
-  errorMessage: PropTypes.string,
-};
 export default React.memo(Modal);
