@@ -6,7 +6,7 @@ import ButtonPill from "../buttonPill/buttonPill";
 import SeedPhrase from "../seedPhrase/seedPhrase";
 
 export interface Props {
-  onContinue: any;
+  onContinue: () => void;
 }
 
 function SeedPhraseGen(props: Props) {

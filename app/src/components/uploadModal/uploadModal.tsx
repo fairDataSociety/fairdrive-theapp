@@ -11,7 +11,7 @@ export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   downloadFile?: boolean;
   open?: boolean;
-  children: any;
+  children: React.ReactNode | React.ReactNode[];
   handleUploadModal: (value) => void;
 }
 
@@ -30,18 +30,18 @@ function UploadModal(props: Props) {
     inputFile.current.click();
   };
 
-  async function handleFileUpload(files: any) {
-    for (let file of files) {
+  async function handleFileUpload(files: FileList) {
+    Array.from(files).forEach((file) => {
       blobFile = URL.createObjectURL(file);
       setFile(file);
       setBlob(blobFile);
-  
+
       actions.uploadFile({
         files,
         directory: urlPath(state.directory),
         podName: state.podName,
       });
-    }
+    });
   }
   useEffect(() => {
     handleClose();
@@ -61,7 +61,7 @@ function UploadModal(props: Props) {
   };
 
   const classes = useStyles({ ...props, open, ...theme });
- 
+
   return (
     <div>
       <div onClick={handleOpen}>{props.children}</div>
@@ -72,7 +72,6 @@ function UploadModal(props: Props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        
         <div className={classes.fileModal} onClick={handleOpen}>
           <div className={classes.headerWrapper}>
             <Folder className={classes.headerIcon} />
@@ -89,7 +88,7 @@ function UploadModal(props: Props) {
               <img className={classes.imagePreview} src={blob} alt="img"></img>
             )}
           </div>
- 
+
           <UploadModalProgress />
 
           <div className={classes.divider}></div>

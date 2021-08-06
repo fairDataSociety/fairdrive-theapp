@@ -1,30 +1,42 @@
 import React, { useContext, useEffect, useState } from "react";
+
+// Contexts
 import { ThemeContext } from "../../store/themeContext/themeContext";
+
+// Store
 import { StoreContext } from "../../store/store";
-import useStyles from "./driveStyles";
-import { Modal } from "@material-ui/core";
+import {
+  createDirectory,
+  receiveFileInfo,
+  sharePod,
+} from "src/store/services/fairOS";
+
+// Components
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
 import UploadModal from "../../components/uploadModal/uploadModal";
-import { sortyByCurrentFilter } from "../../store/helpers/sort";
 import OpenInDapp from "../modals/openInDapp/openInDapp";
 import ButtonNavbar from "../buttonNavbar/buttonNavbar";
 import FileList from "../fileList/fileList";
+import { CreateNew } from "../modals/createNew/createNew";
+import GenerateLink from "../modals/generateLink/generateLink";
+
+// Hooks and helpers
+import useStyles from "./driveStyles";
+import { Modal } from "@material-ui/core";
+import { sortyByCurrentFilter } from "../../store/helpers/sort";
+
+// Icons
 import {
   ButtonPlus,
   PodInfo,
   ShareIcon,
   UploadIcon,
 } from "../../components/icons/icons";
-import { CreateNew } from "../modals/createNew/createNew";
-import {
-  createDirectory,
-  receiveFileInfo,
-  sharePod,
-} from "src/store/services/fairOS";
-import GenerateLink from "../modals/generateLink/generateLink";
 
+// Types
+import { IFile } from "../../types/models/File";
 export interface Props {
   isPodBarOpen: boolean;
 }
@@ -41,7 +53,7 @@ function Drive(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<IFile[] | null>([]);
   const [folders, setFolders] = useState([]);
   const [showGrid, setShowGrid] = useState(true);
 
