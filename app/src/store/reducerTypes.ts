@@ -1,9 +1,3 @@
-import { IFile } from "../types/models/File";
-import { IDirectory } from "../types/models/Directory";
-import { IUserData } from "../types/models/UserData";
-import { IUserStats } from "../types/models/UserStats";
-import { CancelTokenSource } from "axios";
-
 type Status = string | "loading" | "success" | "fail";
 
 interface Flags {

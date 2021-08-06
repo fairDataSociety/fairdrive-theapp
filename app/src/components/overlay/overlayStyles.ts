@@ -1,20 +1,20 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
+import { makeStyles, createStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() =>
-	createStyles({
-		Overlay: {
-			position: 'fixed',
-			top: 0,
-			left: 0,
-			width: '100vw',
-			height: '100vh',
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			backgroundColor: 'rgba(73,75,80,0.51)',
-			zIndex: 6
-		}
-	})
+  createStyles({
+    Overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(73,75,80,0.51)',
+      zIndex: 6,
+    },
+  })
 );
 
 export default useStyles;

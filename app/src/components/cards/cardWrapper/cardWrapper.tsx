@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../../store/themeContext/themeContext";
-import useStyles from "./cardWrapperStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../store/themeContext/themeContext';
+import useStyles from './cardWrapperStyles';
 
-type Sizes = "small" | "regular" | "big";
+type Sizes = 'small' | 'regular' | 'big';
 
 export interface Props {
   size?: Sizes;
@@ -10,7 +10,7 @@ export interface Props {
   onFileClick: () => void;
 }
 
-function CardWrapper(props: Props) {
+function CardWrapper(props: Props): JSX.Element {
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

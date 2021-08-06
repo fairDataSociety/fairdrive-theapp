@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./uploadModalStyles";
-import Modal from "@material-ui/core/Modal";
-import { InfoIcon, Folder, Close, UploadIcon } from "../icons/icons";
-import urlPath from "src/store/helpers/urlPath";
-import UploadModalProgress from "../uploadModalProgress/uploadModalProgress";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './uploadModalStyles';
+import Modal from '@material-ui/core/Modal';
+import { InfoIcon, Folder, Close, UploadIcon } from '../icons/icons';
+import urlPath from 'src/store/helpers/urlPath';
+import UploadModalProgress from '../uploadModalProgress/uploadModalProgress';
 
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -45,7 +45,6 @@ function UploadModal(props: Props) {
   }
   useEffect(() => {
     handleClose();
-    // eslint-disable-next-line
   }, [state.entries]);
 
   const handleOpen = async () => {
@@ -75,16 +74,16 @@ function UploadModal(props: Props) {
         <div className={classes.fileModal} onClick={handleOpen}>
           <div className={classes.headerWrapper}>
             <Folder className={classes.headerIcon} />
-            <div className={classes.header}>Upload File</div>{" "}
+            <div className={classes.header}>Upload File</div>{' '}
             <Close className={classes.closeIcon} onClick={handleClose} />
           </div>
           <div className={classes.divider}></div>
 
           <div className={classes.iconContainer}>
-            {file && !file.type.includes("image") && (
+            {file && !file.type.includes('image') && (
               <InfoIcon className={classes.Icon} />
             )}
-            {file && file.type.includes("image") && (
+            {file && file.type.includes('image') && (
               <img className={classes.imagePreview} src={blob} alt="img"></img>
             )}
           </div>

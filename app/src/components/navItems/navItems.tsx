@@ -1,15 +1,18 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "../../containers/navbar/navbarStyles";
-import ClickAwayListener from "react-click-away-listener";
-import SearchBar from "../searchBar/searchBar";
-import { Profile, DAppIcon, Moon, Sun } from "src/components/icons/icons";
-import GenerateLink from "src/components/modals/generateLink/generateLink";
-import DropDown from "src/components/dropDown/dropDown";
-import { StoreContext } from "src/store/store";
-import { logOut } from "src/store/services/fairOS";
-import Blockies from "react-blockies";
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from '../../containers/navbar/navbarStyles';
+import ClickAwayListener from 'react-click-away-listener';
+import SearchBar from '../searchBar/searchBar';
+import {
+  // Profile, DAppIcon,
+  Moon,
+  Sun,
+} from 'src/components/icons/icons';
+// import GenerateLink from 'src/components/modals/generateLink/generateLink';
+import DropDown from 'src/components/dropDown/dropDown';
+import { StoreContext } from 'src/store/store';
+// import { logOut } from 'src/store/services/fairOS';
+import Blockies from 'react-blockies';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -17,26 +20,26 @@ export interface Props {
 
 function NavItems(props: Props) {
   const { state, actions } = useContext(StoreContext);
-  const [referModal, setReferModal] = useState(false);
-  const [dappDropdown, setDappDropdown] = useState(false);
+  // const [referModal, setReferModal] = useState(false);
+  // const [dappDropdown, setDappDropdown] = useState(false);
   const [avatarDropdown, setAvatarDropdown] = useState(false);
-  const [activityDropdown, setActivityDropdown] = useState(false);
+  // const [activityDropdown, setActivityDropdown] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const handleClick = () => {
-    setReferModal(true);
-  };
-  const handleDappClick = () => {
-    setDappDropdown(true);
-  };
+  // const handleClick = () => {
+  //   setReferModal(true);
+  // };
+  // const handleDappClick = () => {
+  //   setDappDropdown(true);
+  // };
   const handleAvatarClick = () => {
     setAvatarDropdown(true);
   };
-  const handleActivityClick = () => {
-    setActivityDropdown(true);
-  };
+  // const handleActivityClick = () => {
+  //   setActivityDropdown(true);
+  // };
   useEffect(() => {
     if (state.userStats !== null && walletAddress == null) {
       setWalletAddress(state.userStats.reference);
@@ -67,11 +70,11 @@ function NavItems(props: Props) {
           bgColor={theme.backgroundDark2}
           seed={walletAddress}
           className={classes.blockie}
-        />{" "}
+        />{' '}
       </div>
 
       <div onClick={toggleTheme}>
-        {theme.name === "light" ? (
+        {theme.name === 'light' ? (
           <Moon className={classes.themeIcon} />
         ) : (
           <Sun className={classes.themeIcon} />
@@ -90,7 +93,7 @@ function NavItems(props: Props) {
                   onClick={() => {
                     actions.userLogout();
                   }}
-                  style={{ color: "red" }}
+                  style={{ color: 'red' }}
                 >
                   Logout
                 </li>

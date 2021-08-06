@@ -1,5 +1,5 @@
-import React from "react";
-import Modal from "../modal/modal";
+import React from 'react';
+import Modal from '../modal/modal';
 
 export interface Props {
   dapp: string;

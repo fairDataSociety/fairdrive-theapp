@@ -1,27 +1,27 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
+import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
-import { Theme } from "../../store/themeContext/themes";
-import { Props } from "./seedPhraseConfirm";
+import { Theme } from '../../store/themeContext/themes';
+// import { Props } from './seedPhraseConfirm';
 
 const useStyles = makeStyles(() =>
   createStyles({
     Login: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark,
-      color:(style: Props & Theme) => style.textColorPrimary,
-      paddingTop:"10rem",
-      height: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      justifyItems: "center",
-      alignItems: "center",
-      overflowX: "hidden",
-      overflowY: "auto",
+      backgroundColor: (style: Theme) => style.backgroundDark,
+      color: (style: Theme) => style.textColorPrimary,
+      paddingTop: '10rem',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyItems: 'center',
+      alignItems: 'center',
+      overflowX: 'hidden',
+      overflowY: 'auto',
     },
     flexer: {
-      margin: "40px",
+      margin: '40px',
     },
     title: {
-      margin: "20px",
+      margin: '20px',
       fontFamily: 'Work Sans',
       fontWeight: 'bold',
       fontSize: '34px',
@@ -37,7 +37,7 @@ const useStyles = makeStyles(() =>
       // height: '40px',
       // left: '0px',
       // top: '56px',
-      
+
       fontFamily: 'Tomorrow',
       fontStyle: 'normal',
       fontWeight: 'normal',
@@ -65,13 +65,13 @@ const useStyles = makeStyles(() =>
       // custom
       color: '#f63333',
       textAlign: 'center',
-      margin: "0px 0px 0px 0px",
+      margin: '0px 0px 0px 0px',
       lineHeight: '14px',
     },
-    buttons:{
-      display:"flex",
-      flexDirection: "row",
-    }
+    buttons: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
   })
 );
 

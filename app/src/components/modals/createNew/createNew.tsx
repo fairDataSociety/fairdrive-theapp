@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../../store/themeContext/themeContext";
-import useStyles from "./createNewStyles";
-import TextField from "../../textField/textField";
-import Modal from "../modal/modal";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../store/themeContext/themeContext';
+import useStyles from './createNewStyles';
+import TextField from '../../textField/textField';
+import Modal from '../modal/modal';
 
 export interface Props {
   type: string;
@@ -13,7 +13,7 @@ export interface Props {
   propValue: string;
 }
 
-export function CreateNew(props: Props) {
+export function CreateNew(props: Props): JSX.Element {
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

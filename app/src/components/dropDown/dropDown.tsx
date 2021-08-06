@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./dropDownStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './dropDownStyles';
 
-type Variants = "primary" | "secondary" | "tertiary";
+type Variants = 'primary' | 'secondary' | 'tertiary';
 
 export interface Props {
   variant: Variants;
