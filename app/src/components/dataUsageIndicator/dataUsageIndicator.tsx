@@ -1,23 +1,22 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./dataUsageIndicatorStyles";
-import CircularProgress from "../circularProgress/circularProgress";
-import { QuestionCircle } from "../icons/icons";
-import { useState } from "react";
-import GenerateLink from "../modals/generateLink/generateLink";
-import ClickAwayListener from "react-click-away-listener";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './dataUsageIndicatorStyles';
+import CircularProgress from '../circularProgress/circularProgress';
+import { QuestionCircle } from '../icons/icons';
+import { useState } from 'react';
+import GenerateLink from '../modals/generateLink/generateLink';
+import ClickAwayListener from 'react-click-away-listener';
 
 export interface Props {
-  // uncomment when populating with real values
-  // heading: string;
-  // usedSpace: string;
-  // spaceLeft: string;
-  // handleClick: () => void;
+  heading?: string;
+  usedSpace?: string;
+  spaceLeft?: string;
+  handleClick?: () => void;
 }
 
-function DataUsageIndicator(props: Props) {
+function DataUsageIndicator() {
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
   const [showRefer, setShowRefer] = useState(false);
 
   const percentage = 80;

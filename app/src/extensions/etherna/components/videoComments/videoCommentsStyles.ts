@@ -1,4 +1,4 @@
-import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -11,7 +11,7 @@ const useStyles = makeStyles(() =>
       padding: '2rem',
       background: '#444',
       zIndex: 10,
-      boxShadow: '0 5px 15px 5px rgba(0, 0, 0, 0.5)'
+      boxShadow: '0 5px 15px 5px rgba(0, 0, 0, 0.5)',
     },
     commentsList: {
       position: 'relative',
@@ -20,9 +20,9 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       overflowY: 'auto',
 
-      "& > * + *": {
-        marginTop: '15px'
-      }
+      '& > * + *': {
+        marginTop: '15px',
+      },
     },
     comment: {
       display: 'flex',
@@ -34,7 +34,7 @@ const useStyles = makeStyles(() =>
     commentTime: {
       fontSize: '1.2rem',
       fontWeight: 400,
-      color: '#aaa'
+      color: '#aaa',
     },
     close: {
       position: 'absolute',
@@ -42,8 +42,8 @@ const useStyles = makeStyles(() =>
       top: '5px',
       padding: '0 10px',
       fontSize: '3rem',
-    }
+    },
   })
-)
+);
 
-export default useStyles
+export default useStyles;

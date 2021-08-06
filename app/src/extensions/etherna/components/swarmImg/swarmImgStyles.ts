@@ -1,4 +1,4 @@
-import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -13,18 +13,18 @@ const useStyles = makeStyles(() =>
       inset: 0,
       width: '100%',
       height: '100%',
-      zIndex: -1
+      zIndex: -1,
     },
     swarmImagePicture: {
-      zIndex: -1
+      zIndex: -1,
     },
     swarmImageObject: {
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      objectPosition: 'center'
-    }
+      objectPosition: 'center',
+    },
   })
-)
+);
 
-export default useStyles
+export default useStyles;

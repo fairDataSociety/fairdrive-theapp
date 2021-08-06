@@ -1,4 +1,4 @@
-import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -6,16 +6,16 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       alignItems: 'center',
       margin: '12px 0',
-      fontSize: '1.5rem'
+      fontSize: '1.5rem',
     },
     commentsToggle: {
       appearance: 'none',
       backgroundColor: 'transparent',
       border: 'none',
       boxShadow: 'none',
-      "&:hover": {
-        textDecoration: 'underline'
-      }
+      '&:hover': {
+        textDecoration: 'underline',
+      },
     },
     videoVotes: {
       display: 'flex',
@@ -23,13 +23,13 @@ const useStyles = makeStyles(() =>
       marginLeft: 'auto',
     },
     vote: {
-      marginLeft: '4px'
+      marginLeft: '4px',
     },
     thumbDown: {
       transform: 'rotate(180deg)',
       marginLeft: '12px',
-    }
+    },
   })
-)
+);
 
-export default useStyles
+export default useStyles;

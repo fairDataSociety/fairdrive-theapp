@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./navbarStyles";
-import NavItems from "../../components/navItems/navItems";
-import { Logo } from "src/components/icons/icons";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './navbarStyles';
+import NavItems from '../../components/navItems/navItems';
+import { Logo } from 'src/components/icons/icons';
 
 export interface Props {
   setShowTerms?: (data) => void;
@@ -20,7 +20,7 @@ function Navbar(props: Props) {
       <div
         onClick={() => {
           props.setShowTerms(false);
-          actions.setDirectory("root");
+          actions.setDirectory('root');
         }}
         className={classes.logo}
       >

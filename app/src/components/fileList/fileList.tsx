@@ -31,15 +31,16 @@ function FileList(props: Props) {
               (directory) => {
                 return (
                   <FileListBody
+                    key={directory.name}
                     name={directory.name}
                     type={directory.content_type}
                     size={directory.size}
                     created={moment
                       .unix(parseInt(directory.creation_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     modified={moment
                       .unix(parseInt(directory.modification_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     file={directory}
                     isPodBarOpen={props.isPodBarOpen}
                   ></FileListBody>
@@ -51,15 +52,16 @@ function FileList(props: Props) {
               (entry) => {
                 return (
                   <FileListBody
+                    key={entry.name}
                     name={entry.name}
                     type={entry.content_type}
                     size={prettyBytes(parseInt(entry.size))}
                     created={moment
                       .unix(parseInt(entry.creation_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     modified={moment
                       .unix(parseInt(entry.modification_time))
-                      .format("DD/MM/YYYY")}
+                      .format('DD/MM/YYYY')}
                     file={entry}
                     isPodBarOpen={props.isPodBarOpen}
                   ></FileListBody>
