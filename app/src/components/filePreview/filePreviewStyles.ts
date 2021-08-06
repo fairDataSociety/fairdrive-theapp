@@ -16,6 +16,19 @@ const useStyles = makeStyles(() =>
       height: '8rem',
       margin: 'auto',
     },
+    iconContainer: {
+      position: 'relative',
+      display: 'inline-block',
+      width: 'auto'
+    },
+    mimeType: {
+      color: 'white',
+      bottom: '10px',
+      position: 'absolute',
+      textTransform: 'uppercase',
+      left: '6px',
+      fontSize: '15px',
+    }
   })
 );
 

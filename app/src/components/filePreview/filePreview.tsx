@@ -4,9 +4,11 @@ import { FilePreviewInfo } from './types';
 import FilePreviewImage from './filePreviewImage';
 import FilePreviewFallback from './filePreviewFallback';
 import FilePreviewVideo from '../../extensions/etherna/components/filePreviewVideo/filePreviewVideo';
+import FilePreviewTextual from 'src/extensions/etherna/components/filePreviewTextual/filePreviewTextual';
 
 type FilePreviewProps = FilePreviewInfo & {
   contentType: string;
+  file: any;
 };
 
 function FilePreview({
@@ -14,11 +16,22 @@ function FilePreview({
   filename,
   directory,
   podName,
-}: FilePreviewProps): JSX.Element {
+  file,
+}: FilePreviewProps) {
   const extensionsTypes = Object.keys(FilePreview.extensions);
   const extensionType = extensionsTypes.find((type) =>
     new RegExp(type).test(contentType)
   );
+
+  if (
+    file.name.endsWith('.txt') ||
+    file.name.endsWith('.log') ||
+    file.name.endsWith('.html')
+  ) {
+    return (
+      <FilePreviewTextual file={file} directory={directory} podName={podName} />
+    );
+  }
 
   if (extensionType) {
     const ExtensionComponent = FilePreview.extensions[
@@ -44,7 +57,7 @@ function FilePreview({
     );
   }
 
-  return <FilePreviewFallback />;
+  return <FilePreviewFallback file={file} />;
 }
 
 // Extensions ------
