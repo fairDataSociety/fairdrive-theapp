@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from './actionTypes';
+import { ACTION_TYPES } from "./actionTypes";
 import {
   login,
   fileUpload,
@@ -8,8 +8,11 @@ import {
   getPods,
   openPod,
   logOut,
+  deleteFile,
+  deleteFolder,
+  deletePod,
   userStats,
-} from '../store/services/fairOS';
+} from "../store/services/fairOS";
 
 export const applyMiddleware = (dispatch) => (action) => {
   switch (action.type) {
@@ -73,6 +76,48 @@ export const applyMiddleware = (dispatch) => (action) => {
             payload: err.response,
           })
         );
+    case ACTION_TYPES.DELETE_FILE.DELETE_FILE_REQUEST:
+      return deleteFile(action.payload)
+        .then((res) => {
+          dispatch({
+            type: ACTION_TYPES.DELETE_FILE.FILE_DELETE_SUCCESS,
+            payload: res,
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: ACTION_TYPES.DELETE_FILE.DELETE_FILE_FAILED,
+            payload: err.response,
+          });
+        });
+    case ACTION_TYPES.DELETE_FOLDER.DELETE_FOLDER_REQUEST:
+      return deleteFolder(action.payload)
+        .then((res) => {
+          dispatch({
+            type: ACTION_TYPES.DELETE_FOLDER.FOLDER_DELETE_SUCCESS,
+            payload: res,
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: ACTION_TYPES.DELETE_FILE.DELETE_FILE_FAILED,
+            payload: err.response,
+          });
+        });
+    case ACTION_TYPES.DELETE_POD.DELETE_POD_REQUEST:
+      return deletePod(action.payload)
+        .then((res) => {
+          dispatch({
+            type: ACTION_TYPES.DELETE_POD.POD_DELETE_SUCCESS,
+            payload: res,
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: ACTION_TYPES.DELETE_FILE.DELETE_FILE_FAILED,
+            payload: err.response,
+          });
+        });
     case ACTION_TYPES.SEND_FILE.SEND_FILE_REQUEST: {
       const { uploadRequest, requestId } = fileUpload(
         action.payload,

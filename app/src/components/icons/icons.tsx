@@ -22,34 +22,35 @@ import { ReactComponent as Time } from '../../media/fairdrive/Time.svg';
 import { ReactComponent as Logo } from '../../media/fairdrive/logo.svg';
 import { ReactComponent as Swarm } from '../../media/fairdrive/swarm.svg';
 
-import { ReactComponent as StartFolder } from '../../media/UI/getStartedFolder.svg';
-import { ReactComponent as Dapps } from '../../media/UI/dapps.svg';
-import { ReactComponent as Complete } from '../../media/UI/complete.svg';
-import { ReactComponent as Close } from '../../media/UI/close.svg';
-import { ReactComponent as Kebab } from '../../media/UI/kebab.svg';
-import { ReactComponent as PodChevron } from '../../media/UI/pod_chevron.svg';
-import { ReactComponent as PodInfo } from '../../media/UI/pod_info.svg';
-import { ReactComponent as QuestionCircle } from '../../media/UI/question_small.svg';
-import { ReactComponent as Chevron } from '../../media/UI/chevron.svg';
-import { ReactComponent as Download } from '../../media/UI/download.svg';
-import { ReactComponent as Hide } from '../../media/UI/hide.svg';
-import { ReactComponent as Share } from '../../media/UI/share.svg';
-import { ReactComponent as UploadIcon } from '../../media/UI/upload-new.svg';
-import { ReactComponent as FilterIcon } from '../../media/optionIcons/Filter.svg';
-import { ReactComponent as GridIcon } from '../../media/optionIcons/GridIcon.svg';
-import { ReactComponent as ListIcon } from '../../media/optionIcons/ListIcon.svg';
-import { ReactComponent as DAppIcon } from '../../media/UI/dapp_square.svg';
-import { ReactComponent as ShareIcon } from '../../media/UI/share_icon.svg';
-import { ReactComponent as ButtonPlus } from '../../media/UI/button_plus.svg';
-import { ReactComponent as ModalFolder } from '../../media/UI/modalfolder.svg';
-import { ReactComponent as Copy } from '../../media/UI/copy.svg';
-import { ReactComponent as LinumLabs } from '../../media/fairdrive/linumlabs.svg';
-import { ReactComponent as FairdData } from '../../media/fairdrive/fairdata.svg';
-import { ReactComponent as Github } from '../../media/socialMedia/github.svg';
-import { ReactComponent as Medium } from '../../media/socialMedia/medium.svg';
-import { ReactComponent as Discord } from '../../media/socialMedia/discord.svg';
-import { ReactComponent as Warning } from '../../media/optionIcons/warning.svg';
-import { ReactComponent as CirclePart } from '../../media/spinners/circle_part.svg';
+import { ReactComponent as StartFolder } from "../../media/UI/getStartedFolder.svg";
+import { ReactComponent as Dapps } from "../../media/UI/dapps.svg";
+import { ReactComponent as Complete } from "../../media/UI/complete.svg";
+import { ReactComponent as Close } from "../../media/UI/close.svg";
+import { ReactComponent as Kebab } from "../../media/UI/kebab.svg";
+import { ReactComponent as PodChevron } from "../../media/UI/pod_chevron.svg";
+import { ReactComponent as PodInfo } from "../../media/UI/pod_info.svg";
+import { ReactComponent as QuestionCircle } from "../../media/UI/question_small.svg";
+import { ReactComponent as Chevron } from "../../media/UI/chevron.svg";
+import { ReactComponent as Download } from "../../media/UI/download.svg";
+import { ReactComponent as Hide } from "../../media/UI/hide.svg";
+import { ReactComponent as Share } from "../../media/UI/share.svg";
+import { ReactComponent as UploadIcon } from "../../media/UI/upload-new.svg";
+import { ReactComponent as FilterIcon } from "../../media/optionIcons/Filter.svg";
+import { ReactComponent as SortingIcon } from "../../media/optionIcons/SortingIcon.svg";
+import { ReactComponent as GridIcon } from "../../media/optionIcons/GridIcon.svg";
+import { ReactComponent as ListIcon } from "../../media/optionIcons/ListIcon.svg";
+import { ReactComponent as DAppIcon } from "../../media/UI/dapp_square.svg";
+import { ReactComponent as ShareIcon } from "../../media/UI/share_icon.svg";
+import { ReactComponent as ButtonPlus } from "../../media/UI/button_plus.svg";
+import { ReactComponent as ModalFolder } from "../../media/UI/modalfolder.svg";
+import { ReactComponent as Copy } from "../../media/UI/copy.svg";
+import { ReactComponent as LinumLabs } from "../../media/fairdrive/linumlabs.svg";
+import { ReactComponent as FairdData } from "../../media/fairdrive/fairdata.svg";
+import { ReactComponent as Github } from "../../media/socialMedia/github.svg";
+import { ReactComponent as Medium } from "../../media/socialMedia/medium.svg";
+import { ReactComponent as Discord } from "../../media/socialMedia/discord.svg";
+import { ReactComponent as Warning } from "../../media/optionIcons/warning.svg";
+import { ReactComponent as CirclePart } from "../../media/spinners/circle_part.svg";
 
 import { ReactComponent as Moon } from '../../media/optionIcons/Moon.svg';
 import { ReactComponent as Sun } from '../../media/optionIcons/Sun.svg';
@@ -98,6 +99,7 @@ export {
   ModalFolder,
   Copy,
   FilterIcon,
+  SortingIcon,
   ListIcon,
   GridIcon,
   DAppIcon,

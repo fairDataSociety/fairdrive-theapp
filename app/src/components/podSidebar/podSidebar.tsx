@@ -49,11 +49,11 @@ function PodSidebar(props: Props) {
     setOpen(true);
   };
 
-  const setOverview = async (pod) => {
-    // await actions.setPodName(pod);
-    // if (!state.podsOpened.includes(pod))
-    //   await actions.openPod({ password: state.password, podName: pod });
-  };
+  // const setOverview = async (pod) => {
+  // await actions.setPodName(pod);
+  // if (!state.podsOpened.includes(pod))
+  //   await actions.openPod({ password: state.password, podName: pod });
+  // };
   const createNewPod = async () => {
     await createPod({ password: state.password, podName });
     handleClose();
@@ -102,7 +102,7 @@ function PodSidebar(props: Props) {
               <div
                 key={index}
                 className={classes.podRow}
-                onClick={() => setOverview(pod)}
+                // onClick={() => setOverview(pod)}
               >
                 <label>{pod}</label>
                 <PodChevron className={classes.podChevron} />

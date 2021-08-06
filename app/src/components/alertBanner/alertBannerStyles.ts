@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
     agree: {
       margin: 'auto',
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
-      borderRadius: (style: Props & Theme) => '0.5rem',
+      borderRadius:'0.5rem',
       cursor: 'pointer',
       padding: '1rem 2rem',
       color: (style: Props & Theme) => style.textColorPrimary,

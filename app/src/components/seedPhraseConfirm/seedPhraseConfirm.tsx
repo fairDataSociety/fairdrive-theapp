@@ -11,7 +11,7 @@ import {
   // createPod,
   // userLoggedIn,
 } from '../../store/services/fairOS';
-// export interface Props {}
+export interface Props {}
 
 function SeedPhraseConfirm() {
   const { state, actions } = useContext(StoreContext);

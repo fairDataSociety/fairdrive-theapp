@@ -1,9 +1,9 @@
-import React, { useReducer, useContext } from 'react';
-import { useActions } from './action';
-import { applyMiddleware } from './middleware';
-import { initialState, reducer } from './reducers';
+import React, { useReducer, useContext } from "react";
+import { useActions } from "./action";
+import { applyMiddleware } from "./middleware";
+import { initialState, reducer } from "./reducers";
 
-import { IStoreProvider, IContextProps } from './storeTypes';
+import { IStoreProvider, IContextProps } from "./storeTypes";
 
 export const StoreContext = React.createContext({} as IContextProps);
 

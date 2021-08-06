@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
-import useStyles from './fileListStyles';
-import { Kebab } from '../icons/icons';
+import React, { useContext } from "react";
+import { ThemeContext } from "../../../store/themeContext/themeContext";
+import useStyles from "./fileListBodyStyles";
+import { Kebab } from "../../icons/icons";
 
-import { IFile } from "../../types/models/File";
-import { IDirectory } from "../../types/models/Directory";
+import { IFile } from "../../../types/models/File";
+import { IDirectory } from "../../../types/models/Directory";
 export interface Props {
   file: IFile | IDirectory;
   name: string;

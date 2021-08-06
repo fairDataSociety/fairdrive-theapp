@@ -15,17 +15,16 @@ import {
 import CardGrid from "../../components/cardGrid/cardGrid";
 import FileCard from "../../components/cards/fileCard";
 import FileModal from "../../components/fileModal/fileModal";
-import UploadModal from "../../components/uploadModal/uploadModal";
-import OpenInDapp from "../modals/openInDapp/openInDapp";
-import ButtonNavbar from "../buttonNavbar/buttonNavbar";
-import FileList from "../fileList/fileList";
-import { CreateNew } from "../modals/createNew/createNew";
-import GenerateLink from "../modals/generateLink/generateLink";
+import UploadModal from '../../components/uploadModal/uploadModal';
+import ButtonNavbar from '../buttonNavbar/buttonNavbar';
+import FileList from '../fileList/fileList';
+import { CreateNew } from '../modals/createNew/createNew';
+import GenerateLink from '../modals/generateLink/generateLink';
 
 // Hooks and helpers
-import useStyles from "./driveStyles";
-import { Modal } from "@material-ui/core";
-import sortByProp from "../../store/helpers/sort";
+import useStyles from './driveStyles';
+import { Modal } from '@material-ui/core';
+import { sortyByCurrentFilter } from '../../store/helpers/sort';
 
 // Icons
 import {
@@ -33,13 +32,21 @@ import {
   PodInfo,
   ShareIcon,
   UploadIcon,
-} from "../../components/icons/icons";
+} from '../../components/icons/icons';
 
 // Types
-import { IFile } from "../../types/models/File";
+import { IFile } from '../../types/models/File';
 export interface Props {
   isPodBarOpen: boolean;
 }
+
+export type TCurrentFilter =
+  | 'least-recent'
+  | 'file-type'
+  | 'increasing-size'
+  | 'decreasing-size'
+  | 'ascending-abc'
+  | 'descending-abc';
 
 function Drive(props: Props) {
   const { state, actions } = useContext(StoreContext);
@@ -48,6 +55,7 @@ function Drive(props: Props) {
   const [files, setFiles] = useState<IFile[] | null>([]);
   const [folders, setFolders] = useState([]);
   const [showGrid, setShowGrid] = useState(true);
+
   const [open, setOpen] = useState(false);
   const [openImportFile, setOpenImportFile] = useState(false);
   const [folderName, setFolderName] = useState('');
@@ -56,10 +64,6 @@ function Drive(props: Props) {
   const [responseCreation, setResponseCreation] = useState(false);
   const [showSharePodPopup, setShowSharePodPopup] = useState(false);
   const [refLink, setRefLink] = useState('0000000000000');
-  const toSortProp = 'name';
-  // eslint-disable-next-line
-  const [toSort, setToSort] = useState(toSortProp);
-  const orderProp = 'asc';
 
   const classes = useStyles({ ...props, ...theme });
 
@@ -84,9 +88,13 @@ function Drive(props: Props) {
     loadDirectory();
     state.fileUploaded = false;
     state.searchQuery = null;
-
     // eslint-disable-next-line
-  }, [state.fileUploaded, state.directory, responseCreation]);
+  }, [
+    state.fileUploaded,
+    state.directory,
+    responseCreation,
+    state.fileDeleted,
+  ]);
 
   useEffect(() => {
     if (state.entries !== null) setFiles(state.entries);
@@ -159,6 +167,9 @@ function Drive(props: Props) {
     );
   };
 
+  const [currentFilter, setCurrentFilter] =
+    useState<TCurrentFilter>('least-recent');
+
   return (
     <div className={classes.Drive}>
       {/* Needs to go into buttonNavbar component */}
@@ -175,6 +186,10 @@ function Drive(props: Props) {
           showGrid={showGrid}
           setShowGrid={setShowGrid}
           handleShare={handleShare}
+          currentFilter={currentFilter}
+          setCurrentFilter={(selectedFilter) =>
+            setCurrentFilter(selectedFilter)
+          }
         />
       </div>
       {state.podName !== '' ? (
@@ -296,25 +311,29 @@ function Drive(props: Props) {
         <CardGrid className={classes.cardGrid}>
           {state.dirs !== null &&
             state.dirs !== undefined &&
-            state.dirs.map((dir, index) => (
-              <FileCard key={index} file={dir} isDirectory={true}></FileCard>
-            ))}
-          {files !== null &&
-            files !== undefined &&
-            files
-              .sort(sortByProp(toSort, orderProp))
-              .map((file, index) => (
-                <FileModal key={index} file={file}></FileModal>
-              ))}
-          {state.dirs === null ||
-            state.dirs === undefined ||
-            files === null ||
-            (files === undefined && state.dirs === undefined && (
+            sortyByCurrentFilter(state.dirs, currentFilter).map((dir: any) => {
+              return (
+                <FileCard key={dir} file={dir} isDirectory={true}></FileCard>
+              );
+            })}
+          {state.entries !== null &&
+            state.entries !== undefined &&
+            sortyByCurrentFilter(state.entries, currentFilter).map(
+              (file: any) => {
+                return <FileModal key={file} file={file}></FileModal>;
+              }
+            )}
+          {!!state.dirs ||
+            !!state.entries ||
+            (state.entries === undefined && state.dirs === undefined && (
               <div>Loading files..</div>
             ))}
         </CardGrid>
       ) : (
-        <FileList isPodBarOpen={props.isPodBarOpen}></FileList>
+        <FileList
+          currentFilter={currentFilter}
+          isPodBarOpen={props.isPodBarOpen}
+        ></FileList>
       )}
     </div>
   );

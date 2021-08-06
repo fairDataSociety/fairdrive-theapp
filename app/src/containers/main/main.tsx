@@ -5,7 +5,7 @@ import { ThemeContext } from '../../store/themeContext/themeContext';
 import Home from '../home/home';
 import LoginRegisterPage from '../loginRegisterPage/loginRegisterPage';
 
-import { HTTP_CODES } from '../../types/http/HTTPCodes';
+import { HTTP_CODES } from "../../types/http/HTTPCodes";
 
 function Main() {
   const { state } = useContext(StoreContext);

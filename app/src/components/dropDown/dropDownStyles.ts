@@ -5,7 +5,7 @@ import { Props } from './dropDown';
 const useStyles = makeStyles(() =>
   createStyles({
     wrapper: {
-      position: 'absolute',
+      position: "absolute",
       backgroundColor: (style: Props & Theme) => style.backgroundDark1,
       font: (style: Props & Theme) => style.typography.body3,
       width: (style: Props & Theme) => {
@@ -29,8 +29,15 @@ const useStyles = makeStyles(() =>
       alignSelf: 'center',
       zIndex: 1,
     },
-    heading: {},
-    subheading: {},
+    heading: {
+      color: (style: Theme & Props) => style.textColorPrimary,
+      font: (style: Theme & Props) => style.typography.body3,
+      marginBottom: "2rem",
+    },
+    subheading: {
+      color: (style: Theme & Props) => style.textColorPrimary,
+      font: (style: Theme & Props) => style.typography.body3,
+    },
     divider: {
       height: '5px',
       borderBottom: (style: Props & Theme) => {

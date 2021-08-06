@@ -20,7 +20,7 @@ function DropDown(props: Props) {
       <div className={classes.heading}>{props.heading}</div>
       <div className={classes.subheading}>{props.subheading}</div>
       <div className={classes.divider}></div>
-      <p className={classes.body}>{props.children}</p>
+      <div className={classes.body}>{props.children}</div>
     </div>
   );
 }

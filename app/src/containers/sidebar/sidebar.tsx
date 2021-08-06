@@ -3,7 +3,8 @@ import { ThemeContext } from '../../store/themeContext/themeContext';
 import { StoreContext } from '../../store/store';
 import useStyles from './sidebarStyles';
 import SidebarItem from '../../components/sidebarItem/sidebarItem';
-import { Drive, Dashboard, Globe } from '../../components/icons/icons';
+// import { Drive, Dashboard, Globe } from '../../components/icons/icons';
+import { Drive } from '../../components/icons/icons';
 
 export interface Props {
   showPodSidebar: boolean;

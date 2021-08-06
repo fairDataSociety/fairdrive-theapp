@@ -28,6 +28,7 @@ const useStyles = makeStyles(() =>
       top: 0,
       right: -10,
       height: '3rem',
+      margin: '2rem',
     },
     Icon: {
       width: '7rem',

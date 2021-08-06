@@ -8,10 +8,10 @@ import GenerateLink from '../modals/generateLink/generateLink';
 import ClickAwayListener from 'react-click-away-listener';
 
 export interface Props {
-  heading: string;
-  usedSpace: string;
-  spaceLeft: string;
-  handleClick: () => void;
+  heading?: string;
+  usedSpace?: string;
+  spaceLeft?: string;
+  handleClick?: () => void;
 }
 
 function DataUsageIndicator(props: Props) {

@@ -147,7 +147,7 @@ const useStyles = makeStyles(() =>
       width: '5rem',
       height: '5rem',
       boxSizing: 'border-box',
-      borderRadius: (style: Props & Theme) => '0.5rem',
+      borderRadius: '0.5rem',
       // cursor: 'pointer',
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
       margin: '1.6rem',

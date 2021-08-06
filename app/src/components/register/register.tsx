@@ -7,8 +7,8 @@ import TextField from '../textField/textField';
 import SeedPhraseGen from '../seedPhraseGen/seedPhraseGen';
 import SeedPhraseConfirm from '../seedPhraseConfirm/seedPhraseConfirm';
 import welcomeImage from '../../media/images/welcome-image.png';
-
-function Register() {
+export interface Props {}
+function Register(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });

@@ -1,4 +1,4 @@
-import { ACTION_TYPES, TUseActions } from "./actionTypes";
+import { ACTION_TYPES, TUseActions, } from "./actionTypes";
 
 export const useActions: TUseActions = (state, dispatch) => ({
   userLogin: (data) => {
@@ -19,6 +19,24 @@ export const useActions: TUseActions = (state, dispatch) => ({
   uploadFile: (data) => {
     dispatch({
       type: ACTION_TYPES.SEND_FILE.SEND_FILE_REQUEST,
+      payload: data,
+    });
+  },
+  deleteFile: (data) => {
+    dispatch({
+      type: ACTION_TYPES.DELETE_FILE.DELETE_FILE_REQUEST,
+      payload: data,
+    });
+  },
+  deleteFolder: (data) => {
+    dispatch({
+      type: ACTION_TYPES.DELETE_FOLDER.DELETE_FOLDER_REQUEST,
+      payload: data,
+    });
+  },
+  deletePod: (data) => {
+    dispatch({
+      type: ACTION_TYPES.DELETE_POD.DELETE_POD_REQUEST,
       payload: data,
     });
   },
