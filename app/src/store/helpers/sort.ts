@@ -5,7 +5,7 @@ interface IStateEntries {
   creation_time?: string;
   modification_time?: string;
   name: string;
-  size: string;
+  size?: string;
 }
 export default function sortByProp(prop:any, up:any) {
     if (up === "asc") {

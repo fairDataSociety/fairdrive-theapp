@@ -10,8 +10,9 @@ function SearchBar(props: Props) {
   const { actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  const handleSetProp = (e: any) => {
-    actions.setSearchQuery(e.target.value);
+
+  const handleSetProp = (event: React.ChangeEvent<HTMLInputElement>) => {
+    actions.setSearchQuery(event.target.value);
   };
 
   return (

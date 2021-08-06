@@ -7,9 +7,9 @@ import { Drive, Dashboard, Globe } from "../../components/icons/icons";
 
 export interface Props {
   showPodSidebar: boolean;
-  setShowPodSidebar: any;
+  setShowPodSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   sidebarItem: string;
-  setSidebarItem: any;
+  setSidebarItem: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Sidebar(props: Props) {
