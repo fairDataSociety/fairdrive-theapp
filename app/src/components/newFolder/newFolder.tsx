@@ -5,7 +5,7 @@ import useStyles from './newFolderStyles';
 import CreateNew from '../createNew/createNew';
 import { createDirectory } from '../../store/services/fairOS';
 export interface Props {
-  setResponse: any;
+  setResponse: (arg: boolean) => Promise<void>;
 }
 
 function NewFolder(props: Props) {
@@ -13,7 +13,7 @@ function NewFolder(props: Props) {
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });
-  const [folder, setFolderName] = useState(null);
+  const [folder, setFolderName] = useState<string | null>(null);
   const createFolder = async () => {
     props.setResponse(
       await createDirectory(state.directory, folder, state.podName)

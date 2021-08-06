@@ -1,9 +1,9 @@
-import axios, { AxiosResponse } from 'axios';
-import qs from 'querystring';
-import FileSaver from 'file-saver';
-import generateMnemonic from '../helpers/utils';
-import urlPath from '../helpers/urlPath';
-import makeBlockie from 'ethereum-blockies-base64';
+import axios from "axios";
+import qs from "querystring";
+import FileSaver from "file-saver";
+import generateMnemonic from "../helpers/utils";
+import urlPath from "../helpers/urlPath";
+import makeBlockie from "ethereum-blockies-base64";
 
 interface Payload {
   username?: string;
@@ -70,7 +70,7 @@ export const login = async (
       },
       withCredentials: true,
     });
-    localStorage.setItem('username', username);
+    localStorage.setItem("username", username);
 
     return { res: response };
   } catch (error) {
@@ -233,7 +233,10 @@ export const userStats = async (): Promise<AxiosResponse<any>> => {
   }
 };
 
-export const createPod = async (payload: any): Promise<AxiosResponse<any>> => {
+export const createPod = async (payload: {
+  password: string;
+  podName: string;
+}) => {
   try {
     const { password, podName } = payload;
     await axios({
@@ -252,7 +255,10 @@ export const createPod = async (payload: any): Promise<AxiosResponse<any>> => {
   }
 };
 
-export const closePod = async (payload: any): Promise<AxiosResponse<any>> => {
+export const closePod = async (payload: {
+  password: string;
+  podName: string;
+}) => {
   try {
     const { password, podName } = payload;
     const closePod = await axios({
@@ -271,7 +277,10 @@ export const closePod = async (payload: any): Promise<AxiosResponse<any>> => {
   }
 };
 
-export const openPod = async (payload: any): Promise<AxiosResponse<any>> => {
+export const openPod = async (payload: {
+  password: string;
+  podName: string;
+}) => {
   try {
     const { password, podName } = payload;
     const openPod = await axios({
@@ -417,7 +426,7 @@ export const receivePod = async (
     params: { reference: payload.podReference, pod_name: payload.pod_name },
     data: { reference: payload.podReference, pod_name: payload.pod_name },
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     withCredentials: true,
   });
@@ -425,9 +434,9 @@ export const receivePod = async (
 };
 
 function makeid(length) {
-  let result = '';
+  let result = "";
   const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -438,7 +447,7 @@ function makeid(length) {
 export const fileUpload = (
   payload: Payload,
   onUploadProgress: (request: string, progressEvent, cancelFn) => void
-): Promise<AxiosResponse<any>> => {
+) => {
   const requestId = makeid(6);
 
   const { files, directory, podName } = payload;
@@ -451,8 +460,12 @@ export const fileUpload = (
   }
   const formData = new FormData();
   Array.from(files).forEach((file) => {
-    formData.append('files', file);
+    formData.append("files", file);
   });
+
+  formData.append("dir_path", writePath);
+  formData.append("block_size", "64Mb");
+  formData.append("pod_name", podName);
 
   formData.append('dir_path', writePath);
   formData.append('block_size', '64Mb');
@@ -463,8 +476,8 @@ export const fileUpload = (
   const uploadRequest = axios({
     baseURL: host,
 
-    method: 'POST',
-    url: 'file/upload',
+    method: "POST",
+    url: "file/upload",
     onUploadProgress: (progressEvent) => {
       onUploadProgress(requestId, progressEvent, cancelFn);
     },
@@ -521,7 +534,7 @@ export const filePreview = async (
   file: string,
   directory: string,
   podName: string
-): Promise<AxiosResponse<any>> => {
+) => {
   try {
     console.log(directory);
     let writePath = '';
@@ -597,12 +610,12 @@ export const getDirectory = async (
   }
 };
 
-function dataURLtoFile(dataurl: string, filename: string): File {
-  const arr = dataurl.split(',');
-  const mime = arr[0].match(/:(.*?);/)[1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
+function dataURLtoFile(dataurl: string, filename: string) {
+  var arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
 
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n);
@@ -646,9 +659,7 @@ export async function createDirectory(
     });
 
     return true;
-  } catch (error) {
-    return Promise.reject(error);
-  }
+  } catch (error) {}
 }
 
 async function readAsbase64(blob: Blob) {
@@ -666,9 +677,12 @@ async function readAsbase64(blob: Blob) {
   });
 }
 
-export const deleteFile = async (payload: any): Promise<boolean> => {
+export const deleteFile = async (payload: {
+  file_name: string;
+  podName: string;
+  path: string;
+}) => {
   try {
-    // eslint-disable-next-line
     const { file_name, podName, path } = payload;
 
     await axios({
@@ -687,9 +701,7 @@ export const deleteFile = async (payload: any): Promise<boolean> => {
     });
 
     return true;
-  } catch (error) {
-    return Promise.reject(error);
-  }
+  } catch (error) {}
 };
 
 export const shareFile = async (
@@ -714,9 +726,7 @@ export const shareFile = async (
       withCredentials: true,
     });
     return shareFileResult?.data?.file_sharing_reference;
-  } catch (error) {
-    return Promise.reject(error);
-  }
+  } catch (error) {}
 };
 
 export const receiveFileInfo = async (
@@ -746,12 +756,10 @@ export const receiveFileInfo = async (
       params: data,
       data: data,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       withCredentials: true,
     });
     return shareFileInfoResult.data;
-  } catch (error) {
-    return Promise.reject(error);
-  }
+  } catch (error) {}
 };

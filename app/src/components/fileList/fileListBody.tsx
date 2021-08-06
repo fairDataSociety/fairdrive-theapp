@@ -3,19 +3,21 @@ import { ThemeContext } from '../../store/themeContext/themeContext';
 import useStyles from './fileListStyles';
 import { Kebab } from '../icons/icons';
 
+import { IFile } from "../../types/models/File";
+import { IDirectory } from "../../types/models/Directory";
 export interface Props {
-  file: any;
-  name: any;
-  type: any;
-  size: any;
-  created: any;
-  modified: any;
+  file: IFile | IDirectory;
+  name: string;
+  type: string;
+  size: string;
+  created: string;
+  modified: string;
   isPodBarOpen: boolean;
 }
 function FileListBody(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  // const { name, type, size, created, modified } = props.file;
+
   return (
     <div className={classes.fileWrapper}>
       <div className={classes.fileName}>{props.name}</div>

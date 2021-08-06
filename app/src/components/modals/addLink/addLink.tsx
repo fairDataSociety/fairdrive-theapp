@@ -6,8 +6,8 @@ import Modal from '../modal/modal';
 import TextField from '../../textField/textField';
 
 export interface Props {
-  setProp: any;
-  propValue: any;
+  setProp: (data: string) => void;
+  propValue: string;
 }
 
 function AddLink(props: Props) {

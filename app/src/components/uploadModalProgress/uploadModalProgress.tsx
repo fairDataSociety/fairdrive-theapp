@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { StoreContext } from '../../store/store';
-import useStyles from './uploadModalProgressStyles';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import React, { useContext } from "react";
+import { StoreContext } from "../../store/store";
+import useStyles from "./uploadModalProgressStyles";
+import LinearProgress from "@material-ui/core/LinearProgress";
 export interface Props {}
 
 function bytesToSize(bytes) {
-  var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes == 0) return '0 Byte';
+  var sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  if (bytes === 0) return "0 Byte";
   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10);
-  return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+  return Math.round(bytes / Math.pow(1024, i)) + " " + sizes[i];
 }
 
 function UploadModalProgress(props: Props) {

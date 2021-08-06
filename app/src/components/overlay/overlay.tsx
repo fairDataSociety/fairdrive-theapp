@@ -4,7 +4,7 @@ import ClickAwayListener from 'react-click-away-listener';
 import { ThemeContext } from '../../store/themeContext/themeContext';
 
 export interface Props {
-  handleClickAway?: any;
+  handleClickAway?: () => void;
   children: React.ReactElement<any>;
 }
 

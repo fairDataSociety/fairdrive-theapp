@@ -7,7 +7,7 @@ type Sizes = 'small' | 'regular' | 'big';
 export interface Props {
   size?: Sizes;
   children: React.ReactNode;
-  onFileClick: any;
+  onFileClick: () => Promise<void>;
 }
 
 function CardWrapper(props: Props) {

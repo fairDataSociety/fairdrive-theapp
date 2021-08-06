@@ -7,10 +7,10 @@ import Modal from '../modal/modal';
 export interface Props {
   type: string;
   isRefLink?: boolean;
-  handleClick: () => void;
+  handleClick: () => Promise<void>;
   handleClose: () => void;
-  setProp?: any;
-  propValue: any;
+  setProp?: React.Dispatch<React.SetStateAction<string>>;
+  propValue: string;
 }
 
 export function CreateNew(props: Props) {

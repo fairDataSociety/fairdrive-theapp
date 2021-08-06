@@ -6,8 +6,8 @@ import useStyles from './uploadFileStyles';
 import TextField from '../textField/textField';
 
 export interface Props {
-  file: any;
-  setUploadRes: any;
+  file: FileList;
+  setUploadRes: (data: boolean) => void;
 }
 
 function ShareFile(props: Props) {
@@ -16,10 +16,10 @@ function ShareFile(props: Props) {
   const [filename, setFilename] = useState('');
 
   const classes = useStyles({ ...props, ...theme });
-  const handleSetFilename = (e: any) => {
+  const handleSetFilename = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilename(e.target.value);
   };
-  function handleSubmit(e: any) {
+  function handleSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.charCode === 13) {
       shareFile();
     }

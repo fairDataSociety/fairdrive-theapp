@@ -3,9 +3,8 @@ import { ThemeContext } from '../../store/themeContext/themeContext';
 import useStyles from './buttonPillStyles';
 
 export interface Props {
-  clickFunction: any;
+  clickFunction: () => void;
   text: string;
-  setFiles?: any;
   color?: string;
   textColor?: string;
   size?: string;

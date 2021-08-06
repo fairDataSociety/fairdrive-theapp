@@ -5,10 +5,10 @@ import useStyles from './textFieldStyles';
 
 export interface Props {
   placeholder: string;
-  propValue: any;
-  setProp: any;
-  setHasError?: any;
-  onContinue?: any;
+  propValue: string;
+  setProp: (data: string) => void;
+  setHasError?: (data: boolean) => void;
+  onContinue?: () => void;
   type: string;
   disabled?: boolean;
   autoFocus?: boolean;
@@ -26,12 +26,12 @@ function TextField(props: Props) {
       props.setProp(username);
     }
   });
-  const handleSetProp = (e: any) => {
+  const handleSetProp = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.setProp(e.target.value);
     // props.setHasError(false);
   };
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e: React.KeyboardEvent<HTMLInputElement>) {
     if (props.onContinue) {
       if (e.charCode === 13) {
         props.onContinue();

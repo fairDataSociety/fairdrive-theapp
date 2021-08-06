@@ -7,8 +7,8 @@ import TextField from 'src/components/textField/textField';
 
 export interface Props {
   type: string;
-  setProp: any;
-  propValue: any;
+  setProp: (data: string) => void;
+  propValue: string;
 }
 
 export function Rename(props: Props) {

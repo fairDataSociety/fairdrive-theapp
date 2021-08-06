@@ -5,7 +5,7 @@ import useStyles from './sidebarItemStyles';
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   title: string;
-  onClick: any;
+  onClick: () => void;
 }
 
 function SidebarItem(props: Props) {

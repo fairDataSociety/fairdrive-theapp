@@ -1,48 +1,13 @@
-import types from './actionTypes';
+import { ACTION_TYPES, TActionTypes, Actions } from "./actionTypes";
 
-type Status = string | 'loading' | 'success' | 'fail';
-
-interface Flags {
-  loginStatus: Status;
-}
-export interface State {
-  token: string;
-  sessionCookie: string;
-  username: string;
-  userData: any;
-  fileUploaded: any;
-  showPasswordUnlock: boolean;
-  hasUser: boolean;
-  password: string;
-  mnemonic: string;
-  unlocked: boolean;
-  searchQuery: string;
-  entries: any;
-  dirs: any;
-  inviteCode: string;
-  address: string;
-  errMsg: string;
-  directory: string;
-  pods: any;
-  podMsg: any;
-  podName: string;
-  podsOpened: any;
-  userStats: any;
-  isPrivatePod: boolean;
-  flags: Flags;
-  fileUploadProgress: Array<{
-    progressEvent: ProgressEvent;
-    cancelFn;
-    requestId: string;
-  }>;
-}
+import { State } from "./reducerTypes";
 
 const initialState: State = {
-  token: '',
-  sessionCookie: '',
-  username: '',
+  token: "",
+  sessionCookie: "",
+  username: "",
   userData: null,
-  fileUploaded: {},
+  fileUploaded: false,
   showPasswordUnlock: false,
   hasUser: false,
   password: null,
@@ -52,24 +17,30 @@ const initialState: State = {
   isPrivatePod: true,
   entries: null,
   dirs: null,
-  inviteCode: '',
-  address: '',
-  errMsg: '',
-  directory: 'root',
+  inviteCode: "",
+  address: "",
+  errMsg: "",
+  directory: "root",
   pods: [],
   podMsg: null,
-  podName: '',
+  podName: "",
   podsOpened: [],
   userStats: null,
   flags: {
-    loginStatus: '',
+    loginStatus: "",
   },
   fileUploadProgress: [],
 };
 
-const reducer = (state: State = initialState, action: any) => {
+interface IBaseAction {
+  type: string;
+  // TODO: Type properly each possible payload
+  payload: any;
+}
+
+const reducer = (state: State = initialState, action: IBaseAction) => {
   switch (action.type) {
-    case types.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST:
+    case ACTION_TYPES.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST:
       let patched = false;
       let fileUploadProgress = state.fileUploadProgress.map((progressItem) => {
         if (progressItem.requestId === action.payload.requestId) {
@@ -88,7 +59,7 @@ const reducer = (state: State = initialState, action: any) => {
         fileUploadProgress,
       };
 
-    case types.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS:
+    case ACTION_TYPES.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS:
       return {
         ...state,
         fileUploadProgress: state.fileUploadProgress.filter(
@@ -96,7 +67,7 @@ const reducer = (state: State = initialState, action: any) => {
         ),
       };
 
-    case types.LOGIN_USER.USER_LOGGED_SUCCESS:
+    case ACTION_TYPES.LOGIN_USER.USER_LOGGED_SUCCESS:
       return {
         ...state,
         userData: action.payload.res.data,
@@ -105,33 +76,33 @@ const reducer = (state: State = initialState, action: any) => {
         username: action.payload.username,
         flags: {
           ...state.flags,
-          loginStatus: 'success',
+          loginStatus: "success",
         },
       };
-    case types.LOGIN_USER.USER_LOGGED_FAILED:
+    case ACTION_TYPES.LOGIN_USER.USER_LOGGED_FAILED:
       return {
         ...state,
         unlocked: false,
         errMsg: action?.payload?.res,
         flags: {
           ...state.flags,
-          loginStatus: 'fail',
+          loginStatus: "fail",
         },
       };
-    case types.LOGIN_USER.USER_LOGIN_PENDING:
+    case ACTION_TYPES.LOGIN_USER.USER_LOGIN_PENDING:
       return {
         ...state,
         flags: {
           ...state.flags,
-          loginStatus: 'loading',
+          loginStatus: "loading",
         },
       };
-    case types.LOG_OUT_USER.USER_LOGGED_OUT_SUCCESS:
+    case ACTION_TYPES.LOG_OUT_USER.USER_LOGGED_OUT_SUCCESS:
       return {
         ...state,
-        token: '',
-        sessionCookie: '',
-        username: '',
+        token: "",
+        sessionCookie: "",
+        username: "",
         userData: null,
         fileUploaded: {},
         showPasswordUnlock: false,
@@ -143,19 +114,19 @@ const reducer = (state: State = initialState, action: any) => {
         isPrivatePod: true,
         entries: null,
         dirs: null,
-        inviteCode: '',
-        address: '',
-        errMsg: '',
-        directory: 'root',
+        inviteCode: "",
+        address: "",
+        errMsg: "",
+        directory: "root",
         pods: [],
         podMsg: null,
-        podName: '',
+        podName: "",
         podsOpened: [],
         flags: {
-          loginStatus: '',
+          loginStatus: "",
         },
       };
-    case types.LOG_OUT_USER.USER_LOGGED_OUT_FAILED:
+    case ACTION_TYPES.LOG_OUT_USER.USER_LOGGED_OUT_FAILED:
       return {
         ...state,
         userData: null,
@@ -163,80 +134,80 @@ const reducer = (state: State = initialState, action: any) => {
         password: null,
         username: null,
       };
-    case types.CREATE_USER.CREATE_USER_SUCCESS:
+    case ACTION_TYPES.CREATE_USER.CREATE_USER_SUCCESS:
       return {
         ...state,
         address: action.payload.data,
         unlocked: true,
-        errMsg: '',
+        errMsg: "",
       };
-    case types.CREATE_USER.CREATE_USER_FAILED:
+    case ACTION_TYPES.CREATE_USER.CREATE_USER_FAILED:
       return { ...state, unlocked: false, errMsg: action.payload.res };
-    case types.SET_PRIVATE_POD:
+    case ACTION_TYPES.SET_PRIVATE_POD:
       return { ...state, isPrivatePod: action.payload };
-    case types.SEND_FILE.FILE_SENT_SUCCESS:
+    case ACTION_TYPES.SEND_FILE.FILE_SENT_SUCCESS:
       return { ...state, fileUploaded: action.payload };
-    case types.SET_SYSTEM:
+    case ACTION_TYPES.SET_SYSTEM:
       return {
         ...state,
         password: action.payload.password,
         unlocked: true,
         username: action.payload.username,
       };
-    case types.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
+    case ACTION_TYPES.GET_DIRECTORY.GET_DIRECTORY_SUCCESS:
       return {
         ...state,
         entries: action.payload.files,
         dirs: action.payload.dirs,
       };
-    case types.STORE_USER_REGISTRATION_INFO:
+    case ACTION_TYPES.STORE_USER_REGISTRATION_INFO:
       return {
         ...state,
         username: action.payload.username,
         password: action.payload.password,
         inviteCode: action.payload.inviteCode,
       };
-    case types.SEED_PHRASE.SEED_PHRASE_SUCCESS:
+    case ACTION_TYPES.SEED_PHRASE.SEED_PHRASE_SUCCESS:
       return {
         ...state,
         mnemonic: action.payload,
       };
-    case types.SET_SEARCH_QUERY:
+    case ACTION_TYPES.SET_SEARCH_QUERY:
       return {
         ...state,
         searchQuery: action.payload,
       };
-    case types.SET_DIRECTORY:
+    case ACTION_TYPES.SET_DIRECTORY:
       return {
         ...state,
         directory: action.payload,
       };
-    case types.GET_PODS.GET_PODS_SUCCESS:
+    case ACTION_TYPES.GET_PODS.GET_PODS_SUCCESS:
       return {
         ...state,
         pods: action.payload.data.pod_name,
       };
-    case types.GET_USER_STATS.GET_USER_STATS_SUCCESS:
+    case ACTION_TYPES.GET_USER_STATS.GET_USER_STATS_SUCCESS:
       return {
         ...state,
         userStats: action.payload.data,
       };
-    case types.GET_USER_STATS.GET_USER_STATS_FAILED:
+    case ACTION_TYPES.GET_USER_STATS.GET_USER_STATS_FAILED:
       return {
         ...state,
         podMSg: action.payload,
       };
-    case types.OPEN_POD.OPEN_POD_SUCCESS:
+    case ACTION_TYPES.OPEN_POD.OPEN_POD_SUCCESS:
       return {
         ...state,
         podsOpened: [...state.podsOpened, state.podName],
       };
-    case types.OPEN_POD.OPEN_POD_FAIL:
+    case ACTION_TYPES.OPEN_POD.OPEN_POD_FAIL:
       return {
         ...state,
         podMSg: action.payload,
       };
-    case types.SET_POD_NAME:
+    case ACTION_TYPES.SET_POD_NAME:
       return {
         ...state,
         podName: action.payload,

@@ -11,7 +11,7 @@ export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   downloadFile?: boolean;
   open?: boolean;
-  children: any;
+  children: React.ReactNode | React.ReactNode[];
   handleUploadModal: (value) => void;
 }
 
@@ -30,8 +30,8 @@ function UploadModal(props: Props) {
     inputFile.current.click();
   };
 
-  async function handleFileUpload(files: any) {
-    for (let file of files) {
+  async function handleFileUpload(files: FileList) {
+    Array.from(files).forEach((file) => {
       blobFile = URL.createObjectURL(file);
       setFile(file);
       setBlob(blobFile);
@@ -41,7 +41,7 @@ function UploadModal(props: Props) {
         directory: urlPath(state.directory),
         podName: state.podName,
       });
-    }
+    });
   }
   useEffect(() => {
     handleClose();

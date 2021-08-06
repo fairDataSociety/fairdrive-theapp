@@ -6,15 +6,15 @@ import TextField from '../textField/textField';
 import ButtonPill from '../buttonPill/buttonPill';
 
 export interface Props {
-  onClick: any;
+  onClick: () => Promise<void>;
   label: string;
   title: string;
-  setProp: any;
-  propValue: any;
+  setProp: React.Dispatch<any>;
+  propValue: string | null;
 }
 
 function CreateNew(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  // const { state, actions } = useContext(Sto  reContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });
