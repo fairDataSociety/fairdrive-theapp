@@ -3,19 +3,16 @@ import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./buttonNavbarStyles";
 import urlPath from "src/store/helpers/urlPath";
-import {
-  GridIcon,
-  ListIcon,
-  Share,
-  SortingIcon,
-} from "../../components/icons/icons";
+import { IUploadFIle } from "../../types/requests/UploadFile";
+import { GridIcon, ListIcon, Share, SortingIcon } from "../../components/icons/icons";
+
 import DropDown from "../dropDown/dropDown";
 import ClickAwayListener from "react-click-away-listener";
 
 import { TCurrentFilter } from "../drive/drive";
 
 export interface Props {
-  setShowGrid: any;
+  setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
   showGrid: boolean;
   handleShare: () => Promise<void>;
   currentFilter: TCurrentFilter;
@@ -33,7 +30,7 @@ function ButtonNavbar(props: Props) {
     // `current` points to the mounted file input element
     inputFile.current.click();
   };
-  async function handleFileUpload(files: any) {
+  async function handleFileUpload(files: FileList) {
     actions.uploadFile({
       files,
       directory: urlPath(state.directory),

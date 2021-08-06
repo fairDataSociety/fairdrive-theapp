@@ -1,14 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
+
+import { useHistory } from "react-router-dom";
+import prettyBytes from "pretty-bytes";
+import moment from "moment";
+
+// Context
+import { StoreContext } from "../../store/store";
+import { ThemeContext } from "../../store/themeContext/themeContext";
+
+// Components
 import CardWrapper from "./cardWrapper/cardWrapper";
 import CardHeader from "./cardHeader/cardHeader";
 import CardBody from "./cardBody/cardBody";
 import { InfoIcon, Folder, Kebab } from "../icons/icons";
-import { useHistory } from "react-router-dom";
-import prettyBytes from "pretty-bytes";
-import moment from "moment";
-import { StoreContext } from "../../store/store";
-import { ThemeContext } from "../../store/themeContext/themeContext";
 import DropDown from "../dropDown/dropDown";
+
+// Types
+import { IFile } from "../../types/models/File";
+import { IDirectory } from "../../types/models/Directory";
 import useStyles from "./fileCardStyles";
 import writePath from "src/store/helpers/writePath";
 import { shortenTitle } from "src/store/helpers/utils";
@@ -16,7 +25,7 @@ import ClickAwayListener from "react-click-away-listener";
 type Sizes = "small" | "regular" | "big";
 export interface Props {
   size?: Sizes;
-  file: any;
+  file: IDirectory | IFile;
   isDirectory: boolean;
   onFileClick?: () => void;
 }
@@ -39,13 +48,15 @@ function FileCard(props: Props) {
     file.content_type === "inode/directory"
       ? setIcon(Folder)
       : setIcon(InfoIcon);
-    if (file.size) {
-      setFileSize(prettyBytes(parseInt(file.size)));
+    if ((file as IFile).size !== undefined) {
+      setFileSize(prettyBytes(parseInt((file as IFile).size)));
       setFileCreateDate(
-        moment.unix(file.creation_time).format("DD/MM/YYYY HH:mm:ss")
+        moment.unix(parseInt(file.creation_time)).format("DD/MM/YYYY HH:mm:ss")
       );
       setFileModDate(
-        moment.unix(file.modification_time).format("DD/MM/YYYY HH:mm:ss")
+        moment
+          .unix(parseInt(file.modification_time))
+          .format("DD/MM/YYYY HH:mm:ss")
       );
     }
   }, [file]);
@@ -77,7 +88,10 @@ function FileCard(props: Props) {
         className={classes.kebabIcon}
         onClick={() => setDropdown(!dropdown)}
       />
-      <CardWrapper onFileClick={props.onFileClick} size={props.size}>
+      <CardWrapper
+        onFileClick={props.onFileClick ? props.onFileClick : onFileClick}
+        size={props.size}
+      >
         <div>
           <CardHeader
             isDirectory={props.isDirectory}
