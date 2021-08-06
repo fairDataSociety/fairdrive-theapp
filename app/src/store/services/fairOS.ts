@@ -538,10 +538,9 @@ export const filePreview = async (
   podName: string
 ) => {
   try {
-    console.log(directory);
-    let writePath = '';
-    if (directory === 'root') {
-      writePath = '/';
+    let writePath = "";
+    if (directory === "root") {
+      writePath = "/";
     } else {
       writePath = '/' + urlPath(directory) + '/';
     }

@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       flexDirection: 'row',
       width: '100vw',
-      top: '6rem',
+      top: '5rem',
     },
     buttonNavBar: {
       margin: '0 auto 0 0',

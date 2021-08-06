@@ -95,6 +95,7 @@ function FileCard(props: Props) {
       >
         <div>
           <CardHeader
+            file={file}
             isDirectory={props.isDirectory}
             Icon={Icon}
             heading={displayFileName}

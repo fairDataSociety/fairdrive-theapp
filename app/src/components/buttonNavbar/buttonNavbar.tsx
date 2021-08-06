@@ -1,8 +1,7 @@
-import React, { useContext, useRef, useState } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import { StoreContext } from "../../store/store";
-import useStyles from "./buttonNavbarStyles";
-import urlPath from 'src/store/helpers/urlPath';
+import React, { useContext, useState } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import { StoreContext } from '../../store/store';
+import useStyles from './buttonNavbarStyles';
 import {
   GridIcon,
   ListIcon,
@@ -24,19 +23,10 @@ export interface Props {
 }
 
 function ButtonNavbar(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  const inputFile = useRef(null);
   const { showGrid, setShowGrid } = props;
-
-  async function handleFileUpload(files: FileList) {
-    actions.uploadFile({
-      files,
-      directory: urlPath(state.directory),
-      podName: state.podName,
-    });
-  }
 
   const [isSortingDropdownVisible, setIsSortingDropdownVisible] =
     useState(false);
@@ -144,12 +134,12 @@ function ButtonNavbar(props: Props) {
           )}
         </button>
       </div>
-      <input
+      {/* <input
         className={classes.uploadInput}
         type="file"
         ref={inputFile}
         onChange={(e) => handleFileUpload(e.target.files)}
-      ></input>
+      ></input> */}
     </div>
   );
 }
