@@ -1,18 +1,16 @@
-import React, { useContext } from "react";
-import useStyles from "./mainStyles";
-import { StoreContext } from "../../store/store";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import Home from "../home/home";
-import LoginRegisterPage from "../loginRegisterPage/loginRegisterPage";
+import React, { useContext } from 'react';
+import useStyles from './mainStyles';
+import { StoreContext } from '../../store/store';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import Home from '../home/home';
+import LoginRegisterPage from '../loginRegisterPage/loginRegisterPage';
 
 import { HTTP_CODES } from "../../types/http/HTTPCodes";
 
-export interface Props {}
-
-function Main(props: Props) {
+function Main() {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
   return (
     <div className={classes.Main}>

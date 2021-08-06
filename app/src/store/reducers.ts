@@ -1,14 +1,5 @@
 import { ACTION_TYPES } from "./actionTypes";
 import { State } from './reducerTypes';
-
-
-type Status = string | "loading" | "success" | "fail";
-
-interface Flags {
-  loginStatus: Status;
-}
-
-
 const initialState: State = {
   token: "",
   sessionCookie: "",
@@ -50,7 +41,7 @@ interface IBaseAction {
 
 const reducer = (state: State = initialState, action: IBaseAction) => {
   switch (action.type) {
-    case ACTION_TYPES.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST:
+    case ACTION_TYPES.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST:{
       let patched = false;
       let fileUploadProgress = state.fileUploadProgress.map((progressItem) => {
         if (progressItem.requestId === action.payload.requestId) {
@@ -68,7 +59,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
         ...state,
         fileUploadProgress,
       };
-
+    }
     case ACTION_TYPES.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS:
       return {
         ...state,
@@ -224,7 +215,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
     case ACTION_TYPES.OPEN_POD.OPEN_POD_FAIL:
       return {
         ...state,
-        podMSg: action.payload,
+        podMsg: action.payload,
       };
     case ACTION_TYPES.SET_POD_NAME:
       return {

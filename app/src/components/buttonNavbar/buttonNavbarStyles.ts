@@ -1,7 +1,7 @@
-import { makeStyles, createStyles } from "@material-ui/styles";
+import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
-import { Theme } from "../../store/themeContext/themes";
-import { Props } from "./buttonNavbar";
+import { Theme } from '../../store/themeContext/themes';
+import { Props } from './buttonNavbar';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -85,7 +85,7 @@ const useStyles = makeStyles(() =>
       flexDirection: "row",
       display: "flex",
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      borderRadius: (style: Props & Theme) => "0.5rem",
+      borderRadius: "0.5rem",
       cursor: "pointer",
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
       margin: "1.6rem",

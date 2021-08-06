@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Navbar from "./navbar/navbar";
-import Main from "./main/main";
-import useStyles from "./MainWrapperStyles";
-import { useTheme } from "../store/themeContext/themeContext";
-import Footer from "./footer/footer";
-import TermsAndConditions from "src/components/termsAndConditions/termsAndConditions";
-import AlertBanner from "../components/alertBanner/alertBanner";
+import React, { useState } from 'react';
+import Navbar from './navbar/navbar';
+import Main from './main/main';
+import useStyles from './MainWrapperStyles';
+import { useTheme } from '../store/themeContext/themeContext';
+import Footer from './footer/footer';
+import TermsAndConditions from 'src/components/termsAndConditions/termsAndConditions';
+import AlertBanner from '../components/alertBanner/alertBanner';
 
-export default function MainWrapper() {
+export default function MainWrapper(): JSX.Element {
   const { theme } = useTheme();
   const classes = useStyles(theme);
   const [showTerms, setShowTerms] = useState(false);

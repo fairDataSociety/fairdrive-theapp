@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./footerStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './footerStyles';
 import {
   LinumLabs,
   FairdData,
   Github,
   Medium,
-  Discord,
   Swarm,
-} from "src/components/icons/icons";
+} from 'src/components/icons/icons';
 
 export interface Props {
   setShowTerms: (data) => void;
@@ -35,7 +34,7 @@ function Footer(props: Props) {
           className={classes.linkItem}
           href="https://fairdatasociety.org/"
         >
-          <FairdData className={classes.link} style={{ height: "5rem" }} />
+          <FairdData className={classes.link} style={{ height: '5rem' }} />
         </a>
 
         <a
@@ -44,7 +43,7 @@ function Footer(props: Props) {
           className={classes.linkItem}
           href="https://linumlabs.com"
         >
-          <LinumLabs className={classes.link} style={{ height: "7rem" }} />
+          <LinumLabs className={classes.link} style={{ height: '7rem' }} />
         </a>
       </div>
       <div className={classes.links}>
@@ -79,7 +78,7 @@ function Footer(props: Props) {
           className={classes.linkItem}
           href="https://medium.com/fair-data-society"
         >
-          {" "}
+          {' '}
           <Medium className={classes.linkIcon} />
         </a>
         {/* <a

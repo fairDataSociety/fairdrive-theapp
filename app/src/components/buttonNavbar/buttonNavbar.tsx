@@ -2,14 +2,18 @@ import React, { useContext, useRef, useState } from "react";
 import { ThemeContext } from "../../store/themeContext/themeContext";
 import { StoreContext } from "../../store/store";
 import useStyles from "./buttonNavbarStyles";
-import urlPath from "src/store/helpers/urlPath";
-import { IUploadFIle } from "../../types/requests/UploadFile";
-import { GridIcon, ListIcon, Share, SortingIcon } from "../../components/icons/icons";
+import urlPath from 'src/store/helpers/urlPath';
+import {
+  GridIcon,
+  ListIcon,
+  Share,
+  SortingIcon,
+} from '../../components/icons/icons';
 
-import DropDown from "../dropDown/dropDown";
-import ClickAwayListener from "react-click-away-listener";
+import DropDown from '../dropDown/dropDown';
+import ClickAwayListener from 'react-click-away-listener';
 
-import { TCurrentFilter } from "../drive/drive";
+import { TCurrentFilter } from '../drive/drive';
 
 export interface Props {
   setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,10 +30,6 @@ function ButtonNavbar(props: Props) {
   const inputFile = useRef(null);
   const { showGrid, setShowGrid } = props;
 
-  const onIconClick = () => {
-    // `current` points to the mounted file input element
-    inputFile.current.click();
-  };
   async function handleFileUpload(files: FileList) {
     actions.uploadFile({
       files,
@@ -44,11 +44,11 @@ function ButtonNavbar(props: Props) {
   const splitAndUppercaseCurrentFilterName = (
     currentFilter: string
   ): string => {
-    const arr = currentFilter.split("-");
+    const arr = currentFilter.split('-');
     arr.forEach((word, index) => {
       arr[index] = word.charAt(0).toUpperCase() + word.slice(1);
     });
-    return arr.join(" ");
+    return arr.join(' ');
   };
 
   return (
@@ -102,37 +102,37 @@ function ButtonNavbar(props: Props) {
                 >
                   <ul>
                     <li
-                      onClick={() => props.setCurrentFilter("least-recent")}
+                      onClick={() => props.setCurrentFilter('least-recent')}
                       className={classes.dropdownItem}
                     >
                       Least recent
                     </li>
                     <li
-                      onClick={() => props.setCurrentFilter("file-type")}
+                      onClick={() => props.setCurrentFilter('file-type')}
                       className={classes.dropdownItem}
                     >
                       File Type
                     </li>
                     <li
-                      onClick={() => props.setCurrentFilter("increasing-size")}
+                      onClick={() => props.setCurrentFilter('increasing-size')}
                       className={classes.dropdownItem}
                     >
                       Increasing Size
                     </li>
                     <li
-                      onClick={() => props.setCurrentFilter("decreasing-size")}
+                      onClick={() => props.setCurrentFilter('decreasing-size')}
                       className={classes.dropdownItem}
                     >
                       Decreasing Size
                     </li>
                     <li
-                      onClick={() => props.setCurrentFilter("ascending-abc")}
+                      onClick={() => props.setCurrentFilter('ascending-abc')}
                       className={classes.dropdownItem}
                     >
                       Ascending ABC
                     </li>
                     <li
-                      onClick={() => props.setCurrentFilter("descending-abc")}
+                      onClick={() => props.setCurrentFilter('descending-abc')}
                       className={classes.dropdownItem}
                     >
                       Descending ABC

@@ -28,7 +28,6 @@ export const sortyByCurrentFilter = (
     return [];
   }
   const entriesCopy = [...arrayOfEntries];
-  debugger;
   switch (currentFilter) {
     case "file-type":
       entriesCopy.sort((current, next) =>
@@ -64,6 +63,5 @@ export const sortyByCurrentFilter = (
       );
       break;
   }
-  debugger;
   return entriesCopy;
 };

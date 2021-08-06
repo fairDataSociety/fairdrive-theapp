@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../../store/themeContext/themeContext";
-import { StoreContext } from "../../../store/store";
-import useStyles from "./renameStyles";
-import Modal from "../modal/modal";
-import TextField from "src/components/textField/textField";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../store/themeContext/themeContext';
+import useStyles from './renameStyles';
+import Modal from '../modal/modal';
+import TextField from 'src/components/textField/textField';
 
 export interface Props {
   type: string;
@@ -12,7 +11,6 @@ export interface Props {
 }
 
 export function Rename(props: Props) {
-  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

@@ -17,6 +17,6 @@ export function ThemeProvider({ children }: IThemeProvider): JSX.Element {
   );
 }
 
-export const useTheme = () => {
+export const useTheme = (): IContextProps => {
   return useContext(ThemeContext);
 };

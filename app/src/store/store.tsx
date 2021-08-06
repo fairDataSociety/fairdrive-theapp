@@ -16,6 +16,6 @@ export function StoreProvider({ children }: IStoreProvider): JSX.Element {
   );
 }
 
-export const useStore = () => {
+export const useStore = (): IContextProps => {
   return useContext(StoreContext);
 };

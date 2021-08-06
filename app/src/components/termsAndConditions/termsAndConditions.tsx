@@ -1,13 +1,11 @@
-import React from "react";
-import { useTheme } from "../../store/themeContext/themeContext";
-import useStyles from "./termsAndConditionsStyles";
+import React from 'react';
+import { useTheme } from '../../store/themeContext/themeContext';
+import useStyles from './termsAndConditionsStyles';
 
-export interface Props {}
-
-function TermsAndConditions(props: Props) {
+function TermsAndConditions() {
   const { theme } = useTheme();
 
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
   return (
     <div className={classes.TermsAndConditions}>

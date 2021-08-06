@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./toggleStyles";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './toggleStyles';
 
 export interface Props {
   isLeft: boolean;

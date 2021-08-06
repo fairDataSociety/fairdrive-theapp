@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../../store/themeContext/themeContext";
-import { Close, ModalFolder } from "../../icons/icons";
-import useStyles from "./modalStyles";
-import Overlay from "src/components/overlay/overlay";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../../store/themeContext/themeContext';
+import { Close, ModalFolder } from '../../icons/icons';
+import useStyles from './modalStyles';
+import Overlay from 'src/components/overlay/overlay';
 
 export interface Props {
   children?: React.ReactNode;
