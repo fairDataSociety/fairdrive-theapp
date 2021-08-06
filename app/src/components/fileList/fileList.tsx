@@ -28,10 +28,10 @@ function FileList(props: Props) {
         <div>
           {state.dirs !== undefined &&
             sortyByCurrentFilter(state.dirs, props.currentFilter).map(
-              (directory) => {
+              (directory: any) => {
                 return (
                   <FileListBody
-                    key={directory.name}
+                    key={directory}
                     name={directory.name}
                     type={directory.content_type}
                     size={directory.size}
@@ -49,10 +49,10 @@ function FileList(props: Props) {
             )}
           {state.entries !== undefined &&
             sortyByCurrentFilter(state.entries, props.currentFilter).map(
-              (entry) => {
+              (entry: any) => {
                 return (
                   <FileListBody
-                    key={entry.name}
+                    key={entry}
                     name={entry.name}
                     type={entry.content_type}
                     size={prettyBytes(parseInt(entry.size))}

@@ -95,6 +95,8 @@ function FileModal(props: Props) {
       path: writePath(state.directory),
       podName: state.podName,
     });
+    setOpen(false);
+
   };
   const classes = useStyles({ ...props, open, ...theme });
 
