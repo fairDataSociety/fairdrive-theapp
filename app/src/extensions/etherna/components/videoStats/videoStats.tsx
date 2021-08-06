@@ -6,11 +6,11 @@ import { ReactComponent as Thumb } from '../../../../media/UI/thumb-up.svg';
 import VideoComments from '../videoComments/videoComments';
 import { Video } from '../../classes/video-resolver/types';
 
-type VideoStatsProps = {
+interface Props {
   video: Video;
-};
+}
 
-const VideoStats: React.FC<VideoStatsProps> = ({ video }) => {
+const VideoStats = ({ video }: Props): JSX.Element => {
   const [showComments, setShowComments] = useState(false);
   const classes = useStyles();
 

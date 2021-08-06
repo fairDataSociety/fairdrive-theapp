@@ -8,9 +8,7 @@ import SeedPhraseGen from '../seedPhraseGen/seedPhraseGen';
 import SeedPhraseConfirm from '../seedPhraseConfirm/seedPhraseConfirm';
 import welcomeImage from '../../media/images/welcome-image.png';
 
-export interface Props {}
-
-function Register(props: Props) {
+function Register() {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });

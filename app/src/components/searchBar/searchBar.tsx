@@ -4,12 +4,10 @@ import { StoreContext } from '../../store/store';
 import useStyles from './searchBarStyles';
 import { Search, Close } from '../icons/icons';
 
-export interface Props {}
-
-function SearchBar(props: Props) {
+function SearchBar() {
   const { actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
   const handleSetProp = (event: React.ChangeEvent<HTMLInputElement>) => {
     actions.setSearchQuery(event.target.value);
@@ -28,7 +26,7 @@ function SearchBar(props: Props) {
           onChange={(e) => handleSetProp(e)}
         ></input>
         <div className={classes.iconContainer}>
-          <Close className={classes.Icon} onClick={() => {}} />
+          <Close className={classes.Icon} />
         </div>
       </div>
     </div>

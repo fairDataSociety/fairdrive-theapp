@@ -18,7 +18,7 @@ function SeedPhrase(props: Props) {
       <div>
         {props.seedPhrase.split(' ').map((word, index) => {
           return (
-            <div>
+            <div key={index}>
               {index + 1}. {word}
             </div>
           );

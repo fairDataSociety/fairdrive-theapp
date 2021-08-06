@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '../../store/themeContext/themes';
-import { Props } from './main';
+
 const useStyles = makeStyles(() =>
   createStyles({
     Main: {
@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
 
     loginRegisterButtons: {
       padding: '23rem 0 30rem 0',
-      backgroundColor: (style: Props & Theme) => style.backgroundDark,
+      backgroundColor: (style: Theme) => style.backgroundDark,
       width: 'auto',
       display: 'flex',
       alignItems: 'center',
@@ -18,7 +18,7 @@ const useStyles = makeStyles(() =>
       overflowY: 'auto',
     },
     App: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark,
+      backgroundColor: (style: Theme) => style.backgroundDark,
     },
   })
 );

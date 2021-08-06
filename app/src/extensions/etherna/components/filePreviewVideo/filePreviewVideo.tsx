@@ -12,17 +12,17 @@ import VideoResolver from '../../classes/video-resolver/video-resolver';
 import { Video } from '../../classes/video-resolver/types';
 import { filePreview } from '../../../../store/services/fairOS';
 
-type FilePreviewVideoProps = {
+interface Props {
   filename: string;
   directory: string;
   podName: string;
-};
+}
 
-const FilePreviewVideo: React.FC<FilePreviewVideoProps> = ({
+const FilePreviewVideo = ({
   filename,
   directory,
   podName,
-}) => {
+}: Props): JSX.Element => {
   const [title, setTitle] = useState<string>();
   const [externalLink, setExternalLink] = useState<string>();
   const [image, setImage] = useState<SwarmImageReader | undefined>();
@@ -107,7 +107,12 @@ const FilePreviewVideo: React.FC<FilePreviewVideoProps> = ({
       {title && <div className={classes.title}>{title}</div>}
 
       {externalLink && (
-        <a className={classes.ethernaBtn} href={externalLink} target="_blank">
+        <a
+          className={classes.ethernaBtn}
+          href={externalLink}
+          target="_blank"
+          rel="noreferrer"
+        >
           <Logo height={24} />
           <span>Watch on Etherna</span>
         </a>

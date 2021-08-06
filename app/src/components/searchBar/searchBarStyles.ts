@@ -1,16 +1,14 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '../../store/themeContext/themes';
-import { Props } from './searchBar';
-
 const useStyles = makeStyles(() =>
   createStyles({
     searchBar: {
       marginLeft: '2rem',
-      border: (style: Props & Theme) => `1px solid ${style.backgroundDark1}`,
+      border: (style: Theme) => `1px solid ${style.backgroundDark1}`,
       borderRadius: '0.5rem',
     },
     TextField: {
-      color: (style: Props & Theme) => style.textColorSecondary,
+      color: (style: Theme) => style.textColorSecondary,
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
@@ -18,8 +16,8 @@ const useStyles = makeStyles(() =>
       width: '45rem',
     },
     input: {
-      font: (style: Props & Theme) => style.typography.caption1,
-      color: (style: Props & Theme) => style.textColorSecondary,
+      font: (style: Theme) => style.typography.caption1,
+      color: (style: Theme) => style.textColorSecondary,
       textAlign: 'left',
       width: '45rem',
       border: '0px',

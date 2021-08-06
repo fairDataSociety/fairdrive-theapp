@@ -5,12 +5,12 @@ import useStyles from './videoCommentsStyles';
 
 import { IndexVideoComment } from '../../classes/video-resolver/types';
 
-type VideoCommentsProps = {
+interface Props {
   comments: IndexVideoComment[];
   onClose(): void;
-};
+}
 
-const VideoComments: React.FC<VideoCommentsProps> = ({ comments, onClose }) => {
+const VideoComments = ({ comments, onClose }: Props): JSX.Element => {
   const classes = useStyles();
 
   return (

@@ -1,9 +1,9 @@
-import axios from "axios";
-import qs from "querystring";
-import FileSaver from "file-saver";
-import generateMnemonic from "../helpers/utils";
-import urlPath from "../helpers/urlPath";
-import makeBlockie from "ethereum-blockies-base64";
+import axios, { AxiosResponse } from 'axios';
+import qs from 'querystring';
+import FileSaver from 'file-saver';
+import generateMnemonic from '../helpers/utils';
+import urlPath from '../helpers/urlPath';
+import makeBlockie from 'ethereum-blockies-base64';
 
 interface Payload {
   username?: string;
@@ -70,7 +70,7 @@ export const login = async (
       },
       withCredentials: true,
     });
-    localStorage.setItem("username", username);
+    localStorage.setItem('username', username);
 
     return { res: response };
   } catch (error) {
@@ -280,7 +280,7 @@ export const closePod = async (payload: {
 export const openPod = async (payload: {
   password: string;
   podName: string;
-}) => {
+}): Promise<AxiosResponse<any>> => {
   try {
     const { password, podName } = payload;
     const openPod = await axios({
@@ -426,7 +426,7 @@ export const receivePod = async (
     params: { reference: payload.podReference, pod_name: payload.pod_name },
     data: { reference: payload.podReference, pod_name: payload.pod_name },
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     withCredentials: true,
   });
@@ -434,9 +434,9 @@ export const receivePod = async (
 };
 
 function makeid(length) {
-  let result = "";
+  let result = '';
   const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -460,12 +460,12 @@ export const fileUpload = (
   }
   const formData = new FormData();
   Array.from(files).forEach((file) => {
-    formData.append("files", file);
+    formData.append('files', file);
   });
 
-  formData.append("dir_path", writePath);
-  formData.append("block_size", "64Mb");
-  formData.append("pod_name", podName);
+  formData.append('dir_path', writePath);
+  formData.append('block_size', '64Mb');
+  formData.append('pod_name', podName);
 
   formData.append('dir_path', writePath);
   formData.append('block_size', '64Mb');
@@ -476,8 +476,8 @@ export const fileUpload = (
   const uploadRequest = axios({
     baseURL: host,
 
-    method: "POST",
-    url: "file/upload",
+    method: 'POST',
+    url: 'file/upload',
     onUploadProgress: (progressEvent) => {
       onUploadProgress(requestId, progressEvent, cancelFn);
     },
@@ -611,7 +611,7 @@ export const getDirectory = async (
 };
 
 function dataURLtoFile(dataurl: string, filename: string) {
-  var arr = dataurl.split(","),
+  const arr = dataurl.split(','),
     mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]),
     n = bstr.length,
@@ -659,7 +659,9 @@ export async function createDirectory(
     });
 
     return true;
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 async function readAsbase64(blob: Blob) {
@@ -701,12 +703,14 @@ export const deleteFile = async (payload: {
     });
 
     return true;
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 };
 
 export const shareFile = async (
   fileName: string,
-  path_file,
+  path_file: string,
   podName: string
 ): Promise<AxiosResponse<any>> => {
   try {
@@ -726,7 +730,9 @@ export const shareFile = async (
       withCredentials: true,
     });
     return shareFileResult?.data?.file_sharing_reference;
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 };
 
 export const receiveFileInfo = async (
@@ -756,10 +762,12 @@ export const receiveFileInfo = async (
       params: data,
       data: data,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       withCredentials: true,
     });
     return shareFileInfoResult.data;
-  } catch (error) {}
+  } catch (error) {
+    return Promise.reject(error);
+  }
 };

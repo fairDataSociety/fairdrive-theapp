@@ -7,16 +7,16 @@ import ButtonPill from '../buttonPill/buttonPill';
 import TextField from '../textField/textField';
 import {
   createAccount,
-  createDirectory,
-  createPod,
-  userLoggedIn,
+  // createDirectory,
+  // createPod,
+  // userLoggedIn,
 } from '../../store/services/fairOS';
-export interface Props {}
+// export interface Props {}
 
-function SeedPhraseConfirm(props: Props) {
+function SeedPhraseConfirm() {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
   const [wordFive, setWordFive] = useState('');
   const [wordEleven, setWordEleven] = useState('');

@@ -45,7 +45,6 @@ function UploadModal(props: Props) {
   }
   useEffect(() => {
     handleClose();
-    // eslint-disable-next-line
   }, [state.entries]);
 
   const handleOpen = async () => {

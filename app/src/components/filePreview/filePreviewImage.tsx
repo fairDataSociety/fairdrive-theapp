@@ -4,13 +4,13 @@ import { FilePreviewInfo } from './types';
 import useStyles from './filePreviewStyles';
 import { filePreview } from '../../store/services/fairOS';
 
-type FilePreviewImageProps = FilePreviewInfo;
+type Props = FilePreviewInfo;
 
-const FilePreviewImage: React.FC<FilePreviewImageProps> = ({
+const FilePreviewImage = ({
   filename,
   directory,
   podName,
-}) => {
+}: Props): JSX.Element => {
   const [src, setSrc] = useState<string>();
   const classes = useStyles();
 

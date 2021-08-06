@@ -3,22 +3,22 @@ import React, { useEffect, useState } from 'react';
 import useStyles from './swarmImgStyles';
 import SwarmImageReader from '../../classes/swarm-image/swarm-image-reader';
 
-type SwarmImgProps = {
+interface Props {
   image?: string | SwarmImageReader;
   fallback?: string;
   className?: string;
   alt?: string;
   preserveAspectRatio?: boolean;
   style?: React.CSSProperties;
-};
+}
 
-const SwarmImg: React.FC<SwarmImgProps> = ({
+const SwarmImg = ({
   image,
   fallback,
   alt,
   preserveAspectRatio,
   style,
-}) => {
+}: Props): JSX.Element => {
   const [src, setSrc] = useState<string>();
   const [size, setSize] = useState<number>();
   const [imgLoaded, setImgLoaded] = useState(typeof image === 'string');
@@ -35,7 +35,6 @@ const SwarmImg: React.FC<SwarmImgProps> = ({
       setSrc(src);
       setImgLoaded(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image, size]);
 
   const onLoadImage = () => {

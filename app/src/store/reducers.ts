@@ -1,11 +1,11 @@
-import { ACTION_TYPES, TActionTypes, Actions } from "./actionTypes";
+import { ACTION_TYPES } from './actionTypes';
 
-import { State } from "./reducerTypes";
+import { State } from './reducerTypes';
 
 const initialState: State = {
-  token: "",
-  sessionCookie: "",
-  username: "",
+  token: '',
+  sessionCookie: '',
+  username: '',
   userData: null,
   fileUploaded: false,
   showPasswordUnlock: false,
@@ -17,17 +17,17 @@ const initialState: State = {
   isPrivatePod: true,
   entries: null,
   dirs: null,
-  inviteCode: "",
-  address: "",
-  errMsg: "",
-  directory: "root",
+  inviteCode: '',
+  address: '',
+  errMsg: '',
+  directory: 'root',
   pods: [],
   podMsg: null,
-  podName: "",
+  podName: '',
   podsOpened: [],
   userStats: null,
   flags: {
-    loginStatus: "",
+    loginStatus: '',
   },
   fileUploadProgress: [],
 };
@@ -38,9 +38,9 @@ interface IBaseAction {
   payload: any;
 }
 
-const reducer = (state: State = initialState, action: IBaseAction) => {
+const reducer = (state: State = initialState, action: IBaseAction): State => {
   switch (action.type) {
-    case ACTION_TYPES.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST:
+    case ACTION_TYPES.SEND_FILE.PATCH_FILE_UPLOAD_REQUEST: {
       let patched = false;
       let fileUploadProgress = state.fileUploadProgress.map((progressItem) => {
         if (progressItem.requestId === action.payload.requestId) {
@@ -58,7 +58,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
         ...state,
         fileUploadProgress,
       };
-
+    }
     case ACTION_TYPES.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS:
       return {
         ...state,
@@ -76,7 +76,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
         username: action.payload.username,
         flags: {
           ...state.flags,
-          loginStatus: "success",
+          loginStatus: 'success',
         },
       };
     case ACTION_TYPES.LOGIN_USER.USER_LOGGED_FAILED:
@@ -86,7 +86,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
         errMsg: action?.payload?.res,
         flags: {
           ...state.flags,
-          loginStatus: "fail",
+          loginStatus: 'fail',
         },
       };
     case ACTION_TYPES.LOGIN_USER.USER_LOGIN_PENDING:
@@ -94,17 +94,17 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
         ...state,
         flags: {
           ...state.flags,
-          loginStatus: "loading",
+          loginStatus: 'loading',
         },
       };
     case ACTION_TYPES.LOG_OUT_USER.USER_LOGGED_OUT_SUCCESS:
       return {
         ...state,
-        token: "",
-        sessionCookie: "",
-        username: "",
+        token: '',
+        sessionCookie: '',
+        username: '',
         userData: null,
-        fileUploaded: {},
+        fileUploaded: false,
         showPasswordUnlock: false,
         hasUser: false,
         password: null,
@@ -114,16 +114,16 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
         isPrivatePod: true,
         entries: null,
         dirs: null,
-        inviteCode: "",
-        address: "",
-        errMsg: "",
-        directory: "root",
+        inviteCode: '',
+        address: '',
+        errMsg: '',
+        directory: 'root',
         pods: [],
         podMsg: null,
-        podName: "",
+        podName: '',
         podsOpened: [],
         flags: {
-          loginStatus: "",
+          loginStatus: '',
         },
       };
     case ACTION_TYPES.LOG_OUT_USER.USER_LOGGED_OUT_FAILED:
@@ -139,7 +139,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
         ...state,
         address: action.payload.data,
         unlocked: true,
-        errMsg: "",
+        errMsg: '',
       };
     case ACTION_TYPES.CREATE_USER.CREATE_USER_FAILED:
       return { ...state, unlocked: false, errMsg: action.payload.res };
@@ -195,7 +195,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
     case ACTION_TYPES.GET_USER_STATS.GET_USER_STATS_FAILED:
       return {
         ...state,
-        podMSg: action.payload,
+        podMsg: action.payload,
       };
     case ACTION_TYPES.OPEN_POD.OPEN_POD_SUCCESS:
       return {
@@ -205,7 +205,7 @@ const reducer = (state: State = initialState, action: IBaseAction) => {
     case ACTION_TYPES.OPEN_POD.OPEN_POD_FAIL:
       return {
         ...state,
-        podMSg: action.payload,
+        podMsg: action.payload,
       };
     case ACTION_TYPES.SET_POD_NAME:
       return {

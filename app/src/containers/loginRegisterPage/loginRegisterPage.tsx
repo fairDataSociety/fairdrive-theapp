@@ -6,14 +6,12 @@ import { ThemeContext } from '../../store/themeContext/themeContext';
 import Login from '../../components/login/login';
 import Register from '../../components/register/register';
 
-export interface Props {}
-
-function Main(props: Props) {
+function Main() {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const [showRegisterComponent, setShowRegisterComponent] = useState(false);
   const [showLoginComponent, setShowLoginComponent] = useState(false);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
   return (
     <div className={classes.Main}>
