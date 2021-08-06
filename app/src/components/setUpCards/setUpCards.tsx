@@ -3,11 +3,9 @@ import { ThemeContext } from '../../store/themeContext/themeContext';
 import useStyles from './setUpCardsStyles';
 import { StartFolder, Dapps, Complete } from '../icons/icons';
 
-export interface Props {}
-
-function SetupCards(props: Props) {
+function SetupCards() {
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
   const boxContent = [
     {
@@ -32,9 +30,9 @@ function SetupCards(props: Props) {
 
   return (
     <div className={classes.cards}>
-      {boxContent.map((content) => {
+      {boxContent.map((content, index) => {
         return (
-          <li>
+          <li key={index}>
             <div className={classes.container}>
               {content.icon}
               <p className={classes.header}>{content.header}</p>

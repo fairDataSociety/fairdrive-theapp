@@ -1,11 +1,10 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from '../../store/themeContext/themes';
-import { Props } from './updateFileCard';
 
 const useStyles = makeStyles(() =>
   createStyles({
     wrapper: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark1,
+      backgroundColor: (style: Theme) => style.backgroundDark1,
       borderRadius: '1rem',
       width: '20rem',
       padding: '2rem',
@@ -14,13 +13,13 @@ const useStyles = makeStyles(() =>
       left: 'calc(100% - 110rem)',
     },
     white: {
-      font: (style: Props & Theme) => style.typography.body1,
-      color: (style: Props & Theme) => style.backgroundWhite,
+      font: (style: Theme) => style.typography.body1,
+      color: (style: Theme) => style.backgroundWhite,
       padding: '1rem',
     },
     red: {
-      font: (style: Props & Theme) => style.typography.body1,
-      color: (style: Props & Theme) => style.red,
+      font: (style: Theme) => style.typography.body1,
+      color: (style: Theme) => style.red,
       padding: '1rem',
     },
   })

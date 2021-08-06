@@ -2,11 +2,9 @@ import React, { useContext } from 'react';
 import { ThemeContext } from '../../store/themeContext/themeContext';
 import useStyles from './updateFileCardStyles';
 
-export interface Props {}
-
-function UpdateFileCard(props: Props) {
+function UpdateFileCard() {
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
   const buttons = [
     { button: <div className={classes.white}>Rename File</div> },
@@ -18,9 +16,9 @@ function UpdateFileCard(props: Props) {
 
   return (
     <div className={classes.wrapper}>
-      {buttons.map((b) => {
+      {buttons.map((b, index) => {
         return (
-          <li>
+          <li key={index}>
             <button>{b.button}</button>
           </li>
         );

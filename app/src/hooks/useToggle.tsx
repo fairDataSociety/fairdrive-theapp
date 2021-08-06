@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 function useToggle(
-  defaultState: boolean = false
+  defaultState = false
 ): [boolean, React.Dispatch<React.SetStateAction<boolean>>, () => void] {
   const [state, setState] = useState(defaultState);
 

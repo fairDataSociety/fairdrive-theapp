@@ -3,7 +3,7 @@ import { StoreProvider } from './store/store';
 import { ThemeProvider } from './store/themeContext/themeContext';
 import MainWrapper from './containers/MainWrapper';
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <StoreProvider>
       <ThemeProvider>

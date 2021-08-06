@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from '../../../store/themeContext/themeContext';
-import { StoreContext } from '../../../store/store';
+import React from 'react';
+// import { ThemeContext } from '../../../store/themeContext/themeContext';
+// import { StoreContext } from '../../../store/store';
 import Modal from '../modal/modal';
 
-export interface Props {}
-
-export function HideContent(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+export function HideContent(): JSX.Element {
+  // const { state, actions } = useContext(StoreContext);
 
   return (
     <Modal
@@ -18,8 +16,8 @@ export function HideContent(props: Props) {
   );
 }
 
-export function ShowContent(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+export function ShowContent(): JSX.Element {
+  // const { state, actions } = useContext(StoreContext);
 
   return (
     <Modal

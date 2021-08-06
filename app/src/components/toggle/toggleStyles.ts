@@ -20,11 +20,11 @@ const useStyles = makeStyles(() =>
       //opacity: (style: Props & Theme) => style.show ? 1: 0,
     },
     left: {
-      minWidth: (style: Props & Theme) => '20rem',
-      maxWidth: (style: Props & Theme) => '55rem',
+      minWidth: '20rem',
+      maxWidth: '55rem',
       textAlign: 'center',
       boxSizing: 'border-box',
-      borderRadius: (style: Props & Theme) => '0.5rem 0rem 0rem 0.5rem',
+      borderRadius: '0.5rem 0rem 0rem 0.5rem',
       padding: '1.5rem',
       cursor: 'pointer',
       border: (style: Props & Theme) =>
@@ -45,11 +45,11 @@ const useStyles = makeStyles(() =>
       transitionTimingFunction: 'ease-out',
     },
     right: {
-      minWidth: (style: Props & Theme) => '20rem',
-      maxWidth: (style: Props & Theme) => '55rem',
+      minWidth: '20rem',
+      maxWidth: '55rem',
       textAlign: 'center',
       boxSizing: 'border-box',
-      borderRadius: (style: Props & Theme) => '0rem 0.5rem 0.5rem 0rem',
+      borderRadius: '0rem 0.5rem 0.5rem 0rem',
       padding: '1.5rem',
       cursor: 'pointer',
       border: (style: Props & Theme) =>

@@ -31,7 +31,7 @@ export default class SwarmImageReader {
           ? Object.keys(image.sources).reduce(
               (obj, size) => ({
                 ...obj,
-                [size]: this.getFileUrl(image.sources![size]),
+                [size]: this.getFileUrl(image.sources[size]),
               }),
               {}
             )
@@ -80,7 +80,7 @@ export default class SwarmImageReader {
   }
 
   // Utils
-  getFileUrl(reference: string) {
+  getFileUrl(reference: string): string {
     return `${process.env.REACT_APP_BEE_HOST}/files/${reference}`;
   }
 }

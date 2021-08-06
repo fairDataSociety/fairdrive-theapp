@@ -1,4 +1,4 @@
-import { ACTION_TYPES, TActionTypes } from "./actionTypes";
+import { ACTION_TYPES } from './actionTypes';
 import {
   login,
   fileUpload,
@@ -9,7 +9,7 @@ import {
   openPod,
   logOut,
   userStats,
-} from "../store/services/fairOS";
+} from '../store/services/fairOS';
 
 export const applyMiddleware = (dispatch) => (action) => {
   switch (action.type) {

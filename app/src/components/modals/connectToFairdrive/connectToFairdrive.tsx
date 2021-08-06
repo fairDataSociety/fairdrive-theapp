@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../../store/themeContext/themeContext';
-import { StoreContext } from '../../../store/store';
+// import { StoreContext } from '../../../store/store';
 import useStyles from './connectToFairdriveStyles';
 import Modal from '../modal/modal';
 import TextField from 'src/components/textField/textField';
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 function ConnectToFairdrive(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  // const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

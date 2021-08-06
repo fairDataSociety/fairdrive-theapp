@@ -1,6 +1,6 @@
 import urlPath from './urlPath';
 
-export default function writePath(directory) {
+export default function writePath(directory: string): string {
   let writePath = '';
   if (directory === 'root') {
     writePath = '/';
