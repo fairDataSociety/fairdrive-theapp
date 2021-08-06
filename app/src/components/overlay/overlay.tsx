@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import useStyles from './overlayStyles';
-import ClickAwayListener from 'react-click-away-listener';
 import { ThemeContext } from '../../store/themeContext/themeContext';
 
 export interface Props {
   handleClickAway?: () => void;
-  children: React.ReactNode | React.ReactNode[];
+  children: React.ReactNode | React.ReactNode;
 }
 
 function Overlay(props: Props): JSX.Element {
@@ -13,11 +12,13 @@ function Overlay(props: Props): JSX.Element {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <div className={classes.Overlay}>
-      <ClickAwayListener onClickAway={props.handleClickAway}>
-        <>{props.children}</>
-      </ClickAwayListener>
-    </div>
+    <>
+      <div className={classes.dialogCenter}>{props.children}</div>
+      <div
+        onClick={() => props.handleClickAway()}
+        className={classes.Overlay}
+      ></div>
+    </>
   );
 }
 

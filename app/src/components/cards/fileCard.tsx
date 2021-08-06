@@ -1,24 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import prettyBytes from "pretty-bytes";
-import moment from "moment";
-import useStyles from "./fileCardStyles";
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import prettyBytes from 'pretty-bytes';
+import moment from 'moment';
+import useStyles from './fileCardStyles';
 
 // Context
-import { StoreContext } from "../../store/store";
-import { ThemeContext } from "../../store/themeContext/themeContext";
+import { StoreContext } from '../../store/store';
+import { ThemeContext } from '../../store/themeContext/themeContext';
 
 // Components
-import CardWrapper from "./cardWrapper/cardWrapper";
-import CardHeader from "./cardHeader/cardHeader";
-import CardBody from "./cardBody/cardBody";
-import { InfoIcon, Folder } from "../icons/icons";
-import DropDown from "../dropDown/dropDown";
+import CardWrapper from './cardWrapper/cardWrapper';
+import CardHeader from './cardHeader/cardHeader';
+import CardBody from './cardBody/cardBody';
+import { InfoIcon, Folder } from '../icons/icons';
+import DropDown from '../dropDown/dropDown';
 
 // Types
-import { IFile } from "../../types/models/File";
-import { IDirectory } from "../../types/models/Directory";
-type Sizes = "small" | "regular" | "big";
+import { IFile } from '../../types/models/File';
+import { IDirectory } from '../../types/models/Directory';
+type Sizes = 'small' | 'regular' | 'big';
 export interface Props {
   size?: Sizes;
   file: IDirectory | IFile;
@@ -56,12 +56,12 @@ function FileCard(props: Props) {
     if ((file as IFile).size !== undefined) {
       setFileSize(prettyBytes(parseInt((file as IFile).size)));
       setFileCreateDate(
-        moment.unix(parseInt(file.creation_time)).format("DD/MM/YYYY HH:mm:ss")
+        moment.unix(parseInt(file.creation_time)).format('DD/MM/YYYY HH:mm:ss')
       );
       setFileModDate(
         moment
           .unix(parseInt(file.modification_time))
-          .format("DD/MM/YYYY HH:mm:ss")
+          .format('DD/MM/YYYY HH:mm:ss')
       );
     }
   }, [file]);
