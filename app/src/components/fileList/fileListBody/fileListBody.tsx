@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./fileListStyles";
-import { Kebab } from "../icons/icons";
+import { ThemeContext } from "../../../store/themeContext/themeContext";
+import useStyles from "./fileListBodyStyles";
+import { Kebab } from "../../icons/icons";
 
 export interface Props {
-  file: any;
-  name: any;
-  type: any;
-  size: any;
-  created: any;
-  modified: any;
+  file: unknown;
+  name: string;
+  type: string;
+  size: string;
+  created: string;
+  modified: string;
   isPodBarOpen: boolean;
 }
 function FileListBody(props: Props) {
