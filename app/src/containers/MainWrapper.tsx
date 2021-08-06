@@ -7,7 +7,7 @@ import Footer from './footer/footer';
 import TermsAndConditions from 'src/components/termsAndConditions/termsAndConditions';
 import AlertBanner from '../components/alertBanner/alertBanner';
 
-export default function MainWrapper() {
+export default function MainWrapper(): JSX.Element {
   const { theme } = useTheme();
   const classes = useStyles(theme);
   const [showTerms, setShowTerms] = useState(false);

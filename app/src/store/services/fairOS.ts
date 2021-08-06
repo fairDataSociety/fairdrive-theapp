@@ -96,6 +96,7 @@ export const importUser = async (
     },
     withCredentials: true,
   });
+  debugger;
   return response;
 };
 export const generateSeedPhrase = async (): Promise<string> => {
@@ -116,7 +117,7 @@ export const logOut = async () => {
       },
       withCredentials: true,
     });
-
+    debugger;
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -142,7 +143,7 @@ export const userLoggedIn = async (
       },
       withCredentials: true,
     });
-
+    debugger;
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -167,7 +168,7 @@ export const isUsernamePresent = async (
       },
       withCredentials: true,
     });
-
+    debugger;
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -185,7 +186,7 @@ export const exportUser = async () => {
       },
       withCredentials: true,
     });
-
+    debugger;
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -208,7 +209,7 @@ export const deleteUser = async (
       },
       withCredentials: true,
     });
-
+    debugger;
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -228,6 +229,7 @@ export const userStats = async () => {
     });
     const imageSrc = makeBlockie(response.data.reference);
     response.data.avatar = imageSrc;
+    debugger;
     return response;
   } catch (error) {
     return Promise.reject(error);
@@ -237,7 +239,7 @@ export const userStats = async () => {
 export const createPod = async (payload: {
   password: string;
   podName: string;
-}) => {
+}): Promise<boolean> => {
   try {
     const { password, podName } = payload;
     await axios({
@@ -272,6 +274,7 @@ export const closePod = async (payload: {
       data: { pod_name: podName, password: password },
       withCredentials: true,
     });
+    debugger;
     return closePod;
   } catch (err) {
     return err;
@@ -298,6 +301,7 @@ export const openPod = async (payload: {
       },
       withCredentials: true,
     });
+    debugger;
     return openPod;
   } catch (err) {
     return err;
@@ -315,6 +319,7 @@ export const syncPod = async () => {
       },
       withCredentials: true,
     });
+    debugger;
     return syncPodRes;
   } catch (err) {
     return err;
@@ -335,6 +340,7 @@ export const sharePod = async (
       data: { pod_name: podName, password: password },
       withCredentials: true,
     });
+    debugger;
     return sharePodRes?.data?.pod_sharing_reference;
   } catch (err) {
     return err;
@@ -353,6 +359,7 @@ export const deletePod = async (podName: string) => {
       data: { pod_name: podName },
       withCredentials: true,
     });
+    debugger;
     return deletePodRes;
   } catch (err) {
     return err;
@@ -369,6 +376,7 @@ export const getPods = async () => {
     },
     withCredentials: true,
   });
+  debugger;
   return podResult;
 };
 
@@ -386,6 +394,7 @@ export const getPodStats = async (
       },
       withCredentials: true,
     });
+    debugger;
     return deletePodRes;
   } catch (err) {
     return err;
@@ -404,6 +413,7 @@ export const showReceivedPodInfo = async (
     },
     withCredentials: true,
   });
+  debugger;
   return podResult;
 };
 
@@ -425,6 +435,7 @@ export const receivePod = async (
     },
     withCredentials: true,
   });
+  debugger;
   return podResult;
 };
 
@@ -479,7 +490,7 @@ export const fileUpload = (
     },
     withCredentials: true,
   });
-
+  debugger;
   return {
     uploadRequest,
     cancelFn,
@@ -513,7 +524,7 @@ export const fileDownload = async (
     });
 
     FileSaver.saveAs(downloadFile.data, filename);
-
+    debugger;
     //const blob = new Blob(downloadFile.data)
     return downloadFile;
   } catch (error) {
@@ -550,6 +561,7 @@ export const filePreview = async (
       responseType: 'blob',
       withCredentials: true,
     });
+    debugger;
     return downloadFile.data;
   } catch (error) {
     return Promise.reject(error);
@@ -594,7 +606,7 @@ export const getDirectory = async (
       },
       withCredentials: true,
     });
-
+    debugger;
     return response.data;
   } catch (error) {
     return Promise.reject(error);
@@ -687,7 +699,7 @@ export const deleteFolder = async (payload: Payload) => {
       },
       withCredentials: true,
     });
-
+    debugger;
     return true;
   } catch (error) {
     return error;
@@ -715,6 +727,7 @@ export const shareFile = async (
       },
       withCredentials: true,
     });
+
     return shareFileResult?.data?.file_sharing_reference;
   } catch (error) {
     return error;
@@ -752,6 +765,7 @@ export const receiveFileInfo = async (
       },
       withCredentials: true,
     });
+    debugger;
     return shareFileInfoResult.data;
   } catch (error) {
     return error;

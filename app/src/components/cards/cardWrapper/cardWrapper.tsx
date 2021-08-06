@@ -10,7 +10,7 @@ export interface Props {
   onFileClick: () => void;
 }
 
-function CardWrapper(props: Props) {
+function CardWrapper(props: Props): JSX.Element {
   const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...props, ...theme });

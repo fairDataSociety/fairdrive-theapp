@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
+// Contexts
 import { ThemeContext } from '../../store/themeContext/themeContext';
 import { StoreContext } from '../../store/store';
+
+// Components
 import useStyles from './fileModalStyles';
 import Modal from '@material-ui/core/Modal';
+import FilePreview from '../filePreview/filePreview';
 import FileCard from '../cards/fileCard';
 import {
   Folder,
@@ -10,9 +14,10 @@ import {
   Download,
   Hide,
   Share,
-  // eslint-disable-next-line
-  UploadIcon,
 } from '../icons/icons';
+
+
+// Services 
 import writePath from '../../store/helpers/writePath';
 import {
   fileDownload,
@@ -22,7 +27,6 @@ import prettyBytes from "pretty-bytes";
 import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
 import GenerateLink from "../modals/generateLink/generateLink";
-import FilePreview from "../filePreview/filePreview";
 import { IFile } from "../../types/models/File";
 export interface Props {
   file: IFile;
@@ -50,10 +54,10 @@ function FileModal(props: Props) {
     if (file.size) {
       setFileSize(prettyBytes(parseInt(file.size)));
       setFileCreateDate(
-        moment.unix(parseInt(file.creation_time)).format("DD/MM/YYYY")
+        moment.unix(parseInt(file.creation_time)).format('DD/MM/YYYY')
       );
       setFileModDate(
-        moment.unix(parseInt(file.modification_time)).format("DD/MM/YYYY")
+        moment.unix(parseInt(file.modification_time)).format('DD/MM/YYYY')
       );
     }
   }, [file]);

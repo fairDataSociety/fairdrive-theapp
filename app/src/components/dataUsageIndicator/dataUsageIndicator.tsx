@@ -14,9 +14,9 @@ export interface Props {
   handleClick?: () => void;
 }
 
-function DataUsageIndicator(props: Props) {
+function DataUsageIndicator() {
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
   const [showRefer, setShowRefer] = useState(false);
 
   const percentage = 80;

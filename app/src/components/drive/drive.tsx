@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from "../../store/themeContext/themeContext";
+import { ThemeContext } from '../../store/themeContext/themeContext';
 
 // Store
-import { StoreContext } from "../../store/store";
+import { StoreContext } from '../../store/store';
 import {
   createDirectory,
   receiveFileInfo,
   sharePod,
-} from "src/store/services/fairOS";
+} from 'src/store/services/fairOS';
 
 // Components
 import CardGrid from "../../components/cardGrid/cardGrid";
