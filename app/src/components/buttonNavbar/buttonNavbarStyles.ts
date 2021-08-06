@@ -59,10 +59,10 @@ const useStyles = makeStyles(() =>
     },
 
     headerWrapper: {
-      padding: "2rem 2rem 2rem 0rem",
-      width: "100%",
+      padding: '2rem 2rem 2rem 0rem',
+      paddingLeft: '1.6rem',
       flexDirection: "row",
-
+      justifyContent: 'space-between',
       //marginBottom: "2rem",
       height: "10rem",
       display: "flex",

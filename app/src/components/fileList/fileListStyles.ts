@@ -13,8 +13,22 @@ const useStyles = makeStyles(() =>
       transitionProperty: "margin-left",
       transitionDuration: ".7s",
       transitionTimingFunction: "cubic-bezier(0.820, 0.085, 0.395, 0.895)",
-      margin: "2rem",
-      overflow: "scroll",
+      margin: '2rem',
+      overflowY:"scroll",
+      '&::-webkit-scrollbar': {
+				width: '5px',
+			},
+			'&::-webkit-scrollbar-track': {
+				background: '#ddd',
+			},
+			'&::-webkit-scrollbar-thumb': {
+				background: '#666'
+			}
+    },
+    headerwrapper: {
+      backgroundColor: (style: Props & Theme) => style.backgroundDark2,
+      display: "flex",
+      padding: "2rem",
     },
     wrapper: {
       display: 'flex',
