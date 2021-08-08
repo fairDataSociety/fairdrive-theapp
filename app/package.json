@@ -29,6 +29,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-transition-group": "^4.4.1",
+    "typedoc": "^0.21.5",
     "web3": "^1.2.9"
   },
   "scripts": {
