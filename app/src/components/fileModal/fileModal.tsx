@@ -28,6 +28,8 @@ import moment from "moment";
 import urlPath from "src/store/helpers/urlPath";
 import GenerateLink from "../modals/generateLink/generateLink";
 import { IFile } from "../../types/models/File";
+import { shortenTitle } from 'src/store/helpers/utils';
+
 export interface Props {
   file: IFile;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -96,14 +98,19 @@ function FileModal(props: Props) {
       podName: state.podName,
     });
     setOpen(false);
-
   };
+  const displayFileName =
+    file.name.length > 22 ? shortenTitle(file.name) : file.name;
   const classes = useStyles({ ...props, open, ...theme });
 
   return (
     <div>
       <div>
-        <FileCard file={props.file} isDirectory={false} onFileClick={handleOpen}/>
+        <FileCard
+          file={props.file}
+          isDirectory={false}
+          onFileClick={handleOpen}
+        />
       </div>
       <Modal
         className={classes.modalContainer}
@@ -130,7 +137,7 @@ function FileModal(props: Props) {
           </div>
           <div className={classes.divider}></div>
           <div className={classes.titleWrapper}>
-            <p className={classes.title}>{file.name}</p>
+            <p className={classes.title}>{displayFileName}</p>
             <p className={classes.fileLocation}>
               {'/' + urlPath(state.directory)}
             </p>

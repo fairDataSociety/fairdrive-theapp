@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { FilePreviewInfo } from "./types";
-import FilePreviewImage from "./filePreviewImage";
-import FilePreviewFallback from "./filePreviewFallback";
-import FilePreviewVideo from "../../extensions/etherna/components/filePreviewVideo/filePreviewVideo";
-import FilePreviewTextual from "src/extensions/etherna/components/filePreviewTextual/filePreviewTextual";
+import { FilePreviewInfo } from './types';
+import FilePreviewImage from './filePreviewImage';
+import FilePreviewFallback from './filePreviewFallback';
+import FilePreviewVideo from '../../extensions/etherna/components/filePreviewVideo/filePreviewVideo';
+import FilePreviewTextual from 'src/extensions/etherna/components/filePreviewTextual/filePreviewTextual';
 
 type FilePreviewProps = FilePreviewInfo & {
   contentType: string;
@@ -23,7 +23,11 @@ function FilePreview({
     new RegExp(type).test(contentType)
   );
 
-  if (file.name.endsWith(".txt") || file.name.endsWith(".log") || file.name.endsWith(".html")) {
+  if (
+    file.name.endsWith('.txt') ||
+    file.name.endsWith('.log') ||
+    file.name.endsWith('.html')
+  ) {
     return (
       <FilePreviewTextual file={file} directory={directory} podName={podName} />
     );
@@ -58,7 +62,7 @@ function FilePreview({
 
 // Extensions ------
 FilePreview.extensions = {
-  "video/*": FilePreviewVideo,
+  'video/*': FilePreviewVideo,
 };
 // -----------------
 
