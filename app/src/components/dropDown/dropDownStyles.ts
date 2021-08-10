@@ -27,6 +27,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       flexDirection: 'column',
       alignSelf: 'center',
+      marginLeft: 'calc(100% - 10rem)',
       zIndex: 1,
     },
     heading: {

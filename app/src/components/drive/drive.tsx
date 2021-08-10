@@ -97,8 +97,8 @@ function Drive(props: Props) {
   ]);
 
   useEffect(() => {
-    if (state.entries !== null) setFiles(state.entries);
-    if (state.dirs !== null) setFolders(state.dirs);
+    setFiles(state.entries);
+    setFolders(state.dirs);
     // eslint-disable-next-line
   }, [state.entries, state.dirs]);
 
@@ -311,18 +311,16 @@ function Drive(props: Props) {
         <CardGrid className={classes.cardGrid}>
           {state.dirs !== null &&
             state.dirs !== undefined &&
-            sortyByCurrentFilter(state.dirs, currentFilter).map((dir: any) => {
+            sortyByCurrentFilter(folders, currentFilter).map((dir: any) => {
               return (
                 <FileCard key={dir} file={dir} isDirectory={true}></FileCard>
               );
             })}
           {state.entries !== null &&
             state.entries !== undefined &&
-            sortyByCurrentFilter(state.entries, currentFilter).map(
-              (file: any) => {
-                return <FileModal key={file.name} file={file}></FileModal>;
-              }
-            )}
+            sortyByCurrentFilter(files, currentFilter).map((file: any) => {
+              return <FileModal key={file.name} file={file}></FileModal>;
+            })}
           {!!state.dirs ||
             !!state.entries ||
             (state.entries === undefined && state.dirs === undefined && (
