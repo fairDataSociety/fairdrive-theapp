@@ -14,10 +14,7 @@ const useStyles = makeStyles(() =>
 			display: 'flex',
 			alignItems: 'center',
 			flexDirection: 'row',
-			position: 'absolute',
 			justifyContent: 'space-between',
-			left: 0,
-			top: 0,
 		},
 		walletConnectButton: {
 			padding: '1rem 2rem',

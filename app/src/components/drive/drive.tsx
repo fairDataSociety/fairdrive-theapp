@@ -12,27 +12,21 @@ import {
 } from 'src/store/services/fairOS';
 
 // Components
-import CardGrid from "../../components/cardGrid/cardGrid";
-import FileCard from "../../components/cards/fileCard";
-import FileModal from "../../components/fileModal/fileModal";
-import UploadModal from '../../components/uploadModal/uploadModal';
+import { DriveHeader } from './header/driveHeader';
+import { DriveModalGroup } from './modalGroup/modalGroup';
+
+import CardGrid from '../../components/cardGrid/cardGrid';
+import FileCard from '../../components/cards/fileCard';
+import FileModal from '../../components/fileModal/fileModal';
+
 import ButtonNavbar from '../buttonNavbar/buttonNavbar';
 import FileList from '../fileList/fileList';
-import { CreateNew } from '../modals/createNew/createNew';
+
 import GenerateLink from '../modals/generateLink/generateLink';
 
 // Hooks and helpers
 import useStyles from './driveStyles';
-import { Modal } from '@material-ui/core';
 import { sortyByCurrentFilter } from '../../store/helpers/sort';
-
-// Icons
-import {
-  ButtonPlus,
-  PodInfo,
-  ShareIcon,
-  UploadIcon,
-} from '../../components/icons/icons';
 
 // Types
 import { IFile } from '../../types/models/File';
@@ -51,21 +45,26 @@ export type TCurrentFilter =
 function Drive(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...props, ...theme });
 
   const [files, setFiles] = useState<IFile[] | null>([]);
   const [folders, setFolders] = useState([]);
   const [showGrid, setShowGrid] = useState(true);
 
-  const [open, setOpen] = useState(false);
-  const [openImportFile, setOpenImportFile] = useState(false);
+  // Manage state of modals
+  const [isCreateFolderModalVisible, setIsCreateFolderModalVisible] =
+    useState(false);
+  const [isImportFileModalVisible, setIsImportFileModalVisible] =
+    useState(false);
+  const [isUploadFileModalVisible, setIsUploadFileModalVisible] =
+    useState(false);
+
   const [folderName, setFolderName] = useState('');
   const [fileName, setFileName] = useState('');
-  const [openUpload, setOpenUpload] = useState(false);
+
   const [responseCreation, setResponseCreation] = useState(false);
   const [showSharePodPopup, setShowSharePodPopup] = useState(false);
   const [refLink, setRefLink] = useState('0000000000000');
-
-  const classes = useStyles({ ...props, ...theme });
 
   async function loadDirectory() {
     try {
@@ -128,22 +127,6 @@ function Drive(props: Props) {
     // eslint-disable-next-line
   }, [state.searchQuery]);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleCloseImportFile = () => {
-    setOpenImportFile(false);
-  };
-  const handleOpenImportFile = () => {
-    setOpenImportFile(true);
-  };
-  const handleUploadModal = async (value) => {
-    setOpenUpload(value);
-  };
-
   const handleShare = async () => {
     const res = await sharePod(state.password, state.podName);
     setRefLink(res);
@@ -152,21 +135,26 @@ function Drive(props: Props) {
 
   useEffect(() => {
     if (responseCreation === true) {
-      setOpen(false);
+      setIsCreateFolderModalVisible(false);
       setResponseCreation(false);
     }
   }, [responseCreation]);
+
+  // Handle creating folder
   const createNewFolder = async () => {
     setResponseCreation(
       await createDirectory(state.directory, folderName, state.podName)
     );
   };
+
+  // Handle creating file
   const createNewfile = async () => {
     setResponseCreation(
       await receiveFileInfo(fileName, state.podName, state.directory)
     );
   };
 
+  // Manage filters
   const [currentFilter, setCurrentFilter] =
     useState<TCurrentFilter>('least-recent');
 
@@ -192,121 +180,33 @@ function Drive(props: Props) {
           }
         />
       </div>
-      {state.podName !== '' ? (
-        <div className={classes.midWrapper}>
-          <div className={classes.midHeader}>
-            {state.isPrivatePod ? 'Inventory' : 'Inbox (Read Only)'}
-          </div>
-          <div className={classes.divider}></div>
-          <div className={classes.infoWrapper}>
-            <PodInfo className={classes.infoIcon} />
-            <div className={classes.information}>
-              {state.isPrivatePod
-                ? 'All your content including what you have shared with others marked with a'
-                : '(All links to content shared with you) Links Shared by Username'}
-            </div>
-            <ShareIcon className={classes.shareIcon} />
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
-      {state.podName !== '' ? (
-        <div className={classes.actionWrapper}>
-          {state.isPrivatePod ? (
-            <>
-              {' '}
-              <div className={classes.actionRow}>
-                <div className={classes.actionButton}>
-                  <UploadModal
-                    open={openUpload}
-                    handleUploadModal={handleUploadModal}
-                  >
-                    <UploadIcon
-                      className={classes.buttonIcon}
-                      onClick={() => handleUploadModal(true)}
-                    />
-                    Upload
-                  </UploadModal>
-                </div>
-                <div className={classes.actionText}>
-                  Upload Files from your local storage
-                </div>
-              </div>
-              <div className={classes.actionRow}>
-                <div
-                  className={classes.actionButton}
-                  onClick={handleOpenImportFile}
-                >
-                  <ButtonPlus className={classes.buttonIcon} />
-                  Import file
-                </div>
-                <div className={classes.actionText}>
-                  Import file using reference
-                </div>
-              </div>
-              <div className={classes.actionRow}>
-                <div className={classes.actionButton} onClick={handleOpen}>
-                  <ButtonPlus className={classes.buttonIcon} />
-                  Create New Folder
-                </div>
-                <div className={classes.actionText}>
-                  Create new folders in this pod
-                </div>
-              </div>{' '}
-            </>
-          ) : (
-            <>
-              <div className={classes.actionRow}>
-                <div className={classes.actionButton} onClick={handleOpen}>
-                  <ButtonPlus className={classes.buttonIcon} />
-                  Add
-                </div>
-                <div className={classes.actionText}>Add Files Via Link</div>
-              </div>{' '}
-            </>
-          )}
-        </div>
-      ) : (
-        <div className={classes.actionText}>
-          Open one of your pods by clicking on Drive to access files
-        </div>
+
+      {state.podName !== '' && (
+        <DriveHeader
+          isPrivatePod={state.isPrivatePod}
+          onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
+          onOpenImportFileModal={() => setIsImportFileModalVisible(true)}
+          onOpenUploadModal={() => setIsUploadFileModalVisible(true)}
+        />
       )}
 
       <div className={classes.buttonNavBar}></div>
 
-      <Modal
-        className={classes.modalContainer}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <CreateNew
-          handleClick={createNewFolder}
-          handleClose={handleClose}
-          setProp={setFolderName}
-          propValue={folderName}
-          type="Folder"
-        ></CreateNew>
-      </Modal>
+      <DriveModalGroup
+        folderName={folderName}
+        setFolderName={(newFolderName) => setFolderName(newFolderName)}
+        fileName={fileName}
+        setFileName={(newFileName) => setFileName(newFileName)}
+        onCreateNewFolder={createNewFolder}
+        onCreateNewFile={createNewfile}
+        isCreateFolderModalVisible={isCreateFolderModalVisible}
+        isImportFileModalVisible={isImportFileModalVisible}
+        isUploadFileModalVisible={isUploadFileModalVisible}
+        onCloseCreateFolderModal={() => setIsCreateFolderModalVisible(false)}
+        onCloseImportFileModal={() => setIsImportFileModalVisible(false)}
+        onCloseUploadFileModal={() => setIsUploadFileModalVisible(false)}
+      />
 
-      <Modal
-        className={classes.modalContainer}
-        open={openImportFile}
-        onClose={handleCloseImportFile}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <CreateNew
-          handleClick={createNewfile}
-          handleClose={handleCloseImportFile}
-          setProp={setFileName}
-          propValue={fileName}
-          isRefLink={true}
-          type="File"
-        ></CreateNew>
-      </Modal>
       {showGrid ? (
         <CardGrid className={classes.cardGrid}>
           {state.dirs !== null &&
