@@ -19,7 +19,7 @@ function Footer(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <div className={classes.footer}>
+    <footer className={classes.footer}>
       <div className={classes.links}>
         <a
           rel="noopener noreferrer"
@@ -90,7 +90,7 @@ function Footer(props: Props) {
           <Discord className={classes.linkIcon} />
         </a> */}
       </div>
-    </div>
+    </footer>
   );
 }
 

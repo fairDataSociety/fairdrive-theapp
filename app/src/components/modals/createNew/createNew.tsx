@@ -9,7 +9,7 @@ export interface Props {
   isRefLink?: boolean;
   handleClick: () => Promise<void>;
   handleClose: () => void;
-  setProp?: React.Dispatch<React.SetStateAction<string>>;
+  setProp?: (data: string) => void;
   propValue: string;
 }
 
@@ -42,7 +42,7 @@ export function CreateNew(props: Props): JSX.Element {
           <p className={classes.label}>Paste your Link</p>
           <TextField
             placeholder={`${props.type} Link`}
-            setProp={props.setProp}
+            setProp={(data) => props.setProp(data)}
             propValue={props.propValue}
             type="text"
           ></TextField>

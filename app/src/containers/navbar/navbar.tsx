@@ -16,7 +16,7 @@ function Navbar(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <div className={classes.Navbar}>
+    <header className={classes.Navbar}>
       <div
         onClick={() => {
           props.setShowTerms(false);
@@ -27,7 +27,7 @@ function Navbar(props: Props) {
         <Logo className={classes.logo} />
       </div>
       {state.userData && <NavItems />}
-    </div>
+    </header>
   );
 }
 
