@@ -71,7 +71,7 @@ const useStyles = makeStyles(() =>
       right: '5%',
     },
     disclaimer: {
-      marginTop: '20px',
+      margin: '20px 0 20px 0',
       color: (style: Theme) => style.textColorSecondary,
       font: (style: Theme) => style.typography.caption2,
       marginLeft: '1.6rem',

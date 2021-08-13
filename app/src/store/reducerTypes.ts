@@ -1,4 +1,7 @@
-type Status = string | "loading" | "success" | "fail";
+import { IFile } from '../types/models/File';
+import { IDirectory } from '../types/models/Directory';
+
+type Status = string | 'loading' | 'success' | 'fail';
 
 interface Flags {
   loginStatus: Status;
@@ -17,9 +20,9 @@ export interface State {
   password: string;
   mnemonic: string;
   unlocked: boolean;
-  searchQuery: string;
-  entries: any;
-  dirs: any;
+  searchQuery: string | null;
+  entries: IFile[] | undefined;
+  dirs: IDirectory[] | undefined;
   inviteCode: string;
   address: string;
   errMsg: string;
@@ -31,5 +34,9 @@ export interface State {
   userStats: any;
   isPrivatePod: boolean;
   flags: Flags;
-  fileUploadProgress: Array<{ progressEvent: ProgressEvent, cancelFn, requestId: string }>;
+  fileUploadProgress: Array<{
+    progressEvent: ProgressEvent;
+    cancelFn;
+    requestId: string;
+  }>;
 }

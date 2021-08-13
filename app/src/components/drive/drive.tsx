@@ -30,6 +30,10 @@ import { sortyByCurrentFilter } from '../../store/helpers/sort';
 
 // Types
 import { IFile } from '../../types/models/File';
+import { IDirectory } from '../../types/models/Directory';
+
+// Icons
+import { Search as SearchIcon } from '../../components/icons/icons';
 export interface Props {
   isPodBarOpen: boolean;
 }
@@ -47,8 +51,16 @@ function Drive(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
+  // Local store of files and directories
   const [files, setFiles] = useState<IFile[] | null>([]);
-  const [folders, setFolders] = useState([]);
+  const [folders, setFolders] = useState<IDirectory[] | null>([]);
+
+  useEffect(() => {
+    setFiles(state.entries);
+    setFolders(state.dirs);
+  }, [state.entries, state.dirs]);
+
+  // Toggle grid or list
   const [showGrid, setShowGrid] = useState(true);
 
   // Manage state of modals
@@ -59,12 +71,8 @@ function Drive(props: Props) {
   const [isUploadFileModalVisible, setIsUploadFileModalVisible] =
     useState(false);
 
-  const [folderName, setFolderName] = useState('');
-  const [fileName, setFileName] = useState('');
-
+  // Confirmation of successful creation
   const [responseCreation, setResponseCreation] = useState(false);
-  const [showSharePodPopup, setShowSharePodPopup] = useState(false);
-  const [refLink, setRefLink] = useState('0000000000000');
 
   async function loadDirectory() {
     try {
@@ -83,11 +91,11 @@ function Drive(props: Props) {
     }
   }
 
+  // On depandency change reload data
   useEffect(() => {
     loadDirectory();
     state.fileUploaded = false;
     state.searchQuery = null;
-    // eslint-disable-next-line
   }, [
     state.fileUploaded,
     state.directory,
@@ -95,37 +103,34 @@ function Drive(props: Props) {
     state.fileDeleted,
   ]);
 
+  // Handle filtering data by search query
   useEffect(() => {
-    setFiles(state.entries);
-    setFolders(state.dirs);
-    // eslint-disable-next-line
-  }, [state.entries, state.dirs]);
-
-  useEffect(() => {
-    if (
-      files !== undefined &&
-      files !== null &&
-      folders !== undefined &&
-      folders !== null
-    )
-      if (state.searchQuery === '' && files?.length !== state.entries?.length) {
-        setFiles(state.entries);
-      }
-    if (state.searchQuery === '' && folders?.length !== state.dirs?.length) {
+    if (state.entries) {
+      setFiles(state.entries);
+    }
+    if (state.dirs) {
       setFolders(state.dirs);
     }
+
     if (state.searchQuery !== null) {
-      const filterFiles = state.entries.filter((file) =>
-        file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-      );
-      setFiles(filterFiles);
-      const filterFolders = state.dirs.filter((dir) =>
-        dir.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-      );
-      setFolders(filterFolders);
+      if (state.entries) {
+        const filterFiles = state.entries.filter((file) =>
+          file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+        );
+        setFiles(filterFiles);
+      }
+      if (state.dirs) {
+        const filterFolders = state.dirs.filter((dir) =>
+          dir.name.toLowerCase().includes(state.searchQuery.toLowerCase())
+        );
+        setFolders(filterFolders);
+      }
     }
-    // eslint-disable-next-line
   }, [state.searchQuery]);
+
+  // Handle sharing content
+  const [showSharePodPopup, setShowSharePodPopup] = useState(false);
+  const [refLink, setRefLink] = useState('0000000000000');
 
   const handleShare = async () => {
     const res = await sharePod(state.password, state.podName);
@@ -141,6 +146,8 @@ function Drive(props: Props) {
   }, [responseCreation]);
 
   // Handle creating folder
+  const [folderName, setFolderName] = useState('');
+
   const createNewFolder = async () => {
     setResponseCreation(
       await createDirectory(state.directory, folderName, state.podName)
@@ -148,6 +155,8 @@ function Drive(props: Props) {
   };
 
   // Handle creating file
+  const [fileName, setFileName] = useState('');
+
   const createNewfile = async () => {
     setResponseCreation(
       await receiveFileInfo(fileName, state.podName, state.directory)
@@ -157,6 +166,13 @@ function Drive(props: Props) {
   // Manage filters
   const [currentFilter, setCurrentFilter] =
     useState<TCurrentFilter>('least-recent');
+
+  const isSearchQuerySetted = () =>
+    state.searchQuery && state.searchQuery !== '';
+
+  const isFilesNotEmpty = () => files && files.length > 0;
+
+  const isFoldersNotEmpty = () => folders && folders.length > 0;
 
   return (
     <div className={classes.Drive}>
@@ -183,6 +199,7 @@ function Drive(props: Props) {
 
       {state.podName !== '' && (
         <DriveHeader
+          isSearchResults={isSearchQuerySetted()}
           isPrivatePod={state.isPrivatePod}
           onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
           onOpenImportFileModal={() => setIsImportFileModalVisible(true)}
@@ -190,8 +207,14 @@ function Drive(props: Props) {
         />
       )}
 
-      <div className={classes.buttonNavBar}></div>
+      {isSearchQuerySetted() && (
+        <div className={classes.searchDivider}>
+          <SearchIcon className={classes.searchIcon} />
+          <span>{state.searchQuery}</span>
+        </div>
+      )}
 
+      {/* TODO: Migrate below props to 3 object props each for individual modal. Less mess. */}
       <DriveModalGroup
         folderName={folderName}
         setFolderName={(newFolderName) => setFolderName(newFolderName)}
@@ -207,31 +230,45 @@ function Drive(props: Props) {
         onCloseUploadFileModal={() => setIsUploadFileModalVisible(false)}
       />
 
-      {showGrid ? (
-        <CardGrid className={classes.cardGrid}>
-          {state.dirs !== null &&
-            state.dirs !== undefined &&
-            sortyByCurrentFilter(folders, currentFilter).map((dir: any) => {
-              return (
-                <FileCard key={dir} file={dir} isDirectory={true}></FileCard>
-              );
-            })}
-          {state.entries !== null &&
-            state.entries !== undefined &&
-            sortyByCurrentFilter(files, currentFilter).map((file: any) => {
-              return <FileModal key={file.name} file={file}></FileModal>;
-            })}
-          {!!state.dirs ||
-            !!state.entries ||
-            (state.entries === undefined && state.dirs === undefined && (
-              <div>Loading files..</div>
-            ))}
-        </CardGrid>
+      {isFilesNotEmpty() || isFoldersNotEmpty() ? (
+        showGrid ? (
+          <CardGrid className={classes.cardGrid}>
+            {state.dirs &&
+              sortyByCurrentFilter(folders, currentFilter).map(
+                (dir: IDirectory, index) => (
+                  <FileCard
+                    key={`${dir.name}_${index}`}
+                    file={dir}
+                    isDirectory={true}
+                  />
+                )
+              )}
+
+            {state.entries &&
+              sortyByCurrentFilter(files, currentFilter).map(
+                (file: IFile, index) => (
+                  <FileModal key={`${file.name}_${index}`} file={file} />
+                )
+              )}
+
+            {!!state.dirs ||
+              !!state.entries ||
+              (state.entries === undefined && state.dirs === undefined && (
+                <div>Loading files..</div>
+              ))}
+          </CardGrid>
+        ) : (
+          <FileList
+            currentFilter={currentFilter}
+            isPodBarOpen={props.isPodBarOpen}
+          ></FileList>
+        )
       ) : (
-        <FileList
-          currentFilter={currentFilter}
-          isPodBarOpen={props.isPodBarOpen}
-        ></FileList>
+        <p className={classes.noSearchQueryMatches}>
+          {isSearchQuerySetted()
+            ? 'Sorry, no entries match search query'
+            : 'This Pod is empty.'}
+        </p>
       )}
     </div>
   );
