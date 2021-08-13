@@ -5,10 +5,10 @@ import { Theme } from '../../../store/themeContext/themes';
 const useStyles = makeStyles(() =>
   createStyles({
     midWrapper: {
-      padding: '2rem 2rem 2rem 0rem',
+      padding: '2rem 2rem 0rem 0rem',
       //marginBottom: "2rem",
       marginLeft: '1.6rem',
-      height: '15rem',
+      margin: '20px 0 20px 0',
       display: 'flex',
       position: 'relative',
       textAlign: 'left',
@@ -73,6 +73,7 @@ const useStyles = makeStyles(() =>
       float: 'left',
       width: '5rem',
       height: '5rem',
+      marginRight: '1rem',
       margin: '1rem',
       alignItems: 'center',
       display: 'flex',
@@ -101,7 +102,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       alignItems: 'center',
       gap: '5px',
-      margin: '1rem',
+      marginRight: '1rem',
       minWidth: '8rem',
       maxWidth: '25rem',
       overflow: 'auto',

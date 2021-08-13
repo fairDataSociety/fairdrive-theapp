@@ -1,14 +1,14 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext/themeContext";
-import useStyles from "./fileListStyles";
-import FileListHeader from "./fileListHeader/fileListHeader";
-import FileListBody from "./fileListBody/fileListBody";
-import { StoreContext } from "src/store/store";
-import moment from "moment";
-import prettyBytes from "pretty-bytes";
+import React, { useContext } from 'react';
+import { ThemeContext } from '../../store/themeContext/themeContext';
+import useStyles from './fileListStyles';
+import FileListHeader from './fileListHeader/fileListHeader';
+import FileListBody from './fileListBody/fileListBody';
+import { StoreContext } from 'src/store/store';
+import moment from 'moment';
+import prettyBytes from 'pretty-bytes';
 
-import { TCurrentFilter } from "../drive/drive";
-import { sortyByCurrentFilter } from "src/store/helpers/sort";
+import { TCurrentFilter } from '../drive/drive';
+import { sortyByCurrentFilter } from 'src/store/helpers/sort';
 
 export interface Props {
   currentFilter: TCurrentFilter;
@@ -28,10 +28,10 @@ function FileList(props: Props) {
         <div>
           {state.dirs !== undefined &&
             sortyByCurrentFilter(state.dirs, props.currentFilter).map(
-              (directory: any) => {
+              (directory, index) => {
                 return (
                   <FileListBody
-                    key={directory}
+                    key={`${directory.name}_${index}`}
                     name={directory.name}
                     type={directory.content_type}
                     size={directory.size}
@@ -49,10 +49,10 @@ function FileList(props: Props) {
             )}
           {state.entries !== undefined &&
             sortyByCurrentFilter(state.entries, props.currentFilter).map(
-              (entry: any) => {
+              (entry, index) => {
                 return (
                   <FileListBody
-                    key={entry}
+                    key={`${entry.name}_${index}`}
                     name={entry.name}
                     type={entry.content_type}
                     size={prettyBytes(parseInt(entry.size))}

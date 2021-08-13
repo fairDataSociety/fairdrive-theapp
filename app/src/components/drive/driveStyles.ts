@@ -16,7 +16,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       margin: '0 0 0 0',
       paddingLeft: (props: Props & Theme) =>
-        props.isPodBarOpen ? '50rem' : '15rem',
+        props.isPodBarOpen ? '50rem' : '17rem',
       transitionProperty: 'padding',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
@@ -46,7 +46,7 @@ const useStyles = makeStyles(() =>
       color: (style: Props & Theme) => style.textColorHoverSelected,
       //margin: "2rem 1.5rem 2rem 0rem",
       float: 'left',
-      width: '100%',
+      width: '90%',
       margin: '2.5rem 1.5rem 1.5rem 0rem',
     },
     headerButton: {
@@ -115,12 +115,29 @@ const useStyles = makeStyles(() =>
       height: '5rem',
       margin: '0.5rem',
     },
+    searchDivider: {
+      display: 'flex',
+      color: '#9AA8FF',
+      font: (style: Theme) => style.typography.h5,
+      marginLeft: '1.6rem',
+      gap: '10px',
+      alignItems: 'center',
+      marginBottom: '20px',
+    },
+    searchIcon: {
+      fill: '#9AA8FF',
+      color: '#9AA8FF',
+    },
+    noSearchQueryMatches: {
+      font: (style: Theme) => style.typography.h5,
+      color: (style: Props & Theme) => style.backgroundWhite,
+      marginLeft: '1.6rem',
+    },
     modalContainer: {
       marginLeft: 'calc(100% - 45rem)',
       overflowX: 'hidden',
       overflowY: 'auto',
     },
-
     //info
 
     //action area

@@ -5,7 +5,6 @@ import UploadModal from '../../../components/uploadModal/uploadModal';
 import { CreateNew } from '../../modals/createNew/createNew';
 
 // Hooks
-import useStyles from './modalGroupStyles';
 import { Modal } from '@material-ui/core';
 
 export interface Props {
@@ -24,8 +23,6 @@ export interface Props {
 }
 
 export const DriveModalGroup = (props: Props): JSX.Element => {
-  const classes = useStyles();
-
   return (
     <>
       <UploadModal
@@ -34,7 +31,6 @@ export const DriveModalGroup = (props: Props): JSX.Element => {
       />
 
       <Modal
-        className={classes.modalContainer}
         open={props.isCreateFolderModalVisible}
         onClose={() => props.onCloseCreateFolderModal()}
         aria-labelledby="simple-modal-title"
@@ -50,7 +46,6 @@ export const DriveModalGroup = (props: Props): JSX.Element => {
       </Modal>
 
       <Modal
-        className={classes.modalContainer}
         open={props.isImportFileModalVisible}
         onClose={() => props.onCloseImportFileModal()}
         aria-labelledby="simple-modal-title"

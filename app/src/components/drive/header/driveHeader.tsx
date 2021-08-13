@@ -19,6 +19,7 @@ import useStyles from './driveHeaderStyles';
 import { ActionMenu } from './actionMenu/actionMenu';
 
 export interface Props {
+  isSearchResults: boolean;
   isPrivatePod: boolean;
   onOpenCreateFolderModal: () => void;
   onOpenImportFileModal: () => void;
@@ -37,7 +38,11 @@ export const DriveHeader = (props: Props): JSX.Element => {
         <div onClick={() => setIsActionMenuOpen(true)} className={classes.flex}>
           <div className={classes.titleWrapper}>
             <h1 className={classes.midHeader}>
-              {props.isPrivatePod ? 'Inventory' : 'Inbox (Read Only)'}
+              {props.isSearchResults && 'Search'}
+              {props.isPrivatePod && !props.isSearchResults && 'Inventory'}
+              {!props.isPrivatePod &&
+                !props.isSearchResults &&
+                'Inbox (Read Only)'}
             </h1>
           </div>
           <div className={classes.infoWrapper}>

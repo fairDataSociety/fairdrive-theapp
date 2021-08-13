@@ -14,6 +14,14 @@ const useStyles = makeStyles(() =>
       backgroundColor: 'rgba(73,75,80,0.51)',
       zIndex: 6,
     },
+    children: {
+      position: 'absolute',
+      margin: '0 auto',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%,-50%)',
+      zIndex: 10,
+    },
   })
 );
 
