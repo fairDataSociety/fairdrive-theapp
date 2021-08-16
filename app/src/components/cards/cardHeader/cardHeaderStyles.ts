@@ -9,20 +9,20 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       backgroundColor: 'transparent',
       color: (style: Theme & Props) => style.textColorPrimary,
-      width: "100%",
-      height: "18rem",
-      position: "relative",
-      marginBottom: "0",
+      width: '100%',
+      height: '18rem',
+      position: 'relative',
+      marginBottom: '0',
     },
     iconContainer: {
       textAlign: 'left',
     },
     kebabIcon: {
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       right: -10,
-      height: "3rem",
-      margin: "2rem",
+      height: '3rem',
+      margin: '2rem',
     },
     Icon: {
       width: '7rem',
@@ -38,12 +38,12 @@ const useStyles = makeStyles(() =>
     Title: {
       color: (style: Theme & Props) => style.textColorPrimary,
       font: (style: Theme & Props) => style.typography.body2,
-      paddingTop: "3rem",
-      paddingBottom: "3rem",
-      textAlign: "left",
+      paddingTop: '3rem',
+      paddingBottom: '3rem',
+      textAlign: 'left',
 
-      textOverflow: "ellipsis",
-      display: "-webkit-box",
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
       // truncate text after 3 lines of text
       '-webkit-line-clamp': 3,
       '-webkit-box-orient': 'vertical',
@@ -51,6 +51,10 @@ const useStyles = makeStyles(() =>
     Description: {
       color: (style: Theme & Props) => style.textColorPrimary,
       font: (style: Theme & Props) => style.typography.body1,
+    },
+    highlightMatchedPhrase: {
+      color: '#9AA8FF',
+      textDecoration: 'underline',
     },
   })
 );
