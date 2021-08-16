@@ -5,11 +5,9 @@ const useStyles = makeStyles(() =>
     Home: {
       height: 'calc(100vh - 6rem)',
       backgroundColor: 'transparent',
-      position: 'absolute',
       display: 'flex',
       flexDirection: 'row',
       width: '100vw',
-      top: '5rem',
     },
     buttonNavBar: {
       margin: '0 auto 0 0',

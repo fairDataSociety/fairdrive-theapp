@@ -10,15 +10,15 @@ import UploadModalProgress from '../uploadModalProgress/uploadModalProgress';
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   downloadFile?: boolean;
-  open?: boolean;
-  children: React.ReactNode | React.ReactNode[];
-  handleUploadModal: (value) => void;
+  isModalVisible: boolean;
+  onCloseModal: () => void;
+  handleUploadModal?: (value) => void;
 }
 
 function UploadModal(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const [open, setOpen] = React.useState(props.open);
+
   const [file, setFile] = useState(null);
 
   const [blob, setBlob] = useState(null);
@@ -47,64 +47,57 @@ function UploadModal(props: Props) {
     handleClose();
   }, [state.entries]);
 
-  const handleOpen = async () => {
-    setOpen(true);
-  };
-
   const handleClose = async () => {
     if (open) {
       URL.revokeObjectURL(blobFile);
       setBlob(null);
-      setOpen(false);
+      props.onCloseModal();
     }
   };
 
-  const classes = useStyles({ ...props, open, ...theme });
+  const classes = useStyles({ ...props, ...theme });
 
   return (
-    <div>
-      <div onClick={handleOpen}>{props.children}</div>
-      <Modal
-        className={classes.modalContainer}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <div className={classes.fileModal} onClick={handleOpen}>
-          <div className={classes.headerWrapper}>
-            <Folder className={classes.headerIcon} />
-            <div className={classes.header}>Upload File</div>{' '}
-            <Close className={classes.closeIcon} onClick={handleClose} />
-          </div>
-          <div className={classes.divider}></div>
-
-          <div className={classes.iconContainer}>
-            {file && !file.type.includes('image') && (
-              <InfoIcon className={classes.Icon} />
-            )}
-            {file && file.type.includes('image') && (
-              <img className={classes.imagePreview} src={blob} alt="img"></img>
-            )}
-          </div>
-
-          <UploadModalProgress />
-
-          <div className={classes.divider}></div>
-
-          <div className={classes.actionBar}>
-            <UploadIcon className={classes.icon} onClick={onIconClick} />
-            <input
-              className={classes.uploadInput}
-              type="file"
-              ref={inputFile}
-              multiple
-              onChange={(e) => handleFileUpload(e.target.files)}
-            ></input>
-          </div>
+    <Modal
+      className={classes.modalContainer}
+      open={props.isModalVisible}
+      onClose={handleClose}
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+    >
+      <div className={classes.fileModal}>
+        <div className={classes.headerWrapper}>
+          <Folder className={classes.headerIcon} />
+          <div className={classes.header}>Upload File</div>{' '}
+          <Close className={classes.closeIcon} onClick={handleClose} />
         </div>
-      </Modal>
-    </div>
+        <div className={classes.divider}></div>
+
+        <div className={classes.iconContainer}>
+          {file && !file.type.includes('image') && (
+            <InfoIcon className={classes.Icon} />
+          )}
+          {file && file.type.includes('image') && (
+            <img className={classes.imagePreview} src={blob} alt="img"></img>
+          )}
+        </div>
+
+        <UploadModalProgress />
+
+        <div className={classes.divider}></div>
+
+        <div className={classes.actionBar}>
+          <UploadIcon className={classes.icon} onClick={onIconClick} />
+          <input
+            className={classes.uploadInput}
+            type="file"
+            ref={inputFile}
+            multiple
+            onChange={(e) => handleFileUpload(e.target.files)}
+          ></input>
+        </div>
+      </div>
+    </Modal>
   );
 }
 

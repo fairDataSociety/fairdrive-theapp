@@ -13,7 +13,7 @@ function Main() {
   const classes = useStyles({ ...theme });
 
   return (
-    <div className={classes.Main}>
+    <main className={classes.Main}>
       {state.userData?.code === HTTP_CODES.OK ? (
         <>
           <Home></Home>
@@ -21,7 +21,7 @@ function Main() {
       ) : (
         <LoginRegisterPage></LoginRegisterPage>
       )}
-    </div>
+    </main>
   );
 }
 export default React.memo(Main);

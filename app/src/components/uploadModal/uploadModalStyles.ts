@@ -30,7 +30,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'left',
       // cursor: 'pointer',
       overflowX: 'hidden',
-      right: (props: Props & Theme) => (props.open ? '25rem' : '0rem'),
+      right: '25rem',
       transitionProperty: 'right',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',

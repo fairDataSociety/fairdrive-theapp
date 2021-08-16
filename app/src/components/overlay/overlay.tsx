@@ -13,11 +13,10 @@ function Overlay(props: Props): JSX.Element {
   const classes = useStyles({ ...props, ...theme });
 
   return (
-    <div className={classes.Overlay}>
-      <ClickAwayListener onClickAway={props.handleClickAway}>
-        <>{props.children}</>
-      </ClickAwayListener>
-    </div>
+    <>
+      <div className={classes.Overlay} />
+      <div className={classes.children}>{props.children}</div>
+    </>
   );
 }
 
