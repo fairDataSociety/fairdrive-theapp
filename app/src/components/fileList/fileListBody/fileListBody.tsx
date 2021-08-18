@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 // Contexts
-import { ThemeContext } from 'src/store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
 
 // Hooks

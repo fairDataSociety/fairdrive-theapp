@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from './homeStyles';
 
 import Sidebar from '../sidebar/sidebar';

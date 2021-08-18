@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from '../../store/store';
 import useStyles from './loginStyles';
 import ButtonPill from '../buttonPill/buttonPill';
@@ -27,7 +27,6 @@ function Login(props: Props) {
     actions.userLogin({
       username,
       password,
-      podName: 'Fairdrive',
     });
     actions.getPods();
     actions.getUserStats();

@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '../../../store/themeContext/themes';
+import { Theme } from 'src/contexts/themeContext/themes';
 import { Props } from './cardWrapper';
 const height = {
   big: '60rem',

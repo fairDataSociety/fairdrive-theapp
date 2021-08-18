@@ -6,7 +6,7 @@ import useStyles from './cardHeaderStyles';
 import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
 
 // Contexts
-import { ThemeContext } from 'src/store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Store
 import { StoreContext } from 'src/store/store';

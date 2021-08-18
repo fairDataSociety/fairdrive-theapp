@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { Close, ModalFolder } from '../../icons/icons';
 import useStyles from './modalStyles';
 import Overlay from 'src/components/overlay/overlay';

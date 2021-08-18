@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
+
+// Contexts
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { StoreContext } from 'src/store/store';
+
 import useStyles from './uploadModalStyles';
 import Modal from '@material-ui/core/Modal';
 import { InfoIcon, Folder, Close, UploadIcon } from '../icons/icons';
-import urlPath from 'src/store/helpers/urlPath';
+import urlPath from 'src/helpers/urlPath';
 import UploadModalProgress from '../uploadModalProgress/uploadModalProgress';
 
 export interface Props {

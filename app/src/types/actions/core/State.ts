@@ -1,11 +1,13 @@
-import { IFile } from '../types/models/File';
-import { IDirectory } from '../types/models/Directory';
+import { IFile } from 'src/types/models/File';
+import { IDirectory } from 'src/types/models/Directory';
+import { CancelTokenSource } from 'axios';
 
 type Status = string | 'loading' | 'success' | 'fail';
 
 interface Flags {
   loginStatus: Status;
 }
+
 export interface State {
   token: string;
   sessionCookie: string;
@@ -36,7 +38,7 @@ export interface State {
   flags: Flags;
   fileUploadProgress: Array<{
     progressEvent: ProgressEvent;
-    cancelFn;
+    cancelFn: CancelTokenSource;
     requestId: string;
   }>;
 }
