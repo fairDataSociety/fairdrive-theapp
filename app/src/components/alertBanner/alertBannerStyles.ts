@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '../../store/themeContext/themes';
+import { Theme } from 'src/contexts/themeContext/themes';
 import { Props } from './alertBanner';
 
 const useStyles = makeStyles(() =>
@@ -28,7 +28,7 @@ const useStyles = makeStyles(() =>
     agree: {
       margin: 'auto',
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
-      borderRadius:'0.5rem',
+      borderRadius: '0.5rem',
       cursor: 'pointer',
       padding: '1rem 2rem',
       color: (style: Props & Theme) => style.textColorPrimary,

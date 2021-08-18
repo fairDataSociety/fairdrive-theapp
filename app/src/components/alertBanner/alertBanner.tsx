@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '../../store/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './alertBannerStyles';
 import { Warning } from '../icons/icons';
 

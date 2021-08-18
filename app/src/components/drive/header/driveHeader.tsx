@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from '../../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Icons
 import {
@@ -10,7 +10,7 @@ import {
   UploadIcon,
   ButtonPlus,
   Folder as FolderIcon,
-} from '../../../components/icons/icons';
+} from 'src/components/icons/icons';
 
 // Hooks
 import useStyles from './driveHeaderStyles';

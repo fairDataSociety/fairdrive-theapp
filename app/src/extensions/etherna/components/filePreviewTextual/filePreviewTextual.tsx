@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import FilePreviewFallback from "src/components/filePreview/filePreviewFallback";
-import { filePreview } from "src/store/services/fairOS";
+import React, { useEffect, useState } from 'react';
+import FilePreviewFallback from 'src/components/filePreview/filePreviewFallback';
+import { previewFile } from 'src/services/file';
 
-import useStyles from "./filePreviewTextualStyles";
+import useStyles from './filePreviewTextualStyles';
 
 type FilePreviewTextualProps = {
   file?: any;
@@ -15,19 +15,19 @@ const FilePreviewTextual: React.FC<FilePreviewTextualProps> = ({
   directory,
   podName,
 }) => {
-const classes = useStyles();
-  const [previewText, setPreviewText] = useState<string>("Loading...");
+  const classes = useStyles();
+  const [previewText, setPreviewText] = useState<string>('Loading...');
 
   const loadPreview = async () => {
     // const imgSrc = window.URL.createObjectURL(
-    const data = await filePreview(file.name, directory, podName);
+    const data = await previewFile(file.name, directory, podName);
     // );
 
     if (file.name.endsWith('.html') || file.name.endsWith('.html')) {
-      const el = document.createElement( 'html' );
-      el.innerHTML = await (data as Blob).text()
+      const el = document.createElement('html');
+      el.innerHTML = await (data as Blob).text();
 
-      const preview = `${el.querySelector('title')?.text}`
+      const preview = `${el.querySelector('title')?.text}`;
 
       return preview;
     }
@@ -45,7 +45,8 @@ const classes = useStyles();
     <div className={classes.videoPreview}>
       <FilePreviewFallback file={file}></FilePreviewFallback>
 
-      <br/><br/>
+      <br />
+      <br />
       <h1>{previewText}</h1>
     </div>
   );

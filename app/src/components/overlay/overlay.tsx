@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import useStyles from './overlayStyles';
-import ClickAwayListener from 'react-click-away-listener';
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 export interface Props {
   handleClickAway?: () => void;

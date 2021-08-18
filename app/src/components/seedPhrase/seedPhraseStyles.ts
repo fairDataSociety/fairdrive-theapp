@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
-import { Theme } from '../../store/themeContext/themes';
+import { Theme } from 'src/contexts/themeContext/themes';
 import { Props } from './seedPhrase';
 
 const useStyles = makeStyles(() =>

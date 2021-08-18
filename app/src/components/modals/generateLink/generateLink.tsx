@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import useStyles from './generateLinkStyles';
 import Modal from '../modal/modal';

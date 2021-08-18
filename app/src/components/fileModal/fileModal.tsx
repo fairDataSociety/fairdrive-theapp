@@ -1,35 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react';
+import prettyBytes from 'pretty-bytes';
+import moment from 'moment';
+
 // Contexts
-import { ThemeContext } from '../../store/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { StoreContext } from 'src/store/store';
 
 // Components
 import useStyles from './fileModalStyles';
 import Modal from '@material-ui/core/Modal';
 import FilePreview from '../filePreview/filePreview';
 import FileCard from '../cards/fileCard';
-import {
-  Folder,
-  Close,
-  Download,
-  Hide,
-  Share,
-} from '../icons/icons';
+import { Folder, Close, Download, Hide, Share } from '../icons/icons';
 
+// Helpers
+import writePath from 'src/helpers/writePath';
+import { shortenTitle } from 'src/helpers/utils';
+import urlPath from 'src/helpers/urlPath';
+import GenerateLink from '../modals/generateLink/generateLink';
 
-// Services 
-import writePath from '../../store/helpers/writePath';
-import {
-  fileDownload,
-  shareFile,
-} from "../../store/services/fairOS";
-import prettyBytes from "pretty-bytes";
-import moment from "moment";
-import urlPath from "src/store/helpers/urlPath";
-import GenerateLink from "../modals/generateLink/generateLink";
-import { IFile } from "../../types/models/File";
-import { shortenTitle } from 'src/store/helpers/utils';
+// Services
+import { downloadFile, shareFile } from 'src/services/file';
 
+// Types
+import { IFile } from 'src/types/models/File';
 export interface Props {
   file: IFile;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -74,9 +68,8 @@ function FileModal(props: Props) {
     }
   };
   const handleDownload = async () => {
-    // eslint-disable-next-line
-    const newPath = writePath(state.directory);
-    await fileDownload(
+    // const newPath = writePath(state.directory);
+    await downloadFile(
       props.file.name,
       urlPath(state.directory),
       state.podName

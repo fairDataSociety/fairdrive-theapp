@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from './renameStyles';
 import Modal from '../modal/modal';
 import TextField from 'src/components/textField/textField';

@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Store
-import { StoreContext } from '../../store/store';
-import {
-  createDirectory,
-  receiveFileInfo,
-  sharePod,
-} from 'src/store/services/fairOS';
+import { StoreContext } from 'src/store/store';
+import { receiveFileInfo } from 'src/services/file';
+
+import { sharePod } from 'src/services/pod';
+
+import { createDirectory } from 'src/services/directory';
 
 // Components
 import { DriveHeader } from './header/driveHeader';
 import { DriveModalGroup } from './modalGroup/modalGroup';
 
-import CardGrid from '../../components/cardGrid/cardGrid';
-import FileCard from '../../components/cards/fileCard';
-import FileModal from '../../components/fileModal/fileModal';
+import CardGrid from 'src/components/cardGrid/cardGrid';
+import FileCard from 'src/components/cards/fileCard';
+import FileModal from 'src/components/fileModal/fileModal';
 
 import ButtonNavbar from '../buttonNavbar/buttonNavbar';
 import FileList from '../fileList/fileList';
@@ -26,14 +26,14 @@ import GenerateLink from '../modals/generateLink/generateLink';
 
 // Hooks and helpers
 import useStyles from './driveStyles';
-import { sortyByCurrentFilter } from '../../store/helpers/sort';
+import { sortyByCurrentFilter } from 'src/helpers/sort';
 
 // Types
-import { IFile } from '../../types/models/File';
-import { IDirectory } from '../../types/models/Directory';
+import { IFile } from 'src/types/models/File';
+import { IDirectory } from 'src/types/models/Directory';
 
 // Icons
-import { Search as SearchIcon } from '../../components/icons/icons';
+import { Search as SearchIcon } from 'src/components/icons/icons';
 export interface Props {
   isPodBarOpen: boolean;
 }
@@ -81,7 +81,6 @@ function Drive(props: Props) {
         setFolders(null);
         actions.getDirectory({
           directory: state.directory,
-          password: state.password,
           podName: state.podName,
         });
         console.log(state.dirs);

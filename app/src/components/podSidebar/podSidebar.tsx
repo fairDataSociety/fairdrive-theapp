@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from '../../store/store';
 import useStyles from './podSidebarStyles';
 import Toggle from '../toggle/toggle';
-import { createPod, receivePod } from '../../store/services/fairOS';
+import { createPod, receivePod } from 'src/services/pod';
 import { PodChevron, PodInfo } from '../icons/icons';
 import { Modal } from '@material-ui/core';
 import CreateNew from '../modals/createNew/createNew';
@@ -71,7 +71,7 @@ function PodSidebar(props: Props) {
   }, [isPrivate]);
 
   const importPod = async () => {
-    receivePod({ podReference: podRef, pod_name: 'imported pod' })
+    await receivePod({ podReference: podRef, pod_name: 'imported pod' })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

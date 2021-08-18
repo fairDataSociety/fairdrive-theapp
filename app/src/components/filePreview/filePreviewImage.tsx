@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { FilePreviewInfo } from './types';
 import useStyles from './filePreviewStyles';
-import { filePreview } from '../../store/services/fairOS';
+import { previewFile } from 'src/services/file';
 
 type Props = FilePreviewInfo;
 
@@ -22,7 +22,7 @@ const FilePreviewImage = ({
 
   const loadImage = async () => {
     const imgSrc = window.URL.createObjectURL(
-      await filePreview(filename, directory, podName)
+      await previewFile(filename, directory, podName)
     );
     setSrc(imgSrc);
   };
