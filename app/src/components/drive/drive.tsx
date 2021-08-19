@@ -83,7 +83,6 @@ function Drive(props: Props) {
           directory: state.directory,
           podName: state.podName,
         });
-        console.log(state.dirs);
       }
     } catch (e) {
       console.log(e);

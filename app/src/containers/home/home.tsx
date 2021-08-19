@@ -25,6 +25,7 @@ function Home(props: Props) {
         setSidebarItem={setSidebarItem}
       />
       <PodSidebar
+        setShowPodSidebar={setShowPodSidebar}
         isOpen={sidebarItem !== 'Explore' && showPodSidebar}
         route={sidebarItem}
       ></PodSidebar>
