@@ -11,6 +11,7 @@ import CreateNew from '../modals/createNew/createNew';
 export interface Props {
   isOpen: boolean;
   route: string;
+  setShowPodSidebar: any;
 }
 
 function PodSidebar(props: Props) {
@@ -33,6 +34,14 @@ function PodSidebar(props: Props) {
     }
     // eslint-disable-next-line
   }, [state.podName, state.podsOpened]);
+
+  useEffect(() => {
+    // If there is any folder or files then hide sidebar
+    if ((state.entries && state.entries.length) || (state.dirs && state.dirs.length)) {
+      props.setShowPodSidebar(false)
+    }
+
+  }, [state.entries, state.dirs])
 
   const setPod = async (pod) => {
     actions.setPodName(pod);
