@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import useStyles from '../../containers/navbar/navbarStyles';
+import useStyles from '../../layout/partials/navbar/navbarStyles';
 import ClickAwayListener from 'react-click-away-listener';
 import SearchBar from '../searchBar/searchBar';
 import {

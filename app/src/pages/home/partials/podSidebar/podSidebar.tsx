@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
+import { StoreContext } from '../../../../store/store';
 import useStyles from './podSidebarStyles';
-import Toggle from '../toggle/toggle';
+import Toggle from '../../../../components/toggle/toggle';
 import { createPod, receivePod } from 'src/services/pod';
-import { PodChevron, PodInfo } from '../icons/icons';
+import { PodChevron, PodInfo } from '../../../../components/icons/icons';
 import { Modal } from '@material-ui/core';
-import CreateNew from '../modals/createNew/createNew';
+import CreateNew from '../../../../components/modals/createNew/createNew';
 
 export interface Props {
   isOpen: boolean;
@@ -37,11 +37,13 @@ function PodSidebar(props: Props) {
 
   useEffect(() => {
     // If there is any folder or files then hide sidebar
-    if ((state.entries && state.entries.length) || (state.dirs && state.dirs.length)) {
-      props.setShowPodSidebar(false)
+    if (
+      (state.entries && state.entries.length) ||
+      (state.dirs && state.dirs.length)
+    ) {
+      props.setShowPodSidebar(false);
     }
-
-  }, [state.entries, state.dirs])
+  }, [state.entries, state.dirs]);
 
   const setPod = async (pod) => {
     actions.setPodName(pod);

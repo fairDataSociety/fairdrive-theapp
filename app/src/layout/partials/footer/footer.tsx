@@ -1,6 +1,12 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+
+// Hooks
 import useStyles from './footerStyles';
+
+// Contexts
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+
+// Components
 import {
   LinumLabs,
   FairdData,

@@ -1,11 +1,16 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+
+// Hooks
 import useStyles from './homeStyles';
 
-import Sidebar from '../sidebar/sidebar';
-import Drive from '../../components/drive/drive';
-// import Overview from '../../components/overview/overview';
-import PodSidebar from '../../components/podSidebar/podSidebar';
+// Contexts
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+
+// Components
+import Sidebar from './/partials/sidebar/sidebar';
+import Drive from 'src/components/drive/drive';
+import PodSidebar from './/partials/podSidebar/podSidebar';
+// import Overview from 'layout/components/overview/overview';
 
 export interface Props {
   directory?: string;
