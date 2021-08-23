@@ -49,8 +49,9 @@ function Register(props: Props) {
 
   return (
     <div className={classes.Login}>
-      <img src={welcomeImage} alt="alt"></img>
-
+      <div className={classes.imageContainer}>
+        <img src={welcomeImage} alt="alt" className={classes.image} />
+      </div>
       {showRegisterArea && (
         <div className={classes.registerContainer}>
           <div className={classes.title}>Account Credentials</div>

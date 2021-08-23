@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: '32px 40px',
+      padding: '28px 40px',
       zIndex: 5,
     },
     brands: {

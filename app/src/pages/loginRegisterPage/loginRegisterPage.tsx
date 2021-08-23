@@ -14,7 +14,7 @@ function Main() {
   const classes = useStyles({ ...theme });
 
   return (
-    <div className={classes.Main}>
+    <>
       {!showRegisterComponent && !showLoginComponent && (
         <div className={classes.loginRegisterButtons}>
           {' '}
@@ -47,7 +47,7 @@ function Main() {
       {state.userData?.code !== 200 && showRegisterComponent && (
         <Register></Register>
       )}
-    </div>
+    </>
   );
 }
 export default React.memo(Main);

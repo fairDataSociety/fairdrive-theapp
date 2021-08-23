@@ -5,7 +5,9 @@ const useStyles = makeStyles(() =>
   createStyles({
     Main: {
       overflow: 'hidden',
+      display: 'flex',
       flex: '1',
+      minHeight: '652px',
     },
 
     loginRegisterButtons: {

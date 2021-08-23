@@ -6,8 +6,6 @@ const useStyles = makeStyles(() =>
   createStyles({
     Login: {
       backgroundColor: (style: Theme) => style.backgroundDark,
-      paddingTop: '10rem',
-      height: '100vh',
       display: 'flex',
       flexDirection: 'row',
       justifyItems: 'center',
@@ -16,8 +14,18 @@ const useStyles = makeStyles(() =>
       overflowY: 'auto',
       textAlign: 'center',
     },
+    imageContainer: {
+      width: '30%',
+      height: '100%',
+    },
+    image: {
+      height: '100%',
+      width: '100%',
+      objectFit: 'cover',
+    },
     registerContainer: {
-      paddingLeft: '7rem',
+      padding: '0 30rem',
+      width: '70%',
       display: 'flex',
       flexDirection: 'column',
       justifyItems: 'center',
