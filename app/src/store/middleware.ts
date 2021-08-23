@@ -119,6 +119,7 @@ export const applyMiddleware =
               payload: err.response,
             });
           });
+
       case ActionEnum.SEND_FILE_REQUEST: {
         (async () => {
           const { uploadRequest, requestId } = await uploadFile(
@@ -126,7 +127,12 @@ export const applyMiddleware =
             (requestId, progressEvent, cancelFn) => {
               dispatch({
                 type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
-                payload: { progressEvent, requestId, cancelFn },
+                payload: {
+                  progressEvent,
+                  requestId,
+                  cancelFn,
+                  filename: action.payload.files[0]?.name,
+                },
               });
             }
           );

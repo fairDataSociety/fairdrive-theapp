@@ -26,8 +26,8 @@ export const DriveModalGroup = (props: Props): JSX.Element => {
   return (
     <>
       <UploadModal
-        isModalVisible={props.isUploadFileModalVisible}
-        onCloseModal={() => props.onCloseUploadFileModal()}
+        visible={props.isUploadFileModalVisible}
+        handleClose={() => props.onCloseUploadFileModal()}
       />
 
       <Modal
