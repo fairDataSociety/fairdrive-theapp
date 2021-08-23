@@ -7,6 +7,7 @@ import TextField from '../textField/textField';
 import welcomeImage from '../../media/images/welcome-image.png';
 import { CirclePart } from '../icons/icons';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 export interface Props {
   backFunction: () => void;
@@ -37,6 +38,8 @@ function Login(props: Props) {
       setTimeout(() => setHasError(false), 2000);
     }
   }, [state.flags.loginStatus, username]);
+
+  const notify = () => toast.error('Here is your toast.');
 
   return (
     <div className={classes.Login}>

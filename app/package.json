@@ -26,6 +26,7 @@
     "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "react-hooks-helper": "^1.6.0",
+    "react-hot-toast": "^2.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-transition-group": "^4.4.1",

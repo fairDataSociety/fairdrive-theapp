@@ -8,6 +8,7 @@ import { createAccount } from 'src/services/account';
 import { generateSeedPhrase } from 'src/services/seedPhrase';
 import { loginUser, logoutUser } from 'src/services/auth';
 import { statsUser } from 'src/services/user';
+import toast from 'react-hot-toast';
 
 export const applyMiddleware =
   (dispatch: React.Dispatch<ActionTree>) => (action: ActionTree) => {
@@ -151,12 +152,13 @@ export const applyMiddleware =
                 });
               }, 2500);
             })
-            .catch((err) =>
+            .catch((err) => {
+              toast.error('Something went wrong with uploading');
               dispatch({
                 type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
                 payload: err.response,
-              })
-            );
+              });
+            });
         })();
 
         break;
