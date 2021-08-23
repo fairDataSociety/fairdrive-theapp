@@ -201,7 +201,9 @@ function Drive(props: Props) {
           isPrivatePod={state.isPrivatePod}
           onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
           onOpenImportFileModal={() => setIsImportFileModalVisible(true)}
-          onOpenUploadModal={() => setIsUploadFileModalVisible(true)}
+          onOpenUploadModal={() => {
+            setIsUploadFileModalVisible(true);
+          }}
         />
       )}
 
