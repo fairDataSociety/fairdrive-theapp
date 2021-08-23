@@ -23,6 +23,8 @@ const useStyles = makeStyles(() =>
       float: 'left',
       flexDirection: 'row',
       width: '30rem',
+      display: 'flex',
+      justifyContent: 'flex-end',
     },
     iconContainer: {
       float: 'left',
@@ -59,12 +61,10 @@ const useStyles = makeStyles(() =>
     },
 
     headerWrapper: {
-      padding: '2rem 2rem 2rem 0rem',
+      padding: '1rem 2rem 1rem 0rem',
       paddingLeft: '1.6rem',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      //marginBottom: "2rem",
-      height: '10rem',
       display: 'flex',
       position: 'relative',
       textAlign: 'left',

@@ -5,6 +5,9 @@ import { Props } from './drive';
 
 const useStyles = makeStyles(() =>
   createStyles({
+    layoutContent: {
+      padding: '2rem',
+    },
     Drive: {
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
       backgroundColor: (style: Props & Theme) => style.backgroundDark,
@@ -16,7 +19,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       margin: '0 0 0 0',
       paddingLeft: (props: Props & Theme) =>
-        props.isPodBarOpen ? '50rem' : '17rem',
+        props.isPodBarOpen ? '45rem' : '15rem',
       transitionProperty: 'padding',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
