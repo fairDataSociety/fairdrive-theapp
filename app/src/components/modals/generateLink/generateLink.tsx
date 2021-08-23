@@ -26,7 +26,7 @@ function GenerateLink(props: Props) {
     }, 1000);
   };
 
-  const { link } = props;
+  const link = props.link || '';
 
   const shortLink = `${link.slice(0, 6)}...${link.slice(link.length - 5)}`;
 

@@ -4,6 +4,18 @@ import { Props } from './navbar';
 
 const useStyles = makeStyles(() =>
   createStyles({
+    serverSelection: {
+      position: 'relative',
+    },
+    serverSelectionDropDown: {
+      position: 'absolute',
+      right: '5rem',
+    },
+    navbarLeftSide: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
     Navbar: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       color: (style: Props & Theme) => style.textColorPrimary,
@@ -28,18 +40,36 @@ const useStyles = makeStyles(() =>
       width: '18rem',
       cursor: 'pointer',
     },
+    blockiesContainer: {
+      display: 'flex',
+    },
     navItems: {
       display: 'flex',
       alignItems: 'center',
       margin: '0 3rem',
       cursor: 'pointer',
     },
+    indicatorIcon: {
+      width: 10,
+      marginLeft: '1rem',
+    },
     refer: {
-      background: (style: Props & Theme) => style.backgroundLight2,
+      background: (style: Props & Theme) => style.backgroundDark1,
       color: (style: Props & Theme) => style.textColorPrimary,
       font: (style: Props & Theme) => style.typography.caption1,
       padding: '1.2rem',
       borderRadius: '0.5rem',
+    },
+    serverSelectButton: {
+      background: (style: Props & Theme) => style.backgroundDark1,
+      color: (style: Props & Theme) => style.textColorPrimary,
+      font: (style: Props & Theme) => style.typography.caption1,
+      padding: '1.2rem',
+      borderRadius: '0.5rem',
+      height: '4rem',
+      marginLeft: '2rem',
+      display: 'flex',
+      alignItems: 'center',
     },
     dappIcon: {
       position: 'relative',
@@ -65,6 +95,7 @@ const useStyles = makeStyles(() =>
       position: 'relative',
       color: (style: Props & Theme) => style.backgroundLight2,
       font: (style: Props & Theme) => style.typography.caption1,
+      marginLeft: '1rem',
     },
     dropdown: {
       position: 'absolute',
