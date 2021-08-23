@@ -36,9 +36,9 @@ function Home(props: Props) {
       ></PodSidebar>
       {sidebarItem === 'Drive' && <Drive isPodBarOpen={showPodSidebar}></Drive>}
       {/* {sidebarItem === "Overview" && (
-        <Overview isPodBarOpen={showPodSidebar}></Overview>
-      )}
-      {sidebarItem === "Explore" && <></>} */}
+          <Overview isPodBarOpen={showPodSidebar}></Overview>
+        )}
+        {sidebarItem === "Explore" && <></>} */}
     </div>
   );
 }

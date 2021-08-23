@@ -9,6 +9,8 @@ const useStyles = makeStyles(() =>
       fontSize: '2rem',
       overflow: 'hidden',
       color: (theme: Theme) => theme.textColorPrimary,
+      display: 'flex',
+      flexDirection: 'column',
     },
     routeContainer: {
       width: 'calc(100% - 12rem)',
