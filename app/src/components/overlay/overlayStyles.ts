@@ -13,6 +13,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       backgroundColor: 'rgba(73,75,80,0.51)',
       zIndex: 6,
+      cursor: 'pointer',
     },
     children: {
       position: 'absolute',

@@ -81,6 +81,7 @@ const useStyles = makeStyles(() =>
       float: 'right',
       width: '2rem',
       marginTop: '2rem',
+      cursor: 'pointer',
     },
     iconContainer: {
       width: '100%',
@@ -148,7 +149,7 @@ const useStyles = makeStyles(() =>
       height: '5rem',
       boxSizing: 'border-box',
       borderRadius: '0.5rem',
-      // cursor: 'pointer',
+      cursor: 'pointer',
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
       margin: '1.6rem',
       padding: '1rem',
@@ -160,6 +161,12 @@ const useStyles = makeStyles(() =>
     actionBar: {
       width: '100%',
       flexDirection: 'row',
+    },
+    generateLinkWrapper: {
+      position: 'absolute',
+      zIndex: 1500,
+      overflowX: 'hidden',
+      overflowY: 'auto',
     },
   })
 );
