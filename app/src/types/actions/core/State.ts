@@ -8,6 +8,12 @@ interface Flags {
   loginStatus: Status;
 }
 
+interface UserStats {
+  user_name: string;
+  reference: string;
+  avatar: string;
+}
+
 export interface State {
   token: string;
   sessionCookie: string;
@@ -29,11 +35,11 @@ export interface State {
   address: string;
   errMsg: string;
   directory: string;
-  pods: any;
-  podMsg: any;
+  pods: string[];
+  podMsg: string;
   podName: string;
-  podsOpened: any;
-  userStats: any;
+  podsOpened: string[];
+  userStats: UserStats;
   isPrivatePod: boolean;
   flags: Flags;
   fileUploadProgress: Array<{
