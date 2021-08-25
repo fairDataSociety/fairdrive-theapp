@@ -87,7 +87,9 @@ export const DriveHeader = (props: Props): JSX.Element => {
           onCloseActionMenu={() => setIsActionMenuOpen(false)}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}
           onOpenImportFileModal={() => props.onOpenImportFileModal()}
-          onOpenUploadModal={() => props.onOpenUploadModal()}
+          onOpenUploadModal={() => {
+            props.onOpenUploadModal();
+          }}
         />
       )}
     </>

@@ -35,11 +35,11 @@ export const ActionMenu = (props: Props): JSX.Element => {
         />
 
         <div className={classes.actionRow}>
-          <div className={classes.actionButton}>
-            <UploadIcon
-              className={classes.buttonIcon}
-              onClick={() => props.onOpenUploadModal()}
-            />
+          <div
+            className={classes.actionButton}
+            onClick={() => props.onOpenUploadModal()}
+          >
+            <UploadIcon className={classes.buttonIcon} />
             Upload
           </div>
           <span className={classes.actionText}>

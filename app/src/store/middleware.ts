@@ -8,6 +8,7 @@ import { createAccount } from 'src/services/account';
 import { generateSeedPhrase } from 'src/services/seedPhrase';
 import { loginUser, logoutUser } from 'src/services/auth';
 import { statsUser } from 'src/services/user';
+import toast from 'react-hot-toast';
 
 export const applyMiddleware =
   (dispatch: React.Dispatch<ActionTree>) => (action: ActionTree) => {
@@ -119,6 +120,7 @@ export const applyMiddleware =
               payload: err.response,
             });
           });
+
       case ActionEnum.SEND_FILE_REQUEST: {
         (async () => {
           const { uploadRequest, requestId } = await uploadFile(
@@ -126,7 +128,12 @@ export const applyMiddleware =
             (requestId, progressEvent, cancelFn) => {
               dispatch({
                 type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
-                payload: { progressEvent, requestId, cancelFn },
+                payload: {
+                  progressEvent,
+                  requestId,
+                  cancelFn,
+                  filename: action.payload.files[0]?.name,
+                },
               });
             }
           );
@@ -145,12 +152,13 @@ export const applyMiddleware =
                 });
               }, 2500);
             })
-            .catch((err) =>
+            .catch((err) => {
+              toast.error('Something went wrong with uploading');
               dispatch({
                 type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
                 payload: err.response,
-              })
-            );
+              });
+            });
         })();
 
         break;

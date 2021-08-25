@@ -40,5 +40,6 @@ export interface State {
     progressEvent: ProgressEvent;
     cancelFn: CancelTokenSource;
     requestId: string;
+    filename?: string;
   }>;
 }

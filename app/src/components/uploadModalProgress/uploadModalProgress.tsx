@@ -2,24 +2,18 @@ import React, { useContext } from 'react';
 import { StoreContext } from '../../store/store';
 import useStyles from './uploadModalProgressStyles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
-function bytesToSize(bytes) {
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 Byte';
-  const i = parseInt(
-    Math.floor(Math.log(bytes) / Math.log(1024)).toString(),
-    10
-  );
-  return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
-}
+import { Fail, Success } from '../icons/icons';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 function UploadModalProgress() {
   const { state, actions } = useContext(StoreContext);
-
-  const classes = useStyles();
+  const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...theme });
 
   if (!state.fileUploadProgress || !state.fileUploadProgress.length) {
-    return null;
+    return (
+      <span className={classes.percentage}>There are no active uploads</span>
+    );
   }
 
   return (
@@ -28,22 +22,35 @@ function UploadModalProgress() {
         const percentage = Math.ceil(
           (request.progressEvent.loaded * 100) / request.progressEvent.total
         );
+
+        const complete = percentage === 100;
+
         return (
           <div key={request.requestId} className={classes.progressItem}>
-            <div className={classes.percentage}>
-              {percentage}% of {bytesToSize(request.progressEvent.total)}
-            </div>
-            <div>
-              <LinearProgress variant="determinate" value={percentage} />
-            </div>
-            <div>
+            <div className={classes.percentage}>{request.filename}</div>
+            <div className={classes.progressContainer}>
+              <LinearProgress
+                className={classes.progressLine}
+                classes={{
+                  root: classes.progressRoot,
+                  bar: classes.progressBar,
+                }}
+                variant="determinate"
+                value={percentage}
+              />
+
               <a
+                className={classes.actionContainer}
                 onClick={() => {
                   request.cancelFn.cancel();
                   actions.cancelUpload(request.requestId);
                 }}
               >
-                Cancel
+                {complete ? (
+                  <Success className={classes.successIcon} />
+                ) : (
+                  <Fail className={classes.cancelIcon} />
+                )}
               </a>
             </div>
           </div>

@@ -14,6 +14,7 @@ export interface ActionSendFilePatchFileUploadRequest extends BaseAction {
     progressEvent: ProgressEvent;
     requestId: string;
     cancelFn: CancelTokenSource;
+    filename?: string;
   };
 }
 

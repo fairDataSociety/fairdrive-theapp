@@ -1,3 +1,4 @@
+import { ReactComponent as ChevronDown } from 'src/media/UI/chevron_down.svg';
 import { ReactComponent as Spinner } from 'src/media/UI/spinner.svg';
 import { ReactComponent as Success } from 'src/media/UI/check_circle_regular.svg';
 import { ReactComponent as Fail } from 'src/media/UI/times_circle_solid.svg';
@@ -119,4 +120,5 @@ export {
   Swarm,
   File,
   Directory,
+  ChevronDown,
 };
