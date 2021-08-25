@@ -7,7 +7,7 @@ const useStyles = makeStyles(() =>
     headerwrapper: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark2,
       display: 'flex',
-      padding: '2rem',
+      padding: '20px',
     },
     fileName: {
       width: '45%',

@@ -13,7 +13,6 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       borderRadius: '1rem',
       gap: '20px',
-      marginLeft: '1.6rem',
     },
 
     actionRow: {
@@ -74,7 +73,6 @@ const useStyles = makeStyles(() =>
       margin: '20px 0 20px 0',
       color: (style: Theme) => style.textColorSecondary,
       font: (style: Theme) => style.typography.caption2,
-      marginLeft: '1.6rem',
     },
   })
 );

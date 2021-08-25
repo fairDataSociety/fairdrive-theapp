@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from './fileListStyles';
 import FileListHeader from './fileListHeader/fileListHeader';
+import FileListFooter from './fileListFooter/fileListFooter';
 import FileListBody from './fileListBody/fileListBody';
 import { StoreContext } from 'src/store/store';
 import moment from 'moment';
@@ -43,7 +44,7 @@ function FileList(props: Props) {
                       .format('DD/MM/YYYY')}
                     file={directory}
                     isPodBarOpen={props.isPodBarOpen}
-                  ></FileListBody>
+                  />
                 );
               }
             )}
@@ -64,11 +65,12 @@ function FileList(props: Props) {
                       .format('DD/MM/YYYY')}
                     file={entry}
                     isPodBarOpen={props.isPodBarOpen}
-                  ></FileListBody>
+                  />
                 );
               }
             )}
         </div>
+        <FileListFooter />
       </div>
     )
   );
