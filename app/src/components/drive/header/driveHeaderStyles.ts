@@ -6,8 +6,6 @@ const useStyles = makeStyles(() =>
   createStyles({
     midWrapper: {
       padding: '2rem 2rem 0rem 0rem',
-      //marginBottom: "2rem",
-      marginLeft: '1.6rem',
       margin: '20px 0 20px 0',
       display: 'flex',
       position: 'relative',
