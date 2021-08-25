@@ -7,6 +7,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     layoutContent: {
       padding: '2rem',
+      overflowY: 'hidden'
     },
     Drive: {
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
