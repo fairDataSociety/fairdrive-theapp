@@ -1,13 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react';
+
+// Hooks
+import useStyles from './podSidebarStyles';
+import {
+  usePodContextActions,
+  AllowedPodActions,
+} from 'src/hooks/usePodContextActions';
+
+// Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from '../../../../store/store';
-import useStyles from './podSidebarStyles';
-import Toggle from '../../../../components/toggle/toggle';
-import { createPod, receivePod } from 'src/services/pod';
-import { PodChevron, PodInfo } from '../../../../components/icons/icons';
-import { Modal } from '@material-ui/core';
-import CreateNew from '../../../../components/modals/createNew/createNew';
 
+
+// Components
+
+import { Modal } from '@material-ui/core';
+import { PodChevron, PodInfo } from '../../../../components/icons/icons';
+import { CreateNew } from '../../../../components/modals/createNew/createNew';
+import Toggle from '../../../../components/toggle/toggle';
+
+interface PodState {
+  name: string;
+  reference: string;
+  isCreated: boolean;
+}
 export interface Props {
   isOpen: boolean;
   route: string;
@@ -15,15 +31,70 @@ export interface Props {
 }
 
 function PodSidebar(props: Props) {
+  // General
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const [isPrivate, setIsPrivate] = useState(true);
   const classes = useStyles({ ...props, ...theme });
   const pods = ['Private Pod', 'Shared Pod', 'My Photos'];
+
+  // State
   const [open, setOpen] = useState(false);
-  const [podName, setPodName] = useState('');
-  const [podCreated, setPodCreated] = useState(false);
-  const [podRef, setPodRef] = useState('');
+  const [isPrivate, setIsPrivate] = useState(true);
+
+  const [podState, setPodState] = useState<PodState>({
+    name: '',
+    reference: '',
+    isCreated: false,
+  });
+
+  // Manage opening/closing
+
+  const handleClose = () => {
+    setOpen(false);
+    setPodState({
+      ...podState,
+      name: '',
+      reference: '',
+    });
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  // Pod Context Actions
+  const { handleOpenPod, handleCreatePod, handleImportPod, handleOverview } =
+    usePodContextActions();
+
+  // Proxy pod context actions calls
+  const proxyPodContextActions = async (
+    type: AllowedPodActions,
+    podName?: string
+  ) => {
+    switch (type) {
+      case 'open':
+        await handleOpenPod(podName);
+        break;
+      case 'create':
+        await handleCreatePod(podName).then(() => {
+          handleClose();
+          setPodState({
+            ...podState,
+            isCreated: true,
+          });
+        });
+        break;
+      case 'import':
+        await handleImportPod(podState.reference, 'importedpod');
+        break;
+      case 'overview':
+        await handleOverview(podName);
+        break;
+      default:
+        console.warn(`proxyPodContextActions: Unknown action type of ${type}`);
+        break;
+    }
+  };
 
   useEffect(() => {
     if (state.podsOpened.includes(state.podName)) {
@@ -32,60 +103,29 @@ function PodSidebar(props: Props) {
         podName: state.podName,
       });
     }
-    // eslint-disable-next-line
   }, [state.podName, state.podsOpened]);
 
   useEffect(() => {
-    // If there is any folder or files then hide sidebar
-    if (
+    const areAnyDirectoryOrFileExists = () =>
       (state.entries && state.entries.length) ||
-      (state.dirs && state.dirs.length)
-    ) {
+      (state.dirs && state.dirs.length);
+
+    if (areAnyDirectoryOrFileExists()) {
       props.setShowPodSidebar(false);
     }
   }, [state.entries, state.dirs]);
 
-  const setPod = async (pod) => {
-    actions.setPodName(pod);
-    actions.setDirectory('root');
-    if (!state.podsOpened.includes(pod))
-      actions.openPod({ password: state.password, podName: pod });
-  };
-  const handleClose = () => {
-    setOpen(false);
-    setPodName('');
-    setPodRef('');
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  // const setOverview = async (pod) => {
-  // await actions.setPodName(pod);
-  // if (!state.podsOpened.includes(pod))
-  //   await actions.openPod({ password: state.password, podName: pod });
-  // };
-  const createNewPod = async () => {
-    await createPod({ password: state.password, podName });
-    handleClose();
-    setPodCreated(true);
-  };
   useEffect(() => {
     actions.getPods();
-    setPodCreated(false);
-    // eslint-disable-next-line
-  }, [podCreated]);
+    setPodState({
+      ...podState,
+      isCreated: false,
+    });
+  }, [podState.isCreated]);
 
   useEffect(() => {
     actions.setPrivatePod(isPrivate);
-    // eslint-disable-next-line
   }, [isPrivate]);
-
-  const importPod = async () => {
-    await receivePod({ podReference: podRef, pod_name: 'imported pod' })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
 
   return (
     <div className={classes.podDrawer}>
@@ -113,7 +153,7 @@ function PodSidebar(props: Props) {
               <div
                 key={index}
                 className={classes.podRow}
-                // onClick={() => setOverview(pod)}
+                // onClick={() => proxyPodContextActions('overview', pod)}
               >
                 <label>{pod}</label>
                 <PodChevron className={classes.podChevron} />
@@ -128,7 +168,7 @@ function PodSidebar(props: Props) {
               <div
                 key={index}
                 className={classes.podRow}
-                onClick={() => setPod(pod)}
+                onClick={() => proxyPodContextActions('open', pod)}
               >
                 <label>{pod}</label>
                 <PodChevron className={classes.podChevron} />
@@ -156,22 +196,32 @@ function PodSidebar(props: Props) {
       >
         {isPrivate ? (
           <CreateNew
-            handleClick={createNewPod}
+            handleClick={() => proxyPodContextActions('create', podState.name)}
             handleClose={handleClose}
             isRefLink={!isPrivate}
-            setProp={setPodName}
-            propValue={podName}
+            setProp={(data) =>
+              setPodState({
+                ...podState,
+                name: data,
+              })
+            }
+            propValue={podState.name}
             type="Pod"
-          ></CreateNew>
+          />
         ) : (
           <CreateNew
-            handleClick={importPod}
+            handleClick={() => proxyPodContextActions('import')}
             handleClose={handleClose}
             isRefLink={!isPrivate}
-            setProp={setPodRef}
-            propValue={podRef}
+            setProp={(data) =>
+              setPodState({
+                ...podState,
+                reference: data,
+              })
+            }
+            propValue={podState.reference}
             type="Pod"
-          ></CreateNew>
+          />
         )}
       </Modal>
     </div>

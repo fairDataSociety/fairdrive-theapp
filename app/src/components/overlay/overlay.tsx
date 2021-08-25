@@ -13,7 +13,10 @@ function Overlay(props: Props): JSX.Element {
 
   return (
     <>
-      <div className={classes.Overlay} />
+      <div
+        onClick={() => props.handleClickAway()}
+        className={classes.Overlay}
+      />
       <div className={classes.children}>{props.children}</div>
     </>
   );

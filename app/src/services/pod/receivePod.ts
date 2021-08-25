@@ -7,10 +7,9 @@ interface ReceivePayload {
 
 export async function receivePod(payload: ReceivePayload) {
   try {
-    const response = await HTTPClient().get('pod/receive', {
-      params: { reference: payload.podReference, pod_name: payload.pod_name },
-      data: { reference: payload.podReference, pod_name: payload.pod_name },
-    });
+    const response = await HTTPClient().get(
+      `pod/receive?pod_name=${payload.pod_name}&reference=${payload.podReference}`
+    );
 
     return response;
   } catch (error) {
