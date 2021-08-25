@@ -7,7 +7,7 @@ const initialState: State = {
   sessionCookie: '',
   username: '',
   userData: null,
-  fileUploaded: {},
+  fileUploaded: false,
   fileDeleted: {},
   folderDeleted: {},
   podDeleted: {},
