@@ -1,10 +1,16 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
+
+// Hooks
 import useStyles from './sidebarStyles';
-import SidebarItem from '../../components/sidebarItem/sidebarItem';
+
+// Contexts
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { StoreContext } from 'src/store/store';
+
+// Components
+import SidebarItem from 'src/components/sidebarItem/sidebarItem';
 // import { Drive, Dashboard, Globe } from '../../components/icons/icons';
-import { Drive } from '../../components/icons/icons';
+import { Drive } from 'src/components/icons/icons';
 
 export interface Props {
   showPodSidebar: boolean;

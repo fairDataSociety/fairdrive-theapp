@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import useStyles from './loginRegisterPageStyles';
-import ButtonPill from '../../components/buttonPill/buttonPill';
-import { StoreContext } from '../../store/store';
+import ButtonPill from 'src/components/buttonPill/buttonPill';
+import { StoreContext } from 'src/store/store';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import Login from '../../components/login/login';
-import Register from '../../components/register/register';
+import Login from 'src/components/login/login';
+import Register from 'src/components/register/register';
 
 function Main() {
   const { state } = useContext(StoreContext);
@@ -14,7 +14,7 @@ function Main() {
   const classes = useStyles({ ...theme });
 
   return (
-    <div className={classes.Main}>
+    <>
       {!showRegisterComponent && !showLoginComponent && (
         <div className={classes.loginRegisterButtons}>
           {' '}
@@ -47,7 +47,7 @@ function Main() {
       {state.userData?.code !== 200 && showRegisterComponent && (
         <Register></Register>
       )}
-    </div>
+    </>
   );
 }
 export default React.memo(Main);

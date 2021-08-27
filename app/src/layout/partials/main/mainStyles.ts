@@ -3,7 +3,12 @@ import { Theme } from 'src/contexts/themeContext/themes';
 
 const useStyles = makeStyles(() =>
   createStyles({
-    Main: {},
+    Main: {
+      overflow: 'hidden',
+      display: 'flex',
+      flex: '1',
+      minHeight: '652px',
+    },
 
     loginRegisterButtons: {
       padding: '23rem 0 30rem 0',

@@ -5,21 +5,44 @@ import { Props } from './footer';
 const useStyles = makeStyles(() =>
   createStyles({
     footer: {
-      backgroundColor: (style: Props & Theme) => style.backgroundDark,
+      backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       color: (style: Props & Theme) => style.textColorPrimary,
       font: (style: Props & Theme) => style.typography.h4,
       width: '100%',
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'row',
-      position: 'absolute',
       justifyContent: 'space-between',
-      left: 0,
-      bottom: 0,
+      padding: '28px 40px',
       zIndex: 5,
     },
+    brands: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '32px',
+    },
+    brandsItem: {
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      '&:hover': {
+        filter: 'brightness(1.6)',
+      },
+    },
+    brandLinumLabs: {
+      width: '145px',
+      height: '24px',
+    },
+    brandFairDataSociety: {
+      width: '70px',
+      height: '32px',
+    },
+    brandSwarm: {
+      width: '96px',
+      height: '24px',
+    },
+
     linkItem: {
-      margin: 'auto',
       cursor: 'pointer',
       '&:hover': {
         filter: 'brightness(1.6)',
@@ -33,21 +56,26 @@ const useStyles = makeStyles(() =>
       },
     },
     text: {
-      color: (style: Props & Theme) => style.textColorSecondary,
       font: (style: Props & Theme) => style.typography.caption1,
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'row',
-      margin: '0 1rem',
+      gap: '12px',
     },
     footerText: {
-      margin: '0 1rem',
+      margin: '0',
+      display: 'flex',
+      alignSelf: 'center',
+      color: (style: Props & Theme) => style.textColorPrimary,
     },
     links: {
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'row',
-      margin: '0 1rem',
+      gap: '88px',
+      '@media (max-width: 1440px)': {
+        gap: '44px',
+      },
     },
     link: {
       height: '3rem',
@@ -57,7 +85,11 @@ const useStyles = makeStyles(() =>
       border: (style: Props & Theme) => `1px solid ${style.backgroundDark1}`,
       height: '3rem',
       width: '1px',
-      margin: '0 0.5rem',
+      margin: '0 24px',
+    },
+    socialMediaWrapper: {
+      display: 'flex',
+      alignItems: 'center',
     },
   })
 );

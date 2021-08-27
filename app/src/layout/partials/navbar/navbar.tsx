@@ -1,10 +1,16 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
-import useStyles from './navbarStyles';
-import NavItems from '../../components/navItems/navItems';
-import { ChevronDown, Logo } from 'src/components/icons/icons';
 import { ClickAwayListener } from '@material-ui/core';
+
+// Contexts
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { StoreContext } from 'src/store/store';
+
+// Hooks
+import useStyles from './navbarStyles';
+
+// Components
+import NavItems from 'src/components/navItems/navItems';
+import { ChevronDown, Logo } from 'src/components/icons/icons';
 import DropDown from 'src/components/dropDown/dropDown';
 
 export interface Props {

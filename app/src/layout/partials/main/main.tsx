@@ -1,26 +1,28 @@
 import React, { useContext } from 'react';
-import useStyles from './mainStyles';
-import { StoreContext } from '../../store/store';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import Home from '../home/home';
-import LoginRegisterPage from '../loginRegisterPage/loginRegisterPage';
 
-import { HTTP_CODES } from '../../types/http/HTTPCodes';
+// Hooks
+import useStyles from './mainStyles';
+
+// Contexts
+import { StoreContext } from 'src/store/store';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+
+// Pages
+import Home from 'src/pages/home/home';
+import LoginRegisterPage from 'src/pages/loginRegisterPage/loginRegisterPage';
+
+import { HTTP_CODES } from 'src/types/http/HTTPCodes';
 
 function Main() {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
+  const isUserLoggedIn = () => state.userData?.code === HTTP_CODES.OK;
+
   return (
     <main className={classes.Main}>
-      {state.userData?.code === HTTP_CODES.OK ? (
-        <>
-          <Home></Home>
-        </>
-      ) : (
-        <LoginRegisterPage></LoginRegisterPage>
-      )}
+      {isUserLoggedIn() ? <Home /> : <LoginRegisterPage />}
     </main>
   );
 }
