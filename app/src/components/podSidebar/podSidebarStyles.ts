@@ -26,6 +26,9 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       flexDirection: 'row',
     },
+    buttonWrapper: {
+      margin: '16px 32px',
+    },
     divider: {
       borderBottom: (style: Props & Theme) =>
         `2.5px solid ${style.backgroundDark1}`,

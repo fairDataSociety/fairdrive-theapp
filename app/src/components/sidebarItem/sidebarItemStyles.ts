@@ -15,6 +15,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       flexDirection: 'column',
       paddingBottom: '2rem',
+      cursor: 'pointer',
       font: (style: Props & Theme) => style.typography.body1,
       color: (style: Props & Theme) => style.textColorSecondary,
       '&:hover': {
