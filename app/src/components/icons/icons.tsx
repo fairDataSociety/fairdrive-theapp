@@ -6,6 +6,7 @@ import { ReactComponent as NavRight } from '../../media/UI/chevron_breadcrumb.sv
 import { ReactComponent as QuestionMark } from '../../media/UI/question.svg';
 import { ReactComponent as Switch } from '../../media/UI/switch.svg';
 import { ReactComponent as ChevronDown } from '../../media/UI/chevron_down.svg';
+import { ReactComponent as ChevronRight } from '../../media/UI/chevron_right.svg';
 import { ReactComponent as Search } from '../../media/UI/search.svg';
 import { ReactComponent as Folder } from '../../media/UI/folder.svg';
 import { ReactComponent as Upload } from '../../media/UI/upload.svg';
@@ -120,4 +121,5 @@ export {
   File,
   Directory,
   ChevronDown,
+  ChevronRight,
 };

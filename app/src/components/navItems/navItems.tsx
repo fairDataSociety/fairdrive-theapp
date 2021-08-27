@@ -14,6 +14,12 @@ import DropDown from 'src/components/dropDown/dropDown';
 import { StoreContext } from 'src/store/store';
 // import { logOut } from 'src/store/services/fairOS';
 import Blockies from 'react-blockies';
+
+import {
+  BaseButton,
+  BUTTON_VARIANTS,
+  BUTTON_SIZE,
+} from 'src/shared/BaseButton/BaseButton';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -52,11 +58,14 @@ function NavItems(props: Props) {
 
   return (
     <div className={classes.navItems}>
-      <ClickAwayListener onClickAway={() => setReferModal(false)}>
-        <button className={classes.refer} onClick={handleClick}>
-          Refer A Friend
-        </button>
-      </ClickAwayListener>
+      <BaseButton
+        variant={BUTTON_VARIANTS.ALTERNATIVE}
+        size={BUTTON_SIZE.SMALL}
+        onClickCallback={() => handleClick()}
+      >
+        Refer A Friend
+      </BaseButton>
+
       <SearchBar />
       <DAppIcon onClick={handleDappClick} className={classes.dappIcon} />
       {dappDropdown && (
@@ -122,7 +131,11 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )}
-      {referModal && <GenerateLink variant="refer" />}
+      {referModal && (
+        <ClickAwayListener onClickAway={() => setReferModal(false)}>
+          <GenerateLink variant="refer" />
+        </ClickAwayListener>
+      )}
     </div>
   );
 }

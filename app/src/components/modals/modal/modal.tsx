@@ -4,6 +4,11 @@ import { Close, ModalFolder } from '../../icons/icons';
 import useStyles from './modalStyles';
 import Overlay from 'src/components/overlay/overlay';
 
+import {
+  BaseButton,
+  BUTTON_VARIANTS,
+  BUTTON_SIZE,
+} from 'src/shared/BaseButton/BaseButton';
 export interface Props {
   children?: React.ReactNode;
   handleClick?: () => void;
@@ -46,16 +51,14 @@ function Modal(props: Props) {
             )}
           </div>
           <div className={classes.buttonContainer}>
-            {props.button && (
-              <button className={classes.button} onClick={props.handleClick}>
-                {props.button}
-              </button>
-            )}
-            {props.disabledButton && (
-              <button className={classes.disabledButton}>
-                {props.disabledButton}
-              </button>
-            )}
+            <BaseButton
+              variant={BUTTON_VARIANTS.ALTERNATIVE}
+              size={BUTTON_SIZE.MEDIUM}
+              isDisabled={props.disabledButton !== undefined}
+              onClickCallback={() => props.handleClick()}
+            >
+              {props.disabledButton ? props.disabledButton : props.button}
+            </BaseButton>
           </div>
         </div>
       </div>
