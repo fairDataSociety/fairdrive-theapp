@@ -1,11 +1,24 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import useStyles from './uploadModalStyles';
-import Modal from '@material-ui/core/Modal';
-import { InfoIcon, Folder, Close, UploadIcon } from '../icons/icons';
-import UploadModalProgress from '../uploadModalProgress/uploadModalProgress';
+
+// Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
+
+// Hooks
+import useStyles from './uploadStyles';
+
+// Helpers
 import urlPath from 'src/helpers/urlPath';
+
+// Components
+import Modal from '@material-ui/core/Modal';
+import {
+  InfoIcon,
+  Folder,
+  Close,
+  UploadIcon,
+} from 'src/components/icons/icons';
+import UploadProgress from './partials/uploadProgress/uploadProgress';
 
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -116,7 +129,7 @@ function UploadModal(props: Props) {
 
         <div className={classes.divider}></div>
 
-        <UploadModalProgress />
+        <UploadProgress />
 
         <div className={classes.actionBar}></div>
       </div>

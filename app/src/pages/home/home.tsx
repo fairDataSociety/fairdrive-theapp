@@ -7,11 +7,21 @@ import useStyles from './homeStyles';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Components
-import Sidebar from './/partials/sidebar/sidebar';
+import MenuRibbon from './partials/menuRibbon/menuRibbon';
 import Drive from 'src/components/drive/drive';
-import PodSidebar from './/partials/podSidebar/podSidebar';
+import PodSidebar from './partials/podSidebar/podSidebar';
+import RightSidebar, {
+  RIGHT_SIDEBAR_VARIANTS,
+} from './partials/rightSidebar/rightSidebar';
 // import Overview from 'layout/components/overview/overview';
 
+// Types
+import { IFile } from 'src/types/models/File';
+
+export interface OpenRightSidebar {
+  payload?: IFile;
+  variant: RIGHT_SIDEBAR_VARIANTS;
+}
 export interface Props {
   directory?: string;
 }
@@ -21,9 +31,25 @@ function Home(props: Props) {
   const classes = useStyles({ ...props, ...theme });
   const [sidebarItem, setSidebarItem] = useState('Drive');
   const [showPodSidebar, setShowPodSidebar] = useState(false);
+
+  // Right Sidebar managment
+  const [rightSidebarData, setRightSidebarData] =
+    useState<OpenRightSidebar | null>(null);
+
+  const openRightSidebar = (data: OpenRightSidebar): void => {
+    setRightSidebarData({
+      payload: data.payload,
+      variant: data.variant,
+    });
+  };
+
+  const closeRightSidebar = (): void => {
+    setRightSidebarData(null);
+  };
+
   return (
     <div className={classes.Home}>
-      <Sidebar
+      <MenuRibbon
         showPodSidebar={showPodSidebar}
         setShowPodSidebar={setShowPodSidebar}
         sidebarItem={sidebarItem}
@@ -33,12 +59,20 @@ function Home(props: Props) {
         setShowPodSidebar={setShowPodSidebar}
         isOpen={sidebarItem !== 'Explore' && showPodSidebar}
         route={sidebarItem}
-      ></PodSidebar>
-      {sidebarItem === 'Drive' && <Drive isPodBarOpen={showPodSidebar}></Drive>}
-      {/* {sidebarItem === "Overview" && (
-          <Overview isPodBarOpen={showPodSidebar}></Overview>
-        )}
-        {sidebarItem === "Explore" && <></>} */}
+      />
+      {sidebarItem === 'Drive' && (
+        <Drive
+          isPodBarOpen={showPodSidebar}
+          setRightSidebarContent={(data) => openRightSidebar(data)}
+        />
+      )}
+      {rightSidebarData && (
+        <RightSidebar
+          onClose={() => closeRightSidebar()}
+          file={rightSidebarData.payload}
+          variant={rightSidebarData.variant}
+        />
+      )}
     </div>
   );
 }

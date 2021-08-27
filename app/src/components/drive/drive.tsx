@@ -17,7 +17,7 @@ import { DriveModalGroup } from './modalGroup/modalGroup';
 
 import CardGrid from 'src/components/cardGrid/cardGrid';
 import FileCard from 'src/components/cards/fileCard';
-import FileModal from 'src/components/fileModal/fileModal';
+import FileModal from 'src/pages/home/partials/rightSidebar/rightSidebar';
 
 import ButtonNavbar from '../buttonNavbar/buttonNavbar';
 import FileList from '../fileList/fileList';
@@ -32,11 +32,14 @@ import { sortyByCurrentFilter } from 'src/helpers/sort';
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
 import { State, StateTagsEnum } from 'src/types/drive-state-machine/State';
+import { OpenRightSidebar } from 'src/pages/home/home';
+import { RIGHT_SIDEBAR_VARIANTS } from 'src/pages/home/partials/rightSidebar/rightSidebar';
 
 // Icons
 import { Search as SearchIcon } from 'src/components/icons/icons';
 export interface Props {
   isPodBarOpen: boolean;
+  setRightSidebarContent: (data: OpenRightSidebar) => void;
 }
 
 export type TCurrentFilter =
@@ -105,8 +108,6 @@ function Drive(props: Props) {
   const [isCreateFolderModalVisible, setIsCreateFolderModalVisible] =
     useState(false);
   const [isImportFileModalVisible, setIsImportFileModalVisible] =
-    useState(false);
-  const [isUploadFileModalVisible, setIsUploadFileModalVisible] =
     useState(false);
 
   // Confirmation of successful creation
@@ -244,7 +245,11 @@ function Drive(props: Props) {
                   setIsCreateFolderModalVisible(true)
                 }
                 onOpenImportFileModal={() => setIsImportFileModalVisible(true)}
-                onOpenUploadModal={() => setIsUploadFileModalVisible(true)}
+                onOpenUploadModal={() =>
+                  props.setRightSidebarContent({
+                    variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD,
+                  })
+                }
               />
             )}
 
@@ -265,12 +270,10 @@ function Drive(props: Props) {
               onCreateNewFile={createNewfile}
               isCreateFolderModalVisible={isCreateFolderModalVisible}
               isImportFileModalVisible={isImportFileModalVisible}
-              isUploadFileModalVisible={isUploadFileModalVisible}
               onCloseCreateFolderModal={() =>
                 setIsCreateFolderModalVisible(false)
               }
               onCloseImportFileModal={() => setIsImportFileModalVisible(false)}
-              onCloseUploadFileModal={() => setIsUploadFileModalVisible(false)}
             />
 
             {isFilesNotEmpty() || isFoldersNotEmpty() ? (
@@ -290,7 +293,17 @@ function Drive(props: Props) {
                   {state.entries &&
                     sortyByCurrentFilter(files, currentFilter).map(
                       (file: IFile, index) => (
-                        <FileModal key={`${file.name}_${index}`} file={file} />
+                        <FileCard
+                          key={`${file.name}_${index}`}
+                          file={file}
+                          isDirectory={false}
+                          onFileClick={() =>
+                            props.setRightSidebarContent({
+                              payload: file,
+                              variant: RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE,
+                            })
+                          }
+                        />
                       )
                     )}
 

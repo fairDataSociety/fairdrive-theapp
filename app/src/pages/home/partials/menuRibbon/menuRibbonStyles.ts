@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from 'src/contexts/themeContext/themes';
-import { Props } from './sidebar';
+import { Props } from './menuRibbon';
 
 const useStyles = makeStyles(() =>
   createStyles({

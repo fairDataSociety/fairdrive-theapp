@@ -1,11 +1,17 @@
 import React, { useContext } from 'react';
-import { StoreContext } from '../../store/store';
-import useStyles from './uploadModalProgressStyles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { Fail, Success } from '../icons/icons';
+
+// Contexts
+import { StoreContext } from 'src/store/store';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
-function UploadModalProgress() {
+// Hooks
+import useStyles from './uploadProgressStyles';
+
+// Components
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { Fail, Success } from 'src/components/icons/icons';
+
+function UploadProgress() {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
@@ -60,4 +66,4 @@ function UploadModalProgress() {
   );
 }
 
-export default React.memo(UploadModalProgress);
+export default React.memo(UploadProgress);

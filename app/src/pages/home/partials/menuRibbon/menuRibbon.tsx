@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 // Hooks
-import useStyles from './sidebarStyles';
+import useStyles from './menuRibbonStyles';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
@@ -19,7 +19,7 @@ export interface Props {
   setSidebarItem: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function Sidebar(props: Props) {
+function MenuRibbon(props: Props) {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const { showPodSidebar, setShowPodSidebar, sidebarItem, setSidebarItem } =
@@ -62,4 +62,4 @@ function Sidebar(props: Props) {
   );
 }
 
-export default React.memo(Sidebar);
+export default React.memo(MenuRibbon);

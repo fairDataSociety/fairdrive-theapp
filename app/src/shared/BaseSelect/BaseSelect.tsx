@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { ChevronDown } from 'src/components/icons/icons';
 import { ClickAwayListener } from '@material-ui/core';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import useStyles from './baseSelectStyles';
+import useStyles from './BaseSelectStyles';
 import DropDown from 'src/components/dropDown/dropDown';
 
 interface Option {

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
+import { StoreContext } from 'src/store/store';
 import useStyles from './loginStyles';
-import ButtonPill from '../buttonPill/buttonPill';
-import TextField from '../textField/textField';
-import welcomeImage from '../../media/images/welcome-image.png';
-import { CirclePart } from '../icons/icons';
+import ButtonPill from 'src/components/buttonPill/buttonPill';
+import TextField from 'src/components/textField/textField';
+import welcomeImage from 'src/media/images/welcome-image.png';
+import { CirclePart } from 'src/components/icons/icons';
 import { useEffect } from 'react';
 // import toast from 'react-hot-toast';
 

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
-import useStyles from '../register/registerStyles';
-import ButtonPill from '../buttonPill/buttonPill';
+import { StoreContext } from 'src/store/store';
+import useStyles from 'src/pages/loginRegisterPage/partials/register/registerStyles';
+import ButtonPill from 'src/components/buttonPill/buttonPill';
 
-import TextField from '../textField/textField';
+import TextField from 'src/components/textField/textField';
 import { createAccount } from 'src/services/account';
 
 function SeedPhraseConfirm() {

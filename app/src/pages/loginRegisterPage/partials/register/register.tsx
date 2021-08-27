@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
+import { StoreContext } from 'src/store/store';
 import useStyles from './registerStyles';
-import ButtonPill from '../buttonPill/buttonPill';
-import TextField from '../textField/textField';
-import SeedPhraseGen from '../seedPhraseGen/seedPhraseGen';
-import SeedPhraseConfirm from '../seedPhraseConfirm/seedPhraseConfirm';
-import welcomeImage from '../../media/images/welcome-image.png';
+import ButtonPill from 'src/components/buttonPill/buttonPill';
+import TextField from 'src/components/textField/textField';
+import SeedPhraseGen from './partials/seedPhraseGen/seedPhraseGen';
+import SeedPhraseConfirm from './partials/seedPhraseConfirm/seedPhraseConfirm';
+import welcomeImage from 'src/media/images/welcome-image.png';
 export interface Props {}
 function Register(props: Props) {
   const { state, actions } = useContext(StoreContext);

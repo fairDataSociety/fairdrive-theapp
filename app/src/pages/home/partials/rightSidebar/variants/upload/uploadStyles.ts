@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Theme } from 'src/contexts/themeContext/themes';
-import { Props } from './uploadModal';
+import { Props } from './upload';
 
 const useStyles = makeStyles(() =>
   createStyles({
