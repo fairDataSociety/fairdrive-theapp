@@ -19,6 +19,11 @@ import { PodChevron, PodInfo } from '../../../../components/icons/icons';
 import { CreateNew } from '../../../../components/modals/createNew/createNew';
 import Toggle from '../../../../components/toggle/toggle';
 
+import {
+  BaseButton,
+  BUTTON_VARIANTS,
+  BUTTON_SIZE,
+} from 'src/shared/BaseButton/BaseButton';
 interface PodState {
   name: string;
   reference: string;
@@ -143,9 +148,17 @@ function PodSidebar(props: Props) {
         </div>
       </div>
       <div className={classes.divider}></div>
-      <button className={classes.podButton} onClick={handleOpen}>
-        {isPrivate ? 'Create Pod' : 'Import Pod'}
-      </button>
+      <div className={classes.buttonWrapper}>
+        <BaseButton
+          variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
+          size={BUTTON_SIZE.MEDIUM}
+          onClickCallback={() => handleOpen()}
+          isFluid={true}
+        >
+          {isPrivate ? 'Create Pod' : 'Import Pod'}
+        </BaseButton>
+      </div>
+
       {props.route === 'Overview' ? (
         <div className={classes.pods}>
           {pods.map((pod, index) => {
