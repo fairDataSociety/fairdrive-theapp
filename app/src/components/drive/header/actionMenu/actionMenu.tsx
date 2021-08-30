@@ -23,8 +23,28 @@ export interface Props {
 
 export const ActionMenu = (props: Props): JSX.Element => {
   const { theme } = useContext(ThemeContext);
-
   const classes = useStyles({ ...theme });
+
+  const entries = [
+    {
+      icon: <UploadIcon className={classes.buttonIcon} />,
+      label: 'Upload',
+      action: props.onOpenUploadModal,
+      caption: 'Upload Files from your local storage',
+    },
+    {
+      icon: <ButtonPlus className={classes.buttonIcon} />,
+      label: 'Import',
+      action: props.onOpenImportFileModal,
+      caption: 'Import file using reference',
+    },
+    {
+      icon: <FolderIcon className={classes.buttonIcon} />,
+      label: 'Create',
+      action: props.onOpenCreateFolderModal,
+      caption: ' Create new folders in this pod',
+    },
+  ];
 
   return (
     <>
@@ -33,43 +53,18 @@ export const ActionMenu = (props: Props): JSX.Element => {
           className={classes.closeIcon}
           onClick={() => props.onCloseActionMenu()}
         />
-
-        <div className={classes.actionRow}>
-          <div
-            className={classes.actionButton}
-            onClick={() => props.onOpenUploadModal()}
-          >
-            <UploadIcon className={classes.buttonIcon} />
-            Upload
+        {entries.map((option, index) => (
+          <div key={index} className={classes.actionRow}>
+            <div
+              className={classes.actionButton}
+              onClick={() => option.action()}
+            >
+              {option.icon}
+              {option.label}
+            </div>
+            <span className={classes.actionText}>{option.caption}</span>
           </div>
-          <span className={classes.actionText}>
-            Upload Files from your local storage
-          </span>
-        </div>
-        <div className={classes.actionRow}>
-          <div
-            className={classes.actionButton}
-            onClick={() => props.onOpenImportFileModal()}
-          >
-            <ButtonPlus className={classes.buttonIcon} />
-            Import
-          </div>
-          <span className={classes.actionText}>
-            Import file using reference
-          </span>
-        </div>
-        <div className={classes.actionRow}>
-          <div
-            className={classes.actionButton}
-            onClick={() => props.onOpenCreateFolderModal()}
-          >
-            <FolderIcon className={classes.buttonIcon} />
-            Create
-          </div>
-          <span className={classes.actionText}>
-            Create new folders in this pod
-          </span>
-        </div>
+        ))}
       </div>
       <p className={classes.disclaimer}>
         Note: You cannot share contnet that you do not own

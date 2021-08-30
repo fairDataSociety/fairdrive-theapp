@@ -1,24 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
 
 // Hooks
-import useStyles from './uploadStyles';
-
-// Helpers
-import urlPath from 'src/helpers/urlPath';
+import useStyles from '../../rightSidebarStyles';
 
 // Components
-import Modal from '@material-ui/core/Modal';
-import {
-  InfoIcon,
-  Folder,
-  Close,
-  UploadIcon,
-} from 'src/components/icons/icons';
+import { InfoIcon } from 'src/components/icons/icons';
+import UploadDropzone from './partials/uploadIndicatorBlock/uploadIndicatorBlock';
 import UploadProgress from './partials/uploadProgress/uploadProgress';
+import {
+  BaseButton,
+  BUTTON_VARIANTS,
+  BUTTON_SIZE,
+} from 'src/shared/BaseButton/BaseButton';
 
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -26,44 +22,24 @@ export interface Props {
   handleClose?: () => void;
   visible?: boolean;
   filesToUpload?: FileList;
+  callAction: (type: 'upload', payload: FileList) => Promise<void>;
 }
 
-function FilePlaceHolder({ handleFileUpload }) {
+function UploadVariant(props: Props) {
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...theme });
+  const classes = useStyles({ ...props, ...theme });
 
-  const inputFile = useRef(null);
-
-  const onIconClick = () => {
-    // `current` points to the mounted file input element
-    inputFile.current.click();
-  };
-
-  return (
-    <div className={classes.filesPlaceHolder} onClick={onIconClick}>
-      <UploadIcon className={classes.icon} />
-
-      <div className={classes.uploadDescription}>
-        Click or drag here to upload
-      </div>
-      <input
-        className={classes.uploadInput}
-        type="file"
-        ref={inputFile}
-        multiple
-        onChange={(e) => handleFileUpload(e.target.files)}
-      ></input>
-    </div>
-  );
-}
-
-function UploadModal(props: Props) {
-  const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
   const [file, setFile] = useState(null);
-
   const [blob, setBlob] = useState(null);
-  let blobFile;
+
+  const [uploadPayload, setUploadPayload] = useState<FileList | null>(null);
+
+  const availableActions = [
+    {
+      label: 'Upload Content',
+      action: () => props.callAction('upload', uploadPayload),
+    },
+  ];
 
   useEffect(() => {
     if (props.filesToUpload && props.filesToUpload instanceof FileList) {
@@ -71,70 +47,61 @@ function UploadModal(props: Props) {
     }
   }, [props.filesToUpload]);
 
-  async function handleFileUpload(files: FileList) {
+  let blobFile;
+
+  const handleFileUpload = (files: FileList) => {
+    setUploadPayload(files);
+
     Array.from(files).forEach((file) => {
       blobFile = URL.createObjectURL(file);
       setFile(file);
       setBlob(blobFile);
-
-      actions.uploadFile({
-        files,
-        directory: urlPath(state.directory),
-        podName: state.podName,
-      });
     });
-  }
-  useEffect(() => {
-    handleClose();
-  }, [state.entries]);
-
-  const handleClose = async () => {
-    if (open) {
-      URL.revokeObjectURL(blobFile);
-      setBlob(null);
-      setFile(null);
-    }
-
-    props.handleClose();
   };
 
-  const classes = useStyles({ ...props, ...theme });
+  useEffect(() => {
+    () => {
+      if (open) {
+        URL.revokeObjectURL(blobFile);
+        setBlob(null);
+        setFile(null);
+      }
+    };
+  }, []);
 
   return (
-    <Modal
-      className={classes.modalContainer}
-      open={props.visible}
-      onClose={handleClose}
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
-    >
-      <div className={classes.fileModal}>
-        <div className={classes.headerWrapper}>
-          <Folder className={classes.headerIcon} />
-          <div className={classes.header}>Upload File</div>{' '}
-          <Close className={classes.closeIcon} onClick={handleClose} />
-        </div>
-        <div className={classes.divider}></div>
-
-        <div className={classes.iconContainer}>
-          {file && !file.type.includes('image') ? (
-            <>
-              <InfoIcon className={classes.Icon} />
-              <img className={classes.imagePreview} src={blob} alt="img"></img>
-            </>
-          ) : (
-            <FilePlaceHolder handleFileUpload={handleFileUpload} />
-          )}
-        </div>
-
-        <div className={classes.divider}></div>
-
-        <UploadProgress />
-
-        <div className={classes.actionBar}></div>
+    <>
+      <div className={classes.imageContainer}>
+        {file && !file.type.includes('image') ? (
+          <>
+            <InfoIcon />
+            <img src={blob} alt="img" />
+          </>
+        ) : (
+          <UploadDropzone />
+        )}
       </div>
-    </Modal>
+
+      <div className={classes.uploadEntriesWrapper}>
+        <UploadProgress />
+      </div>
+
+      <div className={classes.actionsWrapper}>
+        {availableActions.map((action, index) => (
+          <div key={index} className={classes.action}>
+            <BaseButton
+              variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
+              size={BUTTON_SIZE.MEDIUM}
+              isFluid={true}
+              onClickCallback={() => action.action()}
+            >
+              {action.label}
+            </BaseButton>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
-export default React.memo(UploadModal);
+export default React.memo(UploadVariant);

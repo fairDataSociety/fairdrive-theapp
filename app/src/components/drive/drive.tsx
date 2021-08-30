@@ -17,7 +17,6 @@ import { DriveModalGroup } from './modalGroup/modalGroup';
 
 import CardGrid from 'src/components/cardGrid/cardGrid';
 import FileCard from 'src/components/cards/fileCard';
-import FileModal from 'src/pages/home/partials/rightSidebar/rightSidebar';
 
 import ButtonNavbar from '../buttonNavbar/buttonNavbar';
 import FileList from '../fileList/fileList';

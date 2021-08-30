@@ -4,12 +4,13 @@ const useStyles = makeStyles(() =>
   createStyles({
     imagePreview: {
       width: '100%',
-      height: '45rem',
+      height: 'auto',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       objectFit: 'contain',
       objectPosition: 'top',
+      borderRadius: '8px',
     },
     Icon: {
       width: '8rem',
@@ -19,7 +20,7 @@ const useStyles = makeStyles(() =>
     iconContainer: {
       position: 'relative',
       display: 'inline-block',
-      width: 'auto'
+      width: 'auto',
     },
     mimeType: {
       color: 'white',
@@ -28,7 +29,7 @@ const useStyles = makeStyles(() =>
       textTransform: 'uppercase',
       left: '6px',
       fontSize: '15px',
-    }
+    },
   })
 );
 

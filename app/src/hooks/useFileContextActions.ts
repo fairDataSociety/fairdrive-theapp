@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import writePath from 'src/helpers/writePath';
 import urlPath from 'src/helpers/urlPath';
 
@@ -44,5 +44,13 @@ export function useFileContextActions() {
     }
   };
 
-  return { handleDownload, handleShare, handleDelete };
+  const handleUpload = async (files: FileList): Promise<void> => {
+    await actions.uploadFile({
+      files,
+      directory: urlPath(state.directory),
+      podName: state.podName,
+    });
+  };
+
+  return { handleDownload, handleShare, handleDelete, handleUpload };
 }

@@ -70,9 +70,6 @@ function FileCard(props: Props) {
     }
   }
 
-  const displayFileName =
-    file.name.length > 22 ? shortenTitle(file.name) : file.name;
-
   return (
     <div className={classes.wrapper}>
       <Kebab
@@ -88,7 +85,7 @@ function FileCard(props: Props) {
             file={file}
             isDirectory={props.isDirectory}
             Icon={Icon}
-            heading={displayFileName}
+            heading={shortenTitle(file.name, 22)}
           />
         </div>
         <CardBody

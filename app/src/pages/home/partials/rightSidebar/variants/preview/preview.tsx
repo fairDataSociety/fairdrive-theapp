@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import prettyBytes from 'pretty-bytes';
 
 // Hooks
-import useStyles from './previewStyles';
+import useStyles from '../../rightSidebarStyles';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
@@ -10,9 +10,11 @@ import { StoreContext } from 'src/store/store';
 
 // Components
 import FilePreview from 'src/components/filePreview/filePreview';
-
-// Icons
-import { Download, Hide } from 'src/components/icons/icons';
+import {
+  BaseButton,
+  BUTTON_VARIANTS,
+  BUTTON_SIZE,
+} from 'src/shared/BaseButton/BaseButton';
 
 // Helpers
 import { urlPath, formatDate } from 'src/helpers';
@@ -27,22 +29,25 @@ export interface Props {
 }
 
 const PreviewVariant = (props: Props): JSX.Element => {
-  // General
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...props, ...theme });
+  const classes = useStyles({ ...theme });
 
-  // Methods
-  const displayFileName =
-    props.content.name.length > 22
-      ? shortenTitle(props.content.name)
-      : props.content.name;
+  const metadata = [
+    { label: 'File size', value: prettyBytes(parseInt(props.content.size)) },
+    { label: 'File type', value: props.content.content_type },
+    { label: 'Created', value: formatDate(props.content.creation_time) },
+    { label: 'Modified', value: formatDate(props.content.modification_time) },
+  ];
+
+  const availableActions = [
+    { label: 'Delete', action: () => props.callAction('delete') },
+    { label: 'Download', action: () => props.callAction('download') },
+  ];
 
   return (
     <>
-      <div className={classes.divider}></div>
-
-      <div className={classes.iconContainer}>
+      <div className={classes.imageContainer}>
         <FilePreview
           file={props.content}
           contentType={props.content.content_type}
@@ -51,48 +56,34 @@ const PreviewVariant = (props: Props): JSX.Element => {
           podName={state.podName}
         />
       </div>
-      <div className={classes.divider}></div>
+
       <div className={classes.titleWrapper}>
-        <p className={classes.title}>{displayFileName}</p>
+        <p className={classes.title}>{shortenTitle(props.content.name, 22)}</p>
         <p className={classes.fileLocation}>{'/' + urlPath(state.directory)}</p>
       </div>
-      <div className={classes.fileInfoContainer}>
-        <div className={classes.leftContainer}>
-          <div className={classes.pair}>
-            <p className={classes.label}>File size</p>
-            <p className={classes.value}>
-              {prettyBytes(parseInt(props.content.size))}
-            </p>
+
+      <div className={classes.detailsWrapper}>
+        {metadata.map((field, index) => (
+          <div key={index} className={classes.details}>
+            <p className={classes.label}>{field.label}</p>
+            <p className={classes.value}>{field.value}</p>
           </div>
-          <div>
-            <p className={classes.label}>Created</p>
-            <p className={classes.value}>
-              {formatDate(props.content.creation_time)}
-            </p>
-          </div>
-        </div>
-        <div className={classes.rightContainer}>
-          <div className={classes.pair}>
-            <p className={classes.label}>Modified</p>
-            <p className={classes.value}>
-              {formatDate(props.content.modification_time)}
-            </p>
-          </div>
-          <div>
-            <p className={classes.label}>File type</p>
-            <p className={classes.value}>{props.content.content_type}</p>
-          </div>
-        </div>
+        ))}
       </div>
-      <div className={classes.actionBar}>
-        <Hide
-          className={classes.icon}
-          onClick={() => props.callAction('delete')}
-        />
-        <Download
-          className={classes.icon}
-          onClick={() => props.callAction('download')}
-        />
+
+      <div className={classes.actionsWrapper}>
+        {availableActions.map((action, index) => (
+          <div key={index} className={classes.action}>
+            <BaseButton
+              variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
+              size={BUTTON_SIZE.MEDIUM}
+              isFluid={true}
+              onClickCallback={() => action.action()}
+            >
+              {action.label}
+            </BaseButton>
+          </div>
+        ))}
       </div>
     </>
   );

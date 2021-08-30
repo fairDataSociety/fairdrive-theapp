@@ -21,7 +21,7 @@ const useStyles = makeStyles(() =>
         background: (style: Props & Theme) => style.backgroundLight2,
         font: (style: Props & Theme) => style.typography.caption3,
       },
-      ':disabled': {
+      '&:disabled': {
         cursor: 'not-allowed',
         border: (style: Props & Theme) => `1px solid ${style.backgroundDark3}`,
         background: (style: Props & Theme) => style.backgroundDark4,
@@ -36,7 +36,7 @@ const useStyles = makeStyles(() =>
     },
     primary_outlined: {
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight2}`,
-      background: (style: Props & Theme) => style.backgroundDark,
+      background: 'transparent',
       color: (style: Props & Theme) => style.backgroundLight1,
       font: (style: Props & Theme) => style.typography.caption1,
 
