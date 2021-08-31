@@ -14,6 +14,11 @@ interface UserStats {
   avatar: string;
 }
 
+export interface FilesUploadedStatus {
+  requestId: string;
+  filename: string;
+  status: 'failed' | 'pending' | 'success';
+}
 export interface State {
   token: string;
   sessionCookie: string;
@@ -22,7 +27,6 @@ export interface State {
   fileDeleted: any;
   folderDeleted: any;
   podDeleted: any;
-  fileUploaded: any;
   showPasswordUnlock: boolean;
   hasUser: boolean;
   password: string;
@@ -42,6 +46,7 @@ export interface State {
   userStats: UserStats;
   isPrivatePod: boolean;
   flags: Flags;
+  fileUploadedStatus: FilesUploadedStatus[];
   fileUploadProgress: Array<{
     progressEvent: ProgressEvent;
     cancelFn: CancelTokenSource;

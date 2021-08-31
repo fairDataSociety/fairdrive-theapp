@@ -49,7 +49,7 @@ const useStyles = makeStyles(() =>
       '&:disabled': {
         cursor: 'not-allowed',
         border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
-        background: (style: Props & Theme) => style.backgroundDark,
+        background: 'transparent',
         color: (style: Props & Theme) => style.backgroundLight3,
         font: (style: Props & Theme) => style.typography.caption1,
       },

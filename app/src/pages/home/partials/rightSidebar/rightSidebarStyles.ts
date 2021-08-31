@@ -115,7 +115,8 @@ const useStyles = makeStyles(() =>
       width: '100%',
       margin: '0',
       padding: '0',
-      height: '280px',
+      height: '100%',
+      maxHeight: '200px',
       overflowY: 'auto',
     },
     draggedFilesItem: {
@@ -140,6 +141,10 @@ const useStyles = makeStyles(() =>
     },
     draggedFilesCaption: {
       fontSize: 'small',
+    },
+    draggedFilesNoFilesChoosen: {
+      textAlign: 'center',
+      color: (style: Theme) => style.backgroundLight1,
     },
   })
 );

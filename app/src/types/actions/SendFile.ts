@@ -2,7 +2,7 @@ import { BaseAction } from './core/BaseAction';
 import { ActionEnum } from './core/ActionsEnum';
 import { AxiosResponse, CancelTokenSource } from 'axios';
 import { UploadFilePayload } from 'src/services/file/upload';
-
+import { FilesUploadedStatus } from './core/State';
 export interface ActionSendFileRequest extends BaseAction {
   type: ActionEnum.SEND_FILE_REQUEST;
   payload: UploadFilePayload;
@@ -25,10 +25,10 @@ export interface ActionSendFileRemoveFileUploadProgress extends BaseAction {
 
 export interface ActionSendFileSuccess extends BaseAction {
   type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS;
-  payload: AxiosResponse<any>;
+  payload: FilesUploadedStatus;
 }
 
 export interface ActionSendFileFailed extends BaseAction {
   type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED;
-  payload: string;
+  payload: FilesUploadedStatus;
 }

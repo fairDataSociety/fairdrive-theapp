@@ -128,7 +128,6 @@ export const applyMiddleware =
 
             await Promise.all(
               files.map(async (file) => {
-                console.log('upload', file.name);
                 const temporaryPayload: typeof action.payload = {
                   files: [file],
                   podName: podName,
@@ -155,12 +154,24 @@ export const applyMiddleware =
                     toast.error(
                       `Something went wrong with uploading ${response.file_name}`
                     );
+                    dispatch({
+                      type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
+                      payload: {
+                        requestId: requestId,
+                        filename: file.name,
+                        status: 'failed',
+                      },
+                    });
+                  } else {
+                    dispatch({
+                      type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
+                      payload: {
+                        requestId: requestId,
+                        filename: file.name,
+                        status: 'success',
+                      },
+                    });
                   }
-                });
-
-                dispatch({
-                  type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
-                  payload: uploadRequest,
                 });
 
                 setTimeout(() => {
@@ -173,8 +184,6 @@ export const applyMiddleware =
                 console.log('upload', file.name, 'done');
               })
             );
-
-            console.log('uploading dooooone');
           } catch (error) {
             toast.error('Something went wrong with uploading');
             dispatch({

@@ -130,10 +130,10 @@ function Drive(props: Props) {
   // On depandency change reload data
   useEffect(() => {
     loadDirectory();
-    state.fileUploaded = false;
+    // state.fileUploaded = false;
     state.searchQuery = null;
   }, [
-    state.fileUploaded,
+    // state.fileUploaded,
     state.directory,
     responseCreation,
     state.fileDeleted,

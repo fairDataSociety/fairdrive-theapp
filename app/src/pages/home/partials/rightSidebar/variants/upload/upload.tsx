@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { StoreContext } from 'src/store/store';
 
 // Hooks
 import useStyles from '../../rightSidebarStyles';
@@ -9,6 +10,7 @@ import useStyles from '../../rightSidebarStyles';
 // Components
 import UploadDropzone from './partials/uploadIndicatorBlock/uploadIndicatorBlock';
 import UploadQueryWithProgress from './partials/uploadProgress/uploadProgress';
+import UploadQueue from './partials/uploadQueue/uploadQueue';
 import {
   BaseButton,
   BUTTON_VARIANTS,
@@ -21,6 +23,7 @@ export interface Props {
 
 function UploadVariant(props: Props) {
   // Global
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -31,8 +34,21 @@ function UploadVariant(props: Props) {
     {
       label: 'Upload Content',
       action: () => props.callAction('upload', uploadPayload),
+      isDisabled: () => isUploadPayloadEmpty() || areAnyUploadsInProgress(),
     },
   ];
+
+  const areAnyUploadsInProgress = (): boolean =>
+    state.fileUploadProgress.length > 0;
+
+  const isUploadPayloadEmpty = (): boolean => uploadPayload.length === 0;
+
+  // When upload begin, clean selected files
+  useEffect(() => {
+    if (areAnyUploadsInProgress()) {
+      setUploadPayload([]);
+    }
+  }, [state.fileUploadProgress]);
 
   // Manage selected files
   const removeFile = (index: number): void => {
@@ -54,9 +70,14 @@ function UploadVariant(props: Props) {
       </div>
 
       <div className={classes.uploadEntriesWrapper}>
-        <UploadQueryWithProgress
-          removeFile={(fileIndex) => removeFile(fileIndex)}
-        />
+        {areAnyUploadsInProgress() ? (
+          <UploadQueryWithProgress />
+        ) : (
+          <UploadQueue
+            selectedFiles={uploadPayload}
+            removeFile={(fileIndex) => removeFile(fileIndex)}
+          />
+        )}
       </div>
 
       <div className={classes.actionsWrapper}>
@@ -66,6 +87,7 @@ function UploadVariant(props: Props) {
               variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
               size={BUTTON_SIZE.MEDIUM}
               isFluid={true}
+              isDisabled={action.isDisabled()}
               onClickCallback={() => action.action()}
             >
               {action.label}
