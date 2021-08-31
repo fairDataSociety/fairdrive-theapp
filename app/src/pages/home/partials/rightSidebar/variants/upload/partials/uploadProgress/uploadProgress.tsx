@@ -23,7 +23,7 @@ function UploadQueryWithProgress() {
           (request.progressEvent.loaded * 100) / request.progressEvent.total
         );
 
-        const complete = percentage === 100;
+        const complete = () => percentage === 100;
 
         return (
           <div key={request.requestId} className={classes.progressItem}>
@@ -46,7 +46,7 @@ function UploadQueryWithProgress() {
                   actions.cancelUpload(request.requestId);
                 }}
               >
-                {complete ? (
+                {complete() ? (
                   <Success className={classes.successIcon} />
                 ) : (
                   <Fail className={classes.cancelIcon} />
