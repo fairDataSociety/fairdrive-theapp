@@ -6,6 +6,8 @@ const useStyles = makeStyles(() =>
   createStyles({
     midWrapper: {
       padding: '2rem 2rem 0rem 0rem',
+      //marginBottom: "2rem",
+      marginLeft: '1.6rem',
       margin: '20px 0 20px 0',
       display: 'flex',
       position: 'relative',
@@ -100,7 +102,8 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       alignItems: 'center',
       gap: '5px',
-      marginRight: '1rem',
+      height: '5rem',
+      margin: '1rem',
       minWidth: '8rem',
       maxWidth: '25rem',
       overflow: 'auto',
