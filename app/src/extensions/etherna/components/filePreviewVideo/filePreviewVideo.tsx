@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import useStyles from './filePreviewVideoStyles';
-import { ReactComponent as Spinner } from '../../../../media/UI/spinner.svg';
-import { ReactComponent as Play } from '../../../../media/UI/play.svg';
+import { ReactComponent as Spinner } from 'src/media/UI/spinner.svg';
+import { ReactComponent as Play } from 'src/media/UI/play.svg';
 import { ReactComponent as Logo } from './logo.svg';
 
 import SwarmImg from '../swarmImg';
@@ -10,7 +10,7 @@ import VideoStats from '../videoStats/videoStats';
 import SwarmImageReader from '../../classes/swarm-image/swarm-image-reader';
 import VideoResolver from '../../classes/video-resolver/video-resolver';
 import { Video } from '../../classes/video-resolver/types';
-import { filePreview } from '../../../../store/services/fairOS';
+import { previewFile } from 'src/services/file';
 
 interface Props {
   filename: string;
@@ -62,7 +62,7 @@ const FilePreviewVideo = ({
       );
     }
 
-    const preview = await filePreview(filename, directory, podName);
+    const preview = await previewFile(filename, directory, podName);
     setVideoSrc(window.URL.createObjectURL(preview));
 
     setIsLoading(false);

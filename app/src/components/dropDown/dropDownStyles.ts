@@ -1,11 +1,11 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '../../store/themeContext/themes';
+import { Theme } from 'src/contexts/themeContext/themes';
 import { Props } from './dropDown';
 
 const useStyles = makeStyles(() =>
   createStyles({
     wrapper: {
-      position: "absolute",
+      position: 'absolute',
       backgroundColor: (style: Props & Theme) => style.backgroundDark1,
       font: (style: Props & Theme) => style.typography.body3,
       width: (style: Props & Theme) => {
@@ -33,7 +33,7 @@ const useStyles = makeStyles(() =>
     heading: {
       color: (style: Theme & Props) => style.textColorPrimary,
       font: (style: Theme & Props) => style.typography.body3,
-      marginBottom: "2rem",
+      marginBottom: '2rem',
     },
     subheading: {
       color: (style: Theme & Props) => style.textColorPrimary,

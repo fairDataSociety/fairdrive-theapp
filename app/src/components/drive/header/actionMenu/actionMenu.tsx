@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
+
 // Contexts
-import { ThemeContext } from '../../../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Icons
 import {
@@ -8,7 +9,7 @@ import {
   ButtonPlus,
   Close as CloseIcon,
   Folder as FolderIcon,
-} from '../../../../components/icons/icons';
+} from 'src/components/icons/icons';
 
 // Hooks
 import useStyles from './actionMenuStyles';

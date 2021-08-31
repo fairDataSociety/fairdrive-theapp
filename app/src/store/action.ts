@@ -1,112 +1,116 @@
-import { ACTION_TYPES, TUseActions, } from "./actionTypes";
+import { ActionEnum } from 'src/types/actions/core/ActionsEnum';
+import { UseActions } from 'src/types/actions/core/UseActions';
 
-export const useActions: TUseActions = (state, dispatch) => ({
+export const useActions: UseActions = (state, dispatch) => ({
   userLogin: (data) => {
     dispatch({
-      type: ACTION_TYPES.LOGIN_USER.USER_LOGIN_REQUEST,
+      type: ActionEnum.USER_LOGIN_REQUEST,
       payload: data,
     });
     dispatch({
-      type: ACTION_TYPES.LOGIN_USER.USER_LOGIN_PENDING,
+      type: ActionEnum.USER_LOGIN_PENDING,
+      payload: undefined,
     });
   },
   userLogout: () => {
     dispatch({
-      type: ACTION_TYPES.LOG_OUT_USER.USER_LOG_OUT_REQUEST,
-      payload: "",
+      type: ActionEnum.USER_LOG_OUT_REQUEST,
+      payload: undefined,
     });
   },
   uploadFile: (data) => {
     dispatch({
-      type: ACTION_TYPES.SEND_FILE.SEND_FILE_REQUEST,
+      type: ActionEnum.SEND_FILE_REQUEST,
       payload: data,
     });
   },
   deleteFile: (data) => {
     dispatch({
-      type: ACTION_TYPES.DELETE_FILE.DELETE_FILE_REQUEST,
+      type: ActionEnum.DELETE_FILE_REQUEST,
       payload: data,
     });
   },
   deleteFolder: (data) => {
     dispatch({
-      type: ACTION_TYPES.DELETE_FOLDER.DELETE_FOLDER_REQUEST,
+      type: ActionEnum.DELETE_FOLDER_REQUEST,
       payload: data,
     });
   },
   deletePod: (data) => {
     dispatch({
-      type: ACTION_TYPES.DELETE_POD.DELETE_POD_REQUEST,
+      type: ActionEnum.DELETE_POD_REQUEST,
       payload: data,
     });
   },
   cancelUpload: (requestId: string) => {
     dispatch({
-      type: ACTION_TYPES.SEND_FILE.REMOVE_FILE_UPLOAD_PROGRESS,
+      type: ActionEnum.SEND_FILE_REMOVE_FILE_UPLOAD_PROGRESS,
       payload: requestId,
     });
   },
   getDirectory: (data) => {
     dispatch({
-      type: ACTION_TYPES.GET_DIRECTORY.GET_DIRECTORY_REQUEST,
+      type: ActionEnum.GET_DIRECTORY_REQUEST,
       payload: data,
     });
   },
   setPrivatePod: (data) => {
     dispatch({
-      type: ACTION_TYPES.SET_PRIVATE_POD,
+      type: ActionEnum.SET_PRIVATE_POD,
       payload: data,
     });
   },
   storeUserRegistrationInfo: (data) => {
     dispatch({
-      type: ACTION_TYPES.STORE_USER_REGISTRATION_INFO,
+      type: ActionEnum.STORE_USER_REGISTRATION_INFO,
       payload: data,
     });
   },
-  getSeedPhrase: (data) => {
+  getSeedPhrase: () => {
     dispatch({
-      type: ACTION_TYPES.SEED_PHRASE.SEED_PHRASE_REQUEST,
-      payload: data,
+      type: ActionEnum.SEED_PHRASE_REQUEST,
+      payload: undefined,
     });
   },
   createUser: (data) => {
     dispatch({
-      type: ACTION_TYPES.CREATE_USER.CREATE_USER_REQUEST,
+      type: ActionEnum.CREATE_USER_REQUEST,
       payload: data,
     });
   },
   setSearchQuery: (data) => {
     dispatch({
-      type: ACTION_TYPES.SET_SEARCH_QUERY,
+      type: ActionEnum.SET_SEARCH_QUERY,
       payload: data,
     });
   },
   setDirectory: (data) => {
     dispatch({
-      type: ACTION_TYPES.SET_DIRECTORY,
+      type: ActionEnum.SET_DIRECTORY,
       payload: data,
     });
   },
   getPods: () => {
     dispatch({
-      type: ACTION_TYPES.GET_PODS.GET_PODS_REQUEST,
+      type: ActionEnum.GET_PODS_REQUEST,
+      payload: undefined,
     });
   },
   getUserStats: () => {
     dispatch({
-      type: ACTION_TYPES.GET_USER_STATS.GET_USER_STATS_REQUEST,
+      type: ActionEnum.GET_USER_STATS_REQUEST,
+      payload: undefined,
     });
   },
   openPod: (data) => {
     dispatch({
-      type: ACTION_TYPES.OPEN_POD.OPEN_POD_REQUEST,
+      type: ActionEnum.OPEN_POD_REQUEST,
       payload: data,
     });
   },
   setPodName: (data) => {
     dispatch({
-      type: ACTION_TYPES.SET_POD_NAME,
+      type: ActionEnum.SET_POD_NAME,
       payload: data,
     });
   },

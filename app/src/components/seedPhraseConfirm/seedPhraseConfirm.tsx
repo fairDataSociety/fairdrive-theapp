@@ -1,17 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from '../../store/store';
 import useStyles from '../register/registerStyles';
 import ButtonPill from '../buttonPill/buttonPill';
 
 import TextField from '../textField/textField';
-import {
-  createAccount,
-  // createDirectory,
-  // createPod,
-  // userLoggedIn,
-} from '../../store/services/fairOS';
-export interface Props {}
+import { createAccount } from 'src/services/account';
 
 function SeedPhraseConfirm() {
   const { state, actions } = useContext(StoreContext);

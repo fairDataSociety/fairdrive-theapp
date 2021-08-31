@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Store
-import { StoreContext } from '../../store/store';
-import {
-  createDirectory,
-  receiveFileInfo,
-  sharePod,
-} from 'src/store/services/fairOS';
+import { StoreContext } from 'src/store/store';
+import { receiveFileInfo } from 'src/services/file';
+
+import { sharePod } from 'src/services/pod';
+
+import { createDirectory } from 'src/services/directory';
 
 // Components
 import { DriveHeader } from './header/driveHeader';
 import { DriveModalGroup } from './modalGroup/modalGroup';
 
-import CardGrid from '../../components/cardGrid/cardGrid';
-import FileCard from '../../components/cards/fileCard';
-import FileModal from '../../components/fileModal/fileModal';
+import CardGrid from 'src/components/cardGrid/cardGrid';
+import FileCard from 'src/components/cards/fileCard';
+import FileModal from 'src/components/fileModal/fileModal';
 
 import ButtonNavbar from '../buttonNavbar/buttonNavbar';
 import FileList from '../fileList/fileList';
@@ -26,14 +26,15 @@ import GenerateLink from '../modals/generateLink/generateLink';
 
 // Hooks and helpers
 import useStyles from './driveStyles';
-import { sortyByCurrentFilter } from '../../store/helpers/sort';
+import { sortyByCurrentFilter } from 'src/helpers/sort';
 
 // Types
-import { IFile } from '../../types/models/File';
-import { IDirectory } from '../../types/models/Directory';
+import { IFile } from 'src/types/models/File';
+import { IDirectory } from 'src/types/models/Directory';
+import { State, StateTagsEnum } from 'src/types/drive-state-machine/State';
 
 // Icons
-import { Search as SearchIcon } from '../../components/icons/icons';
+import { Search as SearchIcon } from 'src/components/icons/icons';
 export interface Props {
   isPodBarOpen: boolean;
 }
@@ -47,9 +48,46 @@ export type TCurrentFilter =
   | 'descending-abc';
 
 function Drive(props: Props) {
+  // Contexts
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
+
+  // Manage state machine
+  const [machineTag, setMachineTag] = useState<State>({
+    tag: StateTagsEnum.INITIAL,
+  });
+
+  // Detect when pod if any pod is opened
+  useEffect(() => {
+    setMachineTag({
+      tag:
+        state.podsOpened.length > 0
+          ? StateTagsEnum.POD_OPENED
+          : StateTagsEnum.INITIAL,
+    });
+  }, [state.podsOpened]);
+
+  // Detect if directory other than root is opened
+  useEffect(() => {
+    if (state.directory !== 'root') {
+      setMachineTag({ tag: StateTagsEnum.DIRECTORY_OPENED });
+    }
+    if (machineTag.tag === StateTagsEnum.DIRECTORY_OPENED) {
+      setMachineTag({ tag: StateTagsEnum.POD_OPENED });
+    }
+  }, [state.directory]);
+
+  const isTagOtherThanInitial = () => machineTag.tag !== StateTagsEnum.INITIAL;
+
+  const chooseProperEmptyMessage = () => {
+    if (machineTag.tag === StateTagsEnum.POD_OPENED) {
+      return 'This Pod is empty.';
+    }
+    if (machineTag.tag === StateTagsEnum.DIRECTORY_OPENED) {
+      return 'This Directory is empty.';
+    }
+  };
 
   // Local store of files and directories
   const [files, setFiles] = useState<IFile[] | null>([]);
@@ -81,10 +119,8 @@ function Drive(props: Props) {
         setFolders(null);
         actions.getDirectory({
           directory: state.directory,
-          password: state.password,
           podName: state.podName,
         });
-        console.log(state.dirs);
       }
     } catch (e) {
       console.log(e);
@@ -175,102 +211,111 @@ function Drive(props: Props) {
   const isFoldersNotEmpty = () => folders && folders.length > 0;
 
   return (
-    <div className={classes.Drive}>
-      {/* Needs to go into buttonNavbar component */}
-      {showSharePodPopup && refLink && (
-        <GenerateLink
-          handleClose={() => setShowSharePodPopup(false)}
-          link={refLink}
-          variant="share"
-          notifyMessage="Share this Pod with a friend via this reference"
-        />
-      )}
-      <div className={classes.navBarWrapper}>
-        <ButtonNavbar
-          showGrid={showGrid}
-          setShowGrid={setShowGrid}
-          handleShare={handleShare}
-          currentFilter={currentFilter}
-          setCurrentFilter={(selectedFilter) =>
-            setCurrentFilter(selectedFilter)
-          }
-        />
-      </div>
+    <>
+      {isTagOtherThanInitial() && (
+        <div className={classes.Drive}>
+          {/* Needs to go into buttonNavbar component */}
+          {showSharePodPopup && refLink && (
+            <GenerateLink
+              handleClose={() => setShowSharePodPopup(false)}
+              link={refLink}
+              variant="share"
+              notifyMessage="Share this Pod with a friend via this reference"
+            />
+          )}
+          <div className={classes.navBarWrapper}>
+            <ButtonNavbar
+              showGrid={showGrid}
+              setShowGrid={setShowGrid}
+              handleShare={handleShare}
+              currentFilter={currentFilter}
+              setCurrentFilter={(selectedFilter) =>
+                setCurrentFilter(selectedFilter)
+              }
+            />
+          </div>
 
-      {state.podName !== '' && (
-        <DriveHeader
-          isSearchResults={isSearchQuerySetted()}
-          isPrivatePod={state.isPrivatePod}
-          onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
-          onOpenImportFileModal={() => setIsImportFileModalVisible(true)}
-          onOpenUploadModal={() => setIsUploadFileModalVisible(true)}
-        />
-      )}
+          <div className={classes.layoutContent}>
+            {state.podName !== '' && (
+              <DriveHeader
+                isSearchResults={isSearchQuerySetted()}
+                isPrivatePod={state.isPrivatePod}
+                onOpenCreateFolderModal={() =>
+                  setIsCreateFolderModalVisible(true)
+                }
+                onOpenImportFileModal={() => setIsImportFileModalVisible(true)}
+                onOpenUploadModal={() => setIsUploadFileModalVisible(true)}
+              />
+            )}
 
-      {isSearchQuerySetted() && (
-        <div className={classes.searchDivider}>
-          <SearchIcon className={classes.searchIcon} />
-          <span>{state.searchQuery}</span>
+            {isSearchQuerySetted() && (
+              <div className={classes.searchDivider}>
+                <SearchIcon className={classes.searchIcon} />
+                <span>{state.searchQuery}</span>
+              </div>
+            )}
+
+            {/* TODO: Migrate below props to 3 object props each for individual modal. Less mess. */}
+            <DriveModalGroup
+              folderName={folderName}
+              setFolderName={(newFolderName) => setFolderName(newFolderName)}
+              fileName={fileName}
+              setFileName={(newFileName) => setFileName(newFileName)}
+              onCreateNewFolder={createNewFolder}
+              onCreateNewFile={createNewfile}
+              isCreateFolderModalVisible={isCreateFolderModalVisible}
+              isImportFileModalVisible={isImportFileModalVisible}
+              isUploadFileModalVisible={isUploadFileModalVisible}
+              onCloseCreateFolderModal={() =>
+                setIsCreateFolderModalVisible(false)
+              }
+              onCloseImportFileModal={() => setIsImportFileModalVisible(false)}
+              onCloseUploadFileModal={() => setIsUploadFileModalVisible(false)}
+            />
+
+            {isFilesNotEmpty() || isFoldersNotEmpty() ? (
+              showGrid ? (
+                <CardGrid className={classes.cardGrid}>
+                  {state.dirs &&
+                    sortyByCurrentFilter(folders, currentFilter).map(
+                      (dir: IDirectory, index) => (
+                        <FileCard
+                          key={`${dir.name}_${index}`}
+                          file={dir}
+                          isDirectory={true}
+                        />
+                      )
+                    )}
+
+                  {state.entries &&
+                    sortyByCurrentFilter(files, currentFilter).map(
+                      (file: IFile, index) => (
+                        <FileModal key={`${file.name}_${index}`} file={file} />
+                      )
+                    )}
+
+                  {!!state.dirs ||
+                    !!state.entries ||
+                    (state.entries === undefined &&
+                      state.dirs === undefined && <div>Loading files..</div>)}
+                </CardGrid>
+              ) : (
+                <FileList
+                  currentFilter={currentFilter}
+                  isPodBarOpen={props.isPodBarOpen}
+                ></FileList>
+              )
+            ) : (
+              <p className={classes.noSearchQueryMatches}>
+                {isSearchQuerySetted()
+                  ? 'Sorry, no entries match search query'
+                  : chooseProperEmptyMessage()}
+              </p>
+            )}
+          </div>
         </div>
       )}
-
-      {/* TODO: Migrate below props to 3 object props each for individual modal. Less mess. */}
-      <DriveModalGroup
-        folderName={folderName}
-        setFolderName={(newFolderName) => setFolderName(newFolderName)}
-        fileName={fileName}
-        setFileName={(newFileName) => setFileName(newFileName)}
-        onCreateNewFolder={createNewFolder}
-        onCreateNewFile={createNewfile}
-        isCreateFolderModalVisible={isCreateFolderModalVisible}
-        isImportFileModalVisible={isImportFileModalVisible}
-        isUploadFileModalVisible={isUploadFileModalVisible}
-        onCloseCreateFolderModal={() => setIsCreateFolderModalVisible(false)}
-        onCloseImportFileModal={() => setIsImportFileModalVisible(false)}
-        onCloseUploadFileModal={() => setIsUploadFileModalVisible(false)}
-      />
-
-      {isFilesNotEmpty() || isFoldersNotEmpty() ? (
-        showGrid ? (
-          <CardGrid className={classes.cardGrid}>
-            {state.dirs &&
-              sortyByCurrentFilter(folders, currentFilter).map(
-                (dir: IDirectory, index) => (
-                  <FileCard
-                    key={`${dir.name}_${index}`}
-                    file={dir}
-                    isDirectory={true}
-                  />
-                )
-              )}
-
-            {state.entries &&
-              sortyByCurrentFilter(files, currentFilter).map(
-                (file: IFile, index) => (
-                  <FileModal key={`${file.name}_${index}`} file={file} />
-                )
-              )}
-
-            {!!state.dirs ||
-              !!state.entries ||
-              (state.entries === undefined && state.dirs === undefined && (
-                <div>Loading files..</div>
-              ))}
-          </CardGrid>
-        ) : (
-          <FileList
-            currentFilter={currentFilter}
-            isPodBarOpen={props.isPodBarOpen}
-          ></FileList>
-        )
-      ) : (
-        <p className={classes.noSearchQueryMatches}>
-          {isSearchQuerySetted()
-            ? 'Sorry, no entries match search query'
-            : 'This Pod is empty.'}
-        </p>
-      )}
-    </div>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from '../../store/store';
 import useStyles from './registerStyles';
 import ButtonPill from '../buttonPill/buttonPill';
@@ -15,8 +15,8 @@ function Register(props: Props) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // eslint-disable-next-line
-  const [inviteCode, setInviteCode] = useState('');
+
+  const [inviteCode] = useState('');
 
   const [hasError, setHasError] = useState(false);
   const [showRegisterArea, setShowRegisterArea] = useState(true);
@@ -44,13 +44,14 @@ function Register(props: Props) {
     };
 
     actions.storeUserRegistrationInfo(data);
-    actions.getSeedPhrase({});
+    actions.getSeedPhrase();
   }
 
   return (
     <div className={classes.Login}>
-      <img src={welcomeImage} alt="alt"></img>
-
+      <div className={classes.imageContainer}>
+        <img src={welcomeImage} alt="alt" className={classes.image} />
+      </div>
       {showRegisterArea && (
         <div className={classes.registerContainer}>
           <div className={classes.title}>Account Credentials</div>

@@ -1,34 +1,62 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
-import { StoreContext } from '../../store/store';
 import useStyles from './uploadModalStyles';
 import Modal from '@material-ui/core/Modal';
 import { InfoIcon, Folder, Close, UploadIcon } from '../icons/icons';
-import urlPath from 'src/store/helpers/urlPath';
 import UploadModalProgress from '../uploadModalProgress/uploadModalProgress';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { StoreContext } from 'src/store/store';
+import urlPath from 'src/helpers/urlPath';
 
 export interface Props {
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   downloadFile?: boolean;
-  isModalVisible: boolean;
-  onCloseModal: () => void;
-  handleUploadModal?: (value) => void;
+  handleClose?: () => void;
+  visible?: boolean;
+  filesToUpload?: FileList;
 }
 
-function UploadModal(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+function FilePlaceHolder({ handleFileUpload }) {
   const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...theme });
 
-  const [file, setFile] = useState(null);
-
-  const [blob, setBlob] = useState(null);
-  let blobFile;
   const inputFile = useRef(null);
 
   const onIconClick = () => {
     // `current` points to the mounted file input element
     inputFile.current.click();
   };
+
+  return (
+    <div className={classes.filesPlaceHolder} onClick={onIconClick}>
+      <UploadIcon className={classes.icon} />
+
+      <div className={classes.uploadDescription}>
+        Click or drag here to upload
+      </div>
+      <input
+        className={classes.uploadInput}
+        type="file"
+        ref={inputFile}
+        multiple
+        onChange={(e) => handleFileUpload(e.target.files)}
+      ></input>
+    </div>
+  );
+}
+
+function UploadModal(props: Props) {
+  const { state, actions } = useContext(StoreContext);
+  const { theme } = useContext(ThemeContext);
+  const [file, setFile] = useState(null);
+
+  const [blob, setBlob] = useState(null);
+  let blobFile;
+
+  useEffect(() => {
+    if (props.filesToUpload && props.filesToUpload instanceof FileList) {
+      handleFileUpload(props.filesToUpload);
+    }
+  }, [props.filesToUpload]);
 
   async function handleFileUpload(files: FileList) {
     Array.from(files).forEach((file) => {
@@ -51,8 +79,10 @@ function UploadModal(props: Props) {
     if (open) {
       URL.revokeObjectURL(blobFile);
       setBlob(null);
-      props.onCloseModal();
+      setFile(null);
     }
+
+    props.handleClose();
   };
 
   const classes = useStyles({ ...props, ...theme });
@@ -60,7 +90,7 @@ function UploadModal(props: Props) {
   return (
     <Modal
       className={classes.modalContainer}
-      open={props.isModalVisible}
+      open={props.visible}
       onClose={handleClose}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
@@ -74,28 +104,21 @@ function UploadModal(props: Props) {
         <div className={classes.divider}></div>
 
         <div className={classes.iconContainer}>
-          {file && !file.type.includes('image') && (
-            <InfoIcon className={classes.Icon} />
-          )}
-          {file && file.type.includes('image') && (
-            <img className={classes.imagePreview} src={blob} alt="img"></img>
+          {file && !file.type.includes('image') ? (
+            <>
+              <InfoIcon className={classes.Icon} />
+              <img className={classes.imagePreview} src={blob} alt="img"></img>
+            </>
+          ) : (
+            <FilePlaceHolder handleFileUpload={handleFileUpload} />
           )}
         </div>
-
-        <UploadModalProgress />
 
         <div className={classes.divider}></div>
 
-        <div className={classes.actionBar}>
-          <UploadIcon className={classes.icon} onClick={onIconClick} />
-          <input
-            className={classes.uploadInput}
-            type="file"
-            ref={inputFile}
-            multiple
-            onChange={(e) => handleFileUpload(e.target.files)}
-          ></input>
-        </div>
+        <UploadModalProgress />
+
+        <div className={classes.actionBar}></div>
       </div>
     </Modal>
   );

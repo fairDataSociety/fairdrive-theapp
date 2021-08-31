@@ -1,27 +1,27 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Theme } from '../../store/themeContext/themes';
+import { Theme } from 'src/contexts/themeContext/themes';
 import { Props } from './uploadModal';
 
 const useStyles = makeStyles(() =>
   createStyles({
     modalContainer: {
       height: 'auto',
-      width: '50rem',
+      width: '40rem',
       display: 'flex',
       overflow: 'hidden',
       position: 'relative',
-      marginLeft: 'calc(100% - 45rem)',
+      marginLeft: 'calc(100% - 40rem)',
       overflowX: 'hidden',
       overflowY: 'auto',
       flexDirection: 'column',
     },
     fileModal: {
-      padding: '0rem 3.5rem 3.5rem 3.5rem',
+      padding: '5rem',
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       color: (style: Props & Theme) => style.textColorPrimary,
       border: (style: Props & Theme) => `1px solid ${style.backgroundDark3}`,
       height: '100%',
-      width: '45rem',
+      width: '40rem',
       margin: '0rem',
       justifyContent: 'flex-end',
       textAlign: 'center',
@@ -30,7 +30,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'left',
       // cursor: 'pointer',
       overflowX: 'hidden',
-      right: '25rem',
+      right: (props: Props & Theme) => (props.visible ? '25rem' : '0rem'),
       transitionProperty: 'right',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
@@ -55,27 +55,21 @@ const useStyles = makeStyles(() =>
       color: (style: Props & Theme) => style.textColorSecondary,
     },
     headerWrapper: {
-      padding: '2rem 2rem 2rem 0rem',
-      width: '100%',
       flexDirection: 'row',
-      //marginBottom: "2rem",
-      height: '4rem',
       display: 'flex',
       position: 'relative',
-      marginBottom: '4rem',
+      marginBottom: '1.5rem',
       textAlign: 'left',
+      alignItems: 'center',
     },
     header: {
-      font: (style: Props & Theme) => style.typography.body1,
-      //margin: "2rem 1.5rem 2rem 0rem",
+      fontSize: '2rem',
       float: 'left',
       width: '90%',
-      margin: '1.5rem 1.5rem 1.5rem 0rem',
     },
     headerIcon: {
-      float: 'left',
-      width: '2rem',
-      margin: '1.7rem 1.5rem 1.5rem 0rem',
+      width: '4rem',
+      marginRight: '1.5rem',
     },
     closeIcon: {
       float: 'right',
@@ -165,6 +159,26 @@ const useStyles = makeStyles(() =>
       opacity: '0',
       width: '0',
       height: '0',
+    },
+    uploadDescription: {
+      marginTop: '3rem',
+      fontSize: '1.6rem',
+    },
+    filesPlaceHolder: {
+      border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
+      flexDirection: 'column',
+      flex: '1',
+      alignSelf: 'stretch',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '30px 0',
+      borderRadius: '0.5px',
+
+      '&:hover': {
+        background: (style: Props & Theme) => style.backgroundDark1,
+        cursor: 'pointer',
+      },
     },
   })
 );
