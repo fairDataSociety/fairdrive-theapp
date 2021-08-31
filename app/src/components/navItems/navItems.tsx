@@ -1,18 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../store/themeContext/themeContext';
-import useStyles from '../../containers/navbar/navbarStyles';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import useStyles from '../../layout/partials/navbar/navbarStyles';
 import ClickAwayListener from 'react-click-away-listener';
 import SearchBar from '../searchBar/searchBar';
 import {
-  // Profile, DAppIcon,
+  // Profile,
+  DAppIcon,
   Moon,
   Sun,
 } from 'src/components/icons/icons';
-// import GenerateLink from 'src/components/modals/generateLink/generateLink';
+import GenerateLink from 'src/components/modals/generateLink/generateLink';
 import DropDown from 'src/components/dropDown/dropDown';
 import { StoreContext } from 'src/store/store';
 // import { logOut } from 'src/store/services/fairOS';
 import Blockies from 'react-blockies';
+
+import {
+  BaseButton,
+  BUTTON_VARIANTS,
+  BUTTON_SIZE,
+} from 'src/shared/BaseButton/BaseButton';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -20,26 +27,29 @@ export interface Props {
 
 function NavItems(props: Props) {
   const { state, actions } = useContext(StoreContext);
-  // const [referModal, setReferModal] = useState(false);
-  // const [dappDropdown, setDappDropdown] = useState(false);
+  const [referModal, setReferModal] = useState(false);
+  const [dappDropdown, setDappDropdown] = useState(false);
   const [avatarDropdown, setAvatarDropdown] = useState(false);
-  // const [activityDropdown, setActivityDropdown] = useState(false);
+  const [activityDropdown, setActivityDropdown] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  // const handleClick = () => {
-  //   setReferModal(true);
-  // };
-  // const handleDappClick = () => {
-  //   setDappDropdown(true);
-  // };
+  const handleClick = () => {
+    setReferModal(true);
+  };
+
+  const handleDappClick = () => {
+    setDappDropdown(true);
+  };
+
   const handleAvatarClick = () => {
     setAvatarDropdown(true);
   };
-  // const handleActivityClick = () => {
-  //   setActivityDropdown(true);
-  // };
+
+  const handleActivityClick = () => {
+    setActivityDropdown(true);
+  };
   useEffect(() => {
     if (state.userStats !== null && walletAddress == null) {
       setWalletAddress(state.userStats.reference);
@@ -48,13 +58,16 @@ function NavItems(props: Props) {
 
   return (
     <div className={classes.navItems}>
-      {/* <ClickAwayListener onClickAway={() => setReferModal(false)}>
-        <button className={classes.refer} onClick={handleClick}>
-          Refer A Friend
-        </button>
-      </ClickAwayListener> */}
+      <BaseButton
+        variant={BUTTON_VARIANTS.ALTERNATIVE}
+        size={BUTTON_SIZE.SMALL}
+        onClickCallback={() => handleClick()}
+      >
+        Refer A Friend
+      </BaseButton>
+
       <SearchBar />
-      {/* <DAppIcon onClick={handleDappClick} className={classes.dappIcon} />
+      <DAppIcon onClick={handleDappClick} className={classes.dappIcon} />
       {dappDropdown && (
         <ClickAwayListener onClickAway={() => setDappDropdown(false)}>
           <div className={classes.dropdown}>
@@ -63,9 +76,9 @@ function NavItems(props: Props) {
             </DropDown>
           </div>
         </ClickAwayListener>
-      )} */}
+      )}
 
-      <div onClick={handleAvatarClick}>
+      <div className={classes.blockiesContainer} onClick={handleAvatarClick}>
         <Blockies
           bgColor={theme.backgroundDark2}
           seed={walletAddress}
@@ -102,7 +115,7 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )}
-      {/* <div onClick={handleActivityClick} className={classes.activity}>
+      <div onClick={handleActivityClick} className={classes.activity}>
         Activity
       </div>
       {activityDropdown && (
@@ -110,7 +123,7 @@ function NavItems(props: Props) {
           <div className={classes.dropdown}>
             <DropDown variant="tertiary" heading="Activity Coming Soon">
               <ul>
-                <li className={classes.listItem} style={{ color: "#DBB889" }}>
+                <li className={classes.listItem} style={{ color: '#DBB889' }}>
                   See all txs (comin soon)
                 </li>
               </ul>
@@ -118,7 +131,11 @@ function NavItems(props: Props) {
           </div>
         </ClickAwayListener>
       )}
-      {referModal && <GenerateLink variant="refer" />} */}
+      {referModal && (
+        <ClickAwayListener onClickAway={() => setReferModal(false)}>
+          <GenerateLink variant="refer" />
+        </ClickAwayListener>
+      )}
     </div>
   );
 }

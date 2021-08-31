@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import useStyles from './overlayStyles';
-import ClickAwayListener from 'react-click-away-listener';
-import { ThemeContext } from '../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 export interface Props {
   handleClickAway?: () => void;
@@ -14,7 +13,10 @@ function Overlay(props: Props): JSX.Element {
 
   return (
     <>
-      <div className={classes.Overlay} />
+      <div
+        onClick={() => props.handleClickAway()}
+        className={classes.Overlay}
+      />
       <div className={classes.children}>{props.children}</div>
     </>
   );

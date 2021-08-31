@@ -1,13 +1,11 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
-import { Theme } from '../../../store/themeContext/themes';
+import { Theme } from 'src/contexts/themeContext/themes';
 
 const useStyles = makeStyles(() =>
   createStyles({
     midWrapper: {
       padding: '2rem 2rem 0rem 0rem',
-      //marginBottom: "2rem",
-      marginLeft: '1.6rem',
       margin: '20px 0 20px 0',
       display: 'flex',
       position: 'relative',
@@ -102,8 +100,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       alignItems: 'center',
       gap: '5px',
-      height: '5rem',
-      margin: '1rem',
+      marginRight: '1rem',
       minWidth: '8rem',
       maxWidth: '25rem',
       overflow: 'auto',

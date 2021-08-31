@@ -1,11 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import ClickAwayListener from 'react-click-away-listener';
 
 // Contexts
-import { ThemeContext } from 'src/store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
 
 // Hooks
 import useStyles from './fileListBodyStyles';
+
+// Components
+import DropDown from 'src/components/dropDown/dropDown';
 
 // Store
 import { StoreContext } from 'src/store/store';
@@ -37,6 +41,8 @@ function FileListBody(props: Props) {
     doHighlightMatchedPhrase();
   }, [state.searchQuery]);
 
+  const [dropdown, setDropdown] = useState(false);
+
   return (
     <div className={classes.fileWrapper}>
       <div className={classes.fileName}>
@@ -58,7 +64,31 @@ function FileListBody(props: Props) {
       <div className={classes.fileInfo}>{props.size}</div>
       <div className={classes.fileInfo}>{props.created}</div>
       <div className={classes.fileInfo}>{props.modified}</div>
-      <Kebab />
+      <div className={classes.kebab}>
+        <Kebab onClick={() => setDropdown(true)} />
+        {dropdown && (
+          <ClickAwayListener onClickAway={() => setDropdown(!dropdown)}>
+            <div className={classes.dropdown}>
+              <DropDown variant="primary" heading="Preview">
+                <ul>
+                  <li className={classes.listItem}>
+                    <button>Hide</button>
+                  </li>
+                  {/* <li className={classes.listItem}>
+                    <button>View Hidden Files</button>
+                  </li> */}
+                  <li className={classes.listItem}>
+                    <button>Download</button>
+                  </li>
+                  {/* <li className={classes.listItem}>
+                    <button>Accept and Open</button>
+                  </li> */}
+                </ul>
+              </DropDown>
+            </div>
+          </ClickAwayListener>
+        )}
+      </div>
     </div>
   );
 }

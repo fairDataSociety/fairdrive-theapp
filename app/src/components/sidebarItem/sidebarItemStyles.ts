@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from '@material-ui/styles';
 // import interface for component Props and Theme
-import { Theme } from '../../store/themeContext/themes';
+import { Theme } from 'src/contexts/themeContext/themes';
 import { Props } from './sidebarItem';
 
 const useStyles = makeStyles(() =>
@@ -15,6 +15,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       flexDirection: 'column',
       paddingBottom: '2rem',
+      cursor: 'pointer',
       font: (style: Props & Theme) => style.typography.body1,
       color: (style: Props & Theme) => style.textColorSecondary,
       '&:hover': {

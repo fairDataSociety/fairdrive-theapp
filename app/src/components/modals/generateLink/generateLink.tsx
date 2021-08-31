@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../../../store/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import useStyles from './generateLinkStyles';
 import Modal from '../modal/modal';
@@ -26,7 +26,7 @@ function GenerateLink(props: Props) {
     }, 1000);
   };
 
-  const { link } = props;
+  const link = props.link || '';
 
   const shortLink = `${link.slice(0, 6)}...${link.slice(link.length - 5)}`;
 
