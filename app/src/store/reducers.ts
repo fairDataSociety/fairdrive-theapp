@@ -146,6 +146,7 @@ const reducer = (state: State = initialState, action: ActionTree) => {
     case ActionEnum.SET_PRIVATE_POD:
       return { ...state, isPrivatePod: action.payload };
     case ActionEnum.SEND_FILE_FILE_SENT_SUCCESS:
+      debugger;
       return { ...state, fileUploaded: action.payload };
     case ActionEnum.DELETE_FILE_FILE_DELETE_SUCCESS:
       return { ...state, fileDeleted: action.payload };

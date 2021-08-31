@@ -44,12 +44,16 @@ export function useFileContextActions() {
     }
   };
 
-  const handleUpload = async (files: FileList): Promise<void> => {
-    await actions.uploadFile({
-      files,
-      directory: urlPath(state.directory),
-      podName: state.podName,
-    });
+  const handleUpload = async (files: File[]): Promise<void> => {
+    try {
+      await actions.uploadFile({
+        files,
+        directory: urlPath(state.directory),
+        podName: state.podName,
+      });
+    } catch (error) {
+      return Promise.reject(error);
+    }
   };
 
   return { handleDownload, handleShare, handleDelete, handleUpload };

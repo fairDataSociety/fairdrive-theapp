@@ -29,7 +29,7 @@ export interface Props {
   variant: RIGHT_SIDEBAR_VARIANTS;
 }
 
-function FileModal(props: Props) {
+function RightSidebar(props: Props) {
   // General
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
@@ -46,17 +46,19 @@ function FileModal(props: Props) {
   // Proxy file context actions calls
   const proxyFileContextActions = async (
     type: 'delete' | 'download' | 'upload',
-    payload?: FileList
+    payload?: File[]
   ) => {
     switch (type) {
       case 'delete':
         await handleDelete(props.file.name);
+        props.onClose();
         break;
       case 'download':
         await handleDownload(props.file.name);
         break;
       case 'upload':
         await handleUpload(payload);
+
         break;
       default:
         console.warn(`proxyFileContextActions: Unknown action type of ${type}`);
@@ -105,4 +107,4 @@ function FileModal(props: Props) {
   );
 }
 
-export default React.memo(FileModal);
+export default React.memo(RightSidebar);

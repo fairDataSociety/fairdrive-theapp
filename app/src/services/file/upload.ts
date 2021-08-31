@@ -6,11 +6,16 @@ import urlPath from 'src/helpers/urlPath';
 import { generateID } from 'src/helpers/generateID';
 
 export interface UploadFilePayload {
-  files: FileList;
+  files: File[];
   directory: string;
   podName: string;
 }
 
+export interface UploadFileResponse {
+  Responses: { file_name: string; message: string }[];
+}
+
+// TODO: Migrate payload.files from FileList to File[]
 export async function uploadFile(
   payload: UploadFilePayload,
   onUploadProgress: (
@@ -42,15 +47,19 @@ export async function uploadFile(
 
     const cancelFn = axios.CancelToken.source();
 
-    const uploadRequest = HTTPClient().post('file/upload', formData, {
-      headers: {
-        'Content-type': 'multipart/form-data',
-      },
-      onUploadProgress: (progressEvent) => {
-        onUploadProgress(requestId, progressEvent, cancelFn);
-      },
-      cancelToken: cancelFn.token,
-    });
+    const uploadRequest = await HTTPClient().post<UploadFileResponse>(
+      'file/upload',
+      formData,
+      {
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          onUploadProgress(requestId, progressEvent, cancelFn);
+        },
+        cancelToken: cancelFn.token,
+      }
+    );
 
     return {
       uploadRequest,

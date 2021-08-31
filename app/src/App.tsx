@@ -6,12 +6,14 @@ import { Toaster } from 'react-hot-toast';
 
 const App = (): JSX.Element => {
   return (
-    <StoreProvider>
-      <ThemeProvider>
-        <Layout />
-      </ThemeProvider>
+    <>
+      <StoreProvider>
+        <ThemeProvider>
+          <Layout />
+        </ThemeProvider>
+      </StoreProvider>
       <Toaster />
-    </StoreProvider>
+    </>
   );
 };
 

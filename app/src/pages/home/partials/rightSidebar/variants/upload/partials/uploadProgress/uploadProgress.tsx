@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 // Contexts
 import { StoreContext } from 'src/store/store';
@@ -11,7 +11,11 @@ import useStyles from './uploadProgressStyles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Fail, Success } from 'src/components/icons/icons';
 
-function UploadProgress() {
+export interface Props {
+  removeFile: (index: number) => void;
+}
+
+function UploadQueryWithProgress(props: Props) {
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
@@ -65,5 +69,27 @@ function UploadProgress() {
     </div>
   );
 }
+{
+  /* <InfoIcon />  */
+}
+{
+  /* <ul className={classes.draggedFilesList}>
+{selectedFiles.map((file, index) => (
+  <li className={classes.draggedFilesItem} key={index}>
+    <div className={classes.draggedFilesContent}>
+      <img
+        src={URL.createObjectURL(file)}
+        className={classes.draggedFilesImage}
+      />
+      <p className={classes.draggedFilesCaption}>{file.name}</p>
+    </div>
 
-export default React.memo(UploadProgress);
+    <Close
+      className={classes.draggedFilesRemove}
+      onClick={() => removeFile(index)}
+    />
+  </li>
+))}
+</ul> */
+}
+export default React.memo(UploadQueryWithProgress);

@@ -7,9 +7,8 @@ import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from '../../rightSidebarStyles';
 
 // Components
-import { InfoIcon } from 'src/components/icons/icons';
 import UploadDropzone from './partials/uploadIndicatorBlock/uploadIndicatorBlock';
-import UploadProgress from './partials/uploadProgress/uploadProgress';
+import UploadQueryWithProgress from './partials/uploadProgress/uploadProgress';
 import {
   BaseButton,
   BUTTON_VARIANTS,
@@ -17,22 +16,16 @@ import {
 } from 'src/shared/BaseButton/BaseButton';
 
 export interface Props {
-  Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  downloadFile?: boolean;
-  handleClose?: () => void;
-  visible?: boolean;
-  filesToUpload?: FileList;
-  callAction: (type: 'upload', payload: FileList) => Promise<void>;
+  callAction: (type: 'upload', payload: File[]) => Promise<void>;
 }
 
 function UploadVariant(props: Props) {
+  // Global
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const [file, setFile] = useState(null);
-  const [blob, setBlob] = useState(null);
-
-  const [uploadPayload, setUploadPayload] = useState<FileList | null>(null);
+  // Store selected files
+  const [uploadPayload, setUploadPayload] = useState<File[]>([]);
 
   const availableActions = [
     {
@@ -41,49 +34,29 @@ function UploadVariant(props: Props) {
     },
   ];
 
-  useEffect(() => {
-    if (props.filesToUpload && props.filesToUpload instanceof FileList) {
-      handleFileUpload(props.filesToUpload);
-    }
-  }, [props.filesToUpload]);
-
-  let blobFile;
-
-  const handleFileUpload = (files: FileList) => {
-    setUploadPayload(files);
-
-    Array.from(files).forEach((file) => {
-      blobFile = URL.createObjectURL(file);
-      setFile(file);
-      setBlob(blobFile);
-    });
+  // Manage selected files
+  const removeFile = (index: number): void => {
+    const copy = [...uploadPayload];
+    copy.splice(index, 1);
+    setUploadPayload(copy);
   };
 
-  useEffect(() => {
-    () => {
-      if (open) {
-        URL.revokeObjectURL(blobFile);
-        setBlob(null);
-        setFile(null);
-      }
-    };
-  }, []);
+  const addFiles = (files: File[]): void => {
+    const copy = [...uploadPayload];
+    copy.push(...files);
+    setUploadPayload(copy);
+  };
 
   return (
     <>
       <div className={classes.imageContainer}>
-        {file && !file.type.includes('image') ? (
-          <>
-            <InfoIcon />
-            <img src={blob} alt="img" />
-          </>
-        ) : (
-          <UploadDropzone />
-        )}
+        <UploadDropzone setFilesToUpload={(files) => addFiles(files)} />
       </div>
 
       <div className={classes.uploadEntriesWrapper}>
-        <UploadProgress />
+        <UploadQueryWithProgress
+          removeFile={(fileIndex) => removeFile(fileIndex)}
+        />
       </div>
 
       <div className={classes.actionsWrapper}>

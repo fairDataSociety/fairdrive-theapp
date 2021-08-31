@@ -123,26 +123,42 @@ export const applyMiddleware =
 
       case ActionEnum.SEND_FILE_REQUEST: {
         (async () => {
-          const { uploadRequest, requestId } = await uploadFile(
-            action.payload,
-            (requestId, progressEvent, cancelFn) => {
-              dispatch({
-                type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
-                payload: {
-                  progressEvent,
-                  requestId,
-                  cancelFn,
-                  filename: action.payload.files[0]?.name,
-                },
-              });
-            }
-          );
+          try {
+            const { files, podName, directory } = action.payload;
 
-          await uploadRequest
-            .then((res) => {
+            files.forEach(async (file) => {
+              const temporaryPayload: typeof action.payload = {
+                files: [file],
+                podName: podName,
+                directory: directory,
+              };
+
+              const { uploadRequest, requestId } = await uploadFile(
+                temporaryPayload,
+                (requestId, progressEvent, cancelFn) => {
+                  dispatch({
+                    type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
+                    payload: {
+                      progressEvent,
+                      requestId,
+                      cancelFn,
+                      filename: temporaryPayload.files[0].name,
+                    },
+                  });
+                }
+              );
+              // Check if all files were sent properly
+              uploadRequest.data.Responses.forEach((response) => {
+                if (response.message !== 'uploaded successfully') {
+                  toast.error(
+                    `Something went wrong with uploading ${response.file_name}`
+                  );
+                }
+              });
+
               dispatch({
                 type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
-                payload: res,
+                payload: uploadRequest,
               });
 
               setTimeout(() => {
@@ -151,14 +167,14 @@ export const applyMiddleware =
                   payload: requestId,
                 });
               }, 2500);
-            })
-            .catch((err) => {
-              toast.error('Something went wrong with uploading');
-              dispatch({
-                type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
-                payload: err.response,
-              });
             });
+          } catch (error) {
+            toast.error('Something went wrong with uploading');
+            dispatch({
+              type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
+              payload: error.response,
+            });
+          }
         })();
 
         break;
