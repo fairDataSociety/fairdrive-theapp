@@ -126,48 +126,55 @@ export const applyMiddleware =
           try {
             const { files, podName, directory } = action.payload;
 
-            files.forEach(async (file) => {
-              const temporaryPayload: typeof action.payload = {
-                files: [file],
-                podName: podName,
-                directory: directory,
-              };
+            await Promise.all(
+              files.map(async (file) => {
+                console.log('upload', file.name);
+                const temporaryPayload: typeof action.payload = {
+                  files: [file],
+                  podName: podName,
+                  directory: directory,
+                };
 
-              const { uploadRequest, requestId } = await uploadFile(
-                temporaryPayload,
-                (requestId, progressEvent, cancelFn) => {
-                  dispatch({
-                    type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
-                    payload: {
-                      progressEvent,
-                      requestId,
-                      cancelFn,
-                      filename: temporaryPayload.files[0].name,
-                    },
-                  });
-                }
-              );
-              // Check if all files were sent properly
-              uploadRequest.data.Responses.forEach((response) => {
-                if (response.message !== 'uploaded successfully') {
-                  toast.error(
-                    `Something went wrong with uploading ${response.file_name}`
-                  );
-                }
-              });
-
-              dispatch({
-                type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
-                payload: uploadRequest,
-              });
-
-              setTimeout(() => {
-                dispatch({
-                  type: ActionEnum.SEND_FILE_REMOVE_FILE_UPLOAD_PROGRESS,
-                  payload: requestId,
+                const { uploadRequest, requestId } = await uploadFile(
+                  temporaryPayload,
+                  (requestId, progressEvent, cancelFn) => {
+                    dispatch({
+                      type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
+                      payload: {
+                        progressEvent,
+                        requestId,
+                        cancelFn,
+                        filename: temporaryPayload.files[0].name,
+                      },
+                    });
+                  }
+                );
+                // Check if all files were sent properly
+                uploadRequest.data.Responses.forEach((response) => {
+                  if (response.message !== 'uploaded successfully') {
+                    toast.error(
+                      `Something went wrong with uploading ${response.file_name}`
+                    );
+                  }
                 });
-              }, 2500);
-            });
+
+                dispatch({
+                  type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
+                  payload: uploadRequest,
+                });
+
+                setTimeout(() => {
+                  dispatch({
+                    type: ActionEnum.SEND_FILE_REMOVE_FILE_UPLOAD_PROGRESS,
+                    payload: requestId,
+                  });
+                }, 2500);
+
+                console.log('upload', file.name, 'done');
+              })
+            );
+
+            console.log('uploading dooooone');
           } catch (error) {
             toast.error('Something went wrong with uploading');
             dispatch({
