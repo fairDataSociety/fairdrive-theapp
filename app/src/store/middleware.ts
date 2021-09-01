@@ -179,6 +179,15 @@ export const applyMiddleware =
                     payload: requestId,
                   });
                 }, 2500);
+
+                // Reload directory entries after file upload
+                dispatch({
+                  type: ActionEnum.GET_DIRECTORY_REQUEST,
+                  payload: {
+                    directory: directory,
+                    podName: podName,
+                  },
+                });
               })
             );
           } catch (error) {
@@ -192,13 +201,23 @@ export const applyMiddleware =
 
         break;
       }
-      case ActionEnum.GET_DIRECTORY_REQUEST:
-        return getDirectory(action.payload).then((res) => {
-          dispatch({
-            type: ActionEnum.GET_DIRECTORY_SUCCESS,
-            payload: res,
-          });
-        });
+      case ActionEnum.GET_DIRECTORY_REQUEST: {
+        (async () => {
+          try {
+            debugger;
+            return getDirectory(action.payload).then((res) => {
+              dispatch({
+                type: ActionEnum.GET_DIRECTORY_SUCCESS,
+                payload: res,
+              });
+            });
+          } catch (error) {
+            return Promise.reject(error);
+          }
+        })();
+
+        break;
+      }
       case ActionEnum.SEED_PHRASE_REQUEST:
         return generateSeedPhrase()
           .then((res) => {

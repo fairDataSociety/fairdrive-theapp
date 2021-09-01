@@ -10,7 +10,7 @@ import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 // Components
 import PreviewVariant from './variants/preview/preview';
 import UploadVariant from './variants/upload/upload';
-import { Folder, Close } from 'src/components/icons/icons';
+import { Folder, Close, UploadIcon } from 'src/components/icons/icons';
 
 // Helpers
 import { isValueInEnum } from 'src/helpers';
@@ -97,7 +97,9 @@ function RightSidebar(props: Props) {
     <div className={`${classes.sidebar} ${isOpen ? classes.sidebarOpen : ''}`}>
       <div className={classes.headerWrapper}>
         <div className={classes.header}>
-          <Folder />
+          {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && <Folder />}
+          {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && <UploadIcon />}
+
           {getProperHeadlineForVariant(props.variant)}
         </div>
         <Close className={classes.icon} onClick={() => closeSidebar()} />

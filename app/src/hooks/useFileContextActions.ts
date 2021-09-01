@@ -46,9 +46,10 @@ export function useFileContextActions() {
 
   const handleUpload = async (files: File[]): Promise<void> => {
     try {
+      const directoryPath = urlPath(state.directory);
       await actions.uploadFile({
         files,
-        directory: urlPath(state.directory),
+        directory: directoryPath,
         podName: state.podName,
       });
     } catch (error) {
