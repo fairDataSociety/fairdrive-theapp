@@ -8,6 +8,7 @@ import FilePreviewTextual from 'src/extensions/etherna/components/filePreviewTex
 
 type FilePreviewProps = FilePreviewInfo & {
   contentType: string;
+  isQueueItem?: boolean;
   file: any;
 };
 
@@ -16,6 +17,7 @@ function FilePreview({
   filename,
   directory,
   podName,
+  isQueueItem,
   file,
 }: FilePreviewProps) {
   const extensionsTypes = Object.keys(FilePreview.extensions);
@@ -29,7 +31,12 @@ function FilePreview({
     file.name.endsWith('.html')
   ) {
     return (
-      <FilePreviewTextual file={file} directory={directory} podName={podName} />
+      <FilePreviewTextual
+        file={file}
+        directory={directory}
+        podName={podName}
+        isQueueItem={isQueueItem}
+      />
     );
   }
 

@@ -36,6 +36,9 @@ const useStyles = makeStyles(() =>
     actionContainer: {
       width: '1.8rem',
       marginLeft: '4rem',
+      '&:disabled': {
+        cursor: 'not-allowed',
+      },
     },
     cancelIcon: {
       color: (theme: Theme) => theme.backgroundLight2,

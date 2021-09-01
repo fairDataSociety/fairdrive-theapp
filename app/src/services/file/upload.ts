@@ -15,7 +15,6 @@ export interface UploadFileResponse {
   Responses: { file_name: string; message: string }[];
 }
 
-// TODO: Migrate payload.files from FileList to File[]
 export async function uploadFile(
   payload: UploadFilePayload,
   onUploadProgress: (
@@ -29,7 +28,6 @@ export async function uploadFile(
 
     const { files, directory, podName } = payload;
 
-    // const newPath = writePath(path);
     let writePath = '';
     if (directory === 'root') {
       writePath = '/';
@@ -37,6 +35,7 @@ export async function uploadFile(
       writePath = '/' + urlPath(directory);
     }
     const formData = new FormData();
+
     Array.from(files).forEach((file) => {
       formData.append('files', file);
     });

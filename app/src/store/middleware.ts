@@ -125,7 +125,6 @@ export const applyMiddleware =
         (async () => {
           try {
             const { files, podName, directory } = action.payload;
-            debugger;
             await Promise.all(
               files.map(async (file) => {
                 const temporaryPayload: typeof action.payload = {
@@ -180,8 +179,6 @@ export const applyMiddleware =
                     payload: requestId,
                   });
                 }, 2500);
-
-                console.log('upload', file.name, 'done');
               })
             );
           } catch (error) {

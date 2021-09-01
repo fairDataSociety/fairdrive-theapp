@@ -1,15 +1,25 @@
-import React from "react";
-import useStyles from "./filePreviewStyles";
-import { File, Directory } from "../icons/icons";
+import React from 'react';
+import useStyles from './filePreviewStyles';
+import { File, Directory } from '../icons/icons';
 
-const FilePreviewFallback = (props: { file: any, isDirectory?: boolean }) => {
+const FilePreviewFallback = (props: {
+  file: any;
+  isDirectory?: boolean;
+  isQueueItem?: boolean;
+}) => {
   const classes = useStyles();
-  const ext = props.file.name.split(".").pop();
+  const ext = props.file.name.split('.').pop();
 
   return (
     <div className={classes.iconContainer}>
-      {props.isDirectory ? <Directory /> : <File /> }
-      {!props.isDirectory ? <div className={classes.mimeType}>{ext}</div> : null}
+      {props.isDirectory ? (
+        <Directory className={`${props.isQueueItem && classes.isQueueItem}`} />
+      ) : (
+        <File className={`${props.isQueueItem && classes.isQueueItem}`} />
+      )}
+      {!props.isDirectory ? (
+        <div className={classes.mimeType}>{ext}</div>
+      ) : null}
     </div>
   );
 };

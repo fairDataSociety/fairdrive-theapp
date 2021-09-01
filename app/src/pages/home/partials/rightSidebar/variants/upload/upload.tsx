@@ -75,6 +75,8 @@ function UploadVariant(props: Props) {
         ) : (
           <UploadQueue
             selectedFiles={uploadPayload}
+            directory={state.directory}
+            podName={state.podName}
             removeFile={(fileIndex) => removeFile(fileIndex)}
           />
         )}

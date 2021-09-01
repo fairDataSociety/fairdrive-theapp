@@ -16,6 +16,16 @@ function UploadQueryWithProgress() {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
+  const findUploadStatusForRequestID = (requestID: string) => {
+    const statuses = state.fileUploadedStatus;
+    const findStatus = statuses.find(
+      (status) => status.requestId === requestID
+    );
+    if (findStatus) {
+      return findStatus.status;
+    }
+  };
+
   return (
     <div>
       {state.fileUploadProgress.map((request) => {
@@ -38,20 +48,21 @@ function UploadQueryWithProgress() {
                 variant="determinate"
                 value={percentage}
               />
-
-              <a
+              <button
+                type="button"
                 className={classes.actionContainer}
+                disabled={complete()}
                 onClick={() => {
                   request.cancelFn.cancel();
                   actions.cancelUpload(request.requestId);
                 }}
               >
-                {complete() ? (
-                  <Success className={classes.successIcon} />
-                ) : (
-                  <Fail className={classes.cancelIcon} />
-                )}
-              </a>
+                {findUploadStatusForRequestID(request.requestId) ===
+                  'success' &&
+                  complete() && <Success className={classes.successIcon} />}
+                {findUploadStatusForRequestID(request.requestId) ===
+                  'failed' && <Fail className={classes.cancelIcon} />}
+              </button>
             </div>
           </div>
         );

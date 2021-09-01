@@ -30,6 +30,10 @@ const useStyles = makeStyles(() =>
       left: '6px',
       fontSize: '15px',
     },
+    isQueueItem: {
+      width: '25px',
+      height: '25px',
+    },
   })
 );
 
