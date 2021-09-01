@@ -9,6 +9,7 @@ type FilePreviewTextualProps = {
   directory?: string;
   podName?: string;
   isQueueItem: boolean;
+  isPreviewSidebar?: boolean;
 };
 
 const FilePreviewTextual: React.FC<FilePreviewTextualProps> = ({
@@ -16,6 +17,7 @@ const FilePreviewTextual: React.FC<FilePreviewTextualProps> = ({
   directory,
   podName,
   isQueueItem,
+  isPreviewSidebar,
 }) => {
   const classes = useStyles();
   const [previewText, setPreviewText] = useState<string>('Loading...');
@@ -45,7 +47,11 @@ const FilePreviewTextual: React.FC<FilePreviewTextualProps> = ({
 
   return (
     <div className={classes.videoPreview}>
-      <FilePreviewFallback file={file} />
+      <FilePreviewFallback
+        file={file}
+        isQueueItem={isQueueItem}
+        isPreviewSidebar={isPreviewSidebar}
+      />
       {!isQueueItem && (
         <>
           <br />

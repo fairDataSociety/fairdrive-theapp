@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+// Contexts
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 import { FilePreviewInfo } from './types';
 import useStyles from './filePreviewStyles';
@@ -11,8 +13,11 @@ const FilePreviewImage = ({
   directory,
   podName,
 }: Props): JSX.Element => {
+  // General
+  const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...theme });
+
   const [src, setSrc] = useState<string>();
-  const classes = useStyles();
 
   useEffect(() => {
     loadImage();

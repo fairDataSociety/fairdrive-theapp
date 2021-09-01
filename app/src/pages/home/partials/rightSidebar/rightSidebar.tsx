@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 // Hooks
 import { useFileContextActions } from 'src/hooks/useFileContextActions';
@@ -58,7 +58,6 @@ function RightSidebar(props: Props) {
         break;
       case 'upload':
         await handleUpload(payload);
-
         break;
       default:
         console.warn(`proxyFileContextActions: Unknown action type of ${type}`);
@@ -82,14 +81,26 @@ function RightSidebar(props: Props) {
     }
   };
 
+  // Manage opening and closing
+  const [isOpen, setIsOpen] = useState(false);
+
+  const closeSidebar = () => {
+    setIsOpen(false);
+    setTimeout(() => props.onClose(), 510);
+  };
+
+  useEffect(() => {
+    if (!isOpen) setIsOpen(true);
+  }, [props.file]);
+
   return (
-    <div className={classes.sidebar}>
+    <div className={`${classes.sidebar} ${isOpen ? classes.sidebarOpen : ''}`}>
       <div className={classes.headerWrapper}>
         <div className={classes.header}>
           <Folder />
           {getProperHeadlineForVariant(props.variant)}
         </div>
-        <Close className={classes.icon} onClick={() => props.onClose()} />
+        <Close className={classes.icon} onClick={() => closeSidebar()} />
       </div>
 
       {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && (
@@ -98,6 +109,7 @@ function RightSidebar(props: Props) {
           callAction={(type) => proxyFileContextActions(type)}
         />
       )}
+
       {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && (
         <UploadVariant
           callAction={(type, payload) => proxyFileContextActions(type, payload)}

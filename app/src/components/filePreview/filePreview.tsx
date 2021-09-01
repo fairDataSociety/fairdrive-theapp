@@ -9,6 +9,7 @@ import FilePreviewTextual from 'src/extensions/etherna/components/filePreviewTex
 type FilePreviewProps = FilePreviewInfo & {
   contentType: string;
   isQueueItem?: boolean;
+  isPreviewSidebar?: boolean;
   file: any;
 };
 
@@ -17,6 +18,7 @@ function FilePreview({
   filename,
   directory,
   podName,
+  isPreviewSidebar,
   isQueueItem,
   file,
 }: FilePreviewProps) {
@@ -36,6 +38,7 @@ function FilePreview({
         directory={directory}
         podName={podName}
         isQueueItem={isQueueItem}
+        isPreviewSidebar={isPreviewSidebar}
       />
     );
   }
@@ -64,7 +67,13 @@ function FilePreview({
     );
   }
 
-  return <FilePreviewFallback file={file} />;
+  return (
+    <FilePreviewFallback
+      file={file}
+      isQueueItem={isQueueItem}
+      isPreviewSidebar={isPreviewSidebar}
+    />
+  );
 }
 
 // Extensions ------

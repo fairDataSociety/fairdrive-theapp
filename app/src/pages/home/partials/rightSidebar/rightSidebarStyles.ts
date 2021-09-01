@@ -7,12 +7,16 @@ const useStyles = makeStyles(() =>
       width: '25%',
       height: '100%',
       position: 'fixed',
-      right: '0',
+      right: '-25%',
       top: '0',
       background: (style: Theme) => style.backgroundDark2,
       padding: '48px',
       zIndex: 1000,
       boxShadow: '-10px 0px 13px rgba(0, 0, 0, 0.17)',
+      transition: '0.5s all',
+    },
+    sidebarOpen: {
+      right: '0',
     },
     headerWrapper: {
       display: 'flex',
@@ -39,6 +43,13 @@ const useStyles = makeStyles(() =>
       borderBottom: (style: Theme) => `1px solid ${style.backgroundLight3}`,
       paddingBottom: '24px',
       marginBottom: '24px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 'auto',
+      width: 'auto',
+      minHeight: '240px',
+      minWidth: '240px',
     },
     titleWrapper: {
       display: 'flex',
@@ -87,7 +98,7 @@ const useStyles = makeStyles(() =>
     // upload
     uploadBlockWrapper: {
       padding: '0 20px',
-      height: '280px',
+      height: '220px',
       display: 'flex',
       justifyContent: 'center',
       alignContent: 'center',
@@ -101,11 +112,21 @@ const useStyles = makeStyles(() =>
       justifyContent: 'center',
       alignItems: 'center',
       textAlign: 'center',
-      gap: '50px',
+      gap: '30px',
       cursor: 'pointer',
+      // '&:hover': {
+      //   background: (style: Theme) => style.backgroundLight2,
+      // },
     },
     uploadText: {
       color: (style: Theme) => style.backgroundLight1,
+    },
+    uploadIcon: {
+      border: (style: Theme) => `1px solid ${style.backgroundLight3}`,
+      borderRadius: '8px',
+      width: '40px',
+      height: '40px',
+      padding: '10px',
     },
     uploadEntriesWrapper: {
       marginBottom: '24px',

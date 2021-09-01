@@ -54,6 +54,7 @@ const PreviewVariant = (props: Props): JSX.Element => {
           filename={props.content.name}
           directory={urlPath(state.directory)}
           podName={state.podName}
+          isPreviewSidebar={true}
         />
       </div>
 

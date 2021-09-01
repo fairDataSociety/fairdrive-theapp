@@ -8,7 +8,7 @@ import { useDropzone } from 'react-dropzone';
 import useStyles from '../../../../rightSidebarStyles';
 
 // Components
-import { UploadIcon, Close } from 'src/components/icons/icons';
+import { UploadIcon } from 'src/components/icons/icons';
 
 export interface Props {
   setFilesToUpload: (files: File[]) => void;
@@ -31,7 +31,9 @@ const UploadDropzone = (props: Props): JSX.Element => {
     <div className={classes.uploadBlockWrapper}>
       <div {...getRootProps({ className: classes.uploadBlock })}>
         <input {...getInputProps()} />
-        <UploadIcon />
+        <div className={classes.uploadIcon}>
+          <UploadIcon />
+        </div>
         <p className={classes.uploadText}>Click or drag here to upload</p>
       </div>
     </div>

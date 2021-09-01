@@ -20,7 +20,6 @@ export interface Props {
 }
 
 function UploadQueue(props: Props): JSX.Element {
-  // Global
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
