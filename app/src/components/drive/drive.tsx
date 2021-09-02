@@ -21,8 +21,6 @@ import FileCard from 'src/components/cards/fileCard';
 import ButtonNavbar from '../buttonNavbar/buttonNavbar';
 import FileList from '../fileList/fileList';
 
-import GenerateLink from '../modals/generateLink/generateLink';
-
 // Hooks and helpers
 import useStyles from './driveStyles';
 import { sortyByCurrentFilter } from 'src/helpers/sort';
@@ -106,7 +104,7 @@ function Drive(props: Props) {
   // Manage state of modals
   const [isCreateFolderModalVisible, setIsCreateFolderModalVisible] =
     useState(false);
-  const [isImportFileModalVisible, setIsImportFileModalVisible] =
+  const [isCreateFileModalVisible, setIsCreateFileModalVisible] =
     useState(false);
 
   // Confirmation of successful creation
@@ -130,10 +128,10 @@ function Drive(props: Props) {
   // On depandency change reload data
   useEffect(() => {
     loadDirectory();
-    // state.fileUploaded = false;
+    state.isFileUploaded = false;
     state.searchQuery = null;
   }, [
-    // state.fileUploaded,
+    state.isFileUploaded,
     state.directory,
     responseCreation,
     state.fileDeleted,
@@ -214,15 +212,6 @@ function Drive(props: Props) {
     <>
       {isTagOtherThanInitial() && (
         <div className={classes.Drive}>
-          {/* Needs to go into buttonNavbar component */}
-          {showSharePodPopup && refLink && (
-            <GenerateLink
-              handleClose={() => setShowSharePodPopup(false)}
-              link={refLink}
-              variant="share"
-              notifyMessage="Share this Pod with a friend via this reference"
-            />
-          )}
           <div className={classes.navBarWrapper}>
             <ButtonNavbar
               showGrid={showGrid}
@@ -243,7 +232,7 @@ function Drive(props: Props) {
                 onOpenCreateFolderModal={() =>
                   setIsCreateFolderModalVisible(true)
                 }
-                onOpenImportFileModal={() => setIsImportFileModalVisible(true)}
+                onOpenImportFileModal={() => setIsCreateFileModalVisible(true)}
                 onOpenUploadModal={() =>
                   props.setRightSidebarContent({
                     variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD,
@@ -252,28 +241,34 @@ function Drive(props: Props) {
               />
             )}
 
+            <DriveModalGroup
+              folderName={folderName}
+              setFolderName={(newFolderName) => setFolderName(newFolderName)}
+              fileName={fileName}
+              setFileName={(newFileName) => setFileName(newFileName)}
+              createFolderModal={{
+                isCreateFolderModalVisible: () => isCreateFolderModalVisible,
+                onCreate: () => createNewFolder(),
+                onClose: () => setIsCreateFolderModalVisible(false),
+              }}
+              createFileModal={{
+                isCreateFileModalVisible: () => isCreateFileModalVisible,
+                onCreate: () => createNewfile(),
+                onClose: () => setIsCreateFileModalVisible(false),
+              }}
+              sharePodModal={{
+                isSharePodModalVisible: () => showSharePodPopup,
+                refLink: () => refLink,
+                onClose: () => setShowSharePodPopup(false),
+              }}
+            />
+
             {isSearchQuerySetted() && (
               <div className={classes.searchDivider}>
                 <SearchIcon className={classes.searchIcon} />
                 <span>{state.searchQuery}</span>
               </div>
             )}
-
-            {/* TODO: Migrate below props to 3 object props each for individual modal. Less mess. */}
-            <DriveModalGroup
-              folderName={folderName}
-              setFolderName={(newFolderName) => setFolderName(newFolderName)}
-              fileName={fileName}
-              setFileName={(newFileName) => setFileName(newFileName)}
-              onCreateNewFolder={createNewFolder}
-              onCreateNewFile={createNewfile}
-              isCreateFolderModalVisible={isCreateFolderModalVisible}
-              isImportFileModalVisible={isImportFileModalVisible}
-              onCloseCreateFolderModal={() =>
-                setIsCreateFolderModalVisible(false)
-              }
-              onCloseImportFileModal={() => setIsImportFileModalVisible(false)}
-            />
 
             {isFilesNotEmpty() || isFoldersNotEmpty() ? (
               showGrid ? (

@@ -46,6 +46,7 @@ export interface State {
   userStats: UserStats;
   isPrivatePod: boolean;
   flags: Flags;
+  isFileUploaded: boolean;
   fileUploadedStatus: FilesUploadedStatus[];
   fileUploadProgress: Array<{
     progressEvent: ProgressEvent;

@@ -43,13 +43,7 @@ function ButtonNavbar(props: Props) {
 
   return (
     <div className={classes.headerWrapper}>
-      {/* <div className={classes.headerButton}>
-        {" "}
-        <Folder className={classes.folder} />
-        <PodChevron className={classes.chev} />
-      </div> */}
       <div className={classes.header}>{state.podName}</div>
-      {/* <Upload onClick={onIconClick} className={classes.Icon}></Upload> */}
       <div className={classes.iconContainerWrapper}>
         {state.podName && (
           <button
@@ -134,12 +128,6 @@ function ButtonNavbar(props: Props) {
           )}
         </button>
       </div>
-      {/* <input
-        className={classes.uploadInput}
-        type="file"
-        ref={inputFile}
-        onChange={(e) => handleFileUpload(e.target.files)}
-      ></input> */}
     </div>
   );
 }

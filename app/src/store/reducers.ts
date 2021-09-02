@@ -31,6 +31,7 @@ const initialState: State = {
   flags: {
     loginStatus: '',
   },
+  isFileUploaded: false,
   fileUploadedStatus: [],
   fileUploadProgress: [],
 };
@@ -59,6 +60,7 @@ const reducer = (state: State = initialState, action: ActionTree) => {
     case ActionEnum.SEND_FILE_FILE_SENT_SUCCESS:
       return {
         ...state,
+        isFileUploaded: true,
         fileUploadedStatus: [...state.fileUploadedStatus, action.payload],
       } as State;
     case ActionEnum.SEND_FILE_SENDING_FILE_FAILED:

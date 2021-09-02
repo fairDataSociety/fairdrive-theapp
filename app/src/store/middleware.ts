@@ -204,7 +204,6 @@ export const applyMiddleware =
       case ActionEnum.GET_DIRECTORY_REQUEST: {
         (async () => {
           try {
-            debugger;
             return getDirectory(action.payload).then((res) => {
               dispatch({
                 type: ActionEnum.GET_DIRECTORY_SUCCESS,
