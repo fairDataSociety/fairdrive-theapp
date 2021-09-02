@@ -9,15 +9,13 @@ import {
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from '../../../../store/store';
-
+import { StoreContext } from 'src/store/store';
 
 // Components
-
 import { Modal } from '@material-ui/core';
-import { PodChevron, PodInfo } from '../../../../components/icons/icons';
-import { CreateNew } from '../../../../components/modals/createNew/createNew';
-import Toggle from '../../../../components/toggle/toggle';
+import { PodChevron, PodInfo } from 'src/components/icons/icons';
+import { CreateNew } from 'src/components/modals/createNew/createNew';
+import Toggle from 'src/components/toggle/toggle';
 
 import {
   BaseButton,

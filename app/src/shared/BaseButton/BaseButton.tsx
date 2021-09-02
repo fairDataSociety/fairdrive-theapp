@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks

@@ -7,8 +7,8 @@ const useStyles = makeStyles(() =>
   createStyles({
     layoutContent: {
       padding: '2rem',
-      margin:'3rem',
-      overflowY: 'scroll'
+      margin: '3rem',
+      overflowY: 'scroll',
     },
     Drive: {
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
@@ -21,14 +21,12 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       margin: '0 0 0 0',
       paddingLeft: (props: Props & Theme) =>
-        props.isPodBarOpen ? '45rem' : '15rem',
+        props.isPodBarOpen ? '336px' : '120px',
       transitionProperty: 'padding',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
     },
     navBarWrapper: {
-      // marginRight: (props: Props & Theme) =>
-      // 	props.isPodBarOpen ? '30rem' : '0',
       transitionProperty: 'margin-right',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',

@@ -18,8 +18,8 @@ import { DriveModalGroup } from './modalGroup/modalGroup';
 import CardGrid from 'src/components/cardGrid/cardGrid';
 import FileCard from 'src/components/cards/fileCard';
 
-import ButtonNavbar from '../../../../components/buttonNavbar/buttonNavbar';
-import FileList from '../../../../components/fileList/fileList';
+import TopLevelNavigation from './topLevelNavigation/topLevelNavigation';
+import FileList from 'src/components/fileList/fileList';
 
 // Hooks and helpers
 import useStyles from './driveStyles';
@@ -213,7 +213,7 @@ function Drive(props: Props) {
       {isTagOtherThanInitial() && (
         <div className={classes.Drive}>
           <div className={classes.navBarWrapper}>
-            <ButtonNavbar
+            <TopLevelNavigation
               showGrid={showGrid}
               setShowGrid={setShowGrid}
               handleShare={handleShare}
