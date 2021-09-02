@@ -8,7 +8,7 @@ import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import MenuRibbon from './partials/menuRibbon/menuRibbon';
-import Drive from 'src/components/drive/drive';
+import Drive from 'src/pages/home/content/drive/drive';
 import PodSidebar from './partials/podSidebar/podSidebar';
 import RightSidebar, {
   RIGHT_SIDEBAR_VARIANTS,
