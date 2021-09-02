@@ -18,8 +18,8 @@ import { DriveModalGroup } from './modalGroup/modalGroup';
 import CardGrid from 'src/components/cardGrid/cardGrid';
 import FileCard from 'src/components/cards/fileCard';
 
-import ButtonNavbar from '../buttonNavbar/buttonNavbar';
-import FileList from '../fileList/fileList';
+import ButtonNavbar from '../../../../components/buttonNavbar/buttonNavbar';
+import FileList from '../../../../components/fileList/fileList';
 
 // Hooks and helpers
 import useStyles from './driveStyles';

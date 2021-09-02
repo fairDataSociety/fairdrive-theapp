@@ -12,7 +12,7 @@ import {
 import DropDown from '../dropDown/dropDown';
 import ClickAwayListener from 'react-click-away-listener';
 
-import { TCurrentFilter } from '../drive/drive';
+import { TCurrentFilter } from '../../pages/home/content/drive/drive';
 
 export interface Props {
   setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
