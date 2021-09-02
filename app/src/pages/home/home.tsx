@@ -33,7 +33,6 @@ function Home(props: Props) {
   const [showPodSidebar, setShowPodSidebar] = useState(false);
 
   // Right Sidebar managment
-
   const [rightSidebarData, setRightSidebarData] =
     useState<OpenRightSidebar | null>(null);
 
