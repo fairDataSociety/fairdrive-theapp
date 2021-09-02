@@ -9,54 +9,65 @@ import { StoreContext } from 'src/store/store';
 
 // Components
 import SidebarItem from 'src/components/sidebarItem/sidebarItem';
-// import { Drive, Dashboard, Globe } from '../../components/icons/icons';
-import { Drive } from 'src/components/icons/icons';
+import { Drive, Dashboard, Globe } from 'src/components/icons/icons';
 
+// Types
+import { AVAILABLE_PAGES } from 'src/types/pages';
+import sidebarItem from 'src/components/sidebarItem/sidebarItem';
 export interface Props {
   showPodSidebar: boolean;
   setShowPodSidebar: React.Dispatch<React.SetStateAction<boolean>>;
-  sidebarItem: string;
-  setSidebarItem: React.Dispatch<React.SetStateAction<string>>;
+  sidebarItem: AVAILABLE_PAGES;
+  setSidebarItem: (pageName: AVAILABLE_PAGES) => void;
 }
 
 function MenuRibbon(props: Props) {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...props, ...theme });
+
   const { showPodSidebar, setShowPodSidebar, sidebarItem, setSidebarItem } =
     props;
-  const classes = useStyles({ ...props, ...theme });
-  //Load pods
-  const switchPages = async (pageName: string) => {
+
+  const switchPages = async (pageName: AVAILABLE_PAGES) => {
     if (pageName === sidebarItem) {
       setShowPodSidebar(!showPodSidebar);
     } else {
       setSidebarItem(pageName);
     }
   };
+
+  const pages = [
+    {
+      name: AVAILABLE_PAGES.OVERVIEW,
+      icon: Dashboard,
+      isDisabled: true,
+    },
+    {
+      name: AVAILABLE_PAGES.DRIVE,
+      icon: Drive,
+      isDisabled: false,
+    },
+    {
+      name: AVAILABLE_PAGES.EXPLORE,
+      icon: Globe,
+      isDisabled: true,
+    },
+  ];
+
   return (
     state.userData && (
       <div className={classes.Sidebar}>
-        {/* <SidebarItem
-          onClick={() => {
-            switchPages("Overview");
-          }}
-          Icon={Dashboard}
-          title="Overview"
-        /> */}
-        <SidebarItem
-          onClick={() => {
-            switchPages('Drive');
-          }}
-          Icon={Drive}
-          title="Drive"
-        />
-        {/* <SidebarItem
-          onClick={() => {
-            switchPages("Explore");
-          }}
-          Icon={Globe}
-          title="Explore"
-        /> */}
+        {pages.map((page, index) => (
+          <SidebarItem
+            key={index}
+            onClick={() => switchPages(page.name)}
+            Icon={page.icon}
+            title={page.name}
+            isActive={page.name === sidebarItem}
+            isDisabled={page.isDisabled}
+          />
+        ))}
       </div>
     )
   );

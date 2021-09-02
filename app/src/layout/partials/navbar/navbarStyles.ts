@@ -20,9 +20,9 @@ const useStyles = makeStyles(() =>
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
       color: (style: Props & Theme) => style.textColorPrimary,
       font: (style: Props & Theme) => style.typography.h4,
-      paddingLeft: '1.5rem',
+      padding: '0 22px',
       width: '100%',
-      height: '50px',
+      height: '80px',
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'row',
@@ -37,7 +37,8 @@ const useStyles = makeStyles(() =>
     },
     logo: {
       color: (style: Props & Theme) => style.textColorPrimary,
-      width: '18rem',
+      width: '77px',
+      height: 'auto',
       cursor: 'pointer',
     },
     blockiesContainer: {

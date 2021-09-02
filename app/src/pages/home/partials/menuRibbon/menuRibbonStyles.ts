@@ -6,21 +6,12 @@ const useStyles = makeStyles(() =>
   createStyles({
     Sidebar: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark3,
-      width: '15rem',
+      width: '120px',
       height: 'calc(100vh - 6rem)',
       position: 'relative',
       display: 'flex',
-      left: 0,
       zIndex: 2,
       flexDirection: 'column',
-      alignItems: 'center',
-    },
-    walletConnectButton: {
-      padding: '1rem 2rem',
-      color: 'black',
-      backgroundColor: 'lightgrey',
-      margin: 'auto 5rem auto auto',
-      borderRadius: '2rem',
     },
   })
 );

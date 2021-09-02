@@ -17,7 +17,7 @@ import RightSidebar, {
 
 // Types
 import { IFile } from 'src/types/models/File';
-
+import { AVAILABLE_PAGES } from 'src/types/pages';
 export interface OpenRightSidebar {
   payload?: IFile;
   variant: RIGHT_SIDEBAR_VARIANTS;
@@ -29,7 +29,9 @@ export interface Props {
 function Home(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  const [sidebarItem, setSidebarItem] = useState('Drive');
+  const [sidebarItem, setSidebarItem] = useState<AVAILABLE_PAGES>(
+    AVAILABLE_PAGES.DRIVE
+  );
   const [showPodSidebar, setShowPodSidebar] = useState(false);
 
   // Right Sidebar managment
@@ -53,14 +55,14 @@ function Home(props: Props) {
         showPodSidebar={showPodSidebar}
         setShowPodSidebar={setShowPodSidebar}
         sidebarItem={sidebarItem}
-        setSidebarItem={setSidebarItem}
+        setSidebarItem={(pageName) => setSidebarItem(pageName)}
       />
       <PodSidebar
         setShowPodSidebar={setShowPodSidebar}
-        isOpen={sidebarItem !== 'Explore' && showPodSidebar}
+        isOpen={sidebarItem !== AVAILABLE_PAGES.EXPLORE && showPodSidebar}
         route={sidebarItem}
       />
-      {sidebarItem === 'Drive' && (
+      {sidebarItem === AVAILABLE_PAGES.DRIVE && (
         <Drive
           isPodBarOpen={showPodSidebar}
           setRightSidebarContent={(data) => openRightSidebar(data)}

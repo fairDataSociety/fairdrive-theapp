@@ -27,7 +27,7 @@ function Navbar(props: Props) {
   return (
     <header className={classes.Navbar}>
       <div className={classes.navbarLeftSide}>
-        <div
+        <a
           onClick={() => {
             props.setShowTerms(false);
             actions.setDirectory('root');
@@ -35,7 +35,7 @@ function Navbar(props: Props) {
           className={classes.logo}
         >
           <Logo className={classes.logo} />
-        </div>
+        </a>
         {state.userData ? (
           <div className={classes.serverSelection}>
             <button
