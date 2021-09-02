@@ -171,7 +171,7 @@ function FileModal(props: Props) {
               {state.podName === 'Consents' && (
                 <Tooltip title="Open in dapp" className={classes.tooltip}>
                   <a
-                    href={`http://localhost:3000/consents/${state.podName}/${state.directory}/${file.name}`}
+                    href={`http://localhost:3000/${state.podName}/${state.directory}/${file.name}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
