@@ -168,7 +168,7 @@ function FileModal(props: Props) {
               </div>
             </div>
             <div className={classes.actionBar}>
-              {state.podName !== 'Consents' && (
+              {state.podName === 'Consents' && (
                 <Tooltip title="Open in dapp" className={classes.tooltip}>
                   <a
                     href={`http://localhost:3000/consents/${state.podName}/${state.directory}/${file.name}`}
