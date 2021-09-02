@@ -50,6 +50,9 @@ const useStyles = makeStyles(() =>
       font: (style: Props & Theme) => style.typography.h6,
       color: (style: Props & Theme) => style.textColorHoverSelected,
     },
+    tooltip: {
+      font: (style: Props & Theme) => style.typography.caption1
+    },
     fileLocation: {
       font: (style: Props & Theme) => style.typography.caption2,
       color: (style: Props & Theme) => style.textColorSecondary,

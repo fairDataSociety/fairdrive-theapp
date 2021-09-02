@@ -14,7 +14,7 @@ import useStyles from './fileModalStyles';
 import Modal from '@material-ui/core/Modal';
 import FilePreview from '../filePreview/filePreview';
 import FileCard from '../cards/fileCard';
-import { Folder, Close, Download, Hide, Share } from '../icons/icons';
+import { Folder, Close, Download, Hide, Share, Globe } from '../icons/icons';
 
 // Helpers
 import { shortenTitle } from 'src/helpers/utils';
@@ -23,6 +23,7 @@ import GenerateLink from '../modals/generateLink/generateLink';
 
 // Types
 import { IFile } from 'src/types/models/File';
+import { Tooltip } from '@material-ui/core';
 export interface Props {
   file: IFile;
   Icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -168,13 +169,16 @@ function FileModal(props: Props) {
             </div>
             <div className={classes.actionBar}>
               {state.podName === 'Consents' && (
-                <a
-                  href={`http://localhost:3000/consents/${state.podName}/${state.directory}/${file.name}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span>Open in Kantara dapp</span>
-                </a>
+                <Tooltip title="Open in dapp" className={classes.tooltip}>
+                  <Globe className={classes.icon}>
+                    <a
+                      href={`http://localhost:3000/consents/${state.podName}/${state.directory}/${file.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    ></a>
+                    <title>Open in dapp</title>
+                  </Globe>
+                </Tooltip>
               )}
               <Hide
                 className={classes.icon}
