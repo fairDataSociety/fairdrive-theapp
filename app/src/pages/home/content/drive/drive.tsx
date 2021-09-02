@@ -12,7 +12,7 @@ import { sharePod } from 'src/services/pod';
 import { createDirectory } from 'src/services/directory';
 
 // Components
-import { DriveHeader } from './header/driveHeader';
+import SecondLevelNavigation from './secondLevelNavigation/secondLevelNavigation';
 import { DriveModalGroup } from './modalGroup/modalGroup';
 
 import CardGrid from 'src/components/cardGrid/cardGrid';
@@ -226,7 +226,7 @@ function Drive(props: Props) {
 
           <div className={classes.layoutContent}>
             {state.podName !== '' && (
-              <DriveHeader
+              <SecondLevelNavigation
                 isSearchResults={isSearchQuerySetted()}
                 isPrivatePod={state.isPrivatePod}
                 onOpenCreateFolderModal={() =>

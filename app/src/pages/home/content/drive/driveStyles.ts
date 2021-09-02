@@ -6,9 +6,8 @@ import { Props } from './drive';
 const useStyles = makeStyles(() =>
   createStyles({
     layoutContent: {
-      padding: '2rem',
-      margin: '3rem',
-      overflowY: 'scroll',
+      overflowY: 'auto',
+      padding: '25px',
     },
     Drive: {
       //component props and ui theme properties are available on the style object (yay auto-complete!!).
@@ -17,7 +16,7 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       left: '0',
       right: '0',
-      height: 'calc(100vh - 10rem)',
+      height: 'calc(100vh - )',
       flexDirection: 'column',
       margin: '0 0 0 0',
       paddingLeft: (props: Props & Theme) =>

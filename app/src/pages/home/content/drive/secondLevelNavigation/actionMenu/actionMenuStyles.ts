@@ -13,6 +13,7 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       borderRadius: '1rem',
       gap: '20px',
+      marginBottom: '24px',
     },
 
     actionRow: {
@@ -68,11 +69,6 @@ const useStyles = makeStyles(() =>
       cursor: 'pointer',
       top: '9%',
       right: '5%',
-    },
-    disclaimer: {
-      margin: '20px 0 20px 0',
-      color: (style: Theme) => style.textColorSecondary,
-      font: (style: Theme) => style.typography.caption2,
     },
   })
 );

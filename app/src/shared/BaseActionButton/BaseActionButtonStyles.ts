@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
       borderRadius: '8px',
       minWidth: '40px',
       padding: (style: Props & Theme) =>
-        style.hasDropdownInitiator ? '12px' : '',
+        style.hasDropdownInitiator || style.children ? '12px' : '',
       height: '40px',
     },
     action_outlined: {

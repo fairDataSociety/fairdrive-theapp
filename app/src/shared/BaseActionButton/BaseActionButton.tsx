@@ -105,7 +105,7 @@ function BaseActionButton(props: Props): JSX.Element {
       className={`${classes.button} ${classes[variant]}`}
     >
       {getIconForVariant(icon)}
-      {variant === ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT &&
+      {variant !== ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT &&
         children && <span className={classes.text}>{children}</span>}
       {hasDropdownInitiator && (
         <ChevronDown

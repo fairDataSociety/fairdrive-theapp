@@ -24,23 +24,21 @@ export interface Props {
 }
 
 function TopLevelNavigation(props: Props) {
+  const { showGrid, setShowGrid } = props;
+
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  const { showGrid, setShowGrid } = props;
 
-  const [isSortingDropdownVisible, setIsSortingDropdownVisible] =
-    useState(false);
-
-  const splitAndUppercaseCurrentFilterName = (
-    currentFilter: string
-  ): string => {
-    const arr = currentFilter.split('-');
-    arr.forEach((word, index) => {
-      arr[index] = word.charAt(0).toUpperCase() + word.slice(1);
-    });
-    return arr.join(' ');
-  };
+  // const splitAndUppercaseCurrentFilterName = (
+  //   currentFilter: string
+  // ): string => {
+  //   const arr = currentFilter.split('-');
+  //   arr.forEach((word, index) => {
+  //     arr[index] = word.charAt(0).toUpperCase() + word.slice(1);
+  //   });
+  //   return arr.join(' ');
+  // };
 
   return (
     <div className={classes.topLevelNavigation}>

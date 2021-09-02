@@ -66,9 +66,6 @@ export const ActionMenu = (props: Props): JSX.Element => {
           </div>
         ))}
       </div>
-      <p className={classes.disclaimer}>
-        Note: You cannot share contnet that you do not own
-      </p>
     </>
   );
 };

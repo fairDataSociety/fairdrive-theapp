@@ -34,10 +34,7 @@ function BaseDropdown(props: Props): JSX.Element {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const openDropdown = () => {
-    console.log('openDrop');
-    setIsDropdownOpen(true);
-  };
+  const openDropdown = () => setIsDropdownOpen(true);
 
   return (
     <div className={classes.dropdownWrapper}>
