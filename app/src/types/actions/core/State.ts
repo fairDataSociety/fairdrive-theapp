@@ -19,6 +19,8 @@ export interface FilesUploadedStatus {
   filename: string;
   status: 'failed' | 'pending' | 'success';
 }
+
+// TODO: Add to types of dirs and entries in union 'undefined'
 export interface State {
   token: string;
   sessionCookie: string;

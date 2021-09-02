@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
@@ -55,26 +55,48 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
         STORAGE_DISSMISSED_POD_INTROS_KEY
       );
       const parsed: string[] = JSON.parse(savedDissmissedPodsIntros);
-      parsed.push(state.podName);
-      localStorage.setItem(
-        STORAGE_DISSMISSED_POD_INTROS_KEY,
-        JSON.stringify(parsed)
-      );
+      if (parsed !== null) {
+        parsed.push(state.podName);
+        localStorage.setItem(
+          STORAGE_DISSMISSED_POD_INTROS_KEY,
+          JSON.stringify(parsed)
+        );
+      } else {
+        localStorage.setItem(
+          STORAGE_DISSMISSED_POD_INTROS_KEY,
+          JSON.stringify([state.podName])
+        );
+      }
+      setIsActionMenuOpen(false);
     }
   };
 
   const isPodOpenedForFirstTime = (): boolean => {
-    const hasPodAnyDirsOrEntries = () =>
-      (state.entries && state.entries.length === 0) ||
-      (state.dirs && state.dirs.length === 0);
+    const doesPodHasNoDirs = () => state.dirs && state.dirs.length === 0;
+    const doesPodHasNoEntries = () =>
+      state.entries && state.entries.length === 0;
+
     // I assume that pod intro was dissmissed if user closed intro or if pod contains any dir or entry
-    return hasPodAnyDirsOrEntries() || wasPodIntroDissmised();
+    console.log(
+      doesPodHasNoDirs(),
+      doesPodHasNoEntries(),
+      wasPodIntroDissmised(),
+      'sum',
+      doesPodHasNoEntries() || doesPodHasNoDirs() || !wasPodIntroDissmised()
+    );
+    return (
+      doesPodHasNoEntries() || doesPodHasNoDirs() || !wasPodIntroDissmised()
+    );
   };
+
+  useEffect(() => {
+    setIsActionMenuOpen(isPodOpenedForFirstTime());
+  }, [state.podName]);
 
   return (
     <>
       <div className={classes.secondLevelNavigation}>
-        <div onClick={() => setIsActionMenuOpen(true)} className={classes.left}>
+        <div className={classes.left}>
           <div className={classes.titleWrapper}>
             <h1 className={classes.midHeader}>
               {props.isSearchResults && 'Search'}
@@ -116,7 +138,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
           </div>
         )}
       </div>
-      {isPodOpenedForFirstTime() && (
+      {isActionMenuOpen && (
         <ActionMenu
           onCloseActionMenu={() => dissmissPodIntro()}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}
