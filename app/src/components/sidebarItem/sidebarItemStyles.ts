@@ -33,6 +33,10 @@ const useStyles = makeStyles(() =>
         '& svg': {
           fill: (style: Props & Theme) => style.textColorPrimary,
         },
+        '& div': {
+          opacity: 1,
+          background: (style: Props & Theme) => style.backgroundWhite,
+        },
       },
     },
     active: {
@@ -50,6 +54,23 @@ const useStyles = makeStyles(() =>
         height: '100%',
         background: (style: Props & Theme) => style.backgroundLight2,
       },
+      '&:hover': {
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          right: '0',
+          width: '4px',
+          height: '100%',
+          background: (style: Props & Theme) => style.backgroundLight2,
+        },
+        '& div': {
+          opacity: 1,
+          background: (style: Props & Theme) => style.backgroundLight2,
+          '& svg': {
+            transform: 'rotate(180deg)',
+          },
+        },
+      },
     },
     disabled: {
       cursor: 'not-allowed',
@@ -61,8 +82,14 @@ const useStyles = makeStyles(() =>
       '&:hover': {
         color: (style: Props & Theme) => style.backgroundLight2,
         backgroundColor: (style: Props & Theme) => style.backgroundDark3,
+        font: (style: Props & Theme) => style.typography.body1,
+
         '&::after': {
           content: '""',
+          display: 'none',
+        },
+
+        '& div': {
           display: 'none',
         },
       },
@@ -72,6 +99,21 @@ const useStyles = makeStyles(() =>
       height: '24px',
       marginBottom: '12px',
       fill: (style: Props & Theme) => style.textColorSecondary,
+    },
+    arrow: {
+      position: 'absolute',
+      right: '-24px',
+      width: '24px',
+      height: '24px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      opacity: 0,
+      transition: '0.1s opacity',
+    },
+    arrowIcon: {
+      width: '10px',
+      height: '10px',
     },
   })
 );

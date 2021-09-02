@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from './sidebarItemStyles';
-
+import { ArrowRight } from 'src/components/icons/icons';
 export interface Props {
   Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   title: string;
@@ -28,6 +28,9 @@ function SidebarItem(props: Props) {
     >
       <Icon className={classes.Icon} />
       {title}
+      <div className={classes.arrow}>
+        <ArrowRight className={classes.arrowIcon} />
+      </div>
     </button>
   );
 }

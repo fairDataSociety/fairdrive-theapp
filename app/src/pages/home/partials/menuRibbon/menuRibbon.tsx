@@ -13,7 +13,7 @@ import { Drive, Dashboard, Globe } from 'src/components/icons/icons';
 
 // Types
 import { AVAILABLE_PAGES } from 'src/types/pages';
-import sidebarItem from 'src/components/sidebarItem/sidebarItem';
+
 export interface Props {
   showPodSidebar: boolean;
   setShowPodSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -64,7 +64,7 @@ function MenuRibbon(props: Props) {
             onClick={() => switchPages(page.name)}
             Icon={page.icon}
             title={page.name}
-            isActive={page.name === sidebarItem}
+            isActive={showPodSidebar && page.name === sidebarItem}
             isDisabled={page.isDisabled}
           />
         ))}
