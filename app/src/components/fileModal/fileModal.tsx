@@ -167,6 +167,15 @@ function FileModal(props: Props) {
               </div>
             </div>
             <div className={classes.actionBar}>
+              {state.podName === 'Consents' && (
+                <a
+                  href={`http://localhost:3000/consents/${state.podName}/${state.directory}/${file.name}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Open in Kantara dapp</span>
+                </a>
+              )}
               <Hide
                 className={classes.icon}
                 onClick={() => proxyFileContextActions('delete')}
