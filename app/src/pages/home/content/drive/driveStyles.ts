@@ -8,6 +8,7 @@ const useStyles = makeStyles(() =>
     layoutContent: {
       // overflowY: 'auto',
       padding: '25px',
+      height: 'calc(100vh - 76px - 80px - 89px - 64px - 13px)',
     },
     Drive: {
       //component props and ui theme properties are available on the style object (yay auto-complete!!).

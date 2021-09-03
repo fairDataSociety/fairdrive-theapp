@@ -297,9 +297,12 @@ function Drive(props: Props) {
           )
         ) : (
           <>
-            <p className={classes.noSearchQueryMatches}>
-              {isSearchQuerySetted() && 'Sorry, no entries match search query'}
-            </p>
+            {isSearchQuerySetted() && (
+              <p className={classes.noSearchQueryMatches}>
+                Sorry, no entries match search query
+              </p>
+            )}
+
             {(!isFilesNotEmpty() || !isFoldersNotEmpty()) && (
               <div className={classes.emptyStateWrapper}>
                 <BaseEmptyState variant={EMPTY_STATE_VARIANTS.EMPTY_STATE} />
