@@ -228,7 +228,7 @@ function Drive(props: Props) {
             {state.podName !== '' && (
               <SecondLevelNavigation
                 isSearchResults={isSearchQuerySetted()}
-                isPrivatePod={state.isPrivatePod}
+                isOwned={state.isPrivatePod}
                 onOpenCreateFolderModal={() =>
                   setIsCreateFolderModalVisible(true)
                 }

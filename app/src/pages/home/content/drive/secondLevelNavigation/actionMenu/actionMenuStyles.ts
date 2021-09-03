@@ -6,7 +6,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     actionWrapper: {
       border: (style: Theme) => `1px solid ${style.backgroundLight3}`,
-      padding: '10px 50px 10px 10px',
+      padding: '16px 50px 16px 16px',
       width: 'fit-content',
       display: 'flex',
       position: 'relative',
@@ -55,7 +55,7 @@ const useStyles = makeStyles(() =>
     actionText: {
       float: 'left',
       color: (style: Theme) => style.textColorHoverSelected,
-      font: (style: Theme) => style.typography.caption2,
+      font: (style: Theme) => style.typography.body2,
     },
     buttonIcon: {
       float: 'left',

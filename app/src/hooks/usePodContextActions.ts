@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 // Context
 import { StoreContext } from 'src/store/store';
+import { usePodStateMachine } from 'src/contexts/podStateMachine';
+import { STATES_NAMES, POD_STATUS } from 'src/types/pod-state';
 
 // Services
 import { createPod, receivePod } from 'src/services/pod';
@@ -10,13 +12,27 @@ export type AllowedPodActions = 'open' | 'create' | 'import' | 'overview';
 
 export function usePodContextActions() {
   const { state, actions } = useContext(StoreContext);
+  const { changePodState } = usePodStateMachine();
 
-  const handleOpenPod = async (podName: string) => {
+  const handleOpenPod = async (nextPodName: string) => {
     try {
-      actions.setPodName(podName);
+      const doWeHadOpenedPod = () => state.podName.length > 0;
+
+      if (doWeHadOpenedPod() && state.podName !== nextPodName) {
+        changePodState({
+          tag: STATES_NAMES.POD_STATE,
+          podName: state.podName,
+          status: POD_STATUS.CHANGE,
+        });
+      }
+
+      actions.setPodName(nextPodName);
       actions.setDirectory('root');
-      if (!state.podsOpened.includes(podName)) {
-        actions.openPod({ password: state.password, podName: podName });
+      if (!state.podsOpened.includes(nextPodName)) {
+        actions.openPod({
+          password: state.password,
+          podName: nextPodName,
+        });
       }
     } catch (error) {
       return Promise.reject(error);
@@ -44,9 +60,10 @@ export function usePodContextActions() {
 
   const handleOverview = async (podName: string) => {
     try {
-      await actions.setPodName(podName);
-      if (!state.podsOpened.includes(podName))
-        await actions.openPod({ password: state.password, podName: podName });
+      // await actions.setPodName(podName);
+      // if (!state.podsOpened.includes(podName))
+      //   await actions.openPod({ password: state.password, podName: podName });
+      console.log('handleOverview for podName', podName);
     } catch (error) {
       return Promise.reject(error);
     }

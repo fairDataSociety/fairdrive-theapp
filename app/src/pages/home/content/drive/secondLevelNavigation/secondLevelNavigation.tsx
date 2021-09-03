@@ -5,13 +5,7 @@ import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Icons
-import {
-  PodInfo as PodInfoIcon,
-  ShareIcon,
-  UploadIcon,
-  ButtonPlus,
-  Folder as FolderIcon,
-} from 'src/components/icons/icons';
+import { PodInfo as PodInfoIcon, ShareIcon } from 'src/components/icons/icons';
 
 // Hooks
 import useStyles from './secondLevelNavigationStyles';
@@ -25,7 +19,7 @@ import BaseActionButton, {
 
 export interface Props {
   isSearchResults: boolean;
-  isPrivatePod: boolean;
+  isOwned: boolean;
   onOpenCreateFolderModal: () => void;
   onOpenImportFileModal: () => void;
   onOpenUploadModal: () => void;
@@ -35,6 +29,8 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
+
+  // Determinate if pod was opened for first time
 
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(true);
 
@@ -77,13 +73,6 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
       state.entries && state.entries.length === 0;
 
     // I assume that pod intro was dissmissed if user closed intro or if pod contains any dir or entry
-    console.log(
-      doesPodHasNoDirs(),
-      doesPodHasNoEntries(),
-      wasPodIntroDissmised(),
-      'sum',
-      doesPodHasNoEntries() || doesPodHasNoDirs() || !wasPodIntroDissmised()
-    );
     return (
       doesPodHasNoEntries() || doesPodHasNoDirs() || !wasPodIntroDissmised()
     );
@@ -93,26 +82,58 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
     setIsActionMenuOpen(isPodOpenedForFirstTime());
   }, [state.podName]);
 
+  // Choose messages for current state
+  const [informations, setInformations] = useState<{
+    title: string;
+    caption: string;
+  }>({
+    title: 'Inventory',
+    caption:
+      'All your content including what you have shared with others marked with a',
+  });
+
+  useEffect(() => {
+    if (props.isOwned) {
+      if (props.isSearchResults) {
+        setInformations({
+          title: 'Search',
+          caption:
+            'All your content including what you have shared with others marked with a',
+        });
+      } else {
+        setInformations({
+          title: 'Inventory',
+          caption:
+            'All your content including what you have shared with others marked with a',
+        });
+      }
+    } else {
+      if (props.isSearchResults) {
+        setInformations({
+          title: 'Search Search file',
+          caption:
+            '(All links to content shared with you) Links Shared by Username',
+        });
+      } else {
+        setInformations({
+          title: 'Inbox (Read Only)',
+          caption:
+            '(All links to content shared with you) Links Shared by Username',
+        });
+      }
+    }
+  }, [props.isOwned, props.isSearchResults]);
+
   return (
     <>
       <div className={classes.secondLevelNavigation}>
         <div className={classes.left}>
           <div className={classes.titleWrapper}>
-            <h1 className={classes.midHeader}>
-              {props.isSearchResults && 'Search'}
-              {props.isPrivatePod && !props.isSearchResults && 'Inventory'}
-              {!props.isPrivatePod &&
-                !props.isSearchResults &&
-                'Inbox (Read Only)'}
-            </h1>
+            <h1 className={classes.midHeader}>{informations.title}</h1>
           </div>
           <div className={classes.infoWrapper}>
             <PodInfoIcon className={classes.infoIcon} />
-            <span className={classes.information}>
-              {props.isPrivatePod
-                ? 'All your content including what you have shared with others marked with a'
-                : '(All links to content shared with you) Links Shared by Username'}
-            </span>
+            <span className={classes.information}>{informations.caption}</span>
             <ShareIcon className={classes.shareIcon} />
           </div>
         </div>
@@ -140,6 +161,10 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
       </div>
       {isActionMenuOpen && (
         <ActionMenu
+          isOwned={props.isOwned}
+          onCreateMarkdownFile={() =>
+            console.log('onCreateMarkdownFile clicked')
+          }
           onCloseActionMenu={() => dissmissPodIntro()}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}
           onOpenImportFileModal={() => props.onOpenImportFileModal()}

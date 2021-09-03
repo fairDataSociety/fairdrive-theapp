@@ -10,8 +10,14 @@ import { loginUser, logoutUser } from 'src/services/auth';
 import { statsUser } from 'src/services/user';
 import toast from 'react-hot-toast';
 
+import { STATES_NAMES, POD_STATUS, State } from 'src/types/pod-state';
+
 export const applyMiddleware =
-  (dispatch: React.Dispatch<ActionTree>) => (action: ActionTree) => {
+  (
+    dispatch: React.Dispatch<ActionTree>,
+    changePodState: (nextState: State) => void
+  ) =>
+  (action: ActionTree) => {
     switch (action.type) {
       case ActionEnum.USER_LOGIN_REQUEST:
         return loginUser(action.payload)
@@ -28,6 +34,10 @@ export const applyMiddleware =
             dispatch({
               type: ActionEnum.SET_SYSTEM,
               payload: action.payload,
+            });
+
+            changePodState({
+              tag: STATES_NAMES.USER_LOGGED,
             });
           })
           .catch((err) =>
@@ -70,6 +80,9 @@ export const applyMiddleware =
             dispatch({
               type: ActionEnum.USER_LOGGED_OUT_SUCCESS,
               payload: res,
+            });
+            changePodState({
+              tag: STATES_NAMES.INITIAL,
             });
           })
           .catch((err) =>
@@ -246,19 +259,35 @@ export const applyMiddleware =
             })
           );
       case ActionEnum.OPEN_POD_REQUEST:
+        changePodState({
+          tag: STATES_NAMES.POD_STATE,
+          podName: action.payload.podName,
+          status: POD_STATUS.LOADING,
+        });
+
         return openPod(action.payload)
           .then((res) => {
             dispatch({
               type: ActionEnum.OPEN_POD_SUCCESS,
               payload: res,
             });
+            changePodState({
+              tag: STATES_NAMES.POD_STATE,
+              podName: action.payload.podName,
+              status: POD_STATUS.SUCCESS,
+            });
           })
-          .catch((err) =>
+          .catch((err) => {
             dispatch({
               type: ActionEnum.OPEN_POD_FAIL,
               payload: err.response,
-            })
-          );
+            });
+            changePodState({
+              tag: STATES_NAMES.POD_STATE,
+              podName: action.payload.podName,
+              status: POD_STATUS.ERROR,
+            });
+          });
       default:
         dispatch(action);
     }
