@@ -8,6 +8,8 @@ import {
 } from 'src/hooks/usePodContextActions';
 
 // Contexts
+import { usePodStateMachine } from 'src/contexts/podStateMachine';
+import { STATES_NAMES, POD_STATUS } from 'src/types/pod-state';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
@@ -66,8 +68,26 @@ function PodSidebar(props: Props) {
   };
 
   // Pod Context Actions
-  const { handleOpenPod, handleCreatePod, handleImportPod, handleOverview } =
-    usePodContextActions();
+  const {
+    handleOpenPod,
+    handleCreatePod,
+    handleImportPod,
+    handleOverview,
+    handleOpenDirectory,
+  } = usePodContextActions();
+
+  // When podName is being setted and pod is being openned then try to just open directory
+  const { podStateMachine } = usePodStateMachine();
+
+  useEffect(() => {
+    if (
+      podStateMachine.tag === STATES_NAMES.POD_STATE &&
+      (podStateMachine.status === POD_STATUS.SUCCESS ||
+        podStateMachine.status === POD_STATUS.CHANGE)
+    ) {
+      handleOpenDirectory();
+    }
+  }, [podStateMachine]);
 
   // Proxy pod context actions calls
   const proxyPodContextActions = async (
@@ -98,15 +118,6 @@ function PodSidebar(props: Props) {
         break;
     }
   };
-
-  useEffect(() => {
-    if (state.podsOpened.includes(state.podName)) {
-      actions.getDirectory({
-        directory: state.directory,
-        podName: state.podName,
-      });
-    }
-  }, [state.podName, state.podsOpened]);
 
   useEffect(() => {
     const areAnyDirectoryOrFileExists = () =>

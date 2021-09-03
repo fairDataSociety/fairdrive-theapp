@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { STATES_NAMES, State } from 'src/types/pod-state';
 
 interface Context {
-  state: State;
+  podStateMachine: State;
   changePodState: (nextState: State) => void;
 }
 
@@ -15,7 +15,7 @@ interface PodStateProviderProps {
 export function PodStateMachineProvider({
   children,
 }: PodStateProviderProps): JSX.Element {
-  const [state, setState] = useState<State>({
+  const [podStateMachine, setPodStateMachine] = useState<State>({
     tag: STATES_NAMES.INITIAL,
   });
 
@@ -24,19 +24,27 @@ export function PodStateMachineProvider({
   ): void => {
     switch (nextState.tag) {
       case STATES_NAMES.INITIAL:
-        setState({
+        setPodStateMachine({
           tag: STATES_NAMES.INITIAL,
         });
         break;
       case STATES_NAMES.USER_LOGGED:
-        setState({
+        setPodStateMachine({
           tag: STATES_NAMES.USER_LOGGED,
         });
         break;
       case STATES_NAMES.POD_STATE:
-        setState({
+        setPodStateMachine({
           tag: STATES_NAMES.POD_STATE,
           podName: nextState.podName,
+          status: nextState.status,
+        });
+        break;
+      case STATES_NAMES.DIRECTORY_STATE:
+        setPodStateMachine({
+          tag: STATES_NAMES.DIRECTORY_STATE,
+          podName: nextState.podName,
+          directoryName: nextState.directoryName,
           status: nextState.status,
         });
         break;
@@ -47,10 +55,10 @@ export function PodStateMachineProvider({
   };
 
   useEffect(() => {
-    console.log('state change: ', state);
-  }, [state]);
+    console.log('state change: ', podStateMachine);
+  }, [podStateMachine]);
 
-  const value: Context = { state, changePodState };
+  const value: Context = { podStateMachine, changePodState };
 
   return (
     <PodStateMachineContext.Provider value={value}>

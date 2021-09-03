@@ -10,7 +10,12 @@ import { loginUser, logoutUser } from 'src/services/auth';
 import { statsUser } from 'src/services/user';
 import toast from 'react-hot-toast';
 
-import { STATES_NAMES, POD_STATUS, State } from 'src/types/pod-state';
+import {
+  STATES_NAMES,
+  POD_STATUS,
+  DIRECTORY_STATUS,
+  State,
+} from 'src/types/pod-state';
 
 export const applyMiddleware =
   (
@@ -215,20 +220,35 @@ export const applyMiddleware =
         break;
       }
       case ActionEnum.GET_DIRECTORY_REQUEST: {
-        (async () => {
-          try {
-            return getDirectory(action.payload).then((res) => {
-              dispatch({
-                type: ActionEnum.GET_DIRECTORY_SUCCESS,
-                payload: res,
-              });
+        changePodState({
+          tag: STATES_NAMES.DIRECTORY_STATE,
+          podName: action.payload.podName,
+          directoryName: action.payload.directory,
+          status: DIRECTORY_STATUS.LOADING,
+        });
+        return getDirectory(action.payload)
+          .then((res) => {
+            dispatch({
+              type: ActionEnum.GET_DIRECTORY_SUCCESS,
+              payload: res,
             });
-          } catch (error) {
-            return Promise.reject(error);
-          }
-        })();
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directory,
+              status: DIRECTORY_STATUS.SUCCESS,
+            });
+          })
+          .catch((error) => {
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directory,
+              status: DIRECTORY_STATUS.ERROR,
+            });
 
-        break;
+            return Promise.reject(error);
+          });
       }
       case ActionEnum.SEED_PHRASE_REQUEST:
         return generateSeedPhrase()

@@ -39,6 +39,19 @@ export function usePodContextActions() {
     }
   };
 
+  const handleOpenDirectory = async () => {
+    try {
+      if (state.podsOpened.includes(state.podName)) {
+        await actions.getDirectory({
+          directory: state.directory,
+          podName: state.podName,
+        });
+      }
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
   const handleCreatePod = async (podName: string) => {
     try {
       await createPod({ password: state.password, podName });
@@ -69,5 +82,11 @@ export function usePodContextActions() {
     }
   };
 
-  return { handleImportPod, handleOpenPod, handleCreatePod, handleOverview };
+  return {
+    handleImportPod,
+    handleOpenPod,
+    handleCreatePod,
+    handleOverview,
+    handleOpenDirectory,
+  };
 }

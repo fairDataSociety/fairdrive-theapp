@@ -24,7 +24,7 @@ import FileList from 'src/components/fileList/fileList';
 // Hooks and helpers
 import useStyles from './driveStyles';
 import { sortyByCurrentFilter } from 'src/helpers/sort';
-
+import { usePodContextActions } from 'src/hooks/usePodContextActions';
 // Types
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
@@ -49,7 +49,7 @@ export type TCurrentFilter =
 
 function Drive(props: Props) {
   // Contexts
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -110,15 +110,14 @@ function Drive(props: Props) {
   // Confirmation of successful creation
   const [responseCreation, setResponseCreation] = useState(false);
 
+  const { handleOpenDirectory } = usePodContextActions();
+
   async function loadDirectory() {
     try {
       if (state.podName.length > 0) {
         setFiles(null);
         setFolders(null);
-        actions.getDirectory({
-          directory: state.directory,
-          podName: state.podName,
-        });
+        handleOpenDirectory();
       }
     } catch (e) {
       console.log(e);
