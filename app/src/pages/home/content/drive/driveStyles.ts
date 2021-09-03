@@ -6,7 +6,7 @@ import { Props } from './drive';
 const useStyles = makeStyles(() =>
   createStyles({
     layoutContent: {
-      overflowY: 'auto',
+      // overflowY: 'auto',
       padding: '25px',
     },
     Drive: {
@@ -141,9 +141,13 @@ const useStyles = makeStyles(() =>
       overflowX: 'hidden',
       overflowY: 'auto',
     },
-    //info
-
-    //action area
+    emptyStateWrapper: {
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '89px 0',
+    },
   })
 );
 

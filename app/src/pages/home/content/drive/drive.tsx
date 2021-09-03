@@ -19,7 +19,9 @@ import { createDirectory } from 'src/services/directory';
 // Components
 import SecondLevelNavigation from './secondLevelNavigation/secondLevelNavigation';
 import { DriveModalGroup } from './modalGroup/modalGroup';
-
+import BaseEmptyState, {
+  EMPTY_STATE_VARIANTS,
+} from 'src/shared/BaseEmptyState/BaseEmptyState';
 import CardGrid from 'src/components/cardGrid/cardGrid';
 import FileCard from 'src/components/cards/fileCard';
 
@@ -103,7 +105,6 @@ function Drive(props: Props) {
       if (state.podName.length > 0) {
         setFiles(null);
         setFolders(null);
-        console.log('fuck');
         handleOpenDirectory();
       }
     } catch (e) {
@@ -113,15 +114,19 @@ function Drive(props: Props) {
 
   // On depandency change reload data
   useEffect(() => {
-    // loadDirectory();
-    state.isFileUploaded = false;
-    state.searchQuery = null;
-    console.log(responseCreation);
+    if (
+      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+      podStateMachine.directoryName !== 'root'
+    ) {
+      loadDirectory();
+      state.isFileUploaded = false;
+      state.searchQuery = null;
+    }
   }, [
-    // state.isFileUploaded,
-    // state.directory,
+    state.isFileUploaded,
+    state.directory,
     responseCreation,
-    // state.fileDeleted,
+    state.fileDeleted,
   ]);
 
   // Handle filtering data by search query
@@ -283,12 +288,6 @@ function Drive(props: Props) {
                     />
                   )
                 )}
-
-              {!!state.dirs ||
-                !!state.entries ||
-                (state.entries === undefined && state.dirs === undefined && (
-                  <div>Loading files..</div>
-                ))}
             </CardGrid>
           ) : (
             <FileList
@@ -297,11 +296,16 @@ function Drive(props: Props) {
             ></FileList>
           )
         ) : (
-          <p className={classes.noSearchQueryMatches}>
-            {isSearchQuerySetted()
-              ? 'Sorry, no entries match search query'
-              : chooseProperEmptyMessage()}
-          </p>
+          <>
+            <p className={classes.noSearchQueryMatches}>
+              {isSearchQuerySetted() && 'Sorry, no entries match search query'}
+            </p>
+            {(!isFilesNotEmpty() || !isFoldersNotEmpty()) && (
+              <div className={classes.emptyStateWrapper}>
+                <BaseEmptyState variant={EMPTY_STATE_VARIANTS.EMPTY_STATE} />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

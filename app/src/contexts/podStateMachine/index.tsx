@@ -54,9 +54,9 @@ export function PodStateMachineProvider({
     }
   };
 
-  useEffect(() => {
-    console.log('state change: ', podStateMachine);
-  }, [podStateMachine]);
+  // useEffect(() => {
+  //   console.log('state change: ', podStateMachine);
+  // }, [podStateMachine]);
 
   const value: Context = { podStateMachine, changePodState };
 

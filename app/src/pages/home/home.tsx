@@ -45,13 +45,19 @@ function Home(props: Props) {
       podStateMachine.tag === STATES_NAMES.POD_STATE &&
       podStateMachine.status === POD_STATUS.LOADING
     ) {
-      return podStateMachine.podName;
+      return {
+        type: 'Pod',
+        content: podStateMachine.podName,
+      };
     }
     if (
       podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
       podStateMachine.status === DIRECTORY_STATUS.LOADING
     ) {
-      return podStateMachine.directoryName;
+      return {
+        type: 'Directory',
+        content: podStateMachine.directoryName,
+      };
     }
   };
 
@@ -128,9 +134,11 @@ function Home(props: Props) {
               >
                 <div className={classes.loadingDrive}>
                   <TailSpinner className={classes.loadingDriveIcon} />
-                  <p className={classes.loadingDriveTitle}>Loading...</p>
+                  <p className={classes.loadingDriveTitle}>
+                    Loading {loadingPodOrDirectoryName().type} ...
+                  </p>
                   <p className={classes.loadingDriveCaption}>
-                    {loadingPodOrDirectoryName()}
+                    {loadingPodOrDirectoryName().content}
                   </p>
                 </div>
               </div>

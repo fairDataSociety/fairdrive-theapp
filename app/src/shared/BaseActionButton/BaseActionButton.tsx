@@ -18,6 +18,8 @@ import {
   GridIcon,
   SortingIcon,
   ListIcon,
+  Trash,
+  InfoIcon,
 } from 'src/components/icons/icons';
 
 export enum ACTION_BUTTON_VARIANTS {
@@ -34,6 +36,8 @@ export enum ACTION_BUTTON_ICONS {
   GRID_ICON = 'grid_icon',
   SORTING_ICON = 'sorting_icon',
   LIST_ICON = 'list_icon',
+  TRASH = 'trash',
+  INFO_ICON = 'info_icon',
 }
 
 export interface Props {
@@ -45,7 +49,7 @@ export interface Props {
   label?: string;
   isSubmit?: boolean;
   isDisabled?: boolean;
-  onClickCallback: () => void;
+  onClickCallback?: () => void;
 }
 
 function BaseActionButton(props: Props): JSX.Element {
@@ -91,6 +95,10 @@ function BaseActionButton(props: Props): JSX.Element {
         return <SortingIcon className={classes.icon} />;
       case ACTION_BUTTON_ICONS.LIST_ICON:
         return <ListIcon className={classes.icon} />;
+      case ACTION_BUTTON_ICONS.TRASH:
+        return <Trash className={classes.icon} />;
+      case ACTION_BUTTON_ICONS.INFO_ICON:
+        return <InfoIcon className={classes.icon} />;
       default:
         console.warn('Unknown variant', iconVariant);
         break;
