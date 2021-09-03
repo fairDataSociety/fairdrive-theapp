@@ -2,7 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-
+import { usePodStateMachine } from 'src/contexts/podStateMachine';
+import {
+  STATES_NAMES,
+  POD_STATUS,
+  DIRECTORY_STATUS,
+} from 'src/types/pod-state';
 // Store
 import { StoreContext } from 'src/store/store';
 import { receiveFileInfo } from 'src/services/file';
@@ -28,7 +33,6 @@ import { usePodContextActions } from 'src/hooks/usePodContextActions';
 // Types
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
-import { State, StateTagsEnum } from 'src/types/drive-state-machine/State';
 import { OpenRightSidebar } from 'src/pages/home/home';
 import { RIGHT_SIDEBAR_VARIANTS } from 'src/pages/home/partials/rightSidebar/rightSidebar';
 
@@ -53,38 +57,20 @@ function Drive(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  // Manage state machine
-  const [machineTag, setMachineTag] = useState<State>({
-    tag: StateTagsEnum.INITIAL,
-  });
-
-  // Detect when pod if any pod is opened
-  useEffect(() => {
-    setMachineTag({
-      tag:
-        state.podsOpened.length > 0
-          ? StateTagsEnum.POD_OPENED
-          : StateTagsEnum.INITIAL,
-    });
-  }, [state.podsOpened]);
-
-  // Detect if directory other than root is opened
-  useEffect(() => {
-    if (state.directory !== 'root') {
-      setMachineTag({ tag: StateTagsEnum.DIRECTORY_OPENED });
-    }
-    if (machineTag.tag === StateTagsEnum.DIRECTORY_OPENED) {
-      setMachineTag({ tag: StateTagsEnum.POD_OPENED });
-    }
-  }, [state.directory]);
-
-  const isTagOtherThanInitial = () => machineTag.tag !== StateTagsEnum.INITIAL;
+  const { podStateMachine } = usePodStateMachine();
 
   const chooseProperEmptyMessage = () => {
-    if (machineTag.tag === StateTagsEnum.POD_OPENED) {
+    if (
+      podStateMachine.tag === STATES_NAMES.POD_STATE &&
+      (podStateMachine.status === POD_STATUS.SUCCESS ||
+        podStateMachine.status === POD_STATUS.CHANGE)
+    ) {
       return 'This Pod is empty.';
     }
-    if (machineTag.tag === StateTagsEnum.DIRECTORY_OPENED) {
+    if (
+      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+      podStateMachine.status === DIRECTORY_STATUS.SUCCESS
+    ) {
       return 'This Directory is empty.';
     }
   };
@@ -117,6 +103,7 @@ function Drive(props: Props) {
       if (state.podName.length > 0) {
         setFiles(null);
         setFolders(null);
+        console.log('fuck');
         handleOpenDirectory();
       }
     } catch (e) {
@@ -126,14 +113,15 @@ function Drive(props: Props) {
 
   // On depandency change reload data
   useEffect(() => {
-    loadDirectory();
+    // loadDirectory();
     state.isFileUploaded = false;
     state.searchQuery = null;
+    console.log(responseCreation);
   }, [
-    state.isFileUploaded,
-    state.directory,
+    // state.isFileUploaded,
+    // state.directory,
     responseCreation,
-    state.fileDeleted,
+    // state.fileDeleted,
   ]);
 
   // Handle filtering data by search query
@@ -208,120 +196,115 @@ function Drive(props: Props) {
   const isFoldersNotEmpty = () => folders && folders.length > 0;
 
   return (
-    <>
-      {isTagOtherThanInitial() && (
-        <div className={classes.Drive}>
-          <div className={classes.navBarWrapper}>
-            <TopLevelNavigation
-              showGrid={showGrid}
-              setShowGrid={setShowGrid}
-              handleShare={handleShare}
+    <div className={classes.Drive}>
+      <div className={classes.navBarWrapper}>
+        <TopLevelNavigation
+          showGrid={showGrid}
+          setShowGrid={setShowGrid}
+          handleShare={handleShare}
+          currentFilter={currentFilter}
+          setCurrentFilter={(selectedFilter) =>
+            setCurrentFilter(selectedFilter)
+          }
+        />
+      </div>
+
+      <div className={classes.layoutContent}>
+        {state.podName !== '' && (
+          <SecondLevelNavigation
+            isSearchResults={isSearchQuerySetted()}
+            isOwned={state.isPrivatePod}
+            onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
+            onOpenImportFileModal={() => setIsCreateFileModalVisible(true)}
+            onOpenUploadModal={() =>
+              props.setRightSidebarContent({
+                variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD,
+              })
+            }
+          />
+        )}
+
+        <DriveModalGroup
+          folderName={folderName}
+          setFolderName={(newFolderName) => setFolderName(newFolderName)}
+          fileName={fileName}
+          setFileName={(newFileName) => setFileName(newFileName)}
+          createFolderModal={{
+            isCreateFolderModalVisible: () => isCreateFolderModalVisible,
+            onCreate: () => createNewFolder(),
+            onClose: () => setIsCreateFolderModalVisible(false),
+          }}
+          createFileModal={{
+            isCreateFileModalVisible: () => isCreateFileModalVisible,
+            onCreate: () => createNewfile(),
+            onClose: () => setIsCreateFileModalVisible(false),
+          }}
+          sharePodModal={{
+            isSharePodModalVisible: () => showSharePodPopup,
+            refLink: () => refLink,
+            onClose: () => setShowSharePodPopup(false),
+          }}
+        />
+
+        {isSearchQuerySetted() && (
+          <div className={classes.searchDivider}>
+            <SearchIcon className={classes.searchIcon} />
+            <span>{state.searchQuery}</span>
+          </div>
+        )}
+
+        {isFilesNotEmpty() || isFoldersNotEmpty() ? (
+          showGrid ? (
+            <CardGrid className={classes.cardGrid}>
+              {state.dirs &&
+                sortyByCurrentFilter(folders, currentFilter).map(
+                  (dir: IDirectory, index) => (
+                    <FileCard
+                      key={`${dir.name}_${index}`}
+                      file={dir}
+                      isDirectory={true}
+                    />
+                  )
+                )}
+
+              {state.entries &&
+                sortyByCurrentFilter(files, currentFilter).map(
+                  (file: IFile, index) => (
+                    <FileCard
+                      key={`${file.name}_${index}`}
+                      file={file}
+                      isDirectory={false}
+                      onFileClick={() =>
+                        props.setRightSidebarContent({
+                          payload: file,
+                          variant: RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE,
+                        })
+                      }
+                    />
+                  )
+                )}
+
+              {!!state.dirs ||
+                !!state.entries ||
+                (state.entries === undefined && state.dirs === undefined && (
+                  <div>Loading files..</div>
+                ))}
+            </CardGrid>
+          ) : (
+            <FileList
               currentFilter={currentFilter}
-              setCurrentFilter={(selectedFilter) =>
-                setCurrentFilter(selectedFilter)
-              }
-            />
-          </div>
-
-          <div className={classes.layoutContent}>
-            {state.podName !== '' && (
-              <SecondLevelNavigation
-                isSearchResults={isSearchQuerySetted()}
-                isOwned={state.isPrivatePod}
-                onOpenCreateFolderModal={() =>
-                  setIsCreateFolderModalVisible(true)
-                }
-                onOpenImportFileModal={() => setIsCreateFileModalVisible(true)}
-                onOpenUploadModal={() =>
-                  props.setRightSidebarContent({
-                    variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD,
-                  })
-                }
-              />
-            )}
-
-            <DriveModalGroup
-              folderName={folderName}
-              setFolderName={(newFolderName) => setFolderName(newFolderName)}
-              fileName={fileName}
-              setFileName={(newFileName) => setFileName(newFileName)}
-              createFolderModal={{
-                isCreateFolderModalVisible: () => isCreateFolderModalVisible,
-                onCreate: () => createNewFolder(),
-                onClose: () => setIsCreateFolderModalVisible(false),
-              }}
-              createFileModal={{
-                isCreateFileModalVisible: () => isCreateFileModalVisible,
-                onCreate: () => createNewfile(),
-                onClose: () => setIsCreateFileModalVisible(false),
-              }}
-              sharePodModal={{
-                isSharePodModalVisible: () => showSharePodPopup,
-                refLink: () => refLink,
-                onClose: () => setShowSharePodPopup(false),
-              }}
-            />
-
-            {isSearchQuerySetted() && (
-              <div className={classes.searchDivider}>
-                <SearchIcon className={classes.searchIcon} />
-                <span>{state.searchQuery}</span>
-              </div>
-            )}
-
-            {isFilesNotEmpty() || isFoldersNotEmpty() ? (
-              showGrid ? (
-                <CardGrid className={classes.cardGrid}>
-                  {state.dirs &&
-                    sortyByCurrentFilter(folders, currentFilter).map(
-                      (dir: IDirectory, index) => (
-                        <FileCard
-                          key={`${dir.name}_${index}`}
-                          file={dir}
-                          isDirectory={true}
-                        />
-                      )
-                    )}
-
-                  {state.entries &&
-                    sortyByCurrentFilter(files, currentFilter).map(
-                      (file: IFile, index) => (
-                        <FileCard
-                          key={`${file.name}_${index}`}
-                          file={file}
-                          isDirectory={false}
-                          onFileClick={() =>
-                            props.setRightSidebarContent({
-                              payload: file,
-                              variant: RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE,
-                            })
-                          }
-                        />
-                      )
-                    )}
-
-                  {!!state.dirs ||
-                    !!state.entries ||
-                    (state.entries === undefined &&
-                      state.dirs === undefined && <div>Loading files..</div>)}
-                </CardGrid>
-              ) : (
-                <FileList
-                  currentFilter={currentFilter}
-                  isPodBarOpen={props.isPodBarOpen}
-                ></FileList>
-              )
-            ) : (
-              <p className={classes.noSearchQueryMatches}>
-                {isSearchQuerySetted()
-                  ? 'Sorry, no entries match search query'
-                  : chooseProperEmptyMessage()}
-              </p>
-            )}
-          </div>
-        </div>
-      )}
-    </>
+              isPodBarOpen={props.isPodBarOpen}
+            ></FileList>
+          )
+        ) : (
+          <p className={classes.noSearchQueryMatches}>
+            {isSearchQuerySetted()
+              ? 'Sorry, no entries match search query'
+              : chooseProperEmptyMessage()}
+          </p>
+        )}
+      </div>
+    </div>
   );
 }
 

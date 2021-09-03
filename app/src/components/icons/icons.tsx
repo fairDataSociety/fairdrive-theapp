@@ -57,7 +57,7 @@ import { ReactComponent as CirclePart } from 'src/media/spinners/circle_part.svg
 import { ReactComponent as Swarm } from 'src/media/logotypes/Swarm.svg';
 import { ReactComponent as LinumLabs } from 'src/media/logotypes/LinumLabs.svg';
 import { ReactComponent as FairDataSociety } from 'src/media/logotypes/FairDataSociety.svg';
-
+import { ReactComponent as TailSpinner } from 'src/media/fairdrive/TailSpinner.svg';
 import { ReactComponent as Moon } from 'src/media/optionIcons/Moon.svg';
 import { ReactComponent as Sun } from 'src/media/optionIcons/Sun.svg';
 export const icons = {
@@ -66,6 +66,7 @@ export const icons = {
 };
 
 export {
+  TailSpinner,
   ButtonPlus,
   ShareIcon,
   UploadIcon,

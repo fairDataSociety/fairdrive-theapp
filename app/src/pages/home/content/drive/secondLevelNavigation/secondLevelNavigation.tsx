@@ -5,7 +5,7 @@ import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Icons
-import { PodInfo as PodInfoIcon, ShareIcon } from 'src/components/icons/icons';
+import { PodInfo as PodInfoIcon } from 'src/components/icons/icons';
 
 // Hooks
 import useStyles from './secondLevelNavigationStyles';

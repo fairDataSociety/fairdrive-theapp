@@ -16,7 +16,8 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       left: '0',
       right: '0',
-      height: 'calc(100vh - )',
+      // 100vh - topNavBar - header - footer
+      height: 'calc(100vh - 76px - 80px - 89px)',
       flexDirection: 'column',
       margin: '0 0 0 0',
       paddingLeft: (props: Props & Theme) =>
