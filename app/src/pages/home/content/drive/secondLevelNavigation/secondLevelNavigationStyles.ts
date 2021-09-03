@@ -15,7 +15,6 @@ const useStyles = makeStyles(() =>
     left: {
       display: 'flex',
       gap: '20px',
-      cursor: 'pointer',
     },
     right: {
       display: 'flex',
@@ -51,10 +50,14 @@ const useStyles = makeStyles(() =>
       float: 'left',
     },
     shareIcon: {
-      width: '4rem',
-      height: '4rem',
-      // margin: "1rem 0 1rem 1rem",
-      float: 'left',
+      width: '32px',
+      height: '32px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: '#B4B0E5',
+      backgroundColor: '#5C5685',
+      borderRadius: '100%',
     },
     information: {
       overflow: 'hidden',

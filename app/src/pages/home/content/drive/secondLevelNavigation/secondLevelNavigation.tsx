@@ -134,7 +134,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
           <div className={classes.infoWrapper}>
             <PodInfoIcon className={classes.infoIcon} />
             <span className={classes.information}>{informations.caption}</span>
-            <ShareIcon className={classes.shareIcon} />
+            <div className={classes.shareIcon}>s</div>
           </div>
         </div>
         {!isActionMenuOpen && (
