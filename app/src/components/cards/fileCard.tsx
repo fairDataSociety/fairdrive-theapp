@@ -26,19 +26,18 @@ export interface Props {
   file: IDirectory | IFile;
   isDirectory: boolean;
   onFileClick?: () => void;
+  onDirectoryClick?: () => void;
 }
 
 function FileCard(props: Props) {
   const { file } = props;
-  const { state, actions } = useContext(StoreContext);
+  // const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
-  // eslint-disable-next-line
-  const history = useHistory();
 
   const [fileSize, setFileSize] = useState('');
   const [fileCreateDate, setFileCreateDate] = useState('');
-  // eslint-disable-next-line
+
   const [fileModDate, setFileModDate] = useState('');
   const [Icon, setIcon] = useState(null);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -60,15 +59,13 @@ function FileCard(props: Props) {
     }
   }, [file]);
 
-  async function onFileClick() {
-    if (file.content_type === 'inode/directory') {
-      const newDirectory =
-        state.directory !== 'root'
-          ? state.directory + '/' + file.name
-          : file.name;
-      actions.setDirectory(newDirectory);
+  const handleOnClick = () => {
+    if (props.isDirectory) {
+      props.onDirectoryClick();
+    } else {
+      props.onFileClick();
     }
-  }
+  };
 
   return (
     <div className={classes.wrapper}>
@@ -76,10 +73,7 @@ function FileCard(props: Props) {
         className={classes.kebabIcon}
         onClick={() => setIsDropdownVisible(!isDropdownVisible)}
       />
-      <CardWrapper
-        onFileClick={props.onFileClick ? props.onFileClick : onFileClick}
-        size={props.size}
-      >
+      <CardWrapper onFileClick={() => handleOnClick()} size={props.size}>
         <div>
           <CardHeader
             file={file}

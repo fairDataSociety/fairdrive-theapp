@@ -52,7 +52,7 @@ export type TCurrentFilter =
 
 function Drive(props: Props) {
   // Contexts
-  const { state } = useContext(StoreContext);
+  const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -87,6 +87,8 @@ function Drive(props: Props) {
         setFiles(null);
         setFolders(null);
         handleOpenDirectory();
+        state.isFileUploaded = false;
+        state.searchQuery = null;
       }
     } catch (e) {
       console.log(e);
@@ -94,21 +96,31 @@ function Drive(props: Props) {
   }
 
   // On depandency change reload data
-  useEffect(() => {
-    if (
-      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.directoryName !== 'root'
-    ) {
-      loadDirectory();
-      state.isFileUploaded = false;
-      state.searchQuery = null;
-    }
-  }, [
-    state.isFileUploaded,
-    state.directory,
-    responseCreation,
-    state.fileDeleted,
-  ]);
+
+  // TODO: Remove below
+
+  // useEffect(() => {
+  //   if (
+  //     podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+  //     podStateMachine.directoryName !== 'root'
+  //   ) {
+  //     loadDirectory();
+
+  //   }
+  // }, [
+  //   state.isFileUploaded,
+  //   state.directory,
+  //   responseCreation,
+  //   state.fileDeleted,
+  // ]);
+
+  const onDirectoryClick = (directoryName: string): void => {
+    debugger;
+
+    actions.setDirectory(`root/${directoryName}`);
+
+    loadDirectory();
+  };
 
   // Handle filtering data by search query
   useEffect(() => {
@@ -249,6 +261,7 @@ function Drive(props: Props) {
                       key={`${dir.name}_${index}`}
                       file={dir}
                       isDirectory={true}
+                      onDirectoryClick={() => onDirectoryClick(dir.name)}
                     />
                   )
                 )}

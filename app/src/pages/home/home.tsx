@@ -74,7 +74,6 @@ function Home(props: Props) {
 
   const isRootDirectoryLoadedSuccessfuly = () =>
     podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-    podStateMachine.directoryName === 'root' &&
     podStateMachine.status === DIRECTORY_STATUS.SUCCESS;
 
   // Manage sidebar

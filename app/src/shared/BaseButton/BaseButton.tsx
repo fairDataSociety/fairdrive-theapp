@@ -83,8 +83,12 @@ export const BaseButton = ({
   useEffect(() => {
     isValueInEnum(variant, BUTTON_VARIANTS);
     isValueInEnum(size, BUTTON_SIZE);
-    isValueInEnum(fontSize, FONT_SIZE);
-    isValueInEnum(textColor, BUTTON_TEXT_COLOR);
+    if (fontSize) {
+      isValueInEnum(fontSize, FONT_SIZE);
+    }
+    if (textColor) {
+      isValueInEnum(textColor, BUTTON_TEXT_COLOR);
+    }
   }, [variant, size, fontSize, textColor]);
 
   return (
