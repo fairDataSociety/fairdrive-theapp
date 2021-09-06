@@ -44,6 +44,7 @@ function TopLevelNavigation(props: Props) {
     <div className={classes.topLevelNavigation}>
       <div className={classes.left}>
         <BaseDropdown
+          title={state.isPrivatePod ? 'Private Pod' : 'Shared Pod'}
           moveToRight={true}
           optionsList={[
             {
@@ -88,6 +89,7 @@ function TopLevelNavigation(props: Props) {
         />
 
         <BaseDropdown
+          title={'Sort By'}
           optionsList={[
             {
               label: 'Least recent',

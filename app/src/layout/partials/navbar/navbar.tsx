@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { ClickAwayListener } from '@material-ui/core';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
@@ -27,6 +26,7 @@ import {
   FONT_SIZE,
   BUTTON_TEXT_COLOR,
 } from 'src/shared/BaseButton/BaseButton';
+import SearchBar from 'src/components/searchBar/searchBar';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -104,6 +104,8 @@ function Navbar(props: Props): JSX.Element {
           )}
 
           <div className={classes.actionsWrapper}>
+            <SearchBar />
+
             <div className={classes.dappAndActivityGroup}>
               <BaseDropdown
                 moveToRight={false}

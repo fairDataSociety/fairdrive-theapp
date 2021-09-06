@@ -25,7 +25,7 @@ import { ReactComponent as File } from 'src/media/fileTypes/File.svg';
 import { ReactComponent as Directory } from 'src/media/fileTypes/Directory.svg';
 import { ReactComponent as ChevronRight } from '../../media/UI/chevron_right.svg';
 import { ReactComponent as ArrowRight } from 'src/media/fairdrive/ArrowRight.svg';
-
+import { ReactComponent as SearchLoupe } from 'src/media/fairdrive/SearchLoupe.svg';
 import { ReactComponent as StartFolder } from 'src/media/UI/getStartedFolder.svg';
 import { ReactComponent as Dapps } from 'src/media/UI/dapps.svg';
 import { ReactComponent as Complete } from 'src/media/UI/complete.svg';
@@ -82,6 +82,7 @@ export {
   Success,
   Fail,
   Folder,
+  SearchLoupe,
   InfoIcon,
   NavRight,
   QuestionMark,
