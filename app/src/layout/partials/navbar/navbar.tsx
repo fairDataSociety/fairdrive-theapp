@@ -97,9 +97,10 @@ function Navbar(props: Props): JSX.Element {
           </BaseButton>
 
           {isReferalModalOpen && (
-            <ClickAwayListener onClickAway={() => setIsReferalModalOpen(false)}>
-              <GenerateLink variant="refer" />
-            </ClickAwayListener>
+            <GenerateLink
+              variant="refer"
+              handleClose={() => setIsReferalModalOpen(false)}
+            />
           )}
 
           <div className={classes.actionsWrapper}>
