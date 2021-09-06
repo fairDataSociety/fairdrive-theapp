@@ -76,7 +76,7 @@ const useStyles = makeStyles(() =>
       },
     },
     teritary: {
-      background: (style: Props & Theme) => style.backgroundDark,
+      background: 'transparent',
       color: (style: Props & Theme) => style.backgroundLight1,
       font: (style: Props & Theme) => style.typography.caption1,
 
@@ -91,7 +91,7 @@ const useStyles = makeStyles(() =>
     },
     teritary_outlined: {
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight2}`,
-      background: (style: Props & Theme) => style.backgroundDark,
+      background: 'transparent',
       color: (style: Props & Theme) => style.backgroundLight1,
       font: (style: Props & Theme) => style.typography.caption1,
 
@@ -132,6 +132,24 @@ const useStyles = makeStyles(() =>
     },
     small: {
       padding: '8px 12px',
+    },
+    no_padding: {
+      padding: 0,
+    },
+    font_regular: {
+      fontSize: '12px',
+    },
+    font_big: {
+      fontSize: '16px!important',
+    },
+    font_color_white: {
+      color: (style: Props & Theme) => `${style.backgroundWhite}  !important`,
+    },
+    font_color_light1: {
+      color: (style: Props & Theme) => `${style.backgroundLight1} !important`,
+    },
+    font_color_light2: {
+      color: (style: Props & Theme) => `${style.backgroundLight2} !important`,
     },
     icon: {
       width: '4px',

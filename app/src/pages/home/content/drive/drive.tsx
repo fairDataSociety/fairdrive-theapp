@@ -3,11 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import {
-  STATES_NAMES,
-  POD_STATUS,
-  DIRECTORY_STATUS,
-} from 'src/types/pod-state';
+import { STATES_NAMES } from 'src/types/pod-state';
+
 // Store
 import { StoreContext } from 'src/store/store';
 import { receiveFileInfo } from 'src/services/file';
@@ -60,22 +57,6 @@ function Drive(props: Props) {
   const classes = useStyles({ ...props, ...theme });
 
   const { podStateMachine } = usePodStateMachine();
-
-  const chooseProperEmptyMessage = () => {
-    if (
-      podStateMachine.tag === STATES_NAMES.POD_STATE &&
-      (podStateMachine.status === POD_STATUS.SUCCESS ||
-        podStateMachine.status === POD_STATUS.CHANGE)
-    ) {
-      return 'This Pod is empty.';
-    }
-    if (
-      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.SUCCESS
-    ) {
-      return 'This Directory is empty.';
-    }
-  };
 
   // Local store of files and directories
   const [files, setFiles] = useState<IFile[] | null>([]);

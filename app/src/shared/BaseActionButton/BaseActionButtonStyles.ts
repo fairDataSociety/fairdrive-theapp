@@ -8,12 +8,10 @@ const useStyles = makeStyles(() =>
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
       transition: 'all 0.1s ease',
       borderRadius: '8px',
       minWidth: '40px',
-      padding: (style: Props & Theme) =>
-        style.hasDropdownInitiator || style.children ? '12px' : '',
+
       height: '40px',
     },
     action_outlined: {
@@ -21,6 +19,9 @@ const useStyles = makeStyles(() =>
       background: (style: Props & Theme) => style.backgroundDark2,
       color: (style: Props & Theme) => style.backgroundLight1,
       font: (style: Props & Theme) => style.typography.caption1,
+      padding: (style: Props & Theme) =>
+        style.hasDropdownInitiator || style.children ? '12px' : '',
+      justifyContent: 'center',
 
       '&:hover': {
         border: (style: Props & Theme) => `1px solid ${style.backgroundLight2}`,
@@ -47,6 +48,10 @@ const useStyles = makeStyles(() =>
       color: (style: Props & Theme) => style.backgroundLight1,
       font: (style: Props & Theme) => style.typography.caption1,
 
+      padding: (style: Props & Theme) =>
+        style.hasDropdownInitiator || style.children ? '12px' : '',
+      justifyContent: 'center',
+
       '&:hover': {
         border: (style: Props & Theme) => `1px solid ${style.backgroundLight2}`,
         background: (style: Props & Theme) => style.backgroundDark1,
@@ -64,6 +69,39 @@ const useStyles = makeStyles(() =>
         background: (style: Props & Theme) => style.backgroundDark4,
         border: (style: Props & Theme) => `1px solid ${style.backgroundDark1}`,
         font: (style: Props & Theme) => style.typography.caption1,
+      },
+    },
+    navbar: {
+      border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
+      background: (style: Props & Theme) => style.backgroundDark2,
+      color: (style: Props & Theme) => style.backgroundLight1,
+      font: (style: Props & Theme) => style.typography.caption1,
+      borderRadius: '4px',
+      padding: '10px 12px',
+      width: '168px',
+      justifyContent: 'space-between',
+
+      '&:hover': {
+        border: (style: Props & Theme) => `1px solid ${style.backgroundLight2}`,
+        background: (style: Props & Theme) => style.backgroundDark1,
+        color: (style: Props & Theme) => style.backgroundLight1,
+        font: (style: Props & Theme) => style.typography.caption3,
+      },
+      '&:active': {
+        color: (style: Props & Theme) => style.backgroundLight1,
+        background: (style: Props & Theme) => style.backgroundDark1,
+        border: (style: Props & Theme) => `1px solid ${style.backgroundLight1}`,
+        font: (style: Props & Theme) => style.typography.caption3,
+      },
+      '&:disabled': {
+        color: (style: Props & Theme) => style.backgroundDark1,
+        background: (style: Props & Theme) => style.backgroundDark4,
+        border: (style: Props & Theme) => `1px solid ${style.backgroundDark1}`,
+        font: (style: Props & Theme) => style.typography.caption1,
+      },
+
+      '& span': {
+        margin: '0!important',
       },
     },
     dropdownIndicator: {
@@ -87,6 +125,12 @@ const useStyles = makeStyles(() =>
     },
     text: {
       marginLeft: '10px',
+    },
+    font_regular: {
+      fontSize: '12px!important',
+    },
+    font_big: {
+      fontSize: '16px!important',
     },
   })
 );

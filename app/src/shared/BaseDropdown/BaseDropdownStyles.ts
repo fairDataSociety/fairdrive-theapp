@@ -6,6 +6,8 @@ const useStyles = makeStyles(() =>
   createStyles({
     dropdownWrapper: {
       position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
     },
     dropdown: {
       position: 'absolute',
@@ -19,9 +21,14 @@ const useStyles = makeStyles(() =>
       background: (style: Theme & Props) => style.backgroundDark1,
       padding: '24px',
       borderRadius: '8px',
-      width: '200px',
       height: 'auto',
       border: (style: Theme & Props) => `1px solid ${style.backgroundLight2}`,
+    },
+    sizeRegular: {
+      width: '200px',
+    },
+    sizeBig: {
+      width: '288px',
     },
     dropdownMoveToRight: {
       left: '0',
@@ -42,6 +49,30 @@ const useStyles = makeStyles(() =>
       '&:last-of-type': {
         marginBottom: '0',
       },
+    },
+    dropdownItemDisabled: {
+      cursor: 'not-allowed',
+    },
+    dropdownItemDangerVariant: {
+      color: '#FF3864!important',
+    },
+    dropdownFooter: {
+      borderTop: (style: Theme & Props) =>
+        `1px solid ${style.backgroundLight3}`,
+      width: '100%',
+      paddingTop: '16px',
+      marginTop: '16px',
+    },
+    dropdownHeaderWrapper: {
+      borderBottom: (style: Theme & Props) =>
+        `1px solid ${style.backgroundLight3}`,
+      paddingBottom: '16px',
+      marginBottom: '16px',
+    },
+    dropdownHeading: {
+      color: (style: Theme & Props) => style.backgroundWhite,
+      fontSize: '16px',
+      fontWeight: 600,
     },
   })
 );

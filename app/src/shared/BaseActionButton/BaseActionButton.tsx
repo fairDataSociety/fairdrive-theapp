@@ -23,6 +23,7 @@ import {
 } from 'src/components/icons/icons';
 
 export enum ACTION_BUTTON_VARIANTS {
+  NAVBAR = 'navbar',
   ACTION_OUTLINED = 'action_outlined',
   ACTION_OUTLINED_WITHOUT_TEXT = 'action_outlined_without_text',
 }
@@ -40,8 +41,13 @@ export enum ACTION_BUTTON_ICONS {
   INFO_ICON = 'info_icon',
 }
 
+export enum ACTION_FONT_SIZE {
+  REGULAR = 'font_regular',
+  BIG = 'font_big',
+}
+
 export interface Props {
-  icon: ACTION_BUTTON_ICONS;
+  icon?: ACTION_BUTTON_ICONS;
   variant: ACTION_BUTTON_VARIANTS;
   hasDropdownInitiator?: boolean;
   isDropdownOpen?: boolean;
@@ -50,6 +56,7 @@ export interface Props {
   isSubmit?: boolean;
   isDisabled?: boolean;
   onClickCallback?: () => void;
+  fontSize?: ACTION_FONT_SIZE;
 }
 
 function BaseActionButton(props: Props): JSX.Element {
@@ -60,6 +67,7 @@ function BaseActionButton(props: Props): JSX.Element {
     isDisabled,
     hasDropdownInitiator,
     isDropdownOpen,
+    fontSize,
     children,
     isSubmit,
     label,
@@ -72,9 +80,15 @@ function BaseActionButton(props: Props): JSX.Element {
   });
 
   useEffect(() => {
-    isValueInEnum(icon, ACTION_BUTTON_ICONS);
+    if (icon) {
+      isValueInEnum(icon, ACTION_BUTTON_ICONS);
+    }
+    if (fontSize) {
+      isValueInEnum(fontSize, ACTION_FONT_SIZE);
+    }
+
     isValueInEnum(variant, ACTION_BUTTON_VARIANTS);
-  }, [variant, icon]);
+  }, [variant, icon, fontSize]);
 
   const getIconForVariant = (iconVariant: ACTION_BUTTON_ICONS) => {
     // TODO: Change below to some icons.includes(iconVariant);
@@ -110,11 +124,17 @@ function BaseActionButton(props: Props): JSX.Element {
       type={isSubmit ? 'submit' : 'button'}
       onClick={() => onClickCallback()}
       disabled={isDisabled}
-      className={`${classes.button} ${classes[variant]}`}
+      className={`${classes.button} ${classes[variant]} `}
     >
-      {getIconForVariant(icon)}
+      {icon && getIconForVariant(icon)}
       {variant !== ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT &&
-        children && <span className={classes.text}>{children}</span>}
+        children && (
+          <span
+            className={`${classes.text} ${fontSize ? classes[fontSize] : ''}`}
+          >
+            {children}
+          </span>
+        )}
       {hasDropdownInitiator && (
         <ChevronDown
           className={`${classes.dropdownIndicator} ${
