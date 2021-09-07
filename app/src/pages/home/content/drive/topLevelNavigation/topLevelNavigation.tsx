@@ -43,9 +43,9 @@ function TopLevelNavigation(props: Props) {
   const getDirectoryPath = () => {
     const stateDirectoryName = state.directory;
     if (stateDirectoryName !== 'root') {
-      return `root / ${stateDirectoryName}`;
+      return `/ root / ${stateDirectoryName}`;
     } else {
-      return `root`;
+      return `/ root`;
     }
   };
 

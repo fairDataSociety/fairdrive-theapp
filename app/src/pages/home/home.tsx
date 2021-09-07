@@ -49,14 +49,18 @@ function Home(props: Props) {
         type: 'Pod',
         content: podStateMachine.podName,
       };
-    }
-    if (
+    } else if (
       podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
       podStateMachine.status === DIRECTORY_STATUS.LOADING
     ) {
       return {
         type: 'Directory',
         content: podStateMachine.directoryName,
+      };
+    } else {
+      return {
+        type: 'Reloading',
+        content: 'Location is being reloaded',
       };
     }
   };
@@ -70,11 +74,15 @@ function Home(props: Props) {
       podStateMachine.status === POD_STATUS.LOADING) ||
     (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
       podStateMachine.directoryName === 'root' &&
-      podStateMachine.status === DIRECTORY_STATUS.LOADING);
+      podStateMachine.status === DIRECTORY_STATUS.LOADING) ||
+    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+      podStateMachine.status === DIRECTORY_STATUS.FILE_UPLOADING);
 
   const isRootDirectoryLoadedSuccessfuly = () =>
-    podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-    podStateMachine.status === DIRECTORY_STATUS.SUCCESS;
+    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+      podStateMachine.status === DIRECTORY_STATUS.SUCCESS) ||
+    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+      podStateMachine.status === DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS);
 
   // Manage sidebar
   const [sidebarItem, setSidebarItem] = useState<AVAILABLE_PAGES>(

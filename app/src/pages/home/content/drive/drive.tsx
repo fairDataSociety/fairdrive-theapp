@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
+import { STATES_NAMES, DIRECTORY_STATUS } from 'src/types/pod-state';
 
 // Store
 import { StoreContext } from 'src/store/store';
@@ -92,28 +93,22 @@ function Drive(props: Props) {
     }
   }
 
-  // On depandency change reload data
+  // On files upload success, reload directory
+  const { podStateMachine } = usePodStateMachine();
 
-  // TODO: Remove below
-
-  // useEffect(() => {
-  //   if (
-  //     podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-  //     podStateMachine.directoryName !== 'root'
-  //   ) {
-  //     loadDirectory();
-
-  //   }
-  // }, [
-  //   state.isFileUploaded,
-  //   state.directory,
-  //   responseCreation,
-  //   state.fileDeleted,
-  // ]);
+  useEffect(() => {
+    if (
+      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+        podStateMachine.status === DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS) ||
+      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+        podStateMachine.status === DIRECTORY_STATUS.FILE_REMOVING_SUCCESS)
+    ) {
+      loadDirectory(state.directory);
+    }
+  }, [podStateMachine]);
 
   const onDirectoryClick = (directoryName: string): void => {
     actions.setDirectory(directoryName);
-    console.log('open dir: ', directoryName);
     loadDirectory(directoryName);
   };
 

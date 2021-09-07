@@ -31,6 +31,12 @@ export enum DIRECTORY_STATUS {
   ERROR = 'error',
   CLOSED = 'closed',
   CHANGE = 'change',
+  FILE_UPLOADING = 'file-uploading',
+  FILE_UPLOAD_SUCCESS = 'file-upload-success',
+  FILE_UPLOAD_ERROR = 'file-upload-error',
+  FILE_REMOVING = 'file-removing',
+  FILE_REMOVING_SUCCESS = 'file-remove-success',
+  FILE_REMOVING_ERROR = 'file-remove-error',
 }
 
 export interface DirectoryData {

@@ -97,14 +97,27 @@ export const applyMiddleware =
             })
           );
       case ActionEnum.DELETE_FILE_REQUEST:
+        // TODO: Pass in payload directory name also for intiting below statuses
         return deleteFile(action.payload)
           .then((res) => {
+            // changePodState({
+            //   tag: STATES_NAMES.DIRECTORY_STATE,
+            //   podName: action.payload.podName,
+            //   directoryName: '',
+            //   status: DIRECTORY_STATUS.FILE_REMOVING_SUCCESS
+            // });
             dispatch({
               type: ActionEnum.DELETE_FILE_FILE_DELETE_SUCCESS,
               payload: res,
             });
           })
           .catch((err) => {
+            // changePodState({
+            //   tag: STATES_NAMES.DIRECTORY_STATE,
+            //   podName: action.payload.podName,
+            //   directoryName: '',
+            //   status: DIRECTORY_STATUS.FILE_REMOVING_ERROR
+            // });
             dispatch({
               type: ActionEnum.DELETE_FILE_DELETE_FILE_FAILED,
               payload: err.response,
@@ -141,8 +154,9 @@ export const applyMiddleware =
 
       case ActionEnum.SEND_FILE_REQUEST: {
         (async () => {
+          const { files, podName, directory } = action.payload;
+
           try {
-            const { files, podName, directory } = action.payload;
             await Promise.all(
               files.map(async (file) => {
                 const temporaryPayload: typeof action.payload = {
@@ -171,6 +185,12 @@ export const applyMiddleware =
                     toast.error(
                       `Something went wrong with uploading ${response.file_name}`
                     );
+                    changePodState({
+                      tag: STATES_NAMES.DIRECTORY_STATE,
+                      podName: podName,
+                      directoryName: directory,
+                      status: DIRECTORY_STATUS.FILE_UPLOAD_ERROR,
+                    });
                     dispatch({
                       type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
                       payload: {
@@ -180,6 +200,12 @@ export const applyMiddleware =
                       },
                     });
                   } else {
+                    changePodState({
+                      tag: STATES_NAMES.DIRECTORY_STATE,
+                      podName: podName,
+                      directoryName: directory,
+                      status: DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS,
+                    });
                     dispatch({
                       type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
                       payload: {
@@ -210,6 +236,12 @@ export const applyMiddleware =
             );
           } catch (error) {
             toast.error('Something went wrong with uploading');
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: podName,
+              directoryName: directory,
+              status: DIRECTORY_STATUS.FILE_UPLOAD_ERROR,
+            });
             dispatch({
               type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
               payload: error.response,
