@@ -45,6 +45,7 @@ export function PodStateMachineProvider({
           tag: STATES_NAMES.DIRECTORY_STATE,
           podName: nextState.podName,
           directoryName: nextState.directoryName,
+          context: nextState.context,
           status: nextState.status,
         });
         break;

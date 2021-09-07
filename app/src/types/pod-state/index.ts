@@ -39,9 +39,15 @@ export enum DIRECTORY_STATUS {
   FILE_REMOVING_ERROR = 'file-remove-error',
 }
 
+export enum DIRECTORY_CONTEXTS {
+  FILE_ACTION = 'file-action',
+  DIRECTORY_ACTION = 'directory-action',
+}
+
 export interface DirectoryData {
   podName: string;
   directoryName: string;
+  context: DIRECTORY_CONTEXTS;
   status: DIRECTORY_STATUS;
 }
 

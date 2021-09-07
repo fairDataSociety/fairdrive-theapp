@@ -10,6 +10,7 @@ import {
   STATES_NAMES,
   POD_STATUS,
   DIRECTORY_STATUS,
+  DIRECTORY_CONTEXTS,
 } from 'src/types/pod-state';
 
 // Components
@@ -59,7 +60,7 @@ function Home(props: Props) {
       };
     } else {
       return {
-        type: 'Reloading',
+        type: '',
         content: 'Location is being reloaded',
       };
     }
@@ -74,15 +75,13 @@ function Home(props: Props) {
       podStateMachine.status === POD_STATUS.LOADING) ||
     (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
       podStateMachine.directoryName === 'root' &&
-      podStateMachine.status === DIRECTORY_STATUS.LOADING) ||
-    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.FILE_UPLOADING);
+      podStateMachine.status === DIRECTORY_STATUS.LOADING);
 
   const isRootDirectoryLoadedSuccessfuly = () =>
     (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
       podStateMachine.status === DIRECTORY_STATUS.SUCCESS) ||
     (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS);
+      podStateMachine.context === DIRECTORY_CONTEXTS.FILE_ACTION);
 
   // Manage sidebar
   const [sidebarItem, setSidebarItem] = useState<AVAILABLE_PAGES>(
@@ -109,7 +108,8 @@ function Home(props: Props) {
   // If we change pod or directory let's hide right sidebar
   useEffect(() => {
     if (
-      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE ||
+      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+        podStateMachine.context === DIRECTORY_CONTEXTS.DIRECTORY_ACTION) ||
       podStateMachine.tag === STATES_NAMES.POD_STATE
     ) {
       closeRightSidebar();

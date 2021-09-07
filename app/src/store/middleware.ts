@@ -15,6 +15,7 @@ import {
   POD_STATUS,
   DIRECTORY_STATUS,
   State,
+  DIRECTORY_CONTEXTS,
 } from 'src/types/pod-state';
 
 export const applyMiddleware =
@@ -189,6 +190,8 @@ export const applyMiddleware =
                       tag: STATES_NAMES.DIRECTORY_STATE,
                       podName: podName,
                       directoryName: directory,
+                      context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
                       status: DIRECTORY_STATUS.FILE_UPLOAD_ERROR,
                     });
                     dispatch({
@@ -204,6 +207,8 @@ export const applyMiddleware =
                       tag: STATES_NAMES.DIRECTORY_STATE,
                       podName: podName,
                       directoryName: directory,
+                      context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
                       status: DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS,
                     });
                     dispatch({
@@ -240,6 +245,8 @@ export const applyMiddleware =
               tag: STATES_NAMES.DIRECTORY_STATE,
               podName: podName,
               directoryName: directory,
+              context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
               status: DIRECTORY_STATUS.FILE_UPLOAD_ERROR,
             });
             dispatch({
@@ -256,6 +263,8 @@ export const applyMiddleware =
           tag: STATES_NAMES.DIRECTORY_STATE,
           podName: action.payload.podName,
           directoryName: action.payload.directory,
+          context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
+
           status: DIRECTORY_STATUS.LOADING,
         });
         return getDirectory(action.payload)
@@ -268,6 +277,7 @@ export const applyMiddleware =
               tag: STATES_NAMES.DIRECTORY_STATE,
               podName: action.payload.podName,
               directoryName: action.payload.directory,
+              context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
               status: DIRECTORY_STATUS.SUCCESS,
             });
           })
@@ -276,6 +286,7 @@ export const applyMiddleware =
               tag: STATES_NAMES.DIRECTORY_STATE,
               podName: action.payload.podName,
               directoryName: action.payload.directory,
+              context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
               status: DIRECTORY_STATUS.ERROR,
             });
 

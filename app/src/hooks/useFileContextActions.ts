@@ -5,7 +5,11 @@ import urlPath from 'src/helpers/urlPath';
 // Context
 import { StoreContext } from 'src/store/store';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES, DIRECTORY_STATUS } from 'src/types/pod-state';
+import {
+  STATES_NAMES,
+  DIRECTORY_STATUS,
+  DIRECTORY_CONTEXTS,
+} from 'src/types/pod-state';
 
 // Services
 import { downloadFile, shareFile } from 'src/services/file';
@@ -20,6 +24,7 @@ export function useFileContextActions() {
         tag: STATES_NAMES.DIRECTORY_STATE,
         podName: state.podName,
         directoryName: state.directory,
+        context: DIRECTORY_CONTEXTS.FILE_ACTION,
         status: DIRECTORY_STATUS.FILE_REMOVING,
       });
       await actions.deleteFile({
@@ -59,6 +64,7 @@ export function useFileContextActions() {
         tag: STATES_NAMES.DIRECTORY_STATE,
         podName: state.podName,
         directoryName: state.directory,
+        context: DIRECTORY_CONTEXTS.FILE_ACTION,
         status: DIRECTORY_STATUS.FILE_UPLOADING,
       });
       const directoryPath = urlPath(state.directory);
