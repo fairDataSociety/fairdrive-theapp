@@ -39,11 +39,11 @@ export function usePodContextActions() {
     }
   };
 
-  const handleOpenDirectory = async (): Promise<void> => {
+  const handleOpenDirectory = async (directoryName?: string): Promise<void> => {
     try {
       if (state.podsOpened.includes(state.podName)) {
         await actions.getDirectory({
-          directory: state.directory,
+          directory: directoryName ? directoryName : state.directory,
           podName: state.podName,
         });
       }

@@ -28,6 +28,11 @@ const useStyles = makeStyles(() =>
       font: (style: Theme & Props) => style.typography.h5,
       color: (style: Theme & Props) => style.backgroundWhite,
     },
+    directoryPath: {
+      marginLeft: '20px',
+      color: (style: Theme & Props) => style.backgroundLight2,
+      font: (style: Theme & Props) => style.typography.body1,
+    },
   })
 );
 

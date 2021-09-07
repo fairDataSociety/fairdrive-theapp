@@ -40,6 +40,15 @@ function TopLevelNavigation(props: Props) {
   //   return arr.join(' ');
   // };
 
+  const getDirectoryPath = () => {
+    const stateDirectoryName = state.directory;
+    if (stateDirectoryName !== 'root') {
+      return `root / ${stateDirectoryName}`;
+    } else {
+      return `root`;
+    }
+  };
+
   return (
     <div className={classes.topLevelNavigation}>
       <div className={classes.left}>
@@ -67,7 +76,10 @@ function TopLevelNavigation(props: Props) {
           )}
         </BaseDropdown>
 
-        <p className={classes.name}>{state.podName}</p>
+        <p className={classes.name}>
+          {state.podName}
+          <span className={classes.directoryPath}>{getDirectoryPath()}</span>
+        </p>
       </div>
       <div className={classes.right}>
         {state.podName && (

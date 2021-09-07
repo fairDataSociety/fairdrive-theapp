@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES } from 'src/types/pod-state';
 
 // Store
 import { StoreContext } from 'src/store/store';
@@ -56,8 +55,6 @@ function Drive(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  const { podStateMachine } = usePodStateMachine();
-
   // Local store of files and directories
   const [files, setFiles] = useState<IFile[] | null>([]);
   const [folders, setFolders] = useState<IDirectory[] | null>([]);
@@ -81,12 +78,12 @@ function Drive(props: Props) {
 
   const { handleOpenDirectory } = usePodContextActions();
 
-  async function loadDirectory() {
+  async function loadDirectory(directoryName: string) {
     try {
       if (state.podName.length > 0) {
         setFiles(null);
         setFolders(null);
-        handleOpenDirectory();
+        handleOpenDirectory(directoryName);
         state.isFileUploaded = false;
         state.searchQuery = null;
       }
@@ -115,11 +112,9 @@ function Drive(props: Props) {
   // ]);
 
   const onDirectoryClick = (directoryName: string): void => {
-    debugger;
-
-    actions.setDirectory(`root/${directoryName}`);
-
-    loadDirectory();
+    actions.setDirectory(directoryName);
+    console.log('open dir: ', directoryName);
+    loadDirectory(directoryName);
   };
 
   // Handle filtering data by search query
