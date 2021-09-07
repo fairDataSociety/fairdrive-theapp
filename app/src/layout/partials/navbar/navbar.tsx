@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
@@ -41,8 +41,10 @@ function Navbar(props: Props): JSX.Element {
 
   const [isReferalModalOpen, setIsReferalModalOpen] = useState(false);
 
-  const isPodStateOtherThanInitial = () =>
-    podStateMachine.tag !== STATES_NAMES.INITIAL;
+  const isPodStateOtherThanInitial = useMemo(
+    () => podStateMachine.tag !== STATES_NAMES.INITIAL,
+    [podStateMachine.tag]
+  );
 
   const isThemeLight = () => theme.name === 'light';
 
@@ -59,7 +61,7 @@ function Navbar(props: Props): JSX.Element {
           <Logo className={classes.logo} />
         </a>
 
-        {isPodStateOtherThanInitial() && (
+        {isPodStateOtherThanInitial && (
           <BaseDropdown
             moveToRight={true}
             dropdownSize={DROPDOWN_SIZE.BIG}
@@ -84,121 +86,126 @@ function Navbar(props: Props): JSX.Element {
           </BaseDropdown>
         )}
       </div>
-      {isPodStateOtherThanInitial() && (
-        <div className={classes.right}>
-          <BaseButton
-            variant={BUTTON_VARIANTS.ALTERNATIVE}
-            size={BUTTON_SIZE.MEDIUM}
-            fontSize={FONT_SIZE.BIG}
-            textColor={BUTTON_TEXT_COLOR.WHITE}
-            onClickCallback={() => setIsReferalModalOpen(true)}
-          >
-            Refer a friend
-          </BaseButton>
 
-          {isReferalModalOpen && (
-            <GenerateLink
-              variant="refer"
-              handleClose={() => setIsReferalModalOpen(false)}
-            />
-          )}
+      <div className={classes.right}>
+        {isPodStateOtherThanInitial && (
+          <>
+            <BaseButton
+              variant={BUTTON_VARIANTS.ALTERNATIVE}
+              size={BUTTON_SIZE.MEDIUM}
+              fontSize={FONT_SIZE.BIG}
+              textColor={BUTTON_TEXT_COLOR.WHITE}
+              onClickCallback={() => setIsReferalModalOpen(true)}
+            >
+              Refer a friend
+            </BaseButton>
 
-          <div className={classes.actionsWrapper}>
-            <SearchBar />
+            {isReferalModalOpen && (
+              <GenerateLink
+                variant="refer"
+                handleClose={() => setIsReferalModalOpen(false)}
+              />
+            )}
+          </>
+        )}
+        <div className={classes.actionsWrapper}>
+          {isPodStateOtherThanInitial && (
+            <>
+              <SearchBar />
 
-            <div className={classes.dappAndActivityGroup}>
+              <div className={classes.dappAndActivityGroup}>
+                <BaseDropdown
+                  moveToRight={false}
+                  dropdownSize={DROPDOWN_SIZE.BIG}
+                  title={'Your connected dApps'}
+                  contentBlock={() => (
+                    <>
+                      <p>Activity Coming Soon</p>
+                    </>
+                  )}
+                >
+                  {(openDropdown) => (
+                    <DAppIcon
+                      onClick={() => openDropdown()}
+                      className={classes.icon}
+                    />
+                  )}
+                </BaseDropdown>
+
+                <BaseDropdown
+                  moveToRight={false}
+                  title={'Activity Coming Soon'}
+                  dropdownSize={DROPDOWN_SIZE.BIG}
+                  contentBlock={() => (
+                    <>
+                      <p className={classes.dropdownActivityContent}>
+                        See all txs (coming soon)
+                      </p>
+                    </>
+                  )}
+                >
+                  {(openDropdown) => (
+                    <BaseButton
+                      variant={BUTTON_VARIANTS.TERITARY}
+                      size={BUTTON_SIZE.NO_PADDING}
+                      fontSize={FONT_SIZE.BIG}
+                      textColor={BUTTON_TEXT_COLOR.LIGHT2}
+                      onClickCallback={() => openDropdown()}
+                    >
+                      Activity
+                    </BaseButton>
+                  )}
+                </BaseDropdown>
+              </div>
+
               <BaseDropdown
                 moveToRight={false}
                 dropdownSize={DROPDOWN_SIZE.BIG}
-                title={'Your connected dApps'}
-                contentBlock={() => (
+                optionsList={[
+                  {
+                    label: 'Account Info',
+                    isDisabled: true,
+                  },
+                  {
+                    label: 'Security (coming soon)',
+                    isDisabled: true,
+                  },
+                  {
+                    label: 'Dapp Centre (coming soon)',
+                    isDisabled: true,
+                  },
+                  {
+                    label: 'Disconnect',
+                    isDangerVariant: true,
+                    onOptionClicked: () => actions.userLogout(),
+                  },
+                ]}
+                title={'Fairdrop user name Login (coming soon)'}
+                footerBlock={() => (
                   <>
-                    <p>Activity Coming Soon</p>
+                    <ul className={classes.dropdownProfileFooter}>
+                      <li>Privacy Policy</li>
+                      <li>Terms of Service</li>
+                    </ul>
                   </>
                 )}
               >
                 {(openDropdown) => (
-                  <DAppIcon
+                  <Profile
                     onClick={() => openDropdown()}
                     className={classes.icon}
                   />
                 )}
               </BaseDropdown>
-
-              <BaseDropdown
-                moveToRight={false}
-                title={'Activity Coming Soon'}
-                dropdownSize={DROPDOWN_SIZE.BIG}
-                contentBlock={() => (
-                  <>
-                    <p className={classes.dropdownActivityContent}>
-                      See all txs (coming soon)
-                    </p>
-                  </>
-                )}
-              >
-                {(openDropdown) => (
-                  <BaseButton
-                    variant={BUTTON_VARIANTS.TERITARY}
-                    size={BUTTON_SIZE.NO_PADDING}
-                    fontSize={FONT_SIZE.BIG}
-                    textColor={BUTTON_TEXT_COLOR.LIGHT2}
-                    onClickCallback={() => openDropdown()}
-                  >
-                    Activity
-                  </BaseButton>
-                )}
-              </BaseDropdown>
-            </div>
-
-            <BaseDropdown
-              moveToRight={false}
-              dropdownSize={DROPDOWN_SIZE.BIG}
-              optionsList={[
-                {
-                  label: 'Account Info',
-                  isDisabled: true,
-                },
-                {
-                  label: 'Security (coming soon)',
-                  isDisabled: true,
-                },
-                {
-                  label: 'Dapp Centre (coming soon)',
-                  isDisabled: true,
-                },
-                {
-                  label: 'Disconnect',
-                  isDangerVariant: true,
-                  onOptionClicked: () => actions.userLogout(),
-                },
-              ]}
-              title={'Fairdrop user name Login (coming soon)'}
-              footerBlock={() => (
-                <>
-                  <ul className={classes.dropdownProfileFooter}>
-                    <li>Privacy Policy</li>
-                    <li>Terms of Service</li>
-                  </ul>
-                </>
-              )}
-            >
-              {(openDropdown) => (
-                <Profile
-                  onClick={() => openDropdown()}
-                  className={classes.icon}
-                />
-              )}
-            </BaseDropdown>
-
-            {isThemeLight() ? (
-              <Moon onClick={() => toggleTheme()} className={classes.icon} />
-            ) : (
-              <Sun onClick={() => toggleTheme()} className={classes.icon} />
-            )}
-          </div>
+            </>
+          )}
+          {isThemeLight() ? (
+            <Moon onClick={() => toggleTheme()} className={classes.icon} />
+          ) : (
+            <Sun onClick={() => toggleTheme()} className={classes.icon} />
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
 }
