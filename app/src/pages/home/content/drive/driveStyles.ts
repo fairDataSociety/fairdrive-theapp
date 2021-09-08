@@ -103,6 +103,14 @@ const useStyles = makeStyles(() =>
       width: '100%',
       height: '100%',
       paddingBottom: '50px',
+      display: 'flex',
+      flexWrap: 'wrap',
+      overflowY: 'auto',
+      justifyContent: 'flex-start',
+      '& > div:not(:nth-child(4n))': {
+        marginRight: '24px',
+        marginBottom: '24px',
+      },
     },
     uploadInput: {
       opacity: '0',

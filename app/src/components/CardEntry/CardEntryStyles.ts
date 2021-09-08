@@ -7,7 +7,7 @@ const useStyles = makeStyles(() =>
       cursor: 'pointer',
       position: 'relative',
       padding: '24px',
-      width: '312px',
+      width: '290px',
       height: '248px',
       borderRadius: '8px',
       background: (style: Theme) => style.backgroundDark4,

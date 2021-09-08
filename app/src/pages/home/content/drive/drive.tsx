@@ -17,7 +17,6 @@ import { DriveModalGroup } from './modalGroup/modalGroup';
 import BaseEmptyState, {
   EMPTY_STATE_VARIANTS,
 } from 'src/shared/BaseEmptyState/BaseEmptyState';
-import CardGrid from 'src/components/cardGrid/cardGrid';
 import CardEntry from 'src/components/CardEntry/CardEntry';
 
 import TopLevelNavigation from './topLevelNavigation/topLevelNavigation';
@@ -235,13 +234,13 @@ function Drive(props: Props) {
 
         {isFilesNotEmpty() || isFoldersNotEmpty() ? (
           showGrid ? (
-            <CardGrid className={classes.cardGrid}>
+            <div className={classes.cardGrid}>
               {state.dirs &&
                 sortyByCurrentFilter(folders, currentFilter).map(
                   (dir: IDirectory, index) => (
                     <CardEntry
                       key={`${dir.name}_${index}`}
-                      file={dir}
+                      data={dir}
                       isDirectory={true}
                       onDirectoryClick={() => onDirectoryClick(dir.name)}
                     />
@@ -253,7 +252,7 @@ function Drive(props: Props) {
                   (file: IFile, index) => (
                     <CardEntry
                       key={`${file.name}_${index}`}
-                      file={file}
+                      data={file}
                       isDirectory={false}
                       onFileClick={() =>
                         props.setRightSidebarContent({
@@ -264,7 +263,7 @@ function Drive(props: Props) {
                     />
                   )
                 )}
-            </CardGrid>
+            </div>
           ) : (
             <FileList
               currentFilter={currentFilter}

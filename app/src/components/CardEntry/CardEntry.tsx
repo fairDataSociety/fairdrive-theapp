@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import prettyBytes from 'pretty-bytes';
-import moment from 'moment';
 
 // Hooks
 import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
@@ -15,7 +14,7 @@ import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import FilePreviewFallback from 'src/components/filePreview/filePreviewFallback';
-import { InfoIcon, Folder, Kebab as KebabIcon } from '../icons/icons';
+import { Kebab as KebabIcon } from '../icons/icons';
 import BaseDropdown from 'src/shared/BaseDropdown/BaseDropdown';
 
 // Types
@@ -26,14 +25,14 @@ import { shortenTitle } from 'src/helpers/utils';
 type Sizes = 'small' | 'regular' | 'big';
 export interface Props {
   size?: Sizes;
-  file: IDirectory | IFile;
+  data: IDirectory | IFile;
   isDirectory: boolean;
   onFileClick?: () => void;
   onDirectoryClick?: () => void;
 }
 
 function FileCard(props: Props) {
-  const { file } = props;
+  const { data } = props;
   const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
@@ -48,7 +47,7 @@ function FileCard(props: Props) {
     }
   };
 
-  const getShortedTitle = () => shortenTitle(file.name, 22);
+  const getShortedTitle = () => shortenTitle(data.name, 22);
 
   // Higlight matching phrase by searchQuery
   const { highlightedMatchedPhrase, doHighlightMatchedPhrase } =
@@ -58,11 +57,11 @@ function FileCard(props: Props) {
     doHighlightMatchedPhrase();
   }, [state.searchQuery]);
 
-  const getSize = () => prettyBytes(parseInt((file as IFile).size));
+  const getSize = () => prettyBytes(parseInt((data as IFile).size));
 
-  const getCreationDate = () => formatDate(file.creation_time, true);
+  const getCreationDate = () => formatDate(data.creation_time, true);
 
-  const isContentTypeDirectory = () => file.content_type === 'inode/directory';
+  const isContentTypeDirectory = () => data.content_type === 'inode/directory';
 
   const isSearchQuerySettedAndHighlighted = () =>
     state.searchQuery && state.searchQuery !== '' && highlightedMatchedPhrase;
@@ -125,7 +124,7 @@ function FileCard(props: Props) {
       <div className={classes.cardContent} onClick={() => handleOnClick()}>
         <div className={classes.cardHeader}>
           <FilePreviewFallback
-            file={file}
+            file={data}
             isDirectory={isContentTypeDirectory()}
           />
         </div>
