@@ -98,27 +98,29 @@ export const applyMiddleware =
             })
           );
       case ActionEnum.DELETE_FILE_REQUEST:
-        // TODO: Pass in payload directory name also for intiting below statuses
         return deleteFile(action.payload)
           .then((res) => {
-            // changePodState({
-            //   tag: STATES_NAMES.DIRECTORY_STATE,
-            //   podName: action.payload.podName,
-            //   directoryName: '',
-            //   status: DIRECTORY_STATUS.FILE_REMOVING_SUCCESS
-            // });
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directoryName,
+              context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
+              status: DIRECTORY_STATUS.FILE_REMOVING_SUCCESS,
+            });
             dispatch({
               type: ActionEnum.DELETE_FILE_FILE_DELETE_SUCCESS,
               payload: res,
             });
           })
           .catch((err) => {
-            // changePodState({
-            //   tag: STATES_NAMES.DIRECTORY_STATE,
-            //   podName: action.payload.podName,
-            //   directoryName: '',
-            //   status: DIRECTORY_STATUS.FILE_REMOVING_ERROR
-            // });
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directoryName,
+              context: DIRECTORY_CONTEXTS.FILE_ACTION,
+              status: DIRECTORY_STATUS.FILE_REMOVING_ERROR,
+            });
             dispatch({
               type: ActionEnum.DELETE_FILE_DELETE_FILE_FAILED,
               payload: err.response,

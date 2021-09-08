@@ -6,6 +6,7 @@ export interface ActionDeleteFileRequest extends BaseAction {
   payload: {
     file_name: string;
     podName: string;
+    directoryName: string;
     path: string;
   };
 }

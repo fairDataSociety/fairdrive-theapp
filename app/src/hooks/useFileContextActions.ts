@@ -30,6 +30,7 @@ export function useFileContextActions() {
       await actions.deleteFile({
         file_name: fileName,
         path: writePath(state.directory),
+        directoryName: state.directory,
         podName: state.podName,
       });
     } catch (error) {

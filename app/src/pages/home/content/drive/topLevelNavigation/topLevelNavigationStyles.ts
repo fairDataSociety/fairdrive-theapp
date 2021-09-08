@@ -29,7 +29,7 @@ const useStyles = makeStyles(() =>
       color: (style: Theme & Props) => style.backgroundWhite,
     },
     directoryPath: {
-      marginLeft: '10px',
+      marginLeft: '1 0px',
       color: (style: Theme & Props) => style.backgroundLight2,
       font: (style: Theme & Props) => style.typography.body1,
     },
