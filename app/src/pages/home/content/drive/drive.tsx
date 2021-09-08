@@ -18,7 +18,7 @@ import BaseEmptyState, {
   EMPTY_STATE_VARIANTS,
 } from 'src/shared/BaseEmptyState/BaseEmptyState';
 import CardGrid from 'src/components/cardGrid/cardGrid';
-import FileCard from 'src/components/cards/fileCard';
+import CardEntry from 'src/components/CardEntry/CardEntry';
 
 import TopLevelNavigation from './topLevelNavigation/topLevelNavigation';
 import FileList from 'src/components/fileList/fileList';
@@ -239,7 +239,7 @@ function Drive(props: Props) {
               {state.dirs &&
                 sortyByCurrentFilter(folders, currentFilter).map(
                   (dir: IDirectory, index) => (
-                    <FileCard
+                    <CardEntry
                       key={`${dir.name}_${index}`}
                       file={dir}
                       isDirectory={true}
@@ -251,7 +251,7 @@ function Drive(props: Props) {
               {state.entries &&
                 sortyByCurrentFilter(files, currentFilter).map(
                   (file: IFile, index) => (
-                    <FileCard
+                    <CardEntry
                       key={`${file.name}_${index}`}
                       file={file}
                       isDirectory={false}
