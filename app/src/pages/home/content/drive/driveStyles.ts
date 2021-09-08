@@ -107,9 +107,23 @@ const useStyles = makeStyles(() =>
       flexWrap: 'wrap',
       overflowY: 'auto',
       justifyContent: 'flex-start',
+      transition: '1s all',
       '& > div:not(:nth-child(4n))': {
         marginRight: '24px',
+      },
+      '& > div': {
+        marginRight: (props: Props & Theme) =>
+          props.isPodBarOpen ? '24px' : '0',
         marginBottom: '24px',
+      },
+      '&::-webkit-scrollbar': {
+        width: '5px',
+      },
+      '&::-webkit-scrollbar-track': {
+        background: '#ddd',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        background: '#666',
       },
     },
     uploadInput: {

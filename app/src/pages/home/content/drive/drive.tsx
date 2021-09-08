@@ -268,7 +268,7 @@ function Drive(props: Props) {
             <FileList
               currentFilter={currentFilter}
               isPodBarOpen={props.isPodBarOpen}
-            ></FileList>
+            />
           )
         ) : (
           <>
