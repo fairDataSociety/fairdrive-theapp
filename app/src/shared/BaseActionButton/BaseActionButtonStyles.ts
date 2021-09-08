@@ -115,6 +115,12 @@ const useStyles = makeStyles(() =>
     dropdownOpen: {
       transform: 'rotate(180deg)',
     },
+    dropdownShowInitatorOnHover: {
+      display: 'none',
+      '&:hover': {
+        display: 'block',
+      },
+    },
     labelWrapper: {
       position: 'absolute',
       bottom: '0',

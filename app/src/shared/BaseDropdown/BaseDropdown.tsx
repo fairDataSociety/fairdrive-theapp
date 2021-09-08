@@ -41,6 +41,7 @@ export interface Props {
 
 function BaseDropdown(props: Props): JSX.Element {
   const {
+    option,
     optionsList,
     isDisabled,
     title,
@@ -87,6 +88,9 @@ function BaseDropdown(props: Props): JSX.Element {
             {title && (
               <div className={classes.dropdownHeaderWrapper}>
                 <p className={classes.dropdownHeading}>{title}</p>
+                {option && (
+                  <p className={classes.dropdownCurrentOption}>{option}</p>
+                )}
               </div>
             )}
             {optionsList && (

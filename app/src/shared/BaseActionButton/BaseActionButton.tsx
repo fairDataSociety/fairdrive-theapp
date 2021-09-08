@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
@@ -50,6 +50,7 @@ export interface Props {
   icon?: ACTION_BUTTON_ICONS;
   variant: ACTION_BUTTON_VARIANTS;
   hasDropdownInitiator?: boolean;
+  showDropdownInitiatorOnHover?: boolean;
   isDropdownOpen?: boolean;
   children?: string;
   label?: string;
@@ -66,6 +67,7 @@ function BaseActionButton(props: Props): JSX.Element {
     onClickCallback,
     isDisabled,
     hasDropdownInitiator,
+    showDropdownInitiatorOnHover,
     isDropdownOpen,
     fontSize,
     children,
@@ -119,12 +121,25 @@ function BaseActionButton(props: Props): JSX.Element {
     }
   };
 
+  const [isDropdownInitatorHovered, setIsDropdownInitatorHovered] =
+    useState(true);
+
   return (
     <button
       type={isSubmit ? 'submit' : 'button'}
       onClick={() => onClickCallback()}
       disabled={isDisabled}
       className={`${classes.button} ${classes[variant]} `}
+      onMouseOver={() =>
+        showDropdownInitiatorOnHover &&
+        !isDropdownInitatorHovered &&
+        setIsDropdownInitatorHovered(true)
+      }
+      onMouseOut={() =>
+        showDropdownInitiatorOnHover &&
+        isDropdownInitatorHovered &&
+        setIsDropdownInitatorHovered(false)
+      }
     >
       {icon && getIconForVariant(icon)}
       {variant !== ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT &&
@@ -135,11 +150,12 @@ function BaseActionButton(props: Props): JSX.Element {
             {children}
           </span>
         )}
-      {hasDropdownInitiator && (
+      {hasDropdownInitiator && isDropdownInitatorHovered && (
         <ChevronDown
-          className={`${classes.dropdownIndicator} ${
-            isDropdownOpen ? classes.dropdownOpen : ''
-          }`}
+          className={`
+          ${classes.dropdownIndicator} 
+          ${isDropdownOpen ? classes.dropdownOpen : ''}
+          `}
         />
       )}
       {label && <div className={classes.labelWrapper}>{label}</div>}

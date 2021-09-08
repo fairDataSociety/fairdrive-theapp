@@ -30,15 +30,15 @@ function TopLevelNavigation(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
-  // const splitAndUppercaseCurrentFilterName = (
-  //   currentFilter: string
-  // ): string => {
-  //   const arr = currentFilter.split('-');
-  //   arr.forEach((word, index) => {
-  //     arr[index] = word.charAt(0).toUpperCase() + word.slice(1);
-  //   });
-  //   return arr.join(' ');
-  // };
+  const splitAndUppercaseCurrentFilterName = (
+    currentFilter: string
+  ): string => {
+    const arr = currentFilter.split('-');
+    arr.forEach((word, index) => {
+      arr[index] = word.charAt(0).toUpperCase() + word.slice(1);
+    });
+    return arr.join(' ');
+  };
 
   const getDirectoryPath = () => {
     const stateDirectoryName = state.directory;
@@ -102,6 +102,7 @@ function TopLevelNavigation(props: Props) {
 
         <BaseDropdown
           title={'Sort By'}
+          option={splitAndUppercaseCurrentFilterName(props.currentFilter)}
           optionsList={[
             {
               label: 'Least recent',
@@ -130,6 +131,8 @@ function TopLevelNavigation(props: Props) {
               icon={ACTION_BUTTON_ICONS.SORTING_ICON}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
               onClickCallback={() => openDropdown()}
+              hasDropdownInitiator={true}
+              showDropdownInitiatorOnHover={true}
               isDisabled={isDisabled}
             />
           )}

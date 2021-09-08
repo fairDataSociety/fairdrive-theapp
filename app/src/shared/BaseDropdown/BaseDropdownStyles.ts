@@ -74,6 +74,12 @@ const useStyles = makeStyles(() =>
       fontSize: '16px',
       fontWeight: 600,
     },
+    dropdownCurrentOption: {
+      color: (style: Theme & Props) => style.backgroundWhite,
+      marginTop: '10px',
+      fontSize: '13px',
+      fontWeight: 600,
+    },
   })
 );
 
