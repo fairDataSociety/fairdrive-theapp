@@ -11,8 +11,6 @@ import { receiveFileInfo } from 'src/services/file';
 
 import { sharePod } from 'src/services/pod';
 
-import { createDirectory } from 'src/services/directory';
-
 // Components
 import SecondLevelNavigation from './secondLevelNavigation/secondLevelNavigation';
 import { DriveModalGroup } from './modalGroup/modalGroup';
@@ -74,10 +72,10 @@ function Drive(props: Props) {
   const [isCreateFileModalVisible, setIsCreateFileModalVisible] =
     useState(false);
 
-  // Confirmation of successful creation
-  const [responseCreation, setResponseCreation] = useState(false);
+  // Handle creating folder
+  const [folderName, setFolderName] = useState('');
 
-  const { handleOpenDirectory } = usePodContextActions();
+  const { handleOpenDirectory, handleCreateDirectory } = usePodContextActions();
 
   async function loadDirectory(directoryName: string) {
     try {
@@ -104,6 +102,15 @@ function Drive(props: Props) {
         podStateMachine.status === DIRECTORY_STATUS.FILE_REMOVING_SUCCESS)
     ) {
       loadDirectory(state.directory);
+    }
+
+    // Handle when directory created with success
+    if (
+      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+      podStateMachine.status === DIRECTORY_STATUS.DIRECTORY_CREATING_SUCCESS
+    ) {
+      loadDirectory(state.directory);
+      setIsCreateFolderModalVisible(false);
     }
   }, [podStateMachine]);
 
@@ -147,29 +154,14 @@ function Drive(props: Props) {
     setShowSharePodPopup(true);
   };
 
-  useEffect(() => {
-    if (responseCreation === true) {
-      setIsCreateFolderModalVisible(false);
-      setResponseCreation(false);
-    }
-  }, [responseCreation]);
-
-  // Handle creating folder
-  const [folderName, setFolderName] = useState('');
-
-  const createNewFolder = async () => {
-    setResponseCreation(
-      await createDirectory(state.directory, folderName, state.podName)
-    );
-  };
-
   // Handle creating file
   const [fileName, setFileName] = useState('');
 
+  // TODO: Move below to useFileContextActions
   const createNewfile = async () => {
-    setResponseCreation(
-      await receiveFileInfo(fileName, state.podName, state.directory)
-    );
+    // setResponseCreation(
+    await receiveFileInfo(fileName, state.podName, state.directory);
+    // );
   };
 
   // Manage filters
@@ -219,7 +211,7 @@ function Drive(props: Props) {
           setFileName={(newFileName) => setFileName(newFileName)}
           createFolderModal={{
             isCreateFolderModalVisible: () => isCreateFolderModalVisible,
-            onCreate: () => createNewFolder(),
+            onCreate: () => handleCreateDirectory(folderName),
             onClose: () => setIsCreateFolderModalVisible(false),
           }}
           createFileModal={{

@@ -3,10 +3,16 @@ import { useContext } from 'react';
 // Context
 import { StoreContext } from 'src/store/store';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES, POD_STATUS } from 'src/types/pod-state';
+import {
+  STATES_NAMES,
+  POD_STATUS,
+  DIRECTORY_CONTEXTS,
+  DIRECTORY_STATUS,
+} from 'src/types/pod-state';
 
 // Services
 import { createPod, receivePod } from 'src/services/pod';
+import { createDirectory } from 'src/services/directory';
 
 export type AllowedPodActions = 'open' | 'create' | 'import' | 'overview';
 
@@ -32,19 +38,6 @@ export function usePodContextActions() {
         actions.openPod({
           password: state.password,
           podName: nextPodName,
-        });
-      }
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  };
-
-  const handleOpenDirectory = async (directoryName?: string): Promise<void> => {
-    try {
-      if (state.podsOpened.includes(state.podName)) {
-        await actions.getDirectory({
-          directory: directoryName ? directoryName : state.directory,
-          podName: state.podName,
         });
       }
     } catch (error) {
@@ -82,11 +75,57 @@ export function usePodContextActions() {
     }
   };
 
+  const handleOpenDirectory = async (directoryName?: string): Promise<void> => {
+    try {
+      if (state.podsOpened.includes(state.podName)) {
+        // TODO: Fix problem with opening nested dir inside nested dir
+        await actions.getDirectory({
+          directory: directoryName ? directoryName : state.directory,
+          podName: state.podName,
+        });
+      }
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
+  const handleCreateDirectory = async (
+    directoryName: string
+  ): Promise<void> => {
+    try {
+      changePodState({
+        tag: STATES_NAMES.DIRECTORY_STATE,
+        podName: state.podName,
+        directoryName: directoryName,
+        context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
+        status: DIRECTORY_STATUS.DIRECTORY_CREATING,
+      });
+      await createDirectory(state.directory, directoryName, state.podName);
+      changePodState({
+        tag: STATES_NAMES.DIRECTORY_STATE,
+        podName: state.podName,
+        directoryName: directoryName,
+        context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
+        status: DIRECTORY_STATUS.DIRECTORY_CREATING_SUCCESS,
+      });
+    } catch (error) {
+      changePodState({
+        tag: STATES_NAMES.DIRECTORY_STATE,
+        podName: state.podName,
+        directoryName: directoryName,
+        context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
+        status: DIRECTORY_STATUS.DIRECTORY_CREATING_ERROR,
+      });
+      return Promise.reject(error);
+    }
+  };
+
   return {
     handleImportPod,
     handleOpenPod,
     handleCreatePod,
     handleOverview,
     handleOpenDirectory,
+    handleCreateDirectory,
   };
 }

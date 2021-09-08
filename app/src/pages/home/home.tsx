@@ -74,15 +74,15 @@ function Home(props: Props) {
     (podStateMachine.tag === STATES_NAMES.POD_STATE &&
       podStateMachine.status === POD_STATUS.LOADING) ||
     (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.directoryName === 'root' &&
       podStateMachine.status === DIRECTORY_STATUS.LOADING);
 
   const isRootDirectoryLoadedSuccessfuly = () =>
     (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
       podStateMachine.status === DIRECTORY_STATUS.SUCCESS) ||
     (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.context === DIRECTORY_CONTEXTS.FILE_ACTION);
-
+      podStateMachine.context === DIRECTORY_CONTEXTS.FILE_ACTION) ||
+    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
+      podStateMachine.context === DIRECTORY_CONTEXTS.DIRECTORY_ACTION);
   // Manage sidebar
   const [sidebarItem, setSidebarItem] = useState<AVAILABLE_PAGES>(
     AVAILABLE_PAGES.DRIVE
