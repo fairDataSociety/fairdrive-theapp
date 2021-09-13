@@ -146,11 +146,12 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
             >
               Upload
             </BaseActionButton>
-            <BaseActionButton
-              icon={ACTION_BUTTON_ICONS.CREATE}
-              variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
-              onClickCallback={() => props.onOpenImportFileModal()}
-            />
+            <a href="https://app.dracula.fairdatasociety.org/">
+              <BaseActionButton
+                icon={ACTION_BUTTON_ICONS.CREATE}
+                variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
+              />
+            </a>
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.FOLDER}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
@@ -162,9 +163,10 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
       {isActionMenuOpen && (
         <ActionMenu
           isOwned={props.isOwned}
-          onCreateMarkdownFile={() =>
-            console.log('onCreateMarkdownFile clicked')
-          }
+          onCreateMarkdownFile={() => {
+            // TODO: Below redirection should <a href="..." />
+            window.location.href = 'https://app.dracula.fairdatasociety.org/';
+          }}
           onCloseActionMenu={() => dissmissPodIntro()}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}
           onOpenImportFileModal={() => props.onOpenImportFileModal()}
