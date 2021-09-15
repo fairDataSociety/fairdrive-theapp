@@ -10,8 +10,20 @@ import { loginUser, logoutUser } from 'src/services/auth';
 import { statsUser } from 'src/services/user';
 import toast from 'react-hot-toast';
 
+import {
+  STATES_NAMES,
+  POD_STATUS,
+  DIRECTORY_STATUS,
+  State,
+  DIRECTORY_CONTEXTS,
+} from 'src/types/pod-state';
+
 export const applyMiddleware =
-  (dispatch: React.Dispatch<ActionTree>) => (action: ActionTree) => {
+  (
+    dispatch: React.Dispatch<ActionTree>,
+    changePodState: (nextState: State) => void
+  ) =>
+  (action: ActionTree) => {
     switch (action.type) {
       case ActionEnum.USER_LOGIN_REQUEST:
         return loginUser(action.payload)
@@ -28,6 +40,10 @@ export const applyMiddleware =
             dispatch({
               type: ActionEnum.SET_SYSTEM,
               payload: action.payload,
+            });
+
+            changePodState({
+              tag: STATES_NAMES.USER_LOGGED,
             });
           })
           .catch((err) =>
@@ -71,6 +87,9 @@ export const applyMiddleware =
               type: ActionEnum.USER_LOGGED_OUT_SUCCESS,
               payload: res,
             });
+            changePodState({
+              tag: STATES_NAMES.INITIAL,
+            });
           })
           .catch((err) =>
             dispatch({
@@ -81,12 +100,27 @@ export const applyMiddleware =
       case ActionEnum.DELETE_FILE_REQUEST:
         return deleteFile(action.payload)
           .then((res) => {
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directoryName,
+              context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
+              status: DIRECTORY_STATUS.FILE_REMOVING_SUCCESS,
+            });
             dispatch({
               type: ActionEnum.DELETE_FILE_FILE_DELETE_SUCCESS,
               payload: res,
             });
           })
           .catch((err) => {
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directoryName,
+              context: DIRECTORY_CONTEXTS.FILE_ACTION,
+              status: DIRECTORY_STATUS.FILE_REMOVING_ERROR,
+            });
             dispatch({
               type: ActionEnum.DELETE_FILE_DELETE_FILE_FAILED,
               payload: err.response,
@@ -123,53 +157,144 @@ export const applyMiddleware =
 
       case ActionEnum.SEND_FILE_REQUEST: {
         (async () => {
-          const { uploadRequest, requestId } = await uploadFile(
-            action.payload,
-            (requestId, progressEvent, cancelFn) => {
-              dispatch({
-                type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
-                payload: {
-                  progressEvent,
-                  requestId,
-                  cancelFn,
-                  filename: action.payload.files[0]?.name,
-                },
-              });
-            }
-          );
+          const { files, podName, directory } = action.payload;
 
-          await uploadRequest
-            .then((res) => {
-              dispatch({
-                type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
-                payload: res,
-              });
+          try {
+            await Promise.all(
+              files.map(async (file) => {
+                const temporaryPayload: typeof action.payload = {
+                  files: [file],
+                  podName: podName,
+                  directory: directory,
+                };
 
-              setTimeout(() => {
-                dispatch({
-                  type: ActionEnum.SEND_FILE_REMOVE_FILE_UPLOAD_PROGRESS,
-                  payload: requestId,
+                const { uploadRequest, requestId } = await uploadFile(
+                  temporaryPayload,
+                  (requestId, progressEvent, cancelFn) => {
+                    dispatch({
+                      type: ActionEnum.SEND_FILE_PATCH_FILE_UPLOAD_REQUEST,
+                      payload: {
+                        progressEvent,
+                        requestId,
+                        cancelFn,
+                        filename: temporaryPayload.files[0].name,
+                      },
+                    });
+                  }
+                );
+                // Check if all files were sent properly
+                uploadRequest.data.Responses.forEach((response) => {
+                  if (response.message !== 'uploaded successfully') {
+                    toast.error(
+                      `Something went wrong with uploading ${response.file_name}`
+                    );
+                    changePodState({
+                      tag: STATES_NAMES.DIRECTORY_STATE,
+                      podName: podName,
+                      directoryName: directory,
+                      context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
+                      status: DIRECTORY_STATUS.FILE_UPLOAD_ERROR,
+                    });
+                    dispatch({
+                      type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
+                      payload: {
+                        requestId: requestId,
+                        filename: file.name,
+                        status: 'failed',
+                      },
+                    });
+                  } else {
+                    changePodState({
+                      tag: STATES_NAMES.DIRECTORY_STATE,
+                      podName: podName,
+                      directoryName: directory,
+                      context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
+                      status: DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS,
+                    });
+                    dispatch({
+                      type: ActionEnum.SEND_FILE_FILE_SENT_SUCCESS,
+                      payload: {
+                        requestId: requestId,
+                        filename: file.name,
+                        status: 'success',
+                      },
+                    });
+                  }
                 });
-              }, 2500);
-            })
-            .catch((err) => {
-              toast.error('Something went wrong with uploading');
-              dispatch({
-                type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
-                payload: err.response,
-              });
+
+                setTimeout(() => {
+                  dispatch({
+                    type: ActionEnum.SEND_FILE_REMOVE_FILE_UPLOAD_PROGRESS,
+                    payload: requestId,
+                  });
+                }, 2500);
+
+                // Reload directory entries after file upload
+                dispatch({
+                  type: ActionEnum.GET_DIRECTORY_REQUEST,
+                  payload: {
+                    directory: directory,
+                    podName: podName,
+                  },
+                });
+              })
+            );
+          } catch (error) {
+            toast.error('Something went wrong with uploading');
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: podName,
+              directoryName: directory,
+              context: DIRECTORY_CONTEXTS.FILE_ACTION,
+
+              status: DIRECTORY_STATUS.FILE_UPLOAD_ERROR,
             });
+            dispatch({
+              type: ActionEnum.SEND_FILE_SENDING_FILE_FAILED,
+              payload: error.response,
+            });
+          }
         })();
 
         break;
       }
-      case ActionEnum.GET_DIRECTORY_REQUEST:
-        return getDirectory(action.payload).then((res) => {
-          dispatch({
-            type: ActionEnum.GET_DIRECTORY_SUCCESS,
-            payload: res,
-          });
+      case ActionEnum.GET_DIRECTORY_REQUEST: {
+        changePodState({
+          tag: STATES_NAMES.DIRECTORY_STATE,
+          podName: action.payload.podName,
+          directoryName: action.payload.directory,
+          context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
+
+          status: DIRECTORY_STATUS.LOADING,
         });
+        return getDirectory(action.payload)
+          .then((res) => {
+            dispatch({
+              type: ActionEnum.GET_DIRECTORY_SUCCESS,
+              payload: res,
+            });
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directory,
+              context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
+              status: DIRECTORY_STATUS.SUCCESS,
+            });
+          })
+          .catch((error) => {
+            changePodState({
+              tag: STATES_NAMES.DIRECTORY_STATE,
+              podName: action.payload.podName,
+              directoryName: action.payload.directory,
+              context: DIRECTORY_CONTEXTS.DIRECTORY_ACTION,
+              status: DIRECTORY_STATUS.ERROR,
+            });
+
+            return Promise.reject(error);
+          });
+      }
       case ActionEnum.SEED_PHRASE_REQUEST:
         return generateSeedPhrase()
           .then((res) => {
@@ -199,19 +324,35 @@ export const applyMiddleware =
             })
           );
       case ActionEnum.OPEN_POD_REQUEST:
+        changePodState({
+          tag: STATES_NAMES.POD_STATE,
+          podName: action.payload.podName,
+          status: POD_STATUS.LOADING,
+        });
+
         return openPod(action.payload)
           .then((res) => {
             dispatch({
               type: ActionEnum.OPEN_POD_SUCCESS,
               payload: res,
             });
+            changePodState({
+              tag: STATES_NAMES.POD_STATE,
+              podName: action.payload.podName,
+              status: POD_STATUS.SUCCESS,
+            });
           })
-          .catch((err) =>
+          .catch((err) => {
             dispatch({
               type: ActionEnum.OPEN_POD_FAIL,
               payload: err.response,
-            })
-          );
+            });
+            changePodState({
+              tag: STATES_NAMES.POD_STATE,
+              podName: action.payload.podName,
+              status: POD_STATUS.ERROR,
+            });
+          });
       default:
         dispatch(action);
     }

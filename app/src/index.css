@@ -1,5 +1,5 @@
 :root {
-  font-size: 6px;
+  font-size: 7px;
   z-index: 0;
   font-family: var(--font1);
   position: relative;
@@ -65,16 +65,4 @@ a {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-}
-
-@media screen and (min-width: 1299px) {
-  :root {
-    font-size: 8px;
-  }
-}
-
-@media screen and (min-width: 1919px) {
-  :root {
-    font-size: 10px;
-  }
 }
