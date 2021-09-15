@@ -21,7 +21,7 @@ import BaseDropdown from 'src/shared/BaseDropdown/BaseDropdown';
 // Types
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
-import useStyles from './cardEntryStyles';
+import useStyles from './CardEntryStyles';
 import { shortenTitle } from 'src/helpers/utils';
 type Sizes = 'small' | 'regular' | 'big';
 export interface Props {

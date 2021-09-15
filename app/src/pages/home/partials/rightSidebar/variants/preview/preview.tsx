@@ -11,7 +11,6 @@ import { StoreContext } from 'src/store/store';
 // Components
 import FilePreview from 'src/components/filePreview/filePreview';
 
-
 // Helpers
 import { urlPath, formatDate } from 'src/helpers';
 import { shortenTitle } from 'src/helpers/utils';
@@ -87,7 +86,11 @@ const PreviewVariant = (props: Props): JSX.Element => {
 
       <div className={classes.actionsIconsWrapper}>
         {availableActions.map((action, index) => (
-          <div key={index} className={classes.actionIcon} onClick={()=>action.action()}>
+          <div
+            key={index}
+            className={classes.actionIcon}
+            onClick={() => action.action()}
+          >
             <action.icon></action.icon>
           </div>
         ))}
