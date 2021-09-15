@@ -14,7 +14,22 @@ interface AuthContext {
   errorMessage: string | null;
 }
 
-const authMachine = createMachine<AuthContext>({
+// TODO: Take value as value of STATES
+type AuthTypestate = 
+    {value: 'idle'; context: AuthContext} | 
+    {value: 'login'; context: AuthContext} |
+    {value: { login: 'loading' }; context: AuthContext } | 
+    {value:  { login: 'success' }; context: AuthContext } | 
+    {value:  { login: 'failure' }; context: AuthContext } |
+    {value:  { login: 'logout' }; context: AuthContext } |
+    {value: 'register'; context: AuthContext } | 
+    {value: { register: 'loading' }; context: AuthContext } | 
+    {value:  { register: 'success' }; context: AuthContext } | 
+    {value:  { register: 'failure' }; context: AuthContext };
+
+
+
+const authMachine = createMachine<AuthContext, , AuthTypestate>({
   id: 'authMachine',
   initial: '',
   context: {
