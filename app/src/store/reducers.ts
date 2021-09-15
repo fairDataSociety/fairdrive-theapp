@@ -7,7 +7,6 @@ const initialState: State = {
   sessionCookie: '',
   username: '',
   userData: null,
-  fileUploaded: false,
   fileDeleted: {},
   folderDeleted: {},
   podDeleted: {},
@@ -32,6 +31,8 @@ const initialState: State = {
   flags: {
     loginStatus: '',
   },
+  isFileUploaded: false,
+  fileUploadedStatus: [],
   fileUploadProgress: [],
 };
 
@@ -54,15 +55,29 @@ const reducer = (state: State = initialState, action: ActionTree) => {
       return {
         ...state,
         fileUploadProgress,
-      };
+      } as State;
     }
+    case ActionEnum.SEND_FILE_FILE_SENT_SUCCESS:
+      return {
+        ...state,
+        isFileUploaded: true,
+        fileUploadedStatus: [...state.fileUploadedStatus, action.payload],
+      } as State;
+    case ActionEnum.SEND_FILE_SENDING_FILE_FAILED:
+      return {
+        ...state,
+        fileUploadedStatus: [...state.fileUploadedStatus, action.payload],
+      } as State;
     case ActionEnum.SEND_FILE_REMOVE_FILE_UPLOAD_PROGRESS:
       return {
         ...state,
         fileUploadProgress: state.fileUploadProgress.filter(
           (progressItem) => progressItem.requestId !== action.payload
         ),
-      };
+        fileUploadedStatus: state.fileUploadedStatus.filter(
+          (status) => status.requestId !== action.payload
+        ),
+      } as State;
 
     case ActionEnum.USER_LOGGED_SUCCESS:
       return {
@@ -75,7 +90,7 @@ const reducer = (state: State = initialState, action: ActionTree) => {
           ...state.flags,
           loginStatus: 'success',
         },
-      };
+      } as State;
     case ActionEnum.USER_LOGGED_FAILED:
       return {
         ...state,
@@ -85,7 +100,7 @@ const reducer = (state: State = initialState, action: ActionTree) => {
           ...state.flags,
           loginStatus: 'fail',
         },
-      };
+      } as State;
     case ActionEnum.USER_LOGIN_PENDING:
       return {
         ...state,
@@ -93,7 +108,7 @@ const reducer = (state: State = initialState, action: ActionTree) => {
           ...state.flags,
           loginStatus: 'loading',
         },
-      };
+      } as State;
     case ActionEnum.USER_LOGGED_OUT_SUCCESS:
       return {
         ...state,
@@ -101,7 +116,7 @@ const reducer = (state: State = initialState, action: ActionTree) => {
         sessionCookie: '',
         username: '',
         userData: null,
-        fileUploaded: {},
+        fileUploadedStatus: [],
         fileDeleted: {},
         folderDeleted: {},
         podDeleted: {},
@@ -125,7 +140,7 @@ const reducer = (state: State = initialState, action: ActionTree) => {
         flags: {
           loginStatus: '',
         },
-      };
+      } as State;
     case ActionEnum.USER_LOGGED_OUT_FAILED:
       return {
         ...state,
@@ -133,91 +148,90 @@ const reducer = (state: State = initialState, action: ActionTree) => {
         unlocked: false,
         password: null,
         username: null,
-      };
+      } as State;
     case ActionEnum.CREATE_USER_SUCCESS:
       return {
         ...state,
         address: action.payload.data,
         unlocked: true,
         errMsg: '',
-      };
+      } as State;
     case ActionEnum.CREATE_USER_FAILED:
-      return { ...state, unlocked: false, errMsg: action.payload };
+      return { ...state, unlocked: false, errMsg: action.payload } as State;
     case ActionEnum.SET_PRIVATE_POD:
-      return { ...state, isPrivatePod: action.payload };
-    case ActionEnum.SEND_FILE_FILE_SENT_SUCCESS:
-      return { ...state, fileUploaded: action.payload };
+      return { ...state, isPrivatePod: action.payload } as State;
+
     case ActionEnum.DELETE_FILE_FILE_DELETE_SUCCESS:
-      return { ...state, fileDeleted: action.payload };
+      return { ...state, fileDeleted: action.payload } as State;
     case ActionEnum.DELETE_FOLDER_FOLDER_DELETE_SUCCESS:
-      return { ...state, folderDeleted: action.payload };
+      return { ...state, folderDeleted: action.payload } as State;
     case ActionEnum.POD_DELETE_SUCCESS:
-      return { ...state, podDeleted: action.payload };
+      return { ...state, podDeleted: action.payload } as State;
     case ActionEnum.SET_SYSTEM:
       return {
         ...state,
         password: action.payload.password,
         unlocked: true,
         username: action.payload.username,
-      };
+      } as State;
     case ActionEnum.GET_DIRECTORY_SUCCESS:
       return {
         ...state,
         entries: action.payload.files,
         dirs: action.payload.dirs,
-      };
+      } as State;
     case ActionEnum.STORE_USER_REGISTRATION_INFO:
       return {
         ...state,
         username: action.payload.username,
         password: action.payload.password,
         inviteCode: action.payload.inviteCode,
-      };
+      } as State;
     case ActionEnum.SEED_PHRASE_SUCCESS:
       return {
         ...state,
         mnemonic: action.payload,
-      };
+      } as State;
     case ActionEnum.SET_SEARCH_QUERY:
       return {
         ...state,
         searchQuery: action.payload,
-      };
+      } as State;
     case ActionEnum.SET_DIRECTORY:
       return {
         ...state,
         directory: action.payload,
-      };
+      } as State;
     case ActionEnum.GET_PODS_SUCCESS:
       return {
         ...state,
         pods: action.payload.data.pod_name,
-      };
+      } as State;
     case ActionEnum.GET_USER_STATS_SUCCESS:
       return {
         ...state,
         userStats: action.payload.data,
-      };
+      } as State;
     case ActionEnum.GET_USER_STATS_FAILED:
       return {
         ...state,
         podMSg: action.payload,
-      };
+      } as State;
     case ActionEnum.OPEN_POD_SUCCESS:
       return {
         ...state,
         podsOpened: [...state.podsOpened, state.podName],
-      };
+      } as State;
     case ActionEnum.OPEN_POD_FAIL:
       return {
         ...state,
         podMsg: action.payload,
-      };
+      } as State;
     case ActionEnum.SET_POD_NAME:
       return {
         ...state,
         podName: action.payload,
-      };
+      } as State;
     default:
       return state;
   }

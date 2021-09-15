@@ -16,6 +16,8 @@ export interface Props {
   isPropUsername?: boolean;
 }
 
+// TODO: Refactor textFiled -> BaseInput, add all variants and features
+
 function TextField(props: Props) {
   const { theme } = useContext(ThemeContext);
 

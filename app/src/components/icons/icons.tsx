@@ -24,8 +24,8 @@ import { ReactComponent as Logo } from 'src/media/fairdrive/logo.svg';
 import { ReactComponent as File } from 'src/media/fileTypes/File.svg';
 import { ReactComponent as Directory } from 'src/media/fileTypes/Directory.svg';
 import { ReactComponent as ChevronRight } from '../../media/UI/chevron_right.svg';
-
-
+import { ReactComponent as ArrowRight } from 'src/media/fairdrive/ArrowRight.svg';
+import { ReactComponent as SearchLoupe } from 'src/media/fairdrive/SearchLoupe.svg';
 import { ReactComponent as StartFolder } from 'src/media/UI/getStartedFolder.svg';
 import { ReactComponent as Dapps } from 'src/media/UI/dapps.svg';
 import { ReactComponent as Complete } from 'src/media/UI/complete.svg';
@@ -57,7 +57,8 @@ import { ReactComponent as CirclePart } from 'src/media/spinners/circle_part.svg
 import { ReactComponent as Swarm } from 'src/media/logotypes/Swarm.svg';
 import { ReactComponent as LinumLabs } from 'src/media/logotypes/LinumLabs.svg';
 import { ReactComponent as FairDataSociety } from 'src/media/logotypes/FairDataSociety.svg';
-
+import { ReactComponent as TailSpinner } from 'src/media/fairdrive/TailSpinner.svg';
+import { ReactComponent as Trash } from 'src/media/fairdrive/Trash.svg';
 import { ReactComponent as Moon } from 'src/media/optionIcons/Moon.svg';
 import { ReactComponent as Sun } from 'src/media/optionIcons/Sun.svg';
 export const icons = {
@@ -66,6 +67,8 @@ export const icons = {
 };
 
 export {
+  Trash,
+  TailSpinner,
   ButtonPlus,
   ShareIcon,
   UploadIcon,
@@ -79,6 +82,7 @@ export {
   Success,
   Fail,
   Folder,
+  SearchLoupe,
   InfoIcon,
   NavRight,
   QuestionMark,
@@ -124,4 +128,5 @@ export {
   Directory,
   ChevronDown,
   ChevronRight,
+  ArrowRight,
 };

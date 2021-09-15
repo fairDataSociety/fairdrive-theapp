@@ -6,9 +6,13 @@ import urlPath from 'src/helpers/urlPath';
 import { generateID } from 'src/helpers/generateID';
 
 export interface UploadFilePayload {
-  files: FileList;
+  files: File[];
   directory: string;
   podName: string;
+}
+
+export interface UploadFileResponse {
+  Responses: { file_name: string; message: string }[];
 }
 
 export async function uploadFile(
@@ -24,7 +28,6 @@ export async function uploadFile(
 
     const { files, directory, podName } = payload;
 
-    // const newPath = writePath(path);
     let writePath = '';
     if (directory === 'root') {
       writePath = '/';
@@ -32,6 +35,7 @@ export async function uploadFile(
       writePath = '/' + urlPath(directory);
     }
     const formData = new FormData();
+
     Array.from(files).forEach((file) => {
       formData.append('files', file);
     });
@@ -42,15 +46,19 @@ export async function uploadFile(
 
     const cancelFn = axios.CancelToken.source();
 
-    const uploadRequest = HTTPClient().post('file/upload', formData, {
-      headers: {
-        'Content-type': 'multipart/form-data',
-      },
-      onUploadProgress: (progressEvent) => {
-        onUploadProgress(requestId, progressEvent, cancelFn);
-      },
-      cancelToken: cancelFn.token,
-    });
+    const uploadRequest = await HTTPClient().post<UploadFileResponse>(
+      'file/upload',
+      formData,
+      {
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          onUploadProgress(requestId, progressEvent, cancelFn);
+        },
+        cancelToken: cancelFn.token,
+      }
+    );
 
     return {
       uploadRequest,
