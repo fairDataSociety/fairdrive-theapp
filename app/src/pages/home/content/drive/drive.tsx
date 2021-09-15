@@ -17,7 +17,7 @@ import { DriveModalGroup } from './modalGroup/modalGroup';
 import BaseEmptyState, {
   EMPTY_STATE_VARIANTS,
 } from 'src/shared/BaseEmptyState/BaseEmptyState';
-import CardEntry from 'src/components/cardEntry/cardEntry';
+import CardEntry from 'src/components/CardEntry/CardEntry';
 
 import TopLevelNavigation from './topLevelNavigation/topLevelNavigation';
 import FileList from 'src/components/fileList/fileList';

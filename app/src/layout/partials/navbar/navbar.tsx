@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from 'react';
+import React, { useContext, useState, useMemo, useEffect } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
@@ -10,8 +10,9 @@ import { StoreContext } from 'src/store/store';
 import useStyles from './navbarStyles';
 
 // Components
+import Blockies from 'react-blockies';
 import GenerateLink from 'src/components/modals/generateLink/generateLink';
-import { Logo, DAppIcon, Profile, Moon, Sun } from 'src/components/icons/icons';
+import { Logo, DAppIcon, Moon, Sun } from 'src/components/icons/icons';
 import BaseActionButton, {
   ACTION_BUTTON_VARIANTS,
   ACTION_FONT_SIZE,
@@ -34,7 +35,7 @@ export interface Props {
 
 function Navbar(props: Props): JSX.Element {
   // General
-  const { actions } = useContext(StoreContext);
+  const { state, actions } = useContext(StoreContext);
   const { podStateMachine } = usePodStateMachine();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
@@ -47,6 +48,15 @@ function Navbar(props: Props): JSX.Element {
   );
 
   const isThemeLight = () => theme.name === 'light';
+
+  // Wallet reference for generate Blockie
+  const [walletAddress, setWalletAddress] = useState(null);
+
+  useEffect(() => {
+    if (state.userStats !== null && walletAddress == null) {
+      setWalletAddress(state.userStats.reference);
+    }
+  }, [state.userStats, walletAddress]);
 
   return (
     <header className={classes.navbar}>
@@ -191,10 +201,13 @@ function Navbar(props: Props): JSX.Element {
                 )}
               >
                 {(openDropdown) => (
-                  <Profile
-                    onClick={() => openDropdown()}
-                    className={classes.icon}
-                  />
+                  <button type="button" onClick={() => openDropdown()}>
+                    <Blockies
+                      bgColor={theme.backgroundDark2}
+                      seed={walletAddress}
+                      className={classes.icon}
+                    />
+                  </button>
                 )}
               </BaseDropdown>
             </>

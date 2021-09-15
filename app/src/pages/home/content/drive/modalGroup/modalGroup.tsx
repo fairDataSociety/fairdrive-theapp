@@ -8,22 +8,22 @@ import GenerateLink from 'src/components/modals/generateLink/generateLink';
 import { Modal } from '@material-ui/core';
 
 export interface Props {
-  folderName?: string;
-  fileName?: string;
-  setFolderName?: (value: string) => void;
-  setFileName?: (value: string) => void;
+  folderName: string;
+  fileName: string;
+  setFolderName: (value: string) => void;
+  setFileName: (value: string) => void;
 
-  createFolderModal?: {
+  createFolderModal: {
     isCreateFolderModalVisible: () => boolean;
     onCreate: () => Promise<void>;
     onClose: () => void;
   };
-  createFileModal?: {
+  createFileModal: {
     isCreateFileModalVisible: () => boolean;
     onCreate: () => Promise<void>;
     onClose: () => void;
   };
-  sharePodModal?: {
+  sharePodModal: {
     isSharePodModalVisible: () => boolean;
     refLink: () => string;
     onClose: () => void;
