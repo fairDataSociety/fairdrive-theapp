@@ -135,6 +135,7 @@ function Drive(props: Props) {
   }, [
     state.fileUploaded,
     state.directory,
+    state.podName,
     responseCreation,
     state.fileDeleted,
   ]);
