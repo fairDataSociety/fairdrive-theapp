@@ -197,6 +197,8 @@ function Drive(props: Props) {
     setResponseCreation(
       await receiveFileInfo(fileName, state.podName, state.directory)
     );
+    setIsImportFileModalVisible(false);
+    setFileName('');
   };
 
   // Manage filters
