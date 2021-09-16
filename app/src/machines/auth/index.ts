@@ -72,7 +72,7 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
           }),
         },
         [EVENTS.REGISTER]: {
-          target: STATES.REGISTER_LOADING,
+          target: STATES.REGISTER,
           actions: assign({
             registrationData: (_, { payload }) => payload,
           }),
@@ -87,6 +87,8 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
             id: 'registerService',
             src: (context) =>
               RegisterService.createAccount(context.registrationData),
+            onDone: ,
+            onError: ,
           },
         },
         [STATES.REGISTER_SUCCESS]: {
