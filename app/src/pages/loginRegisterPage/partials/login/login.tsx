@@ -9,11 +9,18 @@ import { CirclePart } from 'src/components/icons/icons';
 import { useEffect } from 'react';
 // import toast from 'react-hot-toast';
 
+// AuthMachine
+import { STATES } from 'src/machines/auth/machine';
+import { AuthProviderContext } from 'src/machines/auth';
+
 export interface Props {
   backFunction: () => void;
 }
 
 function Login(props: Props) {
+  const { store: AuthMachineStore, actions: AuthMachineActions } =
+    useContext(AuthProviderContext);
+  /////
   const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
@@ -25,12 +32,14 @@ function Login(props: Props) {
   //add UseEffect when state changes to reload it and store it
 
   async function onLogin() {
-    actions.userLogin({
-      username,
-      password,
-    });
-    actions.getPods();
-    actions.getUserStats();
+    // actions.userLogin({
+    //   username,
+    //   password,
+    // });
+    AuthMachineActions.onLogin(username, password);
+
+    // actions.getPods();
+    // actions.getUserStats();
   }
   useEffect(() => {
     if (state.flags.loginStatus === 'fail') {
@@ -82,7 +91,25 @@ function Login(props: Props) {
         />
 
         <div className={classes.feedbackContainer}>
-          {state.flags.loginStatus === 'loading' && (
+          {AuthMachineStore.matches({
+            [STATES.LOGIN]: STATES.LOGIN_LOADING,
+          }) && <CirclePart className={classes.spinner} />}
+          {AuthMachineStore.matches({
+            [STATES.LOGIN]: STATES.LOGIN_SUCCESS,
+          }) && (
+            <p className={classes.feedbackMessage}>
+              Success!! 🥳 Please wait...
+            </p>
+          )}
+          {AuthMachineStore.matches({
+            [STATES.LOGIN]: STATES.LOGIN_FAILED,
+          }) && (
+            <p className={`${classes.feedbackMessage} ${classes.error}`}>
+              Invalid credentials, please try again.
+            </p>
+          )}
+
+          {/* {state.flags.loginStatus === 'loading' && (
             <CirclePart className={classes.spinner} />
           )}
           {state.flags.loginStatus === 'success' && (
@@ -94,7 +121,7 @@ function Login(props: Props) {
             <p className={`${classes.feedbackMessage} ${classes.error}`}>
               Invalid credentials, please try again.
             </p>
-          )}
+          )} */}
         </div>
 
         <ButtonPill text={'Login'} clickFunction={onLogin} />

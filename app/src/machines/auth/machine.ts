@@ -1,6 +1,7 @@
 import { createMachine, assign } from 'xstate';
 // import STATES from './states';
 // import EVENTS from './events';
+import HTTPClient from 'src/http';
 
 import { UserStats } from 'src/types/responses';
 import { CreateAccount } from 'src/types/models/CreateAccount';
@@ -8,13 +9,13 @@ import { CreateAccount } from 'src/types/models/CreateAccount';
 import * as LoginService from 'src/services/auth';
 import * as RegisterService from 'src/services/account';
 
-enum EVENTS {
+export enum EVENTS {
   LOGIN = 'login',
   REGISTER = 'register',
   LOGOUT = 'logout',
 }
 
-enum STATES {
+export enum STATES {
   STATE_ROOT = 'authMachine',
   IDLE = 'idle',
   LOGIN = 'login',
@@ -32,7 +33,8 @@ interface LoginData {
   username: string;
   password: string;
 }
-interface AuthContext {
+
+export interface AuthContext {
   isLoggedIn: boolean;
   isRegistered: boolean;
   userData: UserStats | null;
@@ -41,13 +43,13 @@ interface AuthContext {
   registrationData: CreateAccount | null;
 }
 
-type AuthEvents =
+export type AuthEvents =
   | {
       type: EVENTS.LOGIN;
       payload: LoginData;
     }
   | { type: EVENTS.REGISTER; payload: CreateAccount }
-  | { type: EVENTS.LOGOUT; payload: undefined };
+  | { type: EVENTS.LOGOUT };
 
 const createAuthMachine = createMachine<AuthContext, AuthEvents>({
   id: STATES.STATE_ROOT,
@@ -87,8 +89,14 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
             id: 'registerService',
             src: (context) =>
               RegisterService.createAccount(context.registrationData),
-            onDone: ,
-            onError: ,
+            onDone: {
+              target: STATES.REGISTER_SUCCESS,
+              actions: () => console.log('registerService done'),
+            },
+            onError: {
+              target: STATES.REGISTER_FAILED,
+              actions: () => console.log('registerService error'),
+            },
           },
         },
         [STATES.REGISTER_SUCCESS]: {
@@ -125,11 +133,15 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
             src: (context) => LoginService.loginUser(context.loginData),
             onDone: {
               target: STATES.LOGIN_SUCCESS,
-              actions: () => console.log('done'),
+              actions: assign({
+                isLoggedIn: (_, event) => event.data,
+              }),
             },
             onError: {
               target: STATES.LOGIN_FAILED,
-              actions: () => console.log('error'),
+              actions: assign({
+                isLoggedIn: (_, event) => event.data,
+              }),
             },
           },
         },
@@ -138,7 +150,9 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
 
           on: {
             // On login success let's allow for log out
-            [EVENTS.LOGOUT]: { target: STATES.LOGOUT },
+            [EVENTS.LOGOUT]: {
+              target: `#${STATES.STATE_ROOT}.${STATES.LOGOUT}`,
+            },
           },
         },
         [STATES.LOGIN_FAILED]: {

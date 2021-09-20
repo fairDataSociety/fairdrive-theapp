@@ -6,7 +6,7 @@ export async function loginUser(payload: {
 }) {
   try {
     const { username, password } = payload;
-
+    console.log('loginUser', payload);
     const response = await HTTPClient().post('user/login', {
       user_name: username,
       password: password,
