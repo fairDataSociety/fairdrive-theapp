@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import useStyles from './menuRibbonStyles';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Components
@@ -23,7 +23,7 @@ export interface Props {
 
 function MenuRibbon(props: Props) {
   const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const { showPodSidebar, setShowPodSidebar, sidebarItem, setSidebarItem } =

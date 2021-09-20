@@ -5,7 +5,7 @@ import prettyBytes from 'pretty-bytes';
 import useStyles from '../../rightSidebarStyles';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Components
@@ -30,7 +30,7 @@ export interface Props {
 
 const PreviewVariant = (props: Props): JSX.Element => {
   const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
 
   const metadata = [

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useEffect } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './textFieldStyles';
 
 export interface Props {
@@ -19,7 +19,7 @@ export interface Props {
 // TODO: Refactor textFiled -> BaseInput, add all variants and features
 
 function TextField(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
   useEffect(() => {

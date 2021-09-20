@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 import useStyles from 'src/pages/loginRegisterPage/partials/register/registerStyles';
 import ButtonPill from 'src/components/buttonPill/buttonPill';
@@ -9,7 +9,7 @@ import { createAccount } from 'src/services/account';
 
 function SeedPhraseConfirm() {
   const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
 
   const [wordFive, setWordFive] = useState('');

@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './fileListFooterStyles';
 import { BaseSelect } from 'src/shared/BaseSelect/BaseSelect';
 import { ChevronDown } from 'src/components/icons/icons';
 
 export interface Props {}
 function FileListHeader(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const [currentOptionID, setCurrentOptionID] = useState(0);

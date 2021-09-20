@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './BaseEmptyStateStyles';
@@ -26,7 +26,7 @@ export interface Props {
 
 function BaseEmptyState(props: Props): JSX.Element {
   const { variant = EMPTY_STATE_VARIANTS.EMPTY_STATE } = props;
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...theme });
 

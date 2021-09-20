@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Hooks
@@ -27,7 +27,7 @@ function TopLevelNavigation(props: Props) {
   const { showGrid, setShowGrid } = props;
 
   const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const splitAndUppercaseCurrentFilterName = (

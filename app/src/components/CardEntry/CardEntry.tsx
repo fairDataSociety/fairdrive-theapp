@@ -10,7 +10,7 @@ import { formatDate } from 'src/helpers';
 // Context
 import { StoreContext } from 'src/store/store';
 
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import FilePreviewFallback from 'src/components/filePreview/filePreviewFallback';
@@ -34,7 +34,7 @@ export interface Props {
 function FileCard(props: Props) {
   const { data } = props;
   const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
 
   // Handle opening directory or file in sidebar

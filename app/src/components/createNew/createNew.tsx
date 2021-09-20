@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 // import { StoreContext } from '../../store/store';
 import useStyles from './createNewStyles';
 import TextField from '../textField/textField';
@@ -15,7 +15,7 @@ export interface Props {
 
 function CreateNew(props: Props): JSX.Element {
   // const { state, actions } = useContext(Sto  reContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
 

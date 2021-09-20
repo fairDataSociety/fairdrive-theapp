@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import useStyles from './overlayStyles';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 export interface Props {
   handleClickAway?: () => void;
@@ -8,7 +8,7 @@ export interface Props {
 }
 
 function Overlay(props: Props): JSX.Element {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   return (

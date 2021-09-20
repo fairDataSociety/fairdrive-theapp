@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ChevronDown } from 'src/components/icons/icons';
 import { ClickAwayListener } from '@material-ui/core';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './BaseSelectStyles';
 import DropDown from 'src/components/dropDown/dropDown';
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const BaseSelect = (props: Props): JSX.Element => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
   const [isSelectExpanded, setIsSelectExpanded] = useState(false);
 

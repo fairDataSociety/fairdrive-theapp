@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './overviewStyles';
 import SetupCards from 'src/components/setUpCards/setUpCards';
 import PodsPreview from 'src/components/podsPreview/podsPreview';
@@ -9,7 +9,7 @@ export interface Props {
 }
 
 function Overview(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
 

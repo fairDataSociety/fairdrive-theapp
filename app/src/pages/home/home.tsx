@@ -4,7 +4,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import useStyles from './homeStyles';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
 import {
   STATES_NAMES,
@@ -38,7 +38,7 @@ export interface Props {
 
 function Home(props: Props) {
   const { podStateMachine } = usePodStateMachine();
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const loadingPodOrDirectoryName = () => {

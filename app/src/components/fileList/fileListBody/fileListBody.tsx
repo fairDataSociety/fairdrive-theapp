@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
 
 // Hooks
@@ -30,7 +30,7 @@ export interface Props {
 }
 function FileListBody(props: Props) {
   const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
 

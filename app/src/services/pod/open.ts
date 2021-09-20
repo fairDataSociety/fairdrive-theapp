@@ -11,7 +11,7 @@ export async function openPod(payload: { password: string; podName: string }) {
         podName === undefined || podName === null ? podNameDefault : podName,
       password: password,
     });
-
+    debugger;
     return response;
   } catch (error) {
     return Promise.reject(error);

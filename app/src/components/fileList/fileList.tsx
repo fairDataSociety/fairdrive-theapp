@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './fileListStyles';
 import FileListHeader from './fileListHeader/fileListHeader';
 import FileListFooter from './fileListFooter/fileListFooter';
@@ -17,7 +17,7 @@ export interface Props {
 }
 
 function FileList(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const { state } = useContext(StoreContext);
 
   const classes = useStyles({ ...props, ...theme });

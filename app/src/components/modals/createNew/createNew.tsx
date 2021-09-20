@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './createNewStyles';
 import TextField from '../../textField/textField';
 import Modal from '../modal/modal';
@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export function CreateNew(props: Props): JSX.Element {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
 

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
 import { STATES_NAMES, DIRECTORY_STATUS } from 'src/types/pod-state';
 
@@ -50,7 +50,7 @@ export type TCurrentFilter =
 function Drive(props: Props) {
   // Contexts
   const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   // Local store of files and directories

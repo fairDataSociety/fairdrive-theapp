@@ -10,8 +10,8 @@ import STATES from 'src/machines/auth/states';
 import { CreateAccount } from 'src/types/models/CreateAccount';
 
 interface AuthProviderContext {
-  store: State<AuthContext, AuthEvents, any>;
-  actions: {
+  AuthMachineStore: State<AuthContext, AuthEvents, any>;
+  AuthMachineActions: {
     onRegister: (data: CreateAccount) => void;
     onLogin: (email: string, password: string) => void;
     onLogout: () => void;
@@ -59,8 +59,8 @@ const AuthProvider = ({ children }: AuthProvider): JSX.Element => {
   }, [send]);
 
   const value = {
-    store: state,
-    actions: {
+    AuthMachineStore: state,
+    AuthMachineActions: {
       onRegister: handleRegister,
       onLogin: handleLogin,
       onLogout: handleLogout,
@@ -69,12 +69,9 @@ const AuthProvider = ({ children }: AuthProvider): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log(
-      'AuthMachine state:',
-      state.toStrings(),
-      'available events',
-      state.nextEvents
-    );
+    console.log('AuthMachine state:', state.toStrings());
+    console.log('next events', state.nextEvents);
+    console.log('context', state.context);
   }, [state, send]);
 
   return (

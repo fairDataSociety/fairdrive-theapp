@@ -133,7 +133,7 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
             },
           },
           [STATES.LOGIN_SUCCESS]: {
-            initial: 'idle',
+            initial: STATES.FETCH_USER_STATS,
             states: {
               idle: {
                 on: {

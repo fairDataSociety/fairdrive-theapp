@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import React, { useContext, useState } from 'react';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 import useStyles from './loginStyles';
 import ButtonPill from 'src/components/buttonPill/buttonPill';
@@ -15,10 +15,10 @@ export interface Props {
 }
 
 function Login(props: Props) {
-  const { store: AuthMachineStore, actions: AuthMachineActions } =
+  const { AuthMachineStore, AuthMachineActions } =
     useContext(AuthProviderContext);
 
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const [username, setUsername] = useState(localStorage.getItem('username'));
@@ -26,17 +26,6 @@ function Login(props: Props) {
 
   const onLogin = () => AuthMachineActions.onLogin(username, password);
   // actions.getPods();
-
-  useEffect(() => {
-    if (
-      AuthMachineStore.matches({
-        [STATES.LOGIN]: STATES.LOGIN_SUCCESS,
-      })
-    ) {
-      // When LOGIN_SUCCESS let's fetch user's stats
-      AuthMachineActions.onFetchUserStats();
-    }
-  }, [AuthMachineStore]);
 
   return (
     <div className={classes.Login}>

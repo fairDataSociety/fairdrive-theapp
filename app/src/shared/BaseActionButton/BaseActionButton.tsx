@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './BaseActionButtonStyles';
@@ -74,7 +74,7 @@ function BaseActionButton(props: Props): JSX.Element {
     isSubmit,
     label,
   } = props;
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({
     ...props,

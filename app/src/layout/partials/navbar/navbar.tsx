@@ -1,10 +1,11 @@
 import React, { useContext, useState, useMemo } from 'react';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES } from 'src/types/pod-state';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
+
+import STATES from 'src/machines/auth/states';
+import { AuthProviderContext } from 'src/machines/auth';
 
 // Hooks
 import useStyles from './navbarStyles';
@@ -30,21 +31,17 @@ import SearchBar from 'src/components/searchBar/searchBar';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
+  isAfterAuth: boolean;
 }
-
 function Navbar(props: Props): JSX.Element {
   // General
+  const { AuthMachineActions } = useContext(AuthProviderContext);
+
   const { actions } = useContext(StoreContext);
-  const { podStateMachine } = usePodStateMachine();
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const [isReferalModalOpen, setIsReferalModalOpen] = useState(false);
-
-  const isPodStateOtherThanInitial = useMemo(
-    () => podStateMachine.tag !== STATES_NAMES.INITIAL,
-    [podStateMachine.tag]
-  );
 
   const isThemeLight = () => theme.name === 'light';
 
@@ -61,7 +58,7 @@ function Navbar(props: Props): JSX.Element {
           <Logo className={classes.logo} />
         </a>
 
-        {isPodStateOtherThanInitial && (
+        {props.isAfterAuth && (
           <BaseDropdown
             moveToRight={true}
             dropdownSize={DROPDOWN_SIZE.BIG}
@@ -88,7 +85,7 @@ function Navbar(props: Props): JSX.Element {
       </div>
 
       <div className={classes.right}>
-        {isPodStateOtherThanInitial && (
+        {props.isAfterAuth && (
           <>
             <BaseButton
               variant={BUTTON_VARIANTS.ALTERNATIVE}
@@ -109,7 +106,7 @@ function Navbar(props: Props): JSX.Element {
           </>
         )}
         <div className={classes.actionsWrapper}>
-          {isPodStateOtherThanInitial && (
+          {props.isAfterAuth && (
             <>
               <SearchBar />
 
@@ -177,7 +174,7 @@ function Navbar(props: Props): JSX.Element {
                   {
                     label: 'Disconnect',
                     isDangerVariant: true,
-                    onOptionClicked: () => actions.userLogout(),
+                    onOptionClicked: () => AuthMachineActions.onLogout(),
                   },
                 ]}
                 title={'Fairdrop user name Login (coming soon)'}

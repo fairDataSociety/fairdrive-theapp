@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './BaseButtonStyles';
@@ -62,7 +62,7 @@ export const BaseButton = ({
   onClickCallback,
   children,
 }: Props): JSX.Element => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({
     ...{

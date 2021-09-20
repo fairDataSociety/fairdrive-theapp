@@ -5,7 +5,7 @@ import { useFileContextActions } from 'src/hooks/useFileContextActions';
 import useStyles from './rightSidebarStyles';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import PreviewVariant from './variants/preview/preview';
@@ -31,7 +31,7 @@ export interface Props {
 
 function RightSidebar(props: Props) {
   // General
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
 
   // Validate variant

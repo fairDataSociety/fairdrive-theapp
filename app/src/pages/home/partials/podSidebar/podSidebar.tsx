@@ -10,7 +10,7 @@ import {
 // Contexts
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
 import { STATES_NAMES, POD_STATUS } from 'src/types/pod-state';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Components
@@ -38,7 +38,7 @@ export interface Props {
 function PodSidebar(props: Props) {
   // General
   const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
   const pods = ['Private Pod', 'Shared Pod', 'My Photos'];
 

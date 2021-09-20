@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from '../../store/store';
 import useStyles from './newFolderStyles';
 import CreateNew from '../createNew/createNew';
@@ -10,7 +10,7 @@ export interface Props {
 
 function NewFolder(props: Props) {
   const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
   const [folder, setFolderName] = useState<string | null>(null);
