@@ -53,7 +53,6 @@ export type PodEvents =
   | {
       type: EVENTS.OPEN_DIRECTORY;
       payload: {
-        podName: string;
         directoryName: string;
       };
     };
@@ -80,7 +79,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
     [STATES.IDLE]: {
       on: {
         [EVENTS.GET_PODS]: {
-          target: STATES.DIRECTORY,
+          target: STATES.FETCH_PODS,
         },
       },
     },
@@ -96,7 +95,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
               actions: assign((_, event) => {
                 return {
                   isPodsListFetched: true,
-                  availablePodsList: event.data,
+                  availablePodsList: event.data.data,
                 };
               }),
             },
@@ -131,6 +130,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                   invoke: {
                     id: 'openPodService',
                     src: (context) =>
+                      // TODO: Pass password as argument
                       PodService.openPod({
                         password: 'T@jne!23.',
                         podName: context.podNameToOpen,

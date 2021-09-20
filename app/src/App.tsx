@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthProvider from 'src/machines/auth';
+import PodProvider from 'src/machines/pod';
 import { StoreProvider } from 'src/store/store';
 import { PodStateMachineProvider } from 'src/contexts/podStateMachine';
 import { ThemeProvider } from 'src/contexts/themeContext/themeContext';
@@ -10,13 +11,15 @@ const App = (): JSX.Element => {
   return (
     <>
       <AuthProvider>
-        <PodStateMachineProvider>
-          <StoreProvider>
-            <ThemeProvider>
-              <Layout />
-            </ThemeProvider>
-          </StoreProvider>
-        </PodStateMachineProvider>
+        <PodProvider>
+          <PodStateMachineProvider>
+            <StoreProvider>
+              <ThemeProvider>
+                <Layout />
+              </ThemeProvider>
+            </StoreProvider>
+          </PodStateMachineProvider>
+        </PodProvider>
       </AuthProvider>
       <Toaster />
     </>
