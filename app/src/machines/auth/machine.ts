@@ -8,11 +8,14 @@ import { CreateAccount } from 'src/types/models/CreateAccount';
 
 import * as LoginService from 'src/services/auth';
 import * as RegisterService from 'src/services/account';
+import { statsUser } from 'src/services/user';
 
 export enum EVENTS {
   LOGIN = 'login',
   REGISTER = 'register',
   LOGOUT = 'logout',
+  FETCH_USER_STATS = 'fetch_user_stats',
+  RETRY_FETCH_USER_STATS = 'retry_fetch_user_stats',
 }
 
 export enum STATES {
@@ -27,6 +30,10 @@ export enum STATES {
   REGISTER_LOADING = 'register_loading',
   REGISTER_SUCCESS = 'register_success',
   REGISTER_FAILED = 'register_failed',
+  FETCH_USER_STATS = 'fetch_userstats',
+  FETCH_USER_STATS_LOADING = 'fetch_userstats_loading',
+  FETCH_USER_STATS_SUCCESS = 'fetch_userstats_success',
+  FETCH_USER_STATS_FAILED = 'fetch_userstats_failed',
 }
 
 interface LoginData {
@@ -37,6 +44,7 @@ interface LoginData {
 export interface AuthContext {
   isLoggedIn: boolean;
   isRegistered: boolean;
+  isUserStatsFetched: boolean;
   userData: UserStats | null;
   errorMessage: string | null;
   loginData: LoginData | null;
@@ -49,21 +57,26 @@ export type AuthEvents =
       payload: LoginData;
     }
   | { type: EVENTS.REGISTER; payload: CreateAccount }
-  | { type: EVENTS.LOGOUT };
+  | { type: EVENTS.LOGOUT }
+  | { type: EVENTS.FETCH_USER_STATS }
+  | { type: EVENTS.RETRY_FETCH_USER_STATS };
+
+const initialState: AuthContext = {
+  // TODO: Below it could by as services/user/isUserLoggedIn() ? 'login' : 'idle'
+  // but currently we don't have properly working session refresh tool
+  isLoggedIn: false,
+  isRegistered: false,
+  isUserStatsFetched: false,
+  userData: null,
+  errorMessage: null,
+  loginData: null,
+  registrationData: null,
+};
 
 const createAuthMachine = createMachine<AuthContext, AuthEvents>({
   id: STATES.STATE_ROOT,
   initial: STATES.IDLE,
-  context: {
-    // TODO: Below it could by as services/user/isUserLoggedIn() ? 'login' : 'idle'
-    // but currently we don't have properly working session refresh tool
-    isLoggedIn: false,
-    isRegistered: false,
-    userData: null,
-    errorMessage: null,
-    loginData: null,
-    registrationData: null,
-  },
+  context: initialState,
   states: {
     [STATES.IDLE]: {
       on: {
@@ -134,20 +147,73 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
             onDone: {
               target: STATES.LOGIN_SUCCESS,
               actions: assign({
-                isLoggedIn: (_, event) => event.data,
+                isLoggedIn: (_) => true,
               }),
             },
             onError: {
               target: STATES.LOGIN_FAILED,
               actions: assign({
-                isLoggedIn: (_, event) => event.data,
+                isLoggedIn: (_) => false,
               }),
             },
           },
         },
         [STATES.LOGIN_SUCCESS]: {
-          // On login success let' allow for fetching user's object
-
+          initial: 'idle',
+          states: {
+            idle: {
+              on: {
+                [EVENTS.FETCH_USER_STATS]: {
+                  target: STATES.FETCH_USER_STATS,
+                },
+              },
+            },
+            [STATES.FETCH_USER_STATS]: {
+              // Below probably should be full reference
+              initial: STATES.FETCH_USER_STATS_LOADING,
+              states: {
+                [STATES.FETCH_USER_STATS_LOADING]: {
+                  invoke: {
+                    id: 'fetchUserStatsService',
+                    src: (_) => statsUser(),
+                    onDone: {
+                      target: STATES.FETCH_USER_STATS_SUCCESS,
+                      actions: assign((_, event) => {
+                        return {
+                          isUserStatsFetched: true,
+                          userData: event.data.data,
+                        };
+                      }),
+                    },
+                    onError: {
+                      target: STATES.FETCH_USER_STATS_FAILED,
+                      actions: assign((_) => {
+                        return {
+                          isUserStatsFetched: false,
+                          userData: null,
+                        };
+                      }),
+                    },
+                  },
+                },
+                // End of path
+                [STATES.FETCH_USER_STATS_SUCCESS]: {},
+                [STATES.FETCH_USER_STATS_FAILED]: {
+                  on: {
+                    [EVENTS.RETRY_FETCH_USER_STATS]: {
+                      target: STATES.FETCH_USER_STATS_LOADING,
+                    },
+                  },
+                },
+              },
+              on: {
+                // On fetching user stats success let's allow for log out
+                [EVENTS.LOGOUT]: {
+                  target: `#${STATES.STATE_ROOT}.${STATES.LOGOUT}`,
+                },
+              },
+            },
+          },
           on: {
             // On login success let's allow for log out
             [EVENTS.LOGOUT]: {
@@ -163,6 +229,7 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
         },
       },
     },
+
     [STATES.LOGOUT]: {
       invoke: {
         id: 'logoutService',
@@ -170,26 +237,12 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>({
         onDone: {
           // On logout move to initial state and context
           target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
-          actions: assign({
-            isLoggedIn: false,
-            isRegistered: false,
-            userData: null,
-            errorMessage: null,
-            loginData: null,
-            registrationData: null,
-          }),
+          actions: assign(initialState),
         },
         onError: {
           // On logout move to initial state and context
           target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
-          actions: assign({
-            isLoggedIn: false,
-            isRegistered: false,
-            userData: null,
-            errorMessage: null,
-            loginData: null,
-            registrationData: null,
-          }),
+          actions: assign(initialState),
         },
       },
     },

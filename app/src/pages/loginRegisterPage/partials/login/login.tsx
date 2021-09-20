@@ -31,16 +31,26 @@ function Login(props: Props) {
   const [hasError, setHasError] = useState(false);
   //add UseEffect when state changes to reload it and store it
 
-  async function onLogin() {
-    // actions.userLogin({
-    //   username,
-    //   password,
-    // });
-    AuthMachineActions.onLogin(username, password);
+  const onLogin = () => AuthMachineActions.onLogin(username, password);
+  // actions.userLogin({
+  //   username,
+  //   password,
+  // });
 
-    // actions.getPods();
-    // actions.getUserStats();
-  }
+  // actions.getPods();
+  // actions.getUserStats();
+
+  useEffect(() => {
+    if (
+      AuthMachineStore.matches({
+        [STATES.LOGIN]: STATES.LOGIN_SUCCESS,
+      })
+    ) {
+      // When LOGIN_SUCCESS let's fetch user's stats
+      AuthMachineActions.onFetchUserStats();
+    }
+  }, [AuthMachineStore]);
+
   useEffect(() => {
     if (state.flags.loginStatus === 'fail') {
       setHasError(true);

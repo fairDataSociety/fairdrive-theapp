@@ -1,10 +1,11 @@
-import React, { useCallback, createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useCallback } from 'react';
 import { State } from 'xstate';
 import { useMachine } from '@xstate/react';
 import createAuthMachine, {
   EVENTS,
   AuthContext,
   AuthEvents,
+  STATES,
 } from 'src/machines/auth/machine';
 import { CreateAccount } from 'src/types/models/CreateAccount';
 
@@ -14,6 +15,7 @@ interface AuthProviderContext {
     onRegister: (data: CreateAccount) => void;
     onLogin: (email: string, password: string) => void;
     onLogout: () => void;
+    onFetchUserStats: () => void;
   };
 }
 
@@ -40,6 +42,18 @@ const AuthProvider = ({ children }: AuthProvider): JSX.Element => {
     [send]
   );
 
+  const handleFetchUserStats = () => {
+    if (
+      state.matches({
+        [STATES.LOGIN]: STATES.LOGIN_SUCCESS,
+      })
+    ) {
+      send({ type: EVENTS.FETCH_USER_STATS });
+    } else {
+      console.warn('Fetching user stats available after login');
+    }
+  };
+
   const handleLogout = useCallback((): void => {
     send({ type: EVENTS.LOGOUT });
   }, [send]);
@@ -50,6 +64,7 @@ const AuthProvider = ({ children }: AuthProvider): JSX.Element => {
       onRegister: handleRegister,
       onLogin: handleLogin,
       onLogout: handleLogout,
+      onFetchUserStats: handleFetchUserStats,
     },
   };
 
