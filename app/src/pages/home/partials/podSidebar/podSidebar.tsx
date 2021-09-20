@@ -8,6 +8,8 @@ import {
 } from 'src/hooks/usePodContextActions';
 
 // Contexts
+import { PodProviderContext } from 'src/machines/pod';
+
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
 import { STATES_NAMES, POD_STATUS } from 'src/types/pod-state';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
@@ -36,6 +38,8 @@ export interface Props {
 }
 
 function PodSidebar(props: Props) {
+  const { PodMachineStore } = useContext(PodProviderContext);
+
   // General
   const { state, actions } = useContext(StoreContext);
   const { theme } = useTheme();
@@ -170,18 +174,20 @@ function PodSidebar(props: Props) {
 
       {props.route === 'Overview' ? (
         <div className={classes.pods}>
-          {pods.map((pod, index) => {
-            return (
-              <div
-                key={index}
-                className={classes.podRow}
-                // onClick={() => proxyPodContextActions('overview', pod)}
-              >
-                <label>{pod}</label>
-                <PodChevron className={classes.podChevron} />
-              </div>
-            );
-          })}
+          {PodMachineStore.context.availablePodsList.pod_name.map(
+            (pod, index) => {
+              return (
+                <div
+                  key={index}
+                  className={classes.podRow}
+                  // onClick={() => proxyPodContextActions('overview', pod)}
+                >
+                  <label>{pod}</label>
+                  <PodChevron className={classes.podChevron} />
+                </div>
+              );
+            }
+          )}
         </div>
       ) : props.route !== 'Explore' ? (
         <div className={classes.pods}>

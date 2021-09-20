@@ -5,7 +5,6 @@ import useStyles from './menuRibbonStyles';
 
 // Contexts
 import { useTheme } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
 
 // Components
 import SidebarItem from 'src/components/sidebarItem/sidebarItem';
@@ -22,7 +21,6 @@ export interface Props {
 }
 
 function MenuRibbon(props: Props) {
-  const { state } = useContext(StoreContext);
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
@@ -56,20 +54,18 @@ function MenuRibbon(props: Props) {
   ];
 
   return (
-    state.userData && (
-      <div className={classes.Sidebar}>
-        {pages.map((page, index) => (
-          <SidebarItem
-            key={index}
-            onClick={() => switchPages(page.name)}
-            Icon={page.icon}
-            title={page.name}
-            isActive={showPodSidebar && page.name === sidebarItem}
-            isDisabled={page.isDisabled}
-          />
-        ))}
-      </div>
-    )
+    <div className={classes.Sidebar}>
+      {pages.map((page, index) => (
+        <SidebarItem
+          key={index}
+          onClick={() => switchPages(page.name)}
+          Icon={page.icon}
+          title={page.name}
+          isActive={showPodSidebar && page.name === sidebarItem}
+          isDisabled={page.isDisabled}
+        />
+      ))}
+    </div>
   );
 }
 
