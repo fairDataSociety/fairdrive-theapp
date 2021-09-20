@@ -1,9 +1,9 @@
-const EVENTS = {
-  REGISTER: 'register',
-  LOGIN: 'login',
-  LOGOUT: 'logout',
-  RETRIEVE_USER: 'retrieve_user',
-  RETRY_RETRIEVE_USER: 'retry_retrieve_user',
-};
+enum EVENTS {
+  LOGIN = 'login',
+  REGISTER = 'register',
+  LOGOUT = 'logout',
+  FETCH_USER_STATS = 'fetch_user_stats',
+  RETRY_FETCH_USER_STATS = 'retry_fetch_user_stats',
+}
 
 export default EVENTS;

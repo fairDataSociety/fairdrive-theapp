@@ -1,24 +1,19 @@
-const STATES = {
-  IDLE: 'idle',
-  REGISTER: {
-    NODE_NAME: 'register',
-    LOADING: 'loading',
-    SUCCESS: 'success',
-    FAILURE: 'failure',
-  },
-  LOGIN: {
-    NODE_NAME: 'login',
-    LOADING: 'loading',
-    SUCCESS: 'success',
-    FAILURE: 'failure',
-    LOGOUT: 'logout',
-  },
-  // RETRIEVE_USER: {
-  //   NODE_NAME: 'retrieve_user',
-  //   LOADING: 'loading',
-  //   SUCCESS: 'success',
-  //   FAILURE: 'failure'
-  // }
-};
+enum STATES {
+  STATE_ROOT = 'authMachine',
+  IDLE = 'idle',
+  LOGIN = 'login',
+  LOGIN_LOADING = 'login_loading',
+  LOGIN_SUCCESS = 'login_success',
+  LOGIN_FAILED = 'login_failed',
+  LOGOUT = 'logout',
+  REGISTER = 'register',
+  REGISTER_LOADING = 'register_loading',
+  REGISTER_SUCCESS = 'register_success',
+  REGISTER_FAILED = 'register_failed',
+  FETCH_USER_STATS = 'fetch_userstats',
+  FETCH_USER_STATS_LOADING = 'fetch_userstats_loading',
+  FETCH_USER_STATS_SUCCESS = 'fetch_userstats_success',
+  FETCH_USER_STATS_FAILED = 'fetch_userstats_failed',
+}
 
 export default STATES;

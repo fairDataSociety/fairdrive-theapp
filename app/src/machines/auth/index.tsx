@@ -2,11 +2,11 @@ import React, { createContext, useEffect, useCallback } from 'react';
 import { State } from 'xstate';
 import { useMachine } from '@xstate/react';
 import createAuthMachine, {
-  EVENTS,
   AuthContext,
   AuthEvents,
-  STATES,
 } from 'src/machines/auth/machine';
+import EVENTS from 'src/machines/auth/events';
+import STATES from 'src/machines/auth/states';
 import { CreateAccount } from 'src/types/models/CreateAccount';
 
 interface AuthProviderContext {
@@ -69,7 +69,12 @@ const AuthProvider = ({ children }: AuthProvider): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log('AuthMachine state: ', state);
+    console.log(
+      'AuthMachine state:',
+      state.toStrings(),
+      'available events',
+      state.nextEvents
+    );
   }, [state, send]);
 
   return (

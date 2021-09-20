@@ -1,16 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+
 import useStyles from './loginStyles';
 import ButtonPill from 'src/components/buttonPill/buttonPill';
 import TextField from 'src/components/textField/textField';
 import welcomeImage from 'src/media/images/welcome-image.png';
 import { CirclePart } from 'src/components/icons/icons';
-import { useEffect } from 'react';
-// import toast from 'react-hot-toast';
 
-// AuthMachine
-import { STATES } from 'src/machines/auth/machine';
+import STATES from 'src/machines/auth/states';
 import { AuthProviderContext } from 'src/machines/auth';
 
 export interface Props {
@@ -20,25 +17,15 @@ export interface Props {
 function Login(props: Props) {
   const { store: AuthMachineStore, actions: AuthMachineActions } =
     useContext(AuthProviderContext);
-  /////
-  const { state, actions } = useContext(StoreContext);
+
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   const [username, setUsername] = useState(localStorage.getItem('username'));
   const [password, setPassword] = useState('');
 
-  const [hasError, setHasError] = useState(false);
-  //add UseEffect when state changes to reload it and store it
-
   const onLogin = () => AuthMachineActions.onLogin(username, password);
-  // actions.userLogin({
-  //   username,
-  //   password,
-  // });
-
   // actions.getPods();
-  // actions.getUserStats();
 
   useEffect(() => {
     if (
@@ -50,15 +37,6 @@ function Login(props: Props) {
       AuthMachineActions.onFetchUserStats();
     }
   }, [AuthMachineStore]);
-
-  useEffect(() => {
-    if (state.flags.loginStatus === 'fail') {
-      setHasError(true);
-      setTimeout(() => setHasError(false), 2000);
-    }
-  }, [state.flags.loginStatus, username]);
-
-  // const notify = () => toast.error('Here is your toast.');
 
   return (
     <div className={classes.Login}>
@@ -84,7 +62,6 @@ function Login(props: Props) {
           autoFocus
           placeholder="Username"
           type="text"
-          setHasError={setHasError}
           setProp={setUsername}
           propValue={username}
           onContinue={onLogin}
@@ -93,7 +70,6 @@ function Login(props: Props) {
         <TextField
           placeholder="Password"
           type="password"
-          setHasError={setHasError}
           setProp={setPassword}
           onContinue={onLogin}
           propValue={password}
@@ -118,20 +94,6 @@ function Login(props: Props) {
               Invalid credentials, please try again.
             </p>
           )}
-
-          {/* {state.flags.loginStatus === 'loading' && (
-            <CirclePart className={classes.spinner} />
-          )}
-          {state.flags.loginStatus === 'success' && (
-            <p className={classes.feedbackMessage}>
-              Success!! 🥳 Please wait...
-            </p>
-          )}
-          {hasError && (
-            <p className={`${classes.feedbackMessage} ${classes.error}`}>
-              Invalid credentials, please try again.
-            </p>
-          )} */}
         </div>
 
         <ButtonPill text={'Login'} clickFunction={onLogin} />

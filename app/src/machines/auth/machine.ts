@@ -1,44 +1,13 @@
 import { createMachine, assign } from 'xstate';
-// import STATES from './states';
-// import EVENTS from './events';
-import HTTPClient from 'src/http';
-
+import EVENTS from './events';
+import STATES from './states';
+import GUARDS from './guards';
 import { UserStats } from 'src/types/responses';
 import { CreateAccount } from 'src/types/models/CreateAccount';
 
 import * as LoginService from 'src/services/auth';
 import * as RegisterService from 'src/services/account';
 import { statsUser } from 'src/services/user';
-
-export enum EVENTS {
-  LOGIN = 'login',
-  REGISTER = 'register',
-  LOGOUT = 'logout',
-  FETCH_USER_STATS = 'fetch_user_stats',
-  RETRY_FETCH_USER_STATS = 'retry_fetch_user_stats',
-}
-
-export enum STATES {
-  STATE_ROOT = 'authMachine',
-  IDLE = 'idle',
-  LOGIN = 'login',
-  LOGIN_LOADING = 'login_loading',
-  LOGIN_SUCCESS = 'login_success',
-  LOGIN_FAILED = 'login_failed',
-  LOGOUT = 'logout',
-  REGISTER = 'register',
-  REGISTER_LOADING = 'register_loading',
-  REGISTER_SUCCESS = 'register_success',
-  REGISTER_FAILED = 'register_failed',
-  FETCH_USER_STATS = 'fetch_userstats',
-  FETCH_USER_STATS_LOADING = 'fetch_userstats_loading',
-  FETCH_USER_STATS_SUCCESS = 'fetch_userstats_success',
-  FETCH_USER_STATS_FAILED = 'fetch_userstats_failed',
-}
-
-enum GUARDS {
-  IS_USER_LOGGED = 'is_user_logged',
-}
 
 interface LoginData {
   username: string;
