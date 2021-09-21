@@ -14,6 +14,13 @@ interface UserStats {
   avatar: string;
 }
 
+export interface FilesUploadedStatus {
+  requestId: string;
+  filename: string;
+  status: 'failed' | 'pending' | 'success';
+}
+
+// TODO: Add to types of dirs and entries in union 'undefined'
 export interface State {
   token: string;
   sessionCookie: string;
@@ -22,7 +29,6 @@ export interface State {
   fileDeleted: any;
   folderDeleted: any;
   podDeleted: any;
-  fileUploaded: any;
   showPasswordUnlock: boolean;
   hasUser: boolean;
   password: string;
@@ -42,6 +48,8 @@ export interface State {
   userStats: UserStats;
   isPrivatePod: boolean;
   flags: Flags;
+  isFileUploaded: boolean;
+  fileUploadedStatus: FilesUploadedStatus[];
   fileUploadProgress: Array<{
     progressEvent: ProgressEvent;
     cancelFn: CancelTokenSource;

@@ -9,6 +9,8 @@ const useStyles = makeStyles(() =>
       border: (style: Props & Theme) => `1px solid ${style.backgroundDark2}`,
       borderRadius: '1rem',
       width: '100%',
+      height: '100%',
+      overflowY:'auto',
       transitionProperty: 'margin-left',
       transitionDuration: '.7s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',

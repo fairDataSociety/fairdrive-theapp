@@ -7,10 +7,10 @@ export default async function generateMnemonic(): Promise<string> {
   const mnemonic = await ethers.Wallet.createRandom().mnemonic;
   return mnemonic;
 }
-export const shortenTitle = (title?: string): string => {
-  if (title) {
+export const shortenTitle = (title: string, maxLenght: number): string => {
+  if (title.length > maxLenght) {
     return `${title.slice(0, 10)}...${title.slice(title.length - 10)}`;
   } else {
-    return '????';
+    return title;
   }
 };

@@ -8,7 +8,7 @@ import { useTheme } from 'src/contexts/themeContext/themeContext';
 import Navbar from './partials/navbar/navbar';
 import Footer from './partials/footer/footer';
 import Main from './partials/main/main';
-import TermsAndConditions from 'src/components/termsAndConditions/termsAndConditions';
+import TermsAndConditions from 'src/pages/termsAndConditions/termsAndConditions';
 import AlertBanner from 'src/components/alertBanner/alertBanner';
 
 export default function Layout(): JSX.Element {

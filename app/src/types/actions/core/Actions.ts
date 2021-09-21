@@ -6,6 +6,7 @@ export interface Actions {
   deleteFile: (data: {
     file_name: string;
     podName: string;
+    directoryName: string;
     path: string;
   }) => void;
   deleteFolder: (data: { podName: string; path: string }) => void;

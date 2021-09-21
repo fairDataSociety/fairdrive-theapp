@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from './fileListFooterStyles';
-import { BaseSelect } from 'src/components/baseSelect/baseSelect';
+import { BaseSelect } from 'src/shared/BaseSelect/BaseSelect';
 import { ChevronDown } from 'src/components/icons/icons';
 
 export interface Props {}

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
@@ -23,6 +23,18 @@ export enum BUTTON_SIZE {
   SMALL = 'small',
   MEDIUM = 'medium',
   BIG = 'big',
+  NO_PADDING = 'no_padding',
+}
+
+export enum FONT_SIZE {
+  REGULAR = 'font_regular',
+  BIG = 'font_big',
+}
+
+export enum BUTTON_TEXT_COLOR {
+  WHITE = 'font_color_white',
+  LIGHT1 = 'font_color_light1',
+  LIGHT2 = 'font_color_light2',
 }
 
 export interface Props {
@@ -34,14 +46,18 @@ export interface Props {
   children: string;
   size: BUTTON_SIZE;
   variant: BUTTON_VARIANTS;
+  fontSize?: FONT_SIZE;
+  textColor?: BUTTON_TEXT_COLOR;
 }
 
 export const BaseButton = ({
   variant = BUTTON_VARIANTS.PRIMARY,
   size = BUTTON_SIZE.MEDIUM,
+  fontSize = FONT_SIZE.REGULAR,
   showIcon,
   isDisabled,
   isFluid,
+  textColor,
   isSubmit,
   onClickCallback,
   children,
@@ -55,7 +71,9 @@ export const BaseButton = ({
       showIcon,
       isFluid,
       isDisabled,
+      textColor,
       isSubmit,
+      fontSize,
       onClickCallback,
       children,
     },
@@ -65,16 +83,28 @@ export const BaseButton = ({
   useEffect(() => {
     isValueInEnum(variant, BUTTON_VARIANTS);
     isValueInEnum(size, BUTTON_SIZE);
-  }, [variant, size]);
+    if (fontSize) {
+      isValueInEnum(fontSize, FONT_SIZE);
+    }
+    if (textColor) {
+      isValueInEnum(textColor, BUTTON_TEXT_COLOR);
+    }
+  }, [variant, size, fontSize, textColor]);
 
   return (
     <button
       type={isSubmit ? 'submit' : 'button'}
       onClick={() => onClickCallback()}
       disabled={isDisabled}
-      className={`${classes.button} ${classes[variant]} ${classes[size]} ${
-        isFluid ? classes.fluid : ''
-      }`}
+      className={`
+        ${classes.button} 
+        ${classes[variant]} 
+        ${classes[size]} 
+        ${classes[fontSize]} 
+        ${textColor ? classes[textColor] : ''}
+        ${isFluid ? classes.fluid : ''}
+      
+      `}
     >
       {children}
       {showIcon && <ChevronRight className={classes.icon} />}
