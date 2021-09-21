@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 import useStyles from './registerStyles';
 import ButtonPill from 'src/components/buttonPill/buttonPill';
@@ -10,7 +10,7 @@ import welcomeImage from 'src/media/images/welcome-image.png';
 export interface Props {}
 function Register(props: Props) {
   const { state, actions } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   const [username, setUsername] = useState('');

@@ -5,16 +5,11 @@ import prettyBytes from 'pretty-bytes';
 import useStyles from '../../rightSidebarStyles';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Components
 import FilePreview from 'src/components/filePreview/filePreview';
-import {
-  BaseButton,
-  BUTTON_VARIANTS,
-  BUTTON_SIZE,
-} from 'src/shared/BaseButton/BaseButton';
 
 // Helpers
 import { urlPath, formatDate } from 'src/helpers';
@@ -23,14 +18,17 @@ import { shortenTitle } from 'src/helpers/utils';
 // Types
 import { IFile } from 'src/types/models/File';
 
+// Icons
+import { Download, Globe, Hide, Share } from 'src/components/icons/icons';
+
 export interface Props {
   content: IFile;
-  callAction: (type: 'delete' | 'download') => Promise<void>;
+  callAction: (type: 'delete' | 'download' | 'share' | 'open') => Promise<void>;
 }
 
 const PreviewVariant = (props: Props): JSX.Element => {
   const { state } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
   const metadata = [
@@ -41,8 +39,22 @@ const PreviewVariant = (props: Props): JSX.Element => {
   ];
 
   const availableActions = [
-    { label: 'Delete', action: () => props.callAction('delete') },
-    { label: 'Download', action: () => props.callAction('download') },
+    { label: 'Delete', action: () => props.callAction('delete'), icon: Hide },
+    {
+      label: 'Download',
+      action: () => props.callAction('download'),
+      icon: Download,
+    },
+    {
+      label: 'Share',
+      action: () => props.callAction('share'),
+      icon: Share,
+    },
+    {
+      label: 'Open',
+      action: () => props.callAction('open'),
+      icon: Globe,
+    },
   ];
 
   return (
@@ -72,17 +84,14 @@ const PreviewVariant = (props: Props): JSX.Element => {
         ))}
       </div>
 
-      <div className={classes.actionsWrapper}>
+      <div className={classes.actionsIconsWrapper}>
         {availableActions.map((action, index) => (
-          <div key={index} className={classes.action}>
-            <BaseButton
-              variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
-              size={BUTTON_SIZE.MEDIUM}
-              isFluid={true}
-              onClickCallback={() => action.action()}
-            >
-              {action.label}
-            </BaseButton>
+          <div
+            key={index}
+            className={classes.actionIcon}
+            onClick={() => action.action()}
+          >
+            <action.icon></action.icon>
           </div>
         ))}
       </div>

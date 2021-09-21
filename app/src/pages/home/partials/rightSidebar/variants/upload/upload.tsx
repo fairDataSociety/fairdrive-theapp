@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Hooks
@@ -24,7 +24,7 @@ export interface Props {
 function UploadVariant(props: Props) {
   // Global
   const { state } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   // Store selected files

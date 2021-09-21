@@ -5,7 +5,7 @@ import { useFileContextActions } from 'src/hooks/useFileContextActions';
 import useStyles from './rightSidebarStyles';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import PreviewVariant from './variants/preview/preview';
@@ -17,6 +17,8 @@ import { isValueInEnum } from 'src/helpers';
 
 // Types
 import { IFile } from 'src/types/models/File';
+import GenerateLink from 'src/components/modals/generateLink/generateLink';
+import { Modal } from '@material-ui/core';
 
 export enum RIGHT_SIDEBAR_VARIANTS {
   UPLOAD = 'upload',
@@ -31,23 +33,26 @@ export interface Props {
 
 function RightSidebar(props: Props) {
   // General
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
-
+  // Handle sharing content
+  const [showSharePodPopup, setShowSharePodPopup] = useState(false);
+  const [refLink, setRefLink] = useState(null);
   // Validate variant
   useEffect(() => {
     isValueInEnum(props.variant, RIGHT_SIDEBAR_VARIANTS);
   }, [props.variant]);
 
   // File Context Actions
-  const { handleDelete, handleDownload, handleUpload } =
+  const { handleDelete, handleDownload, handleUpload, handleShare } =
     useFileContextActions();
 
   // Proxy file context actions calls
   const proxyFileContextActions = async (
-    type: 'delete' | 'download' | 'upload',
+    type: 'delete' | 'download' | 'upload' | 'share' | 'open',
     payload?: File[]
   ) => {
+    let response;
     switch (type) {
       case 'delete':
         await handleDelete(props.file.name);
@@ -57,6 +62,13 @@ function RightSidebar(props: Props) {
         await handleDownload(props.file.name);
         break;
       case 'upload':
+        await handleUpload(payload);
+        break;
+      case 'share':
+        response = await handleShare(props.file.name);
+        setRefLink(response);
+        break;
+      case 'open':
         await handleUpload(payload);
         break;
       default:
@@ -80,6 +92,11 @@ function RightSidebar(props: Props) {
         break;
     }
   };
+  useEffect(() => {
+    if (refLink !== null) {
+      setShowSharePodPopup(true);
+    }
+  }, [refLink]);
 
   // Manage opening and closing
   const [isOpen, setIsOpen] = useState(false);
@@ -94,30 +111,45 @@ function RightSidebar(props: Props) {
   }, [props.file]);
 
   return (
-    <div className={`${classes.sidebar} ${isOpen ? classes.sidebarOpen : ''}`}>
-      <div className={classes.headerWrapper}>
-        <div className={classes.header}>
-          {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && <Folder />}
-          {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && <UploadIcon />}
+    <Modal open={props.file !== null} onClose={() => props.onClose()}>
+      <div
+        className={`${classes.sidebar} ${isOpen ? classes.sidebarOpen : ''}`}
+      >
+        <div className={classes.headerWrapper}>
+          <div className={classes.header}>
+            {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && (
+              <Folder />
+            )}
+            {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && <UploadIcon />}
 
-          {getProperHeadlineForVariant(props.variant)}
+            {getProperHeadlineForVariant(props.variant)}
+          </div>
+          <Close className={classes.icon} onClick={() => closeSidebar()} />
         </div>
-        <Close className={classes.icon} onClick={() => closeSidebar()} />
+        {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && (
+          <PreviewVariant
+            content={props.file}
+            callAction={(type) => proxyFileContextActions(type)}
+          />
+        )}
+        {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && (
+          <UploadVariant
+            callAction={(type, payload) =>
+              proxyFileContextActions(type, payload)
+            }
+          />
+        )}
+
+        {showSharePodPopup && refLink && (
+          <GenerateLink
+            handleClose={() => setShowSharePodPopup(false)}
+            link={refLink}
+            variant="share"
+            notifyMessage="Share this Pod with a friend via this reference"
+          />
+        )}
       </div>
-
-      {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && (
-        <PreviewVariant
-          content={props.file}
-          callAction={(type) => proxyFileContextActions(type)}
-        />
-      )}
-
-      {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && (
-        <UploadVariant
-          callAction={(type, payload) => proxyFileContextActions(type, payload)}
-        />
-      )}
-    </div>
+    </Modal>
   );
 }
 

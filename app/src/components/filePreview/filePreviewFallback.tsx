@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from './filePreviewStyles';
 import { File, Directory } from '../icons/icons';
 
@@ -12,7 +12,7 @@ const FilePreviewFallback = (props: {
   isPreviewSidebar?: boolean;
 }) => {
   // General
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
   const ext = props.file.name.split('.').pop();
 

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import BaseActionButton, {
@@ -25,7 +25,7 @@ export interface Props {
 }
 
 export const ActionMenu = (props: Props): JSX.Element => {
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
   const entries = [

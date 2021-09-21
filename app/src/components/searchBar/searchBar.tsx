@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
 import { STATES_NAMES } from 'src/types/pod-state';
@@ -23,7 +23,7 @@ function useKeyPress(upHandler) {
 function SearchBar() {
   // General
   const { actions } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const { podStateMachine } = usePodStateMachine();
   const classes = useStyles({ ...theme });
   const [search, setSearchTerm] = useState<string>('');

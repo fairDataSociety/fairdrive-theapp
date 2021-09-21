@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Icons
@@ -27,7 +27,7 @@ export interface Props {
 
 const SecondLevelNavigation = (props: Props): JSX.Element => {
   const { state } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
   // Determinate if pod was opened for first time
@@ -67,20 +67,20 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
     }
   };
 
-  const isPodOpenedForFirstTime = (): boolean => {
-    const doesPodHasNoDirs = () => state.dirs && state.dirs.length === 0;
-    const doesPodHasNoEntries = () =>
-      state.entries && state.entries.length === 0;
+  // const isPodOpenedForFirstTime = (): boolean => {
+  //   const doesPodHasNoDirs = () => state.dirs && state.dirs.length === 0;
+  //   const doesPodHasNoEntries = () =>
+  //     state.entries && state.entries.length === 0;
 
-    // I assume that pod intro was dissmissed if user closed intro or if pod contains any dir or entry
-    return (
-      doesPodHasNoEntries() || doesPodHasNoDirs() || !wasPodIntroDissmised()
-    );
-  };
+  //   // I assume that pod intro was dissmissed if user closed intro or if pod contains any dir or entry
+  //   return (
+  //     doesPodHasNoEntries() || doesPodHasNoDirs() || !wasPodIntroDissmised()
+  //   );
+  // };
 
-  useEffect(() => {
-    setIsActionMenuOpen(isPodOpenedForFirstTime());
-  }, [state.podName]);
+  // useEffect(() => {
+  //   setIsActionMenuOpen(isPodOpenedForFirstTime());
+  // }, [state.podName]);
 
   // Choose messages for current state
   const [informations, setInformations] = useState<{
@@ -134,7 +134,14 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
           <div className={classes.infoWrapper}>
             <PodInfoIcon className={classes.infoIcon} />
             <span className={classes.information}>{informations.caption}</span>
-            <div className={classes.shareIcon}>s</div>
+            <div
+              className={classes.shareIcon}
+              onClick={() => {
+                setIsActionMenuOpen(true);
+              }}
+            >
+              s
+            </div>
           </div>
         </div>
         {!isActionMenuOpen && (
@@ -146,12 +153,11 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
             >
               Upload
             </BaseActionButton>
-            <a href="https://app.dracula.fairdatasociety.org/">
-              <BaseActionButton
-                icon={ACTION_BUTTON_ICONS.CREATE}
-                variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
-              />
-            </a>
+            <BaseActionButton
+              icon={ACTION_BUTTON_ICONS.CREATE}
+              variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
+              onClickCallback={() => props.onOpenImportFileModal()}
+            />
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.FOLDER}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
@@ -163,11 +169,10 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
       {isActionMenuOpen && (
         <ActionMenu
           isOwned={props.isOwned}
-          onCreateMarkdownFile={() => {
-            // TODO: Below redirection should <a href="..." />
-            window.location.href = 'https://app.dracula.fairdatasociety.org/';
-          }}
-          onCloseActionMenu={() => dissmissPodIntro()}
+          onCreateMarkdownFile={() =>
+            console.log('onCreateMarkdownFile clicked')
+          }
+          onCloseActionMenu={() => setIsActionMenuOpen(false)}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}
           onOpenImportFileModal={() => props.onOpenImportFileModal()}
           onOpenUploadModal={() => {

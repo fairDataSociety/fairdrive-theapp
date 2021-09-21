@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext, useEffect } from 'react';
 
 import prettyBytes from 'pretty-bytes';
@@ -10,7 +11,7 @@ import { formatDate } from 'src/helpers';
 // Context
 import { StoreContext } from 'src/store/store';
 
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import FilePreviewFallback from 'src/components/filePreview/filePreviewFallback';
@@ -34,7 +35,7 @@ export interface Props {
 function FileCard(props: Props) {
   const { data } = props;
   const { state } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
   // Handle opening directory or file in sidebar
@@ -71,36 +72,46 @@ function FileCard(props: Props) {
       return [
         {
           label: 'Rename/Edit',
+          onOptionClicked: () => {},
         },
         {
           label: 'Open',
+          onOptionClicked: () => {},
         },
         {
           label: 'Hide',
+          onOptionClicked: () => {},
         },
         {
           label: 'View Hidden Files',
+          onOptionClicked: () => {},
         },
         {
           label: 'Share',
+          onOptionClicked: () => {},
         },
         {
           label: 'Download',
+          onOptionClicked: () => {},
         },
       ];
     } else {
       return [
         {
           label: 'Hide',
+          onOptionClicked: () => {},
         },
         {
           label: 'View Hidden Files',
+          onOptionClicked: () => {},
         },
         {
           label: 'Download',
+          onOptionClicked: () => {},
         },
         {
           label: 'Accept and Open',
+          onOptionClicked: () => {},
         },
       ];
     }

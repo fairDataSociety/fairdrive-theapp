@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { StoreContext } from 'src/store/store';
 
 // Hooks
@@ -27,7 +28,7 @@ function TopLevelNavigation(props: Props) {
   const { showGrid, setShowGrid } = props;
 
   const { state } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   const splitAndUppercaseCurrentFilterName = (
@@ -58,9 +59,11 @@ function TopLevelNavigation(props: Props) {
           optionsList={[
             {
               label: 'Drive',
+              onOptionClicked: () => {},
             },
             {
               label: 'FairOs',
+              onOptionClicked: () => {},
             },
           ]}
         >

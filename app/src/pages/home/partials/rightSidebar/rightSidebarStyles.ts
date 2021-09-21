@@ -14,6 +14,7 @@ const useStyles = makeStyles(() =>
       zIndex: 1000,
       boxShadow: '-10px 0px 13px rgba(0, 0, 0, 0.17)',
       transition: '0.5s all',
+      overflowY:'auto'
     },
     sidebarOpen: {
       right: '0',
@@ -94,6 +95,25 @@ const useStyles = makeStyles(() =>
     action: {
       width: '100%',
       maxWidth: '204px',
+    },
+    actionsIconsWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      gap: '24px',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    actionIcon: {
+      alignContent: "center",
+      width: '100%',
+      maxWidth: '204px',
+      cursor:'pointer',
+      color: (style: Theme) => style.backgroundLight2,
+
+      '&:hover': {
+        color: (style: Theme) => style.backgroundWhite,
+      },
+
     },
     // upload
     uploadBlockWrapper: {

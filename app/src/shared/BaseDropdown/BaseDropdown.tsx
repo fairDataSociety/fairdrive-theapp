@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './BaseDropdownStyles';
@@ -52,7 +52,7 @@ function BaseDropdown(props: Props): JSX.Element {
     dropdownSize = DROPDOWN_SIZE.REGULAR,
   } = props;
 
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

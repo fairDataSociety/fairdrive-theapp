@@ -40,6 +40,7 @@ export function usePodContextActions() {
           podName: nextPodName,
         });
       }
+      actions.getDirectory({directory: "root", podName: nextPodName})
     } catch (error) {
       return Promise.reject(error);
     }

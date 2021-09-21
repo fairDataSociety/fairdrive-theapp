@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 import { FilePreviewInfo } from './types';
 import useStyles from './filePreviewStyles';
@@ -14,7 +14,7 @@ const FilePreviewImage = ({
   podName,
 }: Props): JSX.Element => {
   // General
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
   const [src, setSrc] = useState<string>();
@@ -23,7 +23,7 @@ const FilePreviewImage = ({
     loadImage();
 
     return () => unloadImage();
-  }, []);
+  }, [filename]);
 
   const loadImage = async () => {
     const imgSrc = window.URL.createObjectURL(

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './BaseActionButtonStyles';
@@ -74,7 +74,7 @@ function BaseActionButton(props: Props): JSX.Element {
     isSubmit,
     label,
   } = props;
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({
     ...props,
@@ -121,7 +121,7 @@ function BaseActionButton(props: Props): JSX.Element {
     }
   };
 
-  const [isDropdownInitatorHovered, setIsDropdownInitatorHovered] =
+  const [isDropdownInitiatorHovered, setIsDropdownInitiatorHovered] =
     useState(true);
 
   return (
@@ -132,13 +132,13 @@ function BaseActionButton(props: Props): JSX.Element {
       className={`${classes.button} ${classes[variant]} `}
       onMouseOver={() =>
         showDropdownInitiatorOnHover &&
-        !isDropdownInitatorHovered &&
-        setIsDropdownInitatorHovered(true)
+        !isDropdownInitiatorHovered &&
+        setIsDropdownInitiatorHovered(true)
       }
       onMouseOut={() =>
         showDropdownInitiatorOnHover &&
-        isDropdownInitatorHovered &&
-        setIsDropdownInitatorHovered(false)
+        isDropdownInitiatorHovered &&
+        setIsDropdownInitiatorHovered(false)
       }
     >
       {icon && getIconForVariant(icon)}
@@ -150,7 +150,7 @@ function BaseActionButton(props: Props): JSX.Element {
             {children}
           </span>
         )}
-      {hasDropdownInitiator && isDropdownInitatorHovered && (
+      {hasDropdownInitiator && isDropdownInitiatorHovered && (
         <ChevronDown
           className={`
           ${classes.dropdownIndicator} 

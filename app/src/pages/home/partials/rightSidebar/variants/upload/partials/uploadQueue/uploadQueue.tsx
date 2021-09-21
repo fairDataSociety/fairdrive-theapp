@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from '../../../../rightSidebarStyles';
@@ -20,7 +20,7 @@ export interface Props {
 }
 
 function UploadQueue(props: Props): JSX.Element {
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   return (

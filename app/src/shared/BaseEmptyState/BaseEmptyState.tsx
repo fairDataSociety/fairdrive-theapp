@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './BaseEmptyStateStyles';
@@ -26,7 +27,7 @@ export interface Props {
 
 function BaseEmptyState(props: Props): JSX.Element {
   const { variant = EMPTY_STATE_VARIANTS.EMPTY_STATE } = props;
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
 
   const classes = useStyles({ ...theme });
 
@@ -61,6 +62,8 @@ function BaseEmptyState(props: Props): JSX.Element {
     <div className={classes.card}>
       <BaseActionButton
         icon={information.icon}
+        onClickCallback={() => {}}
+        isDisabled
         variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
       />
       <p className={classes.title}>{information.title}</p>

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 // Contexts
 import { StoreContext } from 'src/store/store';
-import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './uploadProgressStyles';
@@ -13,7 +13,7 @@ import { Fail, Success } from 'src/components/icons/icons';
 
 function UploadQueryWithProgress() {
   const { state, actions } = useContext(StoreContext);
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
   const findUploadStatusForRequestID = (requestID: string) => {

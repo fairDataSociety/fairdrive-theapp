@@ -44,6 +44,8 @@ function GenerateLink(props: Props) {
           : 'Share this Material with a friend via this link'
       }
       handleClose={props.handleClose}
+      handleClick={props.handleClose}
+      button={'Close'}
     >
       <p className={classes.label}>
         {props.variant === 'refer' ? 'Refer a friend' : 'Sharing Link'}

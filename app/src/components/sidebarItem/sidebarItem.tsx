@@ -11,7 +11,7 @@ export interface Props {
 }
 
 function SidebarItem(props: Props) {
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
   const { Icon, title, isDisabled, isActive } = props;
   const classes = useStyles({ ...props, ...theme });
 
