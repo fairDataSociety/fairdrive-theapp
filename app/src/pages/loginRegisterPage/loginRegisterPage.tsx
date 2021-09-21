@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import useStyles from './loginRegisterPageStyles';
 import ButtonPill from 'src/components/buttonPill/buttonPill';
 import { StoreContext } from 'src/store/store';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
+
 import Login from 'src/pages/loginRegisterPage/partials/login/login';
 import Register from 'src/pages/loginRegisterPage/partials/register/register';
 

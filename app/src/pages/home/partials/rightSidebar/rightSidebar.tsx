@@ -6,6 +6,7 @@ import useStyles from './rightSidebarStyles';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { PodProviderContext } from 'src/machines/pod';
 
 // Components
 import PreviewVariant from './variants/preview/preview';
@@ -32,6 +33,14 @@ export interface Props {
 }
 
 function RightSidebar(props: Props) {
+  const { PodMachineStore } = useContext(PodProviderContext);
+
+  const getCurrentPodName = () =>
+    PodMachineStore.context.currentlyOpenedPodName;
+
+  const getCurrentDirectoryName = () =>
+    PodMachineStore.context.directoryNameToOpen;
+
   // General
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
@@ -128,6 +137,8 @@ function RightSidebar(props: Props) {
         </div>
         {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && (
           <PreviewVariant
+            podName={getCurrentPodName()}
+            directoryName={getCurrentDirectoryName()}
             content={props.file}
             callAction={(type) => proxyFileContextActions(type)}
           />

@@ -6,7 +6,6 @@ import useStyles from '../../rightSidebarStyles';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
 
 // Components
 import FilePreview from 'src/components/filePreview/filePreview';
@@ -22,12 +21,13 @@ import { IFile } from 'src/types/models/File';
 import { Download, Globe, Hide, Share } from 'src/components/icons/icons';
 
 export interface Props {
+  podName: string;
+  directoryName: string;
   content: IFile;
   callAction: (type: 'delete' | 'download' | 'share' | 'open') => Promise<void>;
 }
 
 const PreviewVariant = (props: Props): JSX.Element => {
-  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
@@ -64,15 +64,17 @@ const PreviewVariant = (props: Props): JSX.Element => {
           file={props.content}
           contentType={props.content.content_type}
           filename={props.content.name}
-          directory={urlPath(state.directory)}
-          podName={state.podName}
+          directory={urlPath(props.directoryName)}
+          podName={props.podName}
           isPreviewSidebar={true}
         />
       </div>
 
       <div className={classes.titleWrapper}>
         <p className={classes.title}>{shortenTitle(props.content.name, 22)}</p>
-        <p className={classes.fileLocation}>{'/' + urlPath(state.directory)}</p>
+        <p className={classes.fileLocation}>
+          {'/' + urlPath(props.directoryName)}
+        </p>
       </div>
 
       <div className={classes.detailsWrapper}>

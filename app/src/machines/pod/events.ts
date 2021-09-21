@@ -5,9 +5,9 @@ enum EVENTS {
 
   OPEN_DIRECTORY = 'open_directory',
   DELETE_DIRECTORY = 'delete_directory',
-  OPEN_FILE = 'open_file',
-  UPLOAD_FILE = 'upload_file',
-  DELETE_FILE = 'delete_file',
+
+  CREATE_POD = 'create_pod',
+  IMPORT_POD = 'import_pod',
 }
 
 export default EVENTS;

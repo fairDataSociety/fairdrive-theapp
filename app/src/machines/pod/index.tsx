@@ -17,6 +17,7 @@ interface PodProviderContext {
     onFetchPods: () => void;
     onOpenPod: (podName: string) => void;
     onOpenDirectory: (directoryName: string) => void;
+    onImportPod: (podReference: string) => void;
   };
 }
 
@@ -48,12 +49,26 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
     });
   };
 
+  const handleImportPod = (podReference: string): void => {
+    send({
+      type: EVENTS.IMPORT_POD,
+      payload: {
+        podName: Math.random()
+          .toString(36)
+          .replace(/[^a-z]+/g, '')
+          .substr(0, 5),
+        podReference,
+      },
+    });
+  };
+
   const value: PodProviderContext = {
     PodMachineStore: state,
     PodMachineActions: {
       onFetchPods: handleFetchPods,
       onOpenPod: handleOpenPod,
       onOpenDirectory: handleOpenDirectory,
+      onImportPod: handleImportPod,
     },
   };
 
@@ -75,9 +90,14 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
   }, [AuthMachineStore]);
 
   useEffect(() => {
-    console.log('PodMachine state:', state.toStrings());
-    console.log('next events', state.nextEvents);
-    console.log('context', state.context);
+    console.log(
+      'PodMachine state:',
+      state,
+      'next events',
+      state.nextEvents,
+      'context',
+      state.context
+    );
   }, [state, send]);
 
   return (

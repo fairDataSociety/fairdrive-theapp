@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import React, { useEffect } from 'react';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
 import useStyles from './BaseButtonStyles';

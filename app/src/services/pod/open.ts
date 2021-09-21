@@ -1,6 +1,10 @@
 import HTTPClient from 'src/http';
 
 const podNameDefault = 'Home';
+interface RegularResponse {
+  code: number;
+  message: string;
+}
 
 export async function openPod(payload: { password: string; podName: string }) {
   try {
@@ -11,7 +15,7 @@ export async function openPod(payload: { password: string; podName: string }) {
         podName === undefined || podName === null ? podNameDefault : podName,
       password: password,
     });
-    debugger;
+
     return response;
   } catch (error) {
     return Promise.reject(error);

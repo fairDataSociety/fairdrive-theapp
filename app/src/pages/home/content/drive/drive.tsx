@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
+import PodStates from 'src/machines/pod/states';
+import { PodProviderContext } from 'src/machines/pod';
+
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { usePodStateMachine } from 'src/contexts/podStateMachine';
 import { STATES_NAMES, DIRECTORY_STATUS } from 'src/types/pod-state';
@@ -48,6 +51,8 @@ export type TCurrentFilter =
   | 'descending-abc';
 
 function Drive(props: Props) {
+  const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
+
   // Contexts
   const { state, actions } = useContext(StoreContext);
   const { theme } = useTheme();
@@ -59,8 +64,17 @@ function Drive(props: Props) {
 
   useEffect(() => {
     setFiles(state.entries);
-    setFolders(state.dirs);
-  }, [state.entries, state.dirs]);
+    const directoryData = PodMachineStore.context.directoryData;
+
+    if (directoryData) {
+      if (directoryData.files) {
+        setFiles(directoryData.files);
+      }
+      if (directoryData.dirs) {
+        setFolders(directoryData.dirs);
+      }
+    }
+  }, [PodMachineStore]);
 
   // Toggle grid or list
   const [showGrid, setShowGrid] = useState(true);
@@ -74,48 +88,14 @@ function Drive(props: Props) {
   // Handle creating folder
   const [folderName, setFolderName] = useState('');
 
-  const { handleOpenDirectory, handleCreateDirectory } = usePodContextActions();
-
-  async function loadDirectory(directoryName: string) {
-    try {
-      if (state.podName.length > 0) {
-        setFiles(null);
-        setFolders(null);
-        handleOpenDirectory(directoryName);
-        state.isFileUploaded = false;
-        state.searchQuery = null;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // On files upload success, reload directory
-  const { podStateMachine } = usePodStateMachine();
-
-  useEffect(() => {
-    if (
-      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-        podStateMachine.status === DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS) ||
-      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-        podStateMachine.status === DIRECTORY_STATUS.FILE_REMOVING_SUCCESS)
-    ) {
-      loadDirectory(state.directory);
-    }
-
-    // Handle when directory created with success
-    if (
-      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.DIRECTORY_CREATING_SUCCESS
-    ) {
-      loadDirectory(state.directory);
-      setIsCreateFolderModalVisible(false);
-    }
-  }, [podStateMachine]);
+  const { handleCreateDirectory } = usePodContextActions();
 
   const onDirectoryClick = (directoryName: string): void => {
-    actions.setDirectory(directoryName);
-    loadDirectory(directoryName);
+    setFiles(null);
+    setFolders(null);
+    PodMachineActions.onOpenDirectory(directoryName);
+    state.isFileUploaded = false;
+    state.searchQuery = null;
   };
 
   // Handle filtering data by search query
@@ -192,6 +172,7 @@ function Drive(props: Props) {
         {state.podName !== '' && (
           <SecondLevelNavigation
             isSearchResults={isSearchQuerySetted()}
+            // TODO: Migrate
             isOwned={state.isPrivatePod}
             onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
             onOpenImportFileModal={() => setIsCreateFileModalVisible(true)}
@@ -235,7 +216,7 @@ function Drive(props: Props) {
         {isFilesNotEmpty() || isFoldersNotEmpty() ? (
           showGrid ? (
             <div className={classes.cardGrid}>
-              {state.dirs &&
+              {folders &&
                 sortyByCurrentFilter(folders, currentFilter).map(
                   (dir: IDirectory, index) => (
                     <CardEntry
@@ -247,7 +228,7 @@ function Drive(props: Props) {
                   )
                 )}
 
-              {state.entries &&
+              {files &&
                 sortyByCurrentFilter(files, currentFilter).map(
                   (file: IFile, index) => (
                     <CardEntry

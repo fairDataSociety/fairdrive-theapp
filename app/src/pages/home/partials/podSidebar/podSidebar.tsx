@@ -38,7 +38,7 @@ export interface Props {
 }
 
 function PodSidebar(props: Props) {
-  const { PodMachineStore } = useContext(PodProviderContext);
+  const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
 
   // General
   const { state, actions } = useContext(StoreContext);
@@ -191,18 +191,20 @@ function PodSidebar(props: Props) {
         </div>
       ) : props.route !== 'Explore' ? (
         <div className={classes.pods}>
-          {state.pods.map((pod, index) => {
-            return (
-              <div
-                key={index}
-                className={classes.podRow}
-                onClick={() => proxyPodContextActions('open', pod)}
-              >
-                <label>{pod}</label>
-                <PodChevron className={classes.podChevron} />
-              </div>
-            );
-          })}
+          {PodMachineStore.context.availablePodsList.pod_name.map(
+            (pod, index) => {
+              return (
+                <div
+                  key={index}
+                  className={classes.podRow}
+                  onClick={() => PodMachineActions.onOpenPod(pod)}
+                >
+                  <label>{pod}</label>
+                  <PodChevron className={classes.podChevron} />
+                </div>
+              );
+            }
+          )}
         </div>
       ) : (
         <></>

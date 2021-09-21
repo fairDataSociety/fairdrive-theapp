@@ -12,29 +12,26 @@ import { GetAvailablePods } from 'src/services/pod/getPods';
 // { getDirectory, deleteDirectory }
 import * as DirectoryService from 'src/services/directory';
 
-interface PodData {
-  name: string;
-  directories: string[];
-  files: string[];
+interface DirectoryResponse {
+  files: IFile[] | undefined;
+  dirs: IDirectory[] | undefined;
 }
-
-type DirectoryData = IDirectory & {
-  files: IFile[] | null;
-};
-
 export interface PodContext {
   // Results
   isPodsListFetched: boolean;
   availablePodsList: GetAvailablePods | null;
   isPodLoaded: boolean;
   isDirectoryLoaded: boolean;
-  podData: PodData | null;
-  directoryData: DirectoryData | null;
+  openedPods: string[];
+  currentlyOpenedPodName: string | null;
+  directoryData: DirectoryResponse | null;
   errorMessage: string | null;
 
   // Data for requests
   podNameToOpen: string | null;
   directoryNameToOpen: string | null;
+  createPodName: string | null;
+  importedPodData: { podName: string; podReference: string } | null;
 }
 
 export type PodEvents =
@@ -55,6 +52,17 @@ export type PodEvents =
       payload: {
         directoryName: string;
       };
+    }
+  | {
+      type: EVENTS.CREATE_POD;
+      createPodName: string;
+    }
+  | {
+      type: EVENTS.IMPORT_POD;
+      payload: {
+        podName: string;
+        podReference: string;
+      };
     };
 
 const initialState: PodContext = {
@@ -63,12 +71,15 @@ const initialState: PodContext = {
   isPodLoaded: false,
   isDirectoryLoaded: false,
   availablePodsList: null,
-  podData: null,
+  currentlyOpenedPodName: null,
+  openedPods: [],
   directoryData: null,
   errorMessage: null,
   // Data for requests
   podNameToOpen: null,
   directoryNameToOpen: 'root',
+  createPodName: null,
+  importedPodData: null,
 };
 
 const createPodMachine = createMachine<PodContext, PodEvents>({
@@ -137,20 +148,35 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                       }),
                     onDone: {
                       target: STATES.OPEN_POD_SUCCESS,
-                      actions: assign((_, event) => {
+                      actions: assign((context) => {
                         return {
                           isPodLoaded: true,
-                          podData: event.data,
+                          openedPods: [
+                            ...context.openedPods,
+                            context.podNameToOpen,
+                          ],
+                          currentlyOpenedPodName: context.podNameToOpen,
                           directoryNameToOpen: 'root',
                         };
                       }),
                     },
                     onError: {
                       target: STATES.OPEN_POD_FAILED,
-                      actions: assign((_) => {
+                      actions: assign(({ openedPods, podNameToOpen }) => {
+                        // const possibleResponses = {
+                        //   ok: 'pod opened successfully',
+                        //   pod_already_open: 'pod open: pod already open',
+                        // }
+                        const checkIfOpenedPodsContainsCurrentPodName =
+                          openedPods.includes(podNameToOpen);
+
+                        // TODO: Add handling edge case when unable to fetch
                         return {
                           isPodLoaded: false,
-                          podData: null,
+                          currentlyOpenedPodName: podNameToOpen,
+                          openedPods: checkIfOpenedPodsContainsCurrentPodName
+                            ? [...openedPods]
+                            : [...openedPods, podNameToOpen],
                         };
                       }),
                     },
@@ -175,22 +201,26 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                         [STATES.DIRECTORY_LOADING]: {
                           invoke: {
                             id: 'openDirectoryService',
-                            src: (context) =>
+                            src: (context, event, _) =>
                               DirectoryService.getDirectory({
-                                podName: context.podData.name,
+                                podName: context.currentlyOpenedPodName,
                                 directory: context.directoryNameToOpen,
                               }),
                             onDone: {
-                              actions: assign((_) => {
+                              target: STATES.DIRECTORY_SUCCESS,
+                              actions: assign((_, event) => {
                                 return {
                                   isDirectoryLoaded: true,
+                                  directoryData: event.data,
                                 };
                               }),
                             },
                             onError: {
+                              target: STATES.DIRECTORY_FAILED,
                               actions: assign((_) => {
                                 return {
                                   isDirectoryLoaded: false,
+                                  directoryData: null,
                                 };
                               }),
                             },
@@ -235,6 +265,22 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
               },
             },
           },
+          // on: {
+          //   [EVENTS.CREATE_POD]: {
+          //     target: `#${STATES.STATE_ROOT}.${STATES.CREATE_POD}`,
+          //     actions: assign((_, { createPodName }) => {
+          //       return {
+          //         createPodName: createPodName,
+          //       };
+          //     }),
+          //   },
+          //   [EVENTS.IMPORT_POD]: {
+          //     target: STATES.IMPORT_POD,
+          //     actions: assign({
+          //       importedPodData: (_, { payload }) => payload,
+          //     }),
+          //   },
+          // },
         },
         [STATES.FETCH_PODS_FAILED]: {
           on: {
@@ -245,6 +291,66 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
         },
       },
     },
+    // TODO: Fix targets below
+    // [STATES.CREATE_POD]: {
+    //   invoke: {
+    //     id: 'createPodService',
+    //     // TODO: Pass password as argument
+    //     src: (context) =>
+    //       PodService.createPod({
+    //         password: 'T@jne!23.',
+    //         podName: context.createPodName,
+    //       }),
+    //     onDone: {
+    //       target: STATES.OPEN_POD,
+    //       actions: assign((context) => {
+    //         return {
+    //           podNameToOpen: context.createPodName,
+    //           createPodName: null,
+    //         };
+    //       }),
+    //     },
+    //     onError: {
+    //       target: STATES.FETCH_PODS_SUCCESS,
+    //       actions: assign((_) => {
+    //         return {
+    //           podNameToOpen: null,
+    //           createPodName: null,
+    //         };
+    //       }),
+    //     },
+    //   },
+    // },
+    // [STATES.IMPORT_POD]: {
+    //   invoke: {
+    //     id: 'importPodService',
+    //     src: ({ importedPodData }) =>
+    //       PodService.receivePod({
+    //         podReference: importedPodData.podReference,
+    //         pod_name: importedPodData.podName,
+    //       }),
+    //     onDone: {
+    //       target: STATES.OPEN_POD,
+    //       actions: assign((context) => {
+    //         return {
+    //           importedPodData: null,
+    //           podNameToOpen: context.importedPodData.podName,
+    //           createPodName: null,
+    //         };
+    //       }),
+    //     },
+    //     onError: {
+    //       target: STATES.FETCH_PODS_SUCCESS,
+    //       actions: assign((_) => {
+    //         return {
+    //           importedPodData: null,
+    //           podNameToOpen: null,
+    //           createPodName: null,
+    //         };
+    //       }),
+    //     },
+    //   },
+    // },
   },
 });
 

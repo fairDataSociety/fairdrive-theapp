@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './sidebarItemStyles';
 import { ArrowRight } from 'src/components/icons/icons';
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 function SidebarItem(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const { Icon, title, isDisabled, isActive } = props;
   const classes = useStyles({ ...props, ...theme });
 
