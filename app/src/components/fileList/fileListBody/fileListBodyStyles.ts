@@ -5,7 +5,7 @@ import { Props } from './fileListBody';
 const useStyles = makeStyles(() =>
   createStyles({
     fileWrapper: {
-      padding: '16px',
+      padding: '2.2rem',
       display: 'flex',
       alignItems: 'center',
       borderTop: (style: Props & Theme) => `1px solid ${style.backgroundDark2}`,
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() =>
     fileContainer: {},
     fileName: {
       width: '45%',
-      paddingRight: '20px',
+      paddingRight: '3.25rem',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',

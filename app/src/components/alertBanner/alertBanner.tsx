@@ -9,7 +9,7 @@ function AlertBanner(props: Props) {
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
-  const [showBanner, setShowBanner] = useState(true);
+  const [showBanner, setShowBanner] = useState(false);
 
   return (
     <>
