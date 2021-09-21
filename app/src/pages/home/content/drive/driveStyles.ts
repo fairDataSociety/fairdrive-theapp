@@ -6,7 +6,7 @@ import { Props } from './drive';
 const useStyles = makeStyles(() =>
   createStyles({
     layoutContent: {
-      // overflowY: 'auto',
+      overflowY: 'auto',
       padding: '25px',
       height: 'calc(100vh - 76px - 80px - 89px - 64px - 13px)',
     },
@@ -108,12 +108,13 @@ const useStyles = makeStyles(() =>
       flexWrap: 'wrap',
       justifyContent: 'flex-start',
       transition: '1s all',
-      '& > div:not(:nth-child(5n))': {
-        marginRight: '24px',
-      },
+      // '& > div:not(:nth-child(n))': {
+      //   marginRight: '24px',
+      // },
       '& > div': {
-        marginRight: (props: Props & Theme) =>
-          props.isPodBarOpen ? '24px' : '0',
+        // marginRight: (props: Props & Theme) =>
+        //   props.isPodBarOpen ? '24px' : '0',
+        marginRight: '24px',
         marginBottom: '24px',
       },
       '&::-webkit-scrollbar': {

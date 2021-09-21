@@ -57,6 +57,15 @@ const PreviewVariant = (props: Props): JSX.Element => {
     // },
   ];
 
+  const fileLink =
+    state.podName === 'Consents'
+      ? 'http://localhost:3000/consents'
+      : props.content.name.includes('me')
+      ? 'https://app.dracula.fairdatasociety.org'
+      : null;
+  // : props.content.content_type.includes('image')
+  // ? 'https://app.photo.fairdatasociety.org'
+
   return (
     <>
       <div className={classes.imageContainer}>
@@ -94,6 +103,19 @@ const PreviewVariant = (props: Props): JSX.Element => {
             <action.icon></action.icon>
           </div>
         ))}
+        {fileLink !== null && (
+          <div className={classes.actionIcon}>
+            <a
+              href={`${fileLink}/${state.podName}/${state.directory}/${props.content.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Globe>
+                <title>Open in dapp</title>
+              </Globe>
+            </a>
+          </div>
+        )}
       </div>
     </>
   );
