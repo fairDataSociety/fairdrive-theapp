@@ -170,7 +170,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
         <ActionMenu
           isOwned={props.isOwned}
           onCreateMarkdownFile={() =>
-            console.log('onCreateMarkdownFile clicked')
+            window.open('https://app.dracula.fairdatasociety.org', '_blank')
           }
           onCloseActionMenu={() => setIsActionMenuOpen(false)}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}
