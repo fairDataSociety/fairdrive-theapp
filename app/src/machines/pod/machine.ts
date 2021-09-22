@@ -279,22 +279,22 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
               },
             },
           },
-          // on: {
-          //   [EVENTS.CREATE_POD]: {
-          //     target: `#${STATES.STATE_ROOT}.${STATES.CREATE_POD}`,
-          //     actions: assign((_, { createPodName }) => {
-          //       return {
-          //         createPodName: createPodName,
-          //       };
-          //     }),
-          //   },
-          //   [EVENTS.IMPORT_POD]: {
-          //     target: STATES.IMPORT_POD,
-          //     actions: assign({
-          //       importedPodData: (_, { payload }) => payload,
-          //     }),
-          //   },
-          // },
+          on: {
+            [EVENTS.CREATE_POD]: {
+              target: `#${STATES.STATE_ROOT}.${STATES.CREATE_POD}`,
+              actions: assign((_, { createPodName }) => {
+                return {
+                  createPodName: createPodName,
+                };
+              }),
+            },
+            [EVENTS.IMPORT_POD]: {
+              target: `#${STATES.STATE_ROOT}.${STATES.IMPORT_POD}`,
+              actions: assign({
+                importedPodData: (_, { payload }) => payload,
+              }),
+            },
+          },
         },
         [STATES.FETCH_PODS_FAILED]: {
           on: {
@@ -306,65 +306,63 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
       },
     },
     // TODO: Fix targets below
-    // [STATES.CREATE_POD]: {
-    //   invoke: {
-    //     id: 'createPodService',
-    //     // TODO: Pass password as argument
-    //     src: (context) =>
-    //       PodService.createPod({
-    //         password: 'T@jne!23.',
-    //         podName: context.createPodName,
-    //       }),
-    //     onDone: {
-    //       target: STATES.OPEN_POD,
-    //       actions: assign((context) => {
-    //         return {
-    //           podNameToOpen: context.createPodName,
-    //           createPodName: null,
-    //         };
-    //       }),
-    //     },
-    //     onError: {
-    //       target: STATES.FETCH_PODS_SUCCESS,
-    //       actions: assign((_) => {
-    //         return {
-    //           podNameToOpen: null,
-    //           createPodName: null,
-    //         };
-    //       }),
-    //     },
-    //   },
-    // },
-    // [STATES.IMPORT_POD]: {
-    //   invoke: {
-    //     id: 'importPodService',
-    //     src: ({ importedPodData }) =>
-    //       PodService.receivePod({
-    //         podReference: importedPodData.podReference,
-    //         pod_name: importedPodData.podName,
-    //       }),
-    //     onDone: {
-    //       target: STATES.OPEN_POD,
-    //       actions: assign((context) => {
-    //         return {
-    //           importedPodData: null,
-    //           podNameToOpen: context.importedPodData.podName,
-    //           createPodName: null,
-    //         };
-    //       }),
-    //     },
-    //     onError: {
-    //       target: STATES.FETCH_PODS_SUCCESS,
-    //       actions: assign((_) => {
-    //         return {
-    //           importedPodData: null,
-    //           podNameToOpen: null,
-    //           createPodName: null,
-    //         };
-    //       }),
-    //     },
-    //   },
-    // },
+    [STATES.CREATE_POD]: {
+      invoke: {
+        id: 'createPodService',
+        // TODO: Pass password as argument
+        src: (context) =>
+          PodService.createPod({
+            password: 'T@jne!23.',
+            podName: context.createPodName,
+          }),
+        onDone: {
+          target: STATES.FETCH_PODS,
+          actions: assign((_) => {
+            return {
+              createPodName: null,
+            };
+          }),
+        },
+        onError: {
+          target: STATES.FETCH_PODS,
+          actions: assign((_) => {
+            return {
+              createPodName: null,
+            };
+          }),
+        },
+      },
+    },
+    [STATES.IMPORT_POD]: {
+      invoke: {
+        id: 'importPodService',
+        src: ({ importedPodData }) =>
+          PodService.receivePod({
+            podReference: importedPodData.podReference,
+            pod_name: importedPodData.podName,
+          }),
+        onDone: {
+          target: STATES.FETCH_PODS,
+          actions: assign((context) => {
+            return {
+              importedPodData: null,
+              podNameToOpen: context.importedPodData.podName,
+              createPodName: null,
+            };
+          }),
+        },
+        onError: {
+          target: STATES.FETCH_PODS,
+          actions: assign((_) => {
+            return {
+              importedPodData: null,
+              podNameToOpen: null,
+              createPodName: null,
+            };
+          }),
+        },
+      },
+    },
   },
 });
 
