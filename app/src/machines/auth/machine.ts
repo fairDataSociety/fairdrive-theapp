@@ -7,9 +7,15 @@ import { CreateAccount } from 'src/types/models/CreateAccount';
 
 import * as LoginService from 'src/services/auth';
 import * as RegisterService from 'src/services/account';
+import { generateSeedPhrase } from 'src/services/seedPhrase';
 import { statsUser } from 'src/services/user';
 
 interface LoginData {
+  username: string;
+  password: string;
+}
+
+interface RegistrationUsernameAndPassword {
   username: string;
   password: string;
 }
@@ -21,7 +27,8 @@ export interface AuthContext {
   userData: UserStats | null;
   errorMessage: string | null;
   loginData: LoginData | null;
-  registrationData: CreateAccount | null;
+  registrationUserData: RegistrationUsernameAndPassword | null;
+  registrationMnemonicPhrase: string | null;
 }
 
 export type AuthEvents =
@@ -43,7 +50,10 @@ const initialState: AuthContext = {
   userData: null,
   errorMessage: null,
   loginData: null,
-  registrationData: null,
+
+  // Register
+  registrationUserData: null,
+  registrationMnemonicPhrase: null,
 };
 
 const createAuthMachine = createMachine<AuthContext, AuthEvents>(
@@ -61,53 +71,86 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
             }),
           },
           [EVENTS.REGISTER]: {
-            target: STATES.REGISTER,
+            target: STATES.REGISTER_NODE,
             actions: assign({
-              registrationData: (_, { payload }) => payload,
+              registrationUserData: (_, { payload }) => ({
+                username: payload.username,
+                password: payload.password,
+              }),
             }),
           },
         },
       },
-      [STATES.REGISTER]: {
+      [STATES.REGISTER_NODE]: {
         initial: STATES.REGISTER_LOADING,
         states: {
-          [STATES.REGISTER_LOADING]: {
+          [STATES.REGISTER_CREATE_MNEMONIC_LOADING]: {
             invoke: {
-              id: 'registerService',
-              src: (context) =>
-                RegisterService.createAccount(context.registrationData),
+              id: 'generateMnemonicService',
+              src: () => generateSeedPhrase(),
               onDone: {
-                target: STATES.REGISTER_SUCCESS,
-                actions: () => console.log('registerService done'),
+                target: STATES.REGISTER_CREATE_MNEMONIC_SUCCESS,
+                actions: assign({
+                  registrationMnemonicPhrase: (_, event) => event.data,
+                }),
               },
               onError: {
-                target: STATES.REGISTER_FAILED,
-                actions: () => console.log('registerService error'),
-              },
-            },
-          },
-          [STATES.REGISTER_SUCCESS]: {
-            on: {
-              // After register let's allow for login in
-              [EVENTS.LOGIN]: {
-                target: `#${STATES.STATE_ROOT}.${STATES.LOGIN}.${STATES.LOGIN_LOADING}`,
-                actions: assign({
-                  loginData: (_, { payload }) => payload,
+                target: STATES.REGISTER_CREATE_MNEMONIC_FAILED,
+                actions: assign((_) => {
+                  return {
+                    registrationMnemonicPhrase: null,
+                  };
                 }),
               },
             },
           },
-          [STATES.REGISTER_FAILED]: {
-            // On register failed let's allow for re try
-            on: {
-              // After register let's allow for login in
-              [EVENTS.REGISTER]: {
-                target: `#${STATES.STATE_ROOT}.${STATES.REGISTER}.${STATES.REGISTER_LOADING}`,
-                actions: assign({
-                  registrationData: (_, { payload }) => payload,
-                }),
+          [STATES.REGISTER_CREATE_MNEMONIC_SUCCESS]: {
+            initial: STATES.REGISTER_LOADING,
+            states: {
+              [STATES.REGISTER_LOADING]: {
+                invoke: {
+                  id: 'registerService',
+                  src: (context) =>
+                    RegisterService.createAccount({
+                      username: context.registrationUserData.username,
+                      password: context.registrationUserData.password,
+                      mnemonic: context.registrationMnemonicPhrase,
+                    }),
+                  onDone: {
+                    target: STATES.REGISTER_SUCCESS,
+                  },
+                  onError: {
+                    target: STATES.REGISTER_FAILED,
+                  },
+                },
+              },
+              [STATES.REGISTER_SUCCESS]: {
+                on: {
+                  // After register let's allow for login in
+                  [EVENTS.LOGIN]: {
+                    target: `#${STATES.STATE_ROOT}.${STATES.LOGIN}.${STATES.LOGIN_LOADING}`,
+                    actions: assign({
+                      loginData: (_, { payload }) => payload,
+                    }),
+                  },
+                },
+              },
+              [STATES.REGISTER_FAILED]: {
+                // On register failed let's allow for re try
+                on: {
+                  // After register let's allow for login in
+                  [EVENTS.REGISTER]: {
+                    target: `#${STATES.STATE_ROOT}.${STATES.REGISTER_NODE}.${STATES.REGISTER_LOADING}`,
+                    actions: assign({
+                      registrationUserData: (_, { payload }) => payload,
+                    }),
+                  },
+                },
               },
             },
+          },
+          [STATES.REGISTER_CREATE_MNEMONIC_FAILED]: {
+            always: [{ target: STATES.REGISTER_CREATE_MNEMONIC_LOADING }],
           },
         },
       },
