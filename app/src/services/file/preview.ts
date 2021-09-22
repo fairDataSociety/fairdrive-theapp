@@ -5,7 +5,7 @@ export const previewFile = async (
   file: string,
   directory: string,
   podName: string
-) => {
+): Promise<Blob> => {
   try {
     let writePath = '';
     if (directory === 'root') {

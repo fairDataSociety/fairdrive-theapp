@@ -6,11 +6,6 @@ import STATES from './states';
 import * as FileService from 'src/services/file';
 
 import { UploadSingleFileReturn } from 'src/services/file/uploadNew';
-// interface FileUploadStatus {
-//     requestId: string;
-//     filename: string;
-//     status: 'failed' | 'pending' | 'success';
-// }
 
 interface FileUploadProgress {
   progressEvent: ProgressEvent;
@@ -20,7 +15,8 @@ interface FileUploadProgress {
 }
 
 export interface FileContext {
-  fileResult: null;
+  fileResultBlob: Blob | null;
+  fileNameToPreview: string | null;
   currentDirectory: string | null;
   currentPodName: string | null;
   fileNameToDownload: string | null;
@@ -79,7 +75,8 @@ const createFileMachine = createMachine<FileContext, FileEvents>({
     currentPodName: null,
 
     // Preview
-    fileResult: null,
+    fileNameToPreview: null,
+    fileResultBlob: null,
 
     // Download
     fileNameToDownload: null,
@@ -101,6 +98,48 @@ const createFileMachine = createMachine<FileContext, FileEvents>({
               uploadingQueue: event.uploadingQueue,
             };
           }),
+        },
+      },
+    },
+    [STATES.PREVIEW_NODE]: {
+      initial: STATES.PREVIEW_LOADING,
+      states: {
+        [STATES.PREVIEW_LOADING]: {
+          invoke: {
+            id: 'previewFileService',
+            src: (ctx) =>
+              FileService.previewFile(
+                ctx.fileNameToDownload,
+                ctx.currentDirectory,
+                ctx.currentPodName
+              ),
+            onDone: {
+              target: STATES.PREVIEW_SUCCESS,
+              actions: assign((ctx, _response) => {
+                const response: DoneInvokeEvent<Blob> = _response;
+
+                return {
+                  fileNameToPreview: null,
+                  fileResultBlob: response.data,
+                };
+              }),
+            },
+            onError: {
+              target: STATES.PREVIEW_ERROR,
+              actions: assign((_) => {
+                return {
+                  fileNameToPreview: null,
+                  fileResultBlob: null,
+                };
+              }),
+            },
+          },
+        },
+        [STATES.PREVIEW_SUCCESS]: {
+          always: [{ target: STATES.IDLE }],
+        },
+        [STATES.PREVIEW_ERROR]: {
+          always: [{ target: STATES.IDLE }],
         },
       },
     },
