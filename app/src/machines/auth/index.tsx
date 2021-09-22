@@ -19,13 +19,13 @@ interface AuthProviderContext {
   };
 }
 
-interface AuthProvider {
+interface AuthProviderProps {
   children: React.ReactNode | React.ReactNode[];
 }
 
 export const AuthProviderContext = createContext({} as AuthProviderContext);
 
-const AuthProvider = ({ children }: AuthProvider): JSX.Element => {
+const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [state, send] = useMachine(createAuthMachine, { devTools: true });
 
   const handleRegister = useCallback(

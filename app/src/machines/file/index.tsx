@@ -16,16 +16,17 @@ interface FileProviderContext {
     onDeleteFile: (fileName: string) => void;
     onDownloadFile: (fileName: string) => void;
     onUploadFiles: (uploadingQueue: File[]) => void;
+    onShareFile: (fileName: string) => void;
   };
 }
 
-interface FileProvider {
+interface FileProviderProps {
   children: React.ReactNode | React.ReactNode[];
 }
 
 export const FileProviderContext = createContext({} as FileProviderContext);
 
-const FileProvider = ({ children }: FileProvider): JSX.Element => {
+const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
   const { PodMachineStore } = useContext(PodProviderContext);
 
   const [state, send] = useMachine(createFileMachine, { devTools: true });
@@ -44,6 +45,10 @@ const FileProvider = ({ children }: FileProvider): JSX.Element => {
 
   const handleUploadFiles = (uploadingQueue: File[]) => {
     send({ type: EVENTS.UPLOAD, uploadingQueue });
+  };
+
+  const handleShareFile = (fileName: string) => {
+    send({ type: EVENTS.SHARE, fileName });
   };
 
   // Update podName and directoryName in FileMachine
@@ -75,6 +80,7 @@ const FileProvider = ({ children }: FileProvider): JSX.Element => {
       onDeleteFile: handleDeleteFile,
       onDownloadFile: handleDownloadFile,
       onUploadFiles: handleUploadFiles,
+      onShareFile: handleShareFile,
     },
   };
 
@@ -84,3 +90,5 @@ const FileProvider = ({ children }: FileProvider): JSX.Element => {
     </FileProviderContext.Provider>
   );
 };
+
+export default FileProvider;

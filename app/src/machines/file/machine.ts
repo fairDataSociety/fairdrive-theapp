@@ -23,16 +23,14 @@ export interface FileContext {
   fileNameToShare: string | null;
   fileNameToDownload: string | null;
   uploadingQueue: File[];
+  fileToDelete: string | null;
   uploadingProgress: FileUploadProgress[];
 }
 
 export type FileEvents =
   | {
       type: EVENTS.DELETE;
-      payload: {
-        file_name: string;
-        path: string;
-      };
+      fileName: string;
     }
   | {
       type: EVENTS.DOWNLOAD;
@@ -44,10 +42,7 @@ export type FileEvents =
     }
   | {
       type: EVENTS.SHARE;
-      payload: {
-        fileName: string;
-        path_file: string;
-      };
+      fileName: string;
     }
   | {
       type: EVENTS.UPLOAD;
@@ -79,6 +74,9 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
       fileNameToPreview: null,
       fileResultBlob: null,
 
+      // Deleting
+      fileToDelete: null,
+
       // Download
       fileNameToDownload: null,
 
@@ -94,6 +92,9 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
         on: {
           [EVENTS.DELETE]: {
             target: STATES.REMOVING_NODE,
+            actions: assign({
+              fileToDelete: (_, { fileName }) => fileName,
+            }),
             cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
           },
           // [EVENTS.SHARE]: {
@@ -164,10 +165,10 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
           [STATES.PREVIEW_SUCCESS]: {
-            always: [{ target: STATES.IDLE }],
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
           },
           [STATES.PREVIEW_ERROR]: {
-            always: [{ target: STATES.IDLE }],
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
           },
         },
       },
@@ -202,10 +203,10 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
           [STATES.DOWNLOAD_SUCCESS]: {
-            always: [{ target: STATES.IDLE }],
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
           },
           [STATES.DOWNLOAD_ERROR]: {
-            always: [{ target: STATES.IDLE }],
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
           },
         },
       },
@@ -231,10 +232,10 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
           [STATES.REMOVING_SUCCESS]: {
-            always: [{ target: STATES.IDLE }],
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
           },
           [STATES.REMOVING_ERROR]: {
-            always: [{ target: STATES.IDLE }],
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
           },
         },
       },
@@ -310,7 +311,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                 cond: (ctx) => ctx.uploadingQueue.length > 0,
               },
               // Otherwise back to idle
-              { target: STATES.IDLE },
+              { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
             ],
           },
           [STATES.UPLOADING_ERROR]: {
@@ -323,7 +324,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                 cond: (ctx) => ctx.uploadingQueue.length > 0,
               },
               // Otherwise back to idle
-              { target: STATES.IDLE },
+              { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
             ],
           },
         },
