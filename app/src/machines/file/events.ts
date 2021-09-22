@@ -6,6 +6,9 @@ enum EVENTS {
   SHARE = 'share',
   PREVIEW = 'preview',
   DOWNLOAD = 'download',
+
+  UPDATE_CURRENT_PODNAME = 'update_current_podname',
+  UPDATE_CURRENT_DIRECTORY = 'update_current_directory',
 }
 
 export default EVENTS;
