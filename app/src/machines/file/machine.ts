@@ -23,7 +23,7 @@ export interface FileContext {
   fileResult: null;
   currentDirectory: string | null;
   currentPodName: string | null;
-
+  fileNameToDownload: string | null;
   uploadingQueue: File[];
   uploadingProgress: FileUploadProgress[];
 }
@@ -74,10 +74,17 @@ const createFileMachine = createMachine<FileContext, FileEvents>({
   id: STATES.STATE_ROOT,
   initial: STATES.IDLE,
   context: {
-    fileResult: null,
+    // General
     currentDirectory: null,
     currentPodName: null,
 
+    // Preview
+    fileResult: null,
+
+    // Download
+    fileNameToDownload: null,
+
+    // Upload group
     uploadingQueue: [],
     uploadingProgress: [],
   },
@@ -94,6 +101,44 @@ const createFileMachine = createMachine<FileContext, FileEvents>({
               uploadingQueue: event.uploadingQueue,
             };
           }),
+        },
+      },
+    },
+    [STATES.DOWNLOAD_NODE]: {
+      initial: STATES.DOWNLOAD_LOADING,
+      states: {
+        [STATES.DOWNLOAD_LOADING]: {
+          invoke: {
+            id: 'downloadFileService',
+            src: (ctx) =>
+              FileService.downloadFile(
+                ctx.fileNameToDownload,
+                ctx.currentDirectory,
+                ctx.currentPodName
+              ),
+            onDone: {
+              target: STATES.DOWNLOAD_SUCCESS,
+              actions: assign((_) => {
+                return {
+                  fileNameToDownload: null,
+                };
+              }),
+            },
+            onError: {
+              target: STATES.DOWNLOAD_ERROR,
+              actions: assign((_) => {
+                return {
+                  fileNameToDownload: null,
+                };
+              }),
+            },
+          },
+        },
+        [STATES.DOWNLOAD_SUCCESS]: {
+          always: [{ target: STATES.IDLE }],
+        },
+        [STATES.DOWNLOAD_ERROR]: {
+          always: [{ target: STATES.IDLE }],
         },
       },
     },

@@ -6,7 +6,7 @@ export async function downloadFile(
   filename: string,
   directory: string,
   podName: string
-) {
+): Promise<void> {
   try {
     let writePath = '';
     if (directory === 'root') {
@@ -25,7 +25,6 @@ export async function downloadFile(
     FileSaver.saveAs(downloadFile.data, filename);
 
     //const blob = new Blob(downloadFile.data)
-    return downloadFile;
   } catch (error) {
     return Promise.reject(error);
   }

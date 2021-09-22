@@ -1,7 +1,18 @@
 enum STATES {
   STATE_ROOT = 'fileMachine',
   IDLE = 'idle',
-  DOWNLOAD = 'download',
+  // Preview
+  PREVIEW_NODE = 'preview_node',
+  PREVIEW_LOADING = 'preview_loading',
+  PREVIEW_ERROR = 'preview_error',
+  PREVIEW_SUCCESS = 'preview_success',
+
+  // Download
+  DOWNLOAD_NODE = 'download_node',
+  DOWNLOAD_LOADING = 'download_loading',
+  DOWNLOAD_ERROR = 'download_error',
+  DOWNLOAD_SUCCESS = 'download_success',
+  // Share
   SHARE = 'share',
   // Upload
   UPLOADING_NODE = 'uploading',
