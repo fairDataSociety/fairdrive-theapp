@@ -72,26 +72,10 @@ function PodSidebar(props: Props) {
   };
 
   // Pod Context Actions
-  const {
-    handleOpenPod,
-    handleCreatePod,
-    handleImportPod,
-    handleOverview,
-    handleOpenDirectory,
-  } = usePodContextActions();
+  const { handleOpenPod, handleCreatePod, handleImportPod, handleOverview } =
+    usePodContextActions();
 
   // When podName is being setted and pod is being openned then try to just open directory
-  const { podStateMachine } = usePodStateMachine();
-
-  useEffect(() => {
-    if (
-      podStateMachine.tag === STATES_NAMES.POD_STATE &&
-      (podStateMachine.status === POD_STATUS.SUCCESS ||
-        podStateMachine.status === POD_STATUS.CHANGE)
-    ) {
-      handleOpenDirectory();
-    }
-  }, [podStateMachine]);
 
   // Proxy pod context actions calls
   const proxyPodContextActions = async (

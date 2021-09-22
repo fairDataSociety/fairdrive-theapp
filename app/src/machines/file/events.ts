@@ -3,6 +3,7 @@ enum EVENTS {
   UPLOAD = 'upload',
   DELETE = 'delete',
   SHARE = 'share',
+  PREVIEW = 'preview',
   DOWNLOAD = 'download',
 }
 

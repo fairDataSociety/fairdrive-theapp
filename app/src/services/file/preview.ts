@@ -22,6 +22,7 @@ export const previewFile = async (
       responseType: 'blob',
     });
 
+    debugger;
     return downloadFile.data;
   } catch (error) {
     return Promise.reject(error);

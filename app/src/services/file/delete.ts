@@ -7,7 +7,7 @@ export const deleteFile = async (payload: {
 }) => {
   try {
     const { file_name, podName, path } = payload;
-
+    // TODO: change arg path to directory and create path locally
     await HTTPClient().delete('file/delete', {
       data: {
         pod_name: podName,
