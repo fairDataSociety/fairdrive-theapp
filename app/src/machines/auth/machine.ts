@@ -82,7 +82,7 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
         },
       },
       [STATES.REGISTER_NODE]: {
-        initial: STATES.REGISTER_LOADING,
+        initial: STATES.REGISTER_CREATE_MNEMONIC_LOADING,
         states: {
           [STATES.REGISTER_CREATE_MNEMONIC_LOADING]: {
             invoke: {
@@ -140,7 +140,7 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
                 on: {
                   // After register let's allow for login in
                   [EVENTS.REGISTER]: {
-                    target: `#${STATES.STATE_ROOT}.${STATES.REGISTER_NODE}.${STATES.REGISTER_LOADING}`,
+                    target: STATES.REGISTER_LOADING,
                     actions: assign({
                       registrationUserData: (_, { payload }) => payload,
                     }),

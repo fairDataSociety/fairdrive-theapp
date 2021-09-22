@@ -188,7 +188,6 @@ const createFileMachine = createMachine<FileContext, FileEvents>({
           invoke: {
             id: 'fileRemovingService',
             src: (ctx, event, rest) => {
-              debugger;
               return FileService.deleteFile({
                 file_name: 'test',
                 podName: ctx.currentPodName,

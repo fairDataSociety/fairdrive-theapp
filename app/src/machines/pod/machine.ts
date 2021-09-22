@@ -254,12 +254,26 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                     },
                   },
                   on: {
-                    [EVENTS.OPEN_POD]: {
-                      target: STATES.OPEN_POD_LOADING,
-                      actions: assign({
-                        podNameToOpen: (_, { payload }) => payload.podName,
-                      }),
-                    },
+                    [EVENTS.OPEN_POD]: [
+                      {
+                        target: STATES.OPEN_POD_LOADING,
+                        actions: assign({
+                          podNameToOpen: (_, { payload }) => payload.podName,
+                        }),
+                        // Prevent req that open pod when pod already opened
+                        cond: (ctx, { payload }) =>
+                          !ctx.openedPods.includes(payload.podName),
+                      },
+                      {
+                        // If pod already opened, just choose it as current one
+                        target: STATES.OPEN_POD_SUCCESS,
+                        actions: assign({
+                          currentlyOpenedPodName: (_, { payload }) =>
+                            payload.podName,
+                          directoryNameToOpen: 'root',
+                        }),
+                      },
+                    ],
                   },
                 },
               },
