@@ -175,10 +175,14 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
           [STATES.PREVIEW_SUCCESS]: {
-            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
+            after: {
+              100: { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
+            },
           },
           [STATES.PREVIEW_ERROR]: {
-            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
+            after: {
+              100: { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
+            },
           },
         },
       },
@@ -252,10 +256,14 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
           [STATES.REMOVING_SUCCESS]: {
-            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
+            after: {
+              100: { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
+            },
           },
           [STATES.REMOVING_ERROR]: {
-            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
+            after: {
+              100: { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
+            },
           },
         },
       },
@@ -389,10 +397,18 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
           [STATES.SHARING_SUCCESS]: {
-            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
+            after: {
+              100: {
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+              },
+            },
           },
           [STATES.SHARING_ERROR]: {
-            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
+            after: {
+              100: {
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+              },
+            },
           },
         },
       },

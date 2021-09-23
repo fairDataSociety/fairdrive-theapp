@@ -43,6 +43,7 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
   };
 
   const handleDeleteFile = (fileName: string) => {
+    console.log('handleDeleteFile', fileName);
     send({ type: EVENTS.DELETE, fileName });
   };
 

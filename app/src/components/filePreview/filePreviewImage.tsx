@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 import { FileProviderContext } from 'src/machines/file';
+import FileStates from 'src/machines/file/states';
 
 import { FilePreviewInfo } from './types';
 import useStyles from './filePreviewStyles';
@@ -29,7 +30,11 @@ const FilePreviewImage = ({ filename }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    if (FileMachineStore.context.fileResultBlob) {
+    if (
+      FileMachineStore.matches({
+        [FileStates.PREVIEW_NODE]: FileStates.PREVIEW_SUCCESS,
+      })
+    ) {
       const imgSrc = window.URL.createObjectURL(
         FileMachineStore.context.fileResultBlob
       );
