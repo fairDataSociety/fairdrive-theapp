@@ -2,15 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
 import PodStates from 'src/machines/pod/states';
+import { DRIVE_MODES } from 'src/machines/pod/machine';
 import { PodProviderContext } from 'src/machines/pod';
 
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Store
-import { StoreContext } from 'src/store/store';
 import { receiveFileInfo } from 'src/services/file';
-
-import { sharePod } from 'src/services/pod';
 
 // Components
 import SecondLevelNavigation from './secondLevelNavigation/secondLevelNavigation';
@@ -52,7 +50,6 @@ function Drive(props: Props) {
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
 
   // Contexts
-  const { state } = useContext(StoreContext);
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
@@ -91,8 +88,6 @@ function Drive(props: Props) {
     setFiles(null);
     setFolders(null);
     PodMachineActions.onOpenDirectory(directoryName);
-    state.isFileUploaded = false;
-    state.searchQuery = null;
   };
 
   // Handle filtering data by search query
@@ -134,7 +129,12 @@ function Drive(props: Props) {
   // TODO: Move below to useFileContextActions
   const createNewfile = async () => {
     // setResponseCreation(
-    await receiveFileInfo(fileName, state.podName, state.directory);
+    // TODO: Probably to remove
+    await receiveFileInfo(
+      fileName,
+      PodMachineStore.context.currentlyOpenedPodName,
+      PodMachineStore.context.directoryNameToOpen
+    );
     // );
   };
 
@@ -161,11 +161,10 @@ function Drive(props: Props) {
       </div>
 
       <div className={classes.layoutContent}>
-        {state.podName !== '' && (
+        {PodMachineStore.context.currentlyOpenedPodName && (
           <SecondLevelNavigation
             isSearchResults={isSearchQuerySetted()}
-            // TODO: Migrate
-            isOwned={state.isPrivatePod}
+            isOwned={PodMachineStore.context.mode === DRIVE_MODES.PRIVATE}
             onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
             onOpenImportFileModal={() => setIsCreateFileModalVisible(true)}
             onOpenUploadModal={() =>
@@ -201,7 +200,7 @@ function Drive(props: Props) {
         {isSearchQuerySetted() && (
           <div className={classes.searchDivider}>
             <SearchIcon className={classes.searchIcon} />
-            <span>{state.searchQuery}</span>
+            <span>{PodMachineStore.context.searchQuery}</span>
           </div>
         )}
 
