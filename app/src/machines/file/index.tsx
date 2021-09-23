@@ -43,7 +43,6 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
   };
 
   const handleDeleteFile = (fileName: string) => {
-    console.log('handleDeleteFile', fileName);
     send({ type: EVENTS.DELETE, fileName });
   };
 
@@ -103,11 +102,11 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
     },
   };
 
-  useEffect(() => {
-    console.log('FileMachine state:', state.toStrings());
-    console.log('next events', state.nextEvents);
-    console.log('context', state.context);
-  }, [state, send]);
+  // useEffect(() => {
+  //   console.log('FileMachine state:', state.toStrings());
+  //   console.log('next events', state.nextEvents);
+  //   console.log('context', state.context);
+  // }, [state, send]);
 
   return (
     <FileProviderContext.Provider value={value}>

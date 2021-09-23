@@ -83,11 +83,19 @@ function RightSidebar(props: Props) {
   };
 
   useEffect(() => {
-    if (FileMachineStore.matches(FileStates.SHARING_SUCCESS)) {
+    if (
+      FileMachineStore.matches({
+        [FileStates.SHARING_NODE]: FileStates.SHARING_SUCCESS,
+      })
+    ) {
       setRefLink(FileMachineStore.context.sharedFileReference);
     }
 
-    if (FileMachineStore.matches(FileStates.REMOVING_SUCCESS)) {
+    if (
+      FileMachineStore.matches({
+        [FileStates.REMOVING_NODE]: FileStates.REMOVING_SUCCESS,
+      })
+    ) {
       props.onClose();
     }
   }, [FileMachineStore]);

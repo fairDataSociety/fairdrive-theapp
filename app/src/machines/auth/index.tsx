@@ -83,11 +83,11 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     },
   };
 
-  useEffect(() => {
-    console.log('AuthMachine state:', state.toStrings());
-    console.log('next events', state.nextEvents);
-    console.log('context', state.context);
-  }, [state, send]);
+  // useEffect(() => {
+  //   console.log('AuthMachine state:', state.toStrings());
+  //   console.log('next events', state.nextEvents);
+  //   console.log('context', state.context);
+  // }, [state, send]);
 
   return (
     <AuthProviderContext.Provider value={value}>
