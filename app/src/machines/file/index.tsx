@@ -9,6 +9,8 @@ import createFileMachine, {
 
 import EVENTS from 'src/machines/file/events';
 import { PodProviderContext } from 'src/machines/pod';
+import PodEvents from 'src/machines/pod/events';
+import STATES from './states';
 interface FileProviderContext {
   FileMachineStore: State<FileContext, FileEvents, any>;
   FileMachineActions: {
@@ -28,7 +30,7 @@ interface FileProviderProps {
 export const FileProviderContext = createContext({} as FileProviderContext);
 
 const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
-  const { PodMachineStore } = useContext(PodProviderContext);
+  const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
 
   const [state, send] = useMachine(createFileMachine, { devTools: true });
 
@@ -43,6 +45,16 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
   const handleDeleteFile = (fileName: string) => {
     send({ type: EVENTS.DELETE, fileName });
   };
+
+  useEffect(() => {
+    const match = state.matches({
+      [STATES.REMOVING_NODE]: STATES.REMOVING_SUCCESS,
+    });
+    console.log(match);
+    if (match) {
+      PodMachineActions.onOpenDirectory(state.context.currentDirectory);
+    }
+  }, [state, send]);
 
   const handleUploadFiles = (uploadingQueue: File[]) => {
     send({ type: EVENTS.UPLOAD, uploadingQueue });
@@ -89,6 +101,12 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
       onCancelUpload: handleCancelUpload,
     },
   };
+
+  useEffect(() => {
+    console.log('FileMachine state:', state.toStrings());
+    console.log('next events', state.nextEvents);
+    console.log('context', state.context);
+  }, [state, send]);
 
   return (
     <FileProviderContext.Provider value={value}>

@@ -101,4 +101,4 @@ const PreviewVariant = (props: Props): JSX.Element => {
   );
 };
 
-export default React.memo(PreviewVariant);
+export default PreviewVariant;

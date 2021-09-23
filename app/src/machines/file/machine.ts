@@ -148,7 +148,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
               id: 'previewFileService',
               src: (ctx) =>
                 FileService.previewFile(
-                  ctx.fileNameToDownload,
+                  ctx.fileNameToPreview,
                   ctx.currentDirectory,
                   ctx.currentPodName
                 ),
@@ -226,18 +226,28 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           [STATES.REMOVING_LOADING]: {
             invoke: {
               id: 'fileRemovingService',
-              src: (ctx, event, rest) => {
+              src: (ctx) => {
                 return FileService.deleteFile({
-                  file_name: 'test',
+                  file_name: ctx.fileToDelete,
                   podName: ctx.currentPodName,
-                  path: 'test',
+                  path: writePath(ctx.currentDirectory),
                 });
               },
               onDone: {
                 target: STATES.REMOVING_SUCCESS,
+                actions: assign((_) => {
+                  return {
+                    fileToDelete: null,
+                  };
+                }),
               },
               onError: {
                 target: STATES.REMOVING_ERROR,
+                actions: assign((_) => {
+                  return {
+                    fileToDelete: null,
+                  };
+                }),
               },
             },
           },
