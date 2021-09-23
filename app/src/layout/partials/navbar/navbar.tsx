@@ -1,10 +1,7 @@
-import React, { useContext, useState, useMemo } from 'react';
+import React, { useContext, useState } from 'react';
 
 // Contexts
 import { useTheme } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
-
-import STATES from 'src/machines/auth/states';
 import { AuthProviderContext } from 'src/machines/auth';
 
 // Hooks
@@ -37,7 +34,6 @@ function Navbar(props: Props): JSX.Element {
   // General
   const { AuthMachineActions } = useContext(AuthProviderContext);
 
-  const { actions } = useContext(StoreContext);
   const { theme, toggleTheme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
@@ -51,7 +47,6 @@ function Navbar(props: Props): JSX.Element {
         <a
           onClick={() => {
             props.setShowTerms(false);
-            actions.setDirectory('root');
           }}
           className={classes.logoWrapper}
         >

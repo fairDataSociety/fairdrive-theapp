@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './createNewStyles';
 import TextField from '../../textField/textField';
@@ -7,7 +7,7 @@ import Modal from '../modal/modal';
 export interface Props {
   type: string;
   isRefLink?: boolean;
-  handleClick: () => Promise<void>;
+  handleClick: () => void;
   handleClose: () => void;
   setProp?: (data: string) => void;
   propValue: string;
@@ -15,7 +15,6 @@ export interface Props {
 
 export function CreateNew(props: Props): JSX.Element {
   const { theme } = useTheme();
-
   const classes = useStyles({ ...props, ...theme });
 
   return (

@@ -3,14 +3,16 @@ import React, { useContext, useEffect } from 'react';
 
 import prettyBytes from 'pretty-bytes';
 
+import { DRIVE_MODES } from 'src/machines/pod/machine';
+import PodStates from 'src/machines/pod/states';
+import { PodProviderContext } from 'src/machines/pod';
+
 // Hooks
 import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
 // Helpers
 import { formatDate } from 'src/helpers';
 
 // Context
-import { StoreContext } from 'src/store/store';
-
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Components
@@ -33,14 +35,22 @@ export interface Props {
 }
 
 function FileCard(props: Props) {
+  const { PodMachineStore } = useContext(PodProviderContext);
+
+  const isSearchQuerySetted = () =>
+    PodMachineStore.matches(PodStates.SEARCH_RESULTS);
+
+  const getSearchQuery = () => PodMachineStore.context.searchQuery;
+
+  const isPrivateDriveMode = () =>
+    PodMachineStore.context.mode === DRIVE_MODES.PRIVATE;
+
   const { data } = props;
-  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
   // Handle opening directory or file in sidebar
   const handleOnClick = () => {
-    console.log('card clicked');
     if (props.isDirectory) {
       props.onDirectoryClick();
     } else {
@@ -52,11 +62,13 @@ function FileCard(props: Props) {
 
   // Higlight matching phrase by searchQuery
   const { highlightedMatchedPhrase, doHighlightMatchedPhrase } =
-    useHighlightingOfMatchingPhrase(state.searchQuery, getShortedTitle());
+    useHighlightingOfMatchingPhrase(getSearchQuery(), getShortedTitle());
 
   useEffect(() => {
-    doHighlightMatchedPhrase();
-  }, [state.searchQuery]);
+    if (isSearchQuerySetted() && getSearchQuery()) {
+      doHighlightMatchedPhrase();
+    }
+  }, [PodMachineStore]);
 
   const getSize = () => prettyBytes(parseInt((data as IFile).size));
 
@@ -65,10 +77,10 @@ function FileCard(props: Props) {
   const isContentTypeDirectory = () => data.content_type === 'inode/directory';
 
   const isSearchQuerySettedAndHighlighted = () =>
-    state.searchQuery && state.searchQuery !== '' && highlightedMatchedPhrase;
+    getSearchQuery() && getSearchQuery() !== '' && highlightedMatchedPhrase;
 
   const getDropdownOptionByState = () => {
-    if (state.isPrivatePod) {
+    if (isPrivateDriveMode()) {
       return [
         {
           label: 'Rename/Edit',

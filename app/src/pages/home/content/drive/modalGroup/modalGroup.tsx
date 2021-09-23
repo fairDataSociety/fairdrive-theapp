@@ -15,7 +15,7 @@ export interface Props {
 
   createFolderModal: {
     isCreateFolderModalVisible: () => boolean;
-    onCreate: () => Promise<void>;
+    onCreate: () => void;
     onClose: () => void;
   };
   createFileModal: {

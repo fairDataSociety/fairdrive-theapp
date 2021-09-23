@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './fileListStyles';
 import FileListHeader from './fileListHeader/fileListHeader';
 import FileListFooter from './fileListFooter/fileListFooter';
 import FileListBody from './fileListBody/fileListBody';
-import { StoreContext } from 'src/store/store';
 import moment from 'moment';
 import prettyBytes from 'pretty-bytes';
+
+import { PodProviderContext } from 'src/machines/pod';
 
 import { TCurrentFilter } from '../../pages/home/content/drive/drive';
 import { sortyByCurrentFilter } from 'src/helpers/sort';
@@ -17,18 +18,20 @@ export interface Props {
 }
 
 function FileList(props: Props) {
+  const { PodMachineStore } = useContext(PodProviderContext);
   const { theme } = useTheme();
-  const { state } = useContext(StoreContext);
-
   const classes = useStyles({ ...props, ...theme });
 
+  const getDirectories = () => PodMachineStore.context.directoryData.dirs;
+  const getFiles = () => PodMachineStore.context.directoryData.files;
+
   return (
-    state.entries !== null && (
+    getFiles() !== null && (
       <div className={classes.container}>
         <FileListHeader isPodBarOpen={props.isPodBarOpen} />
         <div>
-          {state.dirs !== undefined &&
-            sortyByCurrentFilter(state.dirs, props.currentFilter).map(
+          {getDirectories() !== undefined &&
+            sortyByCurrentFilter(getDirectories(), props.currentFilter).map(
               (directory, index) => {
                 return (
                   <FileListBody
@@ -48,8 +51,8 @@ function FileList(props: Props) {
                 );
               }
             )}
-          {state.entries !== undefined &&
-            sortyByCurrentFilter(state.entries, props.currentFilter).map(
+          {getFiles() !== undefined &&
+            sortyByCurrentFilter(getFiles(), props.currentFilter).map(
               (entry, index) => {
                 return (
                   <FileListBody

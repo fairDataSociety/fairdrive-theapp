@@ -13,7 +13,11 @@ enum STATES {
   DOWNLOAD_ERROR = 'download_error',
   DOWNLOAD_SUCCESS = 'download_success',
   // Share
-  SHARE = 'share',
+  SHARING_NODE = 'sharing_node',
+  SHARING_LOADING = 'sharing_loading',
+  SHARING_SUCCESS = 'sharing_success',
+  SHARING_ERROR = 'sharing_error',
+
   // Upload
   UPLOADING_NODE = 'uploading',
   UPLOADING_LOADING = 'uploading_loading',

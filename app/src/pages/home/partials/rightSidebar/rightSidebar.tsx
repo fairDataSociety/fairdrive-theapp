@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 
 // Hooks
-import { useFileContextActions } from 'src/hooks/useFileContextActions';
 import useStyles from './rightSidebarStyles';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { PodProviderContext } from 'src/machines/pod';
+import FileStates from 'src/machines/file/states';
+import { FileProviderContext } from 'src/machines/file';
 
 // Components
 import PreviewVariant from './variants/preview/preview';
@@ -33,58 +33,61 @@ export interface Props {
 }
 
 function RightSidebar(props: Props) {
-  const { PodMachineStore } = useContext(PodProviderContext);
+  const { FileMachineStore, FileMachineActions } =
+    useContext(FileProviderContext);
 
-  const getCurrentPodName = () =>
-    PodMachineStore.context.currentlyOpenedPodName;
+  const getCurrentPodName = () => FileMachineStore.context.currentPodName;
 
   const getCurrentDirectoryName = () =>
-    PodMachineStore.context.directoryNameToOpen;
+    FileMachineStore.context.currentDirectory;
 
   // General
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
+
   // Handle sharing content
   const [showSharePodPopup, setShowSharePodPopup] = useState(false);
   const [refLink, setRefLink] = useState(null);
+
   // Validate variant
   useEffect(() => {
     isValueInEnum(props.variant, RIGHT_SIDEBAR_VARIANTS);
   }, [props.variant]);
 
-  // File Context Actions
-  const { handleDelete, handleDownload, handleUpload, handleShare } =
-    useFileContextActions();
-
   // Proxy file context actions calls
-  const proxyFileContextActions = async (
+  const proxyActions = async (
     type: 'delete' | 'download' | 'upload' | 'share' | 'open',
     payload?: File[]
   ) => {
-    let response;
     switch (type) {
       case 'delete':
-        await handleDelete(props.file.name);
+        FileMachineActions.onShareFile(props.file.name);
         props.onClose();
         break;
       case 'download':
-        await handleDownload(props.file.name);
+        FileMachineActions.onDownloadFile(props.file.name);
         break;
       case 'upload':
-        await handleUpload(payload);
+        FileMachineActions.onUploadFiles(payload);
         break;
       case 'share':
-        response = await handleShare(props.file.name);
-        setRefLink(response);
+        FileMachineActions.onShareFile(props.file.name);
         break;
       case 'open':
-        await handleUpload(payload);
+        // TODO: I don't know what should this action do
+        console.log('proxy action open');
         break;
       default:
-        console.warn(`proxyFileContextActions: Unknown action type of ${type}`);
+        console.warn(`proxyActions: Unknown action type of ${type}`);
         break;
     }
   };
+
+  useEffect(() => {
+    if (FileMachineStore.matches(FileStates.SHARING_SUCCESS)) {
+      setRefLink(FileMachineStore.context.sharedFileReference);
+    }
+  }, [FileMachineStore]);
 
   const getProperHeadlineForVariant = (
     variant: RIGHT_SIDEBAR_VARIANTS
@@ -140,14 +143,12 @@ function RightSidebar(props: Props) {
             podName={getCurrentPodName()}
             directoryName={getCurrentDirectoryName()}
             content={props.file}
-            callAction={(type) => proxyFileContextActions(type)}
+            callAction={(type) => proxyActions(type)}
           />
         )}
         {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && (
           <UploadVariant
-            callAction={(type, payload) =>
-              proxyFileContextActions(type, payload)
-            }
+            callAction={(type, payload) => proxyActions(type, payload)}
           />
         )}
 

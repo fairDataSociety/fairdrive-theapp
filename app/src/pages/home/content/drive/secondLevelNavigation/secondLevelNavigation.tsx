@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+import { PodProviderContext } from 'src/machines/pod';
 
 // Icons
 import { PodInfo as PodInfoIcon } from 'src/components/icons/icons';
@@ -26,7 +26,8 @@ export interface Props {
 }
 
 const SecondLevelNavigation = (props: Props): JSX.Element => {
-  const { state } = useContext(StoreContext);
+  const { PodMachineStore } = useContext(PodProviderContext);
+
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
@@ -42,7 +43,9 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
     );
     const parsed: string[] = JSON.parse(savedDissmissedPodsIntros);
 
-    return parsed ? parsed.includes(state.podName) : false;
+    return parsed
+      ? parsed.includes(PodMachineStore.context.currentlyOpenedPodName)
+      : false;
   };
 
   const dissmissPodIntro = (): void => {
@@ -52,7 +55,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
       );
       const parsed: string[] = JSON.parse(savedDissmissedPodsIntros);
       if (parsed !== null) {
-        parsed.push(state.podName);
+        parsed.push(PodMachineStore.context.currentlyOpenedPodName);
         localStorage.setItem(
           STORAGE_DISSMISSED_POD_INTROS_KEY,
           JSON.stringify(parsed)
@@ -60,7 +63,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
       } else {
         localStorage.setItem(
           STORAGE_DISSMISSED_POD_INTROS_KEY,
-          JSON.stringify([state.podName])
+          JSON.stringify([PodMachineStore.context.currentlyOpenedPodName])
         );
       }
       setIsActionMenuOpen(false);

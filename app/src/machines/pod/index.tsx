@@ -17,11 +17,13 @@ interface PodProviderContext {
     onFetchPods: () => void;
     onOpenPod: (podName: string) => void;
     onOpenDirectory: (directoryName: string) => void;
+    onCreateDirectory: (directoryName: string) => void;
     onImportPod: (podReference: string) => void;
     onCreatePod: (createPodName: string) => void;
     onSetSearchQuery: (searchQuery: string) => void;
     onClearSearchQuery: () => void;
     onSharePod: () => void;
+    onToggleDriveMode: () => void;
   };
 }
 
@@ -82,6 +84,15 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
     send({ type: EVENTS.SHARE_POD });
   };
 
+  const handleCreateDirectory = (directoryName: string): void => {
+    // TODO: Create event for creating directory
+    console.log('handleCreateDirectory', directoryName);
+  };
+
+  const handleToggleDriveMode = (): void => {
+    send({ type: EVENTS.TOGGLE_DRIVE_MODE });
+  };
+
   const value: PodProviderContext = {
     PodMachineStore: state,
     PodMachineActions: {
@@ -93,6 +104,8 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
       onSharePod: handleSharePod,
       onSetSearchQuery: handleSearchQuery,
       onClearSearchQuery: handleClearSearchQuery,
+      onCreateDirectory: handleCreateDirectory,
+      onToggleDriveMode: handleToggleDriveMode,
     },
   };
 

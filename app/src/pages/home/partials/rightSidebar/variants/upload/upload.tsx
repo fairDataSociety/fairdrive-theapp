@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+import { FileProviderContext } from 'src/machines/file';
 
 // Hooks
 import useStyles from '../../rightSidebarStyles';
@@ -22,8 +22,9 @@ export interface Props {
 }
 
 function UploadVariant(props: Props) {
+  const { FileMachineStore } = useContext(FileProviderContext);
+
   // Global
-  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -39,7 +40,7 @@ function UploadVariant(props: Props) {
   ];
 
   const areAnyUploadsInProgress = (): boolean =>
-    state.fileUploadProgress.length > 0;
+    FileMachineStore.context.uploadingProgress.length > 0;
 
   const isUploadPayloadEmpty = (): boolean => uploadPayload.length === 0;
 
@@ -48,7 +49,7 @@ function UploadVariant(props: Props) {
     if (areAnyUploadsInProgress()) {
       setUploadPayload([]);
     }
-  }, [state.fileUploadProgress]);
+  }, [FileMachineStore.context.uploadingProgress]);
 
   // Manage selected files
   const removeFile = (index: number): void => {
@@ -75,8 +76,8 @@ function UploadVariant(props: Props) {
         ) : (
           <UploadQueue
             selectedFiles={uploadPayload}
-            directory={state.directory}
-            podName={state.podName}
+            directory={FileMachineStore.context.currentDirectory}
+            podName={FileMachineStore.context.currentPodName}
             removeFile={(fileIndex) => removeFile(fileIndex)}
           />
         )}

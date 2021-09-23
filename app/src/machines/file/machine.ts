@@ -1,5 +1,6 @@
 import { CancelTokenSource } from 'axios';
-import { createMachine, assign, send, DoneInvokeEvent } from 'xstate';
+import { createMachine, assign, send, DoneInvokeEvent, actions } from 'xstate';
+import { writePath } from 'src/helpers';
 import EVENTS from './events';
 import STATES from './states';
 import GUARDS from './guards';
@@ -21,6 +22,7 @@ export interface FileContext {
   currentDirectory: string | null;
   currentPodName: string | null;
   fileNameToShare: string | null;
+  sharedFileReference: string | null;
   fileNameToDownload: string | null;
   uploadingQueue: File[];
   fileToDelete: string | null;
@@ -82,6 +84,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
 
       // Share
       fileNameToShare: null,
+      sharedFileReference: null,
 
       // Upload group
       uploadingQueue: [],
@@ -97,10 +100,13 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             }),
             cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
           },
-          // [EVENTS.SHARE]: {
-          //   target: STATES.SHARE,
-          //   cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
-          // },
+          [EVENTS.SHARE]: {
+            target: STATES.SHARING_NODE,
+            actions: assign({
+              fileNameToShare: (_, { fileName }) => fileName,
+            }),
+            cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
+          },
           [EVENTS.PREVIEW]: {
             target: STATES.PREVIEW_NODE,
             actions: assign((_, event) => {
@@ -326,6 +332,42 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
               // Otherwise back to idle
               { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
             ],
+          },
+        },
+      },
+      [STATES.SHARING_NODE]: {
+        initial: STATES.SHARING_LOADING,
+        states: {
+          [STATES.SHARING_LOADING]: {
+            invoke: {
+              id: 'sharingFileService',
+              src: (ctx) =>
+                FileService.shareFile(
+                  ctx.fileNameToShare,
+                  writePath(ctx.currentDirectory),
+                  ctx.currentPodName
+                ),
+              onDone: {
+                target: STATES.SHARING_SUCCESS,
+                actions: assign({
+                  sharedFileReference: (_, event) => event.data,
+                }),
+              },
+              onError: {
+                target: STATES.SHARING_ERROR,
+                actions: assign(() => {
+                  return {
+                    sharedFileReference: null,
+                  };
+                }),
+              },
+            },
+          },
+          [STATES.SHARING_SUCCESS]: {
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
+          },
+          [STATES.SHARING_ERROR]: {
+            always: [{ target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` }],
           },
         },
       },

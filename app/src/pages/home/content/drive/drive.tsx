@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
+
 import PodStates from 'src/machines/pod/states';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
 import { PodProviderContext } from 'src/machines/pod';
@@ -24,7 +25,7 @@ import FileList from 'src/components/fileList/fileList';
 // Hooks and helpers
 import useStyles from './driveStyles';
 import { sortyByCurrentFilter } from 'src/helpers/sort';
-import { usePodContextActions } from 'src/hooks/usePodContextActions';
+
 // Types
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
@@ -76,13 +77,12 @@ function Drive(props: Props) {
   // Manage state of modals
   const [isCreateFolderModalVisible, setIsCreateFolderModalVisible] =
     useState(false);
+
   const [isCreateFileModalVisible, setIsCreateFileModalVisible] =
     useState(false);
 
   // Handle creating folder
   const [folderName, setFolderName] = useState('');
-
-  const { handleCreateDirectory } = usePodContextActions();
 
   const onDirectoryClick = (directoryName: string): void => {
     setFiles(null);
@@ -182,7 +182,7 @@ function Drive(props: Props) {
           setFileName={(newFileName) => setFileName(newFileName)}
           createFolderModal={{
             isCreateFolderModalVisible: () => isCreateFolderModalVisible,
-            onCreate: () => handleCreateDirectory(folderName),
+            onCreate: () => PodMachineActions.onCreateDirectory(folderName),
             onClose: () => setIsCreateFolderModalVisible(false),
           }}
           createFileModal={{
