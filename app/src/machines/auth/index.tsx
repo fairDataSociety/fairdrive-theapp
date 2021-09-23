@@ -7,7 +7,6 @@ import createAuthMachine, {
 } from 'src/machines/auth/machine';
 import EVENTS from 'src/machines/auth/events';
 import STATES from 'src/machines/auth/states';
-import { CreateAccount } from 'src/types/models/CreateAccount';
 
 interface AuthProviderContext {
   AuthMachineStore: State<AuthContext, AuthEvents, any>;

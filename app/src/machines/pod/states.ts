@@ -26,6 +26,8 @@ enum STATES {
   DIRECTORY_LOADING = 'directory_loading',
   DIRECTORY_SUCCESS = 'directory_success',
   DIRECTORY_FAILED = 'directory_failed',
+
+  SEARCH_RESULTS = 'search_results',
 }
 
 export default STATES;

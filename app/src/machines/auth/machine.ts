@@ -3,7 +3,6 @@ import EVENTS from './events';
 import STATES from './states';
 import GUARDS from './guards';
 import { UserStats } from 'src/types/responses';
-import { CreateAccount } from 'src/types/models/CreateAccount';
 
 import * as LoginService from 'src/services/auth';
 import * as RegisterService from 'src/services/account';

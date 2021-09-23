@@ -19,6 +19,7 @@ interface PodProviderContext {
     onOpenDirectory: (directoryName: string) => void;
     onImportPod: (podReference: string) => void;
     onCreatePod: (createPodName: string) => void;
+    onSetSearchQuery: (searchQuery: string) => void;
   };
 }
 
@@ -67,6 +68,10 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
     send({ type: EVENTS.CREATE_POD, createPodName });
   };
 
+  const handleSearchQuery = (searchQuery: string): void => {
+    send({ type: EVENTS.SET_SEARCH_QUERY, searchQuery });
+  };
+
   const value: PodProviderContext = {
     PodMachineStore: state,
     PodMachineActions: {
@@ -75,6 +80,7 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
       onOpenDirectory: handleOpenDirectory,
       onImportPod: handleImportPod,
       onCreatePod: handleCreatePod,
+      onSetSearchQuery: handleSearchQuery,
     },
   };
 

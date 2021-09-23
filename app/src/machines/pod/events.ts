@@ -6,6 +6,8 @@ enum EVENTS {
   OPEN_DIRECTORY = 'open_directory',
   DELETE_DIRECTORY = 'delete_directory',
 
+  SET_SEARCH_QUERY = 'set_search_query',
+
   CREATE_POD = 'create_pod',
   IMPORT_POD = 'import_pod',
 }

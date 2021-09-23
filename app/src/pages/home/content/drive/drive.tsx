@@ -5,8 +5,6 @@ import PodStates from 'src/machines/pod/states';
 import { PodProviderContext } from 'src/machines/pod';
 
 import { useTheme } from 'src/contexts/themeContext/themeContext';
-import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES, DIRECTORY_STATUS } from 'src/types/pod-state';
 
 // Store
 import { StoreContext } from 'src/store/store';
@@ -54,7 +52,7 @@ function Drive(props: Props) {
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
 
   // Contexts
-  const { state, actions } = useContext(StoreContext);
+  const { state } = useContext(StoreContext);
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
@@ -63,7 +61,6 @@ function Drive(props: Props) {
   const [folders, setFolders] = useState<IDirectory[] | null>([]);
 
   useEffect(() => {
-    setFiles(state.entries);
     const directoryData = PodMachineStore.context.directoryData;
 
     if (directoryData) {

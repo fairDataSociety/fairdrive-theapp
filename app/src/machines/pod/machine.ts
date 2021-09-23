@@ -27,6 +27,10 @@ export interface PodContext {
   directoryData: DirectoryResponse | null;
   errorMessage: string | null;
 
+  // Searching
+  searchQuery: string | null;
+  searchResults: DirectoryResponse | null;
+
   // Data for requests
   podNameToOpen: string | null;
   directoryNameToOpen: string | null;
@@ -58,6 +62,10 @@ export type PodEvents =
       createPodName: string;
     }
   | {
+      type: EVENTS.SET_SEARCH_QUERY;
+      searchQuery: string | null;
+    }
+  | {
       type: EVENTS.IMPORT_POD;
       payload: {
         podName: string;
@@ -75,6 +83,11 @@ const initialState: PodContext = {
   openedPods: [],
   directoryData: null,
   errorMessage: null,
+
+  // Searching
+  searchQuery: null,
+  searchResults: null,
+
   // Data for requests
   podNameToOpen: null,
   directoryNameToOpen: 'root',
@@ -227,12 +240,64 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                           },
                         },
                         [STATES.DIRECTORY_SUCCESS]: {
+                          initial: 'idle',
+                          states: {
+                            idle: {
+                              on: {
+                                [EVENTS.SET_SEARCH_QUERY]: {
+                                  target: STATES.SEARCH_RESULTS,
+                                  actions: assign((ctx, event) => {
+                                    const searchResults: DirectoryResponse | null =
+                                      null;
+
+                                    const filterCondition = (
+                                      query: string,
+                                      name: string
+                                    ): boolean =>
+                                      name
+                                        .toLowerCase()
+                                        .includes(query.toLowerCase());
+
+                                    if (event.searchQuery) {
+                                      if (ctx.directoryData.files) {
+                                        searchResults.files =
+                                          ctx.directoryData.files.filter(
+                                            (file) =>
+                                              filterCondition(
+                                                event.searchQuery,
+                                                file.name
+                                              )
+                                          );
+                                      }
+
+                                      if (ctx.directoryData.dirs) {
+                                        searchResults.dirs =
+                                          ctx.directoryData.dirs.filter((dir) =>
+                                            filterCondition(
+                                              event.searchQuery,
+                                              dir.name
+                                            )
+                                          );
+                                      }
+                                    }
+
+                                    return {
+                                      searchQuery: event.searchQuery,
+                                      searchResults: searchResults,
+                                    };
+                                  }),
+                                },
+                              },
+                            },
+                            [STATES.SEARCH_RESULTS]: {},
+                          },
                           on: {
                             [EVENTS.OPEN_DIRECTORY]: {
                               target: STATES.DIRECTORY_LOADING,
                               actions: assign((_, { payload }) => {
                                 return {
                                   directoryNameToOpen: payload.directoryName,
+                                  searchQuery: null,
                                 };
                               }),
                             },
