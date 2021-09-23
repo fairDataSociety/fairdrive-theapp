@@ -11,9 +11,9 @@ enum STATES {
   REGISTER_CREATE_MNEMONIC_LOADING = 'register_create_mnemonic_loading',
   REGISTER_CREATE_MNEMONIC_SUCCESS = 'register_create_mnemonic_success',
   REGISTER_CREATE_MNEMONIC_FAILED = 'register_create_mnemonic_failed',
-  REGISTER_LOADING = 'register_loading',
-  REGISTER_SUCCESS = 'register_success',
-  REGISTER_FAILED = 'register_failed',
+  REGISTER_CREATING_ACCOUNT_LOADING = 'register_create_account_loading',
+  REGISTER_CREATING_ACCOUNT_SUCCESS = 'register_create_account_success',
+  REGISTER_CREATING_ACCOUNT_FAILED = 'register_create_account_failed',
 
   FETCH_USER_STATS = 'fetch_userstats',
   FETCH_USER_STATS_LOADING = 'fetch_userstats_loading',

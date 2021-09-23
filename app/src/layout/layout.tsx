@@ -1,14 +1,10 @@
-import React, { useState, useContext, useCallback } from 'react';
-
-import AuthStates from 'src/machines/auth/states';
-import { AuthProviderContext } from 'src/machines/auth';
-
-import PodStates from 'src/machines/pod/states';
-import { PodProviderContext } from 'src/machines/pod';
+import React, { useState } from 'react';
 
 // Hooks
 import useStyles from './layoutStyles';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
+
+import { MachinesHelpers } from 'src/hooks/machines';
 
 // Components
 import Navbar from './partials/navbar/navbar';
@@ -18,27 +14,12 @@ import TermsAndConditions from 'src/pages/termsAndConditions/termsAndConditions'
 import AlertBanner from 'src/components/alertBanner/alertBanner';
 
 export default function Layout(): JSX.Element {
-  const { AuthMachineStore } = useContext(AuthProviderContext);
-  const { PodMachineStore } = useContext(PodProviderContext);
   const { theme } = useTheme();
   const classes = useStyles(theme);
+
   const [showTerms, setShowTerms] = useState(false);
 
-  const isUserLoggedInAndUserStatsFetched = useCallback(
-    () =>
-      [
-        {
-          [AuthStates.LOGIN]: AuthStates.LOGIN_SUCCESS,
-        },
-        {
-          [AuthStates.FETCH_USER_STATS]: AuthStates.FETCH_USER_STATS_SUCCESS,
-        },
-      ].some(AuthMachineStore.matches) &&
-      PodMachineStore.matches({
-        [PodStates.FETCH_PODS]: PodStates.FETCH_PODS_SUCCESS,
-      }),
-    [AuthMachineStore, PodMachineStore]
-  );
+  const { isUserLoggedInAndUserStatsFetched } = MachinesHelpers();
 
   return (
     <div className={classes.App}>

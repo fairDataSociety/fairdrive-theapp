@@ -12,7 +12,11 @@ import { CreateAccount } from 'src/types/models/CreateAccount';
 interface AuthProviderContext {
   AuthMachineStore: State<AuthContext, AuthEvents, any>;
   AuthMachineActions: {
-    onRegister: (data: CreateAccount) => void;
+    onRegisterSetUsernameAndPassword: (data: {
+      username: string;
+      password: string;
+    }) => void;
+    onRegisterValidUserProvidedMnemonic: () => void;
     onLogin: (email: string, password: string) => void;
     onLogout: () => void;
     onFetchUserStats: () => void;
@@ -28,12 +32,22 @@ export const AuthProviderContext = createContext({} as AuthProviderContext);
 const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [state, send] = useMachine(createAuthMachine, { devTools: true });
 
-  const handleRegister = useCallback(
-    (data: CreateAccount): void => {
-      send({ type: EVENTS.REGISTER, payload: data });
+  const handleRegisterSetUsernameAndPassword = useCallback(
+    (data: { username: string; password: string }): void => {
+      send({ type: EVENTS.REGISTER_SET_USERNAME_AND_PASSWORDS, payload: data });
     },
     [send]
   );
+
+  const handleRegisterValidUserProvidedMnemonic = (): void => {
+    if (state.can(EVENTS.REGISTER_VALID_USER_PROVIDED_MNEMONIC)) {
+      send({ type: EVENTS.REGISTER_VALID_USER_PROVIDED_MNEMONIC });
+    } else {
+      console.warn(
+        `${EVENTS.REGISTER_VALID_USER_PROVIDED_MNEMONIC} not allowed in current state`
+      );
+    }
+  };
 
   const handleLogin = useCallback(
     (username: string, password: string): void => {
@@ -61,7 +75,9 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const value = {
     AuthMachineStore: state,
     AuthMachineActions: {
-      onRegister: handleRegister,
+      onRegisterSetUsernameAndPassword: handleRegisterSetUsernameAndPassword,
+      onRegisterValidUserProvidedMnemonic:
+        handleRegisterValidUserProvidedMnemonic,
       onLogin: handleLogin,
       onLogout: handleLogout,
       onFetchUserStats: handleFetchUserStats,

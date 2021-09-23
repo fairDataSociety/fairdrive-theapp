@@ -6,21 +6,15 @@ import ButtonPill from 'src/components/buttonPill/buttonPill';
 import SeedPhrase from '../seedPhrase/seedPhrase';
 
 export interface Props {
+  generatedMnemonic: string | null;
   onContinue: () => void;
 }
 
 function SeedPhraseGen(props: Props) {
-  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
   // eslint-disable-next-line
   const [hasError, setHasError] = useState(false);
-
-  // async function onContinue() {
-  //   history.push("/confirm-seed");
-  // }
-
-  console.log('mnemonic', state.mnemonic);
 
   return (
     <div className={classes.Login}>
@@ -33,8 +27,8 @@ function SeedPhraseGen(props: Props) {
           order is important. This seed will allow you to recover your account.
         </div>
 
-        {state.mnemonic ? (
-          <SeedPhrase seedPhrase={state.mnemonic} />
+        {props.generatedMnemonic ? (
+          <SeedPhrase seedPhrase={props.generatedMnemonic} />
         ) : (
           <div>Loading...</div>
         )}

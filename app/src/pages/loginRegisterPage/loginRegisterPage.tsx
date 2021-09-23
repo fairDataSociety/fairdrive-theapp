@@ -1,18 +1,23 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+
+// Hooks
+import { MachinesHelpers } from 'src/hooks/machines';
 import useStyles from './loginRegisterPageStyles';
-import ButtonPill from 'src/components/buttonPill/buttonPill';
-import { StoreContext } from 'src/store/store';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
+// Components
 import Login from 'src/pages/loginRegisterPage/partials/login/login';
 import Register from 'src/pages/loginRegisterPage/partials/register/register';
+import ButtonPill from 'src/components/buttonPill/buttonPill';
 
 function Main() {
-  const { state } = useContext(StoreContext);
+  const { isUserLoggedInAndUserStatsFetched } = MachinesHelpers();
+
   const { theme } = useTheme();
+  const classes = useStyles({ ...theme });
+
   const [showRegisterComponent, setShowRegisterComponent] = useState(false);
   const [showLoginComponent, setShowLoginComponent] = useState(false);
-  const classes = useStyles({ ...theme });
 
   return (
     <>
@@ -37,7 +42,7 @@ function Main() {
           />
         </div>
       )}
-      {state.userData?.code !== 200 && showLoginComponent && (
+      {!isUserLoggedInAndUserStatsFetched() && showLoginComponent && (
         <Login
           backFunction={() => {
             setShowLoginComponent(false);
@@ -45,7 +50,7 @@ function Main() {
           }}
         ></Login>
       )}
-      {state.userData?.code !== 200 && showRegisterComponent && (
+      {!isUserLoggedInAndUserStatsFetched() && showRegisterComponent && (
         <Register></Register>
       )}
     </>

@@ -25,7 +25,6 @@ function Login(props: Props) {
   const [password, setPassword] = useState('');
 
   const onLogin = () => AuthMachineActions.onLogin(username, password);
-  // actions.getPods();
 
   return (
     <div className={classes.Login}>

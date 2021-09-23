@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+
+import AuthStates from 'src/machines/auth/states';
+import { AuthProviderContext } from 'src/machines/auth';
+
 import useStyles from './registerStyles';
 import ButtonPill from 'src/components/buttonPill/buttonPill';
 import TextField from 'src/components/textField/textField';
@@ -9,43 +12,51 @@ import SeedPhraseConfirm from './partials/seedPhraseConfirm/seedPhraseConfirm';
 import welcomeImage from 'src/media/images/welcome-image.png';
 export interface Props {}
 function Register(props: Props) {
-  const { state, actions } = useContext(StoreContext);
+  const { AuthMachineStore, AuthMachineActions } =
+    useContext(AuthProviderContext);
+
+  // const { state, actions } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const [inviteCode] = useState('');
-
   const [hasError, setHasError] = useState(false);
   const [showRegisterArea, setShowRegisterArea] = useState(true);
   const [showMnemonicArea, setShowMnemonicArea] = useState(false);
   const [showMnemonicInputArea, setShowMnemonicInputArea] = useState(false);
+
   useEffect(() => {
-    if (state.mnemonic !== null) {
-      console.log(state.mnemonic);
+    if (
+      AuthMachineStore.matches({
+        [AuthStates.REGISTER_NODE]: AuthStates.REGISTER_CREATE_MNEMONIC_SUCCESS,
+      })
+    ) {
+      console.log(AuthMachineStore.context.registrationMnemonicPhrase);
       setShowRegisterArea(false);
       setShowMnemonicArea(true);
       setShowMnemonicInputArea(false);
     }
-  }, [state.mnemonic]);
+  }, [AuthMachineStore]);
 
-  async function onContinue() {
+  function onContinue() {
     // if (await isUsernamePresent(username)) return false;
     if (!username || !password) return null;
     // TODO validate inputs
 
-    // Store username, password, invite code in store
+    // Store username, password
     const data = {
       username,
       password,
-      inviteCode,
     };
 
-    actions.storeUserRegistrationInfo(data);
-    actions.getSeedPhrase();
+    // Below action set's username and password also initate generate of mnemonic
+    AuthMachineActions.onRegisterSetUsernameAndPassword(data);
   }
+
+  const onFinalConfirmation = (): void =>
+    AuthMachineActions.onRegisterValidUserProvidedMnemonic();
 
   return (
     <div className={classes.Login}>
@@ -89,14 +100,24 @@ function Register(props: Props) {
       )}
       {showMnemonicArea && (
         <SeedPhraseGen
+          generatedMnemonic={
+            AuthMachineStore.context.registrationMnemonicPhrase
+          }
           onContinue={() => {
             setShowRegisterArea(false);
             setShowMnemonicArea(false);
             setShowMnemonicInputArea(true);
           }}
-        ></SeedPhraseGen>
+        />
       )}
-      {showMnemonicInputArea && <SeedPhraseConfirm></SeedPhraseConfirm>}
+      {showMnemonicInputArea && (
+        <SeedPhraseConfirm
+          generatedMnemonic={
+            AuthMachineStore.context.registrationMnemonicPhrase
+          }
+          onProvidedMnemonicValid={() => onFinalConfirmation()}
+        />
+      )}
     </div>
   );
 }

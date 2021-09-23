@@ -36,7 +36,13 @@ export type AuthEvents =
       type: EVENTS.LOGIN;
       payload: LoginData;
     }
-  | { type: EVENTS.REGISTER; payload: CreateAccount }
+  | {
+      type: EVENTS.REGISTER_SET_USERNAME_AND_PASSWORDS;
+      payload: { username: string; password: string };
+    }
+  | {
+      type: EVENTS.REGISTER_VALID_USER_PROVIDED_MNEMONIC;
+    }
   | { type: EVENTS.LOGOUT }
   | { type: EVENTS.FETCH_USER_STATS }
   | { type: EVENTS.RETRY_FETCH_USER_STATS };
@@ -70,7 +76,7 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
               loginData: (_, { payload }) => payload,
             }),
           },
-          [EVENTS.REGISTER]: {
+          [EVENTS.REGISTER_SET_USERNAME_AND_PASSWORDS]: {
             target: STATES.REGISTER_NODE,
             actions: assign({
               registrationUserData: (_, { payload }) => ({
@@ -105,9 +111,18 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
             },
           },
           [STATES.REGISTER_CREATE_MNEMONIC_SUCCESS]: {
-            initial: STATES.REGISTER_LOADING,
+            initial: 'idle',
             states: {
-              [STATES.REGISTER_LOADING]: {
+              idle: {
+                on: {
+                  [EVENTS.REGISTER_VALID_USER_PROVIDED_MNEMONIC]: {
+                    // TODO: When doing refactor of onboarding pages
+                    // move validating of mnemonic here
+                    target: STATES.REGISTER_CREATING_ACCOUNT_LOADING,
+                  },
+                },
+              },
+              [STATES.REGISTER_CREATING_ACCOUNT_LOADING]: {
                 invoke: {
                   id: 'registerService',
                   src: (context) =>
@@ -117,30 +132,33 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
                       mnemonic: context.registrationMnemonicPhrase,
                     }),
                   onDone: {
-                    target: STATES.REGISTER_SUCCESS,
+                    target: STATES.REGISTER_CREATING_ACCOUNT_SUCCESS,
                   },
                   onError: {
-                    target: STATES.REGISTER_FAILED,
+                    target: STATES.REGISTER_CREATING_ACCOUNT_FAILED,
                   },
                 },
               },
-              [STATES.REGISTER_SUCCESS]: {
-                on: {
-                  // After register let's allow for login in
-                  [EVENTS.LOGIN]: {
+              [STATES.REGISTER_CREATING_ACCOUNT_SUCCESS]: {
+                always: [
+                  {
+                    // After register successfuly login previously created user
                     target: `#${STATES.STATE_ROOT}.${STATES.LOGIN}.${STATES.LOGIN_LOADING}`,
                     actions: assign({
-                      loginData: (_, { payload }) => payload,
+                      loginData: (ctx) => ({
+                        username: ctx.registrationUserData.username,
+                        password: ctx.registrationUserData.password,
+                      }),
                     }),
                   },
-                },
+                ],
               },
-              [STATES.REGISTER_FAILED]: {
+              [STATES.REGISTER_CREATING_ACCOUNT_FAILED]: {
                 // On register failed let's allow for re try
                 on: {
                   // After register let's allow for login in
-                  [EVENTS.REGISTER]: {
-                    target: STATES.REGISTER_LOADING,
+                  [EVENTS.REGISTER_SET_USERNAME_AND_PASSWORDS]: {
+                    target: STATES.REGISTER_CREATING_ACCOUNT_LOADING,
                     actions: assign({
                       registrationUserData: (_, { payload }) => payload,
                     }),
