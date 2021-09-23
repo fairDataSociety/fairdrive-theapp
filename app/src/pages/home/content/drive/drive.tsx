@@ -96,39 +96,37 @@ function Drive(props: Props) {
   };
 
   // Handle filtering data by search query
-  useEffect(() => {
-    if (state.entries) {
-      setFiles(state.entries);
-    }
-    if (state.dirs) {
-      setFolders(state.dirs);
-    }
 
-    if (state.searchQuery !== null) {
-      if (state.entries) {
-        const filterFiles = state.entries.filter((file) =>
-          file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-        );
-        setFiles(filterFiles);
+  const isSearchQuerySetted = () =>
+    PodMachineStore.matches(PodStates.SEARCH_RESULTS);
+
+  useEffect(() => {
+    if (isSearchQuerySetted()) {
+      const searchResults = PodMachineStore.context.searchResults;
+
+      if (searchResults.files) {
+        setFiles(searchResults.files);
       }
-      if (state.dirs) {
-        const filterFolders = state.dirs.filter((dir) =>
-          dir.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-        );
-        setFolders(filterFolders);
+
+      if (searchResults.dirs) {
+        setFolders(searchResults.dirs);
       }
     }
-  }, [state.searchQuery]);
+  }, [PodMachineStore]);
 
   // Handle sharing content
   const [showSharePodPopup, setShowSharePodPopup] = useState(false);
   const [refLink, setRefLink] = useState('0000000000000');
 
-  const handleShare = async () => {
-    const res = await sharePod(state.password, state.podName);
-    setRefLink(res);
-    setShowSharePodPopup(true);
-  };
+  const handleShare = () => PodMachineActions.onSharePod();
+
+  useEffect(() => {
+    const sharedPodReference = PodMachineStore.context.sharedPodReference;
+    if (sharedPodReference) {
+      setRefLink(sharedPodReference);
+      setShowSharePodPopup(true);
+    }
+  }, [PodMachineStore]);
 
   // Handle creating file
   const [fileName, setFileName] = useState('');
@@ -144,9 +142,6 @@ function Drive(props: Props) {
   const [currentFilter, setCurrentFilter] =
     useState<TCurrentFilter>('least-recent');
 
-  const isSearchQuerySetted = () =>
-    state.searchQuery && state.searchQuery !== '';
-
   const isFilesNotEmpty = () => files && files.length > 0;
 
   const isFoldersNotEmpty = () => folders && folders.length > 0;
@@ -157,7 +152,7 @@ function Drive(props: Props) {
         <TopLevelNavigation
           showGrid={showGrid}
           setShowGrid={setShowGrid}
-          handleShare={handleShare}
+          handleShare={() => handleShare()}
           currentFilter={currentFilter}
           setCurrentFilter={(selectedFilter) =>
             setCurrentFilter(selectedFilter)

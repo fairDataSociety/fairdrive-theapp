@@ -17,6 +17,9 @@ interface DirectoryResponse {
   dirs: IDirectory[] | undefined;
 }
 export interface PodContext {
+  // Credentials
+  userPassword: string | null;
+
   // Results
   isPodsListFetched: boolean;
   availablePodsList: GetAvailablePods | null;
@@ -30,6 +33,9 @@ export interface PodContext {
   // Searching
   searchQuery: string | null;
   searchResults: DirectoryResponse | null;
+
+  // Share Pod
+  sharedPodReference: string | null;
 
   // Data for requests
   podNameToOpen: string | null;
@@ -71,9 +77,22 @@ export type PodEvents =
         podName: string;
         podReference: string;
       };
+    }
+  | {
+      type: EVENTS.CLEAR_SEARCH_QUERY;
+    }
+  | {
+      type: EVENTS.SHARE_POD;
+    }
+  | {
+      type: EVENTS.UPDATE_USER_PASSWORD;
+      password: string;
     };
 
 const initialState: PodContext = {
+  // Credentials
+  userPassword: null,
+
   // Results
   isPodsListFetched: false,
   isPodLoaded: false,
@@ -87,6 +106,9 @@ const initialState: PodContext = {
   // Searching
   searchQuery: null,
   searchResults: null,
+
+  // Share Pod
+  sharedPodReference: null,
 
   // Data for requests
   podNameToOpen: null,
@@ -154,9 +176,8 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                   invoke: {
                     id: 'openPodService',
                     src: (context) =>
-                      // TODO: Pass password as argument
                       PodService.openPod({
-                        password: 'T@jne!23.',
+                        password: context.userPassword,
                         podName: context.podNameToOpen,
                       }),
                     onDone: {
@@ -287,9 +308,49 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                                     };
                                   }),
                                 },
+                                [EVENTS.SHARE_POD]: {
+                                  target: STATES.SHARE_POD,
+                                },
                               },
                             },
-                            [STATES.SEARCH_RESULTS]: {},
+                            [STATES.SEARCH_RESULTS]: {
+                              on: {
+                                [EVENTS.CLEAR_SEARCH_QUERY]: {
+                                  target: 'idle',
+                                  actions: assign((_) => {
+                                    return {
+                                      searchQuery: null,
+                                      searchResults: null,
+                                    };
+                                  }),
+                                },
+                              },
+                            },
+                            [STATES.SHARE_POD]: {
+                              invoke: {
+                                id: 'sharePodService',
+                                src: (ctx) =>
+                                  PodService.sharePod(
+                                    ctx.userPassword,
+                                    ctx.currentlyOpenedPodName
+                                  ),
+                                onDone: {
+                                  target: 'idle',
+                                  actions: assign({
+                                    sharedPodReference: (_, event) =>
+                                      event.data,
+                                  }),
+                                },
+                                onError: {
+                                  target: 'idle',
+                                  actions: assign((_) => {
+                                    return {
+                                      sharedPodReference: null,
+                                    };
+                                  }),
+                                },
+                              },
+                            },
                           },
                           on: {
                             [EVENTS.OPEN_DIRECTORY]: {
@@ -325,6 +386,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
                         actions: assign({
                           podNameToOpen: (_, { payload }) => payload.podName,
                         }),
+
                         // Prevent req that open pod when pod already opened
                         cond: (ctx, { payload }) =>
                           !ctx.openedPods.includes(payload.podName),
@@ -374,10 +436,10 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
     [STATES.CREATE_POD]: {
       invoke: {
         id: 'createPodService',
-        // TODO: Pass password as argument
+
         src: (context) =>
           PodService.createPod({
-            password: 'T@jne!23.',
+            password: context.userPassword,
             podName: context.createPodName,
           }),
         onDone: {
@@ -427,6 +489,13 @@ const createPodMachine = createMachine<PodContext, PodEvents>({
           }),
         },
       },
+    },
+  },
+  on: {
+    [EVENTS.UPDATE_USER_PASSWORD]: {
+      actions: assign({
+        userPassword: (_, event) => event.password,
+      }),
     },
   },
 });

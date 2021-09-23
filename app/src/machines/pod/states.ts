@@ -28,6 +28,8 @@ enum STATES {
   DIRECTORY_FAILED = 'directory_failed',
 
   SEARCH_RESULTS = 'search_results',
+
+  SHARE_POD = 'share_pod',
 }
 
 export default STATES;

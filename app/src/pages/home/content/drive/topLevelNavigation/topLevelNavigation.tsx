@@ -19,7 +19,7 @@ import { TCurrentFilter } from '../drive';
 export interface Props {
   setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
   showGrid: boolean;
-  handleShare: () => Promise<void>;
+  handleShare: () => void;
   currentFilter: TCurrentFilter;
   setCurrentFilter: (selectedFilter: TCurrentFilter) => void;
 }

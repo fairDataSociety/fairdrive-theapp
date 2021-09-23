@@ -20,6 +20,8 @@ interface PodProviderContext {
     onImportPod: (podReference: string) => void;
     onCreatePod: (createPodName: string) => void;
     onSetSearchQuery: (searchQuery: string) => void;
+    onClearSearchQuery: () => void;
+    onSharePod: () => void;
   };
 }
 
@@ -72,6 +74,14 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
     send({ type: EVENTS.SET_SEARCH_QUERY, searchQuery });
   };
 
+  const handleClearSearchQuery = (): void => {
+    send({ type: EVENTS.CLEAR_SEARCH_QUERY });
+  };
+
+  const handleSharePod = (): void => {
+    send({ type: EVENTS.SHARE_POD });
+  };
+
   const value: PodProviderContext = {
     PodMachineStore: state,
     PodMachineActions: {
@@ -80,7 +90,9 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
       onOpenDirectory: handleOpenDirectory,
       onImportPod: handleImportPod,
       onCreatePod: handleCreatePod,
+      onSharePod: handleSharePod,
       onSetSearchQuery: handleSearchQuery,
+      onClearSearchQuery: handleClearSearchQuery,
     },
   };
 
@@ -96,21 +108,13 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
         },
       ].some(AuthMachineStore.matches)
     ) {
-      console.log('ok now fetch pods list');
+      send({
+        type: EVENTS.UPDATE_USER_PASSWORD,
+        password: AuthMachineStore.context.loginData.password,
+      });
       handleFetchPods();
     }
   }, [AuthMachineStore]);
-
-  useEffect(() => {
-    console.log(
-      'PodMachine state:',
-      state,
-      'next events',
-      state.nextEvents,
-      'context',
-      state.context
-    );
-  }, [state, send]);
 
   return (
     <PodProviderContext.Provider value={value}>

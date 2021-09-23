@@ -10,6 +10,12 @@ enum EVENTS {
 
   CREATE_POD = 'create_pod',
   IMPORT_POD = 'import_pod',
+
+  CLEAR_SEARCH_QUERY = 'clear_search_query',
+
+  UPDATE_USER_PASSWORD = 'update_user_password',
+
+  SHARE_POD = 'share_pod',
 }
 
 export default EVENTS;
