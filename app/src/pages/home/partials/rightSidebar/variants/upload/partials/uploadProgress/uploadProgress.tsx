@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 
 // Contexts
-import { StoreContext } from 'src/store/store';
+import { FileProviderContext } from 'src/machines/file';
+
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
@@ -12,23 +13,25 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { Fail, Success } from 'src/components/icons/icons';
 
 function UploadQueryWithProgress() {
-  const { state, actions } = useContext(StoreContext);
+  const { FileMachineStore, FileMachineActions } =
+    useContext(FileProviderContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
-  const findUploadStatusForRequestID = (requestID: string) => {
-    const statuses = state.fileUploadedStatus;
-    const findStatus = statuses.find(
-      (status) => status.requestId === requestID
-    );
-    if (findStatus) {
-      return findStatus.status;
-    }
-  };
+  // TODO: Fix upload progresses
+  // const findUploadStatusForRequestID = (requestID: string) => {
+  //   const statuses = state.fileUploadedStatus;
+  //   const findStatus = statuses.find(
+  //     (status) => status.requestId === requestID
+  //   );
+  //   if (findStatus) {
+  //     return findStatus.status;
+  //   }
+  // };
 
   return (
     <div>
-      {state.fileUploadProgress.map((request) => {
+      {FileMachineStore.context.uploadingProgress.map((request) => {
         const percentage = Math.ceil(
           (request.progressEvent.loaded * 100) / request.progressEvent.total
         );
@@ -54,14 +57,15 @@ function UploadQueryWithProgress() {
                 disabled={complete()}
                 onClick={() => {
                   request.cancelFn.cancel();
-                  actions.cancelUpload(request.requestId);
+                  FileMachineActions.onCancelUpload(request.requestId);
                 }}
               >
-                {findUploadStatusForRequestID(request.requestId) ===
+                {/* // TODO: Fix upload progresses */}
+                {/* {findUploadStatusForRequestID(request.requestId) ===
                   'success' &&
                   complete() && <Success className={classes.successIcon} />}
                 {findUploadStatusForRequestID(request.requestId) ===
-                  'failed' && <Fail className={classes.cancelIcon} />}
+                  'failed' && <Fail className={classes.cancelIcon} />} */}
               </button>
             </div>
           </div>

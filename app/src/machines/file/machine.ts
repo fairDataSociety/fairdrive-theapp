@@ -1,5 +1,5 @@
 import { CancelTokenSource } from 'axios';
-import { createMachine, assign, send, DoneInvokeEvent, actions } from 'xstate';
+import { createMachine, assign, send, DoneInvokeEvent } from 'xstate';
 import { writePath } from 'src/helpers';
 import EVENTS from './events';
 import STATES from './states';
@@ -61,6 +61,10 @@ export type FileEvents =
   | {
       type: EVENTS.UPDATE_CURRENT_DIRECTORY;
       nextDirectoryName: string;
+    }
+  | {
+      type: EVENTS.CANCEL_UPLOAD;
+      requestIdToCancel: string;
     };
 
 const createFileMachine = createMachine<FileContext, FileEvents>(
@@ -332,6 +336,17 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
               // Otherwise back to idle
               { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
             ],
+          },
+        },
+        on: {
+          [EVENTS.CANCEL_UPLOAD]: {
+            actions: assign((ctx, event) => {
+              return {
+                uploadingProgress: ctx.uploadingProgress.filter(
+                  (progress) => progress.requestId !== event.requestIdToCancel
+                ),
+              };
+            }),
           },
         },
       },
