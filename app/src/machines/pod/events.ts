@@ -16,6 +16,8 @@ enum EVENTS {
   UPDATE_USER_PASSWORD = 'update_user_password',
 
   SHARE_POD = 'share_pod',
+
+  TOGGLE_DRIVE_MODE = 'toggle_drive_mode',
 }
 
 export default EVENTS;
