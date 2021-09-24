@@ -33,7 +33,6 @@ function Register(props: Props) {
         [AuthStates.REGISTER_NODE]: AuthStates.REGISTER_CREATE_MNEMONIC_SUCCESS,
       })
     ) {
-      console.log(AuthMachineStore.context.registrationMnemonicPhrase);
       setShowRegisterArea(false);
       setShowMnemonicArea(true);
       setShowMnemonicInputArea(false);

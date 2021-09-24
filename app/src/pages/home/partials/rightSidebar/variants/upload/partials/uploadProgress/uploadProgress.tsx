@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 // Contexts
 import { FileProviderContext } from 'src/machines/file';
-
+import { FileUploadProgress } from 'src/machines/file/machine';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
@@ -28,6 +28,12 @@ function UploadQueryWithProgress() {
   //     return findStatus.status;
   //   }
   // };
+
+  const onCancel = (request: FileUploadProgress) => {
+    console.log('onCancel in uploadProgress');
+    request.cancelFn.cancel();
+    FileMachineActions.onCancelUpload(request.requestId);
+  };
 
   return (
     <div>
@@ -55,17 +61,14 @@ function UploadQueryWithProgress() {
                 type="button"
                 className={classes.actionContainer}
                 disabled={complete()}
-                onClick={() => {
-                  request.cancelFn.cancel();
-                  FileMachineActions.onCancelUpload(request.requestId);
-                }}
+                onClick={() => onCancel(request)}
               >
-                {/* // TODO: Fix upload progresses */}
                 {/* {findUploadStatusForRequestID(request.requestId) ===
                   'success' &&
                   complete() && <Success className={classes.successIcon} />}
                 {findUploadStatusForRequestID(request.requestId) ===
                   'failed' && <Fail className={classes.cancelIcon} />} */}
+                Cancel It
               </button>
             </div>
           </div>

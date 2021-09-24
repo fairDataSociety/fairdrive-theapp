@@ -16,6 +16,7 @@ import {
   BUTTON_VARIANTS,
   BUTTON_SIZE,
 } from 'src/shared/BaseButton/BaseButton';
+import FileStates from 'src/machines/file/states';
 
 export interface Props {
   callAction: (type: 'upload', payload: File[]) => Promise<void>;
@@ -41,6 +42,14 @@ function UploadVariant(props: Props) {
 
   const areAnyUploadsInProgress = (): boolean =>
     FileMachineStore.context.uploadingProgress.length > 0;
+
+  useEffect(() => {
+    console.log(FileMachineStore.matches(FileStates.UPLOADING_NODE));
+    if (FileMachineStore.matches(FileStates.UPLOADING_NODE)) {
+      console.log('prog', FileMachineStore.context.uploadingProgress);
+      console.log('queue', FileMachineStore.context.uploadingQueue);
+    }
+  }, [FileMachineStore]);
 
   const isUploadPayloadEmpty = (): boolean => uploadPayload.length === 0;
 

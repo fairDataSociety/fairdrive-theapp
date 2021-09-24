@@ -50,17 +50,18 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
     const match = state.matches({
       [STATES.REMOVING_NODE]: STATES.REMOVING_SUCCESS,
     });
-    console.log(match);
     if (match) {
       PodMachineActions.onOpenDirectory(state.context.currentDirectory);
     }
   }, [state, send]);
 
   const handleUploadFiles = (uploadingQueue: File[]) => {
+    console.log('handleUploadFiles inited: ', uploadingQueue);
     send({ type: EVENTS.UPLOAD, uploadingQueue });
   };
 
   const handleCancelUpload = (requestIdToCancel: string) => {
+    console.log('handleCancelUpload', requestIdToCancel);
     send({ type: EVENTS.CANCEL_UPLOAD, requestIdToCancel });
   };
 

@@ -9,7 +9,7 @@ import * as FileService from 'src/services/file';
 
 import { UploadSingleFileReturn } from 'src/services/file/uploadNew';
 
-interface FileUploadProgress {
+export interface FileUploadProgress {
   progressEvent: ProgressEvent;
   cancelFn: CancelTokenSource;
   requestId: string;
@@ -132,8 +132,9 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           [EVENTS.UPLOAD]: {
             target: STATES.UPLOADING_NODE,
             actions: assign((_, event) => {
+              console.log('EVENT.UPLOAD', event);
               return {
-                uploadingQueue: event.uploadingQueue,
+                uploadingQueue: [...event.uploadingQueue],
               };
             }),
             cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
@@ -273,7 +274,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           [STATES.UPLOADING_LOADING]: {
             invoke: {
               id: 'uploadingFilesService',
-              src: (context) => {
+              src: (context) => (callback) => {
                 if (context.uploadingQueue.length > 0) {
                   return FileService.uploadSingleFile(
                     {
@@ -281,8 +282,8 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                       podName: context.currentPodName,
                       directoryName: context.currentDirectory,
                     },
-                    (requestId, progressEvent, cancelFn) => {
-                      send({
+                    (requestId, progressEvent, cancelFn) =>
+                      callback({
                         type: EVENTS.ADD_FILE_PROGRESS,
                         payload: {
                           progressEvent,
@@ -290,8 +291,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                           cancelFn,
                           filename: context.uploadingQueue[0].name,
                         },
-                      });
-                    }
+                      })
                   );
                 } else {
                   return Promise.reject();
@@ -321,11 +321,26 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             on: {
               [EVENTS.ADD_FILE_PROGRESS]: {
                 actions: assign((ctx, event) => {
+                  console.log('add_file_progress', event.payload);
+
+                  const findIndexOfProgress = ctx.uploadingProgress.findIndex(
+                    (progress) => progress.requestId === event.payload.requestId
+                  );
+
+                  const uploadingProgressCopy = [...ctx.uploadingProgress];
+
+                  if (findIndexOfProgress !== -1) {
+                    uploadingProgressCopy.splice(
+                      findIndexOfProgress,
+                      1,
+                      event.payload
+                    );
+                  } else {
+                    uploadingProgressCopy.push(event.payload);
+                  }
+
                   return {
-                    uploadingProgress: [
-                      ...ctx.uploadingProgress,
-                      event.payload,
-                    ],
+                    uploadingProgress: uploadingProgressCopy,
                   };
                 }),
               },
