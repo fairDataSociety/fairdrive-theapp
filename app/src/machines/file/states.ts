@@ -12,6 +12,7 @@ enum STATES {
   DOWNLOAD_LOADING = 'download_loading',
   DOWNLOAD_ERROR = 'download_error',
   DOWNLOAD_SUCCESS = 'download_success',
+
   // Share
   SHARING_NODE = 'sharing_node',
   SHARING_LOADING = 'sharing_loading',
@@ -23,6 +24,8 @@ enum STATES {
   UPLOADING_LOADING = 'uploading_loading',
   UPLOADING_SUCCESS = 'uploading_success',
   UPLOADING_ERROR = 'uploading_error',
+  UPLOADING_ALL_FILES_FINISHED = 'uploading_all_files_finished',
+
   // Remove
   REMOVING_NODE = 'removing',
   REMOVING_LOADING = 'removing_loading',

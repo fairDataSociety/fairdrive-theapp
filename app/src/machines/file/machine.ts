@@ -415,9 +415,15 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                 target: STATES.UPLOADING_LOADING,
                 cond: (ctx) => ctx.uploadingQueue.length > 0,
               },
-              // Otherwise back to idle
-              { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
+              { target: STATES.UPLOADING_ALL_FILES_FINISHED },
             ],
+          },
+          [STATES.UPLOADING_ALL_FILES_FINISHED]: {
+            after: {
+              100: {
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+              },
+            },
           },
           [STATES.UPLOADING_ERROR]: {
             // When we have uploading error it applies only for one specific file of queue
@@ -428,8 +434,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                 target: STATES.UPLOADING_LOADING,
                 cond: (ctx) => ctx.uploadingQueue.length > 0,
               },
-              // Otherwise back to idle
-              { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
+              { target: STATES.UPLOADING_ALL_FILES_FINISHED },
             ],
           },
         },

@@ -68,6 +68,17 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
     });
   };
 
+  useEffect(() => {
+    // When uploading finishes then reload directory
+    if (
+      state.matches({
+        [STATES.UPLOADING_NODE]: STATES.UPLOADING_ALL_FILES_FINISHED,
+      })
+    ) {
+      PodMachineActions.onOpenDirectory(state.context.currentDirectory);
+    }
+  }, [state, send]);
+
   const handleShareFile = (fileName: string) => {
     send({ type: EVENTS.SHARE, fileName });
   };
