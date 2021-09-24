@@ -19,9 +19,17 @@ export function MachinesHelpers() {
           [AuthStates.FETCH_USER_STATS]: AuthStates.FETCH_USER_STATS_SUCCESS,
         },
       ].some(AuthMachineStore.matches) &&
-      PodMachineStore.matches({
+      (PodMachineStore.matches({
         [PodStates.FETCH_PODS]: PodStates.FETCH_PODS_SUCCESS,
-      }),
+      }) ||
+        // Below cond prevents app from moving back to login page
+        // in case of creating new pod
+        PodMachineStore.matches(PodStates.CREATE_POD) ||
+        (PodMachineStore._event.origin === 'createPodService' &&
+          PodMachineStore.matches({
+            [PodStates.FETCH_PODS]: PodStates.FETCH_PODS_LOADING,
+          }))),
+
     [AuthMachineStore, PodMachineStore]
   );
 
