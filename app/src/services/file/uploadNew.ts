@@ -23,11 +23,11 @@ export interface UploadSingleFileReturn {
 
 export async function uploadSingleFile(
   payload: UploadFilePayload,
-  onUploadProgress: (
+  cancelRequestReferences: (
     requestID: string,
-    progressEvent: ProgressEvent,
     cancelFn: CancelTokenSource
-  ) => void
+  ) => void,
+  onUploadProgress: (requestID: string, progressEvent: ProgressEvent) => void
 ): Promise<UploadSingleFileReturn> {
   try {
     // Generate pseude unique ID
@@ -53,6 +53,7 @@ export async function uploadSingleFile(
 
     // Create cancel callback
     const cancelFn = axios.CancelToken.source();
+    cancelRequestReferences(requestId, cancelFn);
 
     const uploadResponse = await HTTPClient().post<UploadFileResponse>(
       'file/upload',
@@ -62,7 +63,7 @@ export async function uploadSingleFile(
           'Content-type': 'multipart/form-data',
         },
         onUploadProgress: (progressEvent) => {
-          onUploadProgress(requestId, progressEvent, cancelFn);
+          onUploadProgress(requestId, progressEvent);
         },
         cancelToken: cancelFn.token,
       }

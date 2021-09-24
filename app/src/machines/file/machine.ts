@@ -11,9 +11,13 @@ import { UploadSingleFileReturn } from 'src/services/file/uploadNew';
 
 export interface FileUploadProgress {
   progressEvent: ProgressEvent;
-  cancelFn: CancelTokenSource;
   requestId: string;
   filename: string;
+}
+
+export interface CancelRequestReferences {
+  requestId: string;
+  cancelFn: CancelTokenSource;
 }
 
 export interface FileContext {
@@ -27,6 +31,7 @@ export interface FileContext {
   uploadingQueue: File[];
   fileToDelete: string | null;
   uploadingProgress: FileUploadProgress[];
+  cancelRequestReferences: CancelRequestReferences[];
 }
 
 export type FileEvents =
@@ -65,6 +70,10 @@ export type FileEvents =
   | {
       type: EVENTS.CANCEL_UPLOAD;
       requestIdToCancel: string;
+    }
+  | {
+      type: EVENTS.ADD_FILE_CANCEL_REFERENCE;
+      payload: CancelRequestReferences;
     };
 
 const createFileMachine = createMachine<FileContext, FileEvents>(
@@ -93,6 +102,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
       // Upload group
       uploadingQueue: [],
       uploadingProgress: [],
+      cancelRequestReferences: [],
     },
     states: {
       [STATES.IDLE]: {
@@ -282,13 +292,20 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                       podName: context.currentPodName,
                       directoryName: context.currentDirectory,
                     },
-                    (requestId, progressEvent, cancelFn) =>
+                    (requestId, cancelFn) =>
+                      callback({
+                        type: EVENTS.ADD_FILE_CANCEL_REFERENCE,
+                        payload: {
+                          requestId,
+                          cancelFn,
+                        },
+                      }),
+                    (requestId, progressEvent) =>
                       callback({
                         type: EVENTS.ADD_FILE_PROGRESS,
                         payload: {
                           progressEvent,
                           requestId,
-                          cancelFn,
                           filename: context.uploadingQueue[0].name,
                         },
                       })
@@ -319,6 +336,17 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
               },
             },
             on: {
+              [EVENTS.ADD_FILE_CANCEL_REFERENCE]: {
+                actions: assign((ctx, event) => {
+                  console.log('add_file_cancel_ref', event.payload);
+                  return {
+                    cancelRequestReferences: [
+                      ...ctx.cancelRequestReferences,
+                      event.payload,
+                    ],
+                  };
+                }),
+              },
               [EVENTS.ADD_FILE_PROGRESS]: {
                 actions: assign((ctx, event) => {
                   console.log('add_file_progress', event.payload);
@@ -341,6 +369,31 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
 
                   return {
                     uploadingProgress: uploadingProgressCopy,
+                  };
+                }),
+              },
+              [EVENTS.CANCEL_UPLOAD]: {
+                actions: assign((ctx, event) => {
+                  console.log('EVENT.CANCEL_UPLOAD', event.requestIdToCancel);
+                  const findCancelRequestReference =
+                    ctx.cancelRequestReferences.find(
+                      (reference) =>
+                        reference.requestId === event.requestIdToCancel
+                    );
+
+                  if (findCancelRequestReference) {
+                    findCancelRequestReference.cancelFn.cancel();
+                  }
+
+                  return {
+                    uploadingProgress: ctx.uploadingProgress.filter(
+                      (progress) =>
+                        progress.requestId !== event.requestIdToCancel
+                    ),
+                    cancelRequestReferences: ctx.cancelRequestReferences.filter(
+                      (reference) =>
+                        reference.requestId !== event.requestIdToCancel
+                    ),
                   };
                 }),
               },
@@ -369,17 +422,6 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
               // Otherwise back to idle
               { target: `#${STATES.STATE_ROOT}.${STATES.IDLE}` },
             ],
-          },
-        },
-        on: {
-          [EVENTS.CANCEL_UPLOAD]: {
-            actions: assign((ctx, event) => {
-              return {
-                uploadingProgress: ctx.uploadingProgress.filter(
-                  (progress) => progress.requestId !== event.requestIdToCancel
-                ),
-              };
-            }),
           },
         },
       },
