@@ -31,7 +31,7 @@ function UploadQueryWithProgress() {
 
   const onCancel = (request: FileUploadProgress) => {
     console.log('onCancel in uploadProgress');
-    FileMachineActions.onCancelUpload(request.requestId);
+    FileMachineActions.onCancelUpload(request.requestId, request.filename);
   };
 
   return (

@@ -69,7 +69,10 @@ export type FileEvents =
     }
   | {
       type: EVENTS.CANCEL_UPLOAD;
-      requestIdToCancel: string;
+      payload: {
+        fileName: string;
+        requestIdToCancel: string;
+      };
     }
   | {
       type: EVENTS.ADD_FILE_CANCEL_REFERENCE;
@@ -374,11 +377,14 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
               },
               [EVENTS.CANCEL_UPLOAD]: {
                 actions: assign((ctx, event) => {
-                  console.log('EVENT.CANCEL_UPLOAD', event.requestIdToCancel);
+                  console.log(
+                    'EVENT.CANCEL_UPLOAD',
+                    event.payload.requestIdToCancel
+                  );
                   const findCancelRequestReference =
                     ctx.cancelRequestReferences.find(
                       (reference) =>
-                        reference.requestId === event.requestIdToCancel
+                        reference.requestId === event.payload.requestIdToCancel
                     );
 
                   if (findCancelRequestReference) {
@@ -386,13 +392,16 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                   }
 
                   return {
+                    uploadingQueue: ctx.uploadingQueue.filter(
+                      (progress) => progress.name !== event.payload.fileName
+                    ),
                     uploadingProgress: ctx.uploadingProgress.filter(
                       (progress) =>
-                        progress.requestId !== event.requestIdToCancel
+                        progress.requestId !== event.payload.requestIdToCancel
                     ),
                     cancelRequestReferences: ctx.cancelRequestReferences.filter(
                       (reference) =>
-                        reference.requestId !== event.requestIdToCancel
+                        reference.requestId !== event.payload.requestIdToCancel
                     ),
                   };
                 }),

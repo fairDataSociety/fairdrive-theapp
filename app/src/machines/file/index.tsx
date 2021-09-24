@@ -18,7 +18,7 @@ interface FileProviderContext {
     onDeleteFile: (fileName: string) => void;
     onDownloadFile: (fileName: string) => void;
     onUploadFiles: (uploadingQueue: File[]) => void;
-    onCancelUpload: (requestIdToCancel: string) => void;
+    onCancelUpload: (requestIdToCancel: string, fileName: string) => void;
     onShareFile: (fileName: string) => void;
   };
 }
@@ -60,9 +60,12 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
     send({ type: EVENTS.UPLOAD, uploadingQueue });
   };
 
-  const handleCancelUpload = (requestIdToCancel: string) => {
+  const handleCancelUpload = (requestIdToCancel: string, fileName: string) => {
     console.log('handleCancelUpload', requestIdToCancel);
-    send({ type: EVENTS.CANCEL_UPLOAD, requestIdToCancel });
+    send({
+      type: EVENTS.CANCEL_UPLOAD,
+      payload: { fileName, requestIdToCancel },
+    });
   };
 
   const handleShareFile = (fileName: string) => {
