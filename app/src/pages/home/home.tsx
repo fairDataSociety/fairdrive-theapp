@@ -44,7 +44,7 @@ function Home(props: Props) {
   const loadingPodOrDirectoryName = () => {
     if (
       PodMachineStore.matches(
-        `${PodStates.OPEN_POD}.${PodStates.OPEN_POD_LOADING}`
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_loading'
       )
     ) {
       return {
@@ -53,7 +53,7 @@ function Home(props: Props) {
       };
     } else if (
       PodMachineStore.matches(
-        `${PodStates.DIRECTORY}.${PodStates.DIRECTORY_LOADING}`
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_success.directory.directory_loading'
       )
     ) {
       return {
@@ -71,10 +71,10 @@ function Home(props: Props) {
   const isPodOrRootDirectoryLoading = useCallback(
     () =>
       PodMachineStore.matches(
-        `${PodStates.OPEN_POD}.${PodStates.OPEN_POD_LOADING}`
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_loading'
       ) ||
       PodMachineStore.matches(
-        `${PodStates.DIRECTORY}.${PodStates.DIRECTORY_LOADING}`
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_success.directory.directory_loading'
       ),
     [PodMachineStore]
   );

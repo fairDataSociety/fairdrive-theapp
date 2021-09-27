@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { PodProviderContext } from 'src/machines/pod';
+import PodStates from 'src/machines/pod/states';
 
 // Icons
 import { PodInfo as PodInfoIcon } from 'src/components/icons/icons';
@@ -70,20 +71,27 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
     }
   };
 
-  // const isPodOpenedForFirstTime = (): boolean => {
-  //   const doesPodHasNoDirs = () => state.dirs && state.dirs.length === 0;
-  //   const doesPodHasNoEntries = () =>
-  //     state.entries && state.entries.length === 0;
+  const isPodOpenedForFirstTime = (): boolean => {
+    const doesPodHasNoDirs = () =>
+      PodMachineStore.context.directoryData.dirs &&
+      PodMachineStore.context.directoryData.dirs.length === 0;
+    const doesPodHasNoEntries = () =>
+      PodMachineStore.context.directoryData.files &&
+      PodMachineStore.context.directoryData.files.length === 0;
 
-  //   // I assume that pod intro was dissmissed if user closed intro or if pod contains any dir or entry
-  //   return (
-  //     doesPodHasNoEntries() || doesPodHasNoDirs() || !wasPodIntroDissmised()
-  //   );
-  // };
+    // I assume that pod intro was dissmissed if user closed intro or if pod contains any dir or entry
+    return doesPodHasNoEntries() || doesPodHasNoDirs();
+  };
 
-  // useEffect(() => {
-  //   setIsActionMenuOpen(isPodOpenedForFirstTime());
-  // }, [state.podName]);
+  useEffect(() => {
+    if (
+      PodMachineStore.matches(
+        `${PodStates.FETCH_PODS}.${PodStates.FETCH_PODS_SUCCESS}.${PodStates.OPEN_POD}.${PodStates.OPEN_POD_SUCCESS}.${PodStates.DIRECTORY}.${PodStates.DIRECTORY_SUCCESS}`
+      )
+    ) {
+      setIsActionMenuOpen(isPodOpenedForFirstTime());
+    }
+  }, [PodMachineStore]);
 
   // Choose messages for current state
   const [informations, setInformations] = useState<{

@@ -128,6 +128,10 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
     }
   }, [AuthMachineStore]);
 
+  // useEffect(() => {
+  //   console.log(state.toStrings());
+  // }, [state, send]);
+
   return (
     <PodProviderContext.Provider value={value}>
       {children}
