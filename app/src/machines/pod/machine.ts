@@ -2,7 +2,7 @@ import { createMachine, assign } from 'xstate';
 
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
-
+import { createDirectoryPath } from 'src/helpers/createDirectoryPath';
 import EVENTS from './events';
 import STATES from './states';
 import GUARDS from './guards';
@@ -46,6 +46,7 @@ export interface PodContext {
   directoryNameToOpen: string | null;
   createPodName: string | null;
   importedPodData: { podName: string; podReference: string } | null;
+  diretoryToCreateName: string | null;
 }
 
 export type PodEvents =
@@ -94,6 +95,10 @@ export type PodEvents =
     }
   | {
       type: EVENTS.TOGGLE_DRIVE_MODE;
+    }
+  | {
+      type: EVENTS.CREATE_DIRECTORY;
+      newDirectoryName: string;
     };
 
 export enum DRIVE_MODES {
@@ -128,6 +133,7 @@ const initialState: PodContext = {
   // Data for requests
   podNameToOpen: null,
   directoryNameToOpen: 'root',
+  diretoryToCreateName: null,
   createPodName: null,
   importedPodData: null,
 };
@@ -249,6 +255,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                         initial: STATES.DIRECTORY_LOADING,
                         states: {
                           [STATES.DIRECTORY_LOADING]: {
+                            id: STATES.DIRECTORY_LOADING,
                             invoke: {
                               id: 'openDirectoryService',
                               src: (context, event, _) =>
@@ -280,7 +287,17 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                             initial: 'idle',
                             states: {
                               idle: {
+                                id: 'DIRECTORY_SUCCESS_IDLE',
                                 on: {
+                                  [EVENTS.CREATE_DIRECTORY]: {
+                                    target: STATES.CREATE_DIRECTORY_NODE,
+                                    actions: assign({
+                                      diretoryToCreateName: (
+                                        _,
+                                        { newDirectoryName }
+                                      ) => newDirectoryName,
+                                    }),
+                                  },
                                   [EVENTS.SET_SEARCH_QUERY]: {
                                     target: STATES.SEARCH_RESULTS,
                                     actions: ACTIONS.GET_SEARCH_RESULTS,
@@ -344,22 +361,71 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                                   },
                                 },
                               },
+                              [STATES.CREATE_DIRECTORY_NODE]: {
+                                initial: STATES.CREATE_DIRECTORY_LOADING,
+                                states: {
+                                  [STATES.CREATE_DIRECTORY_LOADING]: {
+                                    invoke: {
+                                      id: 'createDirectoryService',
+                                      src: (ctx) =>
+                                        DirectoryService.createDirectory(
+                                          ctx.directoryNameToOpen,
+                                          ctx.diretoryToCreateName,
+                                          ctx.currentlyOpenedPodName
+                                        ),
+                                      onDone: {
+                                        target: STATES.CREATE_DIRECTORY_SUCCESS,
+                                        actions: assign((ctx) => {
+                                          return {
+                                            directoryNameToOpen:
+                                              createDirectoryPath(
+                                                ctx.diretoryToCreateName,
+                                                ctx.directoryNameToOpen
+                                              ),
+                                          };
+                                        }),
+                                      },
+                                      onError: {
+                                        target: STATES.CREATE_DIRECTORY_FAILED,
+                                      },
+                                    },
+                                  },
+                                  [STATES.CREATE_DIRECTORY_SUCCESS]: {
+                                    after: {
+                                      100: {
+                                        target: `#${STATES.DIRECTORY_LOADING}`,
+                                        actions: assign(() => {
+                                          return {
+                                            diretoryToCreateName: null,
+                                          };
+                                        }),
+                                      },
+                                    },
+                                  },
+                                  [STATES.CREATE_DIRECTORY_FAILED]: {
+                                    after: {
+                                      100: {
+                                        target: '#DIRECTORY_SUCCESS_IDLE',
+                                        actions: assign(() => {
+                                          return {
+                                            diretoryToCreateName: null,
+                                          };
+                                        }),
+                                      },
+                                    },
+                                  },
+                                },
+                              },
                             },
                             on: {
                               [EVENTS.OPEN_DIRECTORY]: {
                                 target: STATES.DIRECTORY_LOADING,
                                 actions: assign((ctx, { payload }) => {
-                                  let directoryPath = '';
-                                  if (ctx.directoryNameToOpen !== 'root') {
-                                    directoryPath =
-                                      ctx.directoryNameToOpen +
-                                      '/' +
-                                      payload.directoryName;
-                                  } else {
-                                    directoryPath = payload.directoryName;
-                                  }
                                   return {
-                                    directoryNameToOpen: directoryPath,
+                                    directoryNameToOpen: createDirectoryPath(
+                                      payload.directoryName,
+                                      ctx.directoryNameToOpen
+                                    ),
                                     searchQuery: null,
                                   };
                                 }),

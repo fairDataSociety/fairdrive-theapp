@@ -1,5 +1,5 @@
 import { CancelTokenSource } from 'axios';
-import { createMachine, assign, send, DoneInvokeEvent } from 'xstate';
+import { createMachine, assign, DoneInvokeEvent } from 'xstate';
 import { writePath } from 'src/helpers';
 import EVENTS from './events';
 import STATES from './states';

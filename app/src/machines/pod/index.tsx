@@ -84,9 +84,8 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
     send({ type: EVENTS.SHARE_POD });
   };
 
-  const handleCreateDirectory = (directoryName: string): void => {
-    // TODO: Create event for creating directory
-    console.log('handleCreateDirectory', directoryName);
+  const handleCreateDirectory = (newDirectoryName: string): void => {
+    send({ type: EVENTS.CREATE_DIRECTORY, newDirectoryName });
   };
 
   const handleToggleDriveMode = (): void => {

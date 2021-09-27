@@ -27,6 +27,11 @@ enum STATES {
   DIRECTORY_SUCCESS = 'directory_success',
   DIRECTORY_FAILED = 'directory_failed',
 
+  CREATE_DIRECTORY_NODE = 'create_directory_node',
+  CREATE_DIRECTORY_LOADING = 'create_directory_loading',
+  CREATE_DIRECTORY_SUCCESS = 'create_directory_success',
+  CREATE_DIRECTORY_FAILED = 'create_directory_failed',
+
   SEARCH_RESULTS = 'search_results',
 
   SHARE_POD = 'share_pod',
