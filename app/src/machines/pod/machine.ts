@@ -348,9 +348,18 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                             on: {
                               [EVENTS.OPEN_DIRECTORY]: {
                                 target: STATES.DIRECTORY_LOADING,
-                                actions: assign((_, { payload }) => {
+                                actions: assign((ctx, { payload }) => {
+                                  let directoryPath = '';
+                                  if (ctx.directoryNameToOpen !== 'root') {
+                                    directoryPath =
+                                      ctx.directoryNameToOpen +
+                                      '/' +
+                                      payload.directoryName;
+                                  } else {
+                                    directoryPath = payload.directoryName;
+                                  }
                                   return {
-                                    directoryNameToOpen: payload.directoryName,
+                                    directoryNameToOpen: directoryPath,
                                     searchQuery: null,
                                   };
                                 }),
