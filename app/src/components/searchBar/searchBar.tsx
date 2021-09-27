@@ -52,8 +52,13 @@ function SearchBar() {
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    // TODO: Extend below conditional to also disable search bar when no files
-    if (PodMachineStore.matches(PodStates.DIRECTORY_SUCCESS)) {
+    const isDirectoryOpened = `${PodStates.FETCH_PODS}.${PodStates.FETCH_PODS_SUCCESS}.${PodStates.OPEN_POD}.${PodStates.OPEN_POD_SUCCESS}.${PodStates.DIRECTORY}.${PodStates.DIRECTORY_SUCCESS}`;
+    const areAnyFilesInDirectory =
+      PodMachineStore.context.directoryData &&
+      PodMachineStore.context.directoryData.files &&
+      PodMachineStore.context.directoryData.files.length > 0;
+
+    if (PodMachineStore.matches(isDirectoryOpened) && areAnyFilesInDirectory) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);

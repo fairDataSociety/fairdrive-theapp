@@ -38,7 +38,9 @@ function FileCard(props: Props) {
   const { PodMachineStore } = useContext(PodProviderContext);
 
   const isSearchQuerySetted = () =>
-    PodMachineStore.matches(PodStates.SEARCH_RESULTS);
+    PodMachineStore.matches(
+      `${PodStates.FETCH_PODS}.${PodStates.FETCH_PODS_SUCCESS}.${PodStates.OPEN_POD}.${PodStates.OPEN_POD_SUCCESS}.${PodStates.DIRECTORY}.${PodStates.DIRECTORY_SUCCESS}.${PodStates.SEARCH_RESULTS}`
+    );
 
   const getSearchQuery = () => PodMachineStore.context.searchQuery;
 
@@ -77,7 +79,9 @@ function FileCard(props: Props) {
   const isContentTypeDirectory = () => data.content_type === 'inode/directory';
 
   const isSearchQuerySettedAndHighlighted = () =>
-    getSearchQuery() && getSearchQuery() !== '' && highlightedMatchedPhrase;
+    getSearchQuery() &&
+    getSearchQuery() !== '' &&
+    highlightedMatchedPhrase !== null;
 
   const getDropdownOptionByState = () => {
     if (isPrivateDriveMode()) {

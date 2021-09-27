@@ -30,9 +30,11 @@
   --transition: all 200ms ease-in-out;
 }
 
-/* body {
-	height: 100vh;
-} */
+body,
+html {
+  height: 100vh;
+  overflow: hidden;
+}
 
 input {
   border: none;

@@ -6,6 +6,7 @@ import { IDirectory } from 'src/types/models/Directory';
 import EVENTS from './events';
 import STATES from './states';
 import GUARDS from './guards';
+import ACTIONS from './actions';
 // { getPods, deletePod, openPod }
 import * as PodService from 'src/services/pod';
 import { GetAvailablePods } from 'src/services/pod/getPods';
@@ -282,47 +283,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                                 on: {
                                   [EVENTS.SET_SEARCH_QUERY]: {
                                     target: STATES.SEARCH_RESULTS,
-                                    actions: assign((ctx, event) => {
-                                      const searchResults: DirectoryResponse | null =
-                                        null;
-
-                                      const filterCondition = (
-                                        query: string,
-                                        name: string
-                                      ): boolean =>
-                                        name
-                                          .toLowerCase()
-                                          .includes(query.toLowerCase());
-
-                                      if (event.searchQuery) {
-                                        if (ctx.directoryData.files) {
-                                          searchResults.files =
-                                            ctx.directoryData.files.filter(
-                                              (file) =>
-                                                filterCondition(
-                                                  event.searchQuery,
-                                                  file.name
-                                                )
-                                            );
-                                        }
-
-                                        if (ctx.directoryData.dirs) {
-                                          searchResults.dirs =
-                                            ctx.directoryData.dirs.filter(
-                                              (dir) =>
-                                                filterCondition(
-                                                  event.searchQuery,
-                                                  dir.name
-                                                )
-                                            );
-                                        }
-                                      }
-
-                                      return {
-                                        searchQuery: event.searchQuery,
-                                        searchResults: searchResults,
-                                      };
-                                    }),
+                                    actions: ACTIONS.GET_SEARCH_RESULTS,
                                   },
                                   [EVENTS.SHARE_POD]: {
                                     target: STATES.SHARE_POD,
@@ -331,6 +292,22 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                               },
                               [STATES.SEARCH_RESULTS]: {
                                 on: {
+                                  [EVENTS.SET_SEARCH_QUERY]: [
+                                    {
+                                      target: 'idle',
+                                      cond: (_, event) =>
+                                        event.searchQuery === null ||
+                                        event.searchQuery === '',
+                                      actions: assign((_) => {
+                                        return {
+                                          searchQuery: null,
+                                        };
+                                      }),
+                                    },
+                                    {
+                                      actions: ACTIONS.GET_SEARCH_RESULTS,
+                                    },
+                                  ],
                                   [EVENTS.CLEAR_SEARCH_QUERY]: {
                                     target: 'idle',
                                     actions: assign((_) => {
@@ -528,6 +505,38 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
     },
   },
   {
+    actions: {
+      [ACTIONS.GET_SEARCH_RESULTS]: assign((ctx, event) => {
+        if (event.type === EVENTS.SET_SEARCH_QUERY) {
+          const searchResults: DirectoryResponse = {
+            dirs: [],
+            files: [],
+          };
+
+          const filterCondition = (query: string, name: string): boolean =>
+            name.toLowerCase().includes(query.toLowerCase());
+
+          if (event.searchQuery) {
+            if (ctx.directoryData.files) {
+              searchResults.files = ctx.directoryData.files.filter((file) =>
+                filterCondition(event.searchQuery, file.name)
+              );
+            }
+
+            if (ctx.directoryData.dirs) {
+              searchResults.dirs = ctx.directoryData.dirs.filter((dir) =>
+                filterCondition(event.searchQuery, dir.name)
+              );
+            }
+          }
+
+          return {
+            searchQuery: event.searchQuery,
+            searchResults: searchResults,
+          };
+        }
+      }),
+    },
     guards: {
       [GUARDS.IS_DRIVE_PRIVATE]: ({ mode }) => mode === DRIVE_MODES.PRIVATE,
       [GUARDS.IS_DRIVE_SHARED]: ({ mode }) => mode === DRIVE_MODES.SHARED,

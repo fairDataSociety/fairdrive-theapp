@@ -93,7 +93,9 @@ function Drive(props: Props) {
   // Handle filtering data by search query
 
   const isSearchQuerySetted = () =>
-    PodMachineStore.matches(PodStates.SEARCH_RESULTS);
+    PodMachineStore.matches(
+      `${PodStates.FETCH_PODS}.${PodStates.FETCH_PODS_SUCCESS}.${PodStates.OPEN_POD}.${PodStates.OPEN_POD_SUCCESS}.${PodStates.DIRECTORY}.${PodStates.DIRECTORY_SUCCESS}.${PodStates.SEARCH_RESULTS}`
+    );
 
   useEffect(() => {
     if (isSearchQuerySetted()) {
