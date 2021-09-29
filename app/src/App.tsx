@@ -3,6 +3,7 @@ import AuthProvider from 'src/machines/auth';
 import PodProvider from 'src/machines/pod';
 import FileProvider from 'src/machines/file';
 import { ThemeProvider } from 'src/contexts/themeContext/themeContext';
+import { ModalProvider } from 'src/contexts/modalContext';
 import Layout from 'src/layout/layout';
 import { Toaster } from 'react-hot-toast';
 import { inspect } from '@xstate/inspect';
@@ -22,7 +23,9 @@ const App = (): JSX.Element => {
         <PodProvider>
           <FileProvider>
             <ThemeProvider>
-              <Layout />
+              <ModalProvider>
+                <Layout />
+              </ModalProvider>
             </ThemeProvider>
           </FileProvider>
         </PodProvider>

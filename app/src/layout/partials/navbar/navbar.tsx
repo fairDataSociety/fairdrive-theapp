@@ -1,14 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 // Contexts
 import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { useModal, MODAL_VARIANTS } from 'src/contexts/modalContext';
 import { AuthProviderContext } from 'src/machines/auth';
 
 // Hooks
 import useStyles from './navbarStyles';
 
 // Components
-import GenerateLink from 'src/components/modals/generateLink/generateLink';
 import { Logo, DAppIcon, Profile, Moon, Sun } from 'src/components/icons/icons';
 import BaseActionButton, {
   ACTION_BUTTON_VARIANTS,
@@ -24,7 +24,7 @@ import {
   FONT_SIZE,
   BUTTON_TEXT_COLOR,
 } from 'src/shared/BaseButton/BaseButton';
-import SearchBar from 'src/components/searchBar/searchBar';
+import SearchBar from 'src/layout/partials/navbar/partials/searchBar/searchBar';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
@@ -37,7 +37,7 @@ function Navbar(props: Props): JSX.Element {
   const { theme, toggleTheme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
-  const [isReferalModalOpen, setIsReferalModalOpen] = useState(false);
+  const { openModal } = useModal();
 
   const isThemeLight = () => theme.name === 'light';
 
@@ -87,17 +87,20 @@ function Navbar(props: Props): JSX.Element {
               size={BUTTON_SIZE.MEDIUM}
               fontSize={FONT_SIZE.BIG}
               textColor={BUTTON_TEXT_COLOR.WHITE}
-              onClickCallback={() => setIsReferalModalOpen(true)}
+              onClickCallback={() =>
+                openModal({
+                  type: MODAL_VARIANTS.GENERATE_LINK,
+                  data: {
+                    type: 'Referal',
+                    // TODO: When clicked refer a friend, do request to api
+                    // for now there is no endpoint
+                    link: '...',
+                  },
+                })
+              }
             >
               Refer a friend
             </BaseButton>
-
-            {isReferalModalOpen && (
-              <GenerateLink
-                variant="refer"
-                handleClose={() => setIsReferalModalOpen(false)}
-              />
-            )}
           </>
         )}
         <div className={classes.actionsWrapper}>

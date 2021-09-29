@@ -1,5 +1,4 @@
-import { type } from 'os';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 // Modal variants
 import CreateModal from './modals/create';
@@ -9,7 +8,7 @@ export interface ModalProviderProps {
   children: React.ReactNode | React.ReactNode[];
 }
 
-enum MODAL_VARIANTS {
+export enum MODAL_VARIANTS {
   CREATING = 'creating',
   GENERATE_LINK = 'generate_link',
 }
@@ -118,3 +117,7 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
     </ModalContext.Provider>
   );
 }
+
+export const useModal = (): ModalContextProvider => {
+  return useContext(ModalContext);
+};
