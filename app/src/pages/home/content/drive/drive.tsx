@@ -8,12 +8,8 @@ import { PodProviderContext } from 'src/machines/pod';
 
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
-// Store
-import { receiveFileInfo } from 'src/services/file';
-
 // Components
 import SecondLevelNavigation from './secondLevelNavigation/secondLevelNavigation';
-import { DriveModalGroup } from './modalGroup/modalGroup';
 import BaseEmptyState, {
   EMPTY_STATE_VARIANTS,
 } from 'src/shared/BaseEmptyState/BaseEmptyState';

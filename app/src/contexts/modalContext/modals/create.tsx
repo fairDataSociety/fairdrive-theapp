@@ -22,6 +22,7 @@ function CreateModal(props: Props): JSX.Element {
       title={`Create New ${props.type}`}
       onClose={() => props.onClose()}
       isButtonDisabled={name === null || name === ''}
+      buttonContent={'Create'}
       onButtonClicked={() => props.onButtonClicked()}
     >
       <>

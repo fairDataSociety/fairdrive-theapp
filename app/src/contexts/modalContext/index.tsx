@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 // Modal variants
 import CreateModal from './modals/create';
+import ImportingModal from './modals/importing';
 import GenerateLinkModal from './modals/generateLink';
 
 export interface ModalProviderProps {
@@ -11,6 +12,7 @@ export interface ModalProviderProps {
 export enum MODAL_VARIANTS {
   CREATING = 'creating',
   GENERATE_LINK = 'generate_link',
+  IMPORTING = 'importing',
 }
 
 interface BaseModalVariant {
@@ -34,7 +36,15 @@ interface GenerateLinkModal extends BaseModalVariant {
   };
 }
 
-type ModalVariants = CreatingModal | GenerateLinkModal;
+interface ImportingModal extends BaseModalVariant {
+  type: MODAL_VARIANTS.IMPORTING;
+  data: {
+    type: 'Pod' | 'File';
+    onButtonClicked: () => void;
+  };
+}
+
+type ModalVariants = CreatingModal | GenerateLinkModal | ImportingModal;
 
 interface BaseModalResponse {
   type: MODAL_VARIANTS;
@@ -51,7 +61,15 @@ interface GenerateLinkModalResponse extends BaseModalResponse {
   response: undefined;
 }
 
-type ModalResponses = CreatingModalResponse | GenerateLinkModalResponse;
+interface ImportingModalResponse extends BaseModalResponse {
+  type: MODAL_VARIANTS.IMPORTING;
+  response: string;
+}
+
+type ModalResponses =
+  | CreatingModalResponse
+  | GenerateLinkModalResponse
+  | ImportingModalResponse;
 
 export interface ModalContextProvider {
   openModal: (data: ModalVariants) => void;
@@ -106,6 +124,22 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
         <GenerateLinkModal
           type={modalData.data.type}
           link={modalData.data.link}
+          onClose={() => handleCloseModal()}
+        />
+      );
+    }
+
+    if (modalData.type === MODAL_VARIANTS.IMPORTING) {
+      return (
+        <ImportingModal
+          type={modalData.data.type}
+          onButtonClicked={() => modalData.data.onButtonClicked()}
+          onModalResponse={(data) =>
+            setModalResponse({
+              type: MODAL_VARIANTS.IMPORTING,
+              response: data,
+            })
+          }
           onClose={() => handleCloseModal()}
         />
       );

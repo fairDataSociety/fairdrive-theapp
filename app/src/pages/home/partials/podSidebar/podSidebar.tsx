@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 // Hooks
 import useStyles from './podSidebarStyles';
+import { useModal, MODAL_VARIANTS } from 'src/contexts/modalContext';
 
 // Contexts
 import { PodProviderContext } from 'src/machines/pod';
@@ -11,9 +12,7 @@ import PodStates from 'src/machines/pod/states';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
-import { Modal } from '@material-ui/core';
 import { PodChevron, PodInfo } from 'src/components/icons/icons';
-import { CreateNew } from 'src/components/modals/createNew/createNew';
 import Toggle from 'src/components/toggle/toggle';
 
 import {
@@ -21,11 +20,7 @@ import {
   BUTTON_VARIANTS,
   BUTTON_SIZE,
 } from 'src/shared/BaseButton/BaseButton';
-interface PodState {
-  name: string;
-  reference: string;
-  isCreated: boolean;
-}
+
 export interface Props {
   isOpen: boolean;
   route: string;
@@ -33,56 +28,46 @@ export interface Props {
 }
 
 function PodSidebar(props: Props) {
+  // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
-
-  const isPrivateDriveMode = () =>
-    PodMachineStore.context.mode === DRIVE_MODES.PRIVATE;
-
-  const toggleDriveMode = () => PodMachineActions.onToggleDriveMode();
+  const { openModal, modalResponse } = useModal();
 
   // General
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
-  // State
-  const [open, setOpen] = useState(false);
-
-  const [podState, setPodState] = useState<PodState>({
-    name: '',
-    reference: '',
-    isCreated: false,
-  });
-
-  // Manage opening/closing
-  const handleClose = () => {
-    setOpen(false);
-    setPodState({
-      ...podState,
-      name: '',
-      reference: '',
-    });
+  // Handle creating and importing pod
+  const handleCreatePodRequest = (): void => {
+    if (modalResponse.type === MODAL_VARIANTS.CREATING) {
+      PodMachineActions.onCreatePod(modalResponse.response);
+    }
   };
 
-  const handleOpen = () => setOpen(true);
+  const handleImportingPodRequest = (): void => {
+    if (modalResponse.type === MODAL_VARIANTS.IMPORTING) {
+      PodMachineActions.onImportPod(modalResponse.response);
+    }
+  };
 
-  // Proxy pod context actions calls
-  const proxyActions = async (
-    type: 'open' | 'create' | 'import',
-    podName?: string
-  ) => {
-    switch (type) {
-      case 'open':
-        PodMachineActions.onOpenPod(podName);
-        break;
-      case 'create':
-        PodMachineActions.onCreatePod(podName);
-        break;
-      case 'import':
-        PodMachineActions.onImportPod(podState.reference);
-        break;
-      default:
-        console.warn(`proxyActions: Unknown action type of ${type}`);
-        break;
+  const handleOpenModal = () => {
+    if (isPrivateDriveMode()) {
+      // 'Create Pod'
+      openModal({
+        type: MODAL_VARIANTS.CREATING,
+        data: {
+          type: 'Pod',
+          onButtonClicked: () => handleCreatePodRequest(),
+        },
+      });
+    } else {
+      // 'Import Pod'
+      openModal({
+        type: MODAL_VARIANTS.IMPORTING,
+        data: {
+          type: 'Pod',
+          onButtonClicked: () => handleImportingPodRequest(),
+        },
+      });
     }
   };
 
@@ -92,6 +77,11 @@ function PodSidebar(props: Props) {
   //   ...podState,
   //   isCreated: true,
   // });
+
+  const isPrivateDriveMode = () =>
+    PodMachineStore.context.mode === DRIVE_MODES.PRIVATE;
+
+  const toggleDriveMode = () => PodMachineActions.onToggleDriveMode();
 
   useEffect(() => {
     const fetchedDirectoryContent = PodMachineStore.context.directoryData;
@@ -128,7 +118,7 @@ function PodSidebar(props: Props) {
         <BaseButton
           variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
           size={BUTTON_SIZE.MEDIUM}
-          onClickCallback={() => handleOpen()}
+          onClickCallback={() => handleOpenModal()}
           isFluid={true}
         >
           {isPrivateDriveMode() ? 'Create Pod' : 'Import Pod'}
@@ -140,11 +130,7 @@ function PodSidebar(props: Props) {
           {PodMachineStore.context.availablePodsList.pod_name.map(
             (pod, index) => {
               return (
-                <div
-                  key={index}
-                  className={classes.podRow}
-                  // onClick={() => proxyActions('overview', pod)}
-                >
+                <div key={index} className={classes.podRow}>
                   <label>{pod}</label>
                   <PodChevron className={classes.podChevron} />
                 </div>
@@ -172,51 +158,6 @@ function PodSidebar(props: Props) {
       ) : (
         <></>
       )}
-      {/* <div className={classes.podInfoWrapper}>
-        <PodInfo className={classes.podInfo} />
-        <div className={classes.information}>
-          Photos pod is an auto generated Pod that can be used with Fairphoto.
-        </div>
-      </div> */}
-      {/* <Plus onClick={handleOpen} className={classes.Icon}></Plus> */}
-
-      <Modal
-        className={classes.modalContainer}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {isPrivateDriveMode() ? (
-          <CreateNew
-            handleClick={() => proxyActions('create', podState.name)}
-            handleClose={handleClose}
-            isRefLink={!isPrivateDriveMode()}
-            setProp={(data) =>
-              setPodState({
-                ...podState,
-                name: data,
-              })
-            }
-            propValue={podState.name}
-            type="Pod"
-          />
-        ) : (
-          <CreateNew
-            handleClick={() => proxyActions('import')}
-            handleClose={handleClose}
-            isRefLink={!isPrivateDriveMode()}
-            setProp={(data) =>
-              setPodState({
-                ...podState,
-                reference: data,
-              })
-            }
-            propValue={podState.reference}
-            type="Pod"
-          />
-        )}
-      </Modal>
     </div>
   );
 }
