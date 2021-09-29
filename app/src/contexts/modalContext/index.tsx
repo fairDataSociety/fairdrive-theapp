@@ -24,7 +24,7 @@ interface CreatingModal extends BaseModalVariant {
   type: MODAL_VARIANTS.CREATING;
   data: {
     type: 'Folder' | 'File' | 'Album' | 'Pod';
-    onButtonClicked: () => void;
+    onButtonClicked: (data: string) => void;
   };
 }
 
@@ -40,7 +40,7 @@ interface ImportingModal extends BaseModalVariant {
   type: MODAL_VARIANTS.IMPORTING;
   data: {
     type: 'Pod' | 'File';
-    onButtonClicked: () => void;
+    onButtonClicked: (data: string) => void;
   };
 }
 
@@ -108,7 +108,9 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
       return (
         <CreateModal
           type={modalData.data.type}
-          onButtonClicked={() => modalData.data.onButtonClicked()}
+          onButtonClicked={() =>
+            modalData.data.onButtonClicked(modalResponse.response)
+          }
           onModalResponse={(data) =>
             setModalResponse({
               type: MODAL_VARIANTS.CREATING,
@@ -133,7 +135,9 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
       return (
         <ImportingModal
           type={modalData.data.type}
-          onButtonClicked={() => modalData.data.onButtonClicked()}
+          onButtonClicked={() =>
+            modalData.data.onButtonClicked(modalResponse.response)
+          }
           onModalResponse={(data) =>
             setModalResponse({
               type: MODAL_VARIANTS.IMPORTING,

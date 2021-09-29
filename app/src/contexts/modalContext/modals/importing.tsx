@@ -24,6 +24,7 @@ function ImportingModal(props: Props): JSX.Element {
       isButtonDisabled={link === null || link === ''}
       buttonContent={'Import'}
       onButtonClicked={() => props.onButtonClicked()}
+      textBelowBody={`You are about to import ${props.type.toLocaleLowerCase()}.`}
     >
       <>
         <BaseInput
@@ -32,7 +33,6 @@ function ImportingModal(props: Props): JSX.Element {
           placeholder={`${props.type} link`}
           onChange={(data) => setLink(data)}
         />
-        You are about to import {props.type.toLocaleLowerCase()}.
       </>
     </BaseModal>
   );

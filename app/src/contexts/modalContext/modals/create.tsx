@@ -24,6 +24,7 @@ function CreateModal(props: Props): JSX.Element {
       isButtonDisabled={name === null || name === ''}
       buttonContent={'Create'}
       onButtonClicked={() => props.onButtonClicked()}
+      textBelowBody={`You are about to create a new ${props.type.toLocaleLowerCase()}.`}
     >
       <>
         <BaseInput
@@ -32,7 +33,6 @@ function CreateModal(props: Props): JSX.Element {
           placeholder={`${props.type} Name`}
           onChange={(data) => setName(data)}
         />
-        You are about to create a new {props.type.toLocaleLowerCase()}.
       </>
     </BaseModal>
   );

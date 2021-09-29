@@ -14,10 +14,12 @@ import {
   BaseButton,
   BUTTON_VARIANTS,
   BUTTON_SIZE,
+  FONT_SIZE,
 } from 'src/shared/BaseButton/BaseButton';
 
 export interface Props {
   title: string;
+  textBelowBody?: string;
   isIconShown?: boolean;
   isModalClosable?: boolean;
   isButtonDisabled?: boolean;
@@ -50,11 +52,16 @@ function BaseModal(props: Props): JSX.Element {
           <Close className={classes.closeIcon} onClick={() => onClose()} />
         </div>
         <div className={classes.body}>{props.children}</div>
+        {props.textBelowBody && (
+          <p className={classes.textBelowBody}>{props.textBelowBody}</p>
+        )}
+
         {props.buttonContent && props.onButtonClicked && (
           <div className={classes.footer}>
             <BaseButton
               variant={BUTTON_VARIANTS.ALTERNATIVE}
               size={BUTTON_SIZE.MEDIUM}
+              fontSize={FONT_SIZE.BIG}
               isFluid={false}
               isDisabled={props.isButtonDisabled}
               onClickCallback={() => props.onButtonClicked()}

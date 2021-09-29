@@ -16,6 +16,11 @@ function GenerateLinkModal(props: Props): JSX.Element {
     <BaseModal
       title={`Create New ${props.type}`}
       onClose={() => props.onClose()}
+      textBelowBody={
+        isReferalType()
+          ? 'Invite a friend to use Fair Drive by using this link '
+          : 'Share this Material with a friend via this link'
+      }
     >
       <>
         <BaseInput
@@ -25,9 +30,6 @@ function GenerateLinkModal(props: Props): JSX.Element {
           initialValue={props.link}
           isDisabled={true}
         />
-        {isReferalType()
-          ? 'Invite a friend to use Fair Drive by using this link '
-          : 'Share this Material with a friend via this link'}
       </>
     </BaseModal>
   );

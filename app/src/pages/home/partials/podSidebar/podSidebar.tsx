@@ -30,53 +30,51 @@ export interface Props {
 function PodSidebar(props: Props) {
   // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
-  const { openModal, modalResponse } = useModal();
+  const { openModal, closeModal } = useModal();
 
   // General
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   // Handle creating and importing pod
-  const handleCreatePodRequest = (): void => {
-    if (modalResponse.type === MODAL_VARIANTS.CREATING) {
-      PodMachineActions.onCreatePod(modalResponse.response);
-    }
-  };
-
-  const handleImportingPodRequest = (): void => {
-    if (modalResponse.type === MODAL_VARIANTS.IMPORTING) {
-      PodMachineActions.onImportPod(modalResponse.response);
-    }
-  };
 
   const handleOpenModal = () => {
     if (isPrivateDriveMode()) {
-      // 'Create Pod'
       openModal({
         type: MODAL_VARIANTS.CREATING,
         data: {
           type: 'Pod',
-          onButtonClicked: () => handleCreatePodRequest(),
+          onButtonClicked: (data) => PodMachineActions.onCreatePod(data),
         },
       });
     } else {
-      // 'Import Pod'
       openModal({
         type: MODAL_VARIANTS.IMPORTING,
         data: {
           type: 'Pod',
-          onButtonClicked: () => handleImportingPodRequest(),
+          onButtonClicked: (data) => PodMachineActions.onImportPod(data),
         },
       });
     }
   };
 
-  // TODO: When STATES.CREATING_POD_SUCCESS
-  // handleClose();
-  // setPodState({
-  //   ...podState,
-  //   isCreated: true,
-  // });
+  useEffect(() => {
+    // TODO: Extend STATES.CREATE_POD with states for success and error
+    // to decrease below conditional
+    if (
+      (PodMachineStore._event.origin === 'createPodService' &&
+        PodMachineStore.matches({
+          [PodStates.FETCH_PODS]: PodStates.FETCH_PODS_LOADING,
+        })) ||
+      (PodMachineStore._event.origin === 'importPodService' &&
+        PodMachineStore.matches({
+          [PodStates.FETCH_PODS]: PodStates.FETCH_PODS_LOADING,
+        }))
+    ) {
+      // Pod created and we fetch pods so let's close modal
+      closeModal();
+    }
+  }, [PodMachineStore]);
 
   const isPrivateDriveMode = () =>
     PodMachineStore.context.mode === DRIVE_MODES.PRIVATE;
