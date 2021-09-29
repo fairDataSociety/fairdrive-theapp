@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-
+import { useModal, MODAL_VARIANTS } from 'src/contexts/modalContext';
 import PodStates from 'src/machines/pod/states';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
 import { PodProviderContext } from 'src/machines/pod';
@@ -48,9 +48,11 @@ export type TCurrentFilter =
   | 'descending-abc';
 
 function Drive(props: Props) {
+  // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
 
-  // Contexts
+  const { openModal, modalResponse } = useModal();
+
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
@@ -74,17 +76,25 @@ function Drive(props: Props) {
   // Toggle grid or list
   const [showGrid, setShowGrid] = useState(true);
 
-  // Manage state of modals
-  const [isCreateFolderModalVisible, setIsCreateFolderModalVisible] =
-    useState(false);
+  // Handle creating new folder
+  const handleCreateDirectoryRequest = (): void => {
+    if (modalResponse.type === MODAL_VARIANTS.CREATING) {
+      PodMachineActions.onCreateDirectory(modalResponse.response);
+    }
+  };
 
-  const [isCreateFileModalVisible, setIsCreateFileModalVisible] =
-    useState(false);
+  const openCreateFolderModal = () => {
+    openModal({
+      type: MODAL_VARIANTS.CREATING,
+      data: {
+        type: 'Folder',
+        onButtonClicked: () => handleCreateDirectoryRequest(),
+      },
+    });
+  };
 
-  // Handle creating folder
-  const [folderName, setFolderName] = useState('');
-
-  const onDirectoryClick = (directoryName: string): void => {
+  // Handle opening directory
+  const openClickedDirectory = (directoryName: string): void => {
     setFiles(null);
     setFolders(null);
     PodMachineActions.onOpenDirectory(directoryName);
@@ -112,33 +122,21 @@ function Drive(props: Props) {
   }, [PodMachineStore]);
 
   // Handle sharing content
-  const [showSharePodPopup, setShowSharePodPopup] = useState(false);
-  const [refLink, setRefLink] = useState('0000000000000');
 
   const handleShare = () => PodMachineActions.onSharePod();
 
   useEffect(() => {
     const sharedPodReference = PodMachineStore.context.sharedPodReference;
     if (sharedPodReference) {
-      setRefLink(sharedPodReference);
-      setShowSharePodPopup(true);
+      openModal({
+        type: MODAL_VARIANTS.GENERATE_LINK,
+        data: {
+          type: 'Share',
+          link: sharedPodReference,
+        },
+      });
     }
   }, [PodMachineStore]);
-
-  // Handle creating file
-  const [fileName, setFileName] = useState('');
-
-  // TODO: Move below to useFileContextActions
-  const createNewfile = async () => {
-    // setResponseCreation(
-    // TODO: Probably to remove
-    await receiveFileInfo(
-      fileName,
-      PodMachineStore.context.currentlyOpenedPodName,
-      PodMachineStore.context.directoryNameToOpen
-    );
-    // );
-  };
 
   // Manage filters
   const [currentFilter, setCurrentFilter] =
@@ -167,8 +165,7 @@ function Drive(props: Props) {
           <SecondLevelNavigation
             isSearchResults={isSearchQuerySetted()}
             isOwned={PodMachineStore.context.mode === DRIVE_MODES.PRIVATE}
-            onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
-            onOpenImportFileModal={() => setIsCreateFileModalVisible(true)}
+            onOpenCreateFolderModal={() => openCreateFolderModal()}
             onOpenUploadModal={() =>
               props.setRightSidebarContent({
                 variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD,
@@ -176,28 +173,6 @@ function Drive(props: Props) {
             }
           />
         )}
-
-        <DriveModalGroup
-          folderName={folderName}
-          setFolderName={(newFolderName) => setFolderName(newFolderName)}
-          fileName={fileName}
-          setFileName={(newFileName) => setFileName(newFileName)}
-          createFolderModal={{
-            isCreateFolderModalVisible: () => isCreateFolderModalVisible,
-            onCreate: () => PodMachineActions.onCreateDirectory(folderName),
-            onClose: () => setIsCreateFolderModalVisible(false),
-          }}
-          createFileModal={{
-            isCreateFileModalVisible: () => isCreateFileModalVisible,
-            onCreate: () => createNewfile(),
-            onClose: () => setIsCreateFileModalVisible(false),
-          }}
-          sharePodModal={{
-            isSharePodModalVisible: () => showSharePodPopup,
-            refLink: () => refLink,
-            onClose: () => setShowSharePodPopup(false),
-          }}
-        />
 
         {isSearchQuerySetted() && (
           <div className={classes.searchDivider}>
@@ -216,7 +191,7 @@ function Drive(props: Props) {
                       key={`${dir.name}_${index}`}
                       data={dir}
                       isDirectory={true}
-                      onDirectoryClick={() => onDirectoryClick(dir.name)}
+                      onDirectoryClick={() => openClickedDirectory(dir.name)}
                     />
                   )
                 )}

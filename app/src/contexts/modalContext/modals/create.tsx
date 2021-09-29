@@ -4,7 +4,8 @@ import BaseModal from 'src/shared/BaseModal/BaseModal';
 import BaseInput from 'src/shared/BaseInput/BaseInput';
 
 export interface Props {
-  type: 'Folder' | 'File' | 'Album';
+  type: 'Folder' | 'File' | 'Album' | 'Pod';
+  onButtonClicked: () => void;
   onModalResponse: (data: string) => void;
   onClose: () => void;
 }
@@ -21,6 +22,7 @@ function CreateModal(props: Props): JSX.Element {
       title={`Create New ${props.type}`}
       onClose={() => props.onClose()}
       isButtonDisabled={name === null || name === ''}
+      onButtonClicked={() => props.onButtonClicked()}
     >
       <>
         <BaseInput

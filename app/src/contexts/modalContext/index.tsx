@@ -21,7 +21,8 @@ interface BaseModalVariant {
 interface CreatingModal extends BaseModalVariant {
   type: MODAL_VARIANTS.CREATING;
   data: {
-    type: 'Folder' | 'File' | 'Album';
+    type: 'Folder' | 'File' | 'Album' | 'Pod';
+    onButtonClicked: () => void;
   };
 }
 
@@ -46,7 +47,7 @@ interface CreatingModalResponse extends BaseModalResponse {
 }
 
 interface GenerateLinkModalResponse extends BaseModalResponse {
-  type: MODAL_VARIANTS.CREATING;
+  type: MODAL_VARIANTS.GENERATE_LINK;
   response: undefined;
 }
 
@@ -89,6 +90,7 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
       return (
         <CreateModal
           type={modalData.data.type}
+          onButtonClicked={() => modalData.data.onButtonClicked()}
           onModalResponse={(data) =>
             setModalResponse({
               type: MODAL_VARIANTS.CREATING,
