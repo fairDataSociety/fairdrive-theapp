@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { shortenTitle } from 'src/helpers/utils';
 import BaseModal from 'src/shared/BaseModal/BaseModal';
 import BaseInput from 'src/shared/BaseInput/BaseInput';
 
@@ -27,7 +28,7 @@ function GenerateLinkModal(props: Props): JSX.Element {
           id={'GeneratedLinkInput'}
           label={isReferalType() ? 'Refer a friend' : 'Sharing link'}
           allowForClipboarding={true}
-          initialValue={props.link}
+          initialValue={shortenTitle(props.link, 5)}
           isDisabled={true}
         />
       </>
