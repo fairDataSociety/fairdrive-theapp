@@ -12,7 +12,6 @@ const useStyles = makeStyles(() =>
       overflow: 'hidden',
       position: 'relative',
       flexDirection: 'column',
-      padding: '1rem',
       font: (style: Props & Theme) => style.typography.caption1,
       width: '216px',
       left: (props: Props & Theme) => (props.isOpen ? '0' : '-216px'),
@@ -20,6 +19,12 @@ const useStyles = makeStyles(() =>
       transitionProperty: 'left',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
+    },
+    headerGroup: {
+      padding: '16px 28px',
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column',
     },
     rowButtons: {
       display: 'flex',

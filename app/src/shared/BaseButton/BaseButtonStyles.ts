@@ -158,6 +158,20 @@ const useStyles = makeStyles(() =>
     fluid: {
       width: '100%',
     },
+    no_radius: {
+      borderRadius: '0px!important',
+    },
+    left_radius: {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    },
+    right_radius: {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    },
+    full_radius: {
+      borderRadius: '4px!important',
+    },
   })
 );
 

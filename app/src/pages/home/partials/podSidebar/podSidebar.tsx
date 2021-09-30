@@ -98,29 +98,31 @@ function PodSidebar(props: Props) {
 
   return (
     <div className={classes.podDrawer}>
-      <Toggle
-        show={props.route !== 'Overview' && props.route !== 'Explore'}
-        isLeft={isPrivateDriveMode()}
-        setLeft={() => toggleDriveMode()}
-      />
-      <div className={classes.podInfoWrapper}>
-        <PodInfo className={classes.podInfo} />
-        <div className={classes.information}>
-          {props.route === 'Overview'
-            ? 'These below pods are automatically generated for your Owned Content (Home pod) and Shared Content (Shared Pod'
-            : 'Switch from Shared to Owned to see Home Pod'}
+      <div className={classes.headerGroup}>
+        <Toggle
+          show={props.route !== 'Overview' && props.route !== 'Explore'}
+          isLeft={isPrivateDriveMode()}
+          setLeft={() => toggleDriveMode()}
+        />
+        <div className={classes.podInfoWrapper}>
+          <PodInfo className={classes.podInfo} />
+          <div className={classes.information}>
+            {props.route === 'Overview'
+              ? 'These below pods are automatically generated for your Owned Content (Home pod) and Shared Content (Shared Pod'
+              : 'Switch from Shared to Owned to see Home Pod'}
+          </div>
         </div>
-      </div>
-      <div className={classes.divider}></div>
-      <div className={classes.buttonWrapper}>
-        <BaseButton
-          variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
-          size={BUTTON_SIZE.MEDIUM}
-          onClickCallback={() => handleOpenModal()}
-          isFluid={true}
-        >
-          {isPrivateDriveMode() ? 'Create Pod' : 'Import Pod'}
-        </BaseButton>
+        <div className={classes.divider}></div>
+        <div className={classes.buttonWrapper}>
+          <BaseButton
+            variant={BUTTON_VARIANTS.PRIMARY_OUTLINED}
+            size={BUTTON_SIZE.MEDIUM}
+            onClickCallback={() => handleOpenModal()}
+            isFluid={true}
+          >
+            {isPrivateDriveMode() ? 'Create Pod' : 'Import Pod'}
+          </BaseButton>
+        </div>
       </div>
 
       {props.route === 'Overview' ? (
