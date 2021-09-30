@@ -75,7 +75,8 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
     },
     podInfo: {
-      marginLeft: '1rem',
+      width: '30px',
+      height: '30px',
     },
     information: {
       color: (style: Props & Theme) => style.textColorSecondary,
@@ -85,7 +86,6 @@ const useStyles = makeStyles(() =>
       transitionTimingFunction: 'ease-out',
     },
     pods: {
-      minHeight: '28rem',
       overflowX: 'hidden',
       height: 'auto',
       overflowY: 'auto',
@@ -99,44 +99,21 @@ const useStyles = makeStyles(() =>
         background: '#666',
       },
     },
-    // PODROW STYLES
-    podRow: {
-      height: '8rem',
-      width: '100%',
-      //alignItems: "left",
-      textAlign: 'left',
-      position: 'static',
-      padding: '8px 18px ',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      color: (style: Props & Theme) => style.textColorSecondary,
-      font: (style: Props & Theme) => style.typography.body1,
-      '&:hover': {
-        font: (style: Props & Theme) => style.typography.body3,
-        color: (style: Props & Theme) => style.textColorHoverSelected,
-      },
-      '&:active': {
-        font: (style: Props & Theme) => style.typography.body2,
-        color: (style: Props & Theme) => style.textColorHoverSelected,
-        backgroundColour: (style: Props & Theme) => style.backgroundLight3,
-      },
-    },
-    podRowActive: {
-      background: (style: Props & Theme) => style.backgroundDark3,
-      font: (style: Props & Theme) => style.typography.body2,
-      color: (style: Props & Theme) => style.backgroundWhite,
-    },
-    podChevron: {
-      float: 'right',
-      marginTop: '0.8rem',
-    },
+
     modalContainer: {
       left: 'calc(100% - 65rem)',
       top: 'calc(100% - 65rem)',
       overflowX: 'hidden',
       overflowY: 'auto',
+    },
+    belowMenu: {
+      padding: '16px 12px 10px 12px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+    },
+    belowMenuIcon: {
+      flex: 'none',
     },
   })
 );
