@@ -49,6 +49,7 @@ export interface Props {
   isDisabled?: boolean;
   isSubmit?: boolean;
   isFluid?: boolean;
+  isActive?: boolean;
   onClickCallback: () => void;
   children: string;
   size: BUTTON_SIZE;
@@ -69,6 +70,7 @@ export const BaseButton = ({
   borderRadius = BUTTON_BORDER_RADIUS.FULL,
   isSubmit,
   onClickCallback,
+  isActive,
   children,
 }: Props): JSX.Element => {
   const { theme } = useTheme();
@@ -85,6 +87,7 @@ export const BaseButton = ({
       fontSize,
       borderRadius,
       onClickCallback,
+      isActive,
       children,
     },
     ...theme,
@@ -115,6 +118,7 @@ export const BaseButton = ({
         ${textColor ? classes[textColor] : ''}
         ${isFluid ? classes.fluid : ''}
         ${borderRadius ? classes[borderRadius] : ''}
+        ${isActive ? classes[variant + '_active'] : ''}
       `}
     >
       {children}

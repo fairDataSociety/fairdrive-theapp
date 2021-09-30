@@ -16,6 +16,7 @@ const useStyles = makeStyles(() =>
       background: (style: Props & Theme) => style.backgroundLight3,
       color: (style: Props & Theme) => style.backgroundWhite,
       font: (style: Props & Theme) => style.typography.caption1,
+      border: (style: Props & Theme) => `1px solid ${style.backgroundLight3}`,
 
       '&:hover': {
         background: (style: Props & Theme) => style.backgroundLight2,
@@ -33,6 +34,11 @@ const useStyles = makeStyles(() =>
         background: (style: Props & Theme) => style.backgroundLight3,
         font: (style: Props & Theme) => style.typography.caption3,
       },
+    },
+    primary_active: {
+      border: (style: Props & Theme) => `1px solid ${style.backgroundLight2}`,
+      background: (style: Props & Theme) => style.backgroundLight3,
+      font: (style: Props & Theme) => style.typography.caption3,
     },
     primary_outlined: {
       border: (style: Props & Theme) => `1px solid ${style.backgroundLight2}`,

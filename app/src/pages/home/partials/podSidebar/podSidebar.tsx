@@ -4,16 +4,16 @@ import React, { useContext, useEffect } from 'react';
 import useStyles from './podSidebarStyles';
 import { useModal } from 'src/contexts/modalContext';
 import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
+
 // Contexts
 import { PodProviderContext } from 'src/machines/pod';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
 import PodStates from 'src/machines/pod/states';
-
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import { PodChevron, PodInfo } from 'src/components/icons/icons';
-import Toggle from 'src/components/toggle/toggle';
+import BaseButtonGroup from 'src/shared/BaseButtonGroup/BaseButtonGroup';
 
 import {
   BaseButton,
@@ -99,10 +99,21 @@ function PodSidebar(props: Props) {
   return (
     <div className={classes.podDrawer}>
       <div className={classes.headerGroup}>
-        <Toggle
-          show={props.route !== 'Overview' && props.route !== 'Explore'}
-          isLeft={isPrivateDriveMode()}
-          setLeft={() => toggleDriveMode()}
+        <BaseButtonGroup
+          buttons={[
+            {
+              content: 'Owned',
+              size: BUTTON_SIZE.MEDIUM,
+              variant: BUTTON_VARIANTS.PRIMARY,
+              onClickCallback: () => toggleDriveMode(),
+            },
+            {
+              content: 'Shared',
+              variant: BUTTON_VARIANTS.PRIMARY,
+              size: BUTTON_SIZE.MEDIUM,
+              onClickCallback: () => toggleDriveMode(),
+            },
+          ]}
         />
         <div className={classes.podInfoWrapper}>
           <PodInfo className={classes.podInfo} />
