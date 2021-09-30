@@ -21,7 +21,7 @@ const useStyles = makeStyles(() =>
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
     },
     headerGroup: {
-      padding: '16px 28px',
+      padding: '16px 28px 10px 28px',
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
@@ -32,12 +32,11 @@ const useStyles = makeStyles(() =>
       flexDirection: 'row',
     },
     buttonWrapper: {
-      margin: '16px 32px',
+      marginTop: '16px',
     },
     divider: {
       borderBottom: (style: Props & Theme) =>
-        `2.5px solid ${style.backgroundDark1}`,
-      margin: '0 2.5rem 0 2.5rem',
+        `2.5px solid ${style.backgroundDark2}`,
     },
 
     podButton: {
@@ -86,7 +85,6 @@ const useStyles = makeStyles(() =>
       transitionTimingFunction: 'ease-out',
     },
     pods: {
-      padding: '1rem',
       minHeight: '28rem',
       overflowX: 'hidden',
       height: 'auto',
@@ -108,8 +106,11 @@ const useStyles = makeStyles(() =>
       //alignItems: "left",
       textAlign: 'left',
       position: 'static',
-      padding: '3rem 0rem 1rem 0',
+      padding: '8px 18px ',
       cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
       color: (style: Props & Theme) => style.textColorSecondary,
       font: (style: Props & Theme) => style.typography.body1,
       '&:hover': {
@@ -121,6 +122,11 @@ const useStyles = makeStyles(() =>
         color: (style: Props & Theme) => style.textColorHoverSelected,
         backgroundColour: (style: Props & Theme) => style.backgroundLight3,
       },
+    },
+    podRowActive: {
+      background: (style: Props & Theme) => style.backgroundDark3,
+      font: (style: Props & Theme) => style.typography.body2,
+      color: (style: Props & Theme) => style.backgroundWhite,
     },
     podChevron: {
       float: 'right',

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 // Hooks
 import useStyles from './podSidebarStyles';
@@ -35,6 +35,7 @@ function PodSidebar(props: Props) {
   // General
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
+  const [activePodIndex, setActivePodIndex] = useState<number | null>(null);
 
   // Handle creating and importing pod
 
@@ -156,8 +157,13 @@ function PodSidebar(props: Props) {
               return (
                 <div
                   key={index}
-                  className={classes.podRow}
-                  onClick={() => PodMachineActions.onOpenPod(pod)}
+                  className={`${classes.podRow} ${
+                    activePodIndex === index ? classes.podRowActive : ''
+                  }`}
+                  onClick={() => {
+                    setActivePodIndex(index);
+                    PodMachineActions.onOpenPod(pod);
+                  }}
                 >
                   <label>{pod}</label>
                   <PodChevron className={classes.podChevron} />
