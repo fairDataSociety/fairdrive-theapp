@@ -2,8 +2,8 @@ import React from 'react';
 
 // Contexts
 import { useTheme } from 'src/contexts/themeContext/themeContext';
-import { useModal, MODAL_VARIANTS } from 'src/contexts/modalContext';
-
+import { useModal } from 'src/contexts/modalContext';
+import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
 // Hooks
 import useStyles from './dataUsageIndicatorStyles';
 

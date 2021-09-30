@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react';
 
 // Hooks
 import useStyles from './podSidebarStyles';
-import { useModal, MODAL_VARIANTS } from 'src/contexts/modalContext';
-
+import { useModal } from 'src/contexts/modalContext';
+import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
 // Contexts
 import { PodProviderContext } from 'src/machines/pod';
 import { DRIVE_MODES } from 'src/machines/pod/machine';

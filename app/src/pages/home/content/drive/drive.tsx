@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { useModal, MODAL_VARIANTS } from 'src/contexts/modalContext';
+import { useModal } from 'src/contexts/modalContext';
+import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
 import PodStates from 'src/machines/pod/states';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
 import { PodProviderContext } from 'src/machines/pod';

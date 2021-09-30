@@ -7,8 +7,8 @@ import useStyles from './rightSidebarStyles';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 import FileStates from 'src/machines/file/states';
 import { FileProviderContext } from 'src/machines/file';
-import { useModal, MODAL_VARIANTS } from 'src/contexts/modalContext';
-
+import { useModal } from 'src/contexts/modalContext';
+import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
 // Components
 import PreviewVariant from './variants/preview/preview';
 import UploadVariant from './variants/upload/upload';
