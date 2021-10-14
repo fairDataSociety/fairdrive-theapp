@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 // Hooks
 import useStyles from './menuRibbonStyles';
@@ -8,7 +8,7 @@ import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import SidebarItem from 'src/components/sidebarItem/sidebarItem';
-import { Drive, Dashboard, Globe } from 'src/components/icons/icons';
+import { Drive } from 'src/components/icons/icons';
 
 // Types
 import { AVAILABLE_PAGES } from 'src/types/pages';
@@ -36,21 +36,21 @@ function MenuRibbon(props: Props) {
   };
 
   const pages = [
-    {
-      name: AVAILABLE_PAGES.OVERVIEW,
-      icon: Dashboard,
-      isDisabled: true,
-    },
+    // {
+    //   name: AVAILABLE_PAGES.OVERVIEW,
+    //   icon: Dashboard,
+    //   isDisabled: true,
+    // },
     {
       name: AVAILABLE_PAGES.DRIVE,
       icon: Drive,
       isDisabled: false,
     },
-    {
-      name: AVAILABLE_PAGES.EXPLORE,
-      icon: Globe,
-      isDisabled: true,
-    },
+    // {
+    //   name: AVAILABLE_PAGES.EXPLORE,
+    //   icon: Globe,
+    //   isDisabled: true,
+    // },
   ];
 
   return (

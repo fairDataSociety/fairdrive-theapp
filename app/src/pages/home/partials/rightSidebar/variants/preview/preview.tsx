@@ -50,13 +50,18 @@ const PreviewVariant = (props: Props): JSX.Element => {
       action: () => props.callAction('share'),
       icon: Share,
     },
-    {
-      label: 'Open',
-      action: () => props.callAction('open'),
-      icon: Globe,
-    },
+    // {
+    //   label: 'Open',
+    //   action: () => props.callAction('open'),
+    //   icon: Globe,
+    // },
   ];
-
+  const fileLink =
+    props.podName === 'Consents'
+      ? 'http://localhost:3000/consents'
+      : props.content.name.includes('me')
+      ? 'https://app.dracula.fairdatasociety.org'
+      : null;
   return (
     <>
       <div className={classes.imageContainer}>
@@ -96,6 +101,19 @@ const PreviewVariant = (props: Props): JSX.Element => {
             <action.icon></action.icon>
           </div>
         ))}
+        {fileLink !== null && (
+          <div className={classes.actionIcon}>
+            <a
+              href={`${fileLink}/${props.podName}/${props.directoryName}/${props.content.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Globe>
+                <title>Open in dapp</title>
+              </Globe>
+            </a>
+          </div>
+        )}
       </div>
     </>
   );

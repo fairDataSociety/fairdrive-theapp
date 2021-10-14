@@ -258,6 +258,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                             id: STATES.DIRECTORY_LOADING,
                             invoke: {
                               id: 'openDirectoryService',
+                              // eslint-disable-next-line @typescript-eslint/no-unused-vars
                               src: (context, event, _) =>
                                 DirectoryService.getDirectory({
                                   podName: context.currentlyOpenedPodName,

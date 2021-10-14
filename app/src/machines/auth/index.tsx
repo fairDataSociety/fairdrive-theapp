@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useCallback } from 'react';
+import React, { createContext, useCallback } from 'react';
 import { State } from 'xstate';
 import { useMachine } from '@xstate/react';
 import createAuthMachine, {

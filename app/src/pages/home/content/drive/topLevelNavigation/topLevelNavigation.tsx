@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
-import PodStates from 'src/machines/pod/states';
+// import PodStates from 'src/machines/pod/states';
 import { PodProviderContext } from 'src/machines/pod';
 
 // Hooks

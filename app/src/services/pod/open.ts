@@ -1,6 +1,7 @@
 import HTTPClient from 'src/http';
 
 const podNameDefault = 'Home';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface RegularResponse {
   code: number;
   message: string;

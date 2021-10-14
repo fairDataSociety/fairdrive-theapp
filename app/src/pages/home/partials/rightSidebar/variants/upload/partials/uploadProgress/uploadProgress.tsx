@@ -10,7 +10,7 @@ import useStyles from './uploadProgressStyles';
 
 // Components
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Fail, Success } from 'src/components/icons/icons';
+// import { Fail, Success } from 'src/components/icons/icons';
 
 function UploadQueryWithProgress() {
   const { FileMachineStore, FileMachineActions } =
