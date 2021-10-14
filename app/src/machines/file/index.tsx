@@ -9,7 +9,7 @@ import createFileMachine, {
 
 import EVENTS from 'src/machines/file/events';
 import { PodProviderContext } from 'src/machines/pod';
-import PodEvents from 'src/machines/pod/events';
+// import PodEvents from 'src/machines/pod/events';
 import STATES from './states';
 interface FileProviderContext {
   FileMachineStore: State<FileContext, FileEvents, any>;

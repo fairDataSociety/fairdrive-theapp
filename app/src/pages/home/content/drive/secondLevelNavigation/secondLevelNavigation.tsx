@@ -35,34 +35,35 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
 
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(true);
 
-  const STORAGE_DISSMISSED_POD_INTROS_KEY = 'dissmissed-pod-intros';
+  const STORAGE_DISMISSED_POD_INTROS_KEY = 'dismissed-pod-intros';
 
-  const wasPodIntroDissmised = (): boolean => {
-    const savedDissmissedPodsIntros = localStorage.getItem(
-      STORAGE_DISSMISSED_POD_INTROS_KEY
+  const wasPodIntroDismissed = (): boolean => {
+    const savedDismissedPodsIntros = localStorage.getItem(
+      STORAGE_DISMISSED_POD_INTROS_KEY
     );
-    const parsed: string[] = JSON.parse(savedDissmissedPodsIntros);
+    const parsed: string[] = JSON.parse(savedDismissedPodsIntros);
 
     return parsed
       ? parsed.includes(PodMachineStore.context.currentlyOpenedPodName)
       : false;
   };
 
-  const dissmissPodIntro = (): void => {
-    if (!wasPodIntroDissmised()) {
-      const savedDissmissedPodsIntros = localStorage.getItem(
-        STORAGE_DISSMISSED_POD_INTROS_KEY
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const dismissPodIntro = (): void => {
+    if (!wasPodIntroDismissed()) {
+      const savedDismissedPodsIntros = localStorage.getItem(
+        STORAGE_DISMISSED_POD_INTROS_KEY
       );
-      const parsed: string[] = JSON.parse(savedDissmissedPodsIntros);
+      const parsed: string[] = JSON.parse(savedDismissedPodsIntros);
       if (parsed !== null) {
         parsed.push(PodMachineStore.context.currentlyOpenedPodName);
         localStorage.setItem(
-          STORAGE_DISSMISSED_POD_INTROS_KEY,
+          STORAGE_DISMISSED_POD_INTROS_KEY,
           JSON.stringify(parsed)
         );
       } else {
         localStorage.setItem(
-          STORAGE_DISSMISSED_POD_INTROS_KEY,
+          STORAGE_DISMISSED_POD_INTROS_KEY,
           JSON.stringify([PodMachineStore.context.currentlyOpenedPodName])
         );
       }
@@ -78,7 +79,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
       PodMachineStore.context.directoryData.files &&
       PodMachineStore.context.directoryData.files.length === 0;
 
-    // I assume that pod intro was dissmissed if user closed intro or if pod contains any dir or entry
+    // I assume that pod intro was dismissed if user closed intro or if pod contains any dir or entry
     return doesPodHasNoEntries() || doesPodHasNoDirs();
   };
 
@@ -182,7 +183,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
         <ActionMenu
           isOwned={props.isOwned}
           onCreateMarkdownFile={() =>
-            console.log('onCreateMarkdownFile clicked')
+            window.open('https://app.dracula.fairdatasociety.org', '_blank')
           }
           onCloseActionMenu={() => setIsActionMenuOpen(false)}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}

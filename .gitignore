@@ -11,3 +11,5 @@ app/debug.log
 example/
 old-app/
 .DS_Store
+.vscode
+node_modules/

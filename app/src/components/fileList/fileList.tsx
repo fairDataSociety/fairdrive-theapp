@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext } from 'react';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './fileListStyles';
 import FileListHeader from './fileListHeader/fileListHeader';

@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 
 // Contexts
-import PodStates from 'src/machines/pod/states';
 import { PodProviderContext } from 'src/machines/pod';
 
 // Hooks
