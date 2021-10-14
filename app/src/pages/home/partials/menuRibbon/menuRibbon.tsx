@@ -36,21 +36,21 @@ function MenuRibbon(props: Props) {
   };
 
   const pages = [
-    {
-      name: AVAILABLE_PAGES.OVERVIEW,
-      icon: Dashboard,
-      isDisabled: true,
-    },
+    // {
+    //   name: AVAILABLE_PAGES.OVERVIEW,
+    //   icon: Dashboard,
+    //   isDisabled: true,
+    // },
     {
       name: AVAILABLE_PAGES.DRIVE,
       icon: Drive,
       isDisabled: false,
     },
-    {
-      name: AVAILABLE_PAGES.EXPLORE,
-      icon: Globe,
-      isDisabled: true,
-    },
+    // {
+    //   name: AVAILABLE_PAGES.EXPLORE,
+    //   icon: Globe,
+    //   isDisabled: true,
+    // },
   ];
 
   return (
