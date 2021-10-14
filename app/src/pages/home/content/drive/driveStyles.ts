@@ -102,13 +102,13 @@ const useStyles = makeStyles(() =>
     cardGrid: {
       width: '100%',
       height: '100%',
-      overflowY:'auto',
       paddingBottom: '50px',
       display: 'flex',
       flexWrap: 'wrap',
+      overflowY: 'auto',
       justifyContent: 'flex-start',
       transition: '1s all',
-      '& > div:not(:nth-child(5n))': {
+      '& > div:not(:nth-child(4n))': {
         marginRight: '24px',
       },
       '& > div': {

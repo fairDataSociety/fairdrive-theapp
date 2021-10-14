@@ -1,28 +1,27 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 // Hooks
 import useStyles from './mainStyles';
 
 // Contexts
-import { StoreContext } from 'src/store/store';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Pages
 import Home from 'src/pages/home/home';
 import LoginRegisterPage from 'src/pages/loginRegisterPage/loginRegisterPage';
 
-import { HTTP_CODES } from 'src/types/http/HTTPCodes';
+interface Props {
+  isAfterAuth: boolean;
+}
 
-function Main() {
-  const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+function Main(props: Props) {
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
-
-  const isUserLoggedIn = () => state.userData?.code === HTTP_CODES.OK;
 
   return (
     <main className={classes.Main}>
-      {isUserLoggedIn() ? <Home /> : <LoginRegisterPage />}
+      {props.isAfterAuth ? <Home /> : <LoginRegisterPage />}
     </main>
   );
 }

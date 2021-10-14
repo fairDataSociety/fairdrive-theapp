@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import React, { useState } from 'react';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import useStyles from './generateLinkStyles';
 import Modal from '../modal/modal';
@@ -15,7 +15,7 @@ export interface Props {
 }
 
 function GenerateLink(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const [copied, setCopied] = useState(false);
   const classes = useStyles({ ...props, ...theme });
 

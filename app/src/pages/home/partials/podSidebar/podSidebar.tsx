@@ -2,16 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 
 // Hooks
 import useStyles from './podSidebarStyles';
-import {
-  usePodContextActions,
-  AllowedPodActions,
-} from 'src/hooks/usePodContextActions';
 
 // Contexts
-import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES, POD_STATUS } from 'src/types/pod-state';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+import { PodProviderContext } from 'src/machines/pod';
+import { DRIVE_MODES } from 'src/machines/pod/machine';
+import PodStates from 'src/machines/pod/states';
+
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import { Modal } from '@material-ui/core';
@@ -36,15 +33,19 @@ export interface Props {
 }
 
 function PodSidebar(props: Props) {
+  const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
+
+  const isPrivateDriveMode = () =>
+    PodMachineStore.context.mode === DRIVE_MODES.PRIVATE;
+
+  const toggleDriveMode = () => PodMachineActions.onToggleDriveMode();
+
   // General
-  const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
-  const pods = ['Private Pod', 'Shared Pod', 'My Photos'];
 
   // State
   const [open, setOpen] = useState(false);
-  const [isPrivate, setIsPrivate] = useState(true);
 
   const [podState, setPodState] = useState<PodState>({
     name: '',
@@ -53,7 +54,6 @@ function PodSidebar(props: Props) {
   });
 
   // Manage opening/closing
-
   const handleClose = () => {
     setOpen(false);
     setPodState({
@@ -63,90 +63,57 @@ function PodSidebar(props: Props) {
     });
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  // Pod Context Actions
-  const {
-    handleOpenPod,
-    handleCreatePod,
-    handleImportPod,
-    handleOverview,
-    handleOpenDirectory,
-  } = usePodContextActions();
-
-  // When podName is being setted and pod is being openned then try to just open directory
-  const { podStateMachine } = usePodStateMachine();
-
-  useEffect(() => {
-    if (
-      podStateMachine.tag === STATES_NAMES.POD_STATE &&
-      (podStateMachine.status === POD_STATUS.SUCCESS ||
-        podStateMachine.status === POD_STATUS.CHANGE)
-    ) {
-      handleOpenDirectory();
-    }
-  }, [podStateMachine]);
+  const handleOpen = () => setOpen(true);
 
   // Proxy pod context actions calls
-  const proxyPodContextActions = async (
-    type: AllowedPodActions,
+  const proxyActions = async (
+    type: 'open' | 'create' | 'import',
     podName?: string
   ) => {
     switch (type) {
       case 'open':
-        await handleOpenPod(podName);
+        PodMachineActions.onOpenPod(podName);
         break;
       case 'create':
-        await handleCreatePod(podName).then(() => {
-          handleClose();
-          setPodState({
-            ...podState,
-            isCreated: true,
-          });
-        });
+        PodMachineActions.onCreatePod(podName);
         break;
       case 'import':
-        await handleImportPod(podState.reference, 'importedpod');
-        break;
-      case 'overview':
-        await handleOverview(podName);
+        PodMachineActions.onImportPod(podState.reference);
         break;
       default:
-        console.warn(`proxyPodContextActions: Unknown action type of ${type}`);
+        console.warn(`proxyActions: Unknown action type of ${type}`);
         break;
     }
   };
 
-  useEffect(() => {
-    const areAnyDirectoryOrFileExists = () =>
-      (state.entries && state.entries.length) ||
-      (state.dirs && state.dirs.length);
+  // TODO: When STATES.CREATING_POD_SUCCESS
+  // handleClose();
+  // setPodState({
+  //   ...podState,
+  //   isCreated: true,
+  // });
 
-    if (areAnyDirectoryOrFileExists()) {
+  useEffect(() => {
+    const fetchedDirectoryContent = PodMachineStore.context.directoryData;
+
+    const areAnyDirectoryOrFileExists = () =>
+      (fetchedDirectoryContent.dirs && fetchedDirectoryContent.dirs.length) ||
+      (fetchedDirectoryContent.files && fetchedDirectoryContent.files.length);
+
+    if (
+      PodMachineStore.matches(PodStates.DIRECTORY_SUCCESS) &&
+      areAnyDirectoryOrFileExists()
+    ) {
       props.setShowPodSidebar(false);
     }
-  }, [state.entries, state.dirs]);
-
-  useEffect(() => {
-    actions.getPods();
-    setPodState({
-      ...podState,
-      isCreated: false,
-    });
-  }, [podState.isCreated]);
-
-  useEffect(() => {
-    actions.setPrivatePod(isPrivate);
-  }, [isPrivate]);
+  }, [PodMachineStore]);
 
   return (
     <div className={classes.podDrawer}>
       <Toggle
         show={props.route !== 'Overview' && props.route !== 'Explore'}
-        isLeft={isPrivate}
-        setLeft={setIsPrivate}
+        isLeft={isPrivateDriveMode()}
+        setLeft={() => toggleDriveMode()}
       />
       <div className={classes.podInfoWrapper}>
         <PodInfo className={classes.podInfo} />
@@ -164,39 +131,43 @@ function PodSidebar(props: Props) {
           onClickCallback={() => handleOpen()}
           isFluid={true}
         >
-          {isPrivate ? 'Create Pod' : 'Import Pod'}
+          {isPrivateDriveMode() ? 'Create Pod' : 'Import Pod'}
         </BaseButton>
       </div>
 
       {props.route === 'Overview' ? (
         <div className={classes.pods}>
-          {pods.map((pod, index) => {
-            return (
-              <div
-                key={index}
-                className={classes.podRow}
-                // onClick={() => proxyPodContextActions('overview', pod)}
-              >
-                <label>{pod}</label>
-                <PodChevron className={classes.podChevron} />
-              </div>
-            );
-          })}
+          {PodMachineStore.context.availablePodsList.pod_name.map(
+            (pod, index) => {
+              return (
+                <div
+                  key={index}
+                  className={classes.podRow}
+                  // onClick={() => proxyActions('overview', pod)}
+                >
+                  <label>{pod}</label>
+                  <PodChevron className={classes.podChevron} />
+                </div>
+              );
+            }
+          )}
         </div>
       ) : props.route !== 'Explore' ? (
         <div className={classes.pods}>
-          {state.pods.map((pod, index) => {
-            return (
-              <div
-                key={index}
-                className={classes.podRow}
-                onClick={() => proxyPodContextActions('open', pod)}
-              >
-                <label>{pod}</label>
-                <PodChevron className={classes.podChevron} />
-              </div>
-            );
-          })}
+          {PodMachineStore.context.availablePodsList.pod_name.map(
+            (pod, index) => {
+              return (
+                <div
+                  key={index}
+                  className={classes.podRow}
+                  onClick={() => PodMachineActions.onOpenPod(pod)}
+                >
+                  <label>{pod}</label>
+                  <PodChevron className={classes.podChevron} />
+                </div>
+              );
+            }
+          )}
         </div>
       ) : (
         <></>
@@ -216,11 +187,11 @@ function PodSidebar(props: Props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {isPrivate ? (
+        {isPrivateDriveMode() ? (
           <CreateNew
-            handleClick={() => proxyPodContextActions('create', podState.name)}
+            handleClick={() => proxyActions('create', podState.name)}
             handleClose={handleClose}
-            isRefLink={!isPrivate}
+            isRefLink={!isPrivateDriveMode()}
             setProp={(data) =>
               setPodState({
                 ...podState,
@@ -232,9 +203,9 @@ function PodSidebar(props: Props) {
           />
         ) : (
           <CreateNew
-            handleClick={() => proxyPodContextActions('import')}
+            handleClick={() => proxyActions('import')}
             handleClose={handleClose}
-            isRefLink={!isPrivate}
+            isRefLink={!isPrivateDriveMode()}
             setProp={(data) =>
               setPodState({
                 ...podState,

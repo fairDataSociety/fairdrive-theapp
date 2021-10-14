@@ -1,18 +1,15 @@
-import React, { useContext, useState, useMemo, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES } from 'src/types/pod-state';
-import { StoreContext } from 'src/store/store';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { AuthProviderContext } from 'src/machines/auth';
 
 // Hooks
 import useStyles from './navbarStyles';
 
 // Components
-import Blockies from 'react-blockies';
 import GenerateLink from 'src/components/modals/generateLink/generateLink';
-import { Logo, DAppIcon, Moon, Sun } from 'src/components/icons/icons';
+import { Logo, DAppIcon, Profile, Moon, Sun } from 'src/components/icons/icons';
 import BaseActionButton, {
   ACTION_BUTTON_VARIANTS,
   ACTION_FONT_SIZE,
@@ -31,32 +28,18 @@ import SearchBar from 'src/components/searchBar/searchBar';
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
+  isAfterAuth: boolean;
 }
-
 function Navbar(props: Props): JSX.Element {
   // General
-  const { state, actions } = useContext(StoreContext);
-  const { podStateMachine } = usePodStateMachine();
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { AuthMachineActions } = useContext(AuthProviderContext);
+
+  const { theme, toggleTheme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const [isReferalModalOpen, setIsReferalModalOpen] = useState(false);
 
-  const isPodStateOtherThanInitial = useMemo(
-    () => podStateMachine.tag !== STATES_NAMES.INITIAL,
-    [podStateMachine.tag]
-  );
-
   const isThemeLight = () => theme.name === 'light';
-
-  // Wallet reference for generate Blockie
-  const [walletAddress, setWalletAddress] = useState(null);
-
-  useEffect(() => {
-    if (state.userStats !== null && walletAddress == null) {
-      setWalletAddress(state.userStats.reference);
-    }
-  }, [state.userStats, walletAddress]);
 
   return (
     <header className={classes.navbar}>
@@ -64,14 +47,13 @@ function Navbar(props: Props): JSX.Element {
         <a
           onClick={() => {
             props.setShowTerms(false);
-            actions.setDirectory('root');
           }}
           className={classes.logoWrapper}
         >
           <Logo className={classes.logo} />
         </a>
 
-        {isPodStateOtherThanInitial && (
+        {props.isAfterAuth && (
           <BaseDropdown
             moveToRight={true}
             dropdownSize={DROPDOWN_SIZE.BIG}
@@ -98,7 +80,7 @@ function Navbar(props: Props): JSX.Element {
       </div>
 
       <div className={classes.right}>
-        {isPodStateOtherThanInitial && (
+        {props.isAfterAuth && (
           <>
             <BaseButton
               variant={BUTTON_VARIANTS.ALTERNATIVE}
@@ -119,7 +101,7 @@ function Navbar(props: Props): JSX.Element {
           </>
         )}
         <div className={classes.actionsWrapper}>
-          {isPodStateOtherThanInitial && (
+          {props.isAfterAuth && (
             <>
               <SearchBar />
 
@@ -187,7 +169,7 @@ function Navbar(props: Props): JSX.Element {
                   {
                     label: 'Disconnect',
                     isDangerVariant: true,
-                    onOptionClicked: () => actions.userLogout(),
+                    onOptionClicked: () => AuthMachineActions.onLogout(),
                   },
                 ]}
                 title={'Fairdrop user name Login (coming soon)'}
@@ -201,13 +183,10 @@ function Navbar(props: Props): JSX.Element {
                 )}
               >
                 {(openDropdown) => (
-                  <button type="button" onClick={() => openDropdown()}>
-                    <Blockies
-                      bgColor={theme.backgroundDark2}
-                      seed={walletAddress}
-                      className={classes.icon}
-                    />
-                  </button>
+                  <Profile
+                    onClick={() => openDropdown()}
+                    className={classes.icon}
+                  />
                 )}
               </BaseDropdown>
             </>

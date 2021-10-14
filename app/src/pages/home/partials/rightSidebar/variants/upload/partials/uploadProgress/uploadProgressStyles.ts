@@ -11,6 +11,7 @@ const useStyles = makeStyles(() =>
       marginBottom: '0.5rem',
       textAlign: 'left',
       fontSize: '1.5rem',
+      color: (theme: Theme) => theme.backgroundWhite,
     },
     progressRoot: {
       height: '13px !important',

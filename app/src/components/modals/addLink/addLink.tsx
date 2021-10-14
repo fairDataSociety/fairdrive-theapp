@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './addLinkStyles';
 import Modal from '../modal/modal';
 import TextField from '../../textField/textField';
@@ -10,7 +10,7 @@ export interface Props {
 }
 
 function AddLink(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
 

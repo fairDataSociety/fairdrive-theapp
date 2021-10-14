@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './renameStyles';
 import Modal from '../modal/modal';
 import TextField from 'src/components/textField/textField';
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 export function Rename(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
 
   const classes = useStyles({ ...props, ...theme });
 

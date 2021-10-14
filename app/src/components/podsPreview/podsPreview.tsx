@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './podsPreviewStyles';
 import PodActivity from './podActivity';
 export interface Props {}
 function PodsPreview(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const onHandleClick = () => console.log('onHandleClick');

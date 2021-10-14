@@ -23,5 +23,9 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'no-debugger': 0,
     'react/prop-types': 0,
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+    ],
   },
 };

@@ -1,6 +1,11 @@
 import HTTPClient from 'src/http';
 
 const podNameDefault = 'Home';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface RegularResponse {
+  code: number;
+  message: string;
+}
 
 export async function openPod(payload: { password: string; podName: string }) {
   try {

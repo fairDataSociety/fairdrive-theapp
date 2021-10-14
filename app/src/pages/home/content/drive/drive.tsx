@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import { STATES_NAMES, DIRECTORY_STATUS } from 'src/types/pod-state';
+
+import PodStates from 'src/machines/pod/states';
+import { DRIVE_MODES } from 'src/machines/pod/machine';
+import { PodProviderContext } from 'src/machines/pod';
+
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Store
-import { StoreContext } from 'src/store/store';
 import { receiveFileInfo } from 'src/services/file';
-
-import { sharePod } from 'src/services/pod';
 
 // Components
 import SecondLevelNavigation from './secondLevelNavigation/secondLevelNavigation';
@@ -25,7 +25,7 @@ import FileList from 'src/components/fileList/fileList';
 // Hooks and helpers
 import useStyles from './driveStyles';
 import { sortyByCurrentFilter } from 'src/helpers/sort';
-import { usePodContextActions } from 'src/hooks/usePodContextActions';
+
 // Types
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
@@ -48,9 +48,10 @@ export type TCurrentFilter =
   | 'descending-abc';
 
 function Drive(props: Props) {
+  const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
+
   // Contexts
-  const { state, actions } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   // Local store of files and directories
@@ -58,9 +59,17 @@ function Drive(props: Props) {
   const [folders, setFolders] = useState<IDirectory[] | null>([]);
 
   useEffect(() => {
-    setFiles(state.entries);
-    setFolders(state.dirs);
-  }, [state.entries, state.dirs]);
+    const directoryData = PodMachineStore.context.directoryData;
+
+    if (directoryData) {
+      if (directoryData.files) {
+        setFiles(directoryData.files);
+      }
+      if (directoryData.dirs) {
+        setFolders(directoryData.dirs);
+      }
+    }
+  }, [PodMachineStore]);
 
   // Toggle grid or list
   const [showGrid, setShowGrid] = useState(true);
@@ -68,90 +77,53 @@ function Drive(props: Props) {
   // Manage state of modals
   const [isCreateFolderModalVisible, setIsCreateFolderModalVisible] =
     useState(false);
+
   const [isCreateFileModalVisible, setIsCreateFileModalVisible] =
     useState(false);
 
   // Handle creating folder
   const [folderName, setFolderName] = useState('');
 
-  const { handleOpenDirectory, handleCreateDirectory } = usePodContextActions();
-
-  async function loadDirectory(directoryName: string) {
-    try {
-      if (state.podName.length > 0) {
-        setFiles(null);
-        setFolders(null);
-        handleOpenDirectory(directoryName);
-        state.isFileUploaded = false;
-        state.searchQuery = null;
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // On files upload success, reload directory
-  const { podStateMachine } = usePodStateMachine();
-
-  useEffect(() => {
-    if (
-      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-        podStateMachine.status === DIRECTORY_STATUS.FILE_UPLOAD_SUCCESS) ||
-      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-        podStateMachine.status === DIRECTORY_STATUS.FILE_REMOVING_SUCCESS)
-    ) {
-      loadDirectory(state.directory);
-    }
-
-    // Handle when directory created with success
-    if (
-      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.DIRECTORY_CREATING_SUCCESS
-    ) {
-      loadDirectory(state.directory);
-      setIsCreateFolderModalVisible(false);
-    }
-  }, [podStateMachine]);
-
   const onDirectoryClick = (directoryName: string): void => {
-    actions.setDirectory(directoryName);
-    loadDirectory(directoryName);
+    setFiles(null);
+    setFolders(null);
+    PodMachineActions.onOpenDirectory(directoryName);
   };
 
   // Handle filtering data by search query
-  useEffect(() => {
-    if (state.entries) {
-      setFiles(state.entries);
-    }
-    if (state.dirs) {
-      setFolders(state.dirs);
-    }
 
-    if (state.searchQuery !== null) {
-      if (state.entries) {
-        const filterFiles = state.entries.filter((file) =>
-          file.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-        );
-        setFiles(filterFiles);
+  const isSearchQuerySetted = () =>
+    PodMachineStore.matches(
+      `${PodStates.FETCH_PODS}.${PodStates.FETCH_PODS_SUCCESS}.${PodStates.OPEN_POD}.${PodStates.OPEN_POD_SUCCESS}.${PodStates.DIRECTORY}.${PodStates.DIRECTORY_SUCCESS}.${PodStates.SEARCH_RESULTS}`
+    );
+
+  useEffect(() => {
+    if (isSearchQuerySetted()) {
+      const searchResults = PodMachineStore.context.searchResults;
+
+      if (searchResults.files) {
+        setFiles(searchResults.files);
       }
-      if (state.dirs) {
-        const filterFolders = state.dirs.filter((dir) =>
-          dir.name.toLowerCase().includes(state.searchQuery.toLowerCase())
-        );
-        setFolders(filterFolders);
+
+      if (searchResults.dirs) {
+        setFolders(searchResults.dirs);
       }
     }
-  }, [state.searchQuery]);
+  }, [PodMachineStore]);
 
   // Handle sharing content
   const [showSharePodPopup, setShowSharePodPopup] = useState(false);
   const [refLink, setRefLink] = useState('0000000000000');
 
-  const handleShare = async () => {
-    const res = await sharePod(state.password, state.podName);
-    setRefLink(res);
-    setShowSharePodPopup(true);
-  };
+  const handleShare = () => PodMachineActions.onSharePod();
+
+  useEffect(() => {
+    const sharedPodReference = PodMachineStore.context.sharedPodReference;
+    if (sharedPodReference) {
+      setRefLink(sharedPodReference);
+      setShowSharePodPopup(true);
+    }
+  }, [PodMachineStore]);
 
   // Handle creating file
   const [fileName, setFileName] = useState('');
@@ -159,16 +131,18 @@ function Drive(props: Props) {
   // TODO: Move below to useFileContextActions
   const createNewfile = async () => {
     // setResponseCreation(
-    await receiveFileInfo(fileName, state.podName, state.directory);
+    // TODO: Probably to remove
+    await receiveFileInfo(
+      fileName,
+      PodMachineStore.context.currentlyOpenedPodName,
+      PodMachineStore.context.directoryNameToOpen
+    );
     // );
   };
 
   // Manage filters
   const [currentFilter, setCurrentFilter] =
     useState<TCurrentFilter>('least-recent');
-
-  const isSearchQuerySetted = () =>
-    state.searchQuery && state.searchQuery !== '';
 
   const isFilesNotEmpty = () => files && files.length > 0;
 
@@ -180,7 +154,7 @@ function Drive(props: Props) {
         <TopLevelNavigation
           showGrid={showGrid}
           setShowGrid={setShowGrid}
-          handleShare={handleShare}
+          handleShare={() => handleShare()}
           currentFilter={currentFilter}
           setCurrentFilter={(selectedFilter) =>
             setCurrentFilter(selectedFilter)
@@ -189,10 +163,10 @@ function Drive(props: Props) {
       </div>
 
       <div className={classes.layoutContent}>
-        {state.podName !== '' && (
+        {PodMachineStore.context.currentlyOpenedPodName && (
           <SecondLevelNavigation
             isSearchResults={isSearchQuerySetted()}
-            isOwned={state.isPrivatePod}
+            isOwned={PodMachineStore.context.mode === DRIVE_MODES.PRIVATE}
             onOpenCreateFolderModal={() => setIsCreateFolderModalVisible(true)}
             onOpenImportFileModal={() => setIsCreateFileModalVisible(true)}
             onOpenUploadModal={() =>
@@ -210,7 +184,7 @@ function Drive(props: Props) {
           setFileName={(newFileName) => setFileName(newFileName)}
           createFolderModal={{
             isCreateFolderModalVisible: () => isCreateFolderModalVisible,
-            onCreate: () => handleCreateDirectory(folderName),
+            onCreate: () => PodMachineActions.onCreateDirectory(folderName),
             onClose: () => setIsCreateFolderModalVisible(false),
           }}
           createFileModal={{
@@ -228,14 +202,14 @@ function Drive(props: Props) {
         {isSearchQuerySetted() && (
           <div className={classes.searchDivider}>
             <SearchIcon className={classes.searchIcon} />
-            <span>{state.searchQuery}</span>
+            <span>{PodMachineStore.context.searchQuery}</span>
           </div>
         )}
 
         {isFilesNotEmpty() || isFoldersNotEmpty() ? (
           showGrid ? (
             <div className={classes.cardGrid}>
-              {state.dirs &&
+              {folders &&
                 sortyByCurrentFilter(folders, currentFilter).map(
                   (dir: IDirectory, index) => (
                     <CardEntry
@@ -247,7 +221,7 @@ function Drive(props: Props) {
                   )
                 )}
 
-              {state.entries &&
+              {files &&
                 sortyByCurrentFilter(files, currentFilter).map(
                   (file: IFile, index) => (
                     <CardEntry

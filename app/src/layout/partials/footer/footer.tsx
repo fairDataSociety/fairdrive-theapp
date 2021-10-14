@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 // Hooks
 import useStyles from './footerStyles';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import {
@@ -22,7 +22,7 @@ export interface Props {
 }
 
 function Footer(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   return (

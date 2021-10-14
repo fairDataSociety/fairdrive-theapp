@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 
 // Contexts
-import { StoreContext } from 'src/store/store';
+import { FileProviderContext } from 'src/machines/file';
+import { FileUploadProgress } from 'src/machines/file/machine';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 
 // Hooks
@@ -9,26 +10,33 @@ import useStyles from './uploadProgressStyles';
 
 // Components
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Fail, Success } from 'src/components/icons/icons';
+// import { Fail, Success } from 'src/components/icons/icons';
 
 function UploadQueryWithProgress() {
-  const { state, actions } = useContext(StoreContext);
+  const { FileMachineStore, FileMachineActions } =
+    useContext(FileProviderContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
-  const findUploadStatusForRequestID = (requestID: string) => {
-    const statuses = state.fileUploadedStatus;
-    const findStatus = statuses.find(
-      (status) => status.requestId === requestID
-    );
-    if (findStatus) {
-      return findStatus.status;
-    }
+  // TODO: Fix upload progresses
+  // const findUploadStatusForRequestID = (requestID: string) => {
+  //   const statuses = state.fileUploadedStatus;
+  //   const findStatus = statuses.find(
+  //     (status) => status.requestId === requestID
+  //   );
+  //   if (findStatus) {
+  //     return findStatus.status;
+  //   }
+  // };
+
+  const onCancel = (request: FileUploadProgress) => {
+    console.log('onCancel in uploadProgress');
+    FileMachineActions.onCancelUpload(request.requestId, request.filename);
   };
 
   return (
     <div>
-      {state.fileUploadProgress.map((request) => {
+      {FileMachineStore.context.uploadingProgress.map((request) => {
         const percentage = Math.ceil(
           (request.progressEvent.loaded * 100) / request.progressEvent.total
         );
@@ -52,16 +60,14 @@ function UploadQueryWithProgress() {
                 type="button"
                 className={classes.actionContainer}
                 disabled={complete()}
-                onClick={() => {
-                  request.cancelFn.cancel();
-                  actions.cancelUpload(request.requestId);
-                }}
+                onClick={() => onCancel(request)}
               >
-                {findUploadStatusForRequestID(request.requestId) ===
+                {/* {findUploadStatusForRequestID(request.requestId) ===
                   'success' &&
                   complete() && <Success className={classes.successIcon} />}
                 {findUploadStatusForRequestID(request.requestId) ===
-                  'failed' && <Fail className={classes.cancelIcon} />}
+                  'failed' && <Fail className={classes.cancelIcon} />} */}
+                Cancel It
               </button>
             </div>
           </div>

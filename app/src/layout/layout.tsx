@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import useStyles from './layoutStyles';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
+import { MachinesHelpers } from 'src/hooks/machines';
+
 // Components
 import Navbar from './partials/navbar/navbar';
 import Footer from './partials/footer/footer';
@@ -14,30 +16,22 @@ import AlertBanner from 'src/components/alertBanner/alertBanner';
 export default function Layout(): JSX.Element {
   const { theme } = useTheme();
   const classes = useStyles(theme);
+
   const [showTerms, setShowTerms] = useState(false);
 
-  const renderComponentsConditionaly = [
-    {
-      isVisible: () => true,
-      component: AlertBanner,
-    },
-    {
-      isVisible: () => !showTerms,
-      component: Main,
-    },
-    {
-      isVisible: () => showTerms,
-      component: TermsAndConditions,
-    },
-  ];
+  const { isUserLoggedInAndUserStatsFetched } = MachinesHelpers();
 
   return (
     <div className={classes.App}>
-      <Navbar showTerms={showTerms} setShowTerms={setShowTerms} />
-      {renderComponentsConditionaly.map(
-        (element, index) =>
-          element.isVisible() && <element.component key={index} />
-      )}
+      <Navbar
+        isAfterAuth={isUserLoggedInAndUserStatsFetched()}
+        showTerms={showTerms}
+        setShowTerms={setShowTerms}
+      />
+      <AlertBanner />
+      {!showTerms && <Main isAfterAuth={isUserLoggedInAndUserStatsFetched()} />}
+
+      {showTerms && <TermsAndConditions />}
       <Footer showTerms={showTerms} setShowTerms={setShowTerms} />
     </div>
   );

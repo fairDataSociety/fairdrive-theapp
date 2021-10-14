@@ -1,3 +1,9 @@
 import { FileShareResponse } from './FileShare';
 
-export type { FileShareResponse };
+interface UserStats {
+  user_name: string;
+  reference: string;
+  avatar: string;
+}
+
+export type { FileShareResponse, UserStats };
