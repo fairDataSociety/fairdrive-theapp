@@ -37,17 +37,26 @@ export enum BUTTON_TEXT_COLOR {
   LIGHT2 = 'font_color_light2',
 }
 
+export enum BUTTON_BORDER_RADIUS {
+  NO = 'no_radius',
+  LEFT = 'left_radius',
+  RIGHT = 'right_radius',
+  FULL = 'full_radius',
+}
+
 export interface Props {
   showIcon?: boolean;
   isDisabled?: boolean;
   isSubmit?: boolean;
   isFluid?: boolean;
+  isActive?: boolean;
   onClickCallback: () => void;
   children: string;
   size: BUTTON_SIZE;
   variant: BUTTON_VARIANTS;
   fontSize?: FONT_SIZE;
   textColor?: BUTTON_TEXT_COLOR;
+  borderRadius?: BUTTON_BORDER_RADIUS;
 }
 
 export const BaseButton = ({
@@ -58,8 +67,10 @@ export const BaseButton = ({
   isDisabled,
   isFluid,
   textColor,
+  borderRadius = BUTTON_BORDER_RADIUS.FULL,
   isSubmit,
   onClickCallback,
+  isActive,
   children,
 }: Props): JSX.Element => {
   const { theme } = useTheme();
@@ -74,7 +85,9 @@ export const BaseButton = ({
       textColor,
       isSubmit,
       fontSize,
+      borderRadius,
       onClickCallback,
+      isActive,
       children,
     },
     ...theme,
@@ -101,9 +114,11 @@ export const BaseButton = ({
         ${classes[variant]} 
         ${classes[size]} 
         ${classes[fontSize]} 
+        ${borderRadius}
         ${textColor ? classes[textColor] : ''}
         ${isFluid ? classes.fluid : ''}
-      
+        ${borderRadius ? classes[borderRadius] : ''}
+        ${isActive ? classes[variant + '_active'] : ''}
       `}
     >
       {children}
