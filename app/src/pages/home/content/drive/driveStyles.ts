@@ -6,7 +6,7 @@ import { Props } from './drive';
 const useStyles = makeStyles(() =>
   createStyles({
     layoutContent: {
-      overflowY: 'auto',
+      // overflowY: 'auto',
       padding: '25px',
       height: 'calc(100vh - 76px - 80px - 89px - 64px - 13px)',
     },
@@ -102,19 +102,18 @@ const useStyles = makeStyles(() =>
     cardGrid: {
       width: '100%',
       height: '100%',
-      overflowY:'auto',
       paddingBottom: '50px',
       display: 'flex',
       flexWrap: 'wrap',
+      overflowY: 'auto',
       justifyContent: 'flex-start',
       transition: '1s all',
-      // '& > div:not(:nth-child(n))': {
-      //   marginRight: '24px',
-      // },
-      '& > div': {
-        // marginRight: (props: Props & Theme) =>
-        //   props.isPodBarOpen ? '24px' : '0',
+      '& > div:not(:nth-child(4n))': {
         marginRight: '24px',
+      },
+      '& > div': {
+        marginRight: (props: Props & Theme) =>
+          props.isPodBarOpen ? '24px' : '0',
         marginBottom: '24px',
       },
       '&::-webkit-scrollbar': {

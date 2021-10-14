@@ -2,17 +2,15 @@ import React, { useState, useContext, useEffect } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
+import { PodProviderContext } from 'src/machines/pod';
 
 // Hooks
 import useStyles from './fileListBodyStyles';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
 
 // Components
 import DropDown from 'src/components/dropDown/dropDown';
-
-// Store
-import { StoreContext } from 'src/store/store';
 
 // Types
 import { IFile } from 'src/types/models/File';
@@ -29,25 +27,27 @@ export interface Props {
   isPodBarOpen: boolean;
 }
 function FileListBody(props: Props) {
-  const { state } = useContext(StoreContext);
-  const { theme } = useContext(ThemeContext);
+  const { PodMachineStore } = useContext(PodProviderContext);
 
+  const getSearchQuery = () => PodMachineStore.context.searchQuery;
+
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const { highlightedMatchedPhrase, doHighlightMatchedPhrase } =
-    useHighlightingOfMatchingPhrase(state.searchQuery, props.name);
+    useHighlightingOfMatchingPhrase(getSearchQuery(), props.name);
 
   useEffect(() => {
     doHighlightMatchedPhrase();
-  }, [state.searchQuery]);
+  }, [getSearchQuery()]);
 
   const [dropdown, setDropdown] = useState(false);
 
   return (
     <div className={classes.fileWrapper}>
       <div className={classes.fileName}>
-        {state.searchQuery &&
-        state.searchQuery !== '' &&
+        {getSearchQuery() &&
+        getSearchQuery() !== '' &&
         highlightedMatchedPhrase ? (
           <>
             {highlightedMatchedPhrase.before}
@@ -74,15 +74,9 @@ function FileListBody(props: Props) {
                   <li className={classes.listItem}>
                     <button>Hide</button>
                   </li>
-                  {/* <li className={classes.listItem}>
-                    <button>View Hidden Files</button>
-                  </li> */}
                   <li className={classes.listItem}>
                     <button>Download</button>
                   </li>
-                  {/* <li className={classes.listItem}>
-                    <button>Accept and Open</button>
-                  </li> */}
                 </ul>
               </DropDown>
             </div>

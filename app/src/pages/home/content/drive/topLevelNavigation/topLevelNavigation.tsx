@@ -3,7 +3,9 @@ import React, { useContext } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+import { DRIVE_MODES } from 'src/machines/pod/machine';
+// import PodStates from 'src/machines/pod/states';
+import { PodProviderContext } from 'src/machines/pod';
 
 // Hooks
 import useStyles from './topLevelNavigationStyles';
@@ -19,15 +21,18 @@ import { TCurrentFilter } from '../drive';
 export interface Props {
   setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
   showGrid: boolean;
-  handleShare: () => Promise<void>;
+  handleShare: () => void;
   currentFilter: TCurrentFilter;
   setCurrentFilter: (selectedFilter: TCurrentFilter) => void;
 }
 
 function TopLevelNavigation(props: Props) {
-  const { showGrid, setShowGrid } = props;
+  const { PodMachineStore } = useContext(PodProviderContext);
 
-  const { state } = useContext(StoreContext);
+  const isPrivateDriveMode = () =>
+    PodMachineStore.context.mode === DRIVE_MODES.PRIVATE;
+
+  const { showGrid, setShowGrid } = props;
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -42,7 +47,7 @@ function TopLevelNavigation(props: Props) {
   };
 
   const getDirectoryPath = () => {
-    const stateDirectoryName = state.directory;
+    const stateDirectoryName = PodMachineStore.context.directoryNameToOpen;
     if (stateDirectoryName !== 'root') {
       return `/ root / ${stateDirectoryName}`;
     } else {
@@ -54,7 +59,7 @@ function TopLevelNavigation(props: Props) {
     <div className={classes.topLevelNavigation}>
       <div className={classes.left}>
         <BaseDropdown
-          title={state.isPrivatePod ? 'Private Pod' : 'Shared Pod'}
+          title={isPrivateDriveMode() ? 'Private Pod' : 'Shared Pod'}
           moveToRight={true}
           optionsList={[
             {
@@ -80,12 +85,12 @@ function TopLevelNavigation(props: Props) {
         </BaseDropdown>
 
         <p className={classes.name}>
-          {state.podName}
+          {PodMachineStore.context.currentlyOpenedPodName}
           <span className={classes.directoryPath}>{getDirectoryPath()}</span>
         </p>
       </div>
       <div className={classes.right}>
-        {state.podName && (
+        {PodMachineStore.context.currentlyOpenedPodName && (
           <BaseActionButton
             icon={ACTION_BUTTON_ICONS.SHARE}
             variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}

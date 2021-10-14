@@ -6,7 +6,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     podDrawer: {
       backgroundColor: (style: Props & Theme) => style.backgroundDark4,
-      height: 'calc(100vh - 6rem)',
+      height: 'calc(100vh - 89px - 80px)',
       display: 'flex',
       alignItems: 'left',
       overflow: 'hidden',
@@ -65,35 +65,17 @@ const useStyles = makeStyles(() =>
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
     },
     podInfoWrapper: {
-      marginTop: '1rem',
-      flexDirection: 'row',
+      margin: '18px 0',
+      display: 'flex',
+      gap: '12px',
+      alignItems: 'center',
     },
     podInfo: {
       marginLeft: '1rem',
-      marginTop: (props: Props & Theme) =>
-        props.route === 'Overview'
-          ? '5rem'
-          : props.route !== 'Explore'
-          ? '2.5rem'
-          : '2.5rem',
-      transitionProperty: 'margin-top',
-      transitionDuration: '.2s',
-      transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
     },
     information: {
-      overflow: 'hidden',
-      float: 'right',
-      width: '22rem',
-      height: (props: Props & Theme) =>
-        props.route === 'Overview'
-          ? '14rem'
-          : props.route !== 'Explore'
-          ? '8rem'
-          : '5.5rem',
       color: (style: Props & Theme) => style.textColorSecondary,
       font: (style: Props & Theme) => style.typography.caption1,
-      margin: '2rem 2rem 1rem 0.1rem',
-      paddingRight: '2rem',
       transitionProperty: 'height',
       transitionDuration: '.2s',
       transitionTimingFunction: 'ease-out',
@@ -103,6 +85,16 @@ const useStyles = makeStyles(() =>
       minHeight: '28rem',
       overflowX: 'hidden',
       height: 'auto',
+      overflowY: 'auto',
+      '&::-webkit-scrollbar': {
+        width: '5px',
+      },
+      '&::-webkit-scrollbar-track': {
+        background: '#ddd',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        background: '#666',
+      },
     },
     // PODROW STYLES
     podRow: {

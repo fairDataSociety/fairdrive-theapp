@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import useStyles from './circularProgressStyles';
@@ -9,7 +9,7 @@ export interface Props {
 }
 
 function CircularProgress(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const percentage = 66;

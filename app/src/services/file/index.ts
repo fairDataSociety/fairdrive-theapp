@@ -4,6 +4,7 @@ import { previewFile } from './preview';
 import { receiveFileInfo } from './receive';
 import { shareFile } from './share';
 import { uploadFile } from './upload';
+import { uploadSingleFile } from './uploadNew';
 
 export {
   deleteFile,
@@ -12,4 +13,5 @@ export {
   receiveFileInfo,
   shareFile,
   uploadFile,
+  uploadSingleFile,
 };

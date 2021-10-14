@@ -5,7 +5,7 @@ export const previewFile = async (
   file: string,
   directory: string,
   podName: string
-) => {
+): Promise<Blob> => {
   try {
     let writePath = '';
     if (directory === 'root') {
@@ -18,9 +18,13 @@ export const previewFile = async (
     formData.append('file_path', writePath + file);
     formData.append('pod_name', podName);
 
-    const downloadFile = await HTTPClient().post('file/download', formData, {
-      responseType: 'blob',
-    });
+    const downloadFile = await HTTPClient().post<Blob>(
+      'file/download',
+      formData,
+      {
+        responseType: 'blob',
+      }
+    );
 
     return downloadFile.data;
   } catch (error) {

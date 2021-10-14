@@ -1,17 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 
 // Hooks
 import useStyles from './homeStyles';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { usePodStateMachine } from 'src/contexts/podStateMachine';
-import {
-  STATES_NAMES,
-  POD_STATUS,
-  DIRECTORY_STATUS,
-  DIRECTORY_CONTEXTS,
-} from 'src/types/pod-state';
+// import AuthStates from 'src/machines/auth/states';
+// import { AuthProviderContext } from 'src/machines/auth';
+
+import PodStates from 'src/machines/pod/states';
+import { PodProviderContext } from 'src/machines/pod';
+
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import MenuRibbon from './partials/menuRibbon/menuRibbon';
@@ -37,26 +36,29 @@ export interface Props {
 }
 
 function Home(props: Props) {
-  const { podStateMachine } = usePodStateMachine();
-  const { theme } = useContext(ThemeContext);
+  const { PodMachineStore } = useContext(PodProviderContext);
+
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   const loadingPodOrDirectoryName = () => {
     if (
-      podStateMachine.tag === STATES_NAMES.POD_STATE &&
-      podStateMachine.status === POD_STATUS.LOADING
+      PodMachineStore.matches(
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_loading'
+      )
     ) {
       return {
         type: 'Pod',
-        content: podStateMachine.podName,
+        content: PodMachineStore.context.podNameToOpen,
       };
     } else if (
-      podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.LOADING
+      PodMachineStore.matches(
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_success.directory.directory_loading'
+      )
     ) {
       return {
         type: 'Directory',
-        content: podStateMachine.directoryName,
+        content: PodMachineStore.context.directoryNameToOpen,
       };
     } else {
       return {
@@ -66,23 +68,26 @@ function Home(props: Props) {
     }
   };
 
-  const isPodStateOtherThanInitialAndUserLogged = () =>
-    podStateMachine.tag !== STATES_NAMES.INITIAL &&
-    podStateMachine.tag !== STATES_NAMES.USER_LOGGED;
+  const isPodOrRootDirectoryLoading = useCallback(
+    () =>
+      PodMachineStore.matches(
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_loading'
+      ) ||
+      PodMachineStore.matches(
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_success.directory.directory_loading'
+      ),
+    [PodMachineStore]
+  );
 
-  const isPodOrRootDirectoryLoading = () =>
-    (podStateMachine.tag === STATES_NAMES.POD_STATE &&
-      podStateMachine.status === POD_STATUS.LOADING) ||
-    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.LOADING);
+  const isRootDirectoryLoadedSuccessfuly = useCallback(
+    () =>
+      // TODO: Rewrite below to PodState enum
+      PodMachineStore.matches(
+        'fetch_pods.fetch_pods_success.open_pod.open_pod_success.directory.directory_success'
+      ),
+    [PodMachineStore]
+  );
 
-  const isRootDirectoryLoadedSuccessfuly = () =>
-    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.status === DIRECTORY_STATUS.SUCCESS) ||
-    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.context === DIRECTORY_CONTEXTS.FILE_ACTION) ||
-    (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-      podStateMachine.context === DIRECTORY_CONTEXTS.DIRECTORY_ACTION);
   // Manage sidebar
   const [sidebarItem, setSidebarItem] = useState<AVAILABLE_PAGES>(
     AVAILABLE_PAGES.DRIVE
@@ -108,13 +113,12 @@ function Home(props: Props) {
   // If we change pod or directory let's hide right sidebar
   useEffect(() => {
     if (
-      (podStateMachine.tag === STATES_NAMES.DIRECTORY_STATE &&
-        podStateMachine.context === DIRECTORY_CONTEXTS.DIRECTORY_ACTION) ||
-      podStateMachine.tag === STATES_NAMES.POD_STATE
+      PodMachineStore.matches(PodStates.OPEN_POD_LOADING) ||
+      PodMachineStore.matches(PodStates.DIRECTORY_LOADING)
     ) {
       closeRightSidebar();
     }
-  }, [podStateMachine]);
+  }, [PodMachineStore]);
 
   return (
     <div className={classes.Home}>
@@ -130,34 +134,33 @@ function Home(props: Props) {
         route={sidebarItem}
       />
 
-      {sidebarItem === AVAILABLE_PAGES.DRIVE &&
-        isPodStateOtherThanInitialAndUserLogged() && (
-          <>
-            {isPodOrRootDirectoryLoading() && (
-              <div
-                className={`${classes.loadingDriveWrapper} ${
-                  showPodSidebar ? classes.loadingDrivePodBarOpen : ''
-                }`}
-              >
-                <div className={classes.loadingDrive}>
-                  <TailSpinner className={classes.loadingDriveIcon} />
-                  <p className={classes.loadingDriveTitle}>
-                    Loading {loadingPodOrDirectoryName().type} ...
-                  </p>
-                  <p className={classes.loadingDriveCaption}>
-                    {loadingPodOrDirectoryName().content}
-                  </p>
-                </div>
+      {sidebarItem === AVAILABLE_PAGES.DRIVE && (
+        <>
+          {isPodOrRootDirectoryLoading() && (
+            <div
+              className={`${classes.loadingDriveWrapper} ${
+                showPodSidebar ? classes.loadingDrivePodBarOpen : ''
+              }`}
+            >
+              <div className={classes.loadingDrive}>
+                <TailSpinner className={classes.loadingDriveIcon} />
+                <p className={classes.loadingDriveTitle}>
+                  Loading {loadingPodOrDirectoryName().type} ...
+                </p>
+                <p className={classes.loadingDriveCaption}>
+                  {loadingPodOrDirectoryName().content}
+                </p>
               </div>
-            )}
-            {isRootDirectoryLoadedSuccessfuly() && (
-              <Drive
-                isPodBarOpen={showPodSidebar}
-                setRightSidebarContent={(data) => openRightSidebar(data)}
-              />
-            )}
-          </>
-        )}
+            </div>
+          )}
+          {isRootDirectoryLoadedSuccessfuly() && (
+            <Drive
+              isPodBarOpen={showPodSidebar}
+              setRightSidebarContent={(data) => openRightSidebar(data)}
+            />
+          )}
+        </>
+      )}
       {rightSidebarData && (
         <RightSidebar
           onClose={() => closeRightSidebar()}
