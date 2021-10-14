@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import React from 'react';
+
+// Contexts
+import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { useModal } from 'src/contexts/modalContext';
+import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
+// Hooks
 import useStyles from './dataUsageIndicatorStyles';
+
+// Components
 import CircularProgress from '../circularProgress/circularProgress';
 import { QuestionCircle } from '../icons/icons';
-import { useState } from 'react';
-import GenerateLink from '../modals/generateLink/generateLink';
-import ClickAwayListener from 'react-click-away-listener';
 
 export interface Props {
   heading?: string;
@@ -15,11 +19,22 @@ export interface Props {
 }
 
 function DataUsageIndicator() {
-  const { theme } = useContext(ThemeContext);
-  const classes = useStyles({ ...theme });
-  const [showRefer, setShowRefer] = useState(false);
+  const { openModal } = useModal();
 
+  const { theme } = useTheme();
+  const classes = useStyles({ ...theme });
   const percentage = 80;
+
+  const handleReferFriend = () => {
+    openModal({
+      type: MODAL_VARIANTS.GENERATE_LINK,
+      data: {
+        type: 'Referal',
+        // TODO: After implement of refering friends connect below to proper machine event
+        link: 'RANDOM_REFERAL_LINK',
+      },
+    });
+  };
 
   return (
     // <div className={classes.container}>
@@ -73,12 +88,9 @@ function DataUsageIndicator() {
           community channels
         </p>
       </div>
-      <ClickAwayListener onClickAway={() => setShowRefer(false)}>
-        <button className={classes.button} onClick={() => setShowRefer(true)}>
-          Refer a friend
-        </button>
-      </ClickAwayListener>
-      {showRefer && <GenerateLink variant="refer" />}
+      <button className={classes.button} onClick={() => handleReferFriend()}>
+        Refer a friend
+      </button>
     </div>
   );
 }

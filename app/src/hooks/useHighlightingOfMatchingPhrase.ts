@@ -9,7 +9,10 @@ interface HighlightedMatchedPhrase {
 export const useHighlightingOfMatchingPhrase = (
   phrase: string,
   searchedPhrase: string
-) => {
+): {
+  highlightedMatchedPhrase: HighlightedMatchedPhrase | null;
+  doHighlightMatchedPhrase: () => void;
+} => {
   const [highlightedMatchedPhrase, setHighlightedMatchedPhrase] =
     useState<HighlightedMatchedPhrase | null>(null);
 

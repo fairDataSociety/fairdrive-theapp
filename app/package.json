@@ -11,6 +11,8 @@
     "@ethersproject/providers": "^5.0.24",
     "@material-ui/core": "^4.11.4",
     "@material-ui/styles": "^4.11.3",
+    "@xstate/inspect": "^0.5.0",
+    "@xstate/react": "^1.6.1",
     "axios": "^0.21.1",
     "cross-env": "7.0.3",
     "ethereum-blockies-base64": "^1.0.2",
@@ -33,7 +35,8 @@
     "react-scripts": "^4.0.3",
     "react-transition-group": "^4.4.1",
     "typedoc": "^0.21.5",
-    "web3": "^1.2.9"
+    "web3": "^1.2.9",
+    "xstate": "^4.24.1"
   },
   "scripts": {
     "start": "react-scripts start",

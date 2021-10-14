@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './updateFileCardStyles';
 
 function UpdateFileCard() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
 
   const buttons = [

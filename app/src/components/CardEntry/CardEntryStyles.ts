@@ -58,7 +58,9 @@ const useStyles = makeStyles(() =>
       fontStyle: 'normal',
       fontWeight: 500,
     },
-    titleHighlightMatchingPhrase: {},
+    titleHighlightMatchingPhrase: {
+      color: '#9AA8FF',
+    },
     dropdownIconWrapper: {
       position: 'absolute',
       top: '27px',
