@@ -1,24 +1,25 @@
 import React, { useContext, useState, useEffect } from 'react';
 
 // Hooks
-import { useFileContextActions } from 'src/hooks/useFileContextActions';
 import useStyles from './rightSidebarStyles';
 
 // Contexts
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-
+import { useTheme } from 'src/contexts/themeContext/themeContext';
+import FileStates from 'src/machines/file/states';
+import { FileProviderContext } from 'src/machines/file';
+import { useModal } from 'src/contexts/modalContext';
+import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
 // Components
 import PreviewVariant from './variants/preview/preview';
 import UploadVariant from './variants/upload/upload';
 import { Folder, Close, UploadIcon } from 'src/components/icons/icons';
+import { Modal } from '@material-ui/core';
 
 // Helpers
 import { isValueInEnum } from 'src/helpers';
 
 // Types
 import { IFile } from 'src/types/models/File';
-import GenerateLink from 'src/components/modals/generateLink/generateLink';
-import { Modal } from '@material-ui/core';
 
 export enum RIGHT_SIDEBAR_VARIANTS {
   UPLOAD = 'upload',
@@ -33,49 +34,78 @@ export interface Props {
 
 function RightSidebar(props: Props) {
   // General
-  const { theme } = useContext(ThemeContext);
+  const { FileMachineStore, FileMachineActions } =
+    useContext(FileProviderContext);
+
+  const { openModal } = useModal();
+
+  const getCurrentPodName = () => FileMachineStore.context.currentPodName;
+
+  const getCurrentDirectoryName = () =>
+    FileMachineStore.context.currentDirectory;
+
+  const { theme } = useTheme();
   const classes = useStyles({ ...theme });
-  // Handle sharing content
-  const [showSharePodPopup, setShowSharePodPopup] = useState(false);
-  const [refLink, setRefLink] = useState(null);
+
   // Validate variant
   useEffect(() => {
     isValueInEnum(props.variant, RIGHT_SIDEBAR_VARIANTS);
   }, [props.variant]);
 
-  // File Context Actions
-  const { handleDelete, handleDownload, handleUpload, handleShare } =
-    useFileContextActions();
-
   // Proxy file context actions calls
-  const proxyFileContextActions = async (
+  const proxyActions = async (
     type: 'delete' | 'download' | 'upload' | 'share' | 'open',
     payload?: File[]
   ) => {
-    let response;
     switch (type) {
       case 'delete':
-        await handleDelete(props.file.name);
-        props.onClose();
+        FileMachineActions.onDeleteFile(props.file.name);
         break;
       case 'download':
-        await handleDownload(props.file.name);
+        FileMachineActions.onDownloadFile(props.file.name);
         break;
       case 'upload':
-        await handleUpload(payload);
+        FileMachineActions.onUploadFiles(payload);
         break;
       case 'share':
-        response = await handleShare(props.file.name);
-        setRefLink(response);
+        FileMachineActions.onShareFile(props.file.name);
         break;
       case 'open':
-        await handleUpload(payload);
+        // TODO: I don't know what should this action do
+        console.log('proxy action open');
         break;
       default:
-        console.warn(`proxyFileContextActions: Unknown action type of ${type}`);
+        console.warn(`proxyActions: Unknown action type of ${type}`);
         break;
     }
   };
+
+  useEffect(() => {
+    const sharedFileReference = FileMachineStore.context.sharedFileReference;
+
+    if (
+      FileMachineStore.matches({
+        [FileStates.SHARING_NODE]: FileStates.SHARING_SUCCESS,
+      }) &&
+      sharedFileReference
+    ) {
+      openModal({
+        type: MODAL_VARIANTS.GENERATE_LINK,
+        data: {
+          type: 'Share',
+          link: sharedFileReference,
+        },
+      });
+    }
+
+    if (
+      FileMachineStore.matches({
+        [FileStates.REMOVING_NODE]: FileStates.REMOVING_SUCCESS,
+      })
+    ) {
+      props.onClose();
+    }
+  }, [FileMachineStore]);
 
   const getProperHeadlineForVariant = (
     variant: RIGHT_SIDEBAR_VARIANTS
@@ -92,11 +122,6 @@ function RightSidebar(props: Props) {
         break;
     }
   };
-  useEffect(() => {
-    if (refLink !== null) {
-      setShowSharePodPopup(true);
-    }
-  }, [refLink]);
 
   // Manage opening and closing
   const [isOpen, setIsOpen] = useState(false);
@@ -128,24 +153,15 @@ function RightSidebar(props: Props) {
         </div>
         {props.variant === RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE && (
           <PreviewVariant
+            podName={getCurrentPodName()}
+            directoryName={getCurrentDirectoryName()}
             content={props.file}
-            callAction={(type) => proxyFileContextActions(type)}
+            callAction={(type) => proxyActions(type)}
           />
         )}
         {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && (
           <UploadVariant
-            callAction={(type, payload) =>
-              proxyFileContextActions(type, payload)
-            }
-          />
-        )}
-
-        {showSharePodPopup && refLink && (
-          <GenerateLink
-            handleClose={() => setShowSharePodPopup(false)}
-            link={refLink}
-            variant="share"
-            notifyMessage="Share this Pod with a friend via this reference"
+            callAction={(type, payload) => proxyActions(type, payload)}
           />
         )}
       </div>

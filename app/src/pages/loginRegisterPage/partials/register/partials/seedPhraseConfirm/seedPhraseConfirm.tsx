@@ -1,14 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+
 import useStyles from 'src/pages/loginRegisterPage/partials/register/registerStyles';
 import ButtonPill from 'src/components/buttonPill/buttonPill';
 
 import TextField from 'src/components/textField/textField';
-import { createAccount } from 'src/services/account';
 
-function SeedPhraseConfirm() {
-  const { state, actions } = useContext(StoreContext);
+export interface Props {
+  generatedMnemonic: string | null;
+  onProvidedMnemonicValid: () => void;
+}
+
+function SeedPhraseConfirm(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
@@ -17,35 +20,20 @@ function SeedPhraseConfirm() {
   const [wordTwelve, setWordTwelve] = useState('');
   // eslint-disable-next-line
   const [registerLoader, setRegisterLoader] = useState(false);
-  const [userCreated, setUserCreated] = useState(false);
 
   // eslint-disable-next-line
   const [hasError, setHasError] = useState(false);
 
-  useEffect(() => {
-    if (userCreated) {
-      actions.userLogin({ username: state.username, password: state.password });
-    }
-  }, [actions, state.password, state.username, userCreated]);
-
   async function onRegister() {
-    console.log('in confirm component', state.mnemonic);
-
-    if (!state.mnemonic) return null;
-    const seedWords = state.mnemonic.split(' ');
+    if (!props.generatedMnemonic) return null;
+    const seedWords = props.generatedMnemonic.split(' ');
 
     if (
       wordFive === seedWords[4] &&
       wordEleven === seedWords[10] &&
       wordTwelve === seedWords[11]
     ) {
-      // TODO
-      await createAccount({
-        username: state.username,
-        password: state.password,
-        mnemonic: state.mnemonic,
-      });
-      setUserCreated(true);
+      props.onProvidedMnemonicValid();
     }
   }
 

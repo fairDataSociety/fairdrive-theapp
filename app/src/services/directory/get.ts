@@ -1,6 +1,18 @@
 import HTTPClient from 'src/http';
+import { IFile } from 'src/types/models/File';
+import { IDirectory } from 'src/types/models/Directory';
 
 const podNameDefault = 'Home';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface RegularResponse {
+  code: number;
+  message: string;
+}
+
+interface GetDirectory {
+  files: IFile[] | undefined;
+  dirs: IDirectory[] | undefined;
+}
 
 export const getDirectory = async (payload: {
   directory: string;
@@ -31,7 +43,10 @@ export const getDirectory = async (payload: {
         pod_name: pod_name,
       };
     }
-    const response = await HTTPClient().get('dir/ls', { params: data });
+    // <RegularResponse>
+    const response = await HTTPClient().get<GetDirectory>('dir/ls', {
+      params: data,
+    });
 
     return response.data;
   } catch (error) {

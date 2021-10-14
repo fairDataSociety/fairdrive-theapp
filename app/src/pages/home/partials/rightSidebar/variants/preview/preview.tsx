@@ -6,7 +6,6 @@ import useStyles from '../../rightSidebarStyles';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
 
 // Components
 import FilePreview from 'src/components/filePreview/filePreview';
@@ -22,12 +21,13 @@ import { IFile } from 'src/types/models/File';
 import { Download, Globe, Hide, Share } from 'src/components/icons/icons';
 
 export interface Props {
+  podName: string;
+  directoryName: string;
   content: IFile;
   callAction: (type: 'delete' | 'download' | 'share' | 'open') => Promise<void>;
 }
 
 const PreviewVariant = (props: Props): JSX.Element => {
-  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
@@ -56,16 +56,12 @@ const PreviewVariant = (props: Props): JSX.Element => {
     //   icon: Globe,
     // },
   ];
-
   const fileLink =
-    state.podName === 'Consents'
+    props.podName === 'Consents'
       ? 'http://localhost:3000/consents'
       : props.content.name.includes('me')
       ? 'https://app.dracula.fairdatasociety.org'
       : null;
-  // : props.content.content_type.includes('image')
-  // ? 'https://app.photo.fairdatasociety.org'
-
   return (
     <>
       <div className={classes.imageContainer}>
@@ -73,15 +69,17 @@ const PreviewVariant = (props: Props): JSX.Element => {
           file={props.content}
           contentType={props.content.content_type}
           filename={props.content.name}
-          directory={urlPath(state.directory)}
-          podName={state.podName}
+          directory={urlPath(props.directoryName)}
+          podName={props.podName}
           isPreviewSidebar={true}
         />
       </div>
 
       <div className={classes.titleWrapper}>
         <p className={classes.title}>{shortenTitle(props.content.name, 22)}</p>
-        <p className={classes.fileLocation}>{'/' + urlPath(state.directory)}</p>
+        <p className={classes.fileLocation}>
+          {'/' + urlPath(props.directoryName)}
+        </p>
       </div>
 
       <div className={classes.detailsWrapper}>
@@ -106,7 +104,7 @@ const PreviewVariant = (props: Props): JSX.Element => {
         {fileLink !== null && (
           <div className={classes.actionIcon}>
             <a
-              href={`${fileLink}/${state.podName}/${state.directory}/${props.content.name}`}
+              href={`${fileLink}/${props.podName}/${props.directoryName}/${props.content.name}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -121,4 +119,4 @@ const PreviewVariant = (props: Props): JSX.Element => {
   );
 };
 
-export default React.memo(PreviewVariant);
+export default PreviewVariant;

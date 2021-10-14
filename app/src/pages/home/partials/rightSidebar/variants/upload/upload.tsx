@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 
 // Contexts
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import { StoreContext } from 'src/store/store';
+import { FileProviderContext } from 'src/machines/file';
 
 // Hooks
 import useStyles from '../../rightSidebarStyles';
@@ -16,14 +16,16 @@ import {
   BUTTON_VARIANTS,
   BUTTON_SIZE,
 } from 'src/shared/BaseButton/BaseButton';
+import FileStates from 'src/machines/file/states';
 
 export interface Props {
   callAction: (type: 'upload', payload: File[]) => Promise<void>;
 }
 
 function UploadVariant(props: Props) {
+  const { FileMachineStore } = useContext(FileProviderContext);
+
   // Global
-  const { state } = useContext(StoreContext);
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...props, ...theme });
 
@@ -39,7 +41,15 @@ function UploadVariant(props: Props) {
   ];
 
   const areAnyUploadsInProgress = (): boolean =>
-    state.fileUploadProgress.length > 0;
+    FileMachineStore.context.uploadingProgress.length > 0;
+
+  useEffect(() => {
+    console.log(FileMachineStore.matches(FileStates.UPLOADING_NODE));
+    if (FileMachineStore.matches(FileStates.UPLOADING_NODE)) {
+      console.log('prog', FileMachineStore.context.uploadingProgress);
+      console.log('queue', FileMachineStore.context.uploadingQueue);
+    }
+  }, [FileMachineStore]);
 
   const isUploadPayloadEmpty = (): boolean => uploadPayload.length === 0;
 
@@ -48,7 +58,7 @@ function UploadVariant(props: Props) {
     if (areAnyUploadsInProgress()) {
       setUploadPayload([]);
     }
-  }, [state.fileUploadProgress]);
+  }, [FileMachineStore.context.uploadingProgress]);
 
   // Manage selected files
   const removeFile = (index: number): void => {
@@ -75,8 +85,8 @@ function UploadVariant(props: Props) {
         ) : (
           <UploadQueue
             selectedFiles={uploadPayload}
-            directory={state.directory}
-            podName={state.podName}
+            directory={FileMachineStore.context.currentDirectory}
+            podName={FileMachineStore.context.currentPodName}
             removeFile={(fileIndex) => removeFile(fileIndex)}
           />
         )}

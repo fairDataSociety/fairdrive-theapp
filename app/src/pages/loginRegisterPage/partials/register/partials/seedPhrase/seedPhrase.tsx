@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import React from 'react';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from '../seedPhrase/seedPhraseStyles';
 
 export interface Props {
@@ -10,7 +10,7 @@ export interface Props {
 // Displays 2 columns of 6 words each
 
 function SeedPhrase(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   return (

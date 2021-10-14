@@ -14,7 +14,7 @@ const useStyles = makeStyles(() =>
       zIndex: 1000,
       boxShadow: '-10px 0px 13px rgba(0, 0, 0, 0.17)',
       transition: '0.5s all',
-      overflowY:'auto'
+      overflowY: 'auto',
     },
     sidebarOpen: {
       right: '0',
@@ -33,6 +33,7 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
       gap: '14.8px',
       font: (style: Theme) => style.typography.body3,
+      color: (style: Theme) => style.backgroundWhite,
     },
     icon: {
       width: '15px',
@@ -104,16 +105,15 @@ const useStyles = makeStyles(() =>
       alignItems: 'center',
     },
     actionIcon: {
-      alignContent: "center",
+      alignContent: 'center',
       width: '100%',
       maxWidth: '204px',
-      cursor:'pointer',
+      cursor: 'pointer',
       color: (style: Theme) => style.backgroundLight2,
 
       '&:hover': {
         color: (style: Theme) => style.backgroundWhite,
       },
-
     },
     // upload
     uploadBlockWrapper: {

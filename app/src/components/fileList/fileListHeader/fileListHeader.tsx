@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import React from 'react';
+import { useTheme } from 'src/contexts/themeContext/themeContext';
 import useStyles from './fileListHeaderStyles';
 
 export interface Props {
   isPodBarOpen: boolean;
 }
 function FileListHeader(props: Props) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
 
   return (
