@@ -3,6 +3,7 @@ import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
 
 const podNameDefault = 'Home';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface RegularResponse {
   code: number;
   message: string;

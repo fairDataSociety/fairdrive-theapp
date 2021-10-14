@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import useStyles from './generateLinkStyles';
