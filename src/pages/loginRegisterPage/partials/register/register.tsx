@@ -10,7 +10,11 @@ import TextField from 'src/components/textField/textField';
 import SeedPhraseGen from './partials/seedPhraseGen/seedPhraseGen';
 import SeedPhraseConfirm from './partials/seedPhraseConfirm/seedPhraseConfirm';
 import welcomeImage from 'src/media/images/welcome-image.png';
-export interface Props {}
+
+export interface Props {
+  backFunction: () => void;
+}
+
 function Register(props: Props) {
   const { AuthMachineStore, AuthMachineActions } =
     useContext(AuthProviderContext);
@@ -95,6 +99,11 @@ function Register(props: Props) {
             ''
           )}
           <ButtonPill text={'Continue'} clickFunction={onContinue}></ButtonPill>
+          <ButtonPill
+            text="Back"
+            color="grey"
+            clickFunction={props.backFunction}
+          />
         </div>
       )}
       {showMnemonicArea && (
