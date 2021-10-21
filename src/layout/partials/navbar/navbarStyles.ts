@@ -74,6 +74,10 @@ const useStyles = makeStyles(() =>
       fill: (style: Props & Theme) => style.backgroundLight2,
       cursor: 'pointer',
     },
+    blockie: {
+      borderRadius: '5px',
+      cursor: 'pointer'
+    }
   })
 );
 

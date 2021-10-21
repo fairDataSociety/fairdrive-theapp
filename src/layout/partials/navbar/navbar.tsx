@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Blockies from 'react-blockies';
 
 // Contexts
 import { useTheme } from 'src/contexts/themeContext/themeContext';
@@ -10,7 +11,7 @@ import { AuthProviderContext } from 'src/machines/auth';
 import useStyles from './navbarStyles';
 
 // Components
-import { Logo, DAppIcon, Profile, Moon, Sun } from 'src/components/icons/icons';
+import { Logo, DAppIcon, Moon, Sun } from 'src/components/icons/icons';
 import BaseActionButton, {
   ACTION_BUTTON_VARIANTS,
   ACTION_FONT_SIZE,
@@ -33,7 +34,8 @@ export interface Props {
 }
 function Navbar(props: Props): JSX.Element {
   // General
-  const { AuthMachineActions } = useContext(AuthProviderContext);
+  const { AuthMachineStore, AuthMachineActions } =
+    useContext(AuthProviderContext);
 
   const { theme, toggleTheme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
@@ -187,10 +189,14 @@ function Navbar(props: Props): JSX.Element {
                 )}
               >
                 {(openDropdown) => (
-                  <Profile
-                    onClick={() => openDropdown()}
-                    className={classes.icon}
-                  />
+                  <span onClick={() => openDropdown()}>
+                    <Blockies
+                      seed={AuthMachineStore.context.userData?.reference}
+                      size={8}
+                      scale={4}
+                      className={classes.blockie}
+                    />
+                  </span>
                 )}
               </BaseDropdown>
             </>
