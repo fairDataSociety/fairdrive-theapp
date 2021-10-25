@@ -51,7 +51,10 @@ function Main() {
         ></Login>
       )}
       {!isUserLoggedInAndUserStatsFetched() && showRegisterComponent && (
-        <Register></Register>
+        <Register backFunction={() => {
+          setShowLoginComponent(false);
+          setShowRegisterComponent(false);
+        }}></Register>
       )}
     </>
   );
