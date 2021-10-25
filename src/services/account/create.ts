@@ -14,6 +14,7 @@ export async function createAccount(payload: CreateAccount) {
     );
 
     await createPod({ password: payload.password, podName: 'Home' });
+    await createPod({ password: payload.password, podName: 'Consents' });
 
     return response;
   } catch (error) {
