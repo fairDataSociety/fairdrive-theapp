@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { PodProviderContext } from 'src/machines/pod';
 
 import { shortenTitle } from 'src/helpers/utils';
 import BaseModal from 'src/shared/BaseModal/BaseModal';
@@ -13,10 +15,17 @@ export interface Props {
 function GenerateLinkModal(props: Props): JSX.Element {
   const isReferalType = () => props.type === 'Referal';
 
+  const { PodMachineActions } = useContext(PodProviderContext);
+
+  const handleClose = () => {
+    PodMachineActions.onCloseSharePod();
+    props.onClose();
+  }
+
   return (
     <BaseModal
       title={`Create New ${props.type}`}
-      onClose={() => props.onClose()}
+      onClose={handleClose}
       textBelowBody={
         isReferalType()
           ? 'Invite a friend to use Fair Drive by using this link '

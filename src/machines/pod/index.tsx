@@ -23,6 +23,7 @@ interface PodProviderContext {
     onSetSearchQuery: (searchQuery: string) => void;
     onClearSearchQuery: () => void;
     onSharePod: () => void;
+    onCloseSharePod: () => void;
     onToggleDriveMode: () => void;
   };
 }
@@ -84,6 +85,10 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
     send({ type: EVENTS.SHARE_POD });
   };
 
+  const handleCloseSharePod = (): void => {
+    send({ type: EVENTS.CLOSE_SHARE_POD });
+  };
+
   const handleCreateDirectory = (newDirectoryName: string): void => {
     send({ type: EVENTS.CREATE_DIRECTORY, newDirectoryName });
   };
@@ -101,6 +106,7 @@ const PodProvider = ({ children }: PodProvider): JSX.Element => {
       onImportPod: handleImportPod,
       onCreatePod: handleCreatePod,
       onSharePod: handleSharePod,
+      onCloseSharePod: handleCloseSharePod,
       onSetSearchQuery: handleSearchQuery,
       onClearSearchQuery: handleClearSearchQuery,
       onCreateDirectory: handleCreateDirectory,
