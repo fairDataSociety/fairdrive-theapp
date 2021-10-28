@@ -13,6 +13,7 @@ export interface Props {
   turnOnValidation?: boolean;
   validationCallback?: (input: string) => 'success' | 'error' | 'none';
   allowForClipboarding?: boolean;
+  clipboardValue?: string;
   successMessage?: string;
   errorMessage?: string;
 }
@@ -38,7 +39,7 @@ function BaseInput(props: Props): JSX.Element {
 
   const onCopyPasteClicked = async () => {
     try {
-      await navigator.clipboard.writeText(value);
+      await navigator.clipboard.writeText(props.clipboardValue || value);
       setIsCopiedSuccessfuly(true);
     } catch (error) {
       return Promise.reject(error);
