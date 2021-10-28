@@ -37,6 +37,7 @@ function GenerateLinkModal(props: Props): JSX.Element {
           id={'GeneratedLinkInput'}
           label={isReferalType() ? 'Refer a friend' : 'Sharing link'}
           allowForClipboarding={true}
+          clipboardValue={props.link}
           initialValue={shortenTitle(props.link, 5)}
           isDisabled={true}
         />
