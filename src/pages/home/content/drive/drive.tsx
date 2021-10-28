@@ -48,7 +48,7 @@ function Drive(props: Props) {
   // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
 
-  const { openModal, modalResponse } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
@@ -74,10 +74,9 @@ function Drive(props: Props) {
   const [showGrid, setShowGrid] = useState(true);
 
   // Handle creating new folder
-  const handleCreateDirectoryRequest = (): void => {
-    if (modalResponse.type === MODAL_VARIANTS.CREATING) {
-      PodMachineActions.onCreateDirectory(modalResponse.response);
-    }
+  const handleCreateDirectoryRequest = (directory): void => {
+      PodMachineActions.onCreateDirectory(directory);
+      closeModal();
   };
 
   const openCreateFolderModal = () => {
@@ -85,7 +84,7 @@ function Drive(props: Props) {
       type: MODAL_VARIANTS.CREATING,
       data: {
         type: 'Folder',
-        onButtonClicked: () => handleCreateDirectoryRequest(),
+        onButtonClicked: handleCreateDirectoryRequest,
       },
     });
   };
