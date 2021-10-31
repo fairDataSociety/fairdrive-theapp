@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { useMatomo } from '@datapunt/matomo-tracker-react';
+
 import BaseModal from 'src/shared/BaseModal/BaseModal';
 import BaseInput from 'src/shared/BaseInput/BaseInput';
 
@@ -11,11 +13,26 @@ export interface Props {
 }
 
 function CreateModal(props: Props): JSX.Element {
+  // Matomo
+  const { trackEvent } = useMatomo();
+
   const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
     props.onModalResponse(name);
   }, [name]);
+
+  const handleButtonClick = () => {
+    trackEvent({
+      category: 'Create',
+      action: `Create ${props.type}`,
+      name: `Create ${props.type}`,
+      documentTitle: 'Drive',
+      href: 'https://app.fairdrive.fairdatasociety.org/',
+    });
+
+    props.onButtonClicked();
+  };
 
   return (
     <BaseModal
@@ -23,7 +40,7 @@ function CreateModal(props: Props): JSX.Element {
       onClose={() => props.onClose()}
       isButtonDisabled={name === null || name === ''}
       buttonContent={'Create'}
-      onButtonClicked={() => props.onButtonClicked()}
+      onButtonClicked={() => handleButtonClick()}
       textBelowBody={`You are about to create a new ${props.type.toLocaleLowerCase()}.`}
     >
       <>
