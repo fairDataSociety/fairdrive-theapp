@@ -1,4 +1,5 @@
 import React from 'react';
+import Matomo from 'src/contexts/matomo';
 import AuthProvider from 'src/machines/auth';
 import PodProvider from 'src/machines/pod';
 import FileProvider from 'src/machines/file';
@@ -19,17 +20,19 @@ if (process.env.NODE_ENV !== 'production') {
 const App = (): JSX.Element => {
   return (
     <>
-      <AuthProvider>
-        <PodProvider>
-          <FileProvider>
-            <ThemeProvider>
-              <ModalProvider>
-                <Layout />
-              </ModalProvider>
-            </ThemeProvider>
-          </FileProvider>
-        </PodProvider>
-      </AuthProvider>
+      <Matomo>
+        <AuthProvider>
+          <PodProvider>
+            <FileProvider>
+              <ThemeProvider>
+                <ModalProvider>
+                  <Layout />
+                </ModalProvider>
+              </ThemeProvider>
+            </FileProvider>
+          </PodProvider>
+        </AuthProvider>
+      </Matomo>
       <Toaster />
     </>
   );
