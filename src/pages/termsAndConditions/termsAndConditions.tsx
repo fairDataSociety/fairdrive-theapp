@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTheme } from 'src/contexts/themeContext/themeContext';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
+
 import useStyles from './termsAndConditionsStyles';
 
 function TermsAndConditions() {
+  // Matomo
+  const { trackPageView } = useMatomo();
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Terms and Conditions Page',
+      href: 'https://app.fairdrive.fairdatasociety.org/',
+    });
+  }, []);
+
   const { theme } = useTheme();
 
   const classes = useStyles({ ...theme });
