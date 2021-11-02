@@ -1,0 +1,5 @@
+enum ACTIONS {
+  GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS',
+}
+
+export default ACTIONS;
