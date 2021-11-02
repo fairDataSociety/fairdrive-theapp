@@ -45,6 +45,19 @@ function Register(props: Props) {
   useEffect(() => {
     if (
       AuthMachineStore.matches({
+        [AuthStates.REGISTER_NODE]: {
+          [AuthStates.REGISTER_CREATE_MNEMONIC_SUCCESS]:
+            AuthStates.REGISTER_CREATING_ACCOUNT_FAILED,
+        },
+      })
+    ) {
+      setShowRegisterArea(true);
+      setShowMnemonicArea(false);
+      setShowMnemonicInputArea(false);
+
+      setHasError(true);
+    } else if (
+      AuthMachineStore.matches({
         [AuthStates.REGISTER_NODE]: AuthStates.REGISTER_CREATE_MNEMONIC_SUCCESS,
       })
     ) {
@@ -105,7 +118,7 @@ function Register(props: Props) {
             onContinue={onContinue}
           ></TextField>
           {hasError ? (
-            <div className={classes.errormsg}>Could not login.</div>
+            <div className={classes.errormsg}>Registration failed, please try again!</div>
           ) : (
             ''
           )}
