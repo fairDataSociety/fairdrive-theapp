@@ -51,6 +51,8 @@ function UploadVariant(props: Props) {
     }
   }, [FileMachineStore]);
 
+  useEffect(() => {}, []);
+
   const isUploadPayloadEmpty = (): boolean => uploadPayload.length === 0;
 
   // When upload begin, clean selected files

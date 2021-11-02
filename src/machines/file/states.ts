@@ -31,6 +31,12 @@ enum STATES {
   REMOVING_LOADING = 'removing_loading',
   REMOVING_SUCCESS = 'removing_success',
   REMOVING_ERROR = 'removing_error',
+
+  // Import
+  IMPORT_NODE = "importing",
+  IMPORT_LOADING = "import_loading",
+  IMPORT_SUCCESS = "import_loading",
+  IMPORT_ERROR = "import_loading",
 }
 
 export default STATES;

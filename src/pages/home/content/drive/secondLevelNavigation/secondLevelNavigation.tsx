@@ -167,9 +167,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.CREATE}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
-              onClickCallback={() =>
-                console.log('cliecked onOpenImportFileModal')
-              }
+              onClickCallback={() => props.onOpenCreateFolderModal()}
             />
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.FOLDER}

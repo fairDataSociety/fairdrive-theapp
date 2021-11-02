@@ -50,6 +50,10 @@ export type FileEvents =
   | {
       type: EVENTS.SHARE;
       fileName: string;
+    }  
+  | {
+      type: EVENTS.IMPORT;
+      sharedFileReference: string;
     }
   | {
       type: EVENTS.UPLOAD;
@@ -121,6 +125,13 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             target: STATES.SHARING_NODE,
             actions: assign({
               fileNameToShare: (_, { fileName }) => fileName,
+            }),
+            cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
+          },
+          [EVENTS.IMPORT]: {
+            target: STATES.IMPORT_NODE,
+            actions: assign({
+              sharedFileReference: (_, { sharedFileReference }) => sharedFileReference ,
             }),
             cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
           },
@@ -483,6 +494,50 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           },
         },
       },
+      [STATES.IMPORT_NODE]: {
+        initial: STATES.IMPORT_LOADING,
+        states: {
+          [STATES.IMPORT_LOADING]: {
+            invoke: {
+              id: 'importFileService',
+              src: (ctx) =>
+                FileService.receiveFileInfo(
+                  ctx.sharedFileReference,
+                  ctx.currentPodName,
+                  writePath(ctx.currentDirectory),
+                ),
+              onDone: {
+                target: STATES.IMPORT_SUCCESS,
+                actions: assign({
+                  sharedFileReference: null,
+                }),
+              },
+              onError: {
+                target: STATES.IMPORT_ERROR,
+                actions: assign(() => {
+                  return {
+                    sharedFileReference: null,
+                  };
+                }),
+              },
+            },
+          },
+          [STATES.IMPORT_SUCCESS]: {
+            after: {
+              100: {
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+              },
+            },
+          },
+          [STATES.IMPORT_ERROR]: {
+            after: {
+              100: {
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+              },
+            },
+          },
+        },
+      }
     },
     on: {
       [EVENTS.UPDATE_CURRENT_PODNAME]: {
