@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import AuthStates from 'src/machines/auth/states';
 import { AuthProviderContext } from 'src/machines/auth';
@@ -16,6 +17,16 @@ export interface Props {
 }
 
 function Register(props: Props) {
+  // Matomo
+  const { trackPageView } = useMatomo();
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Register Page',
+      href: 'https://app.fairdrive.fairdatasociety.org/',
+    });
+  }, []);
+
   const { AuthMachineStore, AuthMachineActions } =
     useContext(AuthProviderContext);
 

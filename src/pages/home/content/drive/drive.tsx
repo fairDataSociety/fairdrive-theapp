@@ -6,6 +6,7 @@ import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
 import PodStates from 'src/machines/pod/states';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
 import { PodProviderContext } from 'src/machines/pod';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
@@ -45,6 +46,16 @@ export type TCurrentFilter =
   | 'descending-abc';
 
 function Drive(props: Props) {
+  // Matomo
+  const { trackPageView } = useMatomo();
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Pod',
+      href: 'https://app.fairdrive.fairdatasociety.org/',
+    });
+  }, []);
+
   // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
 
@@ -75,8 +86,8 @@ function Drive(props: Props) {
 
   // Handle creating new folder
   const handleCreateDirectoryRequest = (directory): void => {
-      PodMachineActions.onCreateDirectory(directory);
-      closeModal();
+    PodMachineActions.onCreateDirectory(directory);
+    closeModal();
   };
 
   const openCreateFolderModal = () => {

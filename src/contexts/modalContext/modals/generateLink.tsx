@@ -1,4 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
+
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { PodProviderContext } from 'src/machines/pod';
 
@@ -13,6 +15,19 @@ export interface Props {
 }
 
 function GenerateLinkModal(props: Props): JSX.Element {
+  // Matomo
+  const { trackEvent } = useMatomo();
+
+  useEffect(() => {
+    trackEvent({
+      category: 'Share',
+      action: 'Open Share Modal',
+      name: 'Open Share Modal',
+      documentTitle: 'Drive',
+      href: 'https://app.fairdrive.fairdatasociety.org/',
+    });
+  });
+
   const isReferalType = () => props.type === 'Referal';
 
   const { PodMachineActions } = useContext(PodProviderContext);
@@ -20,7 +35,7 @@ function GenerateLinkModal(props: Props): JSX.Element {
   const handleClose = () => {
     PodMachineActions.onCloseSharePod();
     props.onClose();
-  }
+  };
 
   return (
     <BaseModal
