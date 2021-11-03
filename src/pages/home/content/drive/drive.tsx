@@ -31,6 +31,7 @@ import { RIGHT_SIDEBAR_VARIANTS } from 'src/pages/home/partials/rightSidebar/rig
 
 // Icons
 import { Search as SearchIcon } from 'src/components/icons/icons';
+import { FileProviderContext } from 'src/machines/file';
 export interface Props {
   isPodBarOpen: boolean;
   setRightSidebarContent: (data: OpenRightSidebar) => void;
@@ -47,7 +48,11 @@ export type TCurrentFilter =
 function Drive(props: Props) {
   // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
-
+  const { FileMachineStore, FileMachineActions } =
+    useContext(FileProviderContext);
+  const getCurrentPodName = () => FileMachineStore.context.currentPodName;
+  const getCurrentDirectoryName = () =>
+    FileMachineStore.context.currentDirectory;
   const { openModal, modalResponse } = useModal();
 
   const { theme } = useTheme();
@@ -79,6 +84,16 @@ function Drive(props: Props) {
       PodMachineActions.onCreateDirectory(modalResponse.response);
     }
   };
+  // Handle importing new file
+  const handleImportFileRequest = (): void => {
+    if (modalResponse.type === MODAL_VARIANTS.IMPORTING) {
+      FileMachineActions.onImportFile(
+        modalResponse.response,
+        getCurrentPodName(),
+        getCurrentDirectoryName()
+      );
+    }
+  };
 
   const openCreateFolderModal = () => {
     openModal({
@@ -86,6 +101,15 @@ function Drive(props: Props) {
       data: {
         type: 'Folder',
         onButtonClicked: () => handleCreateDirectoryRequest(),
+      },
+    });
+  };
+  const openImportFileModal = () => {
+    openModal({
+      type: MODAL_VARIANTS.IMPORTING,
+      data: {
+        type: 'File',
+        onButtonClicked: () => handleImportFileRequest(),
       },
     });
   };
@@ -168,6 +192,7 @@ function Drive(props: Props) {
                 variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD,
               })
             }
+            onOpenImportFileModal={() => openImportFileModal()}
           />
         )}
 

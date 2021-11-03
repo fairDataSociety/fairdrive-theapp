@@ -32,6 +32,7 @@ export interface FileContext {
   fileToDelete: string | null;
   uploadingProgress: FileUploadProgress[];
   cancelRequestReferences: CancelRequestReferences[];
+  importedFileData: { sharedFileReference:string, currentPodName: string; currentDirectory: string } | null;
 }
 
 export type FileEvents =
@@ -53,7 +54,11 @@ export type FileEvents =
     }  
   | {
       type: EVENTS.IMPORT;
-      sharedFileReference: string;
+      payload: {
+        sharedFileReference: string;
+        currentPodName: string;
+        currentDirectory: string;
+      }
     }
   | {
       type: EVENTS.UPLOAD;
@@ -110,6 +115,9 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
       uploadingQueue: [],
       uploadingProgress: [],
       cancelRequestReferences: [],
+
+      // Import
+      importedFileData: null,
     },
     states: {
       [STATES.IDLE]: {
@@ -131,7 +139,8 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           [EVENTS.IMPORT]: {
             target: STATES.IMPORT_NODE,
             actions: assign({
-              sharedFileReference: (_, { sharedFileReference }) => sharedFileReference ,
+              importedFileData: (_, { payload }) => payload,
+              
             }),
             cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
           },
@@ -500,11 +509,11 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           [STATES.IMPORT_LOADING]: {
             invoke: {
               id: 'importFileService',
-              src: (ctx) =>
+              src: (importedFileData) =>
                 FileService.receiveFileInfo(
-                  ctx.sharedFileReference,
-                  ctx.currentPodName,
-                  writePath(ctx.currentDirectory),
+                  importedFileData.sharedFileReference,
+                  importedFileData.currentPodName,
+                  writePath(importedFileData.currentDirectory),
                 ),
               onDone: {
                 target: STATES.IMPORT_SUCCESS,

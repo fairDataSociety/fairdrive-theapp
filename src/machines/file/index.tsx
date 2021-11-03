@@ -20,7 +20,11 @@ interface FileProviderContext {
     onUploadFiles: (uploadingQueue: File[]) => void;
     onCancelUpload: (requestIdToCancel: string, fileName: string) => void;
     onShareFile: (fileName: string) => void;
-    onImportFile: (reference: string) => void;
+    onImportFile: (
+      reference: string,
+      podName: string,
+      directory: string
+    ) => void;
   };
 }
 
@@ -84,8 +88,19 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
     send({ type: EVENTS.SHARE, fileName });
   };
 
-  const handleImportFile = (sharedFileReference: string) => {
-    send({ type: EVENTS.IMPORT, sharedFileReference });
+  const handleImportFile = (
+    sharedFileReference: string,
+    podName: string,
+    directory: string
+  ) => {
+    send({
+      type: EVENTS.IMPORT,
+      payload: {
+        sharedFileReference: sharedFileReference,
+        currentPodName: podName,
+        currentDirectory: directory,
+      },
+    });
   };
 
   // Update podName and directoryName in FileMachine
