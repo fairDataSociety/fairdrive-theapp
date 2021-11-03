@@ -137,7 +137,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
           },
           [EVENTS.IMPORT]: {
-            target: STATES.IMPORT_NODE,
+            target: STATES.IMPORT_FILE,
             actions: assign({
               importedFileData: (_, { payload }) => payload,
               
@@ -503,22 +503,30 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           },
         },
       },
-      [STATES.IMPORT_NODE]: {
+      [STATES.IMPORT_FILE]: {
         initial: STATES.IMPORT_LOADING,
         states: {
           [STATES.IMPORT_LOADING]: {
             invoke: {
+              onEntry:{
+                actions: assign({
+                  fileImported: false,
+                  fileImportedFailed: false
+                }),
+              },
               id: 'importFileService',
-              src: (importedFileData) =>
+              src: (importedFileData) =>{
                 FileService.receiveFileInfo(
                   importedFileData.sharedFileReference,
                   importedFileData.currentPodName,
                   writePath(importedFileData.currentDirectory),
-                ),
+                )},
+                
               onDone: {
                 target: STATES.IMPORT_SUCCESS,
                 actions: assign({
                   sharedFileReference: null,
+                  fileImported: true
                 }),
               },
               onError: {
@@ -526,6 +534,8 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
                 actions: assign(() => {
                   return {
                     sharedFileReference: null,
+                    fileImportFailed: true,
+                    fileImported: false
                   };
                 }),
               },
@@ -534,7 +544,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           [STATES.IMPORT_SUCCESS]: {
             after: {
               100: {
-                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`, 
               },
             },
           },

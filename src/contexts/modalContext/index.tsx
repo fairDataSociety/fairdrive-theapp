@@ -72,9 +72,9 @@ export function ModalProvider({ children }: ModalProviderProps): JSX.Element {
       return (
         <ImportingModal
           type={modalData.data.type}
-          onButtonClicked={() =>
-            modalData.data.onButtonClicked(modalResponse.response)
-          }
+          onButtonClicked={() => {
+            modalData.data.onButtonClicked(modalResponse.response);
+          }}
           onModalResponse={(data) =>
             setModalResponse({
               type: MODAL_VARIANTS.IMPORTING,

@@ -6,6 +6,7 @@ import createFileMachine, {
   FileContext,
   FileEvents,
 } from 'src/machines/file/machine';
+import * as FileService from 'src/services/file';
 
 import EVENTS from 'src/machines/file/events';
 import { PodProviderContext } from 'src/machines/pod';
@@ -93,6 +94,7 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
     podName: string,
     directory: string
   ) => {
+    FileService.receiveFileInfo(sharedFileReference, podName, directory);
     send({
       type: EVENTS.IMPORT,
       payload: {
