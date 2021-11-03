@@ -46,6 +46,7 @@ const useStyles = makeStyles(() =>
     },
     errormsg: {
       // from bodyBold in Fairdrive:
+      color: (style: Theme) => style.red,
     },
     buttons: {
       display: 'flex',

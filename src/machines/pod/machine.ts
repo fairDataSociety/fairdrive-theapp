@@ -90,6 +90,9 @@ export type PodEvents =
       type: EVENTS.SHARE_POD;
     }
   | {
+      type: EVENTS.CLOSE_SHARE_POD;
+    }
+  | {
       type: EVENTS.UPDATE_USER_PASSWORD;
       password: string;
     }
@@ -305,6 +308,13 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                                   },
                                   [EVENTS.SHARE_POD]: {
                                     target: STATES.SHARE_POD,
+                                  },
+                                  [EVENTS.CLOSE_SHARE_POD]: {
+                                    actions: assign((_) => {
+                                      return {
+                                        sharedPodReference: null,
+                                      };
+                                    }),
                                   },
                                 },
                               },

@@ -155,11 +155,13 @@ const createAuthMachine = createMachine<AuthContext, AuthEvents>(
               [STATES.REGISTER_CREATING_ACCOUNT_FAILED]: {
                 // On register failed let's allow for re try
                 on: {
-                  // After register let's allow for login in
                   [EVENTS.REGISTER_SET_USERNAME_AND_PASSWORDS]: {
-                    target: STATES.REGISTER_CREATING_ACCOUNT_LOADING,
+                    target: `#${STATES.STATE_ROOT}`,
                     actions: assign({
-                      registrationUserData: (_, { payload }) => payload,
+                      registrationUserData: (_, { payload }) => ({
+                        username: payload.username,
+                        password: payload.password,
+                      }),
                     }),
                   },
                 },

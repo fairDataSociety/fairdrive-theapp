@@ -6,6 +6,7 @@ import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
 import PodStates from 'src/machines/pod/states';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
 import { PodProviderContext } from 'src/machines/pod';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { useTheme } from 'src/contexts/themeContext/themeContext';
 
@@ -46,6 +47,16 @@ export type TCurrentFilter =
   | 'descending-abc';
 
 function Drive(props: Props) {
+  // Matomo
+  const { trackPageView } = useMatomo();
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Pod',
+      href: 'https://app.fairdrive.fairdatasociety.org/',
+    });
+  }, []);
+
   // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
   const { FileMachineStore, FileMachineActions } =
@@ -53,7 +64,8 @@ function Drive(props: Props) {
   const getCurrentPodName = () => FileMachineStore.context.currentPodName;
   const getCurrentDirectoryName = () =>
     FileMachineStore.context.currentDirectory;
-  const { openModal, modalResponse } = useModal();
+  const { openModal, modalResponse, closeModal } = useModal();
+
 
   const { theme } = useTheme();
   const classes = useStyles({ ...props, ...theme });
@@ -79,10 +91,9 @@ function Drive(props: Props) {
   const [showGrid, setShowGrid] = useState(true);
 
   // Handle creating new folder
-  const handleCreateDirectoryRequest = (): void => {
-    if (modalResponse.type === MODAL_VARIANTS.CREATING) {
-      PodMachineActions.onCreateDirectory(modalResponse.response);
-    }
+  const handleCreateDirectoryRequest = (directory): void => {
+    PodMachineActions.onCreateDirectory(directory);
+    closeModal();
   };
   // Handle importing new file
   const handleImportFileRequest = (): void => {
@@ -100,7 +111,7 @@ function Drive(props: Props) {
       type: MODAL_VARIANTS.CREATING,
       data: {
         type: 'Folder',
-        onButtonClicked: () => handleCreateDirectoryRequest(),
+        onButtonClicked: handleCreateDirectoryRequest,
       },
     });
   };
