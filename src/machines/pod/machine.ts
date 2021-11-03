@@ -200,11 +200,20 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                   [STATES.OPEN_POD_LOADING]: {
                     invoke: {
                       id: 'openPodService',
-                      src: (context) =>
-                        PodService.openPod({
-                          password: context.userPassword,
-                          podName: context.podNameToOpen,
-                        }),
+                      src: (context) => {
+                        if (
+                          context.podNameToOpen ===
+                            context.currentlyOpenedPodName ||
+                          context.openedPods.includes(context.podNameToOpen)
+                        ) {
+                          return Promise.resolve();
+                        } else {
+                          return PodService.openPod({
+                            password: context.userPassword,
+                            podName: context.podNameToOpen,
+                          });
+                        }
+                      },
                       onDone: {
                         target: STATES.OPEN_POD_SUCCESS,
                         actions: assign((context) => {
@@ -525,9 +534,10 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
             }),
           onDone: {
             target: STATES.FETCH_PODS,
-            actions: assign((_) => {
+            actions: assign((context) => {
               return {
                 createPodName: null,
+                openedPods: [...context.openedPods, context.createPodName],
               };
             }),
           },
