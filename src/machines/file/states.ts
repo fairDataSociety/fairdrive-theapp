@@ -35,8 +35,8 @@ enum STATES {
   // Import
   IMPORT_FILE = "importing",
   IMPORT_LOADING = "import_loading",
-  IMPORT_SUCCESS = "import_loading",
-  IMPORT_ERROR = "import_loading",
+  IMPORT_SUCCESS = "import_success",
+  IMPORT_FAILED = "import_failed",
 }
 
 export default STATES;

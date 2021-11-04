@@ -508,34 +508,24 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
         states: {
           [STATES.IMPORT_LOADING]: {
             invoke: {
-              onEntry:{
-                actions: assign({
-                  fileImported: false,
-                  fileImportedFailed: false
-                }),
-              },
               id: 'importFileService',
-              src: (importedFileData) =>{
+              src: (ctx) =>
                 FileService.receiveFileInfo(
-                  importedFileData.sharedFileReference,
-                  importedFileData.currentPodName,
-                  writePath(importedFileData.currentDirectory),
-                )},
-                
+                  ctx.sharedFileReference,
+                  ctx.currentPodName,
+                  writePath(ctx.currentDirectory)
+                ),
               onDone: {
                 target: STATES.IMPORT_SUCCESS,
                 actions: assign({
-                  sharedFileReference: null,
-                  fileImported: true
+                  sharedFileReference: (_, event) => event.data,
                 }),
               },
               onError: {
-                target: STATES.IMPORT_ERROR,
+                target: STATES.IMPORT_FAILED,
                 actions: assign(() => {
                   return {
                     sharedFileReference: null,
-                    fileImportFailed: true,
-                    fileImported: false
                   };
                 }),
               },
@@ -544,11 +534,11 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
           [STATES.IMPORT_SUCCESS]: {
             after: {
               100: {
-                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`, 
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
               },
             },
           },
-          [STATES.IMPORT_ERROR]: {
+          [STATES.IMPORT_FAILED]: {
             after: {
               100: {
                 target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
@@ -556,7 +546,7 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
         },
-      }
+      },
     },
     on: {
       [EVENTS.UPDATE_CURRENT_PODNAME]: {
