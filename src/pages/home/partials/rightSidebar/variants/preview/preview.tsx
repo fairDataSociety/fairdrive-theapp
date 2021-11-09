@@ -59,7 +59,7 @@ const PreviewVariant = (props: Props): JSX.Element => {
   const fileLink =
     props.podName === 'Consents'
       ? 'http://localhost:3000/consents'
-      : props.content.name.includes('me')
+      : props.content.name.includes('md')
       ? 'https://app.dracula.fairdatasociety.org'
       : null;
   return (
