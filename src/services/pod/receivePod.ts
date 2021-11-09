@@ -8,7 +8,7 @@ interface ReceivePayload {
 export async function receivePod(payload: ReceivePayload) {
   try {
     const response = await HTTPClient().get(
-      `pod/receive?pod_name=${payload.pod_name}&reference=${payload.podReference}`
+      `pod/receive?sharing_ref=${payload.podReference}&ref=${payload.podReference}`
     );
 
     return response;
