@@ -9,6 +9,7 @@ import { PodProviderContext } from 'src/machines/pod';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { useTheme } from 'src/contexts/themeContext/themeContext';
+import * as DirectoryService from 'src/services/directory';
 
 // Components
 import SecondLevelNavigation from './secondLevelNavigation/secondLevelNavigation';
@@ -32,6 +33,7 @@ import { RIGHT_SIDEBAR_VARIANTS } from 'src/pages/home/partials/rightSidebar/rig
 
 // Icons
 import { Search as SearchIcon } from 'src/components/icons/icons';
+import { FileProviderContext } from 'src/machines/file';
 export interface Props {
   isPodBarOpen: boolean;
   setRightSidebarContent: (data: OpenRightSidebar) => void;
@@ -58,7 +60,11 @@ function Drive(props: Props) {
 
   // Contexts
   const { PodMachineStore, PodMachineActions } = useContext(PodProviderContext);
-
+  const { FileMachineStore, FileMachineActions } =
+    useContext(FileProviderContext);
+  const getCurrentPodName = () => FileMachineStore.context.currentPodName;
+  const getCurrentDirectoryName = () =>
+    FileMachineStore.context.currentDirectory;
   const { openModal, closeModal } = useModal();
 
   const { theme } = useTheme();
@@ -89,6 +95,18 @@ function Drive(props: Props) {
     PodMachineActions.onCreateDirectory(directory);
     closeModal();
   };
+  // Handle importing new file
+  const handleImportFileRequest = (sharedFileReference: string): void => {
+    FileMachineActions.onImportFile(
+      sharedFileReference,
+      getCurrentPodName(),
+      getCurrentDirectoryName()
+    );
+    setTimeout(() => {
+      setFilesAfterImport();
+      closeModal();
+    }, 700);
+  };
 
   const openCreateFolderModal = () => {
     openModal({
@@ -96,6 +114,16 @@ function Drive(props: Props) {
       data: {
         type: 'Folder',
         onButtonClicked: handleCreateDirectoryRequest,
+      },
+    });
+  };
+  const openImportFileModal = () => {
+    openModal({
+      type: MODAL_VARIANTS.IMPORTING,
+      data: {
+        type: 'File',
+        onButtonClicked: (response: string) =>
+          handleImportFileRequest(response),
       },
     });
   };
@@ -113,7 +141,17 @@ function Drive(props: Props) {
     PodMachineStore.matches(
       `${PodStates.FETCH_PODS}.${PodStates.FETCH_PODS_SUCCESS}.${PodStates.OPEN_POD}.${PodStates.OPEN_POD_SUCCESS}.${PodStates.DIRECTORY}.${PodStates.DIRECTORY_SUCCESS}.${PodStates.SEARCH_RESULTS}`
     );
-
+  const setFilesAfterImport = async () => {
+    setFiles(null);
+    setFolders(null);
+    PodMachineActions.onOpenDirectory(getCurrentDirectoryName());
+    const response = await DirectoryService.getDirectory({
+      podName: getCurrentPodName(),
+      directory: getCurrentDirectoryName(),
+    });
+    setFiles(response.files);
+    setFolders(response.dirs);
+  };
   useEffect(() => {
     if (isSearchQuerySetted()) {
       const searchResults = PodMachineStore.context.searchResults;
@@ -178,6 +216,7 @@ function Drive(props: Props) {
                 variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD,
               })
             }
+            onOpenImportFileModal={() => openImportFileModal()}
           />
         )}
 

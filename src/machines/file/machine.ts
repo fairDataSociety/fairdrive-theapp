@@ -32,6 +32,7 @@ export interface FileContext {
   fileToDelete: string | null;
   uploadingProgress: FileUploadProgress[];
   cancelRequestReferences: CancelRequestReferences[];
+  importedFileData: { sharedFileReference:string, currentPodName: string; currentDirectory: string } | null;
 }
 
 export type FileEvents =
@@ -50,6 +51,14 @@ export type FileEvents =
   | {
       type: EVENTS.SHARE;
       fileName: string;
+    }  
+  | {
+      type: EVENTS.IMPORT;
+      payload: {
+        sharedFileReference: string;
+        currentPodName: string;
+        currentDirectory: string;
+      }
     }
   | {
       type: EVENTS.UPLOAD;
@@ -106,6 +115,9 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
       uploadingQueue: [],
       uploadingProgress: [],
       cancelRequestReferences: [],
+
+      // Import
+      importedFileData: null,
     },
     states: {
       [STATES.IDLE]: {
@@ -121,6 +133,14 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             target: STATES.SHARING_NODE,
             actions: assign({
               fileNameToShare: (_, { fileName }) => fileName,
+            }),
+            cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
+          },
+          [EVENTS.IMPORT]: {
+            target: STATES.IMPORT_FILE,
+            actions: assign({
+              importedFileData: (_, { payload }) => payload,
+              
             }),
             cond: GUARDS.IS_POD_AND_DIRECTORY_SPECIFIED,
           },
@@ -475,6 +495,50 @@ const createFileMachine = createMachine<FileContext, FileEvents>(
             },
           },
           [STATES.SHARING_ERROR]: {
+            after: {
+              100: {
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+              },
+            },
+          },
+        },
+      },
+      [STATES.IMPORT_FILE]: {
+        initial: STATES.IMPORT_LOADING,
+        states: {
+          [STATES.IMPORT_LOADING]: {
+            invoke: {
+              id: 'importFileService',
+              src: (ctx) =>
+                FileService.receiveFileInfo(
+                  ctx.sharedFileReference,
+                  ctx.currentPodName,
+                  writePath(ctx.currentDirectory)
+                ),
+              onDone: {
+                target: STATES.IMPORT_SUCCESS,
+                actions: assign({
+                  sharedFileReference: (_, event) => event.data,
+                }),
+              },
+              onError: {
+                target: STATES.IMPORT_FAILED,
+                actions: assign(() => {
+                  return {
+                    sharedFileReference: null,
+                  };
+                }),
+              },
+            },
+          },
+          [STATES.IMPORT_SUCCESS]: {
+            after: {
+              100: {
+                target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
+              },
+            },
+          },
+          [STATES.IMPORT_FAILED]: {
             after: {
               100: {
                 target: `#${STATES.STATE_ROOT}.${STATES.IDLE}`,
