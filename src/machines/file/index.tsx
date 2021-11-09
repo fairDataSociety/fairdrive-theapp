@@ -6,6 +6,7 @@ import createFileMachine, {
   FileContext,
   FileEvents,
 } from 'src/machines/file/machine';
+import * as FileService from 'src/services/file';
 
 import EVENTS from 'src/machines/file/events';
 import { PodProviderContext } from 'src/machines/pod';
@@ -20,6 +21,11 @@ interface FileProviderContext {
     onUploadFiles: (uploadingQueue: File[]) => void;
     onCancelUpload: (requestIdToCancel: string, fileName: string) => void;
     onShareFile: (fileName: string) => void;
+    onImportFile: (
+      reference: string,
+      podName: string,
+      directory: string
+    ) => void;
   };
 }
 
@@ -83,6 +89,22 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
     send({ type: EVENTS.SHARE, fileName });
   };
 
+  const handleImportFile = (
+    sharedFileReference: string,
+    podName: string,
+    directory: string
+  ) => {
+    FileService.receiveFileInfo(sharedFileReference, podName, directory);
+    send({
+      type: EVENTS.IMPORT,
+      payload: {
+        sharedFileReference: sharedFileReference,
+        currentPodName: podName,
+        currentDirectory: directory,
+      },
+    });
+  };
+
   // Update podName and directoryName in FileMachine
   useEffect(() => {
     const filePodNameCopy = state.context.currentPodName;
@@ -113,6 +135,7 @@ const FileProvider = ({ children }: FileProviderProps): JSX.Element => {
       onDownloadFile: handleDownloadFile,
       onUploadFiles: handleUploadFiles,
       onShareFile: handleShareFile,
+      onImportFile: handleImportFile,
       onCancelUpload: handleCancelUpload,
     },
   };

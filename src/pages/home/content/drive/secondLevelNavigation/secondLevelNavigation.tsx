@@ -22,6 +22,7 @@ export interface Props {
   isSearchResults: boolean;
   isOwned: boolean;
   onOpenCreateFolderModal: () => void;
+  onOpenImportFileModal: () => void;
   onOpenUploadModal: () => void;
 }
 
@@ -167,9 +168,7 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.CREATE}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
-              onClickCallback={() =>
-                console.log('cliecked onOpenImportFileModal')
-              }
+              onClickCallback={() => props.onOpenImportFileModal()}
             />
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.FOLDER}
@@ -187,12 +186,8 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
           }
           onCloseActionMenu={() => setIsActionMenuOpen(false)}
           onOpenCreateFolderModal={() => props.onOpenCreateFolderModal()}
-          onOpenImportFileModal={() =>
-            console.log('cliecked onOpenImportFileModal')
-          }
-          onOpenUploadModal={() => {
-            props.onOpenUploadModal();
-          }}
+          onOpenImportFileModal={() => props.onOpenImportFileModal()}
+          onOpenUploadModal={() => props.onOpenUploadModal()}
         />
       )}
       <p className={classes.disclaimer}>
