@@ -41,7 +41,7 @@ export const ActionMenu = (props: Props): JSX.Element => {
       label: 'Import',
       action: props.onOpenImportFileModal,
       caption: 'Import file using reference',
-      forState: ['Shared'],
+      forState: ['Owned', 'Shared'],
     },
     {
       icon: ACTION_BUTTON_ICONS.FOLDER,
