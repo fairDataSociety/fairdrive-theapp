@@ -45,9 +45,7 @@ function PodSidebar(props: Props) {
         type: MODAL_VARIANTS.CREATING,
         data: {
           type: 'Pod',
-          onButtonClicked: (data) => {
-            PodMachineActions.onCreatePod(data);
-          },
+          onButtonClicked: (data) => PodMachineActions.onCreatePod(data),
         },
       });
     } else {
@@ -55,9 +53,7 @@ function PodSidebar(props: Props) {
         type: MODAL_VARIANTS.IMPORTING,
         data: {
           type: 'Pod',
-          onButtonClicked: (data) => {
-            PodMachineActions.onImportPod(data);
-          },
+          onButtonClicked: (data) => PodMachineActions.onImportPod(data),
         },
       });
     }
