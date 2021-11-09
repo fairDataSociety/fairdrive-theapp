@@ -1,11 +1,10 @@
 import HTTPClient from 'src/http';
-import qs from 'querystring';
 
-export async function getReceivePodInfo(payload: { podReference: string }) {
+export async function getReceivePodInfo(payload: { sharing_ref: string }) {
   try {
-    const response = await HTTPClient().get('pod/receiveinfo', {
-      params: qs.stringify({ reference: payload.podReference }, 'brackets'),
-    });
+    const response = await HTTPClient().get(
+      `pod/receiveinfo?sharing_ref=${payload.sharing_ref}&ref=name`
+    );
 
     return response;
   } catch (error) {
