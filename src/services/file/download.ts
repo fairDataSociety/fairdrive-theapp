@@ -1,19 +1,15 @@
 import urlPath from 'src/helpers/urlPath';
-import FileSaver from 'file-saver';
 import HTTPClient from 'src/http';
 
 export async function downloadFile(
   filename: string,
   directory: string,
   podName: string
-): Promise<void> {
+): Promise<Blob> {
   try {
-    let writePath = '';
-    if (directory === 'root') {
-      writePath = '/';
-    } else {
-      writePath = '/' + urlPath(directory) + '/';
-    }
+    const writePath =
+      directory === 'root' ? '/' : '/' + urlPath(directory) + '/';
+
     const formData = new FormData();
     formData.append('file_path', writePath + filename);
     formData.append('pod_name', podName);
@@ -26,9 +22,7 @@ export async function downloadFile(
       }
     );
 
-    FileSaver.saveAs(downloadFile.data, filename);
-
-    //const blob = new Blob(downloadFile.data)
+    return downloadFile.data;
   } catch (error) {
     return Promise.reject(error);
   }
