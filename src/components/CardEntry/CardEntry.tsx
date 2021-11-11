@@ -6,6 +6,7 @@ import prettyBytes from 'pretty-bytes';
 import { DRIVE_MODES } from 'src/machines/pod/machine';
 import PodStates from 'src/machines/pod/states';
 import { PodProviderContext } from 'src/machines/pod';
+import { DownloadProviderContext } from 'src/machines/download';
 
 // Hooks
 import { useHighlightingOfMatchingPhrase } from 'src/hooks/useHighlightingOfMatchingPhrase';
@@ -36,6 +37,9 @@ export interface Props {
 
 function FileCard(props: Props) {
   const { PodMachineStore } = useContext(PodProviderContext);
+  const { DownloadMachineActions } = useContext(
+    DownloadProviderContext
+  );
 
   const isSearchQuerySetted = () =>
     PodMachineStore.matches(
@@ -108,7 +112,13 @@ function FileCard(props: Props) {
         },
         {
           label: 'Download',
-          onOptionClicked: () => {},
+          onOptionClicked: () => {
+            if (props.isDirectory) {
+              DownloadMachineActions.onDownloadFolder(data.name);
+            } else {
+              DownloadMachineActions.onDownloadFile(data.name);
+            }
+          },
         },
       ];
     } else {
