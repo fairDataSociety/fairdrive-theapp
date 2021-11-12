@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
-import useStyles from './overviewStyles';
-import SetupCards from 'src/components/setUpCards/setUpCards';
-import PodsPreview from 'src/components/podsPreview/podsPreview';
-import DataUsageIndicator from 'src/components/dataUsageIndicator/dataUsageIndicator';
+import useStyles from './exploreStyles';
+
 import dapps from 'src/helpers/appDiscovery.json';
 export interface Props {
   isPodBarOpen: boolean;
@@ -14,19 +12,29 @@ function Overview(props: Props) {
 
   const classes = useStyles({ ...props, ...theme });
   const [loaded, setLoaded] = useState(false);
+  const [apps, setApps] = useState(null);
   useEffect(() => {
     if (loaded === false) {
       setLoaded(true);
       console.log(dapps);
+      setApps(dapps);
+      console.log(apps);
     }
   }, []);
   return (
     <div className={classes.Home}>
-      <SetupCards></SetupCards>
-      <div className={classes.flex}>
-        <PodsPreview />
-        <DataUsageIndicator />
-      </div>
+      HIIIII
+      {apps &&
+        apps.map((app) => {
+          <div>
+            {' '}
+            <h3>{app.name}</h3>
+            <h3>{app.description}</h3>
+            <a target="_blank" href={app.link} rel="noreferrer">
+              {app.link}
+            </a>
+          </div>;
+        })}
     </div>
   );
 }

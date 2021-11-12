@@ -20,7 +20,7 @@ import RightSidebar, {
   RIGHT_SIDEBAR_VARIANTS,
 } from './partials/rightSidebar/rightSidebar';
 import Overview from 'src/pages/home/content/overview/overview';
-// import Overview from 'layout/components/overview/overview';
+import Explore from 'src/pages/home/content/explore/explore';
 
 // Icons
 import { TailSpinner } from 'src/components/icons/icons';
@@ -138,7 +138,12 @@ function Home(props: Props) {
         }
         route={sidebarItem}
       />
-      {sidebarItem === AVAILABLE_PAGES.OVERVIEW && <Overview></Overview>}
+      {sidebarItem === AVAILABLE_PAGES.OVERVIEW && (
+        <Overview isPodBarOpen={false}></Overview>
+      )}
+      {sidebarItem === AVAILABLE_PAGES.EXPLORE && (
+        <Explore isPodBarOpen={false}></Explore>
+      )}
       {sidebarItem === AVAILABLE_PAGES.DRIVE && (
         <>
           {isPodOrRootDirectoryLoading() && (
