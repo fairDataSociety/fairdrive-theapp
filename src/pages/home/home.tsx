@@ -19,6 +19,7 @@ import PodSidebar from './partials/podSidebar/podSidebar';
 import RightSidebar, {
   RIGHT_SIDEBAR_VARIANTS,
 } from './partials/rightSidebar/rightSidebar';
+import Overview from 'src/pages/home/content/overview/overview';
 // import Overview from 'layout/components/overview/overview';
 
 // Icons
@@ -130,10 +131,14 @@ function Home(props: Props) {
       />
       <PodSidebar
         setShowPodSidebar={setShowPodSidebar}
-        isOpen={sidebarItem !== AVAILABLE_PAGES.EXPLORE && showPodSidebar}
+        isOpen={
+          sidebarItem !== AVAILABLE_PAGES.OVERVIEW &&
+          sidebarItem !== AVAILABLE_PAGES.EXPLORE &&
+          showPodSidebar
+        }
         route={sidebarItem}
       />
-
+      {sidebarItem === AVAILABLE_PAGES.OVERVIEW && <Overview></Overview>}
       {sidebarItem === AVAILABLE_PAGES.DRIVE && (
         <>
           {isPodOrRootDirectoryLoading() && (

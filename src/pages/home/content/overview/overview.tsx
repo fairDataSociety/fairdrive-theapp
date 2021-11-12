@@ -4,9 +4,7 @@ import useStyles from './overviewStyles';
 import SetupCards from 'src/components/setUpCards/setUpCards';
 import PodsPreview from 'src/components/podsPreview/podsPreview';
 import DataUsageIndicator from 'src/components/dataUsageIndicator/dataUsageIndicator';
-export interface Props {
-  isPodBarOpen: boolean;
-}
+export interface Props {}
 
 function Overview(props: Props) {
   const { theme } = useContext(ThemeContext);
