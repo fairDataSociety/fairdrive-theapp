@@ -20,6 +20,7 @@
     "ethers": "4.0.38",
     "file-saver": "^2.0.5",
     "fortmatic": "^2.2.1",
+    "jszip": "^3.7.1",
     "moment": "^2.29.1",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",

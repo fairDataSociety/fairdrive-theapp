@@ -9,6 +9,8 @@ import FileStates from 'src/machines/file/states';
 import { FileProviderContext } from 'src/machines/file';
 import { useModal } from 'src/contexts/modalContext';
 import { MODAL_VARIANTS } from 'src/contexts/modalContext/types';
+import { DownloadProviderContext } from 'src/machines/download';
+
 // Components
 import PreviewVariant from './variants/preview/preview';
 import UploadVariant from './variants/upload/upload';
@@ -36,6 +38,7 @@ function RightSidebar(props: Props) {
   // General
   const { FileMachineStore, FileMachineActions } =
     useContext(FileProviderContext);
+  const { DownloadMachineActions } = useContext(DownloadProviderContext);
 
   const { openModal } = useModal();
 
@@ -62,7 +65,7 @@ function RightSidebar(props: Props) {
         FileMachineActions.onDeleteFile(props.file.name);
         break;
       case 'download':
-        FileMachineActions.onDownloadFile(props.file.name);
+        DownloadMachineActions.onDownloadFile(props.file.name);
         break;
       case 'upload':
         FileMachineActions.onUploadFiles(payload);
