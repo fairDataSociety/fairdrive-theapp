@@ -16,14 +16,11 @@ function Overview(props: Props) {
   useEffect(() => {
     if (loaded === false) {
       setLoaded(true);
-      console.log(dapps);
       setApps(dapps);
-      console.log(apps);
     }
   }, []);
   return (
     <div className={classes.Home}>
-      HIIIII
       {apps &&
         apps.map((app) => {
           <div>
