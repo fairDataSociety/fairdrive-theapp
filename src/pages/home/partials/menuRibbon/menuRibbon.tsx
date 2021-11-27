@@ -8,7 +8,7 @@ import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import SidebarItem from 'src/components/sidebarItem/sidebarItem';
-import { Drive } from 'src/components/icons/icons';
+import { Dashboard, Drive, Globe } from 'src/components/icons/icons';
 
 // Types
 import { AVAILABLE_PAGES } from 'src/types/pages';
@@ -36,21 +36,21 @@ function MenuRibbon(props: Props) {
   };
 
   const pages = [
-    // {
-    //   name: AVAILABLE_PAGES.OVERVIEW,
-    //   icon: Dashboard,
-    //   isDisabled: true,
-    // },
+    {
+      name: AVAILABLE_PAGES.OVERVIEW,
+      icon: Dashboard,
+      isDisabled: false,
+    },
     {
       name: AVAILABLE_PAGES.DRIVE,
       icon: Drive,
       isDisabled: false,
     },
-    // {
-    //   name: AVAILABLE_PAGES.EXPLORE,
-    //   icon: Globe,
-    //   isDisabled: true,
-    // },
+    {
+      name: AVAILABLE_PAGES.EXPLORE,
+      icon: Globe,
+      isDisabled: false,
+    },
   ];
 
   return (
