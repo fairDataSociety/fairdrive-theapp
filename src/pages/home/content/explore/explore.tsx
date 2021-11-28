@@ -1,37 +1,47 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import useStyles from './exploreStyles';
 
 import dapps from 'src/helpers/appDiscovery.json';
-export interface Props {
-  isPodBarOpen: boolean;
-}
 
-function Overview(props: Props) {
+function Overview() {
   const { theme } = useContext(ThemeContext);
+  const classes = useStyles({ ...theme });
 
-  const classes = useStyles({ ...props, ...theme });
-  const [loaded, setLoaded] = useState(false);
-  const [apps, setApps] = useState(null);
-  useEffect(() => {
-    if (loaded === false) {
-      setLoaded(true);
-      setApps(dapps);
-    }
-  }, []);
+  const themeExtension = theme.name === 'light' ? 'Light' : '';
+
   return (
-    <div className={classes.Home}>
-      {apps &&
-        apps.map((app) => {
-          <div>
-            {' '}
-            <h3>{app.name}</h3>
-            <h3>{app.description}</h3>
-            <a target="_blank" href={app.link} rel="noreferrer">
-              {app.link}
-            </a>
-          </div>;
+    <div className={classes.explore_container}>
+      <h1 className={classes.explore_title}>Explore</h1>
+
+      <div className={classes.explore_card_container}>
+        {dapps?.map((dapp) => {
+          return (
+            <div key={dapp.name} className={classes.explore_card}>
+              <img
+                src={
+                  dapp.icon || `/media/dapps/${dapp.name + themeExtension}.svg`
+                }
+                alt={`${dapp.name} Icon`}
+              />
+              <div className={classes.explore_card_content}>
+                <h2 className={classes.explore_card_title}>{dapp.name}</h2>
+                <p className={classes.explore_card_description}>
+                  {dapp.description}
+                </p>
+                <a
+                  href={dapp.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={classes.explore_card_button}
+                >
+                  Open {dapp.name}
+                </a>
+              </div>
+            </div>
+          );
         })}
+      </div>
     </div>
   );
 }
