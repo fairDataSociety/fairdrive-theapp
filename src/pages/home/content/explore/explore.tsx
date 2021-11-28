@@ -10,6 +10,10 @@ function Overview() {
 
   const themeExtension = theme.name === 'light' ? 'Light' : '';
 
+  const defaultIcon = (e) => {
+    e.target.src = '/media/dapps/Default.svg';
+  };
+
   return (
     <div className={classes.explore_container}>
       <h1 className={classes.explore_title}>Explore</h1>
@@ -23,6 +27,7 @@ function Overview() {
                   dapp.icon || `/media/dapps/${dapp.name + themeExtension}.svg`
                 }
                 alt={`${dapp.name} Icon`}
+                onError={defaultIcon}
               />
               <div className={classes.explore_card_content}>
                 <h2 className={classes.explore_card_title}>{dapp.name}</h2>
