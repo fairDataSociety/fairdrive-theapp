@@ -17,7 +17,7 @@
   },
   {
     "name": "Consents",
-    "link": "https://app.consents.fairdatasociety.org",
+    "link": "https://app.crviewer.fairdatasociety.org",
     "tags": ["consents", "viewer", "data"],
     "description": "Consent viewer, where you can check all data that you signed for sharing.",
     "icon": "",
