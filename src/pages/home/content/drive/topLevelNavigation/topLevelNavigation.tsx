@@ -22,6 +22,7 @@ export interface Props {
   setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
   showGrid: boolean;
   handleShare: () => void;
+  setCookieView: () => void;
   currentFilter: TCurrentFilter;
   setCurrentFilter: (selectedFilter: TCurrentFilter) => void;
 }
@@ -90,6 +91,15 @@ function TopLevelNavigation(props: Props) {
         </p>
       </div>
       <div className={classes.right}>
+        {PodMachineStore.context.currentlyOpenedPodName === 'Consents' &&
+          PodMachineStore.context.directoryNameToOpen === 'root' && (
+            <BaseActionButton
+              icon={ACTION_BUTTON_ICONS.INFO_ICON}
+              variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
+              onClickCallback={props.setCookieView}
+            />
+          )}
+
         {PodMachineStore.context.currentlyOpenedPodName && (
           <BaseActionButton
             icon={ACTION_BUTTON_ICONS.SHARE}
