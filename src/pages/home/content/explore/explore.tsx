@@ -4,7 +4,13 @@ import useStyles from './exploreStyles';
 
 import dapps from 'src/helpers/appDiscovery.json';
 
-function Overview() {
+import { Search as SearchIcon } from 'src/components/icons/icons';
+
+export interface Props {
+  appSearch: string;
+}
+
+function Overview(props: Props) {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
@@ -14,12 +20,29 @@ function Overview() {
     e.target.src = '/media/dapps/Default.svg';
   };
 
+  const filterDapps = (dapp) => {
+    for (let i = 0; i < dapp.tags.length; i++) {
+      if (dapp.tags[i].includes(props.appSearch)) return true;
+    }
+
+    return dapp.name
+      .toLowerCase()
+      .includes(props.appSearch.toLocaleLowerCase());
+  };
+
   return (
     <div className={classes.explore_container}>
       <h1 className={classes.explore_title}>Explore</h1>
 
+      {props.appSearch.length > 0 && (
+        <div className={classes.searchDivider}>
+          <SearchIcon className={classes.searchIcon} />
+          <span>{props.appSearch}</span>
+        </div>
+      )}
+
       <div className={classes.explore_card_container}>
-        {dapps?.map((dapp) => {
+        {dapps?.filter(filterDapps).map((dapp) => {
           return (
             <div key={dapp.name} className={classes.explore_card}>
               <img

@@ -7,6 +7,7 @@ const useStyles = makeStyles(() =>
       position: 'absolute',
       display: 'flex',
       flexDirection: 'column',
+      width: '90%',
       maxHeight: '75%',
       margin: '1rem 0 0 0',
       marginLeft: '20rem',
@@ -20,6 +21,7 @@ const useStyles = makeStyles(() =>
       marginBottom: '40px',
     },
     explore_card_container: {
+      width: '100%',
       display: 'flex',
       justifyContent: 'start',
       alignItems: 'start',
@@ -56,6 +58,19 @@ const useStyles = makeStyles(() =>
       borderRadius: '0.5rem',
       font: (style: Theme) => style.typography.body1,
       textAlign: 'center',
+    },
+    searchDivider: {
+      display: 'flex',
+      color: '#9AA8FF',
+      font: (style: Theme) => style.typography.h5,
+      marginLeft: '1.6rem',
+      gap: '10px',
+      alignItems: 'center',
+      marginBottom: '20px',
+    },
+    searchIcon: {
+      fill: '#9AA8FF',
+      color: '#9AA8FF',
     },
   })
 );

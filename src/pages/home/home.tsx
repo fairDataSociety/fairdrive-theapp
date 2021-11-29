@@ -1,4 +1,11 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 
 // Hooks
 import useStyles from './homeStyles';
@@ -34,6 +41,8 @@ export interface OpenRightSidebar {
 }
 export interface Props {
   directory?: string;
+  setActiveTab: Dispatch<SetStateAction<string>>;
+  appSearch: string;
 }
 
 function Home(props: Props) {
@@ -128,6 +137,7 @@ function Home(props: Props) {
         setShowPodSidebar={setShowPodSidebar}
         sidebarItem={sidebarItem}
         setSidebarItem={(pageName) => setSidebarItem(pageName)}
+        setActiveTab={props.setActiveTab}
       />
       <PodSidebar
         setShowPodSidebar={setShowPodSidebar}
@@ -141,7 +151,9 @@ function Home(props: Props) {
       {sidebarItem === AVAILABLE_PAGES.OVERVIEW && (
         <Overview isPodBarOpen={false}></Overview>
       )}
-      {sidebarItem === AVAILABLE_PAGES.EXPLORE && <Explore />}
+      {sidebarItem === AVAILABLE_PAGES.EXPLORE && (
+        <Explore appSearch={props.appSearch} />
+      )}
       {sidebarItem === AVAILABLE_PAGES.DRIVE && (
         <>
           {isPodOrRootDirectoryLoading() && (
