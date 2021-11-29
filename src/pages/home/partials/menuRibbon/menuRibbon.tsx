@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 // Hooks
 import useStyles from './menuRibbonStyles';
@@ -18,6 +18,7 @@ export interface Props {
   setShowPodSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   sidebarItem: AVAILABLE_PAGES;
   setSidebarItem: (pageName: AVAILABLE_PAGES) => void;
+  setActiveTab: Dispatch<SetStateAction<string>>;
 }
 
 function MenuRibbon(props: Props) {
@@ -32,6 +33,7 @@ function MenuRibbon(props: Props) {
       setShowPodSidebar(!showPodSidebar);
     } else {
       setSidebarItem(pageName);
+      props.setActiveTab(pageName);
     }
   };
 

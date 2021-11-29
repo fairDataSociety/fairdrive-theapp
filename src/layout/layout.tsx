@@ -18,6 +18,8 @@ export default function Layout(): JSX.Element {
   const classes = useStyles(theme);
 
   const [showTerms, setShowTerms] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [appSearch, setAppSearch] = useState('');
 
   const { isUserLoggedInAndUserStatsFetched } = MachinesHelpers();
 
@@ -27,9 +29,18 @@ export default function Layout(): JSX.Element {
         isAfterAuth={isUserLoggedInAndUserStatsFetched()}
         showTerms={showTerms}
         setShowTerms={setShowTerms}
+        activeTab={activeTab}
+        appSearch={appSearch}
+        setAppSearch={setAppSearch}
       />
       <AlertBanner />
-      {!showTerms && <Main isAfterAuth={isUserLoggedInAndUserStatsFetched()} />}
+      {!showTerms && (
+        <Main
+          isAfterAuth={isUserLoggedInAndUserStatsFetched()}
+          setActiveTab={setActiveTab}
+          appSearch={appSearch}
+        />
+      )}
 
       {showTerms && <TermsAndConditions />}
       <Footer showTerms={showTerms} setShowTerms={setShowTerms} />
