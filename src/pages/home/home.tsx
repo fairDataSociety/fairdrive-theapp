@@ -141,9 +141,7 @@ function Home(props: Props) {
       {sidebarItem === AVAILABLE_PAGES.OVERVIEW && (
         <Overview isPodBarOpen={false}></Overview>
       )}
-      {sidebarItem === AVAILABLE_PAGES.EXPLORE && (
-        <Explore isPodBarOpen={false}></Explore>
-      )}
+      {sidebarItem === AVAILABLE_PAGES.EXPLORE && <Explore />}
       {sidebarItem === AVAILABLE_PAGES.DRIVE && (
         <>
           {isPodOrRootDirectoryLoading() && (
