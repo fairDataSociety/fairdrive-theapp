@@ -1,6 +1,17 @@
 [
-    {"name":"Dracula","link":"https://app.dracula.fairdatasociety.org","association": "md"},
-    {"name":"Consents","link":"https://app.crviewer.fairdatasociety.org","association": "json"},
-    {"name":"FairPhoto","link":"https://app.photo.fairdatasociety.org", "association": "jpeg,png"}
+  {
+    "name": "Dracula",
+    "link": "https://app.dracula.fairdatasociety.org",
+    "association": "md"
+  },
+  {
+    "name": "Consents",
+    "link": "https://app.crviewer.fairdatasociety.org",
+    "association": "json"
+  },
+  {
+    "name": "FairPhoto",
+    "link": "https://app.photo.fairdatasociety.org",
+    "association": "jpeg,png"
+  }
 ]
-
