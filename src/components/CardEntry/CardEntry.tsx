@@ -90,26 +90,26 @@ function FileCard(props: Props) {
   const getDropdownOptionByState = () => {
     if (isPrivateDriveMode()) {
       return [
-        {
-          label: 'Rename/Edit',
-          onOptionClicked: () => {},
-        },
+        // {
+        //   label: 'Rename/Edit',
+        //   onOptionClicked: () => {},
+        // },
         {
           label: 'Open',
-          onOptionClicked: () => {},
+          onOptionClicked: handleOnClick,
         },
-        {
-          label: 'Hide',
-          onOptionClicked: () => {},
-        },
-        {
-          label: 'View Hidden Files',
-          onOptionClicked: () => {},
-        },
-        {
-          label: 'Share',
-          onOptionClicked: () => {},
-        },
+        // {
+        //   label: 'Hide',
+        //   onOptionClicked: () => {},
+        // },
+        // {
+        //   label: 'View Hidden Files',
+        //   onOptionClicked: () => {},
+        // },
+        // {
+        //   label: 'Share',
+        //   onOptionClicked: () => {},
+        // },
         {
           label: 'Download',
           onOptionClicked: () => {
