@@ -111,7 +111,7 @@ const PreviewVariant = (props: Props): JSX.Element => {
 
         {fileLink !== null && (
           <div className={classes.actionIcon}>
-            <a href={fileLink} target="_blank" rel="noreferrer">
+            <a href={`${fileLink}/${props.podName}/${props.directoryName}/${props.content.name}`} target="_blank" rel="noreferrer">
               <Globe>
                 <title>Open in dapp</title>
               </Globe>
