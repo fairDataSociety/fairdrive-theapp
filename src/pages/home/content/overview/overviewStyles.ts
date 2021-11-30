@@ -9,17 +9,18 @@ const useStyles = makeStyles(() =>
       overflow: 'hidden',
       position: 'absolute',
       display: 'flex',
+      width: '89%',
+      maxHeight: '75%',
       flexDirection: 'column',
       margin: '1rem 0 0 0',
-      marginLeft: (props: Props & Theme) =>
-        props.isPodBarOpen ? '50rem' : '17rem',
+      marginLeft: '20rem',
       transitionProperty: 'margin-left',
       transitionDuration: '.2s',
       transitionTimingFunction: 'cubic-bezier(0.820, 0.085, 0.395, 0.895)',
     },
     flex: {
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
     },
     buttonNavBar: {
       marginLeft: 'auto',
