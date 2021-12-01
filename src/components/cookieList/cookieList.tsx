@@ -39,7 +39,7 @@ function CookieList() {
   }, []);
 
   const onPageSizeChange = (pageSize: number) => {
-    CookieMachineActions.loadPage(domainDirectories, index, pageSize);
+    CookieMachineActions.loadPage(domainDirectories, 0, pageSize);
   };
 
   const onPrevPageClick = () => {

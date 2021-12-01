@@ -45,7 +45,7 @@ function ListViewFooter(props: Props) {
   };
 
   const startIndex = index + 1;
-  const endIndex = startIndex + pageSize < total ? index + pageSize : total;
+  const endIndex = index + pageSize < total ? index + pageSize : total;
 
   return (
     <div className={classes.footerWrapper}>
