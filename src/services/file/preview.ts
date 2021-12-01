@@ -1,3 +1,4 @@
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 import urlPath from 'src/helpers/urlPath';
 import HTTPClient from 'src/http';
 
@@ -8,7 +9,7 @@ export const previewFile = async (
 ): Promise<Blob> => {
   try {
     let writePath = '';
-    if (directory === 'root') {
+    if (directory === ROOT_DIRECTORY) {
       writePath = '/';
     } else {
       writePath = '/' + urlPath(directory) + '/';

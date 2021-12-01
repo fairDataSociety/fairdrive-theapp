@@ -17,6 +17,7 @@ import BaseActionButton, {
 } from 'src/shared/BaseActionButton/BaseActionButton';
 import BaseDropdown from 'src/shared/BaseDropdown/BaseDropdown';
 import { TCurrentFilter } from '../drive';
+import { CONSENTS_POD, ROOT_DIRECTORY } from 'src/constants/constants';
 
 export interface Props {
   setShowGrid: React.Dispatch<React.SetStateAction<boolean>>;
@@ -49,7 +50,7 @@ function TopLevelNavigation(props: Props) {
 
   const getDirectoryPath = () => {
     const stateDirectoryName = PodMachineStore.context.directoryNameToOpen;
-    if (stateDirectoryName !== 'root') {
+    if (stateDirectoryName !== ROOT_DIRECTORY) {
       return `/ root / ${stateDirectoryName}`;
     } else {
       return `/ root`;
@@ -91,8 +92,8 @@ function TopLevelNavigation(props: Props) {
         </p>
       </div>
       <div className={classes.right}>
-        {PodMachineStore.context.currentlyOpenedPodName === 'Consents' &&
-          PodMachineStore.context.directoryNameToOpen === 'root' && (
+        {PodMachineStore.context.currentlyOpenedPodName === CONSENTS_POD &&
+          PodMachineStore.context.directoryNameToOpen === ROOT_DIRECTORY && (
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.INFO_ICON}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}

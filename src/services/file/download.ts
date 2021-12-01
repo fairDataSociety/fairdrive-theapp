@@ -1,6 +1,7 @@
 import urlPath from 'src/helpers/urlPath';
 import FileSaver from 'file-saver';
 import HTTPClient from 'src/http';
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 
 export async function downloadFile(
   filename: string,
@@ -9,7 +10,7 @@ export async function downloadFile(
 ): Promise<void> {
   try {
     let writePath = '';
-    if (directory === 'root') {
+    if (directory === ROOT_DIRECTORY) {
       writePath = '/';
     } else {
       writePath = '/' + urlPath(directory) + '/';

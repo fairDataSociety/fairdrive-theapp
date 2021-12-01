@@ -1,6 +1,7 @@
 import HTTPClient from 'src/http';
 import { IFile } from 'src/types/models/File';
 import { IDirectory } from 'src/types/models/Directory';
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 
 const podNameDefault = 'Home';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,7 +33,7 @@ export const getDirectory = async (payload: {
       podName === undefined || podName === null ? podNameDefault : podName;
     let data = { dir_path: '', pod_name: pod_name };
 
-    if (directory === 'root') {
+    if (directory === ROOT_DIRECTORY) {
       data = {
         dir_path: '/',
         pod_name: pod_name,

@@ -1,3 +1,4 @@
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 import HTTPClient from 'src/http';
 
 export async function createDirectory(
@@ -8,7 +9,7 @@ export async function createDirectory(
   // Dir = "/" + path + "/"
   let data = { dir_path: '' };
 
-  if (directory === 'root') {
+  if (directory === ROOT_DIRECTORY) {
     data = {
       dir_path: '/' + directoryName,
     };

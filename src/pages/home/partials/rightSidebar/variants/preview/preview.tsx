@@ -19,6 +19,7 @@ import { IFile } from 'src/types/models/File';
 
 // Icons
 import { Download, Globe, Hide, Share } from 'src/components/icons/icons';
+import { CONSENTS_POD } from 'src/constants/constants';
 
 export interface Props {
   podName: string;
@@ -57,7 +58,7 @@ const PreviewVariant = (props: Props): JSX.Element => {
     // },
   ];
   const fileLink =
-    props.podName === 'Consents'
+    props.podName === CONSENTS_POD
       ? 'https://app.crviewer.fairdatasociety.org'
       : props.content.name.includes('md')
       ? 'https://app.dracula.fairdatasociety.org'

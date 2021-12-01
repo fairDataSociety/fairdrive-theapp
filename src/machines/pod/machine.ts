@@ -12,6 +12,7 @@ import * as PodService from 'src/services/pod';
 import { GetAvailablePods } from 'src/services/pod/getPods';
 // { getDirectory, deleteDirectory }
 import * as DirectoryService from 'src/services/directory';
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 
 interface DirectoryResponse {
   files: IFile[] | undefined;
@@ -135,7 +136,7 @@ const initialState: PodContext = {
 
   // Data for requests
   podNameToOpen: null,
-  directoryNameToOpen: 'root',
+  directoryNameToOpen: ROOT_DIRECTORY,
   diretoryToCreateName: null,
   createPodName: null,
   importedPodData: null,
@@ -224,7 +225,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                               context.podNameToOpen,
                             ],
                             currentlyOpenedPodName: context.podNameToOpen,
-                            directoryNameToOpen: 'root',
+                            directoryNameToOpen: ROOT_DIRECTORY,
                           };
                         }),
                       },
@@ -485,7 +486,7 @@ const createPodMachine = createMachine<PodContext, PodEvents>(
                           actions: assign({
                             currentlyOpenedPodName: (_, { payload }) =>
                               payload.podName,
-                            directoryNameToOpen: 'root',
+                            directoryNameToOpen: ROOT_DIRECTORY,
                           }),
                         },
                       ],
