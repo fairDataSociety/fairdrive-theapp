@@ -3,6 +3,7 @@ import Matomo from 'src/contexts/matomo';
 import AuthProvider from 'src/machines/auth';
 import PodProvider from 'src/machines/pod';
 import FileProvider from 'src/machines/file';
+import DownloadProvider from 'src/machines/download';
 import { ThemeProvider } from 'src/contexts/themeContext/themeContext';
 import { ModalProvider } from 'src/contexts/modalContext';
 import Layout from 'src/layout/layout';
@@ -24,11 +25,13 @@ const App = (): JSX.Element => {
         <AuthProvider>
           <PodProvider>
             <FileProvider>
-              <ThemeProvider>
-                <ModalProvider>
-                  <Layout />
-                </ModalProvider>
-              </ThemeProvider>
+              <DownloadProvider>
+                <ThemeProvider>
+                  <ModalProvider>
+                    <Layout />
+                  </ModalProvider>
+                </ThemeProvider>
+              </DownloadProvider>
             </FileProvider>
           </PodProvider>
         </AuthProvider>

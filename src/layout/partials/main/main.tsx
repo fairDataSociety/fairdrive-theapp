@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 // Hooks
 import useStyles from './mainStyles';
@@ -13,6 +13,8 @@ import LoginRegisterPage from 'src/pages/loginRegisterPage/loginRegisterPage';
 
 interface Props {
   isAfterAuth: boolean;
+  setActiveTab: Dispatch<SetStateAction<string>>;
+  appSearch: string;
 }
 
 function Main(props: Props) {
@@ -21,7 +23,11 @@ function Main(props: Props) {
 
   return (
     <main className={classes.Main}>
-      {props.isAfterAuth ? <Home /> : <LoginRegisterPage />}
+      {props.isAfterAuth ? (
+        <Home setActiveTab={props.setActiveTab} appSearch={props.appSearch} />
+      ) : (
+        <LoginRegisterPage />
+      )}
     </main>
   );
 }

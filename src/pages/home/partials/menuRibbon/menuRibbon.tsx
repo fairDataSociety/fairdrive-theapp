@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 // Hooks
 import useStyles from './menuRibbonStyles';
@@ -8,7 +8,7 @@ import { useTheme } from 'src/contexts/themeContext/themeContext';
 
 // Components
 import SidebarItem from 'src/components/sidebarItem/sidebarItem';
-import { Drive } from 'src/components/icons/icons';
+import { Dashboard, Drive, Globe } from 'src/components/icons/icons';
 
 // Types
 import { AVAILABLE_PAGES } from 'src/types/pages';
@@ -18,6 +18,7 @@ export interface Props {
   setShowPodSidebar: React.Dispatch<React.SetStateAction<boolean>>;
   sidebarItem: AVAILABLE_PAGES;
   setSidebarItem: (pageName: AVAILABLE_PAGES) => void;
+  setActiveTab: Dispatch<SetStateAction<string>>;
 }
 
 function MenuRibbon(props: Props) {
@@ -32,25 +33,26 @@ function MenuRibbon(props: Props) {
       setShowPodSidebar(!showPodSidebar);
     } else {
       setSidebarItem(pageName);
+      props.setActiveTab(pageName);
     }
   };
 
   const pages = [
-    // {
-    //   name: AVAILABLE_PAGES.OVERVIEW,
-    //   icon: Dashboard,
-    //   isDisabled: true,
-    // },
+    {
+      name: AVAILABLE_PAGES.OVERVIEW,
+      icon: Dashboard,
+      isDisabled: false,
+    },
     {
       name: AVAILABLE_PAGES.DRIVE,
       icon: Drive,
       isDisabled: false,
     },
-    // {
-    //   name: AVAILABLE_PAGES.EXPLORE,
-    //   icon: Globe,
-    //   isDisabled: true,
-    // },
+    {
+      name: AVAILABLE_PAGES.EXPLORE,
+      icon: Globe,
+      isDisabled: false,
+    },
   ];
 
   return (

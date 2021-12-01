@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Dracula",
+    "link": "https://app.dracula.fairdatasociety.org",
+    "tags": ["text", "editor", "markdown", "document"],
+    "description": "Markdown editor dapp that can help you create perfect readme files or documentation.",
+    "icon": "",
+    "association": "md"
+  },
+  {
+    "name": "FairPhoto",
+    "link": "https://app.photo.fairdatasociety.org",
+    "tags": ["photo", "album"],
+    "description": "Photo album dapp.",
+    "icon": "",
+    "association": "jpeg,png"
+  },
+  {
+    "name": "Consents",
+    "link": "https://app.crviewer.fairdatasociety.org",
+    "tags": ["consents", "viewer", "data"],
+    "description": "Consent viewer, where you can check all data that you signed for sharing.",
+    "icon": "",
+    "association": "json"
+  }
+]

@@ -1,4 +1,11 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 
 // Hooks
 import useStyles from './homeStyles';
@@ -19,7 +26,8 @@ import PodSidebar from './partials/podSidebar/podSidebar';
 import RightSidebar, {
   RIGHT_SIDEBAR_VARIANTS,
 } from './partials/rightSidebar/rightSidebar';
-// import Overview from 'layout/components/overview/overview';
+import Overview from 'src/pages/home/content/overview/overview';
+import Explore from 'src/pages/home/content/explore/explore';
 
 // Icons
 import { TailSpinner } from 'src/components/icons/icons';
@@ -33,6 +41,8 @@ export interface OpenRightSidebar {
 }
 export interface Props {
   directory?: string;
+  setActiveTab: Dispatch<SetStateAction<string>>;
+  appSearch: string;
 }
 
 function Home(props: Props) {
@@ -90,7 +100,7 @@ function Home(props: Props) {
 
   // Manage sidebar
   const [sidebarItem, setSidebarItem] = useState<AVAILABLE_PAGES>(
-    AVAILABLE_PAGES.DRIVE
+    AVAILABLE_PAGES.OVERVIEW
   );
 
   const [showPodSidebar, setShowPodSidebar] = useState(false);
@@ -127,13 +137,23 @@ function Home(props: Props) {
         setShowPodSidebar={setShowPodSidebar}
         sidebarItem={sidebarItem}
         setSidebarItem={(pageName) => setSidebarItem(pageName)}
+        setActiveTab={props.setActiveTab}
       />
       <PodSidebar
         setShowPodSidebar={setShowPodSidebar}
-        isOpen={sidebarItem !== AVAILABLE_PAGES.EXPLORE && showPodSidebar}
+        isOpen={
+          sidebarItem !== AVAILABLE_PAGES.OVERVIEW &&
+          sidebarItem !== AVAILABLE_PAGES.EXPLORE &&
+          showPodSidebar
+        }
         route={sidebarItem}
       />
-
+      {sidebarItem === AVAILABLE_PAGES.OVERVIEW && (
+        <Overview isPodBarOpen={false}></Overview>
+      )}
+      {sidebarItem === AVAILABLE_PAGES.EXPLORE && (
+        <Explore appSearch={props.appSearch} />
+      )}
       {sidebarItem === AVAILABLE_PAGES.DRIVE && (
         <>
           {isPodOrRootDirectoryLoading() && (
