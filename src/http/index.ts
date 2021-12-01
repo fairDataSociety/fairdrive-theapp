@@ -15,7 +15,7 @@ const HTTPClient = (): AxiosInstance => {
       return config;
     },
     (error) => {
-      return Promise.reject(error);
+      return Promise.reject(error?.response || error);
     }
   );
 
@@ -24,7 +24,7 @@ const HTTPClient = (): AxiosInstance => {
       return response;
     },
     (error: AxiosError) => {
-      return Promise.reject(error);
+      return Promise.reject(error?.response || error);
     }
   );
 
