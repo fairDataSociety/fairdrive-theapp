@@ -18,6 +18,6 @@ module.exports = withBundleAnalyzer({
     defaultLocale: 'en-US',
   },
   images: {
-    domains: ['music.com'],
+    domains: [''],
   },
 });
