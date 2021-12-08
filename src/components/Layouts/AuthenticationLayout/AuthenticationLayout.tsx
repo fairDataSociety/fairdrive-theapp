@@ -14,7 +14,9 @@ const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({ children }) => {
 
       <div className="flex flex-col justify-between items-center w-full bg-white">
         <AuthenticationNavbar />
-        <div className="flex-grow pt-16">{children}</div>
+        <div className="flex-grow pt-16 overflow-scroll no-scroll-bar">
+          {children}
+        </div>
         <AuthenticationFooter />
       </div>
     </div>

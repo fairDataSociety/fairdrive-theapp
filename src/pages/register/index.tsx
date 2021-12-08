@@ -1,14 +1,14 @@
 import type { NextPage } from 'next';
 
 import { AuthenticationLayout } from '@components/Layouts';
-import { LoginForm } from '@components/Forms';
+import { RegisterForm } from '@components/Forms';
 
-const Home: NextPage = () => {
+const Register: NextPage = () => {
   return (
     <AuthenticationLayout>
-      <LoginForm />
+      <RegisterForm />
     </AuthenticationLayout>
   );
 };
 
-export default Home;
+export default Register;

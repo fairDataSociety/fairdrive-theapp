@@ -1,0 +1,299 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './fonts.scss';
+
+:root {
+  --color-accents-soft-lavender: #ccd3ff;
+  --color-accents-grey-pastel: #a6b7ff;
+  --color-accents-grey-lavendar: #9aa8ff;
+  --color-accents-grey-cloud: #8391cd;
+  --color-accents-blue-pastel: #6784ff;
+  --color-accents-blue-electric: #455ef8;
+  --color-accents-blue-water: #4862d1;
+  --color-accents-purple-feather: #7367ff;
+  --color-accents-purple-med: #6945f8;
+  --color-accents-purple-heavy: #5b48d1;
+  --color-accents-plum-black: #362f68;
+  --color-accents-purple-black: #262148;
+  --color-shade-white-day: #101113;
+  --color-shade-light-1-day: #2a2f3d;
+  --color-shade-light-2-day: #28282b;
+  --color-shade-light-3-day: #b2bac3;
+  --color-shade-dark-1-day: #f8fcff;
+  --color-shade-dark-2-day: #f0f4f6;
+  --color-shade-dark-3-day: #f7f8fa;
+  --color-shade-dark-4-day: #fcfdff;
+  --color-shade-black-day: #ffffff;
+  --color-shade-white-night: #eef0ff;
+  --color-shade-light-1-night: #ced0dd;
+  --color-shade-light-2-night: #82848e;
+  --color-shade-light-3-night: #494b50;
+  --color-shade-dark-1-night: #36383f;
+  --color-shade-dark-2-night: #27292e;
+  --color-shade-dark-3-night: #202226;
+  --color-shade-dark-4-night: #17191d;
+  --color-shade-dark-5-night: #131517;
+  --color-shade-black-night: #101113;
+  --color-status-negative-day: #ff3864;
+  --color-status-positive-day: #0cb128;
+  --color-status-neutral-day: #1a88c7;
+  --color-status-negative-night: #ff3864;
+  --color-status-positive-night: #7fc18a;
+  --color-status-components-day: #7b61ff;
+  --color-status-components-night: #7b61ff;
+}
+
+* {
+  font-family: 'Work Sans';
+}
+
+.text-color-accents-purple-heavy {
+  color: var(--color-accents-purple-heavy);
+}
+
+.text-color-accents-plum-black {
+  color: var(--color-accents-plum-black);
+}
+
+.bg-color-shade-dark-4-day {
+  background-color: var(--color-shade-dark-4-day);
+}
+
+.bg-color-shade-white-night {
+  background-color: var(--color-shade-white-night);
+}
+
+.text-style-96-header-1 {
+  font-size: 96px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 104px;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+}
+
+.text-style-64-header-2 {
+  font-size: 64px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 72px;
+  text-decoration: none;
+}
+
+.text-style-48-header-3 {
+  font-size: 48px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 56px;
+  text-decoration: none;
+}
+
+.text-style-32-header-4 {
+  font-size: 32px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 40px;
+  text-decoration: none;
+}
+
+.text-style-30-numbers-big {
+  font-size: 30px;
+  font-family: 'Space Mono';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.text-style-24-header-5 {
+  font-size: 24px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 32px;
+  text-decoration: none;
+}
+
+.text-style-24-numbers-medium {
+  font-size: 24px;
+  font-family: 'Space Mono';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.text-style-20-header-6 {
+  font-size: 20px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 32px;
+  text-decoration: none;
+}
+
+.text-style-18-numbers-small {
+  font-size: 18px;
+  font-family: 'Space Mono';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.text-style-16-subtitle {
+  font-size: 16px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.text-style-16-body-regular {
+  font-size: 16px;
+  font-family: 'Work Sans';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.text-style-16-body-medium {
+  font-size: 16px;
+  font-family: 'Work Sans';
+  font-weight: bold;
+  font-style: normal;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.text-style-16-body-semibold {
+  font-size: 16px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.text-style-14-subtitle {
+  font-size: 14px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 22px;
+  text-decoration: none;
+}
+
+.text-style-14-numbers-body {
+  font-size: 14px;
+  font-family: 'Space Mono';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 14px;
+  text-decoration: none;
+}
+
+.text-style-12-caption-regular {
+  font-size: 12px;
+  font-family: 'Work Sans';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.text-style-12-numbers-tiny {
+  font-size: 12px;
+  font-family: 'Space Mono';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 12px;
+  text-decoration: none;
+}
+
+.text-style-12-caption-medium {
+  font-size: 12px;
+  font-family: 'Work Sans';
+  font-weight: bold;
+  font-style: normal;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.text-style-12-caption-semibold {
+  font-size: 12px;
+  font-family: 'Work Sans';
+  font-weight: bolder;
+  font-style: normal;
+  line-height: 16px;
+  text-decoration: none;
+}
+
+.text-style-10-overline {
+  font-size: 10px;
+  font-family: 'Work Sans';
+  font-weight: bold;
+  font-style: normal;
+  line-height: 10px;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.effect-style-purple-box-shadow {
+  box-shadow: 0px 20px 40px #473999;
+}
+
+.effect-style-dark-purple-long-drop-shadow {
+  box-shadow: 0px 20px 40px #7d6bec;
+}
+
+.effect-style-rhs {
+  box-shadow: -6px 0px 35px #9a9999;
+}
+
+.effect-style-soft-purple-shadow {
+  box-shadow: 0px 1px 24px #8476db;
+}
+
+.effect-style-dark-purple-shadow {
+  box-shadow: 0px 0px 15px #7d6bec;
+}
+
+.effect-style-selected-drop-shadow {
+  box-shadow: 0px 4px 4px #362f68;
+}
+
+.effect-style-soft-drop-shadow {
+  box-shadow: 0px 4px 30px #5c5685;
+}
+
+.effect-style-small-button-drop-shadow {
+  box-shadow: 0px 0px 5px #5c5685;
+}
+
+.effect-style-spread-out-purple-glow {
+  box-shadow: 0px 0px 100px #8476db;
+}
+
+.effect-style-shadow-bottom {
+  box-shadow: 0px 4px 16px #000000;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scroll-bar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
