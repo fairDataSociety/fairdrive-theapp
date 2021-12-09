@@ -21,7 +21,7 @@ const AuthenticationInput: FC<AuthenticationInputProps> = ({
     <div className="w-full mb-6">
       <label
         htmlFor={id}
-        className="mb-2 text-style-10-overline text-color-accents-plum-black uppercase"
+        className="text-xxs text-text-color-accents-purple-black uppercase"
       >
         {label}
       </label>
@@ -30,7 +30,7 @@ const AuthenticationInput: FC<AuthenticationInputProps> = ({
         name={name}
         id={id}
         value={defaultValue}
-        className="block w-full py-3 pl-3 rounded bg-color-shade-dark-4-day effect-style-small-button-drop-shadow"
+        className="block w-full mt-1 p-3 font-normal text-xs bg-color-shade-dark-4-day effect-style-small-button-drop-shadow rounded"
         placeholder={placeholder}
         autoComplete="off"
       />

@@ -10,7 +10,7 @@ const AuthenticationHeader: FC<AuthenticationHeaderProps> = ({
   text,
 }) => {
   return (
-    <div className="w-108 mt-12 text-center">
+    <div className="w-108 text-center">
       <h1 className="mb-4 font-semibold text-3xl text-color-accents-purple-heavy leading-10">
         {heading}
       </h1>

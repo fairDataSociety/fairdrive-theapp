@@ -15,26 +15,34 @@ const LoginForm: FC<LoginFormProps> = () => {
         text="Please log in to get acess to your Fairdrive."
       />
 
-      <div className="w-98 mt-16">
+      <div className="w-98 mt-12">
         <form action="" autoComplete="off" className="w-full">
           <AuthenticationInput
             label="username"
             id="username"
             type="text"
             name="username"
+            placeholder="Type here"
           />
           <AuthenticationInput
             label="password"
             id="password"
             type="password"
             name="password"
+            placeholder="Type here"
           />
 
-          <Button text="Continue" />
+          <div className="mt-14 text-center">
+            <Button text="Continue" />
+          </div>
 
-          <Link href="/register">
-            <a className="inline-block my-5">Register New Account</a>
-          </Link>
+          <div className="my-6 text-center">
+            <Link href="/register">
+              <a className="font-normal text-xs text-color-accents-purple-black">
+                Register New Account
+              </a>
+            </Link>
+          </div>
         </form>
       </div>
     </div>

@@ -5,10 +5,14 @@ const AuthenticationFooter: FC = () => {
   return (
     <div className="flex justify-evenly items-center w-full h-16 bg-white shadow-top ">
       <Link href="/privacy-policy">
-        <a className="">Privacy Policy</a>
+        <a className="font-medium text-base text-color-accents-purple-black leading-6">
+          Privacy Policy
+        </a>
       </Link>
       <Link href="/terms">
-        <a className="">Terms & Conditions</a>
+        <a className="font-medium text-base text-color-accents-purple-black leading-6">
+          Terms & Conditions
+        </a>
       </Link>
     </div>
   );

@@ -57,6 +57,10 @@
   color: var(--color-accents-plum-black);
 }
 
+.text-color-accents-purple-black {
+  color: var(--color-accents-purple-black);
+}
+
 .bg-color-shade-dark-4-day {
   background-color: var(--color-shade-dark-4-day);
 }
@@ -276,7 +280,7 @@
 }
 
 .effect-style-small-button-drop-shadow {
-  box-shadow: 0px 0px 5px #5c5685;
+  box-shadow: 0px 0px 5px 0px #5c568540;
 }
 
 .effect-style-spread-out-purple-glow {
