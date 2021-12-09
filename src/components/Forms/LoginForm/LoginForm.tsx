@@ -11,8 +11,8 @@ const LoginForm: FC<LoginFormProps> = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       <AuthenticationHeader
-        heading="Login"
-        text="Depending on the option you choose, you’ll either get to log back in or register a new account. All of this will be automatically determined for you."
+        heading="Welcome back"
+        text="Please log in to get acess to your Fairdrive."
       />
 
       <div className="w-98 mt-16">
