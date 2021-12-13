@@ -25,6 +25,7 @@ const ThemeProvider: FC<ThemeContextProps> = ({ children }) => {
 
     if (storedTheme !== null) {
       setTheme(storedTheme);
+      document.documentElement.setAttribute('class', storedTheme);
     }
   }, []);
 

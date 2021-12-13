@@ -1,4 +1,6 @@
-import { FC, ReactChild } from 'react';
+import { FC, ReactChild, useContext } from 'react';
+
+import ThemeContext from '@context/ThemeContext';
 
 import { AuthenticationNavbar } from '@components/NavigationBars';
 import { AuthenticationFooter } from '@components/Footers';
@@ -8,15 +10,19 @@ interface AuthenticationLayoutProps {
 }
 
 const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({ children }) => {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <div className="flex flex-row justify-items-stretch w-screen h-screen">
-      <div className="w-100 bg-authentication bg-center bg-cover bg-no-repeat"></div>
+    <div className="flex flex-row justify-items-stretch w-screen h-screen dark:bg-color-shade-dark-3-night">
+      <div
+        className={`w-100 bg-authentication-${theme} bg-center bg-cover bg-no-repeat`}
+      >
+        {/* Authentication Background Image */}
+      </div>
 
       <div className="flex flex-col justify-between items-center w-full bg-white">
         <AuthenticationNavbar />
-        <div className="flex-grow pt-16 overflow-scroll no-scroll-bar">
-          {children}
-        </div>
+        <div className="pt-16 overflow-scroll no-scroll-bar">{children}</div>
         <AuthenticationFooter />
       </div>
     </div>

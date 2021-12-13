@@ -1,11 +1,13 @@
 import { FC } from 'react';
 
-import Logo from '@media/branding/logo.svg';
+import Logo from '@components/Logo/Logo';
+import { ThemeToggle } from '@components/Buttons';
 
 const AuthenticationNavbar: FC = () => {
   return (
-    <div className="flex justify-start items-center w-full h-16 pl-5 bg-white shadow-lg">
+    <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
       <Logo />
+      <ThemeToggle />
     </div>
   );
 };
