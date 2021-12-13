@@ -33,12 +33,12 @@ const LoginForm: FC<LoginFormProps> = () => {
           />
 
           <div className="mt-14 text-center">
-            <Button text="Create account" />
+            <Button variant="secondary" text="Create account" />
           </div>
 
           <div className="my-6 text-center">
             <Link href="/">
-              <a className="font-normal text-xs text-color-accents-purple-black">
+              <a className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar">
                 Already have an account?
               </a>
             </Link>

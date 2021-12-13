@@ -12,7 +12,7 @@ const LoginForm: FC<LoginFormProps> = () => {
     <div className="flex flex-col justify-center items-center">
       <AuthenticationHeader
         heading="Welcome back"
-        text="Please log in to get acess to your Fairdrive."
+        text="Please log in to get access to your Fairdrive."
       />
 
       <div className="w-98 mt-12">
@@ -33,12 +33,12 @@ const LoginForm: FC<LoginFormProps> = () => {
           />
 
           <div className="mt-14 text-center">
-            <Button text="Continue" />
+            <Button variant="secondary" text="Continue" />
           </div>
 
           <div className="my-6 text-center">
             <Link href="/register">
-              <a className="font-normal text-xs text-color-accents-purple-black">
+              <a className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar">
                 Register New Account
               </a>
             </Link>
