@@ -100,10 +100,10 @@ function Home(props: Props) {
 
   // Manage sidebar
   const [sidebarItem, setSidebarItem] = useState<AVAILABLE_PAGES>(
-    AVAILABLE_PAGES.OVERVIEW
+    AVAILABLE_PAGES.DRIVE
   );
 
-  const [showPodSidebar, setShowPodSidebar] = useState(false);
+  const [showPodSidebar, setShowPodSidebar] = useState(true);
 
   // Right Sidebar managment
   const [rightSidebarData, setRightSidebarData] =
