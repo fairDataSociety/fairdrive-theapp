@@ -13,7 +13,7 @@ module.exports = {
       },
       backgroundImage: {
         'authentication-light':
-          "url('/media/authentication/authentication.svg')",
+          "url('/media/authentication/authentication-light.svg')",
         'authentication-dark':
           "url('/media/authentication/authentication-dark.svg')",
       },
