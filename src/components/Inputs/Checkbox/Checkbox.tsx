@@ -9,11 +9,11 @@ import classes from './Checkbox.module.scss';
 
 interface CheckboxProps {
   name: string;
-  value: string;
   label: string;
+  onChange: any;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ name, label }) => {
+const Checkbox: FC<CheckboxProps> = ({ name, label, onChange }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -24,6 +24,7 @@ const Checkbox: FC<CheckboxProps> = ({ name, label }) => {
         type="checkbox"
         value={name}
         className={`${classes.checkbox} absolute top-4 left-1 w-6 h-6 opacity-0 cursor-pointer`}
+        onChange={onChange}
       />
       <div className="flex justify-start items-center">
         <div

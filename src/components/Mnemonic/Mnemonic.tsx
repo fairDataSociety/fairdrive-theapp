@@ -1,34 +1,52 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { Button } from '@components/Buttons';
 
 import CopyLightIcon from '@media/UI/copy-light.svg';
 import DownloadLightIcon from '@media/UI/download-light.svg';
 
-interface MnemonicProps {}
+interface MnemonicProps {
+  mnemonicPhrase: string;
+}
 
-const Mnemonic: FC<MnemonicProps> = () => {
-  const testMonic = [
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-    'Word',
-  ];
+const Mnemonic: FC<MnemonicProps> = ({ mnemonicPhrase }) => {
+  const [copyComplete, setCopyComplete] = useState(false);
+  const [downloadComplete, setDownloadComplete] = useState(false);
+
+  const handleCopyClick = () => {
+    navigator.clipboard
+      .writeText(mnemonicPhrase)
+      .then(() => {
+        setCopyComplete(true);
+        setTimeout(() => setCopyComplete(false), 4000);
+      })
+      .catch(() => console.log('Could not copy mnemonic!'));
+  };
+
+  const handleDownloadClick = () => {
+    try {
+      const blob = new Blob([mnemonicPhrase], { type: 'text/text' });
+
+      const elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = 'seed.txt';
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+
+      setDownloadComplete(true);
+      setTimeout(() => setDownloadComplete(false), 4000);
+    } catch (err) {
+      console.log('Could not download mnemonic!');
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center items-center mt-8">
       <div className="w-98">
         <div className="w-full flex justify-center items-center">
           <div className="grid grid-cols-2 grid-flow-row gap-x-32 gap-y-3">
-            {testMonic.map((phrase, index) => {
+            {mnemonicPhrase.split(' ').map((phrase, index) => {
               return (
                 <div
                   key={index}
@@ -43,13 +61,15 @@ const Mnemonic: FC<MnemonicProps> = () => {
         <div className="w-full text-center mt-12">
           <Button
             variant="primary-outlined"
-            text="Copy all"
+            onClick={handleCopyClick}
+            text={copyComplete ? 'Copied!' : 'Copy all'}
             icon={<CopyLightIcon className="inline ml-2" />}
             className="mr-3"
           />
           <Button
             variant="primary-outlined"
-            text="Download all"
+            onClick={handleDownloadClick}
+            text={downloadComplete ? 'Downloaded!' : 'Download all'}
             icon={<DownloadLightIcon className="inline ml-2" />}
             className="ml-3"
           />

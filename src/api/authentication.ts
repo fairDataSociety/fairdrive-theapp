@@ -1,12 +1,12 @@
 import axios from '@api/customAxios';
 
-interface RegisterData {
+interface CreateAccountData {
   user_name: string;
   password: string;
   mnemonic: string;
 }
 
-interface RegisterResponse {
+interface CreateAccountResponse {
   address: string;
 }
 
@@ -20,7 +20,9 @@ interface LoginResponse {
   message: string;
 }
 
-export async function register(data: RegisterData): Promise<RegisterResponse> {
+export async function createAccount(
+  data: CreateAccountData
+): Promise<CreateAccountResponse> {
   return axios.post('user/signup', data);
 }
 

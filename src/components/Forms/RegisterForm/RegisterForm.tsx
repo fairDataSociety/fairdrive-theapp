@@ -1,13 +1,21 @@
 import { FC } from 'react';
+import router from 'next/router';
 import Link from 'next/link';
+
+import { useForm } from 'react-hook-form';
 
 import { AuthenticationHeader } from '@components/Headers';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 
-interface LoginFormProps {}
+const RegisterForm: FC = () => {
+  const { register, handleSubmit } = useForm();
 
-const LoginForm: FC<LoginFormProps> = () => {
+  const onSubmit = (data: any) => {
+    localStorage.setItem('registerDetails', JSON.stringify(data));
+    router.push('/register/seed');
+  };
+
   return (
     <div className="flex flex-col justify-center items-center">
       <AuthenticationHeader
@@ -16,13 +24,14 @@ const LoginForm: FC<LoginFormProps> = () => {
       />
 
       <div className="w-98 mt-12">
-        <form action="" autoComplete="off" className="w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <AuthenticationInput
             label="username"
             id="username"
             type="text"
             name="username"
             placeholder="Type here"
+            useFormRegister={register}
           />
           <AuthenticationInput
             label="password"
@@ -30,10 +39,11 @@ const LoginForm: FC<LoginFormProps> = () => {
             type="password"
             name="password"
             placeholder="Type here"
+            useFormRegister={register}
           />
 
           <div className="mt-14 text-center">
-            <Button variant="secondary" text="Create account" />
+            <Button variant="secondary" type="submit" text="Create account" />
           </div>
 
           <div className="my-6 text-center">
@@ -49,4 +59,4 @@ const LoginForm: FC<LoginFormProps> = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

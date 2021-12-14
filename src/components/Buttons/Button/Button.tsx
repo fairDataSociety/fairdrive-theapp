@@ -15,6 +15,7 @@ interface ButtonProps {
   onClick?: any;
   className?: string;
   children?: ReactChild | ReactChild[];
+  disabled?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -25,6 +26,7 @@ const Button: FC<ButtonProps> = ({
   onClick,
   className,
   children,
+  disabled,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -54,6 +56,7 @@ const Button: FC<ButtonProps> = ({
       type={type || 'button'}
       onClick={onClick}
       className={`${className} ${getVariantStyling()} text-center rounded`}
+      disabled={disabled || false}
     >
       {children ? (
         children

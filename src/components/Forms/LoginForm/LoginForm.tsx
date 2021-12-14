@@ -43,7 +43,7 @@ const LoginForm: FC = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <AuthenticationInput
-            label="user_name"
+            label="username"
             id="user_name"
             type="text"
             name="user_name"
