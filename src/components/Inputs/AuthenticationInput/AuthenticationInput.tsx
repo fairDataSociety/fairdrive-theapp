@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { UseFormRegister, FieldValues } from 'react-hook-form';
 
 interface AuthenticationInputProps {
   label: string;
@@ -7,6 +8,7 @@ interface AuthenticationInputProps {
   name: string;
   defaultValue?: string | number;
   placeholder?: string;
+  useFormRegister: UseFormRegister<FieldValues>;
 }
 
 const AuthenticationInput: FC<AuthenticationInputProps> = ({
@@ -16,6 +18,7 @@ const AuthenticationInput: FC<AuthenticationInputProps> = ({
   name,
   defaultValue,
   placeholder,
+  useFormRegister,
 }) => {
   return (
     <div className="w-full mb-6">
@@ -32,6 +35,7 @@ const AuthenticationInput: FC<AuthenticationInputProps> = ({
         value={defaultValue}
         className="block w-full mt-1 p-3 font-normal text-xs bg-color-shade-dark-4-day dark:bg-color-shade-dark-2-night border dark:text-color-shade-black-day border-color-shade-black-day dark:border-color-accents-plum-black effect-style-small-button-drop-shadow rounded"
         placeholder={placeholder}
+        {...useFormRegister(name)}
       />
     </div>
   );

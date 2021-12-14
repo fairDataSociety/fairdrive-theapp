@@ -1,4 +1,4 @@
-import { FC, useContext, ReactNode } from 'react';
+import { FC, useContext, ReactNode, ReactChild } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
 
@@ -9,12 +9,23 @@ interface ButtonProps {
     | 'secondary'
     | 'tertiary'
     | 'tertiary-outlined';
+  type?: 'button' | 'submit';
   text: string;
   icon?: ReactNode;
+  onClick?: any;
   className?: string;
+  children?: ReactChild | ReactChild[];
 }
 
-const Button: FC<ButtonProps> = ({ variant, text, icon, className }) => {
+const Button: FC<ButtonProps> = ({
+  variant,
+  type,
+  text,
+  icon,
+  onClick,
+  className,
+  children,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   const getVariantStyling = () => {
@@ -40,10 +51,18 @@ const Button: FC<ButtonProps> = ({ variant, text, icon, className }) => {
 
   return (
     <button
+      type={type || 'button'}
+      onClick={onClick}
       className={`${className} ${getVariantStyling()} text-center rounded`}
     >
-      {text}
-      <span>{icon}</span>
+      {children ? (
+        children
+      ) : (
+        <div>
+          {text}
+          <span>{icon}</span>
+        </div>
+      )}
     </button>
   );
 };
