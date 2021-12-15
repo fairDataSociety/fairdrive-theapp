@@ -95,7 +95,7 @@ function TopLevelNavigation(props: Props) {
         {PodMachineStore.context.currentlyOpenedPodName === CONSENTS_POD &&
           PodMachineStore.context.directoryNameToOpen === ROOT_DIRECTORY && (
             <BaseActionButton
-              icon={ACTION_BUTTON_ICONS.INFO_ICON}
+              icon={ACTION_BUTTON_ICONS.COOKIE}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED_WITHOUT_TEXT}
               onClickCallback={props.setCookieView}
             />

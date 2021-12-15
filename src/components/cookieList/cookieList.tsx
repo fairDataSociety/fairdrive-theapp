@@ -7,13 +7,12 @@ import {
   States as CookieStates,
 } from 'src/machines/cookie';
 import { PodProviderContext } from 'src/machines/pod';
+import { themeIcons } from '../icons/icons';
 import ListView from '../listView/listView';
 import ListViewBody from '../listView/listViewBody/listViewBody';
 import ListViewFooter from '../listView/listViewFooter/listViewFooter';
 import ListViewHeader from '../listView/listViewHeader/listViewHeader';
 import useStyles from './cookieListStyles';
-
-const CHECKMARK = <span>&#9989;</span>;
 
 function CookieList() {
   const { PodMachineStore } = useContext(PodProviderContext);
@@ -25,6 +24,8 @@ function CookieList() {
   const { cookies, index, size } = CookieMachineStore.context;
 
   const getDirectories = () => PodMachineStore.context.directoryData.dirs;
+
+  const { CheckboxChecked, CheckboxUnchecked } = themeIcons[theme.name];
 
   const domainDirectories = useMemo(() => {
     return getDirectories().filter(
@@ -82,10 +83,10 @@ function CookieList() {
             <div className={classes.row} key={index}>
               <div className={classes.name}>{cookie.name}</div>
               <div className={classes.check}>
-                {cookie.session ? CHECKMARK : ''}
+                {cookie.session ? <CheckboxChecked /> : <CheckboxUnchecked />}
               </div>
               <div className={classes.check}>
-                {cookie.secure ? CHECKMARK : ''}
+                {cookie.secure ? <CheckboxChecked /> : <CheckboxUnchecked />}
               </div>
               <div className={classes.domain}>{cookie.domain}</div>
               <div className={classes.date}>
