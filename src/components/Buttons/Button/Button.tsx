@@ -3,14 +3,14 @@ import { FC, useContext, ReactNode, ReactChild } from 'react';
 import ThemeContext from '@context/ThemeContext';
 
 interface ButtonProps {
+  type?: 'button' | 'submit';
   variant:
     | 'primary'
     | 'primary-outlined'
     | 'secondary'
     | 'tertiary'
     | 'tertiary-outlined';
-  type?: 'button' | 'submit';
-  text: string;
+  label: string;
   icon?: ReactNode;
   onClick?: any;
   className?: string;
@@ -19,14 +19,14 @@ interface ButtonProps {
 }
 
 const Button: FC<ButtonProps> = ({
+  type = 'button',
   variant,
-  type,
-  text,
+  label,
   icon,
   onClick,
   className,
   children,
-  disabled,
+  disabled = false,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -53,16 +53,16 @@ const Button: FC<ButtonProps> = ({
 
   return (
     <button
-      type={type || 'button'}
+      type={type}
       onClick={onClick}
       className={`${className} ${getVariantStyling()} text-center rounded`}
-      disabled={disabled || false}
+      disabled={disabled}
     >
       {children ? (
         children
       ) : (
         <div>
-          {text}
+          {label}
           <span>{icon}</span>
         </div>
       )}

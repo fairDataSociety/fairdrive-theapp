@@ -12,10 +12,8 @@ module.exports = {
         top: '0 10px 15px 12px rgba(0, 0, 0, 0.1), 0 4px 6px 8px rgba(0, 0, 0, 0.05)',
       },
       backgroundImage: {
-        'authentication-light':
-          "url('/media/authentication/authentication-light.svg')",
-        'authentication-dark':
-          "url('/media/authentication/authentication-dark.svg')",
+        'auth-light': "url('/media/authentication/authentication-light.svg')",
+        'auth-dark': "url('/media/authentication/authentication-dark.svg')",
       },
     },
     colors: {

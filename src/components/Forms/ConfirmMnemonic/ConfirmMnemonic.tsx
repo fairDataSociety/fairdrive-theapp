@@ -5,40 +5,38 @@ import { useForm } from 'react-hook-form';
 
 import { createAccount } from '@api/authentication';
 
-import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-
 import { AuthenticationHeader } from '@components/Headers';
+import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 
 interface ConfirmMnemonicProps {}
 
 const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm();
+  const { errors } = formState;
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: {
+    'word-5': string;
+    'word-11': string;
+    'word-12': string;
+  }) => {
     let isMnemonicValid = true;
 
-    const user = JSON.parse(localStorage.getItem('registerDetails'));
+    const user = JSON.parse(localStorage.getItem('registerUser'));
     const mnemonic = localStorage.getItem('registerMnemonic');
 
     const mnemonicArr = mnemonic.split(' ');
 
-    if (data['word-5'] !== mnemonicArr[4]) {
-      setErrorMessage('Mnemonic mismatch!');
+    if (
+      data['word-5'] !== mnemonicArr[4] ||
+      data['word-11'] !== mnemonicArr[10] ||
+      data['word-12'] !== mnemonicArr[11]
+    ) {
       isMnemonicValid = false;
-    }
-
-    if (data['word-11'] !== mnemonicArr[10]) {
       setErrorMessage('Mnemonic mismatch!');
-      isMnemonicValid = false;
-    }
-
-    if (data['word-12'] !== mnemonicArr[11]) {
-      setErrorMessage('Mnemonic mismatch!');
-      isMnemonicValid = false;
     }
 
     if (isMnemonicValid) {
@@ -63,13 +61,13 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       <AuthenticationHeader
-        heading="Confirm your seed phrase"
-        text="Please enter the required word from your seed phrase to complete registration."
+        title="Confirm your seed phrase"
+        content="Please enter the required word from your seed phrase to complete registration."
       />
 
       <div className="w-98 mt-12 mb-8">
         <div className="mb-5 text-center">
-          <FeedbackMessage message={errorMessage} success={false} />
+          <FeedbackMessage type="error" message={errorMessage} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -80,7 +78,13 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
             name="word-5"
             placeholder="Type here"
             useFormRegister={register}
+            validationRules={{
+              required: true,
+            }}
+            error={errors.user_name}
+            errorMessage="Mnemonic Word #5 is required"
           />
+
           <AuthenticationInput
             label="# Word 11"
             id="word-11"
@@ -88,7 +92,13 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
             name="word-11"
             placeholder="Type here"
             useFormRegister={register}
+            validationRules={{
+              required: true,
+            }}
+            error={errors.user_name}
+            errorMessage="Mnemonic Word #11 is required"
           />
+
           <AuthenticationInput
             label="# Word 12"
             id="word-12"
@@ -96,10 +106,15 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
             name="word-12"
             placeholder="Type here"
             useFormRegister={register}
+            validationRules={{
+              required: true,
+            }}
+            error={errors.user_name}
+            errorMessage="Mnemonic Word #12 is required"
           />
 
           <div className="mt-14 text-center">
-            <Button variant="secondary" type="submit" text="Register" />
+            <Button type="submit" variant="secondary" label="Register" />
           </div>
         </form>
       </div>

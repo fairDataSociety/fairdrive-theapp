@@ -11,7 +11,7 @@ interface CreateAccountResponse {
 }
 
 interface LoginData {
-  username: string;
+  user_name: string;
   password: string;
 }
 

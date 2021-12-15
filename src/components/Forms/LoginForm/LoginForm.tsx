@@ -6,18 +6,18 @@ import { useForm } from 'react-hook-form';
 
 import { login } from '@api/authentication';
 
-import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-
 import { AuthenticationHeader } from '@components/Headers';
+import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 
 const LoginForm: FC = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState } = useForm();
+  const { errors } = formState;
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: { user_name: string; password: string }) => {
     login(data)
       .then(() => {
         router.push('/overview');
@@ -32,13 +32,13 @@ const LoginForm: FC = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       <AuthenticationHeader
-        heading="Welcome back"
-        text="Please log in to get access to your Fairdrive."
+        title="Welcome back"
+        content="Please log in to get access to your Fairdrive."
       />
 
       <div className="w-98 mt-12">
         <div className="mb-5 text-center">
-          <FeedbackMessage message={errorMessage} success={false} />
+          <FeedbackMessage type="error" message={errorMessage} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -49,7 +49,13 @@ const LoginForm: FC = () => {
             name="user_name"
             placeholder="Type here"
             useFormRegister={register}
+            validationRules={{
+              required: true,
+            }}
+            error={errors.user_name}
+            errorMessage="Username or e-mail is required"
           />
+
           <AuthenticationInput
             label="password"
             id="password"
@@ -57,10 +63,15 @@ const LoginForm: FC = () => {
             name="password"
             placeholder="Type here"
             useFormRegister={register}
+            validationRules={{
+              required: true,
+            }}
+            error={errors.password}
+            errorMessage="Password is required"
           />
 
           <div className="mt-14 text-center">
-            <Button variant="secondary" type="submit" text="Continue" />
+            <Button type="submit" variant="secondary" label="Continue" />
           </div>
 
           <div className="my-6 text-center">

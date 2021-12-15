@@ -31,39 +31,41 @@ const RegisterSeed: NextPage = () => {
 
   return (
     <AuthenticationLayout>
-      <AuthenticationHeader
-        heading="Registering account..."
-        text="Your seed phrase is used to generate and recover your account. Please save these 12 words on a piece of paper or a hardware wallet. The order is important. This seed will allow you to recover your account."
-      />
+      <div className="flex flex-col justify-center items-center">
+        <AuthenticationHeader
+          title="Registering account..."
+          content="Your seed phrase is used to generate and recover your account. Please save these 12 words on a piece of paper or a hardware wallet. The order is important. This seed will allow you to recover your account."
+        />
 
-      {mnemonic ? <Mnemonic mnemonicPhrase={mnemonic} /> : null}
+        {mnemonic ? <Mnemonic mnemonicPhrase={mnemonic} /> : null}
 
-      <div className="flex justify-center items-center mt-10">
-        <Checkbox
-          name="confirm"
-          label="I understand that if I lose my seed phrase I will not be able to recover my account."
-          onChange={() => setTermsAccepted(!termsAccepted)}
+        <div className="flex justify-center items-center mt-10">
+          <Checkbox
+            name="confirm"
+            label="I understand that if I lose my seed phrase I will not be able to recover my account."
+            onChange={() => setTermsAccepted(!termsAccepted)}
+          />
+        </div>
+
+        <div className="my-5 text-center">
+          <FeedbackMessage
+            type={termsAccepted ? 'success' : 'error'}
+            message={
+              termsAccepted
+                ? 'You confirm you have secured your seed phrase'
+                : 'Don’t forget to secure your seed phrase!'
+            }
+          />
+        </div>
+
+        <Button
+          variant="secondary"
+          onClick={handleSeedContinue}
+          label="Continue"
+          className="block mb-10 mx-auto"
+          disabled={!termsAccepted}
         />
       </div>
-
-      <div className="my-5 text-center">
-        <FeedbackMessage
-          success={termsAccepted}
-          message={
-            termsAccepted
-              ? 'You confirm you have secured your seed phrase'
-              : 'Don’t forget to secure your seed phrase!'
-          }
-        />
-      </div>
-
-      <Button
-        variant="secondary"
-        onClick={handleSeedContinue}
-        text="Continue anyway?"
-        className="block mb-10 mx-auto"
-        disabled={!termsAccepted}
-      />
     </AuthenticationLayout>
   );
 };

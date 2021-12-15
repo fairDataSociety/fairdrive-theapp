@@ -2,8 +2,8 @@ import { FC, useState } from 'react';
 
 import { Button } from '@components/Buttons';
 
-import CopyLightIcon from '@media/UI/copy-light.svg';
-import DownloadLightIcon from '@media/UI/download-light.svg';
+import CopyIcon from '@media/UI/copy.svg';
+import DownloadIcon from '@media/UI/download.svg';
 
 interface MnemonicProps {
   mnemonicPhrase: string;
@@ -58,19 +58,21 @@ const Mnemonic: FC<MnemonicProps> = ({ mnemonicPhrase }) => {
             })}
           </div>
         </div>
+
         <div className="w-full text-center mt-12">
           <Button
             variant="primary-outlined"
             onClick={handleCopyClick}
-            text={copyComplete ? 'Copied!' : 'Copy all'}
-            icon={<CopyLightIcon className="inline ml-2" />}
+            label={copyComplete ? 'Copied!' : 'Copy all'}
+            icon={<CopyIcon className="inline ml-2" />}
             className="mr-3"
           />
+
           <Button
             variant="primary-outlined"
             onClick={handleDownloadClick}
-            text={downloadComplete ? 'Downloaded!' : 'Download all'}
-            icon={<DownloadLightIcon className="inline ml-2" />}
+            label={downloadComplete ? 'Downloaded!' : 'Download all'}
+            icon={<DownloadIcon className="inline ml-2" />}
             className="ml-3"
           />
         </div>

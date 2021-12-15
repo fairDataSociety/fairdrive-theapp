@@ -1,15 +1,15 @@
 import { FC } from 'react';
 
 interface FeedbackMessageProps {
+  type: 'success' | 'error';
   message: string;
-  success: boolean;
 }
 
-const FeedbackMessage: FC<FeedbackMessageProps> = ({ message, success }) => {
+const FeedbackMessage: FC<FeedbackMessageProps> = ({ message, type }) => {
   return (
     <div
       className={`${
-        success
+        type === 'success'
           ? 'text-color-status-positive-day'
           : 'text-color-status-negative-day'
       } text-sm`}

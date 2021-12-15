@@ -13,10 +13,8 @@ const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({ children }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="flex flex-row justify-items-stretch w-screen h-screen dark:bg-color-shade-dark-3-night">
-      <div
-        className={`w-100 bg-authentication-${theme} bg-center bg-cover bg-no-repeat`}
-      >
+    <div className="flex justify-items-stretch w-screen h-screen dark:bg-color-shade-dark-3-night">
+      <div className={`w-100 bg-auth-${theme} bg-center bg-cover bg-no-repeat`}>
         {/* Authentication Background Image */}
       </div>
 
@@ -24,7 +22,9 @@ const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({ children }) => {
         <div className="w-full h-16">
           <AuthenticationNavbar />
         </div>
-        <div className="pt-16 overflow-scroll no-scroll-bar">{children}</div>
+        <div className="w-full pt-16 overflow-scroll no-scroll-bar">
+          {children}
+        </div>
         <div className="w-full h-16">
           <AuthenticationFooter />
         </div>

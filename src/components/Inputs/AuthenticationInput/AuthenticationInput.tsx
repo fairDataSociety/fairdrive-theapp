@@ -1,24 +1,30 @@
 import { FC } from 'react';
-import { UseFormRegister, FieldValues } from 'react-hook-form';
+import { UseFormRegister, FieldValues, FieldError } from 'react-hook-form';
 
 interface AuthenticationInputProps {
-  label: string;
-  id: string;
   type: 'text' | 'number' | 'email' | 'password';
+  id: string;
   name: string;
-  defaultValue?: string | number;
+  label: string;
   placeholder?: string;
+  defaultValue?: string | number;
   useFormRegister: UseFormRegister<FieldValues>;
+  validationRules?: any;
+  error?: FieldError;
+  errorMessage?: string;
 }
 
 const AuthenticationInput: FC<AuthenticationInputProps> = ({
-  label,
-  id,
   type,
+  id,
   name,
-  defaultValue,
+  label,
   placeholder,
+  defaultValue,
   useFormRegister,
+  validationRules,
+  error,
+  errorMessage,
 }) => {
   return (
     <div className="w-full mb-6">
@@ -28,6 +34,7 @@ const AuthenticationInput: FC<AuthenticationInputProps> = ({
       >
         {label}
       </label>
+
       <input
         type={type}
         name={name}
@@ -35,8 +42,14 @@ const AuthenticationInput: FC<AuthenticationInputProps> = ({
         value={defaultValue}
         className="block w-full mt-1 p-3 font-normal text-xs bg-color-shade-dark-4-day dark:bg-color-shade-dark-2-night border dark:text-color-shade-black-day border-color-shade-black-day dark:border-color-accents-plum-black effect-style-small-button-drop-shadow rounded"
         placeholder={placeholder}
-        {...useFormRegister(name)}
+        {...useFormRegister(name, validationRules)}
       />
+
+      {error ? (
+        <div className="mt-1 text-color-status-negative-day text-xs leading-none">
+          {errorMessage}
+        </div>
+      ) : null}
     </div>
   );
 };
