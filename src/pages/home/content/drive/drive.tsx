@@ -20,6 +20,7 @@ import CardEntry from 'src/components/CardEntry/CardEntry';
 
 import TopLevelNavigation from './topLevelNavigation/topLevelNavigation';
 import FileList from 'src/components/fileList/fileList';
+import CookieList from 'src/components/cookieList/cookieList';
 
 // Hooks and helpers
 import useStyles from './driveStyles';
@@ -89,6 +90,7 @@ function Drive(props: Props) {
 
   // Toggle grid or list
   const [showGrid, setShowGrid] = useState(true);
+  const [showCookies, setShowCookies] = useState(false);
 
   // Handle creating new folder
   const handleCreateDirectoryRequest = (directory): void => {
@@ -191,6 +193,12 @@ function Drive(props: Props) {
 
   const isFoldersNotEmpty = () => folders && folders.length > 0;
 
+  const getView = (): 'cookie' | 'grid' | 'list' => {
+    return showCookies ? 'cookie' : showGrid ? 'grid' : 'list';
+  };
+
+  const view = getView();
+
   return (
     <div className={classes.Drive}>
       <div className={classes.navBarWrapper}>
@@ -198,6 +206,7 @@ function Drive(props: Props) {
           showGrid={showGrid}
           setShowGrid={setShowGrid}
           handleShare={() => handleShare()}
+          setCookieView={() => setShowCookies(!showCookies)}
           currentFilter={currentFilter}
           setCurrentFilter={(selectedFilter) =>
             setCurrentFilter(selectedFilter)
@@ -228,43 +237,47 @@ function Drive(props: Props) {
         )}
 
         {isFilesNotEmpty() || isFoldersNotEmpty() ? (
-          showGrid ? (
-            <div className={classes.cardGrid}>
-              {folders &&
-                sortyByCurrentFilter(folders, currentFilter).map(
-                  (dir: IDirectory, index) => (
-                    <CardEntry
-                      key={`${dir.name}_${index}`}
-                      data={dir}
-                      isDirectory={true}
-                      onDirectoryClick={() => openClickedDirectory(dir.name)}
-                    />
-                  )
-                )}
+          <>
+            {view === 'cookie' && <CookieList />}
+            {view === 'grid' && (
+              <div className={classes.cardGrid}>
+                {folders &&
+                  sortyByCurrentFilter(folders, currentFilter).map(
+                    (dir: IDirectory, index) => (
+                      <CardEntry
+                        key={`${dir.name}_${index}`}
+                        data={dir}
+                        isDirectory={true}
+                        onDirectoryClick={() => openClickedDirectory(dir.name)}
+                      />
+                    )
+                  )}
 
-              {files &&
-                sortyByCurrentFilter(files, currentFilter).map(
-                  (file: IFile, index) => (
-                    <CardEntry
-                      key={`${file.name}_${index}`}
-                      data={file}
-                      isDirectory={false}
-                      onFileClick={() =>
-                        props.setRightSidebarContent({
-                          payload: file,
-                          variant: RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE,
-                        })
-                      }
-                    />
-                  )
-                )}
-            </div>
-          ) : (
-            <FileList
-              currentFilter={currentFilter}
-              isPodBarOpen={props.isPodBarOpen}
-            />
-          )
+                {files &&
+                  sortyByCurrentFilter(files, currentFilter).map(
+                    (file: IFile, index) => (
+                      <CardEntry
+                        key={`${file.name}_${index}`}
+                        data={file}
+                        isDirectory={false}
+                        onFileClick={() =>
+                          props.setRightSidebarContent({
+                            payload: file,
+                            variant: RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE,
+                          })
+                        }
+                      />
+                    )
+                  )}
+              </div>
+            )}
+            {view === 'list' && (
+              <FileList
+                currentFilter={currentFilter}
+                isPodBarOpen={props.isPodBarOpen}
+              />
+            )}
+          </>
         ) : (
           <>
             {isSearchQuerySetted() && (

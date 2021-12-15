@@ -19,6 +19,7 @@ import { IFile } from 'src/types/models/File';
 
 // Icons
 import { Download, Globe, Hide, Share } from 'src/components/icons/icons';
+import { CONSENTS_POD } from 'src/constants/constants';
 
 import fileAssociations from 'src/helpers/fileAssociation.json';
 
@@ -111,7 +112,11 @@ const PreviewVariant = (props: Props): JSX.Element => {
 
         {fileLink !== null && (
           <div className={classes.actionIcon}>
-            <a href={`${fileLink}/${props.podName}/${props.directoryName}/${props.content.name}`} target="_blank" rel="noreferrer">
+            <a
+              href={`${fileLink}/${props.podName}/${props.directoryName}/${props.content.name}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               <Globe>
                 <title>Open in dapp</title>
               </Globe>

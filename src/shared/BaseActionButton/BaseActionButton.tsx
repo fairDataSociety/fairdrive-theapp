@@ -20,6 +20,7 @@ import {
   ListIcon,
   Trash,
   InfoIcon,
+  themeIcons,
 } from 'src/components/icons/icons';
 
 export enum ACTION_BUTTON_VARIANTS {
@@ -39,6 +40,7 @@ export enum ACTION_BUTTON_ICONS {
   LIST_ICON = 'list_icon',
   TRASH = 'trash',
   INFO_ICON = 'info_icon',
+  COOKIE = 'cookie',
 }
 
 export enum ACTION_FONT_SIZE {
@@ -81,6 +83,8 @@ function BaseActionButton(props: Props): JSX.Element {
     ...theme,
   });
 
+  const { WholeCookie } = themeIcons[theme.name];
+
   useEffect(() => {
     if (icon) {
       isValueInEnum(icon, ACTION_BUTTON_ICONS);
@@ -115,6 +119,8 @@ function BaseActionButton(props: Props): JSX.Element {
         return <Trash className={classes.icon} />;
       case ACTION_BUTTON_ICONS.INFO_ICON:
         return <InfoIcon className={classes.icon} />;
+      case ACTION_BUTTON_ICONS.COOKIE:
+        return <WholeCookie classname={classes.icon} />;
       default:
         console.warn('Unknown variant', iconVariant);
         break;

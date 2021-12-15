@@ -9,6 +9,7 @@ import { ModalProvider } from 'src/contexts/modalContext';
 import Layout from 'src/layout/layout';
 import { Toaster } from 'react-hot-toast';
 import { inspect } from '@xstate/inspect';
+import CookieProvider from './machines/cookie';
 
 // xState machines debugging
 if (process.env.NODE_ENV !== 'production') {
@@ -25,13 +26,15 @@ const App = (): JSX.Element => {
         <AuthProvider>
           <PodProvider>
             <FileProvider>
-              <DownloadProvider>
-                <ThemeProvider>
-                  <ModalProvider>
-                    <Layout />
-                  </ModalProvider>
-                </ThemeProvider>
-              </DownloadProvider>
+              <CookieProvider>
+                <DownloadProvider>
+                  <ThemeProvider>
+                    <ModalProvider>
+                      <Layout />
+                    </ModalProvider>
+                  </ThemeProvider>
+                </DownloadProvider>
+              </CookieProvider>
             </FileProvider>
           </PodProvider>
         </AuthProvider>

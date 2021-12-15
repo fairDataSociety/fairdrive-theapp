@@ -4,6 +4,7 @@ import HTTPClient from 'src/http';
 // Helpers
 import urlPath from 'src/helpers/urlPath';
 import { generateID } from 'src/helpers/generateID';
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 
 export interface UploadFilePayload {
   files: File[];
@@ -29,7 +30,7 @@ export async function uploadFile(
     const { files, directory, podName } = payload;
 
     let writePath = '';
-    if (directory === 'root') {
+    if (directory === ROOT_DIRECTORY) {
       writePath = '/';
     } else {
       writePath = '/' + urlPath(directory);

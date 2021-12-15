@@ -4,6 +4,7 @@ import HTTPClient from 'src/http';
 // Helpers
 import urlPath from 'src/helpers/urlPath';
 import { generateID } from 'src/helpers/generateID';
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 
 export interface UploadFilePayload {
   file: File;
@@ -37,7 +38,7 @@ export async function uploadSingleFile(
 
     // Create directory path
     let writePath = '';
-    if (directoryName === 'root') {
+    if (directoryName === ROOT_DIRECTORY) {
       writePath = '/';
     } else {
       writePath = '/' + urlPath(directoryName);

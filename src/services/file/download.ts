@@ -1,5 +1,6 @@
 import urlPath from 'src/helpers/urlPath';
 import HTTPClient from 'src/http';
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 
 export async function downloadFile(
   filename: string,
@@ -8,7 +9,7 @@ export async function downloadFile(
 ): Promise<Blob> {
   try {
     const writePath =
-      directory === 'root' ? '/' : '/' + urlPath(directory) + '/';
+      directory === ROOT_DIRECTORY ? '/' : '/' + urlPath(directory) + '/';
 
     const formData = new FormData();
     formData.append('file_path', writePath + filename);

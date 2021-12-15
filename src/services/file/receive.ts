@@ -1,3 +1,4 @@
+import { ROOT_DIRECTORY } from 'src/constants/constants';
 import HTTPClient from 'src/http';
 
 export const receiveFileInfo = async (
@@ -7,7 +8,7 @@ export const receiveFileInfo = async (
 ) => {
   try {
     let data = { dir_path: '', pod_name: podName, sharing_ref: reference };
-    if (directory === 'root') {
+    if (directory === ROOT_DIRECTORY) {
       data = {
         dir_path: '/',
         pod_name: podName,

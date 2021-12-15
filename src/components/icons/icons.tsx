@@ -61,9 +61,39 @@ import { ReactComponent as TailSpinner } from 'src/media/fairdrive/TailSpinner.s
 import { ReactComponent as Trash } from 'src/media/fairdrive/Trash.svg';
 import { ReactComponent as Moon } from 'src/media/optionIcons/Moon.svg';
 import { ReactComponent as Sun } from 'src/media/optionIcons/Sun.svg';
+import { ReactComponent as Delete } from 'src/media/optionIcons/Delete.svg';
+
+import { ReactComponent as BiteCookieLight } from 'src/media/fairdrive/light/BiteCookie.svg';
+import { ReactComponent as WholeCookieLight } from 'src/media/fairdrive/light/WholeCookie.svg';
+import { ReactComponent as BiteCookieDark } from 'src/media/fairdrive/dark/BiteCookie.svg';
+import { ReactComponent as WholeCookieDark } from 'src/media/fairdrive/dark/WholeCookie.svg';
+import { ReactComponent as CheckboxCheckedLight } from 'src/media/UI/light/checked.svg';
+import { ReactComponent as CheckboxUncheckedLight } from 'src/media/UI/light/unchecked.svg';
+import { ReactComponent as CheckboxCheckedDark } from 'src/media/UI/dark/checked.svg';
+import { ReactComponent as CheckboxUncheckedDark } from 'src/media/UI/dark/unchecked.svg';
+
 export const icons = {
   QuestionMark: QuestionMark,
   NavRight: NavRight,
+};
+
+const light = {
+  BiteCookie: BiteCookieLight,
+  WholeCookie: WholeCookieLight,
+  CheckboxChecked: CheckboxCheckedLight,
+  CheckboxUnchecked: CheckboxUncheckedLight,
+};
+
+const dark = {
+  BiteCookie: BiteCookieDark,
+  WholeCookie: WholeCookieDark,
+  CheckboxChecked: CheckboxCheckedDark,
+  CheckboxUnchecked: CheckboxUncheckedDark,
+};
+
+export const themeIcons = {
+  light,
+  dark,
 };
 
 export {
@@ -129,4 +159,5 @@ export {
   ChevronDown,
   ChevronRight,
   ArrowRight,
+  Delete,
 };
