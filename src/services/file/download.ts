@@ -1,5 +1,4 @@
 import urlPath from 'src/helpers/urlPath';
-import FileSaver from 'file-saver';
 import HTTPClient from 'src/http';
 import { ROOT_DIRECTORY } from 'src/constants/constants';
 
@@ -7,14 +6,11 @@ export async function downloadFile(
   filename: string,
   directory: string,
   podName: string
-): Promise<void> {
+): Promise<Blob> {
   try {
-    let writePath = '';
-    if (directory === ROOT_DIRECTORY) {
-      writePath = '/';
-    } else {
-      writePath = '/' + urlPath(directory) + '/';
-    }
+    const writePath =
+      directory === ROOT_DIRECTORY ? '/' : '/' + urlPath(directory) + '/';
+
     const formData = new FormData();
     formData.append('file_path', writePath + filename);
     formData.append('pod_name', podName);
@@ -27,9 +23,7 @@ export async function downloadFile(
       }
     );
 
-    FileSaver.saveAs(downloadFile.data, filename);
-
-    //const blob = new Blob(downloadFile.data)
+    return downloadFile.data;
   } catch (error) {
     return Promise.reject(error);
   }

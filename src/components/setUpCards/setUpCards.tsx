@@ -37,7 +37,7 @@ function SetupCards() {
               {content.icon}
               <p className={classes.header}>{content.header}</p>
               <p className={classes.body}>{content.body}</p>
-              <button className={classes.button}>{content.button}</button>
+              <button className={classes.button}>{content.button} (cominig soon)</button>
             </div>
           </li>
         );

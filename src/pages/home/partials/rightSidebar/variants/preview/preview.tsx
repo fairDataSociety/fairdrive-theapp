@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import prettyBytes from 'pretty-bytes';
 
 // Hooks
@@ -21,6 +21,8 @@ import { IFile } from 'src/types/models/File';
 import { Download, Globe, Hide, Share } from 'src/components/icons/icons';
 import { CONSENTS_POD } from 'src/constants/constants';
 
+import fileAssociations from 'src/helpers/fileAssociation.json';
+
 export interface Props {
   podName: string;
   directoryName: string;
@@ -29,6 +31,8 @@ export interface Props {
 }
 
 const PreviewVariant = (props: Props): JSX.Element => {
+  const [fileLink, setFileLink] = useState(null);
+
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
@@ -51,18 +55,21 @@ const PreviewVariant = (props: Props): JSX.Element => {
       action: () => props.callAction('share'),
       icon: Share,
     },
-    // {
-    //   label: 'Open',
-    //   action: () => props.callAction('open'),
-    //   icon: Globe,
-    // },
   ];
-  const fileLink =
-    props.podName === CONSENTS_POD
-      ? 'https://app.crviewer.fairdatasociety.org'
-      : props.content.name.includes('md')
-      ? 'https://app.dracula.fairdatasociety.org'
-      : null;
+
+  useEffect(() => {
+    fileAssociations.forEach((dapp) => {
+      const fileTypes = dapp.association.split(',');
+
+      fileTypes.forEach((fileType) => {
+        if (props.content.name.includes(fileType)) {
+          setFileLink(dapp.link);
+          return;
+        }
+      });
+    });
+  }, []);
+
   return (
     <>
       <div className={classes.imageContainer}>
@@ -102,12 +109,13 @@ const PreviewVariant = (props: Props): JSX.Element => {
             <action.icon></action.icon>
           </div>
         ))}
+
         {fileLink !== null && (
           <div className={classes.actionIcon}>
             <a
               href={`${fileLink}/${props.podName}/${props.directoryName}/${props.content.name}`}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noreferrer"
             >
               <Globe>
                 <title>Open in dapp</title>

@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
     container: {
       backgroundColor: (style: Theme) => style.backgroundDark4,
       borderRadius: '1rem',
-      width: '50rem',
+      width: '59rem',
       height: '36.5rem',
       padding: '4rem',
       display: 'flex',

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Dispatch, SetStateAction, useContext } from 'react';
 import Blockies from 'react-blockies';
 
 // Contexts
@@ -27,11 +27,17 @@ import {
   BUTTON_TEXT_COLOR,
 } from 'src/shared/BaseButton/BaseButton';
 import SearchBar from 'src/layout/partials/navbar/partials/searchBar/searchBar';
+import ExploreSearchBar from 'src/layout/partials/navbar/partials/exploreSearchBar/exploreSearchBar';
+
 export interface Props {
   setShowTerms?: (data) => void;
   showTerms?: boolean;
   isAfterAuth: boolean;
+  activeTab: string;
+  appSearch: string;
+  setAppSearch: Dispatch<SetStateAction<string>>;
 }
+
 function Navbar(props: Props): JSX.Element {
   // General
   const { AuthMachineStore, AuthMachineActions } =
@@ -83,33 +89,17 @@ function Navbar(props: Props): JSX.Element {
       </div>
 
       <div className={classes.right}>
-        {props.isAfterAuth && (
-          <>
-            <BaseButton
-              variant={BUTTON_VARIANTS.ALTERNATIVE}
-              size={BUTTON_SIZE.MEDIUM}
-              fontSize={FONT_SIZE.BIG}
-              textColor={BUTTON_TEXT_COLOR.WHITE}
-              onClickCallback={() =>
-                openModal({
-                  type: MODAL_VARIANTS.GENERATE_LINK,
-                  data: {
-                    type: 'Referal',
-                    // TODO: When clicked refer a friend, do request to api
-                    // for now there is no endpoint
-                    link: '...',
-                  },
-                })
-              }
-            >
-              Refer a friend
-            </BaseButton>
-          </>
-        )}
         <div className={classes.actionsWrapper}>
           {props.isAfterAuth && (
             <>
-              <SearchBar />
+              {props.activeTab === 'Explore' ? (
+                <ExploreSearchBar
+                  appSearch={props.appSearch}
+                  setAppSearch={props.setAppSearch}
+                />
+              ) : (
+                <SearchBar />
+              )}
 
               <div className={classes.dappAndActivityGroup}>
                 <BaseDropdown

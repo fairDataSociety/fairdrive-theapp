@@ -68,8 +68,6 @@ function Footer(props: Props) {
           >
             Terms and conditions
           </span>
-          <span className={classes.footerText}>*</span>
-          <span className={classes.linkItem}>Privacy Policy</span>
           <div className={classes.divider}></div>
           <span className={classes.footerText}>Sand box environment</span>
         </div>
