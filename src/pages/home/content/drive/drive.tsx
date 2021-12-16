@@ -226,6 +226,11 @@ function Drive(props: Props) {
               })
             }
             onOpenImportFileModal={() => openImportFileModal()}
+            onOpenUploadCSV={() =>
+              props.setRightSidebarContent({
+                variant: RIGHT_SIDEBAR_VARIANTS.UPLOAD_CSV,
+              })
+            }
           />
         )}
 

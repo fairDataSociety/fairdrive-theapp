@@ -14,6 +14,7 @@ import { DownloadProviderContext } from 'src/machines/download';
 // Components
 import PreviewVariant from './variants/preview/preview';
 import UploadVariant from './variants/upload/upload';
+import UploadCSVVariant from './variants/uploadCSV/uploadCSV';
 import { Folder, Close, UploadIcon } from 'src/components/icons/icons';
 import { Modal } from '@material-ui/core';
 
@@ -26,6 +27,7 @@ import { IFile } from 'src/types/models/File';
 export enum RIGHT_SIDEBAR_VARIANTS {
   UPLOAD = 'upload',
   PREVIEW_FILE = 'preview_file',
+  UPLOAD_CSV = 'upload_csv',
 }
 
 export interface Props {
@@ -118,6 +120,8 @@ function RightSidebar(props: Props) {
         return 'Upload Files';
       case RIGHT_SIDEBAR_VARIANTS.PREVIEW_FILE:
         return 'Preview File';
+      case RIGHT_SIDEBAR_VARIANTS.UPLOAD_CSV:
+        return 'Upload CSV';
       default:
         console.warn(
           `getProperHeadlineForVariant: Unknown variant: ${variant}`
@@ -149,6 +153,9 @@ function RightSidebar(props: Props) {
               <Folder />
             )}
             {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD && <UploadIcon />}
+            {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD_CSV && (
+              <UploadIcon />
+            )}
 
             {getProperHeadlineForVariant(props.variant)}
           </div>
@@ -166,6 +173,9 @@ function RightSidebar(props: Props) {
           <UploadVariant
             callAction={(type, payload) => proxyActions(type, payload)}
           />
+        )}
+        {props.variant === RIGHT_SIDEBAR_VARIANTS.UPLOAD_CSV && (
+          <UploadCSVVariant />
         )}
       </div>
     </Modal>

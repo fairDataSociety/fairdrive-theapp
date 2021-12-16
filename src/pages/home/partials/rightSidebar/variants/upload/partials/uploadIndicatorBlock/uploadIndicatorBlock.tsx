@@ -12,6 +12,7 @@ import { UploadIcon } from 'src/components/icons/icons';
 
 export interface Props {
   setFilesToUpload: (files: File[]) => void;
+  accept?: string;
 }
 
 const UploadDropzone = (props: Props): JSX.Element => {
@@ -19,7 +20,9 @@ const UploadDropzone = (props: Props): JSX.Element => {
   const { theme } = useContext(ThemeContext);
   const classes = useStyles({ ...theme });
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    accept: props.accept,
+  });
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {

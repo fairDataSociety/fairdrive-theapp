@@ -19,7 +19,6 @@ import { IFile } from 'src/types/models/File';
 
 // Icons
 import { Download, Globe, Hide, Share } from 'src/components/icons/icons';
-import { CONSENTS_POD } from 'src/constants/constants';
 
 import fileAssociations from 'src/helpers/fileAssociation.json';
 
