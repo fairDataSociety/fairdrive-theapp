@@ -1,14 +1,14 @@
 import type { NextPage } from 'next';
 
 import { AuthenticationLayout } from '@components/Layouts';
-import { LoginForm } from '@components/Forms';
+import { ConfirmMnemonic } from '@components/Forms';
 
-const Home: NextPage = () => {
+const RegisterConfirmSeed: NextPage = () => {
   return (
     <AuthenticationLayout>
-      <LoginForm />
+      <ConfirmMnemonic />
     </AuthenticationLayout>
   );
 };
 
-export default Home;
+export default RegisterConfirmSeed;
