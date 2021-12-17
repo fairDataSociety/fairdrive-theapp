@@ -24,6 +24,7 @@ export interface Props {
   onOpenCreateFolderModal: () => void;
   onOpenImportFileModal: () => void;
   onOpenUploadModal: () => void;
+  onOpenUploadCSV: () => void;
 }
 
 const SecondLevelNavigation = (props: Props): JSX.Element => {
@@ -158,6 +159,13 @@ const SecondLevelNavigation = (props: Props): JSX.Element => {
         </div>
         {!isActionMenuOpen && (
           <div className={classes.right}>
+            <BaseActionButton
+              icon={ACTION_BUTTON_ICONS.UPLOAD}
+              variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED}
+              onClickCallback={() => props.onOpenUploadCSV()}
+            >
+              CSV
+            </BaseActionButton>
             <BaseActionButton
               icon={ACTION_BUTTON_ICONS.UPLOAD}
               variant={ACTION_BUTTON_VARIANTS.ACTION_OUTLINED}
