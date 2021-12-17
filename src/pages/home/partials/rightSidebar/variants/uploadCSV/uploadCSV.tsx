@@ -1,5 +1,5 @@
 import { CancelTokenSource } from 'axios';
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useReducer, useState } from 'react';
 import { ThemeContext } from 'src/contexts/themeContext/themeContext';
 import { FileProviderContext } from 'src/machines/file';
 import { createTable } from 'src/services/kv';
@@ -8,6 +8,8 @@ import useStyles from './uploadCSVStyles';
 import UploadDropzone from '../upload/partials/uploadIndicatorBlock/uploadIndicatorBlock';
 import UploadQueue from '../upload/partials/uploadQueue/uploadQueue';
 import UploadProgress from './partials/uploadProgress/uploadProgress';
+import { openTable } from 'src/services/kv/open';
+import TextField from 'src/components/textField/textField';
 
 interface UploadState {
   files: File[];
@@ -53,6 +55,7 @@ function reducer(state: UploadState, { type, data }: Action): UploadState {
     case ACTIONS.UPLOAD_STARTED:
       return {
         ...state,
+        files: [data as File, ...state.files],
         uploading: data as File,
         progress: 0,
         cancelFn: null,
@@ -85,6 +88,7 @@ function UploadCSVVariant() {
     reducer,
     initialState
   );
+  const [tableName, setTableName] = useState<string>('');
 
   const directory = FileMachineStore.context.currentDirectory;
   const podName = FileMachineStore.context.currentPodName;
@@ -93,13 +97,15 @@ function UploadCSVVariant() {
     try {
       dispatch({ type: ACTIONS.UPLOAD_STARTED, data: file });
 
-      await createTable(podName, directory);
+      await createTable(podName, tableName);
+
+      await openTable(podName, tableName);
 
       await uploadCSV(
         {
           file,
           podName,
-          tableName: directory,
+          tableName,
         },
         (requestId: string, cancelFn: CancelTokenSource) => {
           dispatch({ type: ACTIONS.SET_CANCEL_FN, data: cancelFn });
@@ -120,7 +126,7 @@ function UploadCSVVariant() {
   };
 
   const addFiles = (files: File[]) => {
-    if (uploading) {
+    if (uploading || !tableName) {
       return;
     }
     upload(files[0]);
@@ -134,6 +140,15 @@ function UploadCSVVariant() {
     <>
       <div>
         <UploadDropzone setFilesToUpload={addFiles} accept="text/csv" />
+      </div>
+      <div className={classes.tableName}>
+        <TextField
+          className={classes.tableNameInput}
+          placeholder="Table Name"
+          type="text"
+          setProp={setTableName}
+          propValue={tableName}
+        />
       </div>
       <div className={classes.progressWrapper}>
         {uploading && <UploadProgress progress={progress * 100} />}

@@ -8,6 +8,12 @@ const useStyles = makeStyles(() =>
       margin: '0rem 0rem 2rem 0rem',
       position: 'relative',
     },
+    tableName: {
+      margin: '20px 0',
+    },
+    tableNameInput: {
+      width: '100%',
+    },
     progressWrapper: {
       margin: '20px 0',
       paddingTop: '10px',
