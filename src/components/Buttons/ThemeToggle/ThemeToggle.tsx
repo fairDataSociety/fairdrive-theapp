@@ -10,7 +10,11 @@ const ThemeToggle: FC = () => {
 
   return (
     <button className="cursor-pointer" onClick={() => toggleTheme()}>
-      {theme === 'light' ? <ThemeDarkIcon /> : <ThemeLightIcon />}
+      {theme === 'light' ? (
+        <ThemeDarkIcon className="inline-block" />
+      ) : (
+        <ThemeLightIcon className="inline-block" />
+      )}
     </button>
   );
 };
