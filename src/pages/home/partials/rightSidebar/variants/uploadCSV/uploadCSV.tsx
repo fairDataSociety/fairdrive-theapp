@@ -77,7 +77,7 @@ const initialState: UploadState = {
   files: [],
   uploading: null,
   cancelFn: null,
-  progress: 0.7,
+  progress: 0,
 };
 
 function UploadCSVVariant() {
