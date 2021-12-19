@@ -38,18 +38,48 @@ const ImportUserForm: FC = () => {
       ''
     );
     console.log(mnemonicPhrase);
-    // Call import user function
-    // After import user function redirect to login page
     // Set Mnemonic to empty
     // Set Address to empty
+    setMnemonicSeed({
+      firstWord: '',
+      secondWord: '',
+      thirdWord: '',
+      fourthWord: '',
+      fifthWord: '',
+      sixthWord: '',
+      seventhWord: '',
+      eighthWord: '',
+      ninthWord: '',
+      tenthWord: '',
+      eleventhWord: '',
+      twelfthWord: '',
+    });
+    setAddress('');
+    // Call import user function
+    // After import user function redirect to login page
   };
   const toAddressSwitch = () => {
     setMethodAddressImport(true);
     // Set mnemonicSeed to empty
+    setMnemonicSeed({
+      firstWord: '',
+      secondWord: '',
+      thirdWord: '',
+      fourthWord: '',
+      fifthWord: '',
+      sixthWord: '',
+      seventhWord: '',
+      eighthWord: '',
+      ninthWord: '',
+      tenthWord: '',
+      eleventhWord: '',
+      twelfthWord: '',
+    });
   };
   const toMnemonicSwitch = () => {
     setMethodAddressImport(false);
     // Set address to empty
+    setAddress('');
   };
 
   return (
