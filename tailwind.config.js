@@ -10,10 +10,15 @@ module.exports = {
       },
       boxShadow: {
         top: '0 10px 15px 12px rgba(0, 0, 0, 0.1), 0 4px 6px 8px rgba(0, 0, 0, 0.05)',
+        'soft-purple': ' 0px 1px 24px rgba(132, 118, 219, 0.37)',
+        'dark-purple': ' 0px 0px 15px 0px #7D6BECC4',
       },
       backgroundImage: {
         'auth-light': "url('/media/authentication/authentication-light.svg')",
         'auth-dark': "url('/media/authentication/authentication-dark.svg')",
+      },
+      filter: {
+        'purple-shadow': 'drop-shadow(0px 1px 24px rgba(132, 118, 219, 0.37))',
       },
     },
     colors: {
@@ -60,6 +65,7 @@ module.exports = {
   variants: {
     extend: {
       border: ['dark'],
+      backgroundColor: ['disabled', 'hover', 'focus', 'active', 'dark'],
       shadow: ['dark'],
     },
   },
