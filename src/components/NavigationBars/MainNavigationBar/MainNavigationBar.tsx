@@ -1,36 +1,53 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import Logo from '@components/Logo/Logo';
 import { SearchBar } from '@components/Inputs';
 import { UserDropdownToggle } from '@components/Buttons';
 import { ActivityDropdownToggle } from '@components/Buttons';
 import { ThemeToggle } from '@components/Buttons';
+import UserDropdown from './UserDropdown/UserDropdown';
+import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
 interface MainNavigationBarProps {}
 
 const MainNavigationBar: FC<MainNavigationBarProps> = () => {
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showActivityDropdown, setShowActivityDropdown] = useState(false);
+
   return (
-    <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
-      <Logo />
+    <nav>
+      <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
+        <Logo />
 
-      <div className="flex justify-between items-center">
-        <div className="mr-16">
-          <SearchBar />
-        </div>
+        <div className="flex justify-between items-center">
+          <div className="mr-16">
+            <SearchBar />
+          </div>
 
-        <div className="space-x-5">
-          <ActivityDropdownToggle
-            onClickHandler={() => console.log('toggle activity')}
-          />
+          <div className="space-x-5">
+            <ActivityDropdownToggle
+              onClickHandler={() => setShowActivityDropdown(true)}
+            />
 
-          <UserDropdownToggle
-            onClickHandler={() => console.log('toggle user')}
-          />
+            <UserDropdownToggle
+              onClickHandler={() => setShowUserDropdown(true)}
+            />
 
-          <ThemeToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </div>
-    </div>
+
+      <UserDropdown
+        showDropdown={showUserDropdown}
+        setShowDropdown={setShowUserDropdown}
+      />
+
+      <ActivityDropdown
+        showDropdown={showActivityDropdown}
+        setShowDropdown={setShowActivityDropdown}
+      />
+    </nav>
   );
 };
 
