@@ -71,35 +71,6 @@ const LoginForm: FC = () => {
           />
 
           <div className="mt-14 text-center">
-            <Button type="submit" variant="primary" label="Primary" />
-          </div>
-
-          <div className="mt-14 text-center">
-            <Button
-              type="submit"
-              variant="primary-outlined"
-              label="Primary O"
-            />
-          </div>
-
-          <div className="mt-14 text-center">
-            <Button type="submit" variant="secondary" label="Secondary" />
-          </div>
-
-          <div className="mt-14 text-center">
-            <Button type="submit" variant="tertiary" label="Tertiary" />
-          </div>
-
-          <div className="mt-14 text-center">
-            <Button
-              type="submit"
-              variant="tertiary-outlined"
-              label="Tertiary O"
-            />
-          </div>
-
-          {/* THIS IS THE REAL BUTTON DONT DELETE IT */}
-          <div className="mt-14 text-center">
             <Button type="submit" variant="secondary" label="Continue" />
           </div>
 
