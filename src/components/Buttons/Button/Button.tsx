@@ -47,7 +47,7 @@ const Button: FC<ButtonProps> = ({
       case 'tertiary':
         return 'py-2 px-3 text-color-accents-purple-black dark:text-color-accents-grey-lavendar text-xs';
       case 'tertiary-outlined':
-        return 'py-2 px-3 bg-none border border-color-accents-purple-heavy dark:border-color-accents-plum-black text-color-accents-purple-heavy';
+        return 'py-2 px-3 bg-none border border-color-accents-purple-heavy dark:border-color-accents-plum-black text-color-accents-purple-heavy text-xs';
     }
   };
 
