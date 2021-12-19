@@ -86,7 +86,7 @@ const Button: FC<ButtonProps> = ({
         case 'tertiary':
           return 'dark:hover:text-base hover:text-base';
         case 'tertiary-outlined':
-          return 'dark:hover:color-shade-dark-3-night dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-dark-3-day';
+          return 'dark:hover:bg-color-shade-dark-3-night dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-dark-3-day';
       }
     } else return '';
   };
