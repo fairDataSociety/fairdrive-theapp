@@ -63,7 +63,7 @@ const Button: FC<ButtonProps> = ({
       ) : (
         <div>
           {label}
-          <span>{icon}</span>
+          {icon}
         </div>
       )}
     </button>
