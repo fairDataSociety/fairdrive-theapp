@@ -67,6 +67,28 @@ const Button: FC<ButtonProps> = ({
       }
     } else return '';
   };
+  const getVariantSelectedStyle = () => {
+    if (!disabled) {
+      switch (variant) {
+        case 'primary':
+          return (
+            'dark:focus:bg-color-accents-plum-black dark:focus:shadow-dark-purple focus:shadow-dark-purple dark:focus:bg-color-shade-dark-4 focus:bg-color-shade-dark-4' +
+            ' ' +
+            (theme === 'light'
+              ? 'effect-style-small-button-drop-shadow'
+              : 'shadow-none')
+          );
+        case 'primary-outlined':
+          return 'dark:focus:bg-color-shade-dark-3-night dark:focus:shadow-dark-purple focus:shadow-dark-purple dark:focus:bg-color-shade-dark-4 focus:bg-color-shade-dark-3-day';
+        case 'secondary':
+          return 'dark:focus:bg-color-shade-dark-1-night dark:focus:shadow-dark-purple focus:shadow-dark-purple dark:focus:bg-color-shade-dark-4 focus:bg-color-shade-white-night';
+        case 'tertiary':
+          return 'dark:focus:text-base focus:text-base';
+        case 'tertiary-outlined':
+          return 'dark:focus:bg-color-shade-dark-3-night dark:focus:shadow-dark-purple focus:shadow-dark-purple dark:focus:bg-color-shade-dark-4 focus:bg-color-shade-dark-3-day';
+      }
+    } else return '';
+  };
 
   const getVariantHoverStyle = () => {
     if (!disabled) {
@@ -95,7 +117,7 @@ const Button: FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`${className} ${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} text-center rounded`}
+      className={`${className} ${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} ${getVariantSelectedStyle()} text-center rounded`}
       disabled={disabled}
     >
       {children ? (
