@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useState, useContext } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
@@ -11,13 +12,26 @@ import InfoDarkIcon from '@media/UI/info-dark.svg';
 
 import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
+import { useEffect } from 'react';
+import { getPods } from '@api/pod';
 
 interface DriveSideBarProps {}
 
 const DriveSideBar: FC<DriveSideBarProps> = () => {
   const { theme } = useContext(ThemeContext);
 
+  const [pods, setPods] = useState(null);
+  const [activePodName, setActivePodName] = useState('');
   const [activeTab, setActiveTab] = useState('private');
+  useEffect(() => {
+    if (pods === null || pods === undefined) {
+      fetchPods();
+    }
+  }, [pods]);
+  const fetchPods = async () => {
+    const response = await getPods();
+    setPods(response);
+  };
 
   return (
     <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll">
@@ -59,7 +73,15 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
             />
 
             <div className="mt-5">
-              <PodItem podName="Private Pod" isActivePod={false} />
+              {pods &&
+                pods?.pod_name.map((pod: string) => (
+                  <PodItem
+                    podName={pod}
+                    key={pod}
+                    isActivePod={pod === activePodName}
+                    onClick={() => setActivePodName(pod)}
+                  />
+                ))}
             </div>
           </div>
         ) : (
@@ -82,7 +104,17 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
               />
 
               <div className="mt-5">
-                <PodItem podName="Shared Pod" isActivePod={false} />
+                {pods &&
+                  pods?.shared_pod_name.map((pod: string) => {
+                    return (
+                      <PodItem
+                        podName={pod}
+                        key={pod}
+                        isActivePod={pod === activePodName}
+                        onClick={() => setActivePodName(pod)}
+                      />
+                    );
+                  })}
               </div>
             </div>
           </div>

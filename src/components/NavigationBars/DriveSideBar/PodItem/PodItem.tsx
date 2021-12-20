@@ -9,6 +9,7 @@ import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 interface PodItemProps {
   podName: string;
   isActivePod: boolean;
+  onClick: () => void;
 }
 
 const PodItem: FC<PodItemProps> = ({ podName, isActivePod }) => {
