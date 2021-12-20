@@ -19,9 +19,11 @@ import ExploreInactiveDark from '@media/UI/explore-inactive-dark.svg';
 
 import classes from './MainSideBar.module.scss';
 
-interface MainSideBarProps {}
+interface MainSideBarProps {
+  driveSideBarToggle: any;
+}
 
-const MainSideBar: FC<MainSideBarProps> = () => {
+const MainSideBar: FC<MainSideBarProps> = ({ driveSideBarToggle }) => {
   const items = [
     {
       label: 'Overview',
@@ -78,6 +80,7 @@ const MainSideBar: FC<MainSideBarProps> = () => {
             icons={item.icons}
             label={item.label}
             link={item.link}
+            driveSideBarToggle={driveSideBarToggle}
           />
         );
       })}

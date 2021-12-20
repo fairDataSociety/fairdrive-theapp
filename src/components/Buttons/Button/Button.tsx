@@ -10,7 +10,7 @@ interface ButtonProps {
     | 'secondary'
     | 'tertiary'
     | 'tertiary-outlined';
-  label: string;
+  label?: string;
   icon?: ReactNode;
   onClick?: any;
   className?: string;
@@ -51,51 +51,11 @@ const Button: FC<ButtonProps> = ({
     }
   };
 
-  const getVariantDisabledStyle = () => {
-    if (disabled) {
-      switch (variant) {
-        case 'primary':
-          return 'dark:disabled:bg-color-shade-dark-4-night dark:text-color-shade-light-3-night text-color-shade-light-3-night disabled:bg-color-shade-dark-4-day';
-        case 'primary-outlined':
-          return 'dark:disabled:border-color-shade-light-3-night dark:disabled:bg-none dark:text-color-shade-light-3-night text-color-shade-light-3-night disabled:border-color-shade-light-3-night';
-        case 'secondary':
-          return 'dark:text-color-shade-light-2-night bg-none text-color-shade-light-3-night';
-        case 'tertiary':
-          return 'dark:text-color-shade-light-3-night';
-        case 'tertiary-outlined':
-          return 'dark:text-color-shade-light-3-night';
-      }
-    } else return '';
-  };
-
-  const getVariantHoverStyle = () => {
-    if (!disabled) {
-      switch (variant) {
-        case 'primary':
-          return (
-            'dark:hover:bg-color-accents-plum-black dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-dark-4' +
-            ' ' +
-            (theme === 'light'
-              ? 'effect-style-small-button-drop-shadow'
-              : 'shadow-none')
-          );
-        case 'primary-outlined':
-          return 'dark:hover:bg-color-shade-dark-3-night dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-dark-3-day';
-        case 'secondary':
-          return 'dark:hover:bg-color-shade-dark-1-night dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-white-night';
-        case 'tertiary':
-          return 'dark:hover:text-base hover:text-base';
-        case 'tertiary-outlined':
-          return 'dark:hover:bg-color-shade-dark-3-night dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-dark-3-day';
-      }
-    } else return '';
-  };
-
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${className} ${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} text-center rounded`}
+      className={`${className} ${getVariantStyling()} text-center rounded`}
       disabled={disabled}
     >
       {children ? (
