@@ -32,11 +32,15 @@ const Drive: FC<DriveProps> = () => {
       if (activePod !== '') fetchFiles();
     }, 300);
 
+    if (activePod === '') {
+      setFiles(null);
+      setDirectories(null);
+    }
     return () => clearTimeout(timeout);
   }, [activePod, directoryName, openPods]);
   return (
     <MainLayout>
-      <MainHeader title="Private Pod" />
+      <MainHeader title={activePod} />
       <div className="h-full overflow-scroll flex flex-wrap">
         {directories &&
           directories.map((directory: FileResponse) => (

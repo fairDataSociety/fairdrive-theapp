@@ -53,6 +53,10 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
     setDirectoryName('root');
   };
 
+  useEffect(() => {
+    setActivePod('');
+  }, [setActiveTab, activeTab]);
+
   return (
     <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll">
       <div className="py-8 px-4">
