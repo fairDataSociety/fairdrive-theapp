@@ -1,43 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 import { MainLayout } from '@components/Layouts';
 import { MainHeader } from '@components/Headers';
 import FileCard from '@components/FileCard/FileCard';
-import { getFilesAndDirectories, openPod } from '@api/pod';
+import { getFilesAndDirectories } from '@api/pod';
 import { FileResponse } from '@api/files';
+import PodContext from '@context/PodContext';
 
 interface DriveProps {}
 
 const Drive: FC<DriveProps> = () => {
+  const { activePod, openPods, directoryName, setDirectoryName } =
+    useContext(PodContext);
   const [files, setFiles] = useState(null);
   const [directories, setDirectories] = useState(null);
-  const [directoryName, setDirectoryName] = useState('');
-  const [openedPods, setOpenedPods] = useState([]);
   const fetchFiles = async () => {
-    // TODO Entire if statement should be replaced in SideBar menu function.
-    if (!openedPods.includes('Home')) {
-      await openPod('Home', 'test');
-      openedPods.push('Home');
-      setOpenedPods(openedPods);
-    }
     if (directoryName !== '') {
-      const response = await getFilesAndDirectories('Home', directoryName);
+      const response = await getFilesAndDirectories(activePod, directoryName);
       setFiles(response.files);
       setDirectories(response.dirs);
     } else {
-      const response = await getFilesAndDirectories('Home', 'root');
+      const response = await getFilesAndDirectories(activePod, 'root');
       setFiles(response.files);
       setDirectories(response.dirs);
     }
   };
   useEffect(() => {
-    fetchFiles();
-  }, [directoryName]);
+    // Added 0.3s delay to prevent the API call from being before pod is opened
+    const timeout = setTimeout(() => {
+      if (activePod !== '') fetchFiles();
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [activePod, directoryName, openPods]);
   return (
     <MainLayout>
       <MainHeader title="Private Pod" />
-      <div className="flex flex-wrap">
+      <div className="h-full overflow-scroll flex flex-wrap">
         {directories &&
           directories.map((directory: FileResponse) => (
             <FileCard

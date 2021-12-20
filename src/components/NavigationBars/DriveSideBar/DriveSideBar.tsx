@@ -14,14 +14,24 @@ import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 import { useEffect } from 'react';
 import { getPods, openPod } from '@api/pod';
+import PodContext from '@context/PodContext';
+import UserContext from '@context/UserContext';
 
 interface DriveSideBarProps {}
 
 const DriveSideBar: FC<DriveSideBarProps> = () => {
   const { theme } = useContext(ThemeContext);
+  const {
+    pods,
+    setPods,
+    activePod,
+    setActivePod,
+    openPods,
+    setOpenPods,
+    setDirectoryName,
+  } = useContext(PodContext);
+  const { password } = useContext(UserContext);
 
-  const [pods, setPods] = useState(null);
-  const [activePodName, setActivePodName] = useState('');
   const [activeTab, setActiveTab] = useState('private');
   useEffect(() => {
     if (pods === null || pods === undefined) {
@@ -34,10 +44,13 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
   };
 
   const setActivePodAndOpenIt = async (podName: string) => {
-    setActivePodName(podName);
-
-    // TODO Change the password
-    await openPod(podName, 'test');
+    if (!openPods.includes(podName)) {
+      await openPod(podName, password);
+      openPods.push(podName);
+      setOpenPods(openPods);
+    }
+    setActivePod(podName);
+    setDirectoryName('root');
   };
 
   return (
@@ -85,7 +98,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
                   <PodItem
                     podName={pod}
                     key={pod}
-                    isActivePod={pod === activePodName}
+                    isActivePod={pod === activePod}
                     onClick={() => setActivePodAndOpenIt(pod)}
                   />
                 ))}
@@ -117,8 +130,8 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
                       <PodItem
                         podName={pod}
                         key={pod}
-                        isActivePod={pod === activePodName}
-                        onClick={() => setActivePodName(pod)}
+                        isActivePod={pod === activePod}
+                        onClick={() => setActivePodAndOpenIt(pod)}
                       />
                     );
                   })}

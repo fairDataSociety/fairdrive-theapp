@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import router from 'next/router';
 import Link from 'next/link';
 
@@ -10,16 +10,19 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
+import UserContext from '@context/UserContext';
 
 const LoginForm: FC = () => {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
-
+  const { setUser, setPassword } = useContext(UserContext);
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = (data: { user_name: string; password: string }) => {
     login(data)
       .then(() => {
+        setPassword(data.password);
+        setUser(data.user_name);
         router.push('/overview');
       })
       .catch(() => {
