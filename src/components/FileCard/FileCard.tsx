@@ -21,7 +21,7 @@ function FileCard({
   onFileClick,
   onDirectoryClick,
 }: Props) {
-  // Handle opening directory or file in sidebar
+  // TODO Handle opening directory or file in sidebar
   const handleOnClick = () => {
     if (isDirectory) {
       onDirectoryClick();

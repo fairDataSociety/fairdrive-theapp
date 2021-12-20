@@ -15,7 +15,7 @@ const Drive: FC<DriveProps> = () => {
   const [directoryName, setDirectoryName] = useState('');
   const [openedPods, setOpenedPods] = useState([]);
   const fetchFiles = async () => {
-    // Replace with state list of opened pods, podName
+    // TODO Entire if statement should be replaced in SideBar menu function.
     if (!openedPods.includes('Home')) {
       await openPod('Home', 'test');
       openedPods.push('Home');
@@ -56,7 +56,7 @@ const Drive: FC<DriveProps> = () => {
               key={data.name}
               isDirectory={false}
               onFileClick={() => {
-                // Store file name and activate sideBar
+                // TODO Store file name and activate sideBar
                 console.log(data.name);
               }}
             ></FileCard>

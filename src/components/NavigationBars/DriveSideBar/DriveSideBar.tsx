@@ -13,7 +13,7 @@ import InfoDarkIcon from '@media/UI/info-dark.svg';
 import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 import { useEffect } from 'react';
-import { getPods } from '@api/pod';
+import { getPods, openPod } from '@api/pod';
 
 interface DriveSideBarProps {}
 
@@ -31,6 +31,13 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
   const fetchPods = async () => {
     const response = await getPods();
     setPods(response);
+  };
+
+  const setActivePodAndOpenIt = async (podName: string) => {
+    setActivePodName(podName);
+
+    // TODO Change the password
+    await openPod(podName, 'test');
   };
 
   return (
@@ -79,7 +86,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
                     podName={pod}
                     key={pod}
                     isActivePod={pod === activePodName}
-                    onClick={() => setActivePodName(pod)}
+                    onClick={() => setActivePodAndOpenIt(pod)}
                   />
                 ))}
             </div>
