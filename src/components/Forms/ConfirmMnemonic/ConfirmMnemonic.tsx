@@ -41,7 +41,7 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
 
     if (isMnemonicValid) {
       const registerData = {
-        user_name: user.username,
+        user_name: user.user_name,
         password: user.password,
         mnemonic: mnemonic,
       };
