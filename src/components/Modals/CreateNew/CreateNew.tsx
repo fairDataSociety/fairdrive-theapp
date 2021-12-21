@@ -8,6 +8,7 @@ export interface CreateNewProps {
   onClick: () => void;
   value: string;
   setNewValue: (value: string) => void;
+  isRefLink: boolean;
 }
 function CreateNew({
   type,
@@ -16,21 +17,38 @@ function CreateNew({
   setShowOverlay,
   value,
   setNewValue,
+  isRefLink,
 }: CreateNewProps) {
   return (
     <Modal
+      title={isRefLink ? 'Add Link/Pod' : `Create New ${type}`}
       isCentered
       showOverlay={showOverlay}
       closeModal={() => setShowOverlay(!showOverlay)}
     >
-      <TextInput
-        name={`Create New ${type}`}
-        label={`Name your ${type}`}
-        value={value}
-        setNewValue={setNewValue}
-      ></TextInput>
-      <p>You are about to create new ${type}</p>
-      <Button label="Create" variant="secondary" onClick={onClick} />
+      {isRefLink ? (
+        <>
+          <TextInput
+            name={`Link shared with you`}
+            label={`Link shared with you`}
+            value={value}
+            setNewValue={setNewValue}
+          ></TextInput>
+          <p>You are about to confirm this link</p>
+          <Button label="Confirm" variant="secondary" onClick={onClick} />
+        </>
+      ) : (
+        <>
+          <TextInput
+            name={`Create New ${type}`}
+            label={`Name your ${type}`}
+            value={value}
+            setNewValue={setNewValue}
+          ></TextInput>
+          <p>You are about to create new {type}</p>
+          <Button label="Create" variant="secondary" onClick={onClick} />
+        </>
+      )}
     </Modal>
   );
 }
