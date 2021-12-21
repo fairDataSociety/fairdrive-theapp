@@ -1,13 +1,19 @@
 import { AppProps } from 'next/app';
 
 import { ThemeProvider } from '@context/ThemeContext';
+import { PodProvider } from '@context/PodContext';
 
 import '@styles/globals.scss';
+import { UserProvider } from '@context/UserContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
-      <Component {...pageProps} />
+      <UserProvider>
+        <PodProvider>
+          <Component {...pageProps} />
+        </PodProvider>
+      </UserProvider>
     </ThemeProvider>
   );
 }

@@ -12,11 +12,12 @@ interface PodItemProps {
   onClick: () => void;
 }
 
-const PodItem: FC<PodItemProps> = ({ podName, isActivePod }) => {
+const PodItem: FC<PodItemProps> = ({ podName, isActivePod, onClick }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
     <div
+      onClick={onClick}
       className={`${
         isActivePod
           ? 'border-r-2 border-color-accents-purple-heavy effect-style-small-button-drop-shadow'

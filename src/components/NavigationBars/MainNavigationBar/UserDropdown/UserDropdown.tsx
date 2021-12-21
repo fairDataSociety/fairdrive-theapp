@@ -1,4 +1,7 @@
-import { FC } from 'react';
+import { logout } from '@api/authentication';
+import UserContext from '@context/UserContext';
+import router from 'next/router';
+import { FC, useContext } from 'react';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -9,6 +12,11 @@ const UserDropdown: FC<UserDropdownProps> = ({
   showDropdown,
   setShowDropdown,
 }) => {
+  const { user } = useContext(UserContext);
+  const disconnect = async () => {
+    await logout();
+    router.push('/');
+  };
   return (
     <div
       className={`${showDropdown ? 'block' : 'hidden'} inset-0 fixed z-50`}
@@ -20,14 +28,17 @@ const UserDropdown: FC<UserDropdownProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="pb-5 mr-5 mb-5 border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
-            User Name
+            {user}
           </div>
 
           <div className="">
             <div className="mb-4 cursor-pointer dark:text-color-shade-white-night">
               Export User
             </div>
-            <div className="mb-4 text-color-status-negative-day cursor-pointer">
+            <div
+              className="mb-4 text-color-status-negative-day cursor-pointer"
+              onClick={disconnect}
+            >
               Log out
             </div>
           </div>
