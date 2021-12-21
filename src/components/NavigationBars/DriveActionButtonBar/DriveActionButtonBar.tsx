@@ -15,7 +15,13 @@ import { receiveFile } from '@api/files';
 import PodContext from '@context/PodContext';
 import { createDirectory } from '@api/directory';
 
-const DriveActionButtonBar = () => {
+export interface DriveActionButtonBarProps {
+  createdFile: boolean;
+  setCreatedFile: (createdFile: boolean) => void;
+}
+const DriveActionButtonBar = ({
+  setCreatedFile,
+}: DriveActionButtonBarProps) => {
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
   //TODO CHANGE ICONS
@@ -26,6 +32,7 @@ const DriveActionButtonBar = () => {
     await receiveFile(sharingFileRef, activePod, directoryName);
     setShowFileModal(false);
     setSharingFileRef('');
+    setCreatedFile(true);
   };
 
   const [newDirectoryName, setNewDirectoryName] = useState('');
@@ -34,6 +41,7 @@ const DriveActionButtonBar = () => {
     await createDirectory(activePod, directoryName, newDirectoryName);
     setShowDirectoryModal(false);
     setNewDirectoryName('');
+    setCreatedFile(true);
   };
 
   return (
