@@ -21,7 +21,7 @@ function FileCard({
   onFileClick,
   onDirectoryClick,
 }: Props) {
-  // Handle opening directory or file in sidebar
+  // TODO Handle opening directory or file in sidebar
   const handleOnClick = () => {
     if (isDirectory) {
       onDirectoryClick();
@@ -70,58 +70,6 @@ function FileCard({
         </div>
       </div>
     </div>
-    // <div className={classes.cardWrapper}>
-    //   <div className={classes.dropdownIconWrapper}>
-    //     <BaseDropdown
-    //       title={'Preview'}
-    //       optionsList={getDropdownOptionByState()}
-    //     >
-    //       {(openDropdown: any) => (
-    //         <button type="button">
-    //           <Kebab onClick={() => openDropdown()} />
-    //         </button>
-    //       )}
-    //     </BaseDropdown>
-    //   </div>
-
-    //   <div className={classes.cardContent} onClick={() => handleOnClick()}>
-    //     <div className={classes.cardHeader}>
-    //       <FilePreviewFallback
-    //         file={data}
-    //         isDirectory={isContentTypeDirectory()}
-    //       />
-    //     </div>
-    //     <div className={classes.cardBody}>
-    //       <h2 className={classes.title}>
-    //         {isSearchQuerySettedAndHighlighted() ? (
-    //           <>
-    //             {highlightedMatchedPhrase.before}
-    //             <span className={classes.titleHighlightMatchingPhrase}>
-    //               {highlightedMatchedPhrase.matched}
-    //             </span>
-    //             {highlightedMatchedPhrase.after}
-    //           </>
-    //         ) : (
-    //           getShortedTitle()
-    //         )}
-    //       </h2>
-    //     </div>
-    //     <div className={classes.cardFooter}>
-    //       <div>
-    //         {!isContentTypeDirectory() && (
-    //           <>
-    //             <p className={classes.cardFooterEntryTitle}>File Size</p>
-    //             <p className={classes.cardFooterEntryValue}>{getSize()}</p>
-    //           </>
-    //         )}
-    //       </div>
-    //       <div>
-    //         <p className={classes.cardFooterEntryTitle}>Date Added</p>
-    //         <p className={classes.cardFooterEntryValue}>{getCreationDate()}</p>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }
 export default React.memo(FileCard);
