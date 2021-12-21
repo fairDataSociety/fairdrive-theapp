@@ -17,8 +17,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="flex flex-col justify-between items-center w-screen h-screen dark:bg-color-shade-dark-3-night">
-      <div className="w-full h-20 dark:bg-color-shade-dark-3-night z-10">
+    <div className="flex flex-col justify-between items-center w-screen h-screen dark:bg-color-shade-black-night">
+      <div className="w-full h-20 dark:bg-color-shade-dark-3-night">
         <MainNavigationBar />
       </div>
 
