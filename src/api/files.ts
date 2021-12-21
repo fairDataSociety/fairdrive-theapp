@@ -17,7 +17,7 @@ export const receiveFile = async (
 ) => {
   try {
     let data = { dir_path: '', pod_name: podName, sharing_ref: reference };
-    // TODO Call helper for writePath
+    // TODO write helper for this piece of code
     if (directory === 'root') {
       data = {
         dir_path: '/',

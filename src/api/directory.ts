@@ -6,7 +6,7 @@ export async function createDirectory(
   directoryName: string
 ) {
   // Dir = "/" + path + "/"
-  // TODO Call helper for writePath
+  // TODO write helper for this piece of code
 
   let data = { dir_path: '' };
 
@@ -38,5 +38,7 @@ export async function createDirectory(
     });
 
     return true;
-  } catch (error) {}
+  } catch (error) {
+    return error;
+  }
 }
