@@ -7,6 +7,7 @@ import FileCard from '@components/FileCard/FileCard';
 import { getFilesAndDirectories } from '@api/pod';
 import { FileResponse } from '@api/files';
 import PodContext from '@context/PodContext';
+import DriveActionButtonBar from '@components/NavigationBars/DriveActionButtonBar/DriveActionButtonBar';
 
 interface DriveProps {}
 
@@ -41,6 +42,7 @@ const Drive: FC<DriveProps> = () => {
   return (
     <MainLayout>
       <MainHeader title={activePod} />
+      <DriveActionButtonBar></DriveActionButtonBar>
       <div className="h-full overflow-scroll flex flex-wrap">
         {directories &&
           directories.map((directory: FileResponse) => (
