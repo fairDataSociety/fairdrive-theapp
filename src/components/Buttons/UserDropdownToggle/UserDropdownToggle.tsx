@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useContext } from 'react';
 
 import UserContext from '@context/UserContext';
