@@ -24,13 +24,16 @@ const DriveActionButtonBar = () => {
   const [showFileModal, setShowFileModal] = useState(false);
   const importNewFile = async () => {
     await receiveFile(sharingFileRef, activePod, directoryName);
+    setShowFileModal(false);
+    setSharingFileRef('');
   };
 
-  const [newDirectoryName, setDirectoryName] = useState('');
+  const [newDirectoryName, setNewDirectoryName] = useState('');
   const [showDirectoryModal, setShowDirectoryModal] = useState(false);
   const createNewDirectory = async () => {
-    console.log({ activePod, directoryName, newDirectoryName });
     await createDirectory(activePod, directoryName, newDirectoryName);
+    setShowDirectoryModal(false);
+    setNewDirectoryName('');
   };
 
   return (
@@ -88,14 +91,14 @@ const DriveActionButtonBar = () => {
           showOverlay={showDirectoryModal}
           setShowOverlay={() => {
             setShowDirectoryModal(false);
-            setDirectoryName('');
+            setNewDirectoryName('');
           }}
           onClick={() => {
             createNewDirectory();
           }}
           value={newDirectoryName}
           isRefLink={false}
-          setNewValue={setDirectoryName}
+          setNewValue={setNewDirectoryName}
         ></CreateNew>
       )}
     </div>
