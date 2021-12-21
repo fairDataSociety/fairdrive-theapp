@@ -21,6 +21,17 @@ export async function openPod(
     password,
   });
 }
+export async function createPod(pod_name: string, password: string) {
+  return await axios.post('pod/new', {
+    pod_name,
+    password,
+  });
+}
+export async function receivePod(podReference: string) {
+  return await axios.get(
+    `pod/receive?sharing_ref=${podReference}&ref=${podReference}`
+  );
+}
 
 export async function getFilesAndDirectories(
   pod_name: string,

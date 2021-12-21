@@ -13,9 +13,10 @@ import InfoDarkIcon from '@media/UI/info-dark.svg';
 import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 import { useEffect } from 'react';
-import { getPods, openPod } from '@api/pod';
+import { getPods, openPod, createPod, receivePod } from '@api/pod';
 import PodContext from '@context/PodContext';
 import UserContext from '@context/UserContext';
+import CreateNew from '@components/Modals/CreateNew/CreateNew';
 
 interface DriveSideBarProps {}
 
@@ -33,6 +34,29 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
   const { password } = useContext(UserContext);
 
   const [activeTab, setActiveTab] = useState('private');
+
+  // Pod creation data
+  const [showCreatePodModal, setShowCreatePodModal] = useState(false);
+  const [newPodName, setNewPodName] = useState('');
+
+  const createNewPod = async () => {
+    await createPod(newPodName, password);
+    setNewPodName('');
+    setShowCreatePodModal(false);
+    setPods(await getPods());
+    openPods.push(newPodName);
+    setOpenPods(openPods);
+  };
+
+  // Importing pod data
+  const [podReference, setPodReference] = useState('');
+  const importPodByReference = async () => {
+    await receivePod(podReference);
+    setPodReference('');
+    setShowCreatePodModal(false);
+    setPods(await getPods());
+    console.log(pods);
+  };
   useEffect(() => {
     if (pods === null || pods === undefined) {
       fetchPods();
@@ -52,6 +76,10 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
     setActivePod(podName);
     setDirectoryName('root');
   };
+
+  useEffect(() => {
+    setActivePod('');
+  }, [setActiveTab, activeTab]);
 
   return (
     <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll">
@@ -81,7 +109,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
               variant="secondary"
               label="Create Pod"
               onClick={() => {
-                console.log('Create New Pod');
+                setShowCreatePodModal(true);
               }}
               icon={
                 theme === 'light' ? (
@@ -112,7 +140,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
                 variant="secondary"
                 label="Import Pod"
                 onClick={() => {
-                  console.log('Create New Pod');
+                  setShowCreatePodModal(true);
                 }}
                 icon={
                   theme === 'light' ? (
@@ -140,6 +168,37 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
           </div>
         )}
       </div>
+      {activeTab !== 'private' ? (
+        <CreateNew
+          type="Import Pod"
+          showOverlay={showCreatePodModal}
+          setShowOverlay={() => {
+            setShowCreatePodModal(false);
+            setPodReference('');
+          }}
+          onClick={() => {
+            importPodByReference();
+          }}
+          value={podReference}
+          isRefLink={true}
+          setNewValue={setPodReference}
+        ></CreateNew>
+      ) : (
+        <CreateNew
+          type="Pod"
+          showOverlay={showCreatePodModal}
+          setShowOverlay={() => {
+            setShowCreatePodModal(false);
+            setNewPodName('');
+          }}
+          onClick={() => {
+            createNewPod();
+          }}
+          value={newPodName}
+          isRefLink={false}
+          setNewValue={setNewPodName}
+        ></CreateNew>
+      )}
     </div>
   );
 };

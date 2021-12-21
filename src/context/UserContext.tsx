@@ -6,7 +6,9 @@ interface UserContext {
   user: string;
   setUser: (user: string) => void;
   password: string;
-  setPassword: (User: string) => void;
+  setPassword: (user: string) => void;
+  address: string;
+  setAddress: (address: string) => void;
 }
 
 interface UserContextProps {
@@ -17,6 +19,8 @@ const UserContextDefaultValues: UserContext = {
   setUser: (user: string) => {},
   password: '',
   setPassword: (User: string) => {},
+  address: '',
+  setAddress: (address: string) => {},
 };
 
 const UserContext = createContext<UserContext>(UserContextDefaultValues);
@@ -24,7 +28,7 @@ const UserContext = createContext<UserContext>(UserContextDefaultValues);
 const UserProvider: FC<UserContextProps> = ({ children }) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
-
+  const [address, setAddress] = useState('');
   return (
     <UserContext.Provider
       value={{
@@ -32,6 +36,8 @@ const UserProvider: FC<UserContextProps> = ({ children }) => {
         setUser,
         password,
         setPassword,
+        address,
+        setAddress,
       }}
     >
       {children}

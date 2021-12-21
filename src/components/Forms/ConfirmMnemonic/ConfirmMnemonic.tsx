@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import router from 'next/router';
 
 import { useForm } from 'react-hook-form';
@@ -9,11 +9,13 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
+import UserContext from '@context/UserContext';
 
 interface ConfirmMnemonicProps {}
 
 const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
   const { register, handleSubmit, formState } = useForm();
+  const { setUser, setPassword } = useContext(UserContext);
   const { errors } = formState;
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -48,6 +50,8 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
 
       createAccount(registerData)
         .then(() => {
+          setPassword(user.password);
+          setUser(user.user_name);
           router.push('/overview');
         })
         .catch(() => {
