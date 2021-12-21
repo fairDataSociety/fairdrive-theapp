@@ -13,9 +13,10 @@ import InfoDarkIcon from '@media/UI/info-dark.svg';
 import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 import { useEffect } from 'react';
-import { getPods, openPod } from '@api/pod';
+import { getPods, openPod, createPod } from '@api/pod';
 import PodContext from '@context/PodContext';
 import UserContext from '@context/UserContext';
+import CreateNew from '@components/Modals/CreateNew/CreateNew';
 
 interface DriveSideBarProps {}
 
@@ -33,6 +34,17 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
   const { password } = useContext(UserContext);
 
   const [activeTab, setActiveTab] = useState('private');
+
+  // Pod creation data
+  const [showCreatePodModal, setShowCreatePodModal] = useState(false);
+  const [newPodName, setNewPodName] = useState('');
+
+  const createNewPod = async () => {
+    await createPod(newPodName, password);
+    setNewPodName('');
+    setShowCreatePodModal(false);
+    setPods(await getPods());
+  };
   useEffect(() => {
     if (pods === null || pods === undefined) {
       fetchPods();
@@ -85,7 +97,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
               variant="secondary"
               label="Create Pod"
               onClick={() => {
-                console.log('Create New Pod');
+                setShowCreatePodModal(true);
               }}
               icon={
                 theme === 'light' ? (
@@ -144,6 +156,16 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
           </div>
         )}
       </div>
+      <CreateNew
+        type="Pod"
+        showOverlay={showCreatePodModal}
+        setShowOverlay={() => setShowCreatePodModal(false)}
+        onClick={() => {
+          createNewPod();
+        }}
+        value={newPodName}
+        setNewValue={setNewPodName}
+      ></CreateNew>
     </div>
   );
 };
