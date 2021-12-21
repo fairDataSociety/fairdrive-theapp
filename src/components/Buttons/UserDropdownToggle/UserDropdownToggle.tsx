@@ -1,24 +1,17 @@
 import { FC, useContext } from 'react';
 
-import ThemeContext from '@context/ThemeContext';
-
-import UserLightIcon from '@media/UI/user-light.svg';
-import UserDarkIcon from '@media/UI/user-dark.svg';
+import UserContext from '@context/UserContext';
+import Blockies from 'react-blockies';
 
 interface UserDropdownToggleProps {
   onClickHandler: any;
 }
 
 const ThemeToggle: FC<UserDropdownToggleProps> = ({ onClickHandler }) => {
-  const { theme } = useContext(ThemeContext);
-
+  const { address } = useContext(UserContext);
   return (
     <button className="cursor-pointer" onClick={() => onClickHandler()}>
-      {theme === 'light' ? (
-        <UserLightIcon className="inline-block" />
-      ) : (
-        <UserDarkIcon className="inline-block" />
-      )}
+      <Blockies className="inline-block" seed={address} />{' '}
     </button>
   );
 };
