@@ -17,9 +17,15 @@ interface MainSideBarItemProps {
   };
   label: string;
   link: string;
+  driveSideBarToggle: any;
 }
 
-const MainSideBarItem: FC<MainSideBarItemProps> = ({ icons, label, link }) => {
+const MainSideBarItem: FC<MainSideBarItemProps> = ({
+  icons,
+  label,
+  link,
+  driveSideBarToggle,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   const [isActive, setIsActive] = useState(false);
@@ -32,11 +38,23 @@ const MainSideBarItem: FC<MainSideBarItemProps> = ({ icons, label, link }) => {
     }
   }, [link]);
 
+  useEffect(() => {
+    if (router.pathname === '/drive') {
+      driveSideBarToggle();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
       className={`${
         isActive ? 'border-r-4 border-color-accents-purple-heavy' : ''
       }  w-full py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night`}
+      onClick={() => {
+        if (router.pathname === '/drive') {
+          driveSideBarToggle();
+        }
+      }}
     >
       <Link href={link}>
         <a className="flex flex-col justify-center items-center">

@@ -10,7 +10,7 @@ interface ButtonProps {
     | 'secondary'
     | 'tertiary'
     | 'tertiary-outlined';
-  label: string;
+  label?: string;
   icon?: ReactNode;
   onClick?: any;
   className?: string;
