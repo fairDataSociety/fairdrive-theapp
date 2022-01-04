@@ -3,16 +3,16 @@ import { FC, useState } from 'react';
 import Logo from '@components/Logo/Logo';
 import { SearchBar } from '@components/Inputs';
 import { UserDropdownToggle } from '@components/Buttons';
-import { ActivityDropdownToggle } from '@components/Buttons';
+// import { ActivityDropdownToggle } from '@components/Buttons';
 import { ThemeToggle } from '@components/Buttons';
 import UserDropdown from './UserDropdown/UserDropdown';
-import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
+// import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
 interface MainNavigationBarProps {}
 
 const MainNavigationBar: FC<MainNavigationBarProps> = () => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
-  const [showActivityDropdown, setShowActivityDropdown] = useState(false);
+  // const [showActivityDropdown, setShowActivityDropdown] = useState(false);
 
   return (
     <nav>
@@ -25,9 +25,9 @@ const MainNavigationBar: FC<MainNavigationBarProps> = () => {
           </div>
 
           <div className="space-x-5">
-            <ActivityDropdownToggle
+            {/* <ActivityDropdownToggle
               onClickHandler={() => setShowActivityDropdown(true)}
-            />
+            /> */}
 
             <UserDropdownToggle
               onClickHandler={() => setShowUserDropdown(true)}
@@ -43,10 +43,10 @@ const MainNavigationBar: FC<MainNavigationBarProps> = () => {
         setShowDropdown={setShowUserDropdown}
       />
 
-      <ActivityDropdown
+      {/* <ActivityDropdown
         showDropdown={showActivityDropdown}
         setShowDropdown={setShowActivityDropdown}
-      />
+      /> */}
     </nav>
   );
 };
