@@ -1,20 +1,59 @@
-import { FC } from 'react';
+import { FC, useEffect, useContext } from 'react';
 
+import ThemeContext from '@context/ThemeContext';
 import dapps from '@data/explore-dapps.json';
 
+import SearchContext from '@context/SearchContext';
+
 import { MainLayout } from '@components/Layouts';
-// import { MainHeader } from '@components/Headers';
 import { ExploreCard } from '@components/Cards';
+
+import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
+import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 
 interface ExploreProps {}
 
 const Explore: FC<ExploreProps> = () => {
+  const { theme } = useContext(ThemeContext);
+  const { search, updateSearch } = useContext(SearchContext);
+
+  useEffect(() => {
+    updateSearch('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const filterDapps = (dapp: any) => {
+    for (let i = 0; i < dapp.tags.length; i++) {
+      if (dapp.tags[i].includes(search)) return true;
+    }
+
+    return dapp.name.toLowerCase().includes(search.toLocaleLowerCase());
+  };
+
   return (
     <MainLayout>
-      {/* <MainHeader title="Explore DApps" /> */}
+      <h2 className="font-semibold text-xl text-color-accents-plum-black dark:text-color-shade-white-night">
+        Explore DApps
+      </h2>
 
-      <div className="grid grid-cols-5 gap-6">
-        {dapps.map((dapp) => {
+      {search.length > 0 ? (
+        <div className="flex justify-start items-center mt-10">
+          <span>
+            {theme === 'light' ? (
+              <SearchResultsLightIcon className="inline-block mr-2" />
+            ) : (
+              <SearchResultsDarkIcon className="inline-block mr-2" />
+            )}
+          </span>
+
+          <span className="text-2xl font-semibold text-color-accents-grey-lavendar">
+            {search}
+          </span>
+        </div>
+      ) : null}
+
+      <div className="mt-10 grid grid-cols-5 gap-6">
+        {dapps?.filter(filterDapps).map((dapp) => {
           return (
             <ExploreCard
               key={dapp.name}
