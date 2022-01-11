@@ -5,6 +5,7 @@ import UserDropdownToggle from '@components/Buttons/UserDropdownToggle/UserDropd
 import ActivityDropdownToggle from '@components/Buttons/ActivityDropdownToggle/ActivityDropdownToggle';
 import MainSideBarItem from '@components/Buttons/MainSideBarItem/MainSideBarItem';
 import DriveToggle from '@components/Buttons/DriveToggle/DriveToggle';
+import ImportToggle from '@components/Buttons/ImportToggle/ImportToggle';
 
 export {
   Button,
@@ -14,4 +15,5 @@ export {
   ActivityDropdownToggle,
   MainSideBarItem,
   DriveToggle,
+  ImportToggle,
 };
