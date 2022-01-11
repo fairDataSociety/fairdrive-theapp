@@ -10,7 +10,7 @@ import MenuDark from '@media/UI/menu-dark.svg';
 import SortLight from '@media/UI/sort-light.svg';
 import SortDark from '@media/UI/sort-dark.svg';
 import Download from '@media/UI/download.svg';
-import CreateNew from '@components/Modals/CreateNew/CreateNew';
+import { CreateNewModal } from '@components/Modals';
 import { receiveFile } from '@api/files';
 import PodContext from '@context/PodContext';
 import { createDirectory } from '@api/directory';
@@ -78,7 +78,7 @@ const DriveActionButtonBar = ({
         Note: You cannot share content that you do not own
       </div>
       {showFileModal && (
-        <CreateNew
+        <CreateNewModal
           type="Import Pod"
           showOverlay={showFileModal}
           setShowOverlay={() => {
@@ -91,10 +91,10 @@ const DriveActionButtonBar = ({
           value={sharingFileRef}
           isRefLink={true}
           setNewValue={setSharingFileRef}
-        ></CreateNew>
+        ></CreateNewModal>
       )}
       {showDirectoryModal && (
-        <CreateNew
+        <CreateNewModal
           type="Folder"
           showOverlay={showDirectoryModal}
           setShowOverlay={() => {
@@ -107,7 +107,7 @@ const DriveActionButtonBar = ({
           value={newDirectoryName}
           isRefLink={false}
           setNewValue={setNewDirectoryName}
-        ></CreateNew>
+        ></CreateNewModal>
       )}
     </div>
   );
