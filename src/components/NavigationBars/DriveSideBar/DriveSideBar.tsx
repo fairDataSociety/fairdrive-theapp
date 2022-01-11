@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { getPods, openPod, createPod, receivePod } from '@api/pod';
 import PodContext from '@context/PodContext';
 import UserContext from '@context/UserContext';
-import CreateNew from '@components/Modals/CreateNew/CreateNew';
+import { CreateNewModal } from '@components/Modals';
 
 interface DriveSideBarProps {}
 
@@ -169,7 +169,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
         )}
       </div>
       {activeTab !== 'private' ? (
-        <CreateNew
+        <CreateNewModal
           type="Import Pod"
           showOverlay={showCreatePodModal}
           setShowOverlay={() => {
@@ -182,9 +182,9 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
           value={podReference}
           isRefLink={true}
           setNewValue={setPodReference}
-        ></CreateNew>
+        ></CreateNewModal>
       ) : (
-        <CreateNew
+        <CreateNewModal
           type="Pod"
           showOverlay={showCreatePodModal}
           setShowOverlay={() => {
@@ -197,7 +197,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
           value={newPodName}
           isRefLink={false}
           setNewValue={setNewPodName}
-        ></CreateNew>
+        ></CreateNewModal>
       )}
     </div>
   );

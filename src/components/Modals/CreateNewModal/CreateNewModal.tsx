@@ -1,7 +1,7 @@
-import Modal from '@components/Modals/Modal';
+import { Modal } from '@components/Modals';
 import TextInput from '@components/Inputs/TextInput/TextInput';
 import { Button } from '@components/Buttons';
-export interface CreateNewProps {
+export interface CreateNewModalProps {
   showOverlay: boolean;
   setShowOverlay: (showOverlay: boolean) => void;
   type: string;
@@ -10,7 +10,8 @@ export interface CreateNewProps {
   setNewValue: (value: string) => void;
   isRefLink: boolean;
 }
-function CreateNew({
+
+function CreateNewModal({
   type,
   onClick,
   showOverlay,
@@ -18,12 +19,11 @@ function CreateNew({
   value,
   setNewValue,
   isRefLink,
-}: CreateNewProps) {
+}: CreateNewModalProps) {
   return (
     <Modal
-      title={isRefLink ? 'Add Link/Pod' : `Create New ${type}`}
-      isCentered
-      showOverlay={showOverlay}
+      headerTitle={isRefLink ? 'Add Link/Pod' : `Create New ${type}`}
+      showModal={showOverlay}
       closeModal={() => setShowOverlay(!showOverlay)}
     >
       {isRefLink ? (
@@ -52,4 +52,5 @@ function CreateNew({
     </Modal>
   );
 }
-export default CreateNew;
+
+export default CreateNewModal;

@@ -1,18 +1,11 @@
 import { FC } from 'react';
 
 import { AuthenticationLayout } from '@components/Layouts';
-import { BackButton } from '@components/Buttons';
 
 const PrivacyPolicy: FC = () => {
   return (
-    <AuthenticationLayout>
-      <div className="relative w-full">
-        <div className="absolute -top-5 left-8">
-          <BackButton />
-        </div>
-      </div>
-
-      <div className="w-full my-12 pl-24 pr-28">
+    <AuthenticationLayout hasBackButton={true}>
+      <div className="w-full mb-12 pl-24 pr-28">
         <h2 className="font-semibold text-xl dark:text-color-accents-soft-lavender">
           Privacy Policy
         </h2>
