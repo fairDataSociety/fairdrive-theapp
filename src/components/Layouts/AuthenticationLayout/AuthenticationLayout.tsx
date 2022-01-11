@@ -27,14 +27,17 @@ const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({
         <div className="w-full h-16">
           <AuthenticationNavbar />
         </div>
+
         {hasBackButton && (
-          <div className="pt-2 pl-4">
-            <BackButton></BackButton>
+          <div className="pt-8 pl-6">
+            <BackButton />
           </div>
         )}
-        <div className="w-full pt-16 overflow-scroll no-scroll-bar">
+
+        <div className="w-full pt-14 overflow-scroll no-scroll-bar">
           {children}
         </div>
+
         <div className="w-full h-16">
           <AuthenticationFooter />
         </div>
