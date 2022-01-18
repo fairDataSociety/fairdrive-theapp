@@ -22,7 +22,7 @@ const Modal: FC<ModalProps> = ({
   headerIcon,
   headerTitle,
   children,
-}: ModalProps) => {
+}) => {
   const { theme } = useContext(ThemeContext);
 
   return (

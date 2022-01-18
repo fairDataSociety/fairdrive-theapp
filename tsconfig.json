@@ -23,7 +23,8 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@media/*": ["src/media/*"],
       "@pages/*": ["src/pages/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@helpers/*": ["src/helpers/*"]
     },
     "incremental": true
   },
