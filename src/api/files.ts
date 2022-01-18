@@ -112,7 +112,6 @@ export async function uploadFile(data: UploadFileData): Promise<boolean> {
   formData.append('pod_name', data.podName);
 
   const uploadResponse = await axios.post('file/upload', formData);
-  console.log(uploadResponse);
 
   return true;
 }
