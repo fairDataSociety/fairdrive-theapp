@@ -32,12 +32,14 @@ interface PreviewModalProps {
   showModal: boolean;
   closeModal: () => void;
   previewFile: any;
+  updateDrive: () => void;
 }
 
 const PreviewFileModal: FC<PreviewModalProps> = ({
   showModal,
   closeModal,
   previewFile,
+  updateDrive,
 }) => {
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
@@ -76,7 +78,10 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
       podName: activePod,
       path: formatDirectory(directoryName),
     })
-      .then(() => closeModal())
+      .then(() => {
+        updateDrive();
+        closeModal();
+      })
       .catch(() => {
         console.log('File could not be deleted!');
       });
