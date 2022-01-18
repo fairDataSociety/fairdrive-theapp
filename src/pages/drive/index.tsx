@@ -1,20 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useContext, useEffect, useState } from 'react';
 
-import { MainLayout } from '@components/Layouts';
-import { MainHeader } from '@components/Headers';
-import FileCard from '@components/FileCard/FileCard';
+import PodContext from '@context/PodContext';
+
 import { getFilesAndDirectories } from '@api/pod';
 import { FileResponse } from '@api/files';
-import PodContext from '@context/PodContext';
-import DriveActionButtonBar from '@components/NavigationBars/DriveActionButtonBar/DriveActionButtonBar';
+
+import { MainLayout } from '@components/Layouts';
+import { MainHeader } from '@components/Headers';
+import { DriveActionBar } from '@components/NavigationBars';
+import FileCard from '@components/FileCard/FileCard';
 import { PreviewFileModal } from '@components/Modals';
 
-interface DriveProps {}
-
-const Drive: FC<DriveProps> = () => {
+const Drive: FC = () => {
   const { activePod, openPods, directoryName, setDirectoryName } =
     useContext(PodContext);
+
   const [files, setFiles] = useState(null);
   const [directories, setDirectories] = useState(null);
   const [createdNewItem, setCreatedNewItem] = useState(false);
@@ -34,16 +35,14 @@ const Drive: FC<DriveProps> = () => {
   };
 
   const reloadFiles = async () => {
-    if (createdNewItem) {
-      const response = await getFilesAndDirectories(activePod, directoryName);
-      setFiles(response.files);
-      setDirectories(response.dirs);
-      setCreatedNewItem(false);
-    }
+    const response = await getFilesAndDirectories(activePod, directoryName);
+    setFiles(response.files);
+    setDirectories(response.dirs);
+    setCreatedNewItem(false);
   };
 
   useEffect(() => {
-    reloadFiles();
+    if (activePod !== '') reloadFiles();
   }, [createdNewItem]);
 
   useEffect(() => {
@@ -62,10 +61,13 @@ const Drive: FC<DriveProps> = () => {
   return (
     <MainLayout>
       <MainHeader title={activePod} />
-      <DriveActionButtonBar
+
+      <DriveActionBar
         createdFile={createdNewItem}
         setCreatedFile={setCreatedNewItem}
-      ></DriveActionButtonBar>
+        updateDrive={reloadFiles}
+      />
+
       <div className="h-full overflow-scroll flex flex-wrap">
         {directories &&
           directories.map((directory: FileResponse) => (
@@ -78,6 +80,7 @@ const Drive: FC<DriveProps> = () => {
               }}
             ></FileCard>
           ))}
+
         {files &&
           files.map((data: FileResponse) => (
             <FileCard
@@ -97,6 +100,7 @@ const Drive: FC<DriveProps> = () => {
           showModal={showPreviewModal}
           closeModal={() => setShowPreviewModal(false)}
           previewFile={previewFile}
+          updateDrive={reloadFiles}
         />
       ) : null}
     </MainLayout>

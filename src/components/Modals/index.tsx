@@ -4,7 +4,7 @@ import ExportUserModal from '@components/Modals/ExportUserModal/ExportUserModal'
 import ShareFileModal from '@components/Modals/ShareFileModal/ShareFileModal';
 import SideModal from '@components/Modals/SideModal/SideModal';
 import PreviewFileModal from '@components/Modals/PreviewFileModal/PreviewFileModal';
-
+import UploadFileModal from '@components/Modals/UploadFileModal/UploadFileModal';
 export {
   Modal,
   CreateNewModal,
@@ -12,4 +12,5 @@ export {
   ShareFileModal,
   SideModal,
   PreviewFileModal,
+  UploadFileModal,
 };

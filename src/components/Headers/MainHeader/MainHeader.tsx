@@ -24,7 +24,7 @@ const MainHeader: FC<MainHeaderProps> = ({ title }) => {
           {title}
         </h2>
 
-        <div>
+        {/* <div>
           <Button
             type="button"
             variant="primary"
@@ -38,7 +38,7 @@ const MainHeader: FC<MainHeaderProps> = ({ title }) => {
             icon={theme === 'light' ? <SortLight /> : <SortDark />}
             className="ml-1 p-0"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

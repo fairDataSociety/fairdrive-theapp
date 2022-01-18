@@ -29,6 +29,12 @@ interface DeleteFileData {
   path: string;
 }
 
+interface UploadFileData {
+  file: File;
+  directory: string;
+  podName: string;
+}
+
 export const receiveFile = async (
   reference: string,
   podName: string,
@@ -92,4 +98,20 @@ export async function shareFile(data: ShareFileData): Promise<string> {
   });
 
   return shareFileResult.data.file_sharing_reference;
+}
+
+export async function uploadFile(data: UploadFileData): Promise<boolean> {
+  const writePath =
+    data.directory === 'root' ? '/' : '/' + formatURL(data.directory) + '/';
+
+  const formData = new FormData();
+
+  formData.append('files', data.file);
+  formData.append('dir_path', writePath);
+  formData.append('block_size', '64Mb');
+  formData.append('pod_name', data.podName);
+
+  const uploadResponse = await axios.post('file/upload', formData);
+
+  return true;
 }
