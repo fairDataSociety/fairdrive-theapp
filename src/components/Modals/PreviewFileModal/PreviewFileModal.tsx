@@ -110,35 +110,35 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           </div>
         ) : null}
 
-        <h2 className="font-semibold text-2xl text-color-accents-purple-black">
+        <h2 className="font-semibold text-2xl text-color-accents-purple-black dark:text-color-shade-white-night">
           {previewFile?.name}
         </h2>
 
         <div className="flex justify-between items-center w-full mt-5">
           <div>
-            <h4 className="font-bold text-base text-color-accents-purple-black">
+            <h4 className="font-bold text-base text-color-accents-purple-black dark:text-color-shade-white-night">
               File size
             </h4>
-            <span className="font-normal text-xs text-color-accents-purple-black">
+            <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
               {previewFile?.size && prettyBytes(parseInt(previewFile?.size))}
             </span>
           </div>
 
           <div>
-            <h4 className="font-bold text-base text-color-accents-purple-black">
+            <h4 className="font-bold text-base text-color-accents-purple-black dark:text-color-shade-white-night">
               File type
             </h4>
-            <span className="font-normal text-xs text-color-accents-purple-black">
+            <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
               {previewFile?.content_type}
             </span>
           </div>
         </div>
 
         <div className="mt-5">
-          <h4 className="font-bold text-base text-color-accents-purple-black">
+          <h4 className="font-bold text-base text-color-accents-purple-black dark:text-color-shade-white-night">
             Created
           </h4>
-          <span className="font-normal text-xs text-color-accents-purple-black">
+          <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
             {previewFile?.creation_time &&
               formatDate(previewFile?.creation_time, true)}
           </span>
