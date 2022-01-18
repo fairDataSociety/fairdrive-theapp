@@ -47,8 +47,6 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const [showShareFileModal, setShowShareFileModal] = useState(false);
 
   useEffect(() => {
-    console.log(activePod);
-
     downloadFile({
       filename: previewFile?.name,
       directory: directoryName,
