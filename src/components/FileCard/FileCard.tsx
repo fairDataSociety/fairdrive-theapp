@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect } from 'react';
 import prettyBytes from 'pretty-bytes';
-import { formatDate } from 'src/helpers';
-import { shortenTitle } from 'src/helpers';
+import formatDate from '@helpers/formatDate';
+import { shortenTitle } from '@helpers/utils';
 import classes from './FileCard.module.scss';
 import FilePreviewIcon from '@components/FilePreviewIcon/FilePreviewIcon';
 type Sizes = 'small' | 'regular' | 'big';

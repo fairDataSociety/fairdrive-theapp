@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from '@api/customAxios';
+import formatURL from '@helpers/formatURL';
 
 export interface FileResponse {
   access_time: string;
@@ -8,6 +9,24 @@ export interface FileResponse {
   modification_time: string;
   name: string;
   size: number;
+}
+
+interface DownloadFileData {
+  filename: string;
+  directory: string;
+  podName: string;
+}
+
+interface ShareFileData {
+  fileName: string;
+  podName: string;
+  path_file: string;
+}
+
+interface DeleteFileData {
+  file_name: string;
+  podName: string;
+  path: string;
 }
 
 export const receiveFile = async (
@@ -31,20 +50,46 @@ export const receiveFile = async (
         sharing_ref: reference,
       };
     }
-    // TODO Use custom axios
-    const shareFileInfoResult = await axios({
-      baseURL: process.env.NEXT_PUBLIC_FAIROSHOST,
-      method: 'GET',
-      url: 'file/receive',
-      params: data,
-      data: data,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    });
+    const shareFileInfoResult = await axios.post('file/receive', data);
     return shareFileInfoResult.data;
   } catch (error) {
     return error;
   }
 };
+
+export async function downloadFile(data: DownloadFileData): Promise<Blob> {
+  const writePath =
+    data.directory === 'root' ? '/' : '/' + formatURL(data.directory) + '/';
+
+  const formData = new FormData();
+  formData.append('file_path', writePath + data.filename);
+  formData.append('pod_name', data.podName);
+
+  const downloadFile = await axios.post('file/download', formData, {
+    responseType: 'blob',
+  });
+
+  return downloadFile.data;
+}
+
+export async function deleteFile(data: DeleteFileData): Promise<boolean> {
+  await axios.delete('file/delete', {
+    data: {
+      pod_name: data.podName,
+      file_path: `${data.path}${data.file_name}`,
+    },
+  });
+
+  return true;
+}
+
+export async function shareFile(data: ShareFileData): Promise<string> {
+  const shareFileResult = await axios.post('file/share', {
+    file: data.fileName,
+    dest_user: 'anon',
+    file_path: data.path_file + data.fileName,
+    pod_name: data.podName,
+  });
+
+  return shareFileResult.data.file_sharing_reference;
+}

@@ -8,6 +8,7 @@ import { getFilesAndDirectories } from '@api/pod';
 import { FileResponse } from '@api/files';
 import PodContext from '@context/PodContext';
 import DriveActionButtonBar from '@components/NavigationBars/DriveActionButtonBar/DriveActionButtonBar';
+import { PreviewFileModal } from '@components/Modals';
 
 interface DriveProps {}
 
@@ -17,6 +18,9 @@ const Drive: FC<DriveProps> = () => {
   const [files, setFiles] = useState(null);
   const [directories, setDirectories] = useState(null);
   const [createdNewItem, setCreatedNewItem] = useState(false);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [previewFile, setPreviewFile] = useState(null);
+
   const fetchFiles = async () => {
     if (directoryName !== '') {
       const response = await getFilesAndDirectories(activePod, directoryName);
@@ -37,6 +41,7 @@ const Drive: FC<DriveProps> = () => {
       setCreatedNewItem(false);
     }
   };
+
   useEffect(() => {
     reloadFiles();
   }, [createdNewItem]);
@@ -53,6 +58,7 @@ const Drive: FC<DriveProps> = () => {
     }
     return () => clearTimeout(timeout);
   }, [activePod, directoryName, openPods, createdNewItem]);
+
   return (
     <MainLayout>
       <MainHeader title={activePod} />
@@ -79,12 +85,20 @@ const Drive: FC<DriveProps> = () => {
               key={data.name}
               isDirectory={false}
               onFileClick={() => {
-                // TODO Store file name and activate sideBar
-                console.log(data.name);
+                setPreviewFile(data);
+                setShowPreviewModal(true);
               }}
             ></FileCard>
           ))}
       </div>
+
+      {showPreviewModal ? (
+        <PreviewFileModal
+          showModal={showPreviewModal}
+          closeModal={() => setShowPreviewModal(false)}
+          previewFile={previewFile}
+        />
+      ) : null}
     </MainLayout>
   );
 };

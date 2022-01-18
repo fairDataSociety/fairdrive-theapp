@@ -29,6 +29,7 @@ const DriveActionButtonBar = ({
   const [sharingFileRef, setSharingFileRef] = useState('');
   const [showFileModal, setShowFileModal] = useState(false);
   const importNewFile = async () => {
+    // TODO Add two modals, one when success, second when failed. Check design
     await receiveFile(sharingFileRef, activePod, directoryName);
     setShowFileModal(false);
     setSharingFileRef('');
