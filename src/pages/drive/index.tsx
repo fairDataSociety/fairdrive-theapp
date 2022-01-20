@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useState, useEffect } from 'react';
 
 import PodContext from '@context/PodContext';
 
@@ -68,7 +68,7 @@ const Drive: FC = () => {
         updateDrive={reloadFiles}
       />
 
-      <div className="h-full overflow-scroll flex flex-wrap">
+      <div className="flex flex-wrap h-full">
         {directories &&
           directories.map((directory: FileResponse) => (
             <FileCard
@@ -78,7 +78,7 @@ const Drive: FC = () => {
               onDirectoryClick={() => {
                 setDirectoryName(directory.name);
               }}
-            ></FileCard>
+            />
           ))}
 
         {files &&
@@ -91,7 +91,7 @@ const Drive: FC = () => {
                 setPreviewFile(data);
                 setShowPreviewModal(true);
               }}
-            ></FileCard>
+            />
           ))}
       </div>
 

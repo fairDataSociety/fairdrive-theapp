@@ -82,7 +82,7 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
   }, [setActiveTab, activeTab]);
 
   return (
-    <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll">
+    <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll no-scroll-bar">
       <div className="py-8 px-4">
         <DriveToggle activeTab={activeTab} setActiveTab={setActiveTab} />
 

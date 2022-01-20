@@ -39,7 +39,7 @@ function FileCard({
   const isContentTypeDirectory = () => data.content_type === 'inode/directory';
 
   const getThemeWrapperColor = () => {
-    return 'dark:bg-color-shade-dark-4-night border-color-accents-purple-heavy dark:border-color-accents-purple-black dark:shadow-dark-purple shadow-dark-purple text-color-accents-purple-heavy text-base dark:text-color-shade-light-1-night text-color-shade-light-1-day';
+    return 'dark:bg-color-shade-dark-4-night border-color-accents-purple-heavy dark:border-color-accents-purple-black dark:shadow-dark-purple shadow-lg text-base dark:text-color-shade-light-1-night text-color-shade-light-1-day cursor-pointer';
   };
 
   return (
