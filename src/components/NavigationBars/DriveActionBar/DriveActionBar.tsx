@@ -1,14 +1,13 @@
 import { FC, useContext, useState } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
-import PodContext from '@context/PodContext';
-
-import { receiveFile } from '@api/files';
-import { createDirectory } from '@api/directory';
 
 import { Button } from '@components/Buttons';
-import { CreateNewModal } from '@components/Modals';
-import { UploadFileModal } from '@components/Modals';
+import {
+  UploadFileModal,
+  ImportFileModal,
+  CreateFolderModal,
+} from '@components/Modals';
 
 import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
@@ -20,39 +19,15 @@ import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 
 export interface DriveActionBarProps {
-  createdFile: boolean;
-  setCreatedFile: (createdFile: boolean) => void;
-  updateDrive: () => void;
+  refreshDrive: () => void;
 }
 
-const DriveActionBar: FC<DriveActionBarProps> = ({
-  setCreatedFile,
-  updateDrive,
-}) => {
+const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
   const { theme } = useContext(ThemeContext);
-  const { activePod, directoryName } = useContext(PodContext);
-
-  const [sharingFileRef, setSharingFileRef] = useState('');
 
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
-
-  const [showFileModal, setShowFileModal] = useState(false);
-  const [newDirectoryName, setNewDirectoryName] = useState('');
-  const [showDirectoryModal, setShowDirectoryModal] = useState(false);
-
-  const importNewFile = async () => {
-    await receiveFile(sharingFileRef, activePod, directoryName);
-    setShowFileModal(false);
-    setSharingFileRef('');
-    setCreatedFile(true);
-  };
-
-  const createNewDirectory = async () => {
-    await createDirectory(activePod, directoryName, newDirectoryName);
-    setShowDirectoryModal(false);
-    setNewDirectoryName('');
-    setCreatedFile(true);
-  };
+  const [showImportFileModal, setShowImportFileModal] = useState(false);
+  const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
 
   return (
     <div className="w-full mt-4 mb-6">
@@ -85,7 +60,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({
             variant="primary"
             icon={theme === 'light' ? <ImportLightIcon /> : <ImportDarkIcon />}
             className="mr-1 p-0"
-            onClick={() => setShowFileModal(true)}
+            onClick={() => setShowImportFileModal(true)}
           />
 
           <Button
@@ -98,8 +73,8 @@ const DriveActionBar: FC<DriveActionBarProps> = ({
                 <CreateFolderDarkIcon />
               )
             }
-            onClick={() => setShowDirectoryModal(true)}
             className="mr-1 p-0"
+            onClick={() => setShowCreateFolderModal(true)}
           />
         </div>
       </div>
@@ -112,43 +87,25 @@ const DriveActionBar: FC<DriveActionBarProps> = ({
         <UploadFileModal
           showModal={showUploadFileModal}
           closeModal={() => setShowUploadFileModal(false)}
-          updateDrive={updateDrive}
+          refreshDrive={refreshDrive}
         />
       ) : null}
 
-      {showFileModal && (
-        <CreateNewModal
-          type="Import Pod"
-          showOverlay={showFileModal}
-          setShowOverlay={() => {
-            setShowFileModal(false);
-            setSharingFileRef('');
-          }}
-          onClick={() => {
-            importNewFile();
-          }}
-          value={sharingFileRef}
-          isRefLink={true}
-          setNewValue={setSharingFileRef}
+      {showImportFileModal ? (
+        <ImportFileModal
+          showModal={showImportFileModal}
+          closeModal={() => setShowImportFileModal(false)}
+          refreshDrive={refreshDrive}
         />
-      )}
+      ) : null}
 
-      {showDirectoryModal && (
-        <CreateNewModal
-          type="Folder"
-          showOverlay={showDirectoryModal}
-          setShowOverlay={() => {
-            setShowDirectoryModal(false);
-            setNewDirectoryName('');
-          }}
-          onClick={() => {
-            createNewDirectory();
-          }}
-          value={newDirectoryName}
-          isRefLink={false}
-          setNewValue={setNewDirectoryName}
+      {showCreateFolderModal ? (
+        <CreateFolderModal
+          showModal={showCreateFolderModal}
+          closeModal={() => setShowCreateFolderModal(false)}
+          refreshDrive={refreshDrive}
         />
-      )}
+      ) : null}
     </div>
   );
 };

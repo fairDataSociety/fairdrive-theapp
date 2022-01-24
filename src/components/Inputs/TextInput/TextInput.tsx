@@ -5,7 +5,7 @@ interface TextInputProps {
   label: string;
   placeholder?: string;
   value: string;
-  setNewValue: (value: string) => void;
+  updateValue: (value: string) => void;
 }
 
 const TextInput: FC<TextInputProps> = ({
@@ -13,7 +13,7 @@ const TextInput: FC<TextInputProps> = ({
   label,
   placeholder,
   value,
-  setNewValue,
+  updateValue,
 }) => {
   return (
     <div className="w-full mb-6">
@@ -25,7 +25,7 @@ const TextInput: FC<TextInputProps> = ({
         type="text"
         name={name}
         value={value}
-        onChange={(e) => setNewValue(e.target.value)}
+        onChange={(e) => updateValue(e.target.value)}
         className="block w-full mt-1 p-3 font-normal text-xs bg-color-shade-dark-4-day dark:bg-color-shade-dark-2-night border dark:text-color-shade-black-day border-color-shade-black-day dark:border-color-accents-plum-black effect-style-small-button-drop-shadow rounded"
         placeholder={placeholder}
       />

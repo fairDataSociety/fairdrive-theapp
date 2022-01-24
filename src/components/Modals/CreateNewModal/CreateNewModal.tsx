@@ -32,7 +32,7 @@ function CreateNewModal({
             name={`Link shared with you`}
             label={`Link shared with you`}
             value={value}
-            setNewValue={setNewValue}
+            updateValue={setNewValue}
           ></TextInput>
           <p>You are about to confirm this link</p>
           <Button label="Confirm" variant="secondary" onClick={onClick} />
@@ -43,7 +43,7 @@ function CreateNewModal({
             name={`Create New ${type}`}
             label={`Name your ${type}`}
             value={value}
-            setNewValue={setNewValue}
+            updateValue={setNewValue}
           ></TextInput>
           <p>You are about to create new {type}</p>
           <Button label="Create" variant="secondary" onClick={onClick} />

@@ -2,9 +2,9 @@ import { FC, useContext } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
 
-import ArrowRightActive from '@media/UI/arrow-right-active.svg';
 import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
+import ArrowRightActive from '@media/UI/arrow-right-active.svg';
 
 interface PodItemProps {
   podName: string;

@@ -5,7 +5,7 @@ import { shareFile } from '@api/files';
 import { Modal } from '@components/Modals';
 import { Button } from '@components/Buttons';
 
-import { shortenTitle } from '@helpers/utils';
+import shortenString from '@utils/shortenString';
 
 import FolderLightIcon from '@media/UI/folder-light.svg';
 import FolderDarkIcon from '@media/UI/folder-dark.svg';
@@ -64,7 +64,7 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
       <h5>Share this code with a friend:</h5>
 
       <div className="flex justify-between items-center mt-5">
-        <p className="text-xs text-center">{shortenTitle(shareCode, 40)}</p>
+        <p className="text-xs text-center">{shortenString(shareCode, 40)}</p>
         <Button
           variant="tertiary"
           onClick={handleCopyClick}

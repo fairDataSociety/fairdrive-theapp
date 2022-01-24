@@ -1,5 +1,5 @@
 import axios from '@api/customAxios';
-import formatURL from '@helpers/formatURL';
+import formatURL from '@utils/formatURL';
 
 export interface FileResponse {
   access_time: string;
