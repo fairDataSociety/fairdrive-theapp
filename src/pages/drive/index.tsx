@@ -9,7 +9,7 @@ import { FileResponse } from '@api/files';
 import { MainLayout } from '@components/Layouts';
 import { MainHeader } from '@components/Headers';
 import { DriveActionBar } from '@components/NavigationBars';
-import FileCard from '@components/FileCard/FileCard';
+import { DriveCard } from '@components/Cards';
 import { PreviewFileModal } from '@components/Modals';
 
 const Drive: FC = () => {
@@ -46,22 +46,22 @@ const Drive: FC = () => {
 
       <div className="flex flex-wrap h-full">
         {directories?.map((directory: FileResponse) => (
-          <FileCard
-            data={directory}
+          <DriveCard
             key={directory.name}
-            isDirectory={true}
-            onDirectoryClick={() => {
+            type="folder"
+            data={directory}
+            onClick={() => {
               setDirectoryName(directory.name);
             }}
           />
         ))}
 
         {files?.map((data: FileResponse) => (
-          <FileCard
-            data={data}
+          <DriveCard
             key={data.name}
-            isDirectory={false}
-            onFileClick={() => {
+            type="file"
+            data={data}
+            onClick={() => {
               setPreviewFile(data);
               setShowPreviewModal(true);
             }}

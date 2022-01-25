@@ -8,7 +8,7 @@ export interface FileResponse {
   creation_time: string;
   modification_time: string;
   name: string;
-  size: number;
+  size: string;
 }
 
 interface DownloadFileData {
