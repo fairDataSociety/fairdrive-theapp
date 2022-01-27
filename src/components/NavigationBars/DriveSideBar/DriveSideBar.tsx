@@ -1,26 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useState, useContext } from 'react';
+
+import { FC, useContext, useState, useEffect } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
+import PodContext from '@context/PodContext';
+import UserContext from '@context/UserContext';
+
+import { getPods, openPod } from '@api/pod';
 
 import { DriveToggle } from '@components/Buttons';
 import { Button } from '@components/Buttons';
-import PodItem from './PodItem/PodItem';
+import PodItem from '@components/NavigationBars/DriveSideBar/PodItem/PodItem';
+import { CreatePodModal, ImportPodModal } from '@components/Modals';
 
 import InfoLightIcon from '@media/UI/info-light.svg';
 import InfoDarkIcon from '@media/UI/info-dark.svg';
 
 import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
-import { useEffect } from 'react';
-import { getPods, openPod, createPod, receivePod } from '@api/pod';
-import PodContext from '@context/PodContext';
-import UserContext from '@context/UserContext';
-import { CreateNewModal } from '@components/Modals';
 
-interface DriveSideBarProps {}
+import sortAlphabetically from 'src/utils/sortAlphabetically';
 
-const DriveSideBar: FC<DriveSideBarProps> = () => {
+const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
   const {
     pods,
@@ -34,171 +35,127 @@ const DriveSideBar: FC<DriveSideBarProps> = () => {
   const { password } = useContext(UserContext);
 
   const [activeTab, setActiveTab] = useState('private');
-
-  // Pod creation data
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
-  const [newPodName, setNewPodName] = useState('');
+  const [showImportPodModal, setShowImportPodModal] = useState(false);
 
-  const createNewPod = async () => {
-    await createPod(newPodName, password);
-    setNewPodName('');
-    setShowCreatePodModal(false);
-    setPods(await getPods());
-    openPods.push(newPodName);
-    setOpenPods(openPods);
-  };
-
-  // Importing pod data
-  const [podReference, setPodReference] = useState('');
-  const importPodByReference = async () => {
-    await receivePod(podReference);
-    setPodReference('');
-    setShowCreatePodModal(false);
-    setPods(await getPods());
-    console.log(pods);
-  };
   useEffect(() => {
-    if (pods === null || pods === undefined) {
-      fetchPods();
+    if (!pods) {
+      handleFetchPods();
     }
-  }, [pods]);
-  const fetchPods = async () => {
-    const response = await getPods();
-    setPods(response);
+  }, []);
+
+  const handleFetchPods = () => {
+    getPods()
+      .then((response) => {
+        setPods(response);
+      })
+      .catch(() => console.log('Error: Pods could not be fetched!'));
   };
 
-  const setActivePodAndOpenIt = async (podName: string) => {
+  const handleOpenPod = (podName: string) => {
     if (!openPods.includes(podName)) {
-      await openPod(podName, password);
-      openPods.push(podName);
-      setOpenPods(openPods);
+      openPod(podName, password)
+        .then(() => {
+          setOpenPods([...openPods, podName]);
+        })
+        .catch(() => console.log('Error: Pod could not be opened!'));
     }
+
     setActivePod(podName);
     setDirectoryName('root');
   };
-
-  useEffect(() => {
-    setActivePod('');
-  }, [setActiveTab, activeTab]);
 
   return (
     <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll no-scroll-bar">
       <div className="py-8 px-4">
         <DriveToggle activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <div className="flex justify-between items-center w-full mt-8 mb-2">
-          <span>
-            {theme === 'light' ? (
-              <InfoLightIcon className="block mr-4" />
-            ) : (
-              <InfoDarkIcon className="block mr-4" />
-            )}
+        <div className="flex justify-between items-center w-full mt-8">
+          <span className="block -ml-1 mr-3">
+            {theme === 'light' ? <InfoLightIcon /> : <InfoDarkIcon />}
           </span>
 
-          <p className="block text-xs text-color-accents-plum-black dark:text-color-shade-light-2-night">
+          <p className="text-xs text-color-accents-plum-black dark:text-color-shade-light-2-night">
             Switch from Shared to Owned to see Home Pod
           </p>
         </div>
       </div>
 
-      <div className="text-center">
+      <div className="my-2 text-center">
         {activeTab === 'private' ? (
-          <div>
-            <Button
-              type="button"
-              variant="secondary"
-              label="Create Pod"
-              onClick={() => {
-                setShowCreatePodModal(true);
-              }}
-              icon={
-                theme === 'light' ? (
-                  <ArrowRightLight className="inline-block ml-2" />
-                ) : (
-                  <ArrowRightDark className="inline-block ml-2" />
-                )
-              }
-            />
+          <Button
+            type="button"
+            variant="secondary"
+            label="Create Pod"
+            icon={
+              theme === 'light' ? (
+                <ArrowRightLight className="inline-block ml-2" />
+              ) : (
+                <ArrowRightDark className="inline-block ml-2" />
+              )
+            }
+            onClick={() => {
+              setShowCreatePodModal(true);
+            }}
+          />
+        ) : null}
 
-            <div className="mt-5">
-              {pods &&
-                pods?.pod_name.map((pod: string) => (
-                  <PodItem
-                    podName={pod}
-                    key={pod}
-                    isActivePod={pod === activePod}
-                    onClick={() => setActivePodAndOpenIt(pod)}
-                  />
-                ))}
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div>
-              <Button
-                type="button"
-                variant="secondary"
-                label="Import Pod"
-                onClick={() => {
-                  setShowCreatePodModal(true);
-                }}
-                icon={
-                  theme === 'light' ? (
-                    <ArrowRightLight className="inline-block ml-2" />
-                  ) : (
-                    <ArrowRightDark className="inline-block ml-2" />
-                  )
-                }
-              />
-
-              <div className="mt-5">
-                {pods &&
-                  pods?.shared_pod_name.map((pod: string) => {
-                    return (
-                      <PodItem
-                        podName={pod}
-                        key={pod}
-                        isActivePod={pod === activePod}
-                        onClick={() => setActivePodAndOpenIt(pod)}
-                      />
-                    );
-                  })}
-              </div>
-            </div>
-          </div>
-        )}
+        {activeTab === 'shared' ? (
+          <Button
+            type="button"
+            variant="secondary"
+            label="Import Pod"
+            icon={
+              theme === 'light' ? (
+                <ArrowRightLight className="inline-block ml-2" />
+              ) : (
+                <ArrowRightDark className="inline-block ml-2" />
+              )
+            }
+            onClick={() => {
+              setShowImportPodModal(true);
+            }}
+          />
+        ) : null}
       </div>
-      {activeTab !== 'private' ? (
-        <CreateNewModal
-          type="Import Pod"
-          showOverlay={showCreatePodModal}
-          setShowOverlay={() => {
-            setShowCreatePodModal(false);
-            setPodReference('');
-          }}
-          onClick={() => {
-            importPodByReference();
-          }}
-          value={podReference}
-          isRefLink={true}
-          setNewValue={setPodReference}
-        ></CreateNewModal>
-      ) : (
-        <CreateNewModal
-          type="Pod"
-          showOverlay={showCreatePodModal}
-          setShowOverlay={() => {
-            setShowCreatePodModal(false);
-            setNewPodName('');
-          }}
-          onClick={() => {
-            createNewPod();
-          }}
-          value={newPodName}
-          isRefLink={false}
-          setNewValue={setNewPodName}
-        ></CreateNewModal>
-      )}
+
+      <div className="text-center">
+        <div className="mt-5">
+          {activeTab === 'private'
+            ? sortAlphabetically(pods?.pod_name).map((pod: string) => (
+                <PodItem
+                  podName={pod}
+                  key={pod}
+                  isActivePod={pod === activePod}
+                  onClick={() => handleOpenPod(pod)}
+                />
+              ))
+            : sortAlphabetically(pods?.shared_pod_name).map((pod: string) => (
+                <PodItem
+                  podName={pod}
+                  key={pod}
+                  isActivePod={pod === activePod}
+                  onClick={() => handleOpenPod(pod)}
+                />
+              ))}
+        </div>
+      </div>
+
+      {showCreatePodModal ? (
+        <CreatePodModal
+          showModal={showCreatePodModal}
+          closeModal={() => setShowCreatePodModal(false)}
+          refreshPods={handleFetchPods}
+        />
+      ) : null}
+
+      {showImportPodModal ? (
+        <ImportPodModal
+          showModal={showImportPodModal}
+          closeModal={() => setShowImportPodModal(false)}
+          refreshPods={handleFetchPods}
+        />
+      ) : null}
     </div>
   );
 };

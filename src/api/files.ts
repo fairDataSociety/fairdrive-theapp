@@ -1,5 +1,5 @@
 import axios from '@api/customAxios';
-import formatURL from '@helpers/formatURL';
+import formatURL from '@utils/formatURL';
 
 export interface FileResponse {
   access_time: string;
@@ -8,7 +8,7 @@ export interface FileResponse {
   creation_time: string;
   modification_time: string;
   name: string;
-  size: number;
+  size: string;
 }
 
 interface DownloadFileData {

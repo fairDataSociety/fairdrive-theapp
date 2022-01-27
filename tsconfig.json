@@ -24,7 +24,7 @@
       "@media/*": ["src/media/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
-      "@helpers/*": ["src/helpers/*"]
+      "@utils/*": ["src/utils/*"]
     },
     "incremental": true
   },

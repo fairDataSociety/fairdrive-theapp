@@ -10,8 +10,8 @@ import { downloadFile, deleteFile } from '@api/files';
 import { SideModal } from '@components/Modals';
 import { ShareFileModal } from '@components/Modals';
 
-import formatDate from '@helpers/formatDate';
-import formatDirectory from '@helpers/formatDirectory';
+import formatDate from 'src/utils/formatDate';
+import formatDirectory from '@utils/formatDirectory';
 
 import FolderLightIcon from '@media/UI/folder-light.svg';
 import FolderDarkIcon from '@media/UI/folder-dark.svg';

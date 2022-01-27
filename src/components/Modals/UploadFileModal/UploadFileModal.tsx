@@ -18,13 +18,13 @@ import UploadDarkIcon from '@media/UI/upload-dark.svg';
 interface UploadFileModalProps {
   showModal: boolean;
   closeModal: () => void;
-  updateDrive: () => void;
+  refreshDrive: () => void;
 }
 
 const UploadFileModal: FC<UploadFileModalProps> = ({
   showModal,
   closeModal,
-  updateDrive,
+  refreshDrive,
 }) => {
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
@@ -46,7 +46,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
         podName: activePod,
       })
         .then(() => {
-          updateDrive();
+          refreshDrive();
           closeModal();
         })
         .catch(() => {
