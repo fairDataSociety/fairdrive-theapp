@@ -12,9 +12,10 @@ import SortDark from '@media/UI/sort-dark.svg';
 
 interface MainHeaderProps {
   title: string;
+  toggleSort: () => void;
 }
 
-const MainHeader: FC<MainHeaderProps> = ({ title }) => {
+const MainHeader: FC<MainHeaderProps> = ({ title, toggleSort }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -24,21 +25,24 @@ const MainHeader: FC<MainHeaderProps> = ({ title }) => {
           {title}
         </h2>
 
-        {/* <div>
+        <div>
           <Button
             type="button"
             variant="primary"
             icon={theme === 'light' ? <MenuLight /> : <MenuDark />}
-            className="mr-1 p-0"
+            className="mx-1"
+            padding="p-3"
           />
 
           <Button
             type="button"
             variant="primary"
             icon={theme === 'light' ? <SortLight /> : <SortDark />}
-            className="ml-1 p-0"
+            className="mx-1"
+            padding="p-3"
+            onClick={toggleSort}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );

@@ -29,7 +29,7 @@ const Modal: FC<ModalProps> = ({
     <>
       {showModal ? (
         <div
-          className="fixed top-0 left-0 w-screen h-screen z-30 overflow-hidden"
+          className="fixed top-0 left-0 w-screen h-screen z-50 overflow-hidden"
           onClick={closeModal}
         >
           <div className="absolute top-0 left-0 w-full h-full bg-color-shade-white-day opacity-50 z-40">

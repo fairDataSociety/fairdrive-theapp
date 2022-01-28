@@ -20,6 +20,7 @@ const Drive: FC = () => {
   const [files, setFiles] = useState(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewFile, setPreviewFile] = useState(null);
+  const [driveSort, setDriveSort] = useState('a-z');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -38,14 +39,31 @@ const Drive: FC = () => {
       .catch(() => console.log('Error: Could not fetch directories & files!'));
   };
 
+  const handleSort = (data: { name: string }[]) => {
+    return data?.sort((a, b) =>
+      (driveSort === 'a-z' ? a.name > b.name : a.name < b.name) ? 1 : -1
+    );
+  };
+
+  const handleToggleSort = () => {
+    if (driveSort === 'a-z') {
+      setDriveSort('z-a');
+    } else {
+      setDriveSort('a-z');
+    }
+  };
+
   return (
     <MainLayout>
-      <MainHeader title={`${activePod} / ${directoryName}`} />
+      <MainHeader
+        title={`${activePod} / ${directoryName}`}
+        toggleSort={handleToggleSort}
+      />
 
       <DriveActionBar refreshDrive={handleFetchDrive} />
 
       <div className="flex flex-wrap h-full">
-        {directories?.map((directory: FileResponse) => (
+        {handleSort(directories)?.map((directory: FileResponse) => (
           <DriveCard
             key={directory.name}
             type="folder"
@@ -56,7 +74,7 @@ const Drive: FC = () => {
           />
         ))}
 
-        {files?.map((data: FileResponse) => (
+        {handleSort(files)?.map((data: FileResponse) => (
           <DriveCard
             key={data.name}
             type="file"

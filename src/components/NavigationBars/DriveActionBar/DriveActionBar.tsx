@@ -36,11 +36,11 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
           Inventory
         </h2>
 
-        <div className="flex justify-center items-stretch">
+        <div className="flex justify-center items-stretch mt-5">
           <Button
             type="button"
             variant="primary"
-            className="mr-1 p-0"
+            className="mx-1 p-0"
             onClick={() => setShowUploadFileModal(true)}
           >
             <span className="mr-2">
@@ -59,7 +59,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
             type="button"
             variant="primary"
             icon={theme === 'light' ? <ImportLightIcon /> : <ImportDarkIcon />}
-            className="mr-1 p-0"
+            className="mx-1"
             onClick={() => setShowImportFileModal(true)}
           />
 
@@ -73,7 +73,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
                 <CreateFolderDarkIcon />
               )
             }
-            className="mr-1 p-0"
+            className="mx-1"
             onClick={() => setShowCreateFolderModal(true)}
           />
         </div>
