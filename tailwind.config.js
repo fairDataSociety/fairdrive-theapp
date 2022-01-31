@@ -68,7 +68,15 @@ module.exports = {
   variants: {
     extend: {
       border: ['dark'],
-      backgroundColor: ['disabled', 'hover', 'focus', 'active', 'dark'],
+      backgroundColor: [
+        'disabled',
+        'hover',
+        'focus',
+        'active',
+        'dark',
+        'odd',
+        'even',
+      ],
       shadow: ['dark'],
     },
   },
