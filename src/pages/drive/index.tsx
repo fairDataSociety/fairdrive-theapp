@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useContext, useState, useEffect } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
@@ -19,6 +20,7 @@ import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 
 const Drive: FC = () => {
+  const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, openPods, directoryName, setDirectoryName } =
     useContext(PodContext);
@@ -30,6 +32,13 @@ const Drive: FC = () => {
   const [previewFile, setPreviewFile] = useState(null);
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Drive Page',
+      href: 'https://fairdrive.vercel.app/drive',
+    });
+  }, []);
 
   useEffect(() => {
     updateSearch('');

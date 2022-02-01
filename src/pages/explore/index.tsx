@@ -1,4 +1,5 @@
 import { FC, useEffect, useContext } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
 import dapps from '@data/explore-dapps.json';
@@ -14,8 +15,16 @@ import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 interface ExploreProps {}
 
 const Explore: FC<ExploreProps> = () => {
+  const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Explore Page',
+      href: 'https://fairdrive.vercel.app/explore',
+    });
+  }, []);
 
   useEffect(() => {
     updateSearch('');

@@ -1,5 +1,6 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import router from 'next/router';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
 
@@ -18,7 +19,15 @@ import OverviewEcosystemDark from '@media/UI/overview-ecosystem-dark.svg';
 interface OverviewProps {}
 
 const Overview: FC<OverviewProps> = () => {
+  const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Overview Page',
+      href: 'https://fairdrive.vercel.app/overview',
+    });
+  }, []);
 
   return (
     <MainLayout>
