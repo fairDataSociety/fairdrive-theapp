@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { shareFile } from '@api/files';
 
@@ -26,6 +27,7 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
   podName,
   path,
 }) => {
+  const { trackEvent } = useMatomo();
   const [shareCode, setShareCode] = useState('');
 
   useEffect(() => {
@@ -36,6 +38,14 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
     })
       .then((response) => {
         setShareCode(response);
+
+        trackEvent({
+          category: 'File',
+          action: `Share File`,
+          name: `Share File: ${fileName}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
       })
       .catch(() => {
         console.log('Could not receive share code!');

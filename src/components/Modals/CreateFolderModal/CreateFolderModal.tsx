@@ -1,4 +1,5 @@
 import { FC, useContext, useState } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import PodContext from '@context/PodContext';
 
@@ -20,6 +21,7 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
   closeModal,
   refreshDrive,
 }) => {
+  const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
 
   const [newFolderName, setNewFolderName] = useState('');
@@ -28,6 +30,14 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
   const handleCreateNewFolder = () => {
     createDirectory(activePod, directoryName, newFolderName)
       .then(() => {
+        trackEvent({
+          category: 'Create',
+          action: `Create Folder`,
+          name: `Create Folder: ${newFolderName}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
+
         refreshDrive();
         closeModal();
       })

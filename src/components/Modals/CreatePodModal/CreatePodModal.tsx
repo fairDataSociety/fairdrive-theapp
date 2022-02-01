@@ -1,4 +1,5 @@
 import { FC, useContext, useState } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import UserContext from '@context/UserContext';
 
@@ -20,6 +21,7 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
   closeModal,
   refreshPods,
 }) => {
+  const { trackEvent } = useMatomo();
   const { password } = useContext(UserContext);
 
   const [newPodName, setNewPodName] = useState('');
@@ -28,6 +30,14 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
   const handleCreateNewPod = () => {
     createPod(newPodName, password)
       .then(() => {
+        trackEvent({
+          category: 'Create',
+          action: `Create Pod`,
+          name: `Create Pod: ${newPodName}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
+
         refreshPods();
         closeModal();
       })

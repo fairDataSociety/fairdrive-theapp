@@ -1,5 +1,6 @@
 import { FC, useContext, useState } from 'react';
 import FileSaver from 'file-saver';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import PodContext from '@context/PodContext';
 
@@ -26,6 +27,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
   openClick,
   updateDrive,
 }) => {
+  const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -49,7 +51,17 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
       directory: directoryName,
       podName: activePod,
     })
-      .then((response) => FileSaver.saveAs(response, data?.name))
+      .then((response) => {
+        FileSaver.saveAs(response, data?.name);
+
+        trackEvent({
+          category: 'File',
+          action: `Download File`,
+          name: `Download File: ${data?.name}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
+      })
       .catch(() => {
         console.log('File could not be downloaded!');
       });
@@ -74,6 +86,14 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
       path: formatDirectory(directoryName),
     })
       .then(() => {
+        trackEvent({
+          category: 'File',
+          action: `Delete File`,
+          name: `Delete File: ${data?.name}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
+
         setShowConfirmDeleteModal(false);
         updateDrive();
       })
@@ -90,6 +110,14 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
       path: '/' + data.name,
     })
       .then(() => {
+        trackEvent({
+          category: 'Folder',
+          action: `Delete Folder`,
+          name: `Delete Folder: ${data?.name}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
+
         setShowConfirmDeleteModal(false);
         updateDrive();
       })

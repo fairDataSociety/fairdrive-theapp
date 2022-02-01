@@ -1,6 +1,7 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import prettyBytes from 'pretty-bytes';
 import FileSaver from 'file-saver';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
@@ -41,6 +42,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   previewFile,
   updateDrive,
 }) => {
+  const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
 
@@ -67,7 +69,17 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
       directory: directoryName,
       podName: activePod,
     })
-      .then((response) => FileSaver.saveAs(response, previewFile?.name))
+      .then((response) => {
+        FileSaver.saveAs(response, previewFile?.name);
+
+        trackEvent({
+          category: 'File',
+          action: `Download File`,
+          name: `Download File: ${previewFile?.name}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
+      })
       .catch(() => {
         console.log('File could not be downloaded!');
       });
@@ -80,6 +92,14 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
       path: formatDirectory(directoryName),
     })
       .then(() => {
+        trackEvent({
+          category: 'File',
+          action: `Delete File`,
+          name: `Delete File: ${previewFile?.name}`,
+          documentTitle: 'Drive Page',
+          href: 'https://fairdrive.vercel.app/drive',
+        });
+
         updateDrive();
         closeModal();
       })
