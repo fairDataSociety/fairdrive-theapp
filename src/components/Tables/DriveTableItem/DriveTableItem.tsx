@@ -1,13 +1,10 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import prettyBytes from 'pretty-bytes';
 
-import ThemeContext from '@context/ThemeContext';
+import { DriveItemDropdown } from '@components/Dropdowns';
 
 import shortenString from '@utils/shortenString';
 import formatDate from '@utils/formatDate';
-
-import DropdownMenuIconLight from '@media/UI/dropdown-menu-light.svg';
-import DropdownMenuIconDark from '@media/UI/dropdown-menu-dark.svg';
 
 interface DriveTableItemProps {
   type: 'folder' | 'file';
@@ -17,11 +14,15 @@ interface DriveTableItemProps {
     creation_time: string;
   };
   onClick: () => void;
+  updateDrive: () => void;
 }
 
-const DriveTableItem: FC<DriveTableItemProps> = ({ type, data, onClick }) => {
-  const { theme } = useContext(ThemeContext);
-
+const DriveTableItem: FC<DriveTableItemProps> = ({
+  type,
+  data,
+  onClick,
+  updateDrive,
+}) => {
   const tableDataClasses =
     'pl-4 font-normal text-color-accents-purple-black text-left';
 
@@ -43,18 +44,12 @@ const DriveTableItem: FC<DriveTableItemProps> = ({ type, data, onClick }) => {
         {formatDate(data?.creation_time, false)}
       </td>
       <td className="text-center">
-        <span
-          className="px-4"
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-        >
-          {theme === 'light' ? (
-            <DropdownMenuIconLight />
-          ) : (
-            <DropdownMenuIconDark />
-          )}
-        </span>
+        <DriveItemDropdown
+          type={type}
+          data={data}
+          openClick={onClick}
+          updateDrive={updateDrive}
+        />
       </td>
     </tr>
   );

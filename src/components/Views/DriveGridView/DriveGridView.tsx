@@ -9,6 +9,7 @@ interface DriveGridViewProps {
   files: FileResponse[];
   directoryOnClick: (directoryName: string) => void;
   fileOnClick: (data: FileResponse) => void;
+  updateDrive: () => void;
 }
 
 const DriveGridView: FC<DriveGridViewProps> = ({
@@ -16,6 +17,7 @@ const DriveGridView: FC<DriveGridViewProps> = ({
   files,
   directoryOnClick,
   fileOnClick,
+  updateDrive,
 }) => {
   return (
     <div className="flex flex-wrap h-full">
@@ -25,6 +27,7 @@ const DriveGridView: FC<DriveGridViewProps> = ({
           type="folder"
           data={directory}
           onClick={() => directoryOnClick(directory.name)}
+          updateDrive={updateDrive}
         />
       ))}
 
@@ -36,6 +39,7 @@ const DriveGridView: FC<DriveGridViewProps> = ({
           onClick={() => {
             fileOnClick(data);
           }}
+          updateDrive={updateDrive}
         />
       ))}
     </div>

@@ -13,6 +13,7 @@ interface DriveListViewProps {
   files: FileResponse[];
   directoryOnClick: (directoryName: string) => void;
   fileOnClick: (data: FileResponse) => void;
+  updateDrive: () => void;
 }
 
 const DriveListView: FC<DriveListViewProps> = ({
@@ -20,6 +21,7 @@ const DriveListView: FC<DriveListViewProps> = ({
   files,
   directoryOnClick,
   fileOnClick,
+  updateDrive,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -52,6 +54,7 @@ const DriveListView: FC<DriveListViewProps> = ({
               type="folder"
               data={directory}
               onClick={() => directoryOnClick(directory.name)}
+              updateDrive={updateDrive}
             />
           ))}
 
@@ -65,6 +68,7 @@ const DriveListView: FC<DriveListViewProps> = ({
               onClick={() => {
                 fileOnClick(data);
               }}
+              updateDrive={updateDrive}
             />
           ))}
       </table>

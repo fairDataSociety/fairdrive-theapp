@@ -6,6 +6,7 @@ import ActivityDropdownToggle from '@components/Buttons/ActivityDropdownToggle/A
 import MainSideBarItem from '@components/Buttons/MainSideBarItem/MainSideBarItem';
 import DriveToggle from '@components/Buttons/DriveToggle/DriveToggle';
 import ImportToggle from '@components/Buttons/ImportToggle/ImportToggle';
+import DriveItemDropdownToggle from '@components/Buttons/DriveItemDropdownToggle/DriveItemDropdownToggle';
 
 export {
   Button,
@@ -16,4 +17,5 @@ export {
   MainSideBarItem,
   DriveToggle,
   ImportToggle,
+  DriveItemDropdownToggle,
 };

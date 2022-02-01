@@ -1,15 +1,11 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import prettyBytes from 'pretty-bytes';
 
-import ThemeContext from '@context/ThemeContext';
-
 import DriveCardIcon from '@components/Cards/DriveCard/DriveCardIcon/DriveCardIcon';
+import { DriveItemDropdown } from '@components/Dropdowns';
 
 import shortenString from '@utils/shortenString';
 import formatDate from '@utils/formatDate';
-
-import DropdownMenuIconLight from '@media/UI/dropdown-menu-light.svg';
-import DropdownMenuIconDark from '@media/UI/dropdown-menu-dark.svg';
 
 interface DriveCardProps {
   type: 'folder' | 'file';
@@ -19,11 +15,15 @@ interface DriveCardProps {
     creation_time: string;
   };
   onClick: () => void;
+  updateDrive: () => void;
 }
 
-const DriveCard: FC<DriveCardProps> = ({ type, data, onClick }) => {
-  const { theme } = useContext(ThemeContext);
-
+const DriveCard: FC<DriveCardProps> = ({
+  type,
+  data,
+  onClick,
+  updateDrive,
+}) => {
   return (
     <div
       className="w-68 h-60 m-3 p-6 dark:bg-color-shade-dark-4-night border border-color-shade-black-day dark:border-color-accents-purple-black rounded-md shadow-lg cursor-pointer dark:hover:shadow-soft-purple hover:shadow-soft-purple"
@@ -35,18 +35,12 @@ const DriveCard: FC<DriveCardProps> = ({ type, data, onClick }) => {
           fileExtention={type === 'file' ? data.name.split('.').pop() : ''}
         />
 
-        <span
-          className="py-2 pl-5"
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-        >
-          {theme === 'light' ? (
-            <DropdownMenuIconLight />
-          ) : (
-            <DropdownMenuIconDark />
-          )}
-        </span>
+        <DriveItemDropdown
+          type={type}
+          data={data}
+          openClick={onClick}
+          updateDrive={updateDrive}
+        />
       </div>
 
       <div className="mb-5 pb-5 border-b border-color-shade-dark-2-day dark:border-color-shade-dark-2-night">

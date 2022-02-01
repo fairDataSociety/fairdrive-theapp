@@ -120,6 +120,7 @@ const Drive: FC = () => {
           files={handleSort(files?.filter(handleSearchFilter))}
           directoryOnClick={handleDirectyOnClick}
           fileOnClick={handleFileOnClick}
+          updateDrive={handleFetchDrive}
         />
       ) : null}
 
@@ -129,6 +130,7 @@ const Drive: FC = () => {
           files={handleSort(files?.filter(handleSearchFilter))}
           directoryOnClick={handleDirectyOnClick}
           fileOnClick={handleFileOnClick}
+          updateDrive={handleFetchDrive}
         />
       ) : null}
 
