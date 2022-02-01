@@ -13,6 +13,7 @@ import { MainHeader } from '@components/Headers';
 import { DriveActionBar } from '@components/NavigationBars';
 import { DriveGridView, DriveListView } from '@components/Views';
 import { PreviewFileModal } from '@components/Modals';
+import { EmptyDirectoryCard } from '@components/Cards';
 
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
@@ -114,25 +115,31 @@ const Drive: FC = () => {
         </div>
       ) : null}
 
-      {driveView === 'grid' ? (
-        <DriveGridView
-          directories={handleSort(directories?.filter(handleSearchFilter))}
-          files={handleSort(files?.filter(handleSearchFilter))}
-          directoryOnClick={handleDirectyOnClick}
-          fileOnClick={handleFileOnClick}
-          updateDrive={handleFetchDrive}
-        />
-      ) : null}
+      {directories?.length || files?.length ? (
+        <div>
+          {driveView === 'grid' ? (
+            <DriveGridView
+              directories={handleSort(directories?.filter(handleSearchFilter))}
+              files={handleSort(files?.filter(handleSearchFilter))}
+              directoryOnClick={handleDirectyOnClick}
+              fileOnClick={handleFileOnClick}
+              updateDrive={handleFetchDrive}
+            />
+          ) : null}
 
-      {driveView === 'list' ? (
-        <DriveListView
-          directories={handleSort(directories?.filter(handleSearchFilter))}
-          files={handleSort(files?.filter(handleSearchFilter))}
-          directoryOnClick={handleDirectyOnClick}
-          fileOnClick={handleFileOnClick}
-          updateDrive={handleFetchDrive}
-        />
-      ) : null}
+          {driveView === 'list' ? (
+            <DriveListView
+              directories={handleSort(directories?.filter(handleSearchFilter))}
+              files={handleSort(files?.filter(handleSearchFilter))}
+              directoryOnClick={handleDirectyOnClick}
+              fileOnClick={handleFileOnClick}
+              updateDrive={handleFetchDrive}
+            />
+          ) : null}
+        </div>
+      ) : (
+        <EmptyDirectoryCard />
+      )}
 
       {showPreviewModal ? (
         <PreviewFileModal
