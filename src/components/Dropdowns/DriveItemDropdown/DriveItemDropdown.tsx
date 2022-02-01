@@ -85,8 +85,6 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
   const handleDeleteFolder = () => {
     setShowDropdown(false);
 
-    console.log(formatDirectory(data.name));
-
     deleteDirectory({
       podName: activePod,
       path: '/' + data.name,
