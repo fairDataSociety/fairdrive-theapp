@@ -1,15 +1,16 @@
 import { FC, useContext, useState } from 'react';
 import router from 'next/router';
-
 import { useForm } from 'react-hook-form';
 
+import UserContext from '@context/UserContext';
+
 import { createAccount } from '@api/authentication';
+import { createPod } from '@api/pod';
 
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import UserContext from '@context/UserContext';
 
 interface ConfirmMnemonicProps {}
 
@@ -52,7 +53,20 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
         .then(() => {
           setPassword(user.password);
           setUser(user.user_name);
-          router.push('/overview');
+
+          createPod('Home', user.password)
+            .then(() => {
+              createPod('Consents', user.password)
+                .then(() => {
+                  router.push('/overview');
+                })
+                .catch(() => {
+                  setErrorMessage('Error: Could not create a new Pod.');
+                });
+            })
+            .catch(() => {
+              setErrorMessage('Error: Could not create a new Pod.');
+            });
         })
         .catch(() => {
           setErrorMessage(

@@ -12,7 +12,7 @@ const ThemeToggle: FC<UserDropdownToggleProps> = ({ onClickHandler }) => {
   const { address } = useContext(UserContext);
   return (
     <button className="cursor-pointer" onClick={() => onClickHandler()}>
-      <Blockies className="inline-block" seed={address} />{' '}
+      <Blockies className="inline-block rounded" seed={address} />{' '}
     </button>
   );
 };

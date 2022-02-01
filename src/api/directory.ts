@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '@api/customAxios';
 
 export async function createDirectory(
   podName: string,
@@ -42,3 +42,23 @@ export async function createDirectory(
     return error;
   }
 }
+
+export const deleteDirectory = async (payload: {
+  podName: string;
+  path: string;
+}) => {
+  try {
+    const { podName, path } = payload;
+
+    await axios.delete('dir/rmdir', {
+      data: {
+        pod_name: podName,
+        dir_path: path,
+      },
+    });
+
+    return true;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

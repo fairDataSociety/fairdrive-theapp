@@ -4,17 +4,27 @@ import ThemeContext from '@context/ThemeContext';
 
 import { Button } from '@components/Buttons';
 
-import MenuLight from '@media/UI/menu-light.svg';
-import MenuDark from '@media/UI/menu-dark.svg';
+import DriveViewListLight from '@media/UI/drive-view-list-light.svg';
+import DriveViewListDark from '@media/UI/drive-view-list-dark.svg';
+import DriveViewGridLight from '@media/UI/drive-view-grid-light.svg';
+import DriveViewGridDark from '@media/UI/drive-view-grid-dark.svg';
 
 import SortLight from '@media/UI/sort-light.svg';
 import SortDark from '@media/UI/sort-dark.svg';
 
 interface MainHeaderProps {
   title: string;
+  driveView: 'grid' | 'list';
+  toggleView: () => void;
+  toggleSort: () => void;
 }
 
-const MainHeader: FC<MainHeaderProps> = ({ title }) => {
+const MainHeader: FC<MainHeaderProps> = ({
+  title,
+  driveView,
+  toggleView,
+  toggleSort,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -24,21 +34,37 @@ const MainHeader: FC<MainHeaderProps> = ({ title }) => {
           {title}
         </h2>
 
-        {/* <div>
+        <div>
           <Button
             type="button"
             variant="primary"
-            icon={theme === 'light' ? <MenuLight /> : <MenuDark />}
-            className="mr-1 p-0"
+            icon={
+              driveView === 'grid' ? (
+                theme === 'light' ? (
+                  <DriveViewListLight />
+                ) : (
+                  <DriveViewListDark />
+                )
+              ) : theme === 'light' ? (
+                <DriveViewGridLight />
+              ) : (
+                <DriveViewGridDark />
+              )
+            }
+            className="mx-1"
+            padding="p-3"
+            onClick={toggleView}
           />
 
           <Button
             type="button"
             variant="primary"
             icon={theme === 'light' ? <SortLight /> : <SortDark />}
-            className="ml-1 p-0"
+            className="mx-1"
+            padding="p-3"
+            onClick={toggleSort}
           />
-        </div> */}
+        </div>
       </div>
     </div>
   );

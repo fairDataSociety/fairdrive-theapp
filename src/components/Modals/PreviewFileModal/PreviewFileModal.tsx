@@ -8,7 +8,7 @@ import PodContext from '@context/PodContext';
 import { downloadFile, deleteFile } from '@api/files';
 
 import { SideModal } from '@components/Modals';
-import { ShareFileModal } from '@components/Modals';
+import { ShareFileModal, ConfirmDeleteModal } from '@components/Modals';
 
 import formatDate from 'src/utils/formatDate';
 import formatDirectory from '@utils/formatDirectory';
@@ -47,6 +47,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const [imageSource, setImageSource] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showShareFileModal, setShowShareFileModal] = useState(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   useEffect(() => {
     downloadFile({
@@ -178,7 +179,10 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
             )}
           </span>
 
-          <span onClick={handleDeleteFile} className="cursor-pointer">
+          <span
+            onClick={() => setShowConfirmDeleteModal(true)}
+            className="cursor-pointer"
+          >
             {theme === 'light' ? (
               <DeleteLightIcon className="inline-block" />
             ) : (
@@ -194,6 +198,14 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         fileName={previewFile?.name}
         podName={activePod}
         path={formatDirectory(directoryName)}
+      />
+
+      <ConfirmDeleteModal
+        showModal={showConfirmDeleteModal}
+        closeModal={() => setShowConfirmDeleteModal(false)}
+        type="file"
+        name={previewFile?.name}
+        deleteHandler={handleDeleteFile}
       />
     </>
   );
