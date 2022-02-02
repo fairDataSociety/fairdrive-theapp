@@ -1,8 +1,18 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { AuthenticationLayout } from '@components/Layouts';
 
 const PrivacyPolicy: FC = () => {
+  const { trackPageView } = useMatomo();
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Privacy Policy Page',
+      href: 'https://fairdrive.vercel.app/privacy-policy',
+    });
+  }, []);
+
   return (
     <AuthenticationLayout hasBackButton={true}>
       <div className="w-full mb-12 pl-24 pr-28">

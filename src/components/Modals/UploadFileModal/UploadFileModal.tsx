@@ -1,5 +1,6 @@
 import { FC, useContext, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
@@ -26,6 +27,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
   closeModal,
   refreshDrive,
 }) => {
+  const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
 
@@ -46,6 +48,14 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
         podName: activePod,
       })
         .then(() => {
+          trackEvent({
+            category: 'Upload',
+            action: `Upload File`,
+            name: `Upload File`,
+            documentTitle: 'Drive Page',
+            href: 'https://fairdrive.vercel.app/drive',
+          });
+
           refreshDrive();
           closeModal();
         })

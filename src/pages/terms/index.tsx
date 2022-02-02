@@ -1,8 +1,18 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { AuthenticationLayout } from '@components/Layouts';
 
 const Terms: FC = () => {
+  const { trackPageView } = useMatomo();
+
+  useEffect(() => {
+    trackPageView({
+      documentTitle: 'Terms & Conditions Page',
+      href: 'https://fairdrive.vercel.app/terms',
+    });
+  }, []);
+
   return (
     <AuthenticationLayout hasBackButton={true}>
       <div className="w-full mb-12 pl-24 pr-28">
