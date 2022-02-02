@@ -84,8 +84,12 @@ const Drive: FC = () => {
     }
   };
 
-  const handleDirectyOnClick = (directoryName: string) => {
-    setDirectoryName(directoryName);
+  const handleDirectyOnClick = (newDirectoryName: string) => {
+    if (directoryName !== 'root') {
+      setDirectoryName(directoryName + '/' + newDirectoryName);
+    } else {
+      setDirectoryName(newDirectoryName);
+    }
   };
 
   const handleFileOnClick = (data: FileResponse) => {
@@ -100,7 +104,7 @@ const Drive: FC = () => {
   return (
     <MainLayout>
       <MainHeader
-        title={`${activePod} / ${directoryName}`}
+        title={`${activePod} | ${directoryName}`}
         driveView={driveView}
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}

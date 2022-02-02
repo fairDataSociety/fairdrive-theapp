@@ -102,7 +102,7 @@ export async function shareFile(data: ShareFileData): Promise<string> {
 
 export async function uploadFile(data: UploadFileData): Promise<boolean> {
   const writePath =
-    data.directory === 'root' ? '/' : '/' + formatURL(data.directory) + '/';
+    data.directory === 'root' ? '/' : '/' + formatURL(data.directory);
 
   const formData = new FormData();
 
@@ -111,7 +111,7 @@ export async function uploadFile(data: UploadFileData): Promise<boolean> {
   formData.append('block_size', '64Mb');
   formData.append('pod_name', data.podName);
 
-  const uploadResponse = await axios.post('file/upload', formData);
+  await axios.post('file/upload', formData);
 
   return true;
 }
