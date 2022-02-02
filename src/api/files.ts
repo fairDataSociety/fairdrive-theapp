@@ -41,22 +41,16 @@ export const receiveFile = async (
   directory: string
 ) => {
   try {
-    let data = { dir_path: '', pod_name: podName, sharing_ref: reference };
-    // TODO write helper for this piece of code
-    if (directory === 'root') {
-      data = {
-        dir_path: '/',
+    const writePath = directory === 'root' ? '/' : '/' + formatURL(directory);
+
+    const shareFileInfoResult = await axios.get('file/receive', {
+      params: {
         pod_name: podName,
         sharing_ref: reference,
-      };
-    } else {
-      data = {
-        dir_path: '/' + directory,
-        pod_name: podName,
-        sharing_ref: reference,
-      };
-    }
-    const shareFileInfoResult = await axios.post('file/receive', data);
+        dir_path: writePath,
+      },
+    });
+
     return shareFileInfoResult.data;
   } catch (error) {
     return error;
