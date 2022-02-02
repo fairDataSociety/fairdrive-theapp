@@ -12,11 +12,13 @@ interface PodContext {
   setOpenPods: (openPods: string[]) => void;
   directoryName: string;
   setDirectoryName: (directoryName: string) => void;
+  clearPodContext: () => void;
 }
 
 interface PodContextProps {
   children: ReactNode;
 }
+
 const podContextDefaultValues: PodContext = {
   pods: { pod_name: [], shared_pod_name: [] },
   setPods: (pods: GetPodResponse) => {},
@@ -26,6 +28,7 @@ const podContextDefaultValues: PodContext = {
   setOpenPods: (openPods: string[]) => {},
   directoryName: '',
   setDirectoryName: (directoryName: string) => {},
+  clearPodContext: () => {},
 };
 
 const PodContext = createContext<PodContext>(podContextDefaultValues);
@@ -35,6 +38,13 @@ const PodProvider: FC<PodContextProps> = ({ children }) => {
   const [activePod, setActivePod] = useState('');
   const [openPods, setOpenPods] = useState([]);
   const [directoryName, setDirectoryName] = useState('');
+
+  const clearPodContext = () => {
+    setPods(null);
+    setActivePod('');
+    setOpenPods([]);
+    setDirectoryName('');
+  };
 
   return (
     <PodContext.Provider
@@ -47,6 +57,7 @@ const PodProvider: FC<PodContextProps> = ({ children }) => {
         setOpenPods,
         directoryName,
         setDirectoryName,
+        clearPodContext,
       }}
     >
       {children}

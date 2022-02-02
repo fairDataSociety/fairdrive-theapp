@@ -1,8 +1,10 @@
 import { FC, useContext, useState } from 'react';
 import router from 'next/router';
 import Link from 'next/link';
-
 import { useForm } from 'react-hook-form';
+
+import UserContext from '@context/UserContext';
+import PodContext from '@context/PodContext';
 
 import { login, userStats } from '@api/authentication';
 
@@ -10,29 +12,33 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import UserContext from '@context/UserContext';
 
 const LoginForm: FC = () => {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
+
   const { setUser, setPassword, setAddress } = useContext(UserContext);
+  const { clearPodContext } = useContext(PodContext);
+
   const [errorMessage, setErrorMessage] = useState('');
 
   const onSubmit = (data: { user_name: string; password: string }) => {
     login(data)
       .then(() => {
-        setPassword(data.password);
         setUser(data.user_name);
+        setPassword(data.password);
+
         userStats()
           .then((res) => {
             setAddress(res.data.reference);
+            clearPodContext();
+            router.push('/overview');
           })
           .catch(() => {
             setErrorMessage(
               'Login failed. Incorrect user credentials, please try again.'
             );
           });
-        router.push('/overview');
       })
       .catch(() => {
         setErrorMessage(
