@@ -58,7 +58,7 @@ const MainFooter: FC = () => {
       <div className="flex justify-center items-center space-x-16">
         <div className="flex justify-center items-center space-x-4">
           <p className="font-normal text-xs text-color-accents-purple-heavy dark:text-color-shade-light-1-night">
-            © 2021 Fairdrive. All rights reserved
+            © {new Date().getFullYear()} Fairdrive. All rights reserved
           </p>
 
           {theme === 'light' ? (
