@@ -3,6 +3,7 @@ import router from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import UserContext from '@context/UserContext';
+import PodContext from '@context/PodContext';
 
 import { createAccount } from '@api/authentication';
 import { createPod } from '@api/pod';
@@ -17,6 +18,7 @@ interface ConfirmMnemonicProps {}
 const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
   const { register, handleSubmit, formState } = useForm();
   const { setUser, setPassword } = useContext(UserContext);
+  const { clearPodContext } = useContext(PodContext);
   const { errors } = formState;
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -51,13 +53,14 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
 
       createAccount(registerData)
         .then(() => {
-          setPassword(user.password);
           setUser(user.user_name);
+          setPassword(user.password);
 
           createPod('Home', user.password)
             .then(() => {
               createPod('Consents', user.password)
                 .then(() => {
+                  clearPodContext();
                   router.push('/overview');
                 })
                 .catch(() => {
