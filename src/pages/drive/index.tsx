@@ -32,6 +32,7 @@ const Drive: FC = () => {
   const [previewFile, setPreviewFile] = useState(null);
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     trackPageView({
@@ -85,10 +86,20 @@ const Drive: FC = () => {
   };
 
   const handleDirectyOnClick = (newDirectoryName: string) => {
-    if (directoryName !== 'root') {
-      setDirectoryName(directoryName + '/' + newDirectoryName);
-    } else {
-      setDirectoryName(newDirectoryName);
+    if (!loading) {
+      setLoading(true);
+
+      if (directoryName !== 'root') {
+        setDirectoryName(directoryName + '/' + newDirectoryName);
+      } else {
+        setDirectoryName(newDirectoryName);
+      }
+
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
     }
   };
 

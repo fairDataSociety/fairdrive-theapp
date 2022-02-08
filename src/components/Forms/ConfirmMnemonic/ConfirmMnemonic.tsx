@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
 import PodContext from '@context/PodContext';
 
-import { createAccount } from '@api/authentication';
+import { createAccount, login, userStats } from '@api/authentication';
 import { createPod } from '@api/pod';
 
 import { AuthenticationHeader } from '@components/Headers';
@@ -17,7 +17,7 @@ interface ConfirmMnemonicProps {}
 
 const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
   const { register, handleSubmit, formState } = useForm();
-  const { setUser, setPassword } = useContext(UserContext);
+  const { setUser, setPassword, setAddress } = useContext(UserContext);
   const { clearPodContext } = useContext(PodContext);
   const { errors } = formState;
 
@@ -60,8 +60,25 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
             .then(() => {
               createPod('Consents', user.password)
                 .then(() => {
-                  clearPodContext();
-                  router.push('/overview');
+                  login({ user_name: user.user_name, password: user.password })
+                    .then(() => {
+                      userStats()
+                        .then((res) => {
+                          setAddress(res.data.reference);
+                          clearPodContext();
+                          router.push('/overview');
+                        })
+                        .catch(() => {
+                          setErrorMessage(
+                            'Login failed. Incorrect user credentials, please try again.'
+                          );
+                        });
+                    })
+                    .catch(() => {
+                      setErrorMessage(
+                        'Login failed. Incorrect user credentials, please try again.'
+                      );
+                    });
                 })
                 .catch(() => {
                   setErrorMessage('Error: Could not create a new Pod.');
