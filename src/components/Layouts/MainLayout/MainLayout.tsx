@@ -29,12 +29,16 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
         <div
           className={`w-full ${
-            !showDriveSideBar ? 'py-5 px-8 overflow-scroll z-0' : ''
+            !showDriveSideBar
+              ? 'py-5 px-8 overflow-scroll no-scroll-bar z-0'
+              : ''
           }`}
         >
           <div className="flex justify-start items-stretch w-full h-full">
             {showDriveSideBar ? <DriveSideBar /> : null}
-            <div className="w-full pt-5 px-8 overflow-scroll">{children}</div>
+            <div className="w-full pt-5 px-8 overflow-scroll no-scroll-bar">
+              {children}
+            </div>
           </div>
         </div>
       </div>
