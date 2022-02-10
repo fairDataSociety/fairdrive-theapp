@@ -30,7 +30,7 @@ const SideModal: FC<SideModalProps> = ({
       {showModal ? (
         <div className="fixed inset-0 z-30" onClick={closeModal}>
           <div
-            className="absolute w-98 h-screen top-0 right-0 py-10 px-10 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night z-50 overflow-scroll"
+            className="absolute w-98 h-screen top-0 right-0 py-10 px-10 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night z-50 overflow-scroll no-scroll-bar"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center">
