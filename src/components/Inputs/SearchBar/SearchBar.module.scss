@@ -1,0 +1,38 @@
+.searchBar {
+  all: unset;
+  flex-grow: 1;
+  padding: 0px 10px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.searchBarLight {
+  color: #28282b;
+}
+
+.searchBarDark {
+  color: #82848e;
+}
+
+.searchBar:-webkit-autofill,
+.searchBar:-webkit-autofill:hover,
+.searchBar:-webkit-autofill:focus,
+.searchBar:-webkit-autofill:active {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.searchBarLight:-webkit-autofill,
+.searchBarLight:-webkit-autofill:hover,
+.searchBarLight:-webkit-autofill:focus,
+.searchBarLight:-webkit-autofill:active {
+  -webkit-text-fill-color: #28282b !important;
+}
+
+.searchBarDark:-webkit-autofill,
+.searchBarDark:-webkit-autofill:hover,
+.searchBarDark:-webkit-autofill:focus,
+.searchBarDark:-webkit-autofill:active {
+  -webkit-text-fill-color: #82848e !important;
+}

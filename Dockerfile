@@ -1,17 +1,50 @@
-FROM node:16 as builder
+# Install dependencies only when needed
+FROM node:lts AS deps
 
-WORKDIR /app
-COPY package*.json ./
-RUN echo "REACT_APP_FAIROSHOST=http://localhost:9090/v1/" >> .env
-RUN echo "REACT_APP_FAIRDRIVEHOST=http://localhost:3000" >> .env
-RUN echo "REACT_APP_NAME=Fairdrive" >> .env
-RUN echo "REACT_APP_ETHERNA_INDEX_API_PATH=https://index.etherna.io/api/v0.2" >> .env
-RUN yarn
+WORKDIR /opt/app
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
+# Rebuild the source code only when needed
+# This is where because may be the case that you would try
+# to build the app based on some `X_TAG` in my case (Git commit hash)
+# but the code hasn't changed.
+FROM node:lts AS builder
+
+WORKDIR /opt/app
 COPY . .
+COPY --from=deps /opt/app/node_modules ./node_modules
+ARG NEXT_PUBLIC_FAIROSHOST
+ENV NEXT_PUBLIC_FAIROSHOST=$NEXT_PUBLIC_FAIROSHOST
+ARG NEXT_PUBLIC_FAIRDRIVEHOST
+ENV NEXT_PUBLIC_FAIRDRIVEHOST=$NEXT_PUBLIC_FAIRDRIVEHOST
+ARG NEXT_PUBLIC_NAME
+ENV NEXT_PUBLIC_NAME=$NEXT_PUBLIC_NAME
+ARG NEXT_PUBLIC_ETHERNA_INDEX_API_PATH
+ENV NEXT_PUBLIC_ETHERNA_INDEX_API_PATH=$NEXT_PUBLIC_ETHERNA_INDEX_API_PATH
+ARG HOST
+ENV HOST=$HOST
+ARG PORT
+ENV PORT=$PORT
+
+RUN echo $NEXT_PUBLIC_FAIROSHOST > .env \
+    echo $NEXT_PUBLIC_FAIRDRIVEHOST >> .env \
+    echo $NEXT_PUBLIC_NAME >> .env \
+    echo $NEXT_PUBLIC_ETHERNA_INDEX_API_PATH >> .env \
+    echo $HOST >> .env \
+    echo $PORT >> .env
+
 RUN yarn build
 
-FROM nginx:1.21.1-alpine
-COPY --from=builder /app/build /usr/share/nginx/html
-EXPOSE 80
+# Production image, copy all the files and run next
+FROM node:lts-alpine AS runner
 
-CMD ["nginx", "-g", "daemon off;"]
+WORKDIR /opt/app
+COPY --from=builder /opt/app/next.config.js ./
+COPY --from=builder /opt/app/public ./public
+COPY --from=builder /opt/app/.next ./.next
+COPY --from=builder /opt/app/node_modules ./node_modules
+
+EXPOSE ${PORT}
+
+CMD ["node_modules/.bin/next", "start"]
