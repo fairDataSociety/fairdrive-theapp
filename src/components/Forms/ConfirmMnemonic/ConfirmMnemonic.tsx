@@ -13,9 +13,13 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 
-interface ConfirmMnemonicProps {}
+interface ConfirmMnemonic {
+  'word-5': string;
+  'word-11': string;
+  'word-12': string;
+}
 
-const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
+const ConfirmMnemonic: FC = () => {
   const { register, handleSubmit, formState } = useForm();
   const { setUser, setPassword, setAddress } = useContext(UserContext);
   const { clearPodContext } = useContext(PodContext);
@@ -23,28 +27,17 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data: {
-    'word-5': string;
-    'word-11': string;
-    'word-12': string;
-  }) => {
-    let isMnemonicValid = true;
-
+  const onSubmit = (data: ConfirmMnemonic) => {
     const user = JSON.parse(localStorage.getItem('registerUser'));
     const mnemonic = localStorage.getItem('registerMnemonic');
 
     const mnemonicArr = mnemonic.split(' ');
 
     if (
-      data['word-5'] !== mnemonicArr[4] ||
-      data['word-11'] !== mnemonicArr[10] ||
-      data['word-12'] !== mnemonicArr[11]
+      data['word-5'] === mnemonicArr[4] ||
+      data['word-11'] === mnemonicArr[10] ||
+      data['word-12'] === mnemonicArr[11]
     ) {
-      isMnemonicValid = false;
-      setErrorMessage('Mnemonic mismatch!');
-    }
-
-    if (isMnemonicValid) {
       const registerData = {
         user_name: user.user_name,
         password: user.password,
@@ -52,40 +45,36 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
       };
 
       createAccount(registerData)
-        .then(() => {
+        .then(async () => {
           setUser(user.user_name);
           setPassword(user.password);
 
-          createPod('Home', user.password)
+          try {
+            await createPod('Home', user.password);
+            await createPod('Consents', user.password);
+            await createPod('Images', user.password);
+          } catch (error) {
+            console.log('Error: Could not create initial pods.');
+          }
+
+          login({ user_name: user.user_name, password: user.password })
             .then(() => {
-              createPod('Consents', user.password)
-                .then(() => {
-                  login({ user_name: user.user_name, password: user.password })
-                    .then(() => {
-                      userStats()
-                        .then((res) => {
-                          setAddress(res.data.reference);
-                          clearPodContext();
-                          router.push('/overview');
-                        })
-                        .catch(() => {
-                          setErrorMessage(
-                            'Login failed. Incorrect user credentials, please try again.'
-                          );
-                        });
-                    })
-                    .catch(() => {
-                      setErrorMessage(
-                        'Login failed. Incorrect user credentials, please try again.'
-                      );
-                    });
+              userStats()
+                .then((res) => {
+                  setAddress(res.data.reference);
+                  clearPodContext();
+                  router.push('/overview');
                 })
                 .catch(() => {
-                  setErrorMessage('Error: Could not create a new Pod.');
+                  setErrorMessage(
+                    'Login failed. Incorrect user credentials, please try again.'
+                  );
                 });
             })
             .catch(() => {
-              setErrorMessage('Error: Could not create a new Pod.');
+              setErrorMessage(
+                'Login failed. Incorrect user credentials, please try again.'
+              );
             });
         })
         .catch(() => {
@@ -93,6 +82,8 @@ const ConfirmMnemonic: FC<ConfirmMnemonicProps> = () => {
             'Registration failed. Invalid credentials, please try again.'
           );
         });
+    } else {
+      setErrorMessage('Mnemonic mismatch!');
     }
   };
 
