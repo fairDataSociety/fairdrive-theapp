@@ -8,6 +8,7 @@ import PodContext from '@context/PodContext';
 
 import { login, userStats } from '@api/authentication';
 
+import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
@@ -49,6 +50,8 @@ const LoginForm: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
+      <DisclaimerMessage />
+
       <AuthenticationHeader
         title="Welcome back"
         content="Please log in to get access to your Fairdrive."
