@@ -9,11 +9,7 @@ import LogoDarkIcon from '@media/branding/logo-dark.svg';
 const Logo: FC = () => {
   const { theme } = useContext(ThemeContext);
 
-  return (
-    <Link href="/">
-      <a>{theme === 'light' ? <LogoLightIcon /> : <LogoDarkIcon />}</a>
-    </Link>
-  );
+  return theme === 'light' ? <LogoLightIcon /> : <LogoDarkIcon />;
 };
 
 export default Logo;
