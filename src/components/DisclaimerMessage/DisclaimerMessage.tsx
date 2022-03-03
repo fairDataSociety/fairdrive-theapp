@@ -4,7 +4,7 @@ import WarningIcon from '@media/UI/warning.svg';
 
 const DisclaimerMessage: FC = () => {
   return (
-    <div className="flex justify-center items-center mb-10 py-4 px-8 text-xs border border-color-accents-purple-heavy rounded">
+    <div className="flex justify-center items-center mb-10 py-4 px-8 text-xs text-center border border-color-accents-purple-heavy rounded">
       <span className="inine-block mr-4">
         <WarningIcon />
       </span>
