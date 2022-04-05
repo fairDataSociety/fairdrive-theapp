@@ -22,7 +22,7 @@ const Explore: FC<ExploreProps> = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Explore Page',
-      href: 'https://fairdrive.vercel.app/explore',
+      href: window.location.href,
     });
   }, []);
 

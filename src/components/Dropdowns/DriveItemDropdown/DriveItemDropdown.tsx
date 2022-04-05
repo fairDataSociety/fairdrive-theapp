@@ -59,7 +59,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
           action: `Download File`,
           name: `Download File: ${data?.name}`,
           documentTitle: 'Drive Page',
-          href: 'https://fairdrive.vercel.app/drive',
+          href: window.location.href,
         });
       })
       .catch(() => {
@@ -91,7 +91,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
           action: `Delete File`,
           name: `Delete File: ${data?.name}`,
           documentTitle: 'Drive Page',
-          href: 'https://fairdrive.vercel.app/drive',
+          href: window.location.href,
         });
 
         setShowConfirmDeleteModal(false);
@@ -118,7 +118,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
           action: `Delete Folder`,
           name: `Delete Folder: ${data?.name}`,
           documentTitle: 'Drive Page',
-          href: 'https://fairdrive.vercel.app/drive',
+          href: window.location.href,
         });
 
         setShowConfirmDeleteModal(false);

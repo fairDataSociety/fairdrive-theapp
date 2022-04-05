@@ -11,7 +11,7 @@ const Register: NextPage = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Register Page',
-      href: 'https://fairdrive.vercel.app/register',
+      href: window.location.href,
     });
   }, []);
 
