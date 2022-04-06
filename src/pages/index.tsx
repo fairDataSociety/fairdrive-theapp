@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Login Page',
-      href: 'https://fairdrive.vercel.app/',
+      href: window.location.href,
     });
   }, []);
 

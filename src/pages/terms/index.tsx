@@ -9,7 +9,7 @@ const Terms: FC = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Terms & Conditions Page',
-      href: 'https://fairdrive.vercel.app/terms',
+      href: window.location.href,
     });
   }, []);
 

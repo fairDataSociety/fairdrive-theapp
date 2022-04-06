@@ -77,7 +77,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           action: `Download File`,
           name: `Download File: ${previewFile?.name}`,
           documentTitle: 'Drive Page',
-          href: 'https://fairdrive.vercel.app/drive',
+          href: window.location.href,
         });
       })
       .catch(() => {
@@ -97,7 +97,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           action: `Delete File`,
           name: `Delete File: ${previewFile?.name}`,
           documentTitle: 'Drive Page',
-          href: 'https://fairdrive.vercel.app/drive',
+          href: window.location.href,
         });
 
         updateDrive();
