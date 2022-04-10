@@ -13,10 +13,10 @@ module.exports = withBundleAnalyzer({
 
     return config;
   },
-  i18n: {
-    locales: ['en-US'],
-    defaultLocale: 'en-US',
-  },
+  //i18n: {
+  //  locales: ['en-US'],
+  //  defaultLocale: 'en-US',
+  //},
   images: {
     domains: [''],
   },
