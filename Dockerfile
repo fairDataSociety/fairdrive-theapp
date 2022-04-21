@@ -27,24 +27,31 @@ ENV HOST=$HOST
 ARG PORT
 ENV PORT=$PORT
 
-RUN echo $NEXT_PUBLIC_FAIROSHOST > .env \
-    echo $NEXT_PUBLIC_FAIRDRIVEHOST >> .env \
-    echo $NEXT_PUBLIC_NAME >> .env \
-    echo $NEXT_PUBLIC_ETHERNA_INDEX_API_PATH >> .env \
-    echo $HOST >> .env \
-    echo $PORT >> .env
+SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
+RUN env |grep 'NEXT\|HOST\|PORT' > .env
 
 RUN yarn build
 
 # Production image, copy all the files and run next
-FROM node:lts-alpine AS runner
+#FROM node:lts-alpine AS runner
+#
+#WORKDIR /opt/app
+#COPY --from=builder /opt/app/next.config.js ./
+#COPY --from=builder /opt/app/public ./public
+#COPY --from=builder /opt/app/.next ./.next
+#COPY --from=builder /opt/app/node_modules ./node_modules
+#
+#EXPOSE ${PORT}
+#
+#CMD ["node_modules/.bin/next", "start"]
 
-WORKDIR /opt/app
-COPY --from=builder /opt/app/next.config.js ./
-COPY --from=builder /opt/app/public ./public
-COPY --from=builder /opt/app/.next ./.next
-COPY --from=builder /opt/app/node_modules ./node_modules
-
+#webserver
+FROM nginx:stable-alpine
+COPY --from=builder /opt/app/out /usr/share/nginx/html
+RUN chown -R nginx /usr/share/nginx/html
+RUN echo "real_ip_header X-Forwarded-For;" \
+    "real_ip_recursive on;" \
+    "set_real_ip_from 0.0.0.0/0;" > /etc/nginx/conf.d/ip.conf
+RUN sed -i '/index  index.html index.htm/c\        try_files $uri /index.html;' /etc/nginx/conf.d/default.conf
 EXPOSE ${PORT}
-
-CMD ["node_modules/.bin/next", "start"]
+CMD ["nginx", "-g", "daemon off;"]
