@@ -19,7 +19,7 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 ## Development
 
-Demo: http://fairdrive.fairdatasociety.org/
+Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
 
 ## Run locally with local API:
 
@@ -72,3 +72,8 @@ npm start
 ```
 
 To change the configuration, edit the `.env` file.
+
+## Check it out
+
+Mainnet deployment: https://app.fairdrive.fairdatasociety.org
+
