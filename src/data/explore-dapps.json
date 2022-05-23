@@ -22,5 +22,13 @@
     "description": "Consent viewer, where you can check all data that you signed for sharing.",
     "icon": "",
     "association": "json"
+  },
+  {
+    "name": "NFTGenerator",
+    "link": "https://nft.dev.fairdatasociety.org",
+    "tags": ["NFT", "mint", "xDAI", "file", "generator"],
+    "description": "NFT Generator, allows you to select a file from Fairdrive to be minted into an NFT on xDAI.",
+    "icon": "",
+    "association": "jpeg,png"
   }
 ]
