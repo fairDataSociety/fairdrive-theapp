@@ -11,7 +11,7 @@ const ImportUser: NextPage = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Import Page',
-      href: 'https://fairdrive.vercel.app/import',
+      href: window.location.href,
     });
   }, []);
 

@@ -35,7 +35,7 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
           action: `Create Pod`,
           name: `Create Pod: ${newPodName}`,
           documentTitle: 'Drive Page',
-          href: 'https://fairdrive.vercel.app/drive',
+          href: window.location.href,
         });
 
         refreshPods();

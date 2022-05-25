@@ -9,7 +9,7 @@ const PrivacyPolicy: FC = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Privacy Policy Page',
-      href: 'https://fairdrive.vercel.app/privacy-policy',
+      href: window.location.href,
     });
   }, []);
 

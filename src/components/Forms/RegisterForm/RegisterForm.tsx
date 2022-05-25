@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { useForm } from 'react-hook-form';
 
+import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
@@ -19,6 +20,8 @@ const RegisterForm: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
+      <DisclaimerMessage />
+
       <AuthenticationHeader
         title="Register your account"
         content="Welcome to Fairdrive, please complete the form below to get started."

@@ -25,7 +25,7 @@ const Overview: FC<OverviewProps> = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Overview Page',
-      href: 'https://fairdrive.vercel.app/overview',
+      href: window.location.href,
     });
   }, []);
 

@@ -99,7 +99,7 @@ const MainFooter: FC = () => {
           </a>
 
           <a
-            href="https://fairdatasociety.org/"
+            href="https://discord.gg/T7g69meWJD"
             target="_blank"
             rel="noreferrer"
           >

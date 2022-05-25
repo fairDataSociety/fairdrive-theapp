@@ -53,7 +53,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
             action: `Upload File`,
             name: `Upload File`,
             documentTitle: 'Drive Page',
-            href: 'https://fairdrive.vercel.app/drive',
+            href: window.location.href,
           });
 
           refreshDrive();
