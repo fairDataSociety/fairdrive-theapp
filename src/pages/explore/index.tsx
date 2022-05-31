@@ -2,7 +2,7 @@ import { FC, useEffect, useContext } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
-import dapps from '@data/explore-dapps.json';
+import dapps, { Dapp } from '@data/explore-dapps';
 
 import SearchContext from '@context/SearchContext';
 
@@ -31,7 +31,7 @@ const Explore: FC<ExploreProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const filterDapps = (dapp: any) => {
+  const filterDapps = (dapp: Dapp) => {
     for (let i = 0; i < dapp.tags.length; i++) {
       if (dapp.tags[i].includes(search)) return true;
     }

@@ -1,0 +1,47 @@
+export interface Dapp {
+  name: string;
+  link: string;
+  tags: Array<string>;
+  description: string;
+  icon: string;
+  association: string;
+}
+
+const dApps: Array<Dapp> = [
+  {
+    name: 'Dracula',
+    link: 'https://app.dracula.fairdatasociety.org',
+    tags: ['text', 'editor', 'markdown', 'document'],
+    description:
+      'Markdown editor dapp that can help you create perfect readme files or documentation.',
+    icon: '',
+    association: 'md',
+  },
+  {
+    name: 'FairPhoto',
+    link: 'https://app.photo.fairdatasociety.org',
+    tags: ['photo', 'album'],
+    description: 'Photo album dapp.',
+    icon: '',
+    association: 'jpeg,png',
+  },
+  {
+    name: 'Consents',
+    link: 'https://app.crviewer.fairdatasociety.org',
+    tags: ['consents', 'viewer', 'data'],
+    description:
+      'Consent viewer, where you can check all data that you signed for sharing.',
+    icon: '',
+    association: 'json',
+  },
+  {
+    name: 'NFTGenerator',
+    link: process.env.NEXT_PUBLIC_NFT_GENERATOR_URL,
+    tags: ['NFT', 'mint', 'xDAI', 'file', 'generator'],
+    description:
+      'NFT Generator, allows you to select a file from Fairdrive to be minted into an NFT on xDAI.',
+    icon: '',
+    association: 'jpeg,png',
+  },
+];
+export default dApps;
