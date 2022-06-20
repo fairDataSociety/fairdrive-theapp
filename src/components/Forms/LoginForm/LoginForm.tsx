@@ -13,6 +13,7 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
+import { FdpStorage } from '@fairdatasociety/fdp-storage';
 
 const LoginForm: FC = () => {
   const { register, handleSubmit, formState } = useForm();

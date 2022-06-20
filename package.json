@@ -23,6 +23,7 @@
     "@datapunt/matomo-tracker-react": "^0.5.1",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@fairdatasociety/fdp-storage": "^0.2.0",
     "@types/react-blockies": "^1.4.1",
     "axios": "^0.21.1",
     "ethers": "^5.5.2",
