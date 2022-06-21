@@ -15,6 +15,11 @@ import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
 
+const fdpStorage = new FdpStorage(
+  process.env.NEXT_PUBLIC_BEE_URL,
+  process.env.NEXT_PUBLIC_BEE_DEBUG_URL
+);
+
 const LoginForm: FC = () => {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
