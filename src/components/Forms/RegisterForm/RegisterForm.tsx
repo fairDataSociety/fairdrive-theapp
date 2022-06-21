@@ -8,14 +8,26 @@ import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 const RegisterForm: FC = () => {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
 
-  const onSubmit = (data: { user_name: string; password: string }) => {
-    localStorage.setItem('registerUser', JSON.stringify(data));
-    router.push('/register/seed');
+  // using FDP Storage
+  const { fdpClient } = useFdpStorage();
+
+  const onSubmit = async (data: { user_name: string; password: string }) => {
+    try {
+      const { user_name, password } = data;
+      let wallet = await fdpClient.account.createWallet();
+      wallet = await fdpClient.account.register(user_name, password);
+      console.log(wallet);
+      // localStorage.setItem('registerUser', JSON.stringify(data));
+      router.push('/register/seed');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

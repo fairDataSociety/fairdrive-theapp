@@ -13,7 +13,6 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import { useFdpStorage } from '@context/FdpStorageContext';
 
 const LoginForm: FC = () => {
   const { register, handleSubmit, formState } = useForm();
@@ -24,31 +23,29 @@ const LoginForm: FC = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  // using FDP Storage
-  const { fdpClient } = useFdpStorage();
+  const onSubmit = (data: { user_name: string; password: string }) => {
+    login(data)
+      .then(() => {
+        setUser(data.user_name);
+        setPassword(data.password);
 
-  const onSubmit = async (data: { user_name: string; password: string }) => {
-    try {
-      const { user_name, password } = data;
-      const wallet = await fdpClient.account.login(user_name, password);
-      console.log(wallet);
-      // userStats()
-      //     .then((res) => {
-      //       setAddress(res.data.reference);
-      //       clearPodContext();
-      //       router.push('/overview');
-      //     })
-      //     .catch(() => {
-      //       setErrorMessage(
-      //         'Login failed. Incorrect user credentials, please try again.'
-      //       );
-      //     });
-    } catch (error) {
-      console.log(error);
-      setErrorMessage(
-        'Login failed. Incorrect user credentials, please try again.'
-      );
-    }
+        userStats()
+          .then((res) => {
+            setAddress(res.data.reference);
+            clearPodContext();
+            router.push('/overview');
+          })
+          .catch(() => {
+            setErrorMessage(
+              'Login failed. Incorrect user credentials, please try again.'
+            );
+          });
+      })
+      .catch(() => {
+        setErrorMessage(
+          'Login failed. Incorrect user credentials, please try again.'
+        );
+      });
   };
 
   return (
