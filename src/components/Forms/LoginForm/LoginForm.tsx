@@ -13,12 +13,7 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import { FdpStorage } from '@fairdatasociety/fdp-storage';
-
-const fdpStorage = new FdpStorage(
-  process.env.NEXT_PUBLIC_BEE_URL,
-  process.env.NEXT_PUBLIC_BEE_DEBUG_URL
-);
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 const LoginForm: FC = () => {
   const { register, handleSubmit, formState } = useForm();
@@ -29,29 +24,31 @@ const LoginForm: FC = () => {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data: { user_name: string; password: string }) => {
-    login(data)
-      .then(() => {
-        setUser(data.user_name);
-        setPassword(data.password);
+  // using FDP Storage
+  const { fdpClient } = useFdpStorage();
 
-        userStats()
-          .then((res) => {
-            setAddress(res.data.reference);
-            clearPodContext();
-            router.push('/overview');
-          })
-          .catch(() => {
-            setErrorMessage(
-              'Login failed. Incorrect user credentials, please try again.'
-            );
-          });
-      })
-      .catch(() => {
-        setErrorMessage(
-          'Login failed. Incorrect user credentials, please try again.'
-        );
-      });
+  const onSubmit = async (data: { user_name: string; password: string }) => {
+    try {
+      const { user_name, password } = data;
+      const wallet = await fdpClient.account.login(user_name, password);
+      console.log(wallet);
+      // userStats()
+      //     .then((res) => {
+      //       setAddress(res.data.reference);
+      //       clearPodContext();
+      //       router.push('/overview');
+      //     })
+      //     .catch(() => {
+      //       setErrorMessage(
+      //         'Login failed. Incorrect user credentials, please try again.'
+      //       );
+      //     });
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(
+        'Login failed. Incorrect user credentials, please try again.'
+      );
+    }
   };
 
   return (
