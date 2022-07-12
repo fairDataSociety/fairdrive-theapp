@@ -1,20 +1,22 @@
-import { createContext, ReactNode, useContext } from 'react';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
+import { Mnemonic } from 'ethers/lib/utils';
 
 const fdpClient = new FdpStorage(
   process.env.NEXT_PUBLIC_BEE_URL,
-  process.env.NEXT_PUBLIC_BEE_DEBUG_URL
-  // {
-  //   ensOptions: {
-  //     contractAddresses: {
-  //       ensRegistry: '0xc0ffee254729296a45a3885639AC7E10F9d54979',
-  //       subdomainRegistrar: '0xc0ffee254729296a45a3885639AC7E10F9d54979',
-  //       publicResolver: '0xc0ffee254729296a45a3885639AC7E10F9d54979',
-  //     },
-  //     rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
-  //     performChecks: null,
-  //   },
-  // }
+  process.env.NEXT_PUBLIC_BEE_DEBUG_URL,
+  {
+    ensOptions: {
+      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
+      contractAddresses: {
+        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
+        subdomainRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
+        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
+      },
+      performChecks: true,
+    },
+  }
 );
 
 interface FdpStorageContextProps {
@@ -23,17 +25,42 @@ interface FdpStorageContextProps {
 
 interface FdpStorageContext {
   fdpClient: FdpStorage;
+  username: string | null;
+  setUsername: (username: string) => void;
+  password: string | null;
+  setPassword: (password: string) => void;
+  mnemonic: Mnemonic | null;
+  setMnemonic: (mnemonic: Mnemonic) => void;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
   fdpClient,
+  username: null,
+  setUsername: () => {},
+  password: null,
+  setPassword: () => {},
+  mnemonic: null,
+  setMnemonic: () => {},
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
+  const [username, setUsername] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
+  const [mnemonic, setMnemonic] = useState<Mnemonic | null>(null);
 
   return (
-    <FdpStorageContext.Provider value={{ fdpClient }}>
+    <FdpStorageContext.Provider
+      value={{
+        fdpClient,
+        username,
+        setUsername,
+        password,
+        setPassword,
+        mnemonic,
+        setMnemonic,
+      }}
+    >
       {children}
     </FdpStorageContext.Provider>
   );
