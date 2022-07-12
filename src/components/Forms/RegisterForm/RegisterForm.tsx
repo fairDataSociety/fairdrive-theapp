@@ -18,7 +18,7 @@ const RegisterForm: FC = () => {
   const { errors, isValid } = formState;
 
   // using FDP Storage
-  const { setUsername, setPassword, setMnemonic } = useFdpStorage();
+  const { setUsername, setPassword, setMnemonic, fdpClient } = useFdpStorage();
 
   const onSubmit: SubmitHandler<{
     user_name: string;
@@ -32,6 +32,17 @@ const RegisterForm: FC = () => {
     setMnemonic(generateMnemonic());
 
     router.push('/register/seed');
+  };
+
+  const isUsernameAvailable = async (
+    username: string
+  ): Promise<boolean | string> => {
+    try {
+      const isAvailable = await fdpClient.ens.isUsernameAvailable(username);
+      return isAvailable;
+    } catch (error) {
+      return error.message;
+    }
   };
 
   return (
@@ -53,7 +64,16 @@ const RegisterForm: FC = () => {
             placeholder="Type here"
             useFormRegister={register}
             validationRules={{
-              required: 'Username or e-mail is required',
+              required: 'Username is required',
+              minLength: {
+                value: 4,
+                message:
+                  'Username field needs to contain at least 4 characters',
+              },
+              validate: async (value: string) => {
+                const userNameAvailable = await isUsernameAvailable(value);
+                return userNameAvailable;
+              },
             }}
             error={errors.user_name}
           />
