@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react';
-import router from 'next/router';
-
-import generateMnemonic from 'src/utils/generateMnemonic';
+import { useEffect, useState } from 'react';
 
 import { AuthenticationLayout } from '@components/Layouts';
 import { AuthenticationHeader } from '@components/Headers';
@@ -11,21 +8,27 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { Button } from '@components/Buttons';
 
 import type { NextPage } from 'next';
+import { useFdpStorage } from '@context/FdpStorageContext';
+import { useRouter } from 'next/router';
 
 const RegisterSeed: NextPage = () => {
-  const [mnemonic, setMnemonic] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
 
+  const { mnemonic } = useFdpStorage();
+  const router = useRouter();
+
   useEffect(() => {
-    generateMnemonic()
-      .then((result) => {
-        setMnemonic(result.phrase);
-      })
-      .catch(() => console.log('Could not generate Mnemonic!'));
+    if (!mnemonic) {
+      router.push('/register');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (!mnemonic) {
+    return <></>;
+  }
+
   const handleSeedContinue = () => {
-    localStorage.setItem('registerMnemonic', mnemonic);
     router.push('/register/confirm-seed');
   };
 
@@ -37,7 +40,7 @@ const RegisterSeed: NextPage = () => {
           content="Your seed phrase is used to generate and recover your account. Please save these 12 words on a piece of paper or a hardware wallet. The order is important. This seed will allow you to recover your account."
         />
 
-        {mnemonic ? <Mnemonic mnemonicPhrase={mnemonic} /> : null}
+        {mnemonic ? <Mnemonic mnemonicPhrase={mnemonic.phrase} /> : null}
 
         <div className="flex justify-center items-center mt-10">
           <Checkbox
