@@ -9,10 +9,10 @@ import { AuthenticationHeader } from '@components/Headers';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
-import { Wallet } from 'ethers';
+import generateMnemonic from '@utils/generateMnemonic';
 
 const RegisterForm: FC = () => {
-  const { register, handleSubmit, formState, getValues } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     mode: 'all',
   });
   const { errors, isValid } = formState;
@@ -26,12 +26,10 @@ const RegisterForm: FC = () => {
   }> = async (data, event) => {
     event.stopPropagation();
     const { user_name, password } = data;
-    // generate mnemonic
-    const wallet = Wallet.createRandom();
 
     setUsername(user_name);
     setPassword(password);
-    setMnemonic(wallet.mnemonic);
+    setMnemonic(generateMnemonic());
 
     router.push('/register/seed');
   };
