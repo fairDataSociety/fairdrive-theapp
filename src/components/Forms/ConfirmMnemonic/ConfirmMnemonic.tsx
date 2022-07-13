@@ -1,18 +1,13 @@
-import { FC, useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import router from 'next/router';
-import { useForm } from 'react-hook-form';
-
-import UserContext from '@context/UserContext';
-import PodContext from '@context/PodContext';
-
-import { createAccount, login, userStats } from '@api/authentication';
-import { createPod } from '@api/pod';
 
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { Button } from '@components/Buttons';
 import Chip from '@components/Chip/Chip';
 import shuffleArray from '@utils/shuffleArray';
+import { Wallet } from 'ethers';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 interface ConfirmMnemonicProps {
   mnemonic: string;
@@ -23,6 +18,9 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
   // const { clearPodContext } = useContext(PodContext);
   const [selected, setSelected] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { fdpClient, username, password } = useFdpStorage();
 
   const words = useMemo<Array<string>>(
     () => shuffleArray(mnemonic.split(' ')),
@@ -89,6 +87,30 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
   //   }
   // };
 
+  const register = async () => {
+    try {
+      setLoading(true);
+
+      const wallet = Wallet.fromMnemonic(mnemonic);
+      fdpClient.account.setActiveAccount(wallet);
+      await fdpClient.account.register(username, password);
+
+      // create pods
+      await Promise.all([
+        fdpClient.personalStorage.create('Home'),
+        fdpClient.personalStorage.create('Consents'),
+        fdpClient.personalStorage.create('Images'),
+      ]);
+
+      router.push('/overview');
+    } catch (error) {
+      setErrorMessage(error.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getWordIndex = (word: string) => {
     return selected.indexOf(word);
   };
@@ -148,57 +170,10 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
             disabled={!isOrderCorrect}
             variant="secondary"
             label="Register"
-            loading
+            loading={loading}
+            onClick={register}
           />
         </div>
-
-        {/* <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <AuthenticationInput
-            label="# Word 5"
-            id="word-5"
-            type="text"
-            name="word-5"
-            placeholder="Type here"
-            useFormRegister={register}
-            validationRules={{
-              required: true,
-            }}
-            error={errors.user_name}
-            errorMessage="Mnemonic Word #5 is required"
-          />
-
-          <AuthenticationInput
-            label="# Word 11"
-            id="word-11"
-            type="text"
-            name="word-11"
-            placeholder="Type here"
-            useFormRegister={register}
-            validationRules={{
-              required: true,
-            }}
-            error={errors.user_name}
-            errorMessage="Mnemonic Word #11 is required"
-          />
-
-          <AuthenticationInput
-            label="# Word 12"
-            id="word-12"
-            type="text"
-            name="word-12"
-            placeholder="Type here"
-            useFormRegister={register}
-            validationRules={{
-              required: true,
-            }}
-            error={errors.user_name}
-            errorMessage="Mnemonic Word #12 is required"
-          />
-
-          <div className="mt-14 text-center">
-            <Button type="submit" variant="secondary" label="Register" />
-          </div>
-        </form> */}
       </div>
     </div>
   );
