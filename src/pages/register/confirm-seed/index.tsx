@@ -23,7 +23,7 @@ const RegisterConfirmSeed: NextPage = () => {
 
   return (
     <AuthenticationLayout>
-      <ConfirmMnemonic />
+      <ConfirmMnemonic mnemonic={mnemonic.phrase} />
     </AuthenticationLayout>
   );
 };
