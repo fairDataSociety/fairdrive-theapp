@@ -1,6 +1,7 @@
 import { FC, useContext, ReactNode, ReactChild } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
+import Spinner from '@components/Spinner/Spinner';
 
 interface ButtonProps {
   type?: 'button' | 'submit';
@@ -17,6 +18,7 @@ interface ButtonProps {
   padding?: string;
   children?: ReactChild | ReactChild[];
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -29,6 +31,7 @@ const Button: FC<ButtonProps> = ({
   padding,
   children,
   disabled = false,
+  loading = false,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -140,14 +143,17 @@ const Button: FC<ButtonProps> = ({
       className={`${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} ${getVariantSelectedStyle()} ${className} ${padding} text-center rounded`}
       disabled={disabled}
     >
-      {children ? (
-        children
-      ) : (
-        <div>
-          {label}
-          {icon}
-        </div>
-      )}
+      <div className="flex items-center gap-2">
+        {children ? (
+          children
+        ) : (
+          <div>
+            {label}
+            {icon}
+          </div>
+        )}
+        {loading && <Spinner />}
+      </div>
     </button>
   );
 };

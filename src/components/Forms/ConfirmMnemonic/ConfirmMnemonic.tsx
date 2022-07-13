@@ -148,6 +148,7 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
             disabled={!isOrderCorrect}
             variant="secondary"
             label="Register"
+            loading
           />
         </div>
 
