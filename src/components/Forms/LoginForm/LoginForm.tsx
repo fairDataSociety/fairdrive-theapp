@@ -16,23 +16,29 @@ import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 
 const LoginForm: FC = () => {
-  const { register, handleSubmit, formState } = useForm();
-  const { errors } = formState;
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'all',
+  });
+  const { errors, isValid } = formState;
 
   const { setUser, setPassword, setAddress } = useContext(UserContext);
   const { clearPodContext } = useContext(PodContext);
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, isUsernameAvailable } = useFdpStorage();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
+
+      fdpClient.account.setActiveAccount(wallet);
       console.log(wallet);
+      router.push('/overview');
     } catch (error) {
       console.log(error);
+      setErrorMessage(error.message);
     }
 
     // login(data)
@@ -82,10 +88,18 @@ const LoginForm: FC = () => {
             placeholder="Type here"
             useFormRegister={register}
             validationRules={{
-              required: true,
+              required: 'Username is required',
+              minLength: {
+                value: 4,
+                message:
+                  'Username field needs to contain at least 4 characters',
+              },
+              validate: async (value: string) => {
+                const userNameAvailable = await isUsernameAvailable(value);
+                return userNameAvailable;
+              },
             }}
             error={errors.user_name}
-            errorMessage="Username or e-mail is required"
           />
 
           <AuthenticationInput
@@ -96,14 +110,18 @@ const LoginForm: FC = () => {
             placeholder="Type here"
             useFormRegister={register}
             validationRules={{
-              required: true,
+              required: 'Password is required',
             }}
             error={errors.password}
-            errorMessage="Password is required"
           />
 
           <div className="mt-14 text-center">
-            <Button type="submit" variant="secondary" label="Continue" />
+            <Button
+              disabled={!isValid}
+              type="submit"
+              variant="secondary"
+              label="Continue"
+            />
           </div>
 
           <div className="my-6 text-center">

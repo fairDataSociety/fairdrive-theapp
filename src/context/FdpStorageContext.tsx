@@ -31,6 +31,7 @@ interface FdpStorageContext {
   setPassword: (password: string) => void;
   mnemonic: Mnemonic | null;
   setMnemonic: (mnemonic: Mnemonic) => void;
+  isUsernameAvailable: (username: string) => Promise<boolean | string>;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
@@ -41,6 +42,7 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   setPassword: () => {},
   mnemonic: null,
   setMnemonic: () => {},
+  isUsernameAvailable: () => Promise.resolve(false),
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
@@ -48,6 +50,17 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [mnemonic, setMnemonic] = useState<Mnemonic | null>(null);
+
+  const isUsernameAvailable = async (
+    username: string
+  ): Promise<boolean | string> => {
+    try {
+      const isAvailable = await fdpClient.ens.isUsernameAvailable(username);
+      return isAvailable;
+    } catch (error) {
+      return error.message;
+    }
+  };
 
   return (
     <FdpStorageContext.Provider
@@ -59,6 +72,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         setPassword,
         mnemonic,
         setMnemonic,
+        isUsernameAvailable,
       }}
     >
       {children}

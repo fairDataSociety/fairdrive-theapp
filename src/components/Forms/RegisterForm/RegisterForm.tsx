@@ -18,7 +18,8 @@ const RegisterForm: FC = () => {
   const { errors, isValid } = formState;
 
   // using FDP Storage
-  const { setUsername, setPassword, setMnemonic, fdpClient } = useFdpStorage();
+  const { setUsername, setPassword, setMnemonic, isUsernameAvailable } =
+    useFdpStorage();
 
   const onSubmit: SubmitHandler<{
     user_name: string;
@@ -32,17 +33,6 @@ const RegisterForm: FC = () => {
     setMnemonic(generateMnemonic());
 
     router.push('/register/seed');
-  };
-
-  const isUsernameAvailable = async (
-    username: string
-  ): Promise<boolean | string> => {
-    try {
-      const isAvailable = await fdpClient.ens.isUsernameAvailable(username);
-      return isAvailable;
-    } catch (error) {
-      return error.message;
-    }
   };
 
   return (
