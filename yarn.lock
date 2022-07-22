@@ -1485,18 +1485,18 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@fairdatasociety/fdp-contracts@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@fairdatasociety/fdp-contracts/-/fdp-contracts-1.0.0.tgz#6923895a6b9c84a1ed128838e950508e6d1d4301"
-  integrity sha512-i82Jyyqdo1Zyx7pmGJ5d0iCFqxaLJmfMBksLmKCTkoI7FKolrHgYmG33HbCkcRTNc8Kj5oBGJmiwFMgho3IuSA==
+"@fairdatasociety/fdp-contracts@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@fairdatasociety/fdp-contracts/-/fdp-contracts-1.0.2.tgz#b826a28e7203464ca7120f41583bf8fc8311023e"
+  integrity sha512-mKTtAsqzkhctpi0SFXL+auRZszgcQT86pfjOOhNbUoIomoUl26voLZllKml5ffGA3PMDf+izl4Ux0NqNLdwShQ==
 
-"@fairdatasociety/fdp-storage@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@fairdatasociety/fdp-storage/-/fdp-storage-0.2.0.tgz#6aaaa48fc6efed4954b87b1f21b15856aec9270a"
-  integrity sha512-h9CwPWqeHo7VI0CPkXlyOYZNtO4/TM5+oNh3vNeYsUfgNoSTeiZvQ0m3+2ZD3rU0m4FUI2Up+jh89cQYyKKfkw==
+"@fairdatasociety/fdp-storage@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@fairdatasociety/fdp-storage/-/fdp-storage-0.2.1.tgz#bc4d81e899da52230d18db8f58f62ae50d9edc96"
+  integrity sha512-c+OsjzevzmtIExg5KsFPPSSEe7tdSl8vtTsSnJxGtp09prj9ot30plTl5h5yp8Tt6ZDHiweDN/ivgLAWn6y7jw==
   dependencies:
     "@ethersphere/bee-js" "^3.1.0"
-    "@fairdatasociety/fdp-contracts" "^1.0.0"
+    "@fairdatasociety/fdp-contracts" "^1.0.2"
     crypto-js "^4.1.1"
     ethers "^5.5.2"
     js-sha3 "^0.8.0"

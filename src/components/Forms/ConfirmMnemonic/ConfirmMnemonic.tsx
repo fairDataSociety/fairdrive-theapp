@@ -2,12 +2,9 @@ import { useMemo, useState } from 'react';
 import router from 'next/router';
 
 import { AuthenticationHeader } from '@components/Headers';
-import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { Button } from '@components/Buttons';
 import Chip from '@components/Chip/Chip';
 import shuffleArray from '@utils/shuffleArray';
-import { Wallet } from 'ethers';
-import { useFdpStorage } from '@context/FdpStorageContext';
 
 interface ConfirmMnemonicProps {
   mnemonic: string;
@@ -17,10 +14,6 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
   const { mnemonic } = props;
   // const { clearPodContext } = useContext(PodContext);
   const [selected, setSelected] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const { fdpClient, username, password } = useFdpStorage();
 
   const words = useMemo<Array<string>>(
     () => shuffleArray(mnemonic.split(' ')),
@@ -87,30 +80,6 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
   //   }
   // };
 
-  const register = async () => {
-    try {
-      setLoading(true);
-
-      const wallet = Wallet.fromMnemonic(mnemonic);
-      fdpClient.account.setActiveAccount(wallet);
-      await fdpClient.account.register(username, password);
-
-      // create pods
-      await Promise.all([
-        fdpClient.personalStorage.create('Home'),
-        fdpClient.personalStorage.create('Consents'),
-        fdpClient.personalStorage.create('Images'),
-      ]);
-
-      router.push('/overview');
-    } catch (error) {
-      setErrorMessage(error.message);
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const getWordIndex = (word: string) => {
     return selected.indexOf(word);
   };
@@ -134,10 +103,6 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
       />
 
       <div className="w-98 mt-10 mb-8">
-        <div className="mb-5 text-center">
-          <FeedbackMessage type="error" message={errorMessage} />
-        </div>
-
         <div className="flex flex-wrap gap-4">
           {words.map((word, i) => {
             return (
@@ -170,8 +135,7 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
             disabled={!isOrderCorrect}
             variant="secondary"
             label="Register"
-            loading={loading}
-            onClick={register}
+            onClick={() => router.push('/register/payment')}
           />
         </div>
       </div>

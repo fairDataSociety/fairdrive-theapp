@@ -25,11 +25,13 @@ const LoginForm: FC = () => {
   const { clearPodContext } = useContext(PodContext);
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const { fdpClient, isUsernameAvailable } = useFdpStorage();
+  const { fdpClient } = useFdpStorage();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
+      setLoading(true);
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
 
@@ -39,6 +41,8 @@ const LoginForm: FC = () => {
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
     }
 
     // login(data)
@@ -94,10 +98,6 @@ const LoginForm: FC = () => {
                 message:
                   'Username field needs to contain at least 4 characters',
               },
-              validate: async (value: string) => {
-                const userNameAvailable = await isUsernameAvailable(value);
-                return userNameAvailable;
-              },
             }}
             error={errors.user_name}
           />
@@ -117,6 +117,7 @@ const LoginForm: FC = () => {
 
           <div className="mt-14 text-center">
             <Button
+              loading={loading}
               disabled={!isValid}
               type="submit"
               variant="secondary"

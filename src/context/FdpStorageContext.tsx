@@ -2,21 +2,26 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
 import { Mnemonic } from 'ethers/lib/utils';
+import { BigNumber, providers, Wallet } from 'ethers';
+
+const provider = new providers.JsonRpcProvider(
+  process.env.NEXT_PUBLIC_RPC_URL as string
+);
 
 const fdpClient = new FdpStorage(
   process.env.NEXT_PUBLIC_BEE_URL,
-  process.env.NEXT_PUBLIC_BEE_DEBUG_URL,
-  {
-    ensOptions: {
-      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
-      contractAddresses: {
-        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
-        subdomainRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
-        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
-      },
-      performChecks: true,
-    },
-  }
+  process.env.NEXT_PUBLIC_BEE_DEBUG_URL
+  // {
+  //   ensOptions: {
+  //     rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
+  //     contractAddresses: {
+  //       ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
+  //       subdomainRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
+  //       publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
+  //     },
+  //     performChecks: true,
+  //   },
+  // }
 );
 
 interface FdpStorageContextProps {
@@ -29,9 +34,10 @@ interface FdpStorageContext {
   setUsername: (username: string) => void;
   password: string | null;
   setPassword: (password: string) => void;
-  mnemonic: Mnemonic | null;
-  setMnemonic: (mnemonic: Mnemonic) => void;
+  wallet: Wallet | null;
+  setWallet: (wallet: Wallet) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
+  getAccountBalance: (address: string) => Promise<BigNumber>;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
@@ -40,26 +46,31 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   setUsername: () => {},
   password: null,
   setPassword: () => {},
-  mnemonic: null,
-  setMnemonic: () => {},
+  wallet: null,
+  setWallet: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
+  getAccountBalance: () => Promise.resolve(BigNumber.from(0)),
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
-  const [mnemonic, setMnemonic] = useState<Mnemonic | null>(null);
+  const [wallet, setWallet] = useState<Wallet | null>(null);
 
   const isUsernameAvailable = async (
     username: string
   ): Promise<boolean | string> => {
     try {
       const isAvailable = await fdpClient.ens.isUsernameAvailable(username);
-      return isAvailable;
+      return isAvailable ? true : 'Oops, username is already taken';
     } catch (error) {
       return error.message;
     }
+  };
+
+  const getAccountBalance = (address: string) => {
+    return provider.getBalance(address);
   };
 
   return (
@@ -70,9 +81,10 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         setUsername,
         password,
         setPassword,
-        mnemonic,
-        setMnemonic,
+        wallet,
+        setWallet,
         isUsernameAvailable,
+        getAccountBalance,
       }}
     >
       {children}

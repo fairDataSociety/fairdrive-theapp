@@ -7,23 +7,23 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const RegisterConfirmSeed: NextPage = () => {
-  const { mnemonic } = useFdpStorage();
+  const { wallet } = useFdpStorage();
   const router = useRouter();
 
   useEffect(() => {
-    if (!mnemonic) {
+    if (!wallet) {
       router.push('/register');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!mnemonic) {
+  if (!wallet) {
     return <></>;
   }
 
   return (
     <AuthenticationLayout>
-      <ConfirmMnemonic mnemonic={mnemonic.phrase} />
+      <ConfirmMnemonic mnemonic={wallet.mnemonic.phrase} />
     </AuthenticationLayout>
   );
 };

@@ -14,17 +14,17 @@ import { useRouter } from 'next/router';
 const RegisterSeed: NextPage = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
 
-  const { mnemonic } = useFdpStorage();
+  const { wallet } = useFdpStorage();
   const router = useRouter();
 
   useEffect(() => {
-    if (!mnemonic) {
+    if (!wallet) {
       router.push('/register');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!mnemonic) {
+  if (!wallet) {
     return <></>;
   }
 
@@ -40,7 +40,7 @@ const RegisterSeed: NextPage = () => {
           content="Your seed phrase is used to generate and recover your account. Please save these 12 words on a piece of paper or a hardware wallet. The order is important. This seed will allow you to recover your account."
         />
 
-        {mnemonic ? <Mnemonic mnemonicPhrase={mnemonic.phrase} /> : null}
+        {wallet ? <Mnemonic mnemonicPhrase={wallet.mnemonic.phrase} /> : null}
 
         <div className="flex justify-center items-center mt-10">
           <Checkbox

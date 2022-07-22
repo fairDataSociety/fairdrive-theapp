@@ -9,7 +9,7 @@ import { AuthenticationHeader } from '@components/Headers';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
-import generateMnemonic from '@utils/generateMnemonic';
+import { Wallet } from 'ethers';
 
 const RegisterForm: FC = () => {
   const { register, handleSubmit, formState } = useForm({
@@ -18,7 +18,7 @@ const RegisterForm: FC = () => {
   const { errors, isValid } = formState;
 
   // using FDP Storage
-  const { setUsername, setPassword, setMnemonic, isUsernameAvailable } =
+  const { setUsername, setPassword, setWallet, isUsernameAvailable } =
     useFdpStorage();
 
   const onSubmit: SubmitHandler<{
@@ -28,9 +28,11 @@ const RegisterForm: FC = () => {
     event.stopPropagation();
     const { user_name, password } = data;
 
+    const wallet = Wallet.createRandom();
+
     setUsername(user_name);
     setPassword(password);
-    setMnemonic(generateMnemonic());
+    setWallet(wallet);
 
     router.push('/register/seed');
   };
