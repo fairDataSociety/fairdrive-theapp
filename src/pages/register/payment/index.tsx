@@ -9,10 +9,14 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { Button } from '@components/Buttons';
 import CopyIcon from '@media/UI/copy.svg';
 import copyToClipboard from '@utils/copyToClipboard';
+import Spinner from '@components/Spinner/Spinner';
 
 const RegisterPayment: NextPage = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [statusMessage, setStatusMessage] = useState<string>(
+    'Awaiting Payment...'
+  );
   const [copyComplete, setCopyComplete] = useState<boolean>(false);
   const { wallet, fdpClient, username, password, getAccountBalance } =
     useFdpStorage();
@@ -56,6 +60,7 @@ const RegisterPayment: NextPage = () => {
 
   const register = async () => {
     try {
+      setStatusMessage('Registering user...');
       // const wallet = Wallet.fromMnemonic(mnemonic);
       fdpClient.account.setActiveAccount(wallet);
       await fdpClient.account.register(username, password);
@@ -70,6 +75,7 @@ const RegisterPayment: NextPage = () => {
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);
+      setStatusMessage('Oops, could not register user');
       console.log(error);
     }
   };
@@ -77,8 +83,11 @@ const RegisterPayment: NextPage = () => {
   return (
     <AuthenticationLayout>
       <div className="flex flex-col justify-center items-center">
+        <div className="mb-4">
+          <Spinner size="md" />
+        </div>
         <AuthenticationHeader
-          title="Awaiting Payment..."
+          title={statusMessage}
           content="Fund the address below to complete registration. Your registration will automatically complete once you've funded your wallet"
         />
         <div className="my-6 text-center">
