@@ -19,7 +19,7 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 ## Development
 
-Demo: http://fairdrive.fairdatasociety.org/
+Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
 
 ## Run locally with local API:
 
@@ -44,3 +44,36 @@ If this process takes some time - which it may - please run "docker compose up" 
 Wait for bee to deploy chequebook and this message appears "fairos_1 | time="2021-07-10T19:30:11Z" level=info msg="fairOS-dfs API server listening on port: 9090""
 
 Open http://localhost:9090 in your browser and you can see a few lines with information about FairOS. These lines will appear only after chequebook deployment.
+
+## Running in development mode
+
+Install dependencies:
+
+```bash
+yarn
+```
+
+Or:
+
+```bash
+npm install
+```
+
+And run the application:
+
+```bash
+yarn start
+```
+
+Or:
+
+```bash
+npm start
+```
+
+To change the configuration, edit the `.env` file.
+
+## Check it out
+
+Mainnet deployment: https://app.fairdrive.fairdatasociety.org
+
