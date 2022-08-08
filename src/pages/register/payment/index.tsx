@@ -61,16 +61,19 @@ const RegisterPayment: NextPage = () => {
   const register = async () => {
     try {
       setStatusMessage('Registering user...');
-      // const wallet = Wallet.fromMnemonic(mnemonic);
       fdpClient.account.setActiveAccount(wallet);
       await fdpClient.account.register(username, password);
 
-      // create pods
-      // await Promise.all([
-      //   fdpClient.personalStorage.create('Home'),
-      //   fdpClient.personalStorage.create('Consents'),
-      //   fdpClient.personalStorage.create('Images'),
-      // ]);
+      /**
+       * Create pods for Home, Consents and Images
+       * This is currently pending till Pods api works
+       
+      await Promise.all([
+         fdpClient.personalStorage.create('Home'),
+         fdpClient.personalStorage.create('Consents'),
+         fdpClient.personalStorage.create('Images'),
+      ]);
+      */
 
       router.push('/overview');
     } catch (error) {
