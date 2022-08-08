@@ -9,12 +9,11 @@ import { PodProvider } from '@context/PodContext';
 import '@styles/globals.scss';
 import { FdpStorageProvider } from '@context/FdpStorageContext';
 /* eslint-disable no-console */
-import { BeeDebug, DebugPostageBatch } from '@ethersphere/bee-js';
-import { useEffect } from 'react';
 
-async function sleep(ms = 1000): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+/**
+ * This is a helper function to create or get the postage batch stamp. Once gotten
+ * it is included in the env file so the app can use it
+ */
 
 // async function testsSetup(): Promise<void> {
 //   if (!process.env.BEE_POSTAGE) {
@@ -38,10 +37,6 @@ async function sleep(ms = 1000): Promise<void> {
 // }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // useEffect(() => {
-  //   testsSetup();
-  // }, []);
-
   return (
     <FdpStorageProvider>
       <Matomo>
