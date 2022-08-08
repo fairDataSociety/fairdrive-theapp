@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
-import { Mnemonic } from 'ethers/lib/utils';
 import { BigNumber, providers, Wallet } from 'ethers';
 
 const provider = new providers.JsonRpcProvider(
@@ -11,17 +10,6 @@ const provider = new providers.JsonRpcProvider(
 const fdpClient = new FdpStorage(
   process.env.NEXT_PUBLIC_BEE_URL,
   process.env.NEXT_PUBLIC_BEE_DEBUG_URL
-  // {
-  //   ensOptions: {
-  //     rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
-  //     contractAddresses: {
-  //       ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
-  //       subdomainRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
-  //       publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
-  //     },
-  //     performChecks: true,
-  //   },
-  // }
 );
 
 interface FdpStorageContextProps {
