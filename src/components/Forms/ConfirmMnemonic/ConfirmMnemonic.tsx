@@ -20,66 +20,6 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
     [mnemonic]
   );
 
-  // const onSubmit = (data: ConfirmMnemonic) => {
-  //   const user = JSON.parse(localStorage.getItem('registerUser'));
-  //   const mnemonic = localStorage.getItem('registerMnemonic');
-
-  //   const mnemonicArr = mnemonic.split(' ');
-
-  //   if (
-  //     data['word-5'] === mnemonicArr[4] ||
-  //     data['word-11'] === mnemonicArr[10] ||
-  //     data['word-12'] === mnemonicArr[11]
-  //   ) {
-  //     const registerData = {
-  //       user_name: user.user_name,
-  //       password: user.password,
-  //       mnemonic: mnemonic,
-  //     };
-
-  //     createAccount(registerData)
-  //       .then(async () => {
-  //         setUser(user.user_name);
-  //         setPassword(user.password);
-
-  //         try {
-  //           await createPod('Home', user.password);
-  //           await createPod('Consents', user.password);
-  //           await createPod('Images', user.password);
-  //         } catch (error) {
-  //           console.log('Error: Could not create initial pods.');
-  //         }
-
-  //         login({ user_name: user.user_name, password: user.password })
-  //           .then(() => {
-  //             userStats()
-  //               .then((res) => {
-  //                 setAddress(res.data.reference);
-  //                 clearPodContext();
-  //                 router.push('/overview');
-  //               })
-  //               .catch(() => {
-  //                 setErrorMessage(
-  //                   'Login failed. Incorrect user credentials, please try again.'
-  //                 );
-  //               });
-  //           })
-  //           .catch(() => {
-  //             setErrorMessage(
-  //               'Login failed. Incorrect user credentials, please try again.'
-  //             );
-  //           });
-  //       })
-  //       .catch(() => {
-  //         setErrorMessage(
-  //           'Registration failed. Invalid credentials, please try again.'
-  //         );
-  //       });
-  //   } else {
-  //     setErrorMessage('Mnemonic mismatch!');
-  //   }
-  // };
-
   const getWordIndex = (word: string) => {
     return selected.indexOf(word);
   };
