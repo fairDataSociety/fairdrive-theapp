@@ -44,29 +44,6 @@ const LoginForm: FC = () => {
     } finally {
       setLoading(false);
     }
-
-    // login(data)
-    //   .then(() => {
-    //     setUser(data.user_name);
-    //     setPassword(data.password);
-
-    //     userStats()
-    //       .then((res) => {
-    //         setAddress(res.data.reference);
-    //         clearPodContext();
-    //         router.push('/overview');
-    //       })
-    //       .catch(() => {
-    //         setErrorMessage(
-    //           'Login failed. Incorrect user credentials, please try again.'
-    //         );
-    //       });
-    //   })
-    //   .catch(() => {
-    //     setErrorMessage(
-    //       'Login failed. Incorrect user credentials, please try again.'
-    //     );
-    //   });
   };
 
   return (
