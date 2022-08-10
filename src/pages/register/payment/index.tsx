@@ -61,19 +61,13 @@ const RegisterPayment: NextPage = () => {
   const register = async () => {
     try {
       setStatusMessage('Registering user...');
-      fdpClient.account.setActiveAccount(wallet);
       await fdpClient.account.register(username, password);
 
-      /**
-       * Create pods for Home, Consents and Images
-       * This is currently pending till Pods api works
-       
       await Promise.all([
-         fdpClient.personalStorage.create('Home'),
-         fdpClient.personalStorage.create('Consents'),
-         fdpClient.personalStorage.create('Images'),
+        fdpClient.personalStorage.create('Home'),
+        fdpClient.personalStorage.create('Consents'),
+        fdpClient.personalStorage.create('Images'),
       ]);
-      */
 
       router.push('/overview');
     } catch (error) {

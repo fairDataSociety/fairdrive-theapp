@@ -35,11 +35,8 @@ const LoginForm: FC = () => {
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
 
-      fdpClient.account.setActiveAccount(wallet);
-      console.log(wallet);
       router.push('/overview');
     } catch (error) {
-      console.log(error);
       setErrorMessage(error.message);
     } finally {
       setLoading(false);
