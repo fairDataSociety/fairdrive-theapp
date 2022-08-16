@@ -64,11 +64,9 @@ const RegisterPayment: NextPage = () => {
       fdpClient.account.setAccountFromMnemonic(wallet.mnemonic.phrase);
       await fdpClient.account.register(username, password);
 
-      await Promise.all([
-        fdpClient.personalStorage.create('Home'),
-        fdpClient.personalStorage.create('Consents'),
-        fdpClient.personalStorage.create('Images'),
-      ]);
+      await fdpClient.personalStorage.create('Home');
+      await fdpClient.personalStorage.create('Consents');
+      await fdpClient.personalStorage.create('Images');
 
       router.push('/overview');
     } catch (error) {
