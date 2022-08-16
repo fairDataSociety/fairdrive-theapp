@@ -61,6 +61,7 @@ const RegisterPayment: NextPage = () => {
   const register = async () => {
     try {
       setStatusMessage('Registering user...');
+      fdpClient.account.setAccountFromMnemonic(wallet.mnemonic.phrase);
       await fdpClient.account.register(username, password);
 
       await Promise.all([
