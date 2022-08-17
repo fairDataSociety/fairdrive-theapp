@@ -3,7 +3,7 @@ FROM node:lts AS deps
 
 WORKDIR /opt/app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Rebuild the source code only when needed
 # This is where because may be the case that you would try
