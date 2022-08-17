@@ -47,7 +47,7 @@ const AuthenticationInput: FC<AuthenticationInputProps> = ({
 
       {error ? (
         <div className="mt-1 text-color-status-negative-day text-xs leading-none">
-          {errorMessage}
+          {errorMessage || error.message}
         </div>
       ) : null}
     </div>

@@ -44,7 +44,7 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
           action: `Share File`,
           name: `Share File: ${fileName}`,
           documentTitle: 'Drive Page',
-          href: 'https://fairdrive.vercel.app/drive',
+          href: window.location.href,
         });
       })
       .catch(() => {

@@ -37,7 +37,7 @@ const Drive: FC = () => {
   useEffect(() => {
     trackPageView({
       documentTitle: 'Drive Page',
-      href: 'https://fairdrive.vercel.app/drive',
+      href: window.location.href,
     });
   }, []);
 

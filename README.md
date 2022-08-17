@@ -1,4 +1,4 @@
-# Fairdrive
+# Fairdrive v0.2.0
 
 Where innovation, interoperability and decentralization unite in the name of fair data.
 Fairdrive is a community-driven initiative with the mission to empower freedom. By enabling decentralized storage, developers can create and build interoperable, decentralized and open-sourced dApps so users can reclaim their privacy, own their data and control their digital identity.
@@ -19,31 +19,97 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 ## Development
 
+
+Please install `fdp-play`, be sure to use Node 16 and have Docker environment setup and verify that ports 3000, 1633, 1634, 1635 are available.
 Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
 
-## Run locally with local API:
 
-Ensure that you have Docker, Git and wget installed. Verify that ports 3000, 1633, 1634, 1635 are available.
+- `npm i -g @fairdatasociety/fdp-play`
+- `fdp-play start --fresh`
 
-1. One-liner for installing Fairdrive (Bee node, FairOS and Fairdrive) extracted from this repo: `wget https://raw.githubusercontent.com/fairDataSociety/fairdrive-theapp/master/docker-compose.yml`
-2. `docker compose up`
-3. open http://localhost:9090 to check that FairOS is running successfully.
-4. open http://localhost:3000 to view and use Fairdrive in the browser.
+## Post installation steps
 
-## How to fund your node with test tokens?
+### Postage batch initialization
 
-- Copy wallet from YOUR logs:
-  - open docker and bee-1_1.
-  - Your address should be at the start of the docker terminal, beside “using ethereum address”
-- Open official SWARM faucet: https://discord.com/channels/799027393297514537/841664915218628619 to fund your wallet with 10 gBZZ + 0.5 gETH
-  - For gBZZ: Request in any channel “/faucet sprinkle + your address”
-  - For gETH: https://faucet.goerli.mudit.blog/
+Use this helper function and run it once to create a postage batch. This is only required anytime you create fdp-play docker containers from zero.
 
-If this process takes some time - which it may - please run "docker compose up" again.
+```typescript
+import { AppProps } from 'next/app';
 
-Wait for bee to deploy chequebook and this message appears "fairos_1 | time="2021-07-10T19:30:11Z" level=info msg="fairOS-dfs API server listening on port: 9090""
+import Matomo from '@context/Matomo';
+import { ThemeProvider } from '@context/ThemeContext';
+import { UserProvider } from '@context/UserContext';
+import { SearchProvider } from '@context/SearchContext';
+import { PodProvider } from '@context/PodContext';
 
-Open http://localhost:9090 in your browser and you can see a few lines with information about FairOS. These lines will appear only after chequebook deployment.
+import '@styles/globals.scss';
+import { FdpStorageProvider } from '@context/FdpStorageContext';
+/* eslint-disable no-console */
+
+/**
+ * This is a helper function to create or get the postage batch stamp. Once gotten
+ * it is included in the env file so the app can use it
+ */
+
+async function testsSetup(): Promise<void> {
+  if (!process.env.BEE_POSTAGE) {
+    try {
+      const beeDebugUrl = process.env.NEXT_PUBLIC_BEE_DEBUG_URL;
+      const beeDebug = new BeeDebug(beeDebugUrl);
+      const postageBatch = await beeDebug.getPostageBatch(
+        process.env.NEXT_PUBLIC_POSTAGE_STAMP
+      );
+
+      if (postageBatch) {
+         const pB = await beeDebug.createPostageBatch('1', 20);      
+      }
+    } catch (e) {
+      // It is possible that for unit tests the Bee nodes does not run
+      // so we are only logging errors and not leaving them to propagate
+      console.error(e);
+    }
+  }
+}
+
+```
+
+### Latest Goerli contract configuration
+
+If you would like to use Goerli, in this [file](https://github.com/fairDataSociety/fdp-contracts/blob/master/js-library/src/contracts/contracts-goerli.env) you can find the respective contract addresses. To override the default configuration, use this:
+
+```typescript
+// FdpStorageContext.tsx
+
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { createContext, ReactNode, useContext, useState } from 'react';
+import { FdpStorage } from '@fairdatasociety/fdp-storage';
+import { BigNumber, providers, Wallet } from 'ethers';
+
+const provider = new providers.JsonRpcProvider(
+  process.env.NEXT_PUBLIC_RPC_URL as string
+);
+
+const fdpClient = new FdpStorage(
+  process.env.NEXT_PUBLIC_BEE_URL,
+  process.env.NEXT_PUBLIC_BEE_DEBUG_URL,
+  {
+    ensOptions: {
+      performChecks: true,
+      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
+      contractAddresses: {
+        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
+        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
+        fdsRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
+      },
+    },
+    ensDomain: 'fds',
+  }
+);
+
+
+
+```
+
 
 ## Running in development mode
 

@@ -8,47 +8,45 @@ import PodContext from '@context/PodContext';
 
 import { login, userStats } from '@api/authentication';
 
+import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 const LoginForm: FC = () => {
-  const { register, handleSubmit, formState } = useForm();
-  const { errors } = formState;
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'all',
+  });
+  const { errors, isValid } = formState;
 
   const { setUser, setPassword, setAddress } = useContext(UserContext);
   const { clearPodContext } = useContext(PodContext);
 
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const onSubmit = (data: { user_name: string; password: string }) => {
-    login(data)
-      .then(() => {
-        setUser(data.user_name);
-        setPassword(data.password);
+  const { fdpClient } = useFdpStorage();
 
-        userStats()
-          .then((res) => {
-            setAddress(res.data.reference);
-            clearPodContext();
-            router.push('/overview');
-          })
-          .catch(() => {
-            setErrorMessage(
-              'Login failed. Incorrect user credentials, please try again.'
-            );
-          });
-      })
-      .catch(() => {
-        setErrorMessage(
-          'Login failed. Incorrect user credentials, please try again.'
-        );
-      });
+  const onSubmit = async (data: { user_name: string; password: string }) => {
+    try {
+      setLoading(true);
+      const { user_name, password } = data;
+      const wallet = await fdpClient.account.login(user_name, password);
+
+      router.push('/overview');
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col justify-center items-center">
+      <DisclaimerMessage />
+
       <AuthenticationHeader
         title="Welcome back"
         content="Please log in to get access to your Fairdrive."
@@ -68,10 +66,14 @@ const LoginForm: FC = () => {
             placeholder="Type here"
             useFormRegister={register}
             validationRules={{
-              required: true,
+              required: 'Username is required',
+              minLength: {
+                value: 4,
+                message:
+                  'Username field needs to contain at least 4 characters',
+              },
             }}
             error={errors.user_name}
-            errorMessage="Username or e-mail is required"
           />
 
           <AuthenticationInput
@@ -82,14 +84,19 @@ const LoginForm: FC = () => {
             placeholder="Type here"
             useFormRegister={register}
             validationRules={{
-              required: true,
+              required: 'Password is required',
             }}
             error={errors.password}
-            errorMessage="Password is required"
           />
 
           <div className="mt-14 text-center">
-            <Button type="submit" variant="secondary" label="Continue" />
+            <Button
+              loading={loading}
+              disabled={!isValid}
+              type="submit"
+              variant="secondary"
+              label="Continue"
+            />
           </div>
 
           <div className="my-6 text-center">

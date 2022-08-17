@@ -1,6 +1,7 @@
 import { FC, useContext, ReactNode, ReactChild } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
+import Spinner from '@components/Spinner/Spinner';
 
 interface ButtonProps {
   type?: 'button' | 'submit';
@@ -17,6 +18,7 @@ interface ButtonProps {
   padding?: string;
   children?: ReactChild | ReactChild[];
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -29,6 +31,7 @@ const Button: FC<ButtonProps> = ({
   padding,
   children,
   disabled = false,
+  loading = false,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -75,15 +78,15 @@ const Button: FC<ButtonProps> = ({
     if (disabled) {
       switch (variant) {
         case 'primary':
-          return 'dark:disabled:bg-color-shade-dark-4-night dark:text-color-shade-light-3-night text-color-shade-light-3-night disabled:bg-color-shade-dark-4-day';
+          return 'cursor-not-allowed dark:disabled:bg-color-shade-dark-4-night dark:text-color-shade-light-3-night text-color-shade-light-3-night disabled:bg-color-shade-dark-4-day';
         case 'primary-outlined':
-          return 'dark:disabled:border-color-shade-light-3-night dark:disabled:bg-none dark:text-color-shade-light-3-night text-color-shade-light-3-night disabled:border-color-shade-light-3-night';
+          return 'cursor-not-allowed dark:disabled:border-color-shade-light-3-night dark:disabled:bg-none dark:text-color-shade-light-3-night text-color-shade-light-3-night disabled:border-color-shade-light-3-night';
         case 'secondary':
-          return 'dark:text-color-shade-light-2-night bg-none text-color-shade-light-3-night';
+          return 'cursor-not-allowed dark:text-color-shade-light-2-night bg-none text-color-shade-light-3-night';
         case 'tertiary':
-          return 'dark:text-color-shade-light-3-night';
+          return 'cursor-not-allowed dark:text-color-shade-light-3-night';
         case 'tertiary-outlined':
-          return 'dark:text-color-shade-light-3-night';
+          return 'cursor-not-allowed dark:text-color-shade-light-3-night';
       }
     } else return '';
   };
@@ -140,14 +143,17 @@ const Button: FC<ButtonProps> = ({
       className={`${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} ${getVariantSelectedStyle()} ${className} ${padding} text-center rounded`}
       disabled={disabled}
     >
-      {children ? (
-        children
-      ) : (
-        <div>
-          {label}
-          {icon}
-        </div>
-      )}
+      <div className="flex items-center gap-2">
+        {children ? (
+          children
+        ) : (
+          <div>
+            {label}
+            {icon}
+          </div>
+        )}
+        {loading && <Spinner />}
+      </div>
     </button>
   );
 };
