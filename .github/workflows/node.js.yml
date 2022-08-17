@@ -4,6 +4,15 @@ on:
   push:
     branches: [ master ]
 
+env:
+  BEE_VERSION: '1.6.2'
+  REACT_APP_BEE_URL: http://localhost:1633
+  REACT_APP_BEE_DEBUG_URL: http://localhost:1635
+# NEXT_PUBLIC_RPC_URL=https://goerli.infura.io/v3/92ed13edfad140409ac24457a9c4e22d
+# NEXT_PUBLIC_ENS_REGISTRY_ADDRESS=0x42B22483e3c8dF794f351939620572d1a3193c12
+# NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS=0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9
+# NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS=0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14
+
 jobs:
   build:
 
@@ -18,14 +27,12 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Create .env file
-      run: |
-          touch .env
-          echo REACT_APP_FAIROSHOST=https://fairos.fairdatasociety.org/v1/ >> .env
-          echo REACT_APP_FAIRDRIVEHOST=https://app.fairdrive.io >> .env
-          echo REACT_APP_NAME=Fairdrive >> .env
-          cat .env
+    - name: Install fdp-play
+      run: npm install -g @fairdatasociety/fdp-play
+
+    - name: Run fdp-play
+      run: fdp-play start -d --bee-version $BEE_VERSION    
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
