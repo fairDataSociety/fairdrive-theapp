@@ -19,7 +19,10 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 ## Development
 
+
 Please install `fdp-play`, be sure to use Node 16 and have Docker environment setup and verify that ports 3000, 1633, 1634, 1635 are available.
+Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
+
 
 - `npm i -g @fairdatasociety/fdp-play`
 - `fdp-play start --fresh`
