@@ -7,7 +7,7 @@ on:
       - development
 
 env:
-  BEE_VERSION: '1.7.0'
+  BEE_VERSION: '1.6.3'
   REACT_APP_BEE_URL: http://localhost:1633
   REACT_APP_BEE_DEBUG_URL: http://localhost:1635
 # NEXT_PUBLIC_RPC_URL=https://goerli.infura.io/v3/92ed13edfad140409ac24457a9c4e22d
@@ -29,6 +29,11 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
     - name: Install fdp-play
       run: npm install -g @fairdatasociety/fdp-play
 
