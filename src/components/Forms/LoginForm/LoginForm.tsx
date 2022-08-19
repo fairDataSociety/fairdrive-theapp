@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC, useContext, useState } from 'react';
 import router from 'next/router';
 import Link from 'next/link';
@@ -73,6 +74,7 @@ const LoginForm: FC = () => {
                   'Username field needs to contain at least 4 characters',
               },
             }}
+            // @ts-ignore
             error={errors.user_name}
           />
 
@@ -86,6 +88,7 @@ const LoginForm: FC = () => {
             validationRules={{
               required: 'Password is required',
             }}
+            // @ts-ignore
             error={errors.password}
           />
 
