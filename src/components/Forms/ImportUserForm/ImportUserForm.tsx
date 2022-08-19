@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC, useState } from 'react';
 import router from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -86,6 +87,7 @@ const ImportUserForm: FC = () => {
             validationRules={{
               required: true,
             }}
+            // @ts-ignore
             error={errors.user_name}
             errorMessage="Username or e-mail is required"
           />
@@ -100,12 +102,17 @@ const ImportUserForm: FC = () => {
             validationRules={{
               required: true,
             }}
+            // @ts-ignore
             error={errors.password}
             errorMessage="Password is required"
           />
 
           {importMethod === 'address' ? (
-            <ImportByAddress register={register} error={errors?.address} />
+            <ImportByAddress
+              register={register}
+              // @ts-ignore
+              error={errors?.address}
+            />
           ) : (
             <ImportByMnemonic register={register} />
           )}

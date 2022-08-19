@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC } from 'react';
 import router from 'next/router';
 import Link from 'next/link';
@@ -67,6 +68,7 @@ const RegisterForm: FC = () => {
                 return userNameAvailable;
               },
             }}
+            // @ts-ignore
             error={errors.user_name}
           />
           <AuthenticationInput
@@ -83,6 +85,7 @@ const RegisterForm: FC = () => {
                 message: 'Password field needs to contain at least 8 charcters',
               },
             }}
+            // @ts-ignore
             error={errors.password}
           />
 
