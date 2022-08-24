@@ -17,6 +17,7 @@ import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 
 const LoginForm: FC = () => {
+  const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
   const { register, handleSubmit, formState } = useForm({
     mode: 'all',
   });
@@ -103,11 +104,14 @@ const LoginForm: FC = () => {
           </div>
 
           <div className="my-6 text-center">
-            <Link href="/register">
-              <a className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar">
-                Register New Account
-              </a>
-            </Link>
+            <a
+              href={CREATE_USER_URL}
+              target={'_blank'}
+              rel="noopener noreferrer"
+              className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar"
+            >
+              Register New Account
+            </a>
           </div>
         </form>
       </div>
