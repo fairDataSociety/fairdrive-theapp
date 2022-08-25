@@ -29,19 +29,21 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
-  const { activePod, directoryName } = useContext(PodContext);
+  const { activePod, directoryName, pods } = useContext(PodContext);
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
-      setFileToUpload(acceptedFiles[0]);
+      if (activePod) {
+        setFileToUpload(acceptedFiles[0]);
+      }
     },
   });
 
   const handleUpload = () => {
-    if (fileToUpload) {
+    if (fileToUpload && activePod) {
       uploadFile({
         file: fileToUpload,
         directory: directoryName,
