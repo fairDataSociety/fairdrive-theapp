@@ -97,7 +97,7 @@ const Drive: FC = () => {
 
       const timeout = setTimeout(() => {
         setLoading(false);
-      }, 1000);
+      }, 100);
 
       return () => clearTimeout(timeout);
     }
