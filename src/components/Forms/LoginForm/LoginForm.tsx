@@ -29,14 +29,14 @@ const LoginForm: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, setWallet } = useFdpStorage();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
       setLoading(true);
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
-
+      setWallet(wallet);
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);
