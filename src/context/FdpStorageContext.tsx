@@ -9,7 +9,7 @@ const provider = new providers.JsonRpcProvider(
 
 const fdpClient = new FdpStorage(
   process.env.NEXT_PUBLIC_BEE_URL,
-  process.env.NEXT_PUBLIC_BEE_DEBUG_URL,
+  (process.env.NEXT_PUBLIC_GLOBAL_BATCH_ID || null) as any,
   {
     ensOptions: {
       performChecks: true,
@@ -43,11 +43,11 @@ interface FdpStorageContext {
 const FdpStorageContext = createContext<FdpStorageContext>({
   fdpClient,
   username: null,
-  setUsername: () => {},
+  setUsername: null,
   password: null,
-  setPassword: () => {},
+  setPassword: null,
   wallet: null,
-  setWallet: () => {},
+  setWallet: null,
   isUsernameAvailable: () => Promise.resolve(false),
   getAccountBalance: () => Promise.resolve(BigNumber.from(0)),
 });
