@@ -4,9 +4,9 @@ import { FC, useContext, useState, useEffect } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
-import UserContext from '@context/UserContext';
 
-import { getPods, openPod } from '@api/pod';
+import { getPods } from '@api/pod';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { DriveToggle } from '@components/Buttons';
 import { Button } from '@components/Buttons';
@@ -32,7 +32,7 @@ const DriveSideBar: FC = () => {
     setOpenPods,
     setDirectoryName,
   } = useContext(PodContext);
-  const { password } = useContext(UserContext);
+  const { fdpClient } = useFdpStorage();
 
   const [activeTab, setActiveTab] = useState('private');
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
@@ -45,7 +45,7 @@ const DriveSideBar: FC = () => {
   }, []);
 
   const handleFetchPods = () => {
-    getPods()
+    getPods(fdpClient)
       .then((response) => {
         setPods(response);
       })
@@ -53,14 +53,6 @@ const DriveSideBar: FC = () => {
   };
 
   const handleOpenPod = (podName: string) => {
-    if (!openPods.includes(podName)) {
-      openPod(podName, password)
-        .then(() => {
-          setOpenPods([...openPods, podName]);
-        })
-        .catch(() => console.log('Error: Pod could not be opened!'));
-    }
-
     setActivePod(podName);
     setDirectoryName('root');
   };

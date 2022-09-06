@@ -1,6 +1,7 @@
 import { FC, useContext, useState } from 'react';
 
 import PodContext from '@context/PodContext';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { receiveFile } from '@api/files';
 
@@ -21,12 +22,12 @@ const ImportFileModal: FC<ImportFileModalProps> = ({
   refreshDrive,
 }) => {
   const { activePod, directoryName } = useContext(PodContext);
-
+  const { fdpClient } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleImportFile = () => {
-    receiveFile(importCode, activePod, directoryName)
+    receiveFile(fdpClient, importCode, activePod, directoryName)
       .then(() => {
         refreshDrive();
         closeModal();

@@ -2,7 +2,7 @@ import { FC, useContext, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import UserContext from '@context/UserContext';
-
+import { useFdpStorage } from '@context/FdpStorageContext';
 import { createPod } from '@api/pod';
 
 import { Modal } from '@components/Modals';
@@ -22,13 +22,13 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
   refreshPods,
 }) => {
   const { trackEvent } = useMatomo();
-  const { password } = useContext(UserContext);
+  const { fdpClient } = useFdpStorage();
 
   const [newPodName, setNewPodName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleCreateNewPod = () => {
-    createPod(newPodName, password)
+    createPod(fdpClient, newPodName)
       .then(() => {
         trackEvent({
           category: 'Create',
