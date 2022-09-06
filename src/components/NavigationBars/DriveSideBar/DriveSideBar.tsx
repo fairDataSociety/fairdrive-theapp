@@ -20,6 +20,7 @@ import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 
 import sortAlphabetically from 'src/utils/sortAlphabetically';
+import Spinner from '@components/Spinner/Spinner';
 
 const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
@@ -33,6 +34,7 @@ const DriveSideBar: FC = () => {
     setDirectoryName,
   } = useContext(PodContext);
   const { fdpClient } = useFdpStorage();
+  const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState('private');
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
@@ -45,11 +47,13 @@ const DriveSideBar: FC = () => {
   }, []);
 
   const handleFetchPods = () => {
+    setLoading(true);
     getPods(fdpClient)
       .then((response) => {
         setPods(response);
       })
-      .catch(() => console.log('Error: Pods could not be fetched!'));
+      .catch(() => console.log('Error: Pods could not be fetched!'))
+      .finally(() => setLoading(false));
   };
 
   const handleOpenPod = (podName: string) => {
@@ -60,8 +64,8 @@ const DriveSideBar: FC = () => {
   return (
     <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll no-scroll-bar">
       <div className="py-8 px-4">
+        <Spinner isLoading={loading} />
         <DriveToggle activeTab={activeTab} setActiveTab={setActiveTab} />
-
         <div className="flex justify-between items-center w-full mt-8">
           <span className="block -ml-1 mr-3">
             {theme === 'light' ? <InfoLightIcon /> : <InfoDarkIcon />}

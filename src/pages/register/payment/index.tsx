@@ -80,7 +80,7 @@ const RegisterPayment: NextPage = () => {
     <AuthenticationLayout>
       <div className="flex flex-col justify-center items-center">
         <div className="mb-4">
-          <Spinner size="md" />
+          <Spinner />
         </div>
         <AuthenticationHeader
           title={statusMessage}

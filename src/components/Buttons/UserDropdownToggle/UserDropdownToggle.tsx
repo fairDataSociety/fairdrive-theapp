@@ -12,10 +12,12 @@ const ThemeToggle: FC<UserDropdownToggleProps> = ({
   onClickHandler,
   address,
 }) => {
-  return (
+  return address ? (
     <button className="cursor-pointer" onClick={() => onClickHandler()}>
       <Blockies className="inline-block rounded" seed={address} />{' '}
     </button>
+  ) : (
+    <div></div>
   );
 };
 

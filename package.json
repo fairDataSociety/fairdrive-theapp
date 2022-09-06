@@ -36,6 +36,7 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^11.5.1",
     "react-hook-form": "^7.34.2",
+    "react-loader-spinner": "^5.3.3",
     "swr": "^1.0.0"
   },
   "devDependencies": {

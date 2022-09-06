@@ -1,23 +1,18 @@
-import { ReactNode } from 'react';
-import classes from './Spinner.module.scss';
+import { ThreeDots } from 'react-loader-spinner';
 
-interface SpinnerProps {
-  size?: 'sm' | 'md' | 'auto';
-  loading?: boolean;
-  children?: ReactNode;
-}
-
-export default function Spinner(props: SpinnerProps) {
-  const { loading = true, size = 'sm', children } = props;
-
+const Spinner: React.FC<{ isLoading?: boolean }> = ({ isLoading = true }) => {
   return (
-    <div className={`${classes.root} ${classes[size]}`}>
-      {loading && (
-        <span
-          className={`${classes.spinner} border-color-accents-purple-black dark:border-color-shade-dark-4-day`}
-        ></span>
-      )}
-      {children}
-    </div>
+    <ThreeDots
+      visible={isLoading}
+      height="15"
+      radius="2"
+      color="#6b5ad5"
+      width="100%"
+      ariaLabel="three-dots-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
+    />
   );
-}
+};
+
+export default Spinner;
