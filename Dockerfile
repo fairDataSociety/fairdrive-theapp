@@ -3,7 +3,7 @@ FROM node:lts AS deps
 
 WORKDIR /opt/app
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN npm install
 
 # Rebuild the source code only when needed
 # This is where because may be the case that you would try
@@ -46,7 +46,7 @@ ENV PORT=$PORT
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 RUN env |grep 'NEXT\|HOST\|PORT' > .env
 
-RUN yarn build
+RUN npm run build
 
 # Production image, copy all the files and run next
 #FROM node:lts-alpine AS runner
