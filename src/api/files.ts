@@ -98,12 +98,12 @@ export async function uploadFile(
 ): Promise<boolean> {
   const writePath =
     data.directory === 'root' ? '/' : '/' + formatURL(data.directory);
-
+  console.log(data);
   const f = await data.file.arrayBuffer();
   const fileBytes = new Uint8Array(f);
   await fdp.file.uploadData(
     data.podName,
-    `${data.directory}/${data.file}`,
+    `/${data.directory}/${data.file}`,
     fileBytes
   );
 

@@ -1,20 +1,30 @@
-import { FC, useState, ReactChild } from 'react';
+import { FC, useState, ReactChild, useEffect } from 'react';
 
 import { MainNavigationBar } from '@components/NavigationBars';
 import { MainSideBar } from '@components/NavigationBars';
 import { MainFooter } from '@components/Footers';
 import { DriveSideBar } from '@components/NavigationBars';
-
+import { useFdpStorage } from '@context/FdpStorageContext';
+import { useRouter } from 'next/router';
 interface MainLayoutProps {
   children: ReactChild | ReactChild[];
 }
 
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
+  const { wallet } = useFdpStorage();
 
   const driveSideBarToggle = () => {
     setShowDriveSideBar(!showDriveSideBar);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (wallet === null) {
+      // Always do navigations after the first render
+      router.push('/');
+    }
+  }, []);
 
   return (
     <div className="flex flex-col justify-items-stretch items-center w-screen h-screen dark:bg-color-shade-black-night">

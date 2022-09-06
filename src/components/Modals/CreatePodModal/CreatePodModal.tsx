@@ -9,6 +9,8 @@ import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
+import Spinner from '@components/Spinner/Spinner';
+import { createDirectory } from '@api/directory';
 
 interface CreatePodModalProps {
   showModal: boolean;
@@ -23,27 +25,30 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { fdpClient } = useFdpStorage();
+  const [loading, setLoading] = useState(false);
 
   const [newPodName, setNewPodName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleCreateNewPod = () => {
-    createPod(fdpClient, newPodName)
-      .then(() => {
-        trackEvent({
-          category: 'Create',
-          action: `Create Pod`,
-          name: `Create Pod: ${newPodName}`,
-          documentTitle: 'Drive Page',
-          href: window.location.href,
-        });
-
-        refreshPods();
-        closeModal();
-      })
-      .catch(() => {
-        setErrorMessage('Error: Could not create a new Pod.');
+  const handleCreateNewPod = async () => {
+    setLoading(true);
+    try {
+      await createPod(fdpClient, newPodName);
+      trackEvent({
+        category: 'Create',
+        action: `Create Pod`,
+        name: `Create Pod: ${newPodName}`,
+        documentTitle: 'Drive Page',
+        href: window.location.href,
       });
+
+      refreshPods();
+      closeModal();
+    } catch (e) {
+      setErrorMessage(`Error: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,6 +57,8 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
       closeModal={closeModal}
       headerTitle="Create New Pod"
     >
+      <Spinner isLoading={loading} />
+
       <TextInput
         name="pod"
         label="name your pod"
