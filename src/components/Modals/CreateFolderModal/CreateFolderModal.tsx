@@ -2,6 +2,7 @@ import { FC, useContext, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import PodContext from '@context/PodContext';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { createDirectory } from '@api/directory';
 
@@ -23,12 +24,12 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-
+  const { fdpClient } = useFdpStorage();
   const [newFolderName, setNewFolderName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleCreateNewFolder = () => {
-    createDirectory(activePod, directoryName, newFolderName)
+    createDirectory(fdpClient, activePod, directoryName, newFolderName)
       .then(() => {
         trackEvent({
           category: 'Create',

@@ -10,9 +10,7 @@ import { ThemeToggle } from '@components/Buttons';
 import UserDropdown from './UserDropdown/UserDropdown';
 // import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
-interface MainNavigationBarProps { }
-
-const MainNavigationBar: FC<MainNavigationBarProps> = () => {
+const MainNavigationBar: FC<Record<string, never>> = () => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const { wallet } = useFdpStorage();
 
@@ -28,7 +26,7 @@ const MainNavigationBar: FC<MainNavigationBarProps> = () => {
 
           <div className="space-x-5">
             <UserDropdownToggle
-              address={wallet.address}
+              address={wallet?.address}
               onClickHandler={() => setShowUserDropdown(true)}
             />
 

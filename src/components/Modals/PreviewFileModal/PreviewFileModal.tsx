@@ -2,6 +2,7 @@ import { FC, useContext, useEffect, useState } from 'react';
 import prettyBytes from 'pretty-bytes';
 import FileSaver from 'file-saver';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
@@ -42,6 +43,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   previewFile,
   updateDrive,
 }) => {
+  const { fdpClient } = useFdpStorage();
   const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
@@ -52,7 +54,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   useEffect(() => {
-    downloadFile({
+    downloadFile(fdpClient, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
@@ -64,7 +66,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   }, []);
 
   const handleDownloadFile = () => {
-    downloadFile({
+    downloadFile(fdpClient, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
@@ -86,7 +88,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   };
 
   const handleDeleteFile = () => {
-    deleteFile({
+    deleteFile(fdpClient, {
       file_name: previewFile?.name,
       podName: activePod,
       path: formatDirectory(directoryName),

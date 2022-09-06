@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useContext, useState, useEffect } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
@@ -33,6 +34,7 @@ const Drive: FC = () => {
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
+  const { fdpClient } = useFdpStorage();
 
   useEffect(() => {
     trackPageView({
@@ -55,7 +57,7 @@ const Drive: FC = () => {
   }, [activePod, directoryName, openPods]);
 
   const handleFetchDrive = async () => {
-    getFilesAndDirectories(activePod, directoryName || 'root')
+    getFilesAndDirectories(fdpClient, activePod, directoryName || 'root')
       .then((response) => {
         setFiles(response.files);
         setDirectories(response.dirs);

@@ -1,4 +1,4 @@
-import axios from '@api/customAxios';
+import { FdpStorage } from '@fairdatasociety/fdp-storage';
 import formatURL from '@utils/formatURL';
 
 export interface FileResponse {
@@ -36,6 +36,7 @@ interface UploadFileData {
 }
 
 export const receiveFile = async (
+  fdp: FdpStorage,
   reference: string,
   podName: string,
   directory: string
@@ -43,69 +44,68 @@ export const receiveFile = async (
   try {
     const writePath = directory === 'root' ? '/' : '/' + formatURL(directory);
 
-    const shareFileInfoResult = await axios.get('file/receive', {
-      params: {
-        pod_name: podName,
-        sharing_ref: reference,
-        dir_path: writePath,
-      },
-    });
+    const shareFileInfoResult = await fdp.file.saveShared(
+      podName,
+      writePath,
+      reference
+    );
 
-    return shareFileInfoResult.data;
+    return shareFileInfoResult;
   } catch (error) {
     return error;
   }
 };
 
-export async function downloadFile(data: DownloadFileData): Promise<Blob> {
+export async function downloadFile(
+  fdp: FdpStorage,
+  data: DownloadFileData
+): Promise<Blob> {
   const writePath =
     data.directory === 'root' ? '/' : '/' + formatURL(data.directory) + '/';
 
-  const formData = new FormData();
-  formData.append('file_path', writePath + data.filename);
-  formData.append('pod_name', data.podName);
+  const downloadFile = await fdp.file.downloadData(
+    data.podName,
+    data.directory
+  );
 
-  const downloadFile = await axios.post('file/download', formData, {
-    responseType: 'blob',
-  });
-
-  return downloadFile.data;
+  return new Blob([downloadFile]);
 }
 
-export async function deleteFile(data: DeleteFileData): Promise<boolean> {
-  await axios.delete('file/delete', {
-    data: {
-      pod_name: data.podName,
-      file_path: `${data.path}${data.file_name}`,
-    },
-  });
+export async function deleteFile(
+  fdp: FdpStorage,
+  data: DeleteFileData
+): Promise<boolean> {
+  await fdp.file.delete(data.podName, `${data.path}${data.file_name}`);
 
   return true;
 }
 
-export async function shareFile(data: ShareFileData): Promise<string> {
-  const shareFileResult = await axios.post('file/share', {
-    file: data.fileName,
-    dest_user: 'anon',
-    file_path: data.path_file + data.fileName,
-    pod_name: data.podName,
-  });
+export async function shareFile(
+  fdp: FdpStorage,
+  data: ShareFileData
+): Promise<string> {
+  const shareFileResult = await fdp.file.share(
+    data.podName,
+    data.path_file + data.fileName
+  );
 
-  return shareFileResult.data.file_sharing_reference;
+  return shareFileResult;
 }
 
-export async function uploadFile(data: UploadFileData): Promise<boolean> {
+export async function uploadFile(
+  fdp: FdpStorage,
+  data: UploadFileData
+): Promise<boolean> {
   const writePath =
     data.directory === 'root' ? '/' : '/' + formatURL(data.directory);
 
-  const formData = new FormData();
-
-  formData.append('files', data.file);
-  formData.append('dir_path', writePath);
-  formData.append('block_size', '64Mb');
-  formData.append('pod_name', data.podName);
-
-  await axios.post('file/upload', formData);
+  const f = await data.file.arrayBuffer();
+  const fileBytes = new Uint8Array(f);
+  await fdp.file.uploadData(
+    data.podName,
+    `${data.directory}/${data.file}`,
+    fileBytes
+  );
 
   return true;
 }

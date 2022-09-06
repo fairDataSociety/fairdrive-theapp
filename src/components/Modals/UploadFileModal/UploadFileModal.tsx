@@ -4,6 +4,7 @@ import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { uploadFile } from '@api/files';
 
@@ -33,7 +34,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const { fdpClient } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
       if (activePod) {
@@ -44,7 +45,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
 
   const handleUpload = () => {
     if (fileToUpload && activePod) {
-      uploadFile({
+      uploadFile(fdpClient, {
         file: fileToUpload,
         directory: directoryName,
         podName: activePod,
