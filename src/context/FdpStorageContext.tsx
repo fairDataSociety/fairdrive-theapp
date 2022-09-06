@@ -30,9 +30,9 @@ interface FdpStorageContextProps {
 
 interface FdpStorageContext {
   fdpClient: FdpStorage;
-  username: string | null;
+  username: string;
   setUsername: (username: string) => void;
-  password: string | null;
+  password: string;
   setPassword: (password: string) => void;
   wallet: Wallet | null;
   setWallet: (wallet: Wallet) => void;
@@ -42,9 +42,9 @@ interface FdpStorageContext {
 
 const FdpStorageContext = createContext<FdpStorageContext>({
   fdpClient,
-  username: null,
+  username: '',
   setUsername: null,
-  password: null,
+  password: '',
   setPassword: null,
   wallet: null,
   setWallet: null,
@@ -54,9 +54,9 @@ const FdpStorageContext = createContext<FdpStorageContext>({
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
-  const [username, setUsername] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
-  const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [wallet, setWallet] = useState<Wallet>(null);
 
   const isUsernameAvailable = async (
     username: string
