@@ -35,7 +35,7 @@
     "react-blockies": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-dropzone": "^11.5.1",
-    "react-hook-form": "^7.22.0",
+    "react-hook-form": "^7.34.2",
     "swr": "^1.0.0"
   },
   "devDependencies": {
