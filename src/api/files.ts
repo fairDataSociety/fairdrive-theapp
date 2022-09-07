@@ -9,6 +9,22 @@ export interface FileResponse {
   modification_time: string;
   name: string;
   size: string;
+  raw: {
+    version: 1;
+    user_address: [];
+    pod_name: string;
+    file_path: string;
+    file_name: string;
+    file_size: number;
+    block_size: number;
+    content_type: string;
+    compression: string;
+    creation_time: number;
+    access_time: number;
+    modification_time: number;
+    file_inode_reference: string;
+  };
+  reference: string;
 }
 
 interface DownloadFileData {
@@ -62,10 +78,10 @@ export async function downloadFile(
 ): Promise<Blob> {
   const writePath =
     data.directory === 'root' ? '/' : '/' + formatURL(data.directory) + '/';
-
+  console.log(`${writePath}${data.filename}`);
   const downloadFile = await fdp.file.downloadData(
     data.podName,
-    data.directory
+    `${writePath}${data.filename}`
   );
 
   return new Blob([downloadFile]);
@@ -98,12 +114,11 @@ export async function uploadFile(
 ): Promise<boolean> {
   const writePath =
     data.directory === 'root' ? '/' : '/' + formatURL(data.directory);
-  console.log(data);
   const f = await data.file.arrayBuffer();
   const fileBytes = new Uint8Array(f);
   await fdp.file.uploadData(
     data.podName,
-    `/${data.directory}/${data.file}`,
+    `/${data.directory}/${data.file.name}`,
     fileBytes
   );
 

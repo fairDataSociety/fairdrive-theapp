@@ -156,9 +156,9 @@ const Drive: FC = () => {
             />
           ) : null}
         </div>
-      ) : (
+      ) : loading === false ? (
         <EmptyDirectoryCard />
-      )}
+      ) : null}
       {showPreviewModal ? (
         <PreviewFileModal
           showModal={showPreviewModal}
