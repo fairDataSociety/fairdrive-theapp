@@ -50,7 +50,6 @@ export async function getFilesAndDirectories(
   const res = await fdp.directory.read(data.pod_name, data.dir_path, false);
   const files = await res.getFiles();
   const dirs = await res.getDirectories();
-  console.log(dirs);
   return {
     files: files as any,
     dirs: dirs as any,
