@@ -30,7 +30,7 @@ interface FdpStorageContextProps {
 }
 
 interface FdpStorageContext {
-  fdpClient: any;
+  fdpClient: typeof FdpStorage;
   username: string;
   setUsername: (username: string) => void;
   password: string;
