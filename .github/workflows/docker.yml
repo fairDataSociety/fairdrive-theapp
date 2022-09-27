@@ -20,7 +20,6 @@ env:
   NEXT_PUBLIC_FAIRDRIVEHOST: http://localhost
   NEXT_PUBLIC_BLOCKCHAIN_INFO: blockchanin
   NEXT_PUBLIC_ENVIRONMENT: environment
-  NEXT_PUBLIC_GLOBAL_BATCH_ID: batchid
   NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT: http://localhost
 
 jobs:
