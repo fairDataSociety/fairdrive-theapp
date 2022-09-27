@@ -39,3 +39,4 @@ jobs:
           "NEXT_PUBLIC_BLOCKCHAIN_INFO=blockchanin"
           "NEXT_PUBLIC_ENVIRONMENT=TEST"
           "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=http://localhost"
+
