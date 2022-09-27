@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
-// @ts-ignore
 import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
 import { BigNumber, providers, Wallet } from 'ethers';
 
