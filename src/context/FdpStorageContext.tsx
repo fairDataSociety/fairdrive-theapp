@@ -1,3 +1,4 @@
+/// <reference types="./context"/>
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
@@ -29,7 +30,7 @@ interface FdpStorageContextProps {
 }
 
 interface FdpStorageContext {
-  fdpClient: FdpStorage;
+  fdpClient: any;
   username: string;
   setUsername: (username: string) => void;
   password: string;
