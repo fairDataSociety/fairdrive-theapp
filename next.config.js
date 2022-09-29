@@ -6,9 +6,12 @@ module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   compress: true,
   webpack(config, options) {
-    config.resolve.fallback = {
-      crypto: require.resolve('crypto-browserify'),
-    };
+    config.module.rules.push({
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false,
+      },
+    });
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
