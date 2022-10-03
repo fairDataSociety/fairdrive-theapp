@@ -8,10 +8,12 @@ import { UserDropdownToggle } from '@components/Buttons';
 // import { ActivityDropdownToggle } from '@components/Buttons';
 import { ThemeToggle } from '@components/Buttons';
 import UserDropdown from './UserDropdown/UserDropdown';
+import NetworkSelectorToggle from '@components/Buttons/NetworkSelectorToggle/NetworkSelectorToggle';
 // import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
 const MainNavigationBar: FC<Record<string, never>> = () => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
+  const [showNetworkDropdown, setShowNetworkDropdown] = useState(false);
   const { wallet } = useFdpStorage();
   return (
     <nav>
@@ -24,6 +26,11 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
           </div>
 
           <div className="space-x-5">
+            <NetworkSelectorToggle
+              address={wallet?.address}
+              onClickHandler={() => setShowNetworkDropdown(true)}
+            />
+
             <UserDropdownToggle
               address={wallet?.address}
               onClickHandler={() => setShowUserDropdown(true)}
