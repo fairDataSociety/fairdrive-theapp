@@ -87,7 +87,7 @@ const MainFooter: FC = () => {
         </div>
         <div className="space-x-6">
           <a
-            href="https://github.com/fairDataSociety/"
+            href="https://github.com/fairDataSociety/fairdrive-theapp"
             target="_blank"
             rel="noreferrer"
           >
@@ -99,7 +99,7 @@ const MainFooter: FC = () => {
           </a>
 
           <a
-            href="https://discord.gg/T7g69meWJD"
+            href="https://discord.gg/RpX5eU4Cpr"
             target="_blank"
             rel="noreferrer"
           >
@@ -111,7 +111,7 @@ const MainFooter: FC = () => {
           </a>
 
           <a
-            href="https://medium.com/fair-data-society"
+            href="https://fairdatasociety.bzz.link/"
             target="_blank"
             rel="noreferrer"
           >
