@@ -32,7 +32,7 @@ const LoginForm: FC = () => {
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
-      router.push('/overview');
+      router.push('/overview', { query: { network: 'mainnet' } });
     } catch (error) {
       setErrorMessage(error.message);
     } finally {

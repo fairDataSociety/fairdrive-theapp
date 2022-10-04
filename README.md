@@ -19,10 +19,8 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 ## Development
 
-
 Please install `fdp-play`, be sure to use Node 16 and have Docker environment setup and verify that ports 3000, 1633, 1634, 1635 are available.
 Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
-
 
 - `npm i -g @fairdatasociety/fdp-play`
 - `fdp-play start --fresh`
@@ -61,7 +59,7 @@ async function testsSetup(): Promise<void> {
       );
 
       if (postageBatch) {
-         const pB = await beeDebug.createPostageBatch('1', 20);      
+        const pB = await beeDebug.createPostageBatch('1', 20);
       }
     } catch (e) {
       // It is possible that for unit tests the Bee nodes does not run
@@ -70,7 +68,6 @@ async function testsSetup(): Promise<void> {
     }
   }
 }
-
 ```
 
 ### Latest Goerli contract configuration
@@ -105,11 +102,47 @@ const fdpClient = new FdpStorage(
     ensDomain: 'fds',
   }
 );
-
-
-
 ```
 
+### Environment variables
+
+```shell
+NEXT_PUBLIC_FAIROSHOST=https://fairos.dev.fairdatasociety.org/
+NEXT_PUBLIC_FAIRDRIVEHOST=
+NEXT_PUBLIC_NAME=
+
+# mainnet
+NEXT_PUBLIC_MAINNET_SUBDOMAIN_REGISTRAR_ADDRESS=
+NEXT_PUBLIC_MAINNET_PUBLIC_RESOLVER_ADDRESS=
+NEXT_PUBLIC_MAINNET_ENS_REGISTRY_ADDRESS=
+NEXT_PUBLIC_MAINNET_RPC_URL=https://goerli.infura.io
+NEXT_PUBLIC_MAINNET_BEE_URL=https://bee-1.dev.fairdatasociety.org/
+
+# testnet
+NEXT_PUBLIC_TESTNET_SUBDOMAIN_REGISTRAR_ADDRESS=
+NEXT_PUBLIC_TESTNET_PUBLIC_RESOLVER_ADDRESS=
+NEXT_PUBLIC_TESTNET_ENS_REGISTRY_ADDRESS=
+NEXT_PUBLIC_TESTNET_RPC_URL=https://goerli.infura.io
+NEXT_PUBLIC_TESTNET_BEE_URL=https://bee-1.dev.fairdatasociety.org/
+
+# localnet
+NEXT_PUBLIC_LOCALNET_SUBDOMAIN_REGISTRAR_ADDRESS=
+NEXT_PUBLIC_LOCALNET_PUBLIC_RESOLVER_ADDRESS=
+NEXT_PUBLIC_LOCALNET_ENS_REGISTRY_ADDRESS=
+NEXT_PUBLIC_LOCALNET_RPC_URL=http://localhost:8545
+NEXT_PUBLIC_LOCALNET_BEE_URL=http://localhost:1633
+
+
+NEXT_PUBLIC_BLOCKCHAIN_INFO=Infura goerli
+NEXT_PUBLIC_ENVIRONMENT=
+NEXT_PUBLIC_GLOBAL_BATCH_ID=54ed0da82eb85ab72f9b8c37fdff0013ac5ba0bf96ead71d4a51313ed831b9e5
+
+# Create account redirect
+NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org
+
+# Etherna Extension
+NEXT_PUBLIC_ETHERNA_INDEX_API_PATH=""
+```
 
 ## Running in development mode
 
@@ -142,4 +175,3 @@ To change the configuration, edit the `.env` file.
 ## Check it out
 
 Mainnet deployment: https://app.fairdrive.fairdatasociety.org
-

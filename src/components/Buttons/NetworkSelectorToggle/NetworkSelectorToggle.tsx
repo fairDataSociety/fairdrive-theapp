@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Select } from '@components/Inputs';
-import { FC } from 'react';
+import { NextRouter, Router, useRouter } from 'next/router';
+import { FC, useEffect } from 'react';
 
 interface NetworkSelectorToggleProps {
   onClickHandler: any;
@@ -22,23 +23,26 @@ const networks = [
   },
 ];
 
-const handleNetworkSelect = (value: string) => {
-  // hard refresh
-  location.href = `#network=${value}`;
+const handleNetworkSelect = (router: NextRouter) => (value: string) => {
+  if (router.isReady) {
+    // hard refresh
+    router.push({
+      query: { network: value },
+    });
+  }
 };
 
 const NetworkSelectorToggle: FC<NetworkSelectorToggleProps> = ({
   onClickHandler,
   address,
 }) => {
+  const router = useRouter();
   return address ? (
-    <div className="px-5">
-      <span className="inline-block mr-2">Network:</span>
-
+    <div className="w-60 inline">
       <Select
         name="Network"
         options={networks}
-        updateValue={handleNetworkSelect}
+        updateValue={handleNetworkSelect(router)}
       />
     </div>
   ) : (

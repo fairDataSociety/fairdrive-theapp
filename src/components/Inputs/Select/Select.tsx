@@ -15,7 +15,7 @@ const Select: FC<SelectProps> = ({ name, options, updateValue }) => {
   return (
     <select
       name={name}
-      className={`${classes.select} w-12 cursor-pointer`}
+      className={`${classes.select} w-100% cursor-pointer`}
       onChange={(e) => updateValue(e.target.value)}
     >
       {options.map((option) => {

@@ -21,7 +21,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
         <Logo />
 
         <div className="flex justify-between items-center">
-          <div className="mr-16">
+          <div className="mr-32">
             <SearchBar />
           </div>
 
@@ -30,7 +30,6 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
               address={wallet?.address}
               onClickHandler={() => setShowNetworkDropdown(true)}
             />
-
             <UserDropdownToggle
               address={wallet?.address}
               onClickHandler={() => setShowUserDropdown(true)}
