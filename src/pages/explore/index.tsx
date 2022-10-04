@@ -2,7 +2,7 @@ import { FC, useEffect, useContext } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
-import dapps, { Dapp } from '@data/explore-dapps';
+import selectDappRouter, { Dapp } from '@data/explore-dapps';
 
 import SearchContext from '@context/SearchContext';
 
@@ -11,6 +11,10 @@ import { ExploreCard } from '@components/Cards';
 
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
+import { useRouter } from 'next/router';
+import { parseUrl } from 'next/dist/shared/lib/router/utils/parse-url';
+
+let dapps = selectDappRouter('MAINNET');
 
 interface ExploreProps {}
 
@@ -18,6 +22,17 @@ const Explore: FC<ExploreProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
+
+  const router = useRouter();
+  useEffect(() => {
+    router.events.on('routeChangeStart', (url) => {
+      const parsed = parseUrl(url);
+      if (!parsed.query.network) return;
+      const network =
+        (parsed.query.network as string).toUpperCase() || 'MAINNET';
+      dapps = selectDappRouter(network);
+    });
+  }, [router]);
 
   useEffect(() => {
     trackPageView({
