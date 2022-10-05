@@ -78,7 +78,9 @@ export async function downloadFile(
 ): Promise<Blob> {
   const writePath =
     data.directory === 'root' ? '/' : '/' + formatURL(data.directory) + '/';
-  console.log(`${writePath}${data.filename}`);
+
+  console.log(`${writePath}`);
+
   const downloadFile = await fdp.file.downloadData(
     data.podName,
     `${writePath}${data.filename}`
@@ -113,12 +115,12 @@ export async function uploadFile(
   data: UploadFileData
 ): Promise<boolean> {
   const writePath =
-    data.directory === 'root' ? '/' : '/' + formatURL(data.directory);
+    data.directory === 'root' ? '' : '/' + formatURL(data.directory);
   const f = await data.file.arrayBuffer();
   const fileBytes = new Uint8Array(f);
   await fdp.file.uploadData(
     data.podName,
-    `/${data.directory}/${data.file.name}`,
+    `${writePath}/${data.file.name}`,
     fileBytes
   );
 
