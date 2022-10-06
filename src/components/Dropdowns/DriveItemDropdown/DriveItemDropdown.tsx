@@ -12,6 +12,7 @@ import { DriveItemDropdownToggle } from '@components/Buttons';
 import { ShareFileModal, ConfirmDeleteModal } from '@components/Modals';
 
 import formatDirectory from '@utils/formatDirectory';
+import UserContext from '@context/UserContext';
 
 interface DriveItemDropdownProps {
   type: 'folder' | 'file';
@@ -30,7 +31,9 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-  const { fdpClient } = useFdpStorage();
+
+  const { beeUrl, setBeeUrl } = useContext(UserContext);
+  const { fdpClient, setWallet } = useFdpStorage();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);

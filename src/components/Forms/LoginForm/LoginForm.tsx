@@ -18,21 +18,18 @@ const LoginForm: FC = () => {
   });
   const { errors, isValid } = formState;
 
-  const { setUser, setPassword, setAddress } = useContext(UserContext);
-  const { clearPodContext } = useContext(PodContext);
-
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
-
-  const { fdpClient, setWallet } = useFdpStorage();
-
+  const { beeUrl, setBeeUrl } = useContext(UserContext);
+  const { setFdpClientBeeRpc, setWallet } = useFdpStorage();
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
       setLoading(true);
+      const fdpClient = setFdpClientBeeRpc(null);
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
-      router.push('/overview', { query: { network: 'mainnet' } });
+      router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);
     } finally {

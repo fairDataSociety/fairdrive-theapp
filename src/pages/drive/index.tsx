@@ -19,6 +19,7 @@ import { EmptyDirectoryCard } from '@components/Cards';
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
+import UserContext from '@context/UserContext';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -34,8 +35,9 @@ const Drive: FC = () => {
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
-  const { fdpClient } = useFdpStorage();
 
+  const { beeUrl, setBeeUrl } = useContext(UserContext);
+  const { fdpClient, setWallet } = useFdpStorage();
   useEffect(() => {
     trackPageView({
       documentTitle: 'Drive Page',

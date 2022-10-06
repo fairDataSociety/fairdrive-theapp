@@ -21,6 +21,7 @@ import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 
 import sortAlphabetically from 'src/utils/sortAlphabetically';
 import Spinner from '@components/Spinner/Spinner';
+import UserContext from '@context/UserContext';
 
 const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
@@ -33,7 +34,9 @@ const DriveSideBar: FC = () => {
     setOpenPods,
     setDirectoryName,
   } = useContext(PodContext);
-  const { fdpClient } = useFdpStorage();
+
+  const { beeUrl, setBeeUrl } = useContext(UserContext);
+  const { fdpClient, setWallet } = useFdpStorage();
   const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState('private');

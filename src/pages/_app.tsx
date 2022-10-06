@@ -38,19 +38,19 @@ import { FdpStorageProvider } from '@context/FdpStorageContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <FdpStorageProvider>
-      <Matomo>
-        <ThemeProvider>
-          <UserProvider>
+    <Matomo>
+      <ThemeProvider>
+        <UserProvider>
+          <FdpStorageProvider>
             <SearchProvider>
               <PodProvider>
                 <Component {...pageProps} />
               </PodProvider>
             </SearchProvider>
-          </UserProvider>
-        </ThemeProvider>
-      </Matomo>
-    </FdpStorageProvider>
+          </FdpStorageProvider>
+        </UserProvider>
+      </ThemeProvider>
+    </Matomo>
   );
 }
 
