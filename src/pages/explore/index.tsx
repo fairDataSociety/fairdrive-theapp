@@ -14,8 +14,6 @@ import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import { useRouter } from 'next/router';
 import { parseUrl } from 'next/dist/shared/lib/router/utils/parse-url';
 
-let dapps = selectDappRouter('MAINNET');
-
 interface ExploreProps {}
 
 const Explore: FC<ExploreProps> = () => {
@@ -23,14 +21,12 @@ const Explore: FC<ExploreProps> = () => {
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
 
+  let dapps;
   const router = useRouter();
   useEffect(() => {
     router.events.on('routeChangeStart', (url) => {
       const parsed = parseUrl(url);
-      if (!parsed.query.network) return;
-      const network =
-        (parsed.query.network as string).toUpperCase() || 'MAINNET';
-      dapps = selectDappRouter(network);
+      dapps = selectDappRouter(parsed.query);
     });
   }, [router]);
 

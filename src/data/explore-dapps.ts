@@ -1,3 +1,5 @@
+import { ParsedUrlQuery } from 'querystring';
+
 export interface Dapp {
   name: string;
   link: string;
@@ -74,8 +76,8 @@ const dAppsTestnet: Array<Dapp> = [
   },
 ];
 
-function selectDappRouter(network: string) {
-  if (network === 'MAINNET') {
+function selectDappRouter(routerQuery?: ParsedUrlQuery) {
+  if (routerQuery && routerQuery.toString().indexOf('.dev') === -1) {
     return dAppsMainnet;
   } else {
     return dAppsTestnet;
