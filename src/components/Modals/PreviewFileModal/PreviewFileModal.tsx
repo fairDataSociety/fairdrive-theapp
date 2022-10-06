@@ -2,11 +2,12 @@ import { FC, useContext, useEffect, useState } from 'react';
 import prettyBytes from 'pretty-bytes';
 import FileSaver from 'file-saver';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 
-import { downloadFile, deleteFile } from '@api/files';
+import { downloadFile, deleteFile, FileResponse } from '@api/files';
 
 import { SideModal } from '@components/Modals';
 import { ShareFileModal, ConfirmDeleteModal } from '@components/Modals';
@@ -28,11 +29,12 @@ import ShareDarkIcon from '@media/UI/share-dark.svg';
 
 import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
+import Spinner from '@components/Spinner/Spinner';
 
 interface PreviewModalProps {
   showModal: boolean;
   closeModal: () => void;
-  previewFile: any;
+  previewFile: FileResponse;
   updateDrive: () => void;
 }
 
@@ -42,9 +44,11 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   previewFile,
   updateDrive,
 }) => {
+  const { fdpClient } = useFdpStorage();
   const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
+  const [loading, setLoading] = useState(false);
 
   const [imageSource, setImageSource] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -52,26 +56,34 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
 
   useEffect(() => {
-    downloadFile({
+    setLoading(true);
+    downloadFile(fdpClient, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
     })
-      .then((response) => setImageSource(window.URL.createObjectURL(response)))
-      .catch(() => {
+      .then(async (response) => {
+        const blob = await response.arrayBuffer();
+        setImageSource(window.URL.createObjectURL(new Blob([blob])));
+      })
+      .catch((e) => {
         setErrorMessage('File preview could not be loaded!');
+      })
+      .finally(() => {
+        setLoading(true);
       });
   }, []);
 
   const handleDownloadFile = () => {
-    downloadFile({
+    setLoading(true);
+
+    downloadFile(fdpClient, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
     })
       .then((response) => {
         FileSaver.saveAs(response, previewFile?.name);
-
         trackEvent({
           category: 'File',
           action: `Download File`,
@@ -82,11 +94,16 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
       })
       .catch(() => {
         console.log('File could not be downloaded!');
+      })
+      .finally(() => {
+        setLoading(true);
       });
   };
 
   const handleDeleteFile = () => {
-    deleteFile({
+    setLoading(true);
+
+    deleteFile(fdpClient, {
       file_name: previewFile?.name,
       podName: activePod,
       path: formatDirectory(directoryName),
@@ -105,6 +122,9 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
       })
       .catch(() => {
         console.log('File could not be deleted!');
+      })
+      .finally(() => {
+        setLoading(true);
       });
   };
 
@@ -127,6 +147,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
             onError={() => setErrorMessage('File preview could not be loaded!')}
           />
         ) : null}
+        <Spinner isLoading={loading} />
 
         {errorMessage ? (
           <div className="my-28 text-color-status-negative-day text-xs text-center leading-none">

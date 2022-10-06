@@ -4,6 +4,7 @@ import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { uploadFile } from '@api/files';
 
@@ -15,6 +16,7 @@ import FolderDarkIcon from '@media/UI/folder-dark.svg';
 
 import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
+import Spinner from '@components/Spinner/Spinner';
 
 interface UploadFileModalProps {
   showModal: boolean;
@@ -30,10 +32,11 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
   const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName, pods } = useContext(PodContext);
+  const [loading, setLoading] = useState(false);
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const { fdpClient } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
       if (activePod) {
@@ -43,8 +46,10 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
   });
 
   const handleUpload = () => {
+    setLoading(true);
+
     if (fileToUpload && activePod) {
-      uploadFile({
+      uploadFile(fdpClient, {
         file: fileToUpload,
         directory: directoryName,
         podName: activePod,
@@ -61,10 +66,14 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
           refreshDrive();
           closeModal();
         })
-        .catch(() => {
-          setErrorMessage('File could not be uploaded!');
+        .catch((e) => {
+          setErrorMessage(`${e.message}`);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
+    setLoading(false);
   };
 
   return (
@@ -77,6 +86,8 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
       }}
       headerTitle="Upload File"
     >
+      <Spinner isLoading={loading} />
+
       <div
         className="mt-14 p-20 rounded shadow cursor-pointer"
         {...getRootProps()}

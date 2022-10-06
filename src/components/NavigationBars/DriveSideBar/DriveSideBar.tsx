@@ -4,9 +4,9 @@ import { FC, useContext, useState, useEffect } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
-import UserContext from '@context/UserContext';
 
-import { getPods, openPod } from '@api/pod';
+import { getPods } from '@api/pod';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { DriveToggle } from '@components/Buttons';
 import { Button } from '@components/Buttons';
@@ -20,6 +20,7 @@ import ArrowRightLight from '@media/UI/arrow-right-light.svg';
 import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 
 import sortAlphabetically from 'src/utils/sortAlphabetically';
+import Spinner from '@components/Spinner/Spinner';
 
 const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
@@ -32,7 +33,8 @@ const DriveSideBar: FC = () => {
     setOpenPods,
     setDirectoryName,
   } = useContext(PodContext);
-  const { password } = useContext(UserContext);
+  const { fdpClient } = useFdpStorage();
+  const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState('private');
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
@@ -45,22 +47,16 @@ const DriveSideBar: FC = () => {
   }, []);
 
   const handleFetchPods = () => {
-    getPods()
+    setLoading(true);
+    getPods(fdpClient)
       .then((response) => {
         setPods(response);
       })
-      .catch(() => console.log('Error: Pods could not be fetched!'));
+      .catch(() => console.log('Error: Pods could not be fetched!'))
+      .finally(() => setLoading(false));
   };
 
   const handleOpenPod = (podName: string) => {
-    if (!openPods.includes(podName)) {
-      openPod(podName, password)
-        .then(() => {
-          setOpenPods([...openPods, podName]);
-        })
-        .catch(() => console.log('Error: Pod could not be opened!'));
-    }
-
     setActivePod(podName);
     setDirectoryName('root');
   };
@@ -68,8 +64,8 @@ const DriveSideBar: FC = () => {
   return (
     <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll no-scroll-bar">
       <div className="py-8 px-4">
+        <Spinner isLoading={loading} />
         <DriveToggle activeTab={activeTab} setActiveTab={setActiveTab} />
-
         <div className="flex justify-between items-center w-full mt-8">
           <span className="block -ml-1 mr-3">
             {theme === 'light' ? <InfoLightIcon /> : <InfoDarkIcon />}

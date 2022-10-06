@@ -3,6 +3,7 @@ import FileSaver from 'file-saver';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import PodContext from '@context/PodContext';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { downloadFile, deleteFile } from '@api/files';
 import { deleteDirectory } from '@api/directory';
@@ -29,7 +30,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-
+  const { fdpClient } = useFdpStorage();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
@@ -46,7 +47,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
   const handleDownloadClick = () => {
     setShowDropdown(false);
 
-    downloadFile({
+    downloadFile(fdpClient, {
       filename: data?.name,
       directory: directoryName,
       podName: activePod,
@@ -80,7 +81,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
   const handleDeleteFile = () => {
     setShowDropdown(false);
 
-    deleteFile({
+    deleteFile(fdpClient, {
       file_name: data?.name,
       podName: activePod,
       path: formatDirectory(directoryName),
@@ -108,7 +109,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
     const deletePath =
       (directoryName !== 'root' ? '/' + directoryName + '/' : '/') + data.name;
 
-    deleteDirectory({
+    deleteDirectory(fdpClient, {
       podName: activePod,
       path: deletePath,
     })

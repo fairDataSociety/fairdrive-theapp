@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useContext, useState, useEffect } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
-
+import { useFdpStorage } from '@context/FdpStorageContext';
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 import SearchContext from '@context/SearchContext';
@@ -18,6 +18,7 @@ import { EmptyDirectoryCard } from '@components/Cards';
 
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
+import Spinner from '@components/Spinner/Spinner';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -33,6 +34,7 @@ const Drive: FC = () => {
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
+  const { fdpClient } = useFdpStorage();
 
   useEffect(() => {
     trackPageView({
@@ -47,20 +49,19 @@ const Drive: FC = () => {
   }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (activePod) handleFetchDrive();
-    }, 500);
-
-    return () => clearTimeout(timeout);
+    handleFetchDrive();
   }, [activePod, directoryName, openPods]);
 
   const handleFetchDrive = async () => {
-    getFilesAndDirectories(activePod, directoryName || 'root')
+    setLoading(true);
+
+    getFilesAndDirectories(fdpClient, activePod, directoryName || 'root')
       .then((response) => {
         setFiles(response.files);
         setDirectories(response.dirs);
       })
-      .catch(() => console.log('Error: Could not fetch directories & files!'));
+      .catch(() => console.log('Error: Could not fetch directories & files!'))
+      .finally(() => setLoading(false));
   };
 
   const handleToggleView = () => {
@@ -95,11 +96,7 @@ const Drive: FC = () => {
         setDirectoryName(newDirectoryName);
       }
 
-      const timeout = setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-
-      return () => clearTimeout(timeout);
+      setLoading(false);
     }
   };
 
@@ -120,9 +117,7 @@ const Drive: FC = () => {
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-
       <DriveActionBar refreshDrive={handleFetchDrive} />
-
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>
@@ -138,7 +133,7 @@ const Drive: FC = () => {
           </span>
         </div>
       ) : null}
-
+      <Spinner isLoading={loading} />/
       {directories?.length || files?.length ? (
         <div>
           {driveView === 'grid' ? (
@@ -161,10 +156,9 @@ const Drive: FC = () => {
             />
           ) : null}
         </div>
-      ) : (
+      ) : loading === false ? (
         <EmptyDirectoryCard />
-      )}
-
+      ) : null}
       {showPreviewModal ? (
         <PreviewFileModal
           showModal={showPreviewModal}

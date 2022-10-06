@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { FdpStorage } from '@fairdatasociety/fdp-storage';
+import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
 import { BigNumber, providers, Wallet } from 'ethers';
 
 const provider = new providers.JsonRpcProvider(
@@ -9,7 +9,7 @@ const provider = new providers.JsonRpcProvider(
 
 const fdpClient = new FdpStorage(
   process.env.NEXT_PUBLIC_BEE_URL,
-  process.env.NEXT_PUBLIC_BEE_DEBUG_URL,
+  (process.env.NEXT_PUBLIC_GLOBAL_BATCH_ID || null) as any,
   {
     ensOptions: {
       performChecks: true,
@@ -30,9 +30,9 @@ interface FdpStorageContextProps {
 
 interface FdpStorageContext {
   fdpClient: FdpStorage;
-  username: string | null;
+  username: string;
   setUsername: (username: string) => void;
-  password: string | null;
+  password: string;
   setPassword: (password: string) => void;
   wallet: Wallet | null;
   setWallet: (wallet: Wallet) => void;
@@ -42,21 +42,21 @@ interface FdpStorageContext {
 
 const FdpStorageContext = createContext<FdpStorageContext>({
   fdpClient,
-  username: null,
-  setUsername: () => {},
-  password: null,
-  setPassword: () => {},
+  username: '',
+  setUsername: null,
+  password: '',
+  setPassword: null,
   wallet: null,
-  setWallet: () => {},
+  setWallet: null,
   isUsernameAvailable: () => Promise.resolve(false),
   getAccountBalance: () => Promise.resolve(BigNumber.from(0)),
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
-  const [username, setUsername] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
-  const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [wallet, setWallet] = useState<Wallet>(null);
 
   const isUsernameAvailable = async (
     username: string

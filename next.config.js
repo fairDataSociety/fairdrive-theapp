@@ -16,6 +16,12 @@ module.exports = withBundleAnalyzer({
   compress: true,
   webpack(config, options) {
     config.module.rules.push({
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false,
+      },
+    });
+    config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });

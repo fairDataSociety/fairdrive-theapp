@@ -1,5 +1,7 @@
 import { FC, useState } from 'react';
 
+import { useFdpStorage } from '@context/FdpStorageContext';
+
 import Logo from '@components/Logo/Logo';
 import { SearchBar } from '@components/Inputs';
 import { UserDropdownToggle } from '@components/Buttons';
@@ -8,12 +10,9 @@ import { ThemeToggle } from '@components/Buttons';
 import UserDropdown from './UserDropdown/UserDropdown';
 // import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
-interface MainNavigationBarProps {}
-
-const MainNavigationBar: FC<MainNavigationBarProps> = () => {
+const MainNavigationBar: FC<Record<string, never>> = () => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
-  // const [showActivityDropdown, setShowActivityDropdown] = useState(false);
-
+  const { wallet } = useFdpStorage();
   return (
     <nav>
       <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
@@ -25,11 +24,8 @@ const MainNavigationBar: FC<MainNavigationBarProps> = () => {
           </div>
 
           <div className="space-x-5">
-            {/* <ActivityDropdownToggle
-              onClickHandler={() => setShowActivityDropdown(true)}
-            /> */}
-
             <UserDropdownToggle
+              address={wallet?.address}
               onClickHandler={() => setShowUserDropdown(true)}
             />
 

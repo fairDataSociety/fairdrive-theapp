@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 
-import UserContext from '@context/UserContext';
 import Blockies from 'react-blockies';
 
 interface UserDropdownToggleProps {
   onClickHandler: any;
+  address: string;
 }
 
-const ThemeToggle: FC<UserDropdownToggleProps> = ({ onClickHandler }) => {
-  const { address } = useContext(UserContext);
-  return (
+const ThemeToggle: FC<UserDropdownToggleProps> = ({
+  onClickHandler,
+  address,
+}) => {
+  return address ? (
     <button className="cursor-pointer" onClick={() => onClickHandler()}>
       <Blockies className="inline-block rounded" seed={address} />{' '}
     </button>
+  ) : (
+    <div></div>
   );
 };
 

@@ -2,13 +2,15 @@ import { FC, useContext, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import UserContext from '@context/UserContext';
-
+import { useFdpStorage } from '@context/FdpStorageContext';
 import { createPod } from '@api/pod';
 
 import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
+import Spinner from '@components/Spinner/Spinner';
+import { createDirectory } from '@api/directory';
 
 interface CreatePodModalProps {
   showModal: boolean;
@@ -22,28 +24,31 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
   refreshPods,
 }) => {
   const { trackEvent } = useMatomo();
-  const { password } = useContext(UserContext);
+  const { fdpClient } = useFdpStorage();
+  const [loading, setLoading] = useState(false);
 
   const [newPodName, setNewPodName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleCreateNewPod = () => {
-    createPod(newPodName, password)
-      .then(() => {
-        trackEvent({
-          category: 'Create',
-          action: `Create Pod`,
-          name: `Create Pod: ${newPodName}`,
-          documentTitle: 'Drive Page',
-          href: window.location.href,
-        });
-
-        refreshPods();
-        closeModal();
-      })
-      .catch(() => {
-        setErrorMessage('Error: Could not create a new Pod.');
+  const handleCreateNewPod = async () => {
+    setLoading(true);
+    try {
+      await createPod(fdpClient, newPodName);
+      trackEvent({
+        category: 'Create',
+        action: `Create Pod`,
+        name: `Create Pod: ${newPodName}`,
+        documentTitle: 'Drive Page',
+        href: window.location.href,
       });
+      await createDirectory(fdpClient, newPodName, '/', 'root');
+      refreshPods();
+      closeModal();
+    } catch (e) {
+      setErrorMessage(`Error: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,6 +57,8 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
       closeModal={closeModal}
       headerTitle="Create New Pod"
     >
+      <Spinner isLoading={loading} />
+
       <TextInput
         name="pod"
         label="name your pod"
