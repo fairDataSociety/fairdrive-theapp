@@ -144,12 +144,12 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
           </h4>
 
           <div className="space-y-4">
-            <span
+            {/* <span
               className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
               onClick={handleOpenClick}
             >
               Open
-            </span>
+            </span> */}
 
             {type === 'file' ? (
               <span
