@@ -76,8 +76,8 @@ const dAppsTestnet: Array<Dapp> = [
   },
 ];
 
-function selectDappRouter(routerQuery?: ParsedUrlQuery) {
-  if (routerQuery && routerQuery.toString().indexOf('.dev') === -1) {
+function selectDappRouter(routerQuery: string) {
+  if (routerQuery && routerQuery.indexOf('.dev') === -1) {
     return dAppsMainnet;
   } else {
     return dAppsTestnet;
