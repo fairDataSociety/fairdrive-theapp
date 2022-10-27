@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext, ReactNode, useContext, useState } from 'react';
-import { FdpStorage } from '@fairdatasociety/fdp-storage';
+import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
 import { BigNumber, providers, Wallet } from 'ethers';
 
 const provider = new providers.JsonRpcProvider(

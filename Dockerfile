@@ -2,7 +2,7 @@
 FROM node:lts AS deps
 
 WORKDIR /opt/app
-COPY package.json yarn.lock ./
+COPY *.json ./
 RUN npm install
 
 # Rebuild the source code only when needed

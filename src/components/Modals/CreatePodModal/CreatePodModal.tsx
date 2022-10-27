@@ -10,7 +10,7 @@ import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import Spinner from '@components/Spinner/Spinner';
-import { createDirectory } from '@api/directory';
+import { createDefaultDirectory, createDirectory } from '@api/directory';
 
 interface CreatePodModalProps {
   showModal: boolean;
@@ -41,7 +41,7 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
         documentTitle: 'Drive Page',
         href: window.location.href,
       });
-
+      await createDefaultDirectory(fdpClient, newPodName);
       refreshPods();
       closeModal();
     } catch (e) {
