@@ -20,17 +20,10 @@ const Explore: FC<ExploreProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
-
-  let dapps;
-  const router = useRouter();
+  let href;
   useEffect(() => {
-    router.events.on('routeChangeStart', (url) => {
-      const parsed = parseUrl(url);
-      dapps = selectDappRouter(parsed.query);
-    });
-  }, [router]);
+    href = window.location.href;
 
-  useEffect(() => {
     trackPageView({
       documentTitle: 'Explore Page',
       href: window.location.href,
@@ -73,16 +66,18 @@ const Explore: FC<ExploreProps> = () => {
       ) : null}
 
       <div className="mt-10 grid grid-cols-5 gap-6">
-        {dapps?.filter(filterDapps).map((dapp) => {
-          return (
-            <ExploreCard
-              key={dapp.name}
-              name={dapp.name}
-              link={dapp.link}
-              description={dapp.description}
-            />
-          );
-        })}
+        {selectDappRouter(href)
+          .filter(filterDapps)
+          .map((dapp) => {
+            return (
+              <ExploreCard
+                key={dapp.name}
+                name={dapp.name}
+                link={dapp.link}
+                description={dapp.description}
+              />
+            );
+          })}
       </div>
     </MainLayout>
   );
