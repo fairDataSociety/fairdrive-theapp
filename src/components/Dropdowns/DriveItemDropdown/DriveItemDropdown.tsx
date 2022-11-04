@@ -54,7 +54,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
     })
       .then((response) => {
         FileSaver.saveAs(response, data?.name);
-
+        // TODO:
         trackEvent({
           category: 'File',
           action: `Download File`,
@@ -68,6 +68,27 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
       });
   };
 
+  const handlleCRViewer = () => {
+    setShowDropdown(false);
+
+    downloadFile(fdpClient, {
+      filename: data?.name,
+      directory: directoryName,
+      podName: activePod,
+    })
+      .then((response) => {
+        response.trackEvent({
+          category: 'File',
+          action: `Download File`,
+          name: `Download File: ${data?.name}`,
+          documentTitle: 'Drive Page',
+          href: window.location.href,
+        });
+      })
+      .catch(() => {
+        console.log('File could not be downloaded!');
+      });
+  };
   const handleShareClick = () => {
     setShowDropdown(false);
     setShowShareFileModal(true);
@@ -150,7 +171,14 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
             >
               Open
             </span> */}
-
+            {type === 'file' ? (
+              <span
+                className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
+                onClick={handlleCRViewer}
+              >
+                Open in Consent Receipt viewer
+              </span>
+            ) : null}{' '}
             {type === 'file' ? (
               <span
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
@@ -159,7 +187,6 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
                 Download
               </span>
             ) : null}
-
             {type === 'file' ? (
               <span
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
@@ -168,7 +195,6 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
                 Share
               </span>
             ) : null}
-
             <span
               className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
               onClick={handleDeleteClick}
