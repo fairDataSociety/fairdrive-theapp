@@ -12,12 +12,11 @@ import { DriveItemDropdownToggle } from '@components/Buttons';
 import { ShareFileModal, ConfirmDeleteModal } from '@components/Modals';
 
 import formatDirectory from '@utils/formatDirectory';
+import ConsentViewerModal from '@components/Modals/ConsentViewerModal/ConsentViewerModal';
 
 interface DriveItemDropdownProps {
   type: 'folder' | 'file';
-  data: {
-    name: string;
-  };
+  data: File;
   openClick: () => void;
   updateDrive: () => void;
 }
@@ -34,6 +33,8 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const [showConsentViewerModal, setShowConsentViewerModal] = useState(false);
+  const [fileBlob, setFileBlob] = useState(null);
 
   const handleToggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -54,7 +55,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
     })
       .then((response) => {
         FileSaver.saveAs(response, data?.name);
-        // TODO:
+
         trackEvent({
           category: 'File',
           action: `Download File`,
@@ -68,27 +69,11 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
       });
   };
 
-  const handlleCRViewer = () => {
+  const handleCRViewer = () => {
     setShowDropdown(false);
-
-    downloadFile(fdpClient, {
-      filename: data?.name,
-      directory: directoryName,
-      podName: activePod,
-    })
-      .then((response) => {
-        response.trackEvent({
-          category: 'File',
-          action: `Download File`,
-          name: `Download File: ${data?.name}`,
-          documentTitle: 'Drive Page',
-          href: window.location.href,
-        });
-      })
-      .catch(() => {
-        console.log('File could not be downloaded!');
-      });
+    setShowConsentViewerModal(true);
   };
+
   const handleShareClick = () => {
     setShowDropdown(false);
     setShowShareFileModal(true);
@@ -174,7 +159,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
             {type === 'file' ? (
               <span
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
-                onClick={handlleCRViewer}
+                onClick={handleCRViewer}
               >
                 Open in Consent Receipt viewer
               </span>
@@ -224,6 +209,15 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
           deleteHandler={
             type === 'file' ? handleDeleteFile : handleDeleteFolder
           }
+        />
+      ) : null}
+
+      {showConsentViewerModal ? (
+        <ConsentViewerModal
+          showModal={showConsentViewerModal}
+          closeModal={() => setShowConsentViewerModal(false)}
+          blob={data}
+          handler={handleCRViewer}
         />
       ) : null}
     </div>
