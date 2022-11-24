@@ -38,6 +38,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   const { fdpClient } = useFdpStorage();
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const previewLabel = type === 'file' ? 'Preview' : 'Open';
 
   const handleOpenClick = () => {
     setShowDropdown(false);
@@ -135,10 +136,10 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
       {showDropdown ? (
         <div className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow z-30">
           <h4 className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night">
-            {type === 'file' && handlePreviewClick ? (
-              <span onClick={handlePreviewClick}>Preview</span>
+            {handlePreviewClick ? (
+              <span onClick={handlePreviewClick}>{previewLabel}</span>
             ) : (
-              'Preview'
+              previewLabel
             )}
           </h4>
 
