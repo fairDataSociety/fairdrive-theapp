@@ -36,7 +36,7 @@ const Overview: FC<OverviewProps> = () => {
           Overview
         </h2>
 
-        <div className="grid grid-cols-3 gap-10 mt-12 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 w-full">
           <div className="relative h-80 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
             {theme === 'light' ? (
               <OverviewDriveLight className="inline-block" />

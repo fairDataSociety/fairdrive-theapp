@@ -19,7 +19,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
         <Logo />
 
         <div className="flex justify-between items-center">
-          <div className="mr-16">
+          <div className="mr-0 sm:mr-16">
             <SearchBar />
           </div>
 
