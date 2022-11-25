@@ -8,9 +8,10 @@ import { useFdpStorage } from '@context/FdpStorageContext';
 import { useRouter } from 'next/router';
 interface MainLayoutProps {
   children: ReactChild | ReactChild[];
+  refreshDrive?: () => void;
 }
 
-const MainLayout: FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: FC<MainLayoutProps> = ({ children, refreshDrive }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
   const { wallet } = useFdpStorage();
 
@@ -34,7 +35,10 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
       <div className="flex justify-items-stretch items-stretch w-full h-full overflow-hidden">
         <div className="w-28 dark:bg-color-shade-dark-3-night z-10">
-          <MainSideBar driveSideBarToggle={driveSideBarToggle} />
+          <MainSideBar
+            driveSideBarToggle={driveSideBarToggle}
+            refreshDrive={refreshDrive}
+          />
         </div>
 
         <div

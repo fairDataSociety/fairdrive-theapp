@@ -19,11 +19,11 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
         <Logo />
 
         <div className="flex justify-between items-center">
-          <div className="mr-0 sm:mr-16">
+          <div className="hidden sm:block mr-16">
             <SearchBar />
           </div>
 
-          <div className="space-x-5">
+          <div className="flex flex-nowrap space-x-5">
             <UserDropdownToggle
               address={wallet?.address}
               onClickHandler={() => setShowUserDropdown(true)}

@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import router from 'next/router';
 
 import { MainSideBarItem } from '@components/Buttons';
 
@@ -18,12 +19,17 @@ import ExploreActiveDark from '@media/UI/explore-active-dark.svg';
 import ExploreInactiveDark from '@media/UI/explore-inactive-dark.svg';
 
 import classes from './MainSideBar.module.scss';
+import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
 
 interface MainSideBarProps {
   driveSideBarToggle: any;
+  refreshDrive?: () => void;
 }
 
-const MainSideBar: FC<MainSideBarProps> = ({ driveSideBarToggle }) => {
+const MainSideBar: FC<MainSideBarProps> = ({
+  driveSideBarToggle,
+  refreshDrive,
+}) => {
   const items = [
     {
       label: 'Overview',
@@ -69,6 +75,12 @@ const MainSideBar: FC<MainSideBarProps> = ({ driveSideBarToggle }) => {
     },
   ];
 
+  const [renderDriveMenu, setRenderDriveMenu] = useState<boolean>(false);
+
+  useEffect(() => {
+    setRenderDriveMenu(Boolean(router.pathname === '/drive' && refreshDrive));
+  }, [refreshDrive]);
+
   return (
     <div
       className={`${classes.sideBar} flex flex-col justify-start items-center w-full h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night`}
@@ -84,6 +96,8 @@ const MainSideBar: FC<MainSideBarProps> = ({ driveSideBarToggle }) => {
           />
         );
       })}
+
+      {renderDriveMenu && <DriveActionBarMobile refreshDrive={refreshDrive} />}
     </div>
   );
 };
