@@ -138,6 +138,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           dark: <FolderDarkIcon />,
         }}
         headerTitle="Preview File"
+        className="w-full md:w-98"
       >
         {imageSource ? (
           <img

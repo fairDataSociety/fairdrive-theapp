@@ -28,7 +28,7 @@ const MainFooter: FC = () => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="flex justify-between items-center w-full h-16 px-8 bg-white shadow-top">
+    <div className="hidden md:flex justify-between items-center w-full h-16 px-8 bg-white shadow-top">
       <div className="space-x-8">
         <a href="https://linumlabs.com/" target="_blank" rel="noreferrer">
           {theme === 'light' ? (
