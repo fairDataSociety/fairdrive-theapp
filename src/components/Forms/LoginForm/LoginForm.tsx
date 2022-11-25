@@ -41,7 +41,7 @@ const LoginForm: FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col px-3 justify-center items-center">
       <DisclaimerMessage />
 
       <AuthenticationHeader
@@ -49,7 +49,7 @@ const LoginForm: FC = () => {
         content="Please log in to get access to your Fairdrive."
       />
 
-      <div className="w-98 mt-12">
+      <div className="w-full md:w-98 mt-12">
         <div className="mb-5 text-center">
           <FeedbackMessage type="error" message={errorMessage} />
         </div>

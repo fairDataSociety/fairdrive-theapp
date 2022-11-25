@@ -18,8 +18,10 @@ const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="flex justify-items-stretch w-screen h-screen dark:bg-color-shade-dark-3-night">
-      <div className={`w-100 bg-auth-${theme} bg-center bg-cover bg-no-repeat`}>
+    <div className="flex px-2 justify-items-stretch w-screen h-screen dark:bg-color-shade-dark-3-night">
+      <div
+        className={`w-0 sm:w-100 bg-auth-${theme} bg-center bg-cover bg-no-repeat`}
+      >
         {/* Authentication Background Image */}
       </div>
 
