@@ -34,7 +34,7 @@ const MainHeader: FC<MainHeaderProps> = ({
           {title}
         </h2>
 
-        <div>
+        <div className="hidden md:block">
           <Button
             type="button"
             variant="primary"

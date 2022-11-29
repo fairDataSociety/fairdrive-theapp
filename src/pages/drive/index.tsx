@@ -110,7 +110,7 @@ const Drive: FC = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout refreshDrive={handleFetchDrive}>
       <MainHeader
         title={`${activePod} | ${directoryName}`}
         driveView={driveView}
