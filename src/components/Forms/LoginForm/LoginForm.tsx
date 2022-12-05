@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC, useContext, useState } from 'react';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
 import PodContext from '@context/PodContext';
@@ -10,6 +10,7 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
+import { login } from '@api/user';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -25,6 +26,7 @@ const LoginForm: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const { fdpClient, setWallet } = useFdpStorage();
+  const router = useRouter();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
@@ -32,6 +34,9 @@ const LoginForm: FC = () => {
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
+      if (router.query.fairos === 'true') {
+        await login(user_name, password);
+      }
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);
