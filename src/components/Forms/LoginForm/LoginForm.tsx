@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC, useContext, useState } from 'react';
-import { useRouter } from 'next/router';
+import router from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
 import PodContext from '@context/PodContext';
 import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-import { AuthenticationInput } from '@components/Inputs';
+import { AuthenticationInput, Checkbox } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { login } from '@api/user';
@@ -26,7 +26,9 @@ const LoginForm: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const { fdpClient, setWallet } = useFdpStorage();
-  const router = useRouter();
+  const [logToFairos, setLogToFairos] = useState<boolean>(
+    router.query.fairos === 'true'
+  );
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
@@ -34,7 +36,7 @@ const LoginForm: FC = () => {
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
-      if (router.query.fairos === 'true') {
+      if (logToFairos) {
         await login(user_name, password);
       }
       router.push('/overview');
@@ -100,6 +102,15 @@ const LoginForm: FC = () => {
               type="submit"
               variant="secondary"
               label="Continue"
+            />
+          </div>
+
+          <div className="mt-14 text-center">
+            <Checkbox
+              name="fairos"
+              label="Login with FairOS (this option will log you in to a remote server)"
+              onChange={() => setLogToFairos(!logToFairos)}
+              defaultValue={logToFairos}
             />
           </div>
 
