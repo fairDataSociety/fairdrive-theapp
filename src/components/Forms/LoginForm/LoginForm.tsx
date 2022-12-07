@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FC, useContext, useState } from 'react';
-import router from 'next/router';
+import { FC, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
 import PodContext from '@context/PodContext';
@@ -26,9 +26,10 @@ const LoginForm: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const { fdpClient, setWallet } = useFdpStorage();
-  const [logToFairos, setLogToFairos] = useState<boolean>(
-    router.query.fairos === 'true'
+  const [logToFairos, setLogToFairos] = useState<boolean | undefined>(
+    undefined
   );
+  const router = useRouter();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
@@ -46,6 +47,17 @@ const LoginForm: FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (router.isReady) {
+      setLogToFairos(router.query.fairos === 'true');
+    }
+  }, [router.isReady]);
+
+  // It must wait for the router to be initialized
+  if (logToFairos === undefined) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
