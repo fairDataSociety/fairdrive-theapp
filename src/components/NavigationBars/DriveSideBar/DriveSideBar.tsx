@@ -62,7 +62,7 @@ const DriveSideBar: FC = () => {
   };
 
   return (
-    <div className="w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll no-scroll-bar">
+    <div className="hidden md:block w-56 h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-4-night overflow-scroll no-scroll-bar">
       <div className="py-8 px-4">
         <Spinner isLoading={loading} />
         <DriveToggle activeTab={activeTab} setActiveTab={setActiveTab} />

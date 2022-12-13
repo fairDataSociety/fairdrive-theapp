@@ -57,7 +57,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children, refreshDrive }) => {
         </div>
       </div>
 
-      <div className="w-full h-20 dark:bg-color-shade-dark-3-night z-10">
+      <div className="hidden md:block w-full h-20 dark:bg-color-shade-dark-3-night z-10">
         <MainFooter />
       </div>
     </div>
