@@ -175,7 +175,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
               File type
             </h4>
             <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
-              {previewFile?.content_type}
+              {previewFile?.raw?.contentType}
             </span>
           </div>
         </div>
@@ -185,8 +185,8 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
             Created
           </h4>
           <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
-            {previewFile?.creation_time &&
-              formatDate(previewFile?.creation_time, true)}
+            {previewFile?.raw?.creationTime &&
+              formatDate(String(previewFile?.raw?.creationTime), true)}
           </span>
         </div>
 
