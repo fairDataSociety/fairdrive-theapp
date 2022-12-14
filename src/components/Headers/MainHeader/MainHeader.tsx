@@ -13,7 +13,7 @@ import SortLight from '@media/UI/sort-light.svg';
 import SortDark from '@media/UI/sort-dark.svg';
 
 interface MainHeaderProps {
-  title: string;
+  title: string | JSX.Element;
   driveView: 'grid' | 'list';
   toggleView: () => void;
   toggleSort: () => void;

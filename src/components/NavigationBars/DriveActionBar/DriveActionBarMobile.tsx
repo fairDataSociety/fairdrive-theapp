@@ -22,6 +22,29 @@ export interface DriveActionBarMobileProps {
   refreshDrive?: () => void;
 }
 
+const DriveActionBarItem = (
+  theme: string,
+  label: string,
+  imageLight: JSX.Element,
+  imageDark: JSX.Element,
+  onClick: () => void
+) => {
+  return (
+    <div
+      className="py-2 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
+      onClick={onClick}
+    >
+      <a className="flex flex-col justify-center items-center">
+        {theme === 'light' ? imageLight : imageDark}
+
+        <span className="inline-block mt-2 text-color-accents-plum-black dark:text-color-shade-light-2-night">
+          {label}
+        </span>
+      </a>
+    </div>
+  );
+};
+
 const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   refreshDrive,
 }) => {
@@ -33,43 +56,28 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
 
   return (
     <>
-      <div className="flex md:hidden flex-col justify-center">
-        <Button
-          type="button"
-          variant="primary"
-          className="mx-1 mb-3 p-0"
-          onClick={() => setShowUploadFileModal(true)}
-        >
-          <span className="mr-2">
-            {theme === 'light' ? (
-              <UploadLightIcon className="inline-block" />
-            ) : (
-              <UploadDarkIcon className="inline-block" />
-            )}
-          </span>
-        </Button>
-
-        <Button
-          type="button"
-          variant="primary"
-          icon={theme === 'light' ? <ImportLightIcon /> : <ImportDarkIcon />}
-          className="mx-1 mb-3"
-          onClick={() => setShowImportFileModal(true)}
-        />
-
-        <Button
-          type="button"
-          variant="primary"
-          icon={
-            theme === 'light' ? (
-              <CreateFolderLightIcon />
-            ) : (
-              <CreateFolderDarkIcon />
-            )
-          }
-          className="mx-1"
-          onClick={() => setShowCreateFolderModal(true)}
-        />
+      <div className="flex md:hidden flex-col justify-center w-full">
+        {DriveActionBarItem(
+          theme,
+          'Upload',
+          <UploadLightIcon />,
+          <UploadDarkIcon />,
+          () => setShowUploadFileModal(true)
+        )}
+        {DriveActionBarItem(
+          theme,
+          'Import',
+          <ImportLightIcon />,
+          <ImportDarkIcon />,
+          () => setShowImportFileModal(true)
+        )}
+        {DriveActionBarItem(
+          theme,
+          'Folder',
+          <CreateFolderLightIcon />,
+          <CreateFolderDarkIcon />,
+          () => setShowCreateFolderModal(true)
+        )}
       </div>
       {showUploadFileModal ? (
         <UploadFileModal

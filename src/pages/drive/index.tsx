@@ -19,6 +19,7 @@ import { EmptyDirectoryCard } from '@components/Cards';
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
+import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -111,8 +112,16 @@ const Drive: FC = () => {
 
   return (
     <MainLayout refreshDrive={handleFetchDrive}>
+      <div className="block md:hidden">
+        <DriveActionHeaderMobile />
+      </div>
       <MainHeader
-        title={`${activePod} | ${directoryName}`}
+        title={
+          <>
+            <span className="hidden md:inline">{activePod} | </span>
+            <span>{directoryName}</span>
+          </>
+        }
         driveView={driveView}
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
@@ -133,7 +142,7 @@ const Drive: FC = () => {
           </span>
         </div>
       ) : null}
-      <Spinner isLoading={loading} />/
+      <Spinner isLoading={loading} />
       {directories?.length || files?.length ? (
         <div>
           {driveView === 'grid' ? (
