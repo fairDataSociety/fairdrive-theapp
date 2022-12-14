@@ -13,7 +13,7 @@ interface DriveCardProps {
   data: {
     name: string;
     size: string;
-    creation_time: string;
+    creationTime: string;
   };
   onClick: () => void;
   updateDrive: () => void;
@@ -100,7 +100,7 @@ const DriveCard: FC<DriveCardProps> = ({
               Date Added
             </h4>
             <span className="font-normal text-xs text-color-shade-light-2-day dark:text-color-shade-light-2-night uppercase">
-              {formatDate(data?.creation_time, false)}
+              {formatDate(data?.creationTime, false)}
             </span>
           </div>
         </div>
