@@ -25,7 +25,10 @@ const DriveGridView: FC<DriveGridViewProps> = ({
         <DriveCard
           key={directory.name}
           type="folder"
-          data={directory}
+          data={{
+            ...directory,
+            creationTime: String(directory.raw?.creationTime),
+          }}
           onClick={() => directoryOnClick(directory.name)}
           updateDrive={updateDrive}
         />
@@ -35,7 +38,10 @@ const DriveGridView: FC<DriveGridViewProps> = ({
         <DriveCard
           key={data.name}
           type="file"
-          data={data}
+          data={{
+            ...data,
+            creationTime: String(data.raw?.creationTime),
+          }}
           onClick={() => {
             fileOnClick(data);
           }}

@@ -16,12 +16,16 @@ interface ExportUserResponse {
   address: string;
 }
 
+export function login(userName: string, password: string): Promise<void> {
+  return axios.post('v2/user/login', { userName, password });
+}
+
 export async function importUser(
   data: ImportUserData
 ): Promise<ImportUserResponse> {
-  return axios.post('user/import', data);
+  return axios.post('v1/user/import', data);
 }
 
 export async function exportUser(): Promise<ExportUserResponse> {
-  return (await axios.post('user/export')).data;
+  return (await axios.post('v1/user/export')).data;
 }
