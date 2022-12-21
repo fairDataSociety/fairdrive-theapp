@@ -17,7 +17,7 @@ const SearchBar: FC<SearchBarProps> = () => {
   const { search, updateSearch } = useContext(SearchContext);
 
   return (
-    <div className="flex justify-center items-center w-98 h-10 py-2 px-4 bg-color-shade-dark-4-day dark:bg-color-shade-dark-4-night border border-color-shade-black-day dark:border-color-shade-dark-1-night effect-style-small-button-drop-shadow rounded">
+    <div className="flex justify-center items-center w-80 md:w-98 h-10 py-2 px-4 bg-color-shade-dark-4-day dark:bg-color-shade-dark-4-night border border-color-shade-black-day dark:border-color-shade-dark-1-night effect-style-small-button-drop-shadow rounded">
       {theme === 'light' ? (
         <SearchLightIcon className="inline-block mr-1" />
       ) : (

@@ -4,7 +4,6 @@ import router from 'next/router';
 import { ExportUserModal } from '@components/Modals';
 
 import UserContext from '@context/UserContext';
-import { logout } from '@api/authentication';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -20,7 +19,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
   const [showExportUserModal, setShowExportUserModal] = useState(false);
 
   const disconnect = async () => {
-    await logout();
     router.push('/');
   };
 
@@ -40,16 +38,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
             </div>
 
             <div>
-              <div
-                className="mb-4 cursor-pointer dark:text-color-shade-white-night"
-                onClick={() => {
-                  setShowExportUserModal(true);
-                  setShowDropdown(false);
-                }}
-              >
-                Export User
-              </div>
-
               <div
                 className="mb-4 text-color-status-negative-day cursor-pointer"
                 onClick={disconnect}

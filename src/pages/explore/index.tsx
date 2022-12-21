@@ -2,7 +2,7 @@ import { FC, useEffect, useContext } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
-import dapps, { Dapp } from '@data/explore-dapps';
+import selectDappRouter, { Dapp } from '@data/explore-dapps';
 
 import SearchContext from '@context/SearchContext';
 
@@ -11,6 +11,8 @@ import { ExploreCard } from '@components/Cards';
 
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
+import { useRouter } from 'next/router';
+import { parseUrl } from 'next/dist/shared/lib/router/utils/parse-url';
 
 interface ExploreProps {}
 
@@ -18,8 +20,10 @@ const Explore: FC<ExploreProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
-
+  let href;
   useEffect(() => {
+    href = window.location.href;
+
     trackPageView({
       documentTitle: 'Explore Page',
       href: window.location.href,
@@ -61,17 +65,19 @@ const Explore: FC<ExploreProps> = () => {
         </div>
       ) : null}
 
-      <div className="mt-10 grid grid-cols-5 gap-6">
-        {dapps?.filter(filterDapps).map((dapp) => {
-          return (
-            <ExploreCard
-              key={dapp.name}
-              name={dapp.name}
-              link={dapp.link}
-              description={dapp.description}
-            />
-          );
-        })}
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        {selectDappRouter(href)
+          .filter(filterDapps)
+          .map((dapp) => {
+            return (
+              <ExploreCard
+                key={dapp.name}
+                name={dapp.name}
+                link={dapp.link}
+                description={dapp.description}
+              />
+            );
+          })}
       </div>
     </MainLayout>
   );

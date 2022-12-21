@@ -13,7 +13,7 @@ import SortLight from '@media/UI/sort-light.svg';
 import SortDark from '@media/UI/sort-dark.svg';
 
 interface MainHeaderProps {
-  title: string;
+  title: string | JSX.Element;
   driveView: 'grid' | 'list';
   toggleView: () => void;
   toggleSort: () => void;
@@ -34,7 +34,7 @@ const MainHeader: FC<MainHeaderProps> = ({
           {title}
         </h2>
 
-        <div>
+        <div className="hidden md:block">
           <Button
             type="button"
             variant="primary"

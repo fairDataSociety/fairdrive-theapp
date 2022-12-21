@@ -1,0 +1,26 @@
+.root {
+  @apply relative;
+  &.sm {
+    height: 16px;
+    width: 16px;
+  }
+  &.md {
+    height: 20px;
+    width: 20px;
+  }
+  .spinner {
+    @apply absolute inset-0 border-2;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    border-left-color: transparent;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

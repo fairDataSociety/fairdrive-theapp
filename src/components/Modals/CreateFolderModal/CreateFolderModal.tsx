@@ -2,6 +2,7 @@ import { FC, useContext, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import PodContext from '@context/PodContext';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { createDirectory } from '@api/directory';
 
@@ -9,6 +10,7 @@ import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
+import Spinner from '@components/Spinner/Spinner';
 
 interface CreateFolderModalProps {
   showModal: boolean;
@@ -21,14 +23,18 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
   closeModal,
   refreshDrive,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-
+  const { fdpClient } = useFdpStorage();
   const [newFolderName, setNewFolderName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleCreateNewFolder = () => {
-    createDirectory(activePod, directoryName, newFolderName)
+    setLoading(true);
+
+    createDirectory(fdpClient, activePod, directoryName, newFolderName)
       .then(() => {
         trackEvent({
           category: 'Create',
@@ -41,8 +47,11 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
         refreshDrive();
         closeModal();
       })
-      .catch(() => {
-        setErrorMessage('Error: Could not create a new Folder.');
+      .catch((e) => {
+        setErrorMessage(`${e.message}`);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -52,6 +61,8 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
       closeModal={closeModal}
       headerTitle="Create New Folder"
     >
+      <Spinner isLoading={loading} />
+
       <TextInput
         name="folder"
         label="name your folder"
