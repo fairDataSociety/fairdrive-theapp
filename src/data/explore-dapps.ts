@@ -35,7 +35,7 @@ const dAppsMainnet: Array<Dapp> = [
   {
     name: 'NFTGenerator',
     link: process.env.NEXT_PUBLIC_NFT_GENERATOR_URL,
-    tags: ['NFT', 'mint', 'calendar', 'organizer', 'generator'],
+    tags: ['NFT', 'mint', 'xDAI', 'file', 'generator'],
     description:
       'NFT Generator, allows you to select a file from Fairdrive to be minted into an NFT on xDAI.',
     association: 'jpeg,png',
@@ -43,7 +43,7 @@ const dAppsMainnet: Array<Dapp> = [
   {
     name: 'FDS Agenda',
     link: 'https://agenda.fairdatasociety.org/',
-    tags: ['FDS', 'agenda', 'xDAI', 'file', 'schedule'],
+    tags: ['FDS', 'agenda', 'calendar', 'organizer', 'schedule'],
     description: 'FDS Agenda',
     association: 'json',
   },
