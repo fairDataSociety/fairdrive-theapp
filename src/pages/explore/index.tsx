@@ -20,10 +20,8 @@ const Explore: FC<ExploreProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
-  let href;
+  let href = window.location.href;
   useEffect(() => {
-    href = window.location.href;
-
     trackPageView({
       documentTitle: 'Explore Page',
       href: window.location.href,
