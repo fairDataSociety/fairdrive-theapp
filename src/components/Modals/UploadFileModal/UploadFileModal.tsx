@@ -121,6 +121,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
           variant="primary-outlined"
           label="Upload content"
           onClick={handleUpload}
+          disabled={!fileToUpload}
         />
       </div>
 
