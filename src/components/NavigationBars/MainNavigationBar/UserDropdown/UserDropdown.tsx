@@ -4,6 +4,7 @@ import router from 'next/router';
 import { ExportUserModal } from '@components/Modals';
 
 import UserContext from '@context/UserContext';
+import { ThemeToggle } from '@components/Buttons';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -33,8 +34,11 @@ const UserDropdown: FC<UserDropdownProps> = ({
             className="absolute top-14 right-16 w-72 py-4 px-4 bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night shadow-md rounded border border-color-shade-black-day dark:border-color-shade-light-3-day"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="pb-5 mr-5 mb-5 border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
-              {user}
+            <div className="pb-5 mr-5 mb-5 flex content-center items-center border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
+              <div>{user}</div>
+              <div className="ml-auto">
+                <ThemeToggle />
+              </div>
             </div>
 
             <div>

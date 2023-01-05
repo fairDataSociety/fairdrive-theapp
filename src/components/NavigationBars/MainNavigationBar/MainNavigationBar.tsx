@@ -6,7 +6,6 @@ import Logo from '@components/Logo/Logo';
 import { SearchBar } from '@components/Inputs';
 import { UserDropdownToggle } from '@components/Buttons';
 // import { ActivityDropdownToggle } from '@components/Buttons';
-import { ThemeToggle } from '@components/Buttons';
 import UserDropdown from './UserDropdown/UserDropdown';
 // import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
@@ -28,8 +27,6 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
               address={wallet?.address}
               onClickHandler={() => setShowUserDropdown(true)}
             />
-
-            <ThemeToggle />
           </div>
         </div>
       </div>
