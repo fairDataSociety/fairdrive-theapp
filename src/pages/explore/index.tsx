@@ -1,4 +1,4 @@
-import { FC, useEffect, useContext } from 'react';
+import { FC, useEffect, useContext, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
@@ -20,8 +20,10 @@ const Explore: FC<ExploreProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
-  let href = window.location.href;
+  const [href, setHref] = useState<string | null>(null);
+
   useEffect(() => {
+    setHref(window.location.href);
     trackPageView({
       documentTitle: 'Explore Page',
       href: window.location.href,
@@ -64,18 +66,19 @@ const Explore: FC<ExploreProps> = () => {
       ) : null}
 
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {selectDappRouter(href)
-          .filter(filterDapps)
-          .map((dapp) => {
-            return (
-              <ExploreCard
-                key={dapp.name}
-                name={dapp.name}
-                link={dapp.link}
-                description={dapp.description}
-              />
-            );
-          })}
+        {href &&
+          selectDappRouter(href)
+            .filter(filterDapps)
+            .map((dapp) => {
+              return (
+                <ExploreCard
+                  key={dapp.name}
+                  name={dapp.name}
+                  link={dapp.link}
+                  description={dapp.description}
+                />
+              );
+            })}
       </div>
     </MainLayout>
   );
