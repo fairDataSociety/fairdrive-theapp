@@ -24,11 +24,13 @@ import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
 interface MainSideBarProps {
   driveSideBarToggle: any;
   refreshDrive?: () => void;
+  refreshPods?: () => void;
 }
 
 const MainSideBar: FC<MainSideBarProps> = ({
   driveSideBarToggle,
   refreshDrive,
+  refreshPods,
 }) => {
   const items = [
     {
@@ -97,7 +99,12 @@ const MainSideBar: FC<MainSideBarProps> = ({
         );
       })}
 
-      {renderDriveMenu && <DriveActionBarMobile refreshDrive={refreshDrive} />}
+      {renderDriveMenu && (
+        <DriveActionBarMobile
+          refreshDrive={refreshDrive}
+          refreshPods={refreshPods}
+        />
+      )}
     </div>
   );
 };

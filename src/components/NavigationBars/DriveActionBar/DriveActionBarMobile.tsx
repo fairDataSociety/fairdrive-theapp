@@ -2,12 +2,15 @@ import { FC, useContext, useState } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
 
-import { Button } from '@components/Buttons';
 import {
   UploadFileModal,
   ImportFileModal,
   CreateFolderModal,
+  CreatePodModal,
 } from '@components/Modals';
+
+import DriveActiveLightIcon from '@media/UI/drive-active-light.svg';
+import DriveActiveDarkIcon from '@media/UI/drive-active-dark.svg';
 
 import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
@@ -20,6 +23,7 @@ import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 
 export interface DriveActionBarMobileProps {
   refreshDrive?: () => void;
+  refreshPods?: () => void;
 }
 
 const DriveActionBarItem = (
@@ -47,9 +51,11 @@ const DriveActionBarItem = (
 
 const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   refreshDrive,
+  refreshPods,
 }) => {
   const { theme } = useContext(ThemeContext);
 
+  const [showCreatePodModal, setShowCreatePodModal] = useState(false);
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
@@ -57,6 +63,13 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   return (
     <>
       <div className="flex md:hidden flex-col justify-center w-full">
+        {DriveActionBarItem(
+          theme,
+          'New Pod',
+          <DriveActiveLightIcon />,
+          <DriveActiveDarkIcon />,
+          () => setShowCreatePodModal(true)
+        )}
         {DriveActionBarItem(
           theme,
           'Upload',
@@ -79,6 +92,13 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
           () => setShowCreateFolderModal(true)
         )}
       </div>
+      {showCreatePodModal ? (
+        <CreatePodModal
+          showModal={showCreatePodModal}
+          closeModal={() => setShowCreatePodModal(false)}
+          refreshPods={refreshPods}
+        />
+      ) : null}
       {showUploadFileModal ? (
         <UploadFileModal
           showModal={showUploadFileModal}

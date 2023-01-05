@@ -6,7 +6,7 @@ import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 import SearchContext from '@context/SearchContext';
 
-import { getFilesAndDirectories } from '@api/pod';
+import { getFilesAndDirectories, getPods } from '@api/pod';
 import { FileResponse } from '@api/files';
 
 import { MainLayout } from '@components/Layouts';
@@ -24,7 +24,7 @@ import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/D
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
-  const { activePod, openPods, directoryName, setDirectoryName } =
+  const { activePod, openPods, setPods, directoryName, setDirectoryName } =
     useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
@@ -62,6 +62,16 @@ const Drive: FC = () => {
         setDirectories(response.dirs);
       })
       .catch(() => console.log('Error: Could not fetch directories & files!'))
+      .finally(() => setLoading(false));
+  };
+
+  const handleFetchPods = () => {
+    setLoading(true);
+    getPods(fdpClient)
+      .then((response) => {
+        setPods(response);
+      })
+      .catch(() => console.log('Error: Pods could not be fetched!'))
       .finally(() => setLoading(false));
   };
 
@@ -111,7 +121,7 @@ const Drive: FC = () => {
   };
 
   return (
-    <MainLayout refreshDrive={handleFetchDrive}>
+    <MainLayout refreshDrive={handleFetchDrive} refreshPods={handleFetchPods}>
       <div className="block md:hidden">
         <DriveActionHeaderMobile />
       </div>
