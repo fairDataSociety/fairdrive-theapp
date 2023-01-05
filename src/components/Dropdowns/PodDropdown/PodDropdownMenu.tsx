@@ -17,7 +17,7 @@ const PodItem = ({
 }) => {
   return (
     <span
-      className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
+      className="block w-auto py-2 font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
       onClick={() => onPodSelect(podName)}
     >
       {podName}
