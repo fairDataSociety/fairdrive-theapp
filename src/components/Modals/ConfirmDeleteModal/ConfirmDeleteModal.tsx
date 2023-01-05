@@ -34,7 +34,9 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
       <h5>Are you sure you want to delete the following {type}:</h5>
 
       <div className="flex justify-between items-center mt-5">
-        <p className="text-xs text-center">{name}</p>
+        <p className="text-xs text-center" style={{ overflowWrap: 'anywhere' }}>
+          {name}
+        </p>
       </div>
 
       <Button
