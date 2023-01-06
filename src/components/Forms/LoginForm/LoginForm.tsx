@@ -19,8 +19,7 @@ const LoginForm: FC = () => {
   });
   const { errors, isValid } = formState;
 
-  const { setUser, setPassword, setAddress } = useContext(UserContext);
-  const { clearPodContext } = useContext(PodContext);
+  const { setUser } = useContext(UserContext);
 
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -40,6 +39,7 @@ const LoginForm: FC = () => {
       if (logToFairos) {
         await login(user_name, password);
       }
+      setUser(user_name);
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);

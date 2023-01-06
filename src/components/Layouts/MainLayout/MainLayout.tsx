@@ -9,9 +9,14 @@ import { useRouter } from 'next/router';
 interface MainLayoutProps {
   children: ReactChild | ReactChild[];
   refreshDrive?: () => void;
+  refreshPods?: () => void;
 }
 
-const MainLayout: FC<MainLayoutProps> = ({ children, refreshDrive }) => {
+const MainLayout: FC<MainLayoutProps> = ({
+  children,
+  refreshDrive,
+  refreshPods,
+}) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
   const { wallet } = useFdpStorage();
 
@@ -38,6 +43,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children, refreshDrive }) => {
           <MainSideBar
             driveSideBarToggle={driveSideBarToggle}
             refreshDrive={refreshDrive}
+            refreshPods={refreshPods}
           />
         </div>
 

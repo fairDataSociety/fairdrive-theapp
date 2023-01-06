@@ -17,6 +17,7 @@ import FolderDarkIcon from '@media/UI/folder-dark.svg';
 import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
+import Toast from '@components/Toast/Toast';
 
 interface UploadFileModalProps {
   showModal: boolean;
@@ -33,6 +34,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName, pods } = useContext(PodContext);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -46,9 +48,8 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
   });
 
   const handleUpload = () => {
-    setLoading(true);
-
     if (fileToUpload && activePod) {
+      setLoading(true);
       uploadFile(fdpClient, {
         file: fileToUpload,
         directory: directoryName,
@@ -65,6 +66,7 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
 
           refreshDrive();
           closeModal();
+          setMessage('Successfully uploaded');
         })
         .catch((e) => {
           setErrorMessage(`${e.message}`);
@@ -73,7 +75,6 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
           setLoading(false);
         });
     }
-    setLoading(false);
   };
 
   return (
@@ -121,8 +122,15 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
           variant="primary-outlined"
           label="Upload content"
           onClick={handleUpload}
+          disabled={!fileToUpload}
         />
       </div>
+
+      <Toast
+        message={message}
+        open={Boolean(message)}
+        onClose={() => setMessage(null)}
+      />
 
       {errorMessage ? (
         <div className="my-28 text-color-status-negative-day text-xs text-center leading-none">
