@@ -39,7 +39,7 @@ const Modal: FC<ModalProps> = ({
           <div className="absolute flex justify-center items-center w-full h-full z-50">
             <div onClick={(e) => e.stopPropagation()}>
               <div
-                className={`flex flex-col w-100 h-auto p-6 text-color-accents-purple-black dark:text-color-shade-white-night bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night border-color-shade-black-day dark:border-color-accents-plum-black effect-style-small-button-drop-shadow z-50 rounded`}
+                className={`flex flex-col sm:w-100 h-auto p-6 text-color-accents-purple-black dark:text-color-shade-white-night bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night border-color-shade-black-day dark:border-color-accents-plum-black effect-style-small-button-drop-shadow z-50 rounded`}
               >
                 <div className="flex justify-between items-center mb-5 pb-4 border-b border-color-shade-light-3-day dark:border-color-shade-light-3-night">
                   <div className="flex justify-start items-center">

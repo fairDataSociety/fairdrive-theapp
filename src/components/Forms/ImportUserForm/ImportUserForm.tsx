@@ -70,7 +70,7 @@ const ImportUserForm: FC = () => {
         content="Please select a method of recovery."
       />
 
-      <div className="w-98 mt-12">
+      <div className="w-full px-3 md:px-0 md:w-98 mt-12">
         <ImportToggle
           importMethod={importMethod}
           updateImportMethod={setImportMethod}
