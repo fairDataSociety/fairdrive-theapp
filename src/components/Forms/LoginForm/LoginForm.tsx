@@ -33,8 +33,8 @@ const LoginForm: FC = () => {
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
-      setIsLoggedIn(true);
       setFdpStorageType('native');
+      setIsLoggedIn(true);
       setUser(user_name);
       router.push('/overview');
     } catch (error) {
@@ -53,6 +53,7 @@ const LoginForm: FC = () => {
 
     setFdpStorageType('blossom');
     setIsLoggedIn(true);
+    setUser('Blossom user');
     router.push('/overview');
   };
 

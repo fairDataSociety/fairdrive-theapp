@@ -5,6 +5,8 @@ import { ExportUserModal } from '@components/Modals';
 
 import UserContext from '@context/UserContext';
 import { ThemeToggle } from '@components/Buttons';
+import { useFdpStorage } from '@context/FdpStorageContext';
+import PodContext from '@context/PodContext';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -15,12 +17,19 @@ const UserDropdown: FC<UserDropdownProps> = ({
   showDropdown,
   setShowDropdown,
 }) => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  const { setIsLoggedIn, setFdpStorageType, setWallet } = useFdpStorage();
+  const { clearPodContext } = useContext(PodContext);
 
   const [showExportUserModal, setShowExportUserModal] = useState(false);
 
   const disconnect = async () => {
-    router.push('/');
+    setUser(null);
+    setFdpStorageType('native');
+    setIsLoggedIn(false);
+    setWallet(null);
+    clearPodContext();
+    setTimeout(() => router.push('/'));
   };
 
   return (
