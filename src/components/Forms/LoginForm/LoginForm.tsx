@@ -9,6 +9,7 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
+import { BlossomLogin } from '@components/Blossom';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -22,7 +23,8 @@ const LoginForm: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { fdpClient, setWallet } = useFdpStorage();
+  const { fdpClient, setWallet, setIsLoggedIn, setFdpStorageType } =
+    useFdpStorage();
   const router = useRouter();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
@@ -31,6 +33,8 @@ const LoginForm: FC = () => {
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
+      setIsLoggedIn(true);
+      setFdpStorageType('native');
       setUser(user_name);
       router.push('/overview');
     } catch (error) {
@@ -40,6 +44,18 @@ const LoginForm: FC = () => {
     }
   };
 
+  const onBlossomLogin = (errorMessage: string) => {
+    setLoading(false);
+
+    if (errorMessage) {
+      return setErrorMessage(errorMessage);
+    }
+
+    setFdpStorageType('blossom');
+    setIsLoggedIn(true);
+    router.push('/overview');
+  };
+
   return (
     <div className="flex flex-col px-3 justify-center items-center">
       <DisclaimerMessage />
@@ -47,6 +63,11 @@ const LoginForm: FC = () => {
       <AuthenticationHeader
         title="Welcome back"
         content="Please log in to get access to your Fairdrive."
+      />
+
+      <BlossomLogin
+        onLoginStart={() => setLoading(true)}
+        onLoginEnd={onBlossomLogin}
       />
 
       <div className="w-full md:w-98 mt-12">
