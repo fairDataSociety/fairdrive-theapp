@@ -11,9 +11,15 @@ interface CheckboxProps {
   name: string;
   label: string;
   onChange: any;
+  defaultValue?: boolean;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ name, label, onChange }) => {
+const Checkbox: FC<CheckboxProps> = ({
+  name,
+  label,
+  onChange,
+  defaultValue,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -23,6 +29,7 @@ const Checkbox: FC<CheckboxProps> = ({ name, label, onChange }) => {
         id={name}
         type="checkbox"
         value={name}
+        defaultChecked={defaultValue}
         className={`${classes.checkbox} absolute top-4 left-1 w-6 h-6 opacity-0 cursor-pointer`}
         onChange={onChange}
       />

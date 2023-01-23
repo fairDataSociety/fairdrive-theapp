@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 
 import { receivePod } from '@api/pod';
-
+import { useFdpStorage } from '@context/FdpStorageContext';
 import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
@@ -18,11 +18,12 @@ const ImportPodModal: FC<ImportPodModalProps> = ({
   closeModal,
   refreshPods,
 }) => {
+  const { fdpClient } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleImportPod = () => {
-    receivePod(importCode)
+    receivePod(fdpClient, importCode)
       .then(() => {
         refreshPods();
         closeModal();

@@ -63,6 +63,7 @@ module.exports = {
       'color-status-positive-night': '#7fc18a',
       'color-status-components-day': '#7b61ff',
       'color-status-components-night': '#7b61ff',
+      grey: '#dddddd',
     },
   },
   variants: {

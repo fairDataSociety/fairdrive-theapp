@@ -11,7 +11,7 @@ interface DriveTableItemProps {
   data: {
     name: string;
     size: string;
-    creation_time: string;
+    creationTime: string;
   };
   onClick: () => void;
   updateDrive: () => void;
@@ -41,7 +41,7 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
         {type === 'file' ? prettyBytes(parseInt(data?.size)) : '-'}
       </td>
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
-        {formatDate(data?.creation_time, false)}
+        {formatDate(data?.creationTime, false)}
       </td>
       <td className="text-center">
         <DriveItemDropdown

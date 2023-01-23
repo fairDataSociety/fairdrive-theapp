@@ -4,6 +4,7 @@ import { Button } from '@components/Buttons';
 
 import CopyIcon from '@media/UI/copy.svg';
 import DownloadIcon from '@media/UI/download.svg';
+import copyToClipboard from '@utils/copyToClipboard';
 
 interface MnemonicProps {
   mnemonicPhrase: string;
@@ -13,14 +14,14 @@ const Mnemonic: FC<MnemonicProps> = ({ mnemonicPhrase }) => {
   const [copyComplete, setCopyComplete] = useState(false);
   const [downloadComplete, setDownloadComplete] = useState(false);
 
-  const handleCopyClick = () => {
-    navigator.clipboard
-      .writeText(mnemonicPhrase)
-      .then(() => {
-        setCopyComplete(true);
-        setTimeout(() => setCopyComplete(false), 4000);
-      })
-      .catch(() => console.log('Could not copy mnemonic!'));
+  const handleCopyClick = async () => {
+    try {
+      await copyToClipboard(mnemonicPhrase);
+      setCopyComplete(true);
+      setTimeout(() => setCopyComplete(false), 4000);
+    } catch (error) {
+      console.log('Could not copy mnemonic!');
+    }
   };
 
   const handleDownloadClick = () => {

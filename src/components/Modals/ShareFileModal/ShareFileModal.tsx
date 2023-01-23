@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { shareFile } from '@api/files';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { Modal } from '@components/Modals';
 import { Button } from '@components/Buttons';
@@ -28,10 +29,11 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
   path,
 }) => {
   const { trackEvent } = useMatomo();
+  const { fdpClient } = useFdpStorage();
   const [shareCode, setShareCode] = useState('');
 
   useEffect(() => {
-    shareFile({
+    shareFile(fdpClient, {
       fileName: fileName,
       podName: podName,
       path_file: path,

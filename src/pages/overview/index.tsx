@@ -36,8 +36,8 @@ const Overview: FC<OverviewProps> = () => {
           Overview
         </h2>
 
-        <div className="grid grid-cols-3 gap-10 mt-12 w-full">
-          <div className="relative h-80 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 w-full">
+          <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
             {theme === 'light' ? (
               <OverviewDriveLight className="inline-block" />
             ) : (
@@ -53,18 +53,22 @@ const Overview: FC<OverviewProps> = () => {
               Subpods and explore new ways to organize your files.
             </p>
 
-            <Button
-              type="button"
-              variant="primary-outlined"
-              label="Go to Drive"
-              className="absolute bottom-5"
-              onClick={() => {
-                router.push('/drive');
-              }}
-            />
+            <div
+              className="mt-auto bottom-5 w-fit"
+              style={{ width: 'fit-content' }}
+            >
+              <Button
+                type="button"
+                variant="primary-outlined"
+                label="Go to Drive"
+                onClick={() => {
+                  router.push('/drive');
+                }}
+              />
+            </div>
           </div>
 
-          <div className="relative h-80 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
+          <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
             {theme === 'light' ? (
               <OverviewExploreLight className="inline-block" />
             ) : (
@@ -79,18 +83,22 @@ const Overview: FC<OverviewProps> = () => {
               Explore DApps that are in the Fair Data Society Ecosystem.
             </p>
 
-            <Button
-              type="button"
-              variant="primary-outlined"
-              label="Explore DApps"
-              className="absolute bottom-5"
-              onClick={() => {
-                router.push('/explore');
-              }}
-            />
+            <div
+              className="mt-auto bottom-5 w-fit"
+              style={{ width: 'fit-content ' }}
+            >
+              <Button
+                type="button"
+                variant="primary-outlined"
+                label="Explore DApps"
+                onClick={() => {
+                  router.push('/explore');
+                }}
+              />
+            </div>
           </div>
 
-          <div className="relative h-80 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
+          <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
             {theme === 'light' ? (
               <OverviewEcosystemLight className="inline-block" />
             ) : (
@@ -109,12 +117,13 @@ const Overview: FC<OverviewProps> = () => {
               href="https://docs.fairos.fairdatasociety.org/api/"
               target="_blank"
               rel="noreferrer"
+              className="mt-auto bottom-5 w-fit"
+              style={{ width: 'fit-content ' }}
             >
               <Button
                 type="button"
                 variant="primary-outlined"
                 label="Developer Docs"
-                className="absolute bottom-5"
               />
             </a>
           </div>

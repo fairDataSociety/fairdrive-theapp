@@ -1,7 +1,6 @@
-import { ethers } from 'ethers';
+import { Wallet } from 'ethers';
+import { Mnemonic } from 'ethers/lib/utils';
 
-export default async function generateMnemonic(): Promise<ethers.utils.Mnemonic> {
-  const mnemonic = await ethers.Wallet.createRandom().mnemonic;
-
-  return mnemonic;
+export default function generateMnemonic(): Mnemonic {
+  return Wallet.createRandom().mnemonic;
 }
