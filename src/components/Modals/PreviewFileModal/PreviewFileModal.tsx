@@ -30,6 +30,7 @@ import ShareDarkIcon from '@media/UI/share-dark.svg';
 import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
+import FilePreview from '@components/FilePreview/FilePreview';
 
 interface PreviewModalProps {
   showModal: boolean;
@@ -64,13 +65,20 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
     })
       .then(async (response) => {
         const blob = await response.arrayBuffer();
-        setImageSource(window.URL.createObjectURL(new Blob([blob])));
+        const content = new Blob([blob]);
+
+        if (previewFile?.name.endsWith('.json')) {
+          const json = await content.text();
+          return setImageSource(JSON.parse(json));
+        }
+
+        setImageSource(window.URL.createObjectURL(content));
       })
       .catch((e) => {
         setErrorMessage('File preview could not be loaded!');
       })
       .finally(() => {
-        setLoading(true);
+        setLoading(false);
       });
   }, []);
 
@@ -96,7 +104,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         console.log('File could not be downloaded!');
       })
       .finally(() => {
-        setLoading(true);
+        setLoading(false);
       });
   };
 
@@ -124,7 +132,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         console.log('File could not be deleted!');
       })
       .finally(() => {
-        setLoading(true);
+        setLoading(false);
       });
   };
 
@@ -141,10 +149,9 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         className="w-full md:w-98"
       >
         {imageSource ? (
-          <img
-            src={imageSource}
-            alt="Preview Image"
-            className="w-full h-auto my-10 rounded"
+          <FilePreview
+            file={previewFile}
+            source={imageSource}
             onError={() => setErrorMessage('File preview could not be loaded!')}
           />
         ) : null}
