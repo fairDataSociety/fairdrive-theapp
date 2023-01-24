@@ -18,11 +18,8 @@ const PodDropdownToggele: FC<PodDropdownToggeleProps> = ({
 
   return (
     <div className="flex items-center w-full">
-      <span className="font-semibold text-lg text-color-accents-purple-black dark:text-color-shade-white-night">
-        {activePod || 'Select a pod'}
-      </span>
       <button
-        className="flex py-2 ml-auto px-4 cursor-pointer"
+        className="flex py-2 px-4 cursor-pointer"
         onClick={() => onClickHandler()}
       >
         {theme === 'light' ? (
@@ -31,6 +28,9 @@ const PodDropdownToggele: FC<PodDropdownToggeleProps> = ({
           <DropdownMenuIconDark />
         )}
       </button>
+      <span className="font-semibold text-lg text-color-accents-purple-black dark:text-color-shade-white-night">
+        {activePod || 'Select a pod'}
+      </span>
     </div>
   );
 };

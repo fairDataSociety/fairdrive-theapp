@@ -22,7 +22,7 @@ const DriveCardIcon: FC<DriveCardIconProps> = ({ type, fileExtention }) => {
       </span>
 
       {type === 'file' ? (
-        <span className="block -mt-10 mb-10 ml-0 lg:ml-3 text-center lg:text-center text-color-shade-black-day dark:text-color-accents-grey-pastel uppercase z-20">
+        <span className="block -mt-10 mb-5 lg:mb-10 ml-0 text-center text-ellipsis lg:text-center text-color-shade-black-day dark:text-color-accents-grey-pastel uppercase z-20">
           {fileExtention}
         </span>
       ) : null}
