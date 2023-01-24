@@ -1,4 +1,5 @@
 import { FileResponse } from '@api/files';
+import ConsentViewer from '@components/ConsentViewer/ConsentViewer';
 import { FC } from 'react';
 
 interface FilePreviewProps {
@@ -58,7 +59,11 @@ function isFileVideo(fileName: string): boolean {
 
 const FilePreview: FC<FilePreviewProps> = ({ file, source, onError }) => {
   if (isFileConsent(source)) {
-    return <div className="w-full h-auto my-10 rounded">Consent Document</div>;
+    return (
+      <div className="w-full h-auto my-10 rounded">
+        <ConsentViewer data={source} />
+      </div>
+    );
   }
 
   if (isFileVideo(file.name || '')) {
