@@ -77,7 +77,7 @@ const FilePreview: FC<FilePreviewProps> = ({
             <a
               target="_blank"
               href={`${process.env.NEXT_PUBLIC_CONSENT_VIEWER}/${pod}/${
-                directory ? `${directory}/` : ''
+                directory && directory !== 'root' ? `${directory}/` : ''
               }${file.name}`}
               rel="noreferrer"
             >
