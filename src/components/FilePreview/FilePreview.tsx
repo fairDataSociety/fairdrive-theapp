@@ -75,8 +75,11 @@ const FilePreview: FC<FilePreviewProps> = ({
         {(!directory || !directory.includes('/')) && (
           <div className="mb-4">
             <a
+              className="text-color-accents-purple-black dark:text-color-shade-white-night"
               target="_blank"
-              href={`${process.env.NEXT_PUBLIC_CONSENT_VIEWER}/${pod}/${
+              href={`${
+                process.env.NEXT_PUBLIC_CONSENT_VIEWER
+              }?pod=${pod}&file=${
                 directory && directory !== 'root' ? `${directory}/` : ''
               }${file.name}`}
               rel="noreferrer"
