@@ -6,6 +6,8 @@ interface FilePreviewProps {
   file: FileResponse;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   source: any;
+  pod: string;
+  directory: string;
   onError: () => void;
 }
 
@@ -57,12 +59,36 @@ function isFileVideo(fileName: string): boolean {
   );
 }
 
-const FilePreview: FC<FilePreviewProps> = ({ file, source, onError }) => {
+const FilePreview: FC<FilePreviewProps> = ({
+  file,
+  pod,
+  directory,
+  source,
+  onError,
+}) => {
   if (isFileConsent(source)) {
     return (
-      <div className="w-full h-auto my-10 rounded">
-        <ConsentViewer data={source} />
-      </div>
+      <>
+        <div className="w-full h-auto my-10 rounded">
+          <ConsentViewer data={source} />
+        </div>
+        {(!directory || !directory.includes('/')) && (
+          <div className="mb-4">
+            <a
+              className="text-color-accents-purple-black dark:text-color-shade-white-night"
+              target="_blank"
+              href={`${
+                process.env.NEXT_PUBLIC_CONSENT_VIEWER
+              }?pod=${pod}&file=${
+                directory && directory !== 'root' ? `${directory}/` : ''
+              }${file.name}`}
+              rel="noreferrer"
+            >
+              Open Consent
+            </a>
+          </div>
+        )}
+      </>
     );
   }
 

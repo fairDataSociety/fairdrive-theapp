@@ -152,6 +152,8 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           <FilePreview
             file={previewFile}
             source={imageSource}
+            pod={activePod}
+            directory={directoryName}
             onError={() => setErrorMessage('File preview could not be loaded!')}
           />
         ) : null}

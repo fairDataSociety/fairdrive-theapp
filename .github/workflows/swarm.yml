@@ -1,0 +1,134 @@
+name: push to swarm
+
+on:
+  push:
+    branches:
+      - master
+      - development
+      - staging
+env:
+  BEE_VERSION: '1.6.1'
+  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42B22483e3c8dF794f351939620572d1a3193c12'
+  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9'
+  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14'
+  NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
+  NEXT_PUBLIC_NAME: 'Fairdrive'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: set vars per branch
+        id: vars
+        run: |
+          if [ "$GITHUB_REF_NAME" == 'master' ]; then
+              echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_RPC_URL=https://xdai.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=goerli" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_ENVIRONMENT=GOERLI" >> "$GITHUB_ENV"
+              echo "PURGE_URL=https://fairdrive.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "SWARM_URL=https://gateway.fairdatasociety.org/proxy/" >> "$GITHUB_ENV"
+              echo "SIGNER=SIGNER_$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+              echo "DEPLOYMENT=." >> "$GITHUB_ENV"
+          elif [ "$GITHUB_REF_NAME" == 'development' ]; then
+              echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_RPC_URL=https://xdai.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=goerli" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_ENVIRONMENT=GOERLI" >> "$GITHUB_ENV"
+              echo "PURGE_URL=https://fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "SWARM_URL=https://gateway.dev.fairdatasociety.org/proxy/" >> "$GITHUB_ENV"
+              echo "SIGNER=SIGNER_$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+              echo "DEPLOYMENT=." >> "$GITHUB_ENV"
+          elif [ "$GITHUB_REF_NAME" == 'staging' ]; then
+              echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_RPC_URL=https://xdai.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=goerli" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_ENVIRONMENT=GOERLI" >> "$GITHUB_ENV"
+              echo "PURGE_URL=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "SWARM_URL=https://gateway.dev.fairdatasociety.org/proxy/" >> "$GITHUB_ENV"
+              echo "SIGNER=SIGNER_$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+              echo "DEPLOYMENT=." >> "$GITHUB_ENV"
+          fi
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: install
+        run: npm install
+      - name: copy NEXT vars to .env
+        run: |
+          env |grep 'NEXT_PUBLIC' > .env
+      - name: build
+        run: npm run build
+        env:
+          CI: false
+      - name: Upload
+        id: swarm-upload
+        uses: ethersphere/swarm-actions/upload-dir@latest
+        with:
+          bee-url: ${{ env.SWARM_URL }}
+          dir: ./out
+          index-document: index.html
+          timeout: 200000
+      - name: update feed
+        id: swarm-feed
+        uses: ethersphere/swarm-actions/write-feed@latest
+        with:
+          bee-url: ${{ env.SWARM_URL }}
+          reference: ${{ steps.swarm-upload.outputs.reference }}
+          topic: consents
+          signer: ${{ secrets[env.SIGNER] }}
+      - name: get CID
+        id: swarm-cid
+        uses: ethersphere/swarm-actions/reference-to-cid@latest
+        with:
+          reference: ${{ steps.swarm-feed.outputs.reference }}
+      - name: print
+        run: |
+          echo "upload ref: " ${{ steps.swarm-upload.outputs.reference }}
+          echo "feed ref: " ${{ steps.swarm-feed.outputs.reference }}
+          echo "CID: " ${{ steps.swarm-cid.outputs.cid }}
+          echo 'Feed Manifest: ${{ steps.swarm-feed.outputs.manifest }}'
+      - name: purge cache
+        env:
+          TOKEN: '${{ secrets.purge_token }}'
+        run: |
+          curl -s ${{ env.PURGE_URL }}/deploy/purge?token=${{ secrets.purge_token }} -H "site: fairdrive${{ env.DEPLOYMENT }}fairdatasociety.org" -H "uri: "
