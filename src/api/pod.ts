@@ -11,8 +11,7 @@ export interface PodFilesResponse {
 }
 export async function getPods(fdp: FdpStorage): Promise<GetPodResponse> {
   const list = await fdp.personalStorage.list();
-  const pods = await list.getPods();
-  const sharedPods = await list.getSharedPods();
+  const { pods, sharedPods } = list;
   const response = {
     pod_name: pods.map((i) => i.name),
     shared_pod_name: sharedPods.map((i) => i.name),
@@ -48,10 +47,9 @@ export async function getFilesAndDirectories(
   }
 
   const res = await fdp.directory.read(data.pod_name, data.dir_path, false);
-  const files = await res.getFiles();
-  const dirs = await res.getDirectories();
+  const { files, directories } = res;
   return {
     files: files as any,
-    dirs: dirs as any,
+    dirs: directories as any,
   };
 }
