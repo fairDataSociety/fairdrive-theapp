@@ -33,7 +33,7 @@ jobs:
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://xdai.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_RPC_URL=https://xdai.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
