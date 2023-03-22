@@ -18,13 +18,15 @@ const UserDropdown: FC<UserDropdownProps> = ({
   setShowDropdown,
 }) => {
   const { user, setUser } = useContext(UserContext);
-  const { setWallet } = useFdpStorage();
+  const { setIsLoggedIn, setFdpStorageType, setWallet } = useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
 
   const [showExportUserModal, setShowExportUserModal] = useState(false);
 
   const disconnect = async () => {
     setUser(null);
+    setFdpStorageType('native');
+    setIsLoggedIn(false);
     setWallet(null);
     clearPodContext();
     setTimeout(() => router.push('/'));
