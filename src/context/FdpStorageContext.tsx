@@ -2,6 +2,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
 import { BigNumber, providers, Wallet } from 'ethers';
+import { saveCache } from '@utils/cache';
 
 const provider = new providers.JsonRpcProvider(
   process.env.NEXT_PUBLIC_RPC_URL as string
@@ -21,6 +22,12 @@ const fdpClient = new FdpStorage(
       },
     },
     ensDomain: 'fds',
+    cacheOptions: {
+      isUseCache: true,
+      onSaveCache: async (cacheObject) => {
+        saveCache(JSON.stringify(cacheObject));
+      },
+    },
   }
 );
 
