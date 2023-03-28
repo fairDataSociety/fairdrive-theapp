@@ -61,7 +61,6 @@ export async function getSignatureWallet(): Promise<Wallet> {
   const address = await getAddress();
   const signature = await getSignature(address, SIGN_WALLET_DATA);
   const slicedSignature = utils.hexDataSlice(signature, 0, MAX_ENTROPY_LENGTH);
-  console.log('signature', signature, 'slicedSignature', slicedSignature);
   const mnemonic = utils.entropyToMnemonic(slicedSignature);
 
   return Wallet.fromMnemonic(mnemonic);
