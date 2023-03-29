@@ -1,6 +1,5 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext } from 'react';
 import router from 'next/router';
-import { ExportUserModal } from '@components/Modals';
 import UserContext from '@context/UserContext';
 import { ThemeToggle } from '@components/Buttons';
 import shortenString from '@utils/shortenString';
@@ -17,7 +16,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
 }) => {
   const { user } = useContext(UserContext);
   const { fdpClient } = useFdpStorage();
-  const [showExportUserModal, setShowExportUserModal] = useState(false);
 
   const disconnect = async () => {
     router.push('/');
@@ -55,11 +53,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
           </div>
         </div>
       </div>
-
-      <ExportUserModal
-        showModal={showExportUserModal}
-        closeModal={() => setShowExportUserModal(false)}
-      />
     </>
   );
 };
