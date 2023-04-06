@@ -24,15 +24,8 @@ import Spinner from '@components/Spinner/Spinner';
 
 const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
-  const {
-    pods,
-    setPods,
-    activePod,
-    setActivePod,
-    openPods,
-    setOpenPods,
-    setDirectoryName,
-  } = useContext(PodContext);
+  const { pods, setPods, activePod, setActivePod, setDirectoryName } =
+    useContext(PodContext);
   const { fdpClient } = useFdpStorage();
   const [loading, setLoading] = useState(false);
 
@@ -42,18 +35,20 @@ const DriveSideBar: FC = () => {
 
   useEffect(() => {
     if (!pods) {
-      handleFetchPods();
+      handleFetchPods().then();
     }
   }, []);
 
-  const handleFetchPods = () => {
+  const handleFetchPods = async () => {
     setLoading(true);
-    getPods(fdpClient)
-      .then((response) => {
-        setPods(response);
-      })
-      .catch(() => console.log('Error: Pods could not be fetched!'))
-      .finally(() => setLoading(false));
+    try {
+      const response = await getPods(fdpClient);
+      setPods(response);
+    } catch (error) {
+      console.log('Error: Pods could not be fetched!', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleOpenPod = (podName: string) => {

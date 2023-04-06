@@ -50,29 +50,44 @@ const Drive: FC = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchDrive();
+    handleFetchDrive().then();
   }, [activePod, directoryName, openPods]);
 
   const handleFetchDrive = async () => {
-    setLoading(true);
+    if (!activePod) {
+      return;
+    }
 
-    getFilesAndDirectories(fdpClient, activePod, directoryName || 'root')
-      .then((response) => {
-        setFiles(response.files);
-        setDirectories(response.dirs);
-      })
-      .catch(() => console.log('Error: Could not fetch directories & files!'))
-      .finally(() => setLoading(false));
+    setLoading(true);
+    setFiles([]);
+    setDirectories([]);
+
+    try {
+      const response = await getFilesAndDirectories(
+        fdpClient,
+        activePod,
+        directoryName || 'root'
+      );
+      setFiles(response.files);
+      setDirectories(response.dirs);
+    } catch (e) {
+      console.log('Error: Could not fetch directories & files!', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleFetchPods = () => {
+  const handleFetchPods = async () => {
+    console.log('index handleFetchPods');
     setLoading(true);
-    getPods(fdpClient)
-      .then((response) => {
-        setPods(response);
-      })
-      .catch(() => console.log('Error: Pods could not be fetched!'))
-      .finally(() => setLoading(false));
+    try {
+      const response = await getPods(fdpClient);
+      setPods(response);
+    } catch (error) {
+      console.log('Error: Pods could not be fetched! 111', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleToggleView = () => {
