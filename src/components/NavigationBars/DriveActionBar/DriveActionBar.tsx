@@ -20,9 +20,13 @@ import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 
 export interface DriveActionBarProps {
   refreshDrive: () => void;
+  activePod: string;
 }
 
-const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
+const DriveActionBar: FC<DriveActionBarProps> = ({
+  refreshDrive,
+  activePod,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
@@ -36,47 +40,51 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
           Inventory
         </h2>
 
-        <div className="flex justify-center items-stretch mt-5">
-          <Button
-            type="button"
-            variant="primary"
-            className="mx-1 p-0"
-            onClick={() => setShowUploadFileModal(true)}
-          >
-            <span className="mr-2">
-              {theme === 'light' ? (
-                <UploadLightIcon className="inline-block" />
-              ) : (
-                <UploadDarkIcon className="inline-block" />
-              )}
-            </span>
-            <span className="text-color-accents-purple-heavy text-xs">
-              Upload
-            </span>
-          </Button>
+        {activePod && (
+          <div className="flex justify-center items-stretch mt-5">
+            <Button
+              type="button"
+              variant="primary"
+              className="mx-1 p-0"
+              onClick={() => setShowUploadFileModal(true)}
+            >
+              <span className="mr-2">
+                {theme === 'light' ? (
+                  <UploadLightIcon className="inline-block" />
+                ) : (
+                  <UploadDarkIcon className="inline-block" />
+                )}
+              </span>
+              <span className="text-color-accents-purple-heavy text-xs">
+                Upload
+              </span>
+            </Button>
 
-          <Button
-            type="button"
-            variant="primary"
-            icon={theme === 'light' ? <ImportLightIcon /> : <ImportDarkIcon />}
-            className="mx-1"
-            onClick={() => setShowImportFileModal(true)}
-          />
+            <Button
+              type="button"
+              variant="primary"
+              icon={
+                theme === 'light' ? <ImportLightIcon /> : <ImportDarkIcon />
+              }
+              className="mx-1"
+              onClick={() => setShowImportFileModal(true)}
+            />
 
-          <Button
-            type="button"
-            variant="primary"
-            icon={
-              theme === 'light' ? (
-                <CreateFolderLightIcon />
-              ) : (
-                <CreateFolderDarkIcon />
-              )
-            }
-            className="mx-1"
-            onClick={() => setShowCreateFolderModal(true)}
-          />
-        </div>
+            <Button
+              type="button"
+              variant="primary"
+              icon={
+                theme === 'light' ? (
+                  <CreateFolderLightIcon />
+                ) : (
+                  <CreateFolderDarkIcon />
+                )
+              }
+              className="mx-1"
+              onClick={() => setShowCreateFolderModal(true)}
+            />
+          </div>
+        )}
       </div>
 
       <div className="text-xs text-color-shade-light-2-night">

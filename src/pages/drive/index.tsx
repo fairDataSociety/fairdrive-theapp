@@ -20,6 +20,7 @@ import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
+import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -136,7 +137,7 @@ const Drive: FC = () => {
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-      <DriveActionBar refreshDrive={handleFetchDrive} />
+      <DriveActionBar refreshDrive={handleFetchDrive} activePod={activePod} />
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>
@@ -176,7 +177,11 @@ const Drive: FC = () => {
           ) : null}
         </div>
       ) : loading === false ? (
-        <EmptyDirectoryCard />
+        activePod ? (
+          <EmptyDirectoryCard />
+        ) : (
+          <SelectPodCard />
+        )
       ) : null}
       {showPreviewModal ? (
         <PreviewFileModal
