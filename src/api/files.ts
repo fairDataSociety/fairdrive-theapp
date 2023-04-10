@@ -1,27 +1,6 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
 import formatURL from '@utils/formatURL';
 
-export interface FileResponse {
-  name: string;
-  size: string;
-  raw: {
-    version: 1;
-    userAddress: [];
-    podName: string;
-    filePath: string;
-    fileName: string;
-    fileSize: number;
-    blockSize: number;
-    contentType: string;
-    compression: string;
-    creationTime: number;
-    accessTime: number;
-    modificationTime: number;
-    fileInodeReference: string;
-  };
-  reference: string;
-}
-
 interface DownloadFileData {
   filename: string;
   directory: string;
