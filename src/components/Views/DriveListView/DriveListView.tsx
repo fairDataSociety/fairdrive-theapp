@@ -1,18 +1,17 @@
 import { FC, useState } from 'react';
 
-import { FileResponse } from '@api/files';
-
 import {
   DriveTableHeader,
   DriveTableItem,
   DriveTableFooter,
 } from '@components/Tables';
+import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
 
 interface DriveListViewProps {
-  directories: FileResponse[];
-  files: FileResponse[];
+  directories: DirectoryItem[];
+  files: FileItem[];
   directoryOnClick: (directoryName: string) => void;
-  fileOnClick: (data: FileResponse) => void;
+  fileOnClick: (data: FileItem) => void;
   updateDrive: () => void;
 }
 
@@ -53,8 +52,9 @@ const DriveListView: FC<DriveListViewProps> = ({
               key={directory.name}
               type="folder"
               data={{
-                ...directory,
-                creationTime: String(directory.raw?.creationTime),
+                name: directory.name,
+                size: directory.size,
+                creationTime: (directory.raw as any)?.meta?.creationTime,
               }}
               onClick={() => directoryOnClick(directory.name)}
               updateDrive={updateDrive}
@@ -68,8 +68,9 @@ const DriveListView: FC<DriveListViewProps> = ({
               key={data.name}
               type="file"
               data={{
-                ...data,
-                creationTime: String(data.raw?.creationTime),
+                name: data.name,
+                size: data.size,
+                creationTime: (data.raw as any)?.creationTime,
               }}
               onClick={() => {
                 fileOnClick(data);

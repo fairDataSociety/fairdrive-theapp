@@ -1,4 +1,4 @@
-import { FdpStorage } from '@fairdatasociety/fdp-storage';
+import { DirectoryItem, FdpStorage } from '@fairdatasociety/fdp-storage';
 
 export interface GetPodResponse {
   pod_name: string[];
@@ -31,7 +31,7 @@ export async function getFilesAndDirectories(
   fdp: FdpStorage,
   pod_name: string,
   directory: string
-): Promise<PodFilesResponse> {
+): Promise<DirectoryItem> {
   let data = { dir_path: '', pod_name: pod_name };
 
   if (directory === 'root') {
@@ -46,10 +46,5 @@ export async function getFilesAndDirectories(
     };
   }
 
-  const res = await fdp.directory.read(data.pod_name, data.dir_path, false);
-  const { files, directories } = res;
-  return {
-    files: files as any,
-    dirs: directories as any,
-  };
+  return fdp.directory.read(data.pod_name, data.dir_path, false);
 }

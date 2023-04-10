@@ -12,8 +12,8 @@ interface DriveCardProps {
   type: 'folder' | 'file';
   data: {
     name: string;
-    size: string;
-    creationTime: string;
+    size: number;
+    creationTime: number;
   };
   onClick: () => void;
   updateDrive: () => void;
@@ -90,7 +90,7 @@ const DriveCard: FC<DriveCardProps> = ({
                 File Size
               </h4>
               <span className="font-normal text-xs text-color-shade-light-2-day dark:text-color-shade-light-2-night uppercase">
-                {prettyBytes(parseInt(data?.size))}
+                {prettyBytes(data?.size)}
               </span>
             </div>
           ) : null}
@@ -100,7 +100,7 @@ const DriveCard: FC<DriveCardProps> = ({
               Date Added
             </h4>
             <span className="font-normal text-xs text-color-shade-light-2-day dark:text-color-shade-light-2-night uppercase">
-              {formatDate(data?.creationTime, false)}
+              {formatDate(String(data?.creationTime), false)}
             </span>
           </div>
         </div>

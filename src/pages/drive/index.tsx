@@ -7,7 +7,6 @@ import PodContext from '@context/PodContext';
 import SearchContext from '@context/SearchContext';
 
 import { getFilesAndDirectories, getPods } from '@api/pod';
-import { FileResponse } from '@api/files';
 
 import { MainLayout } from '@components/Layouts';
 import { MainHeader } from '@components/Headers';
@@ -20,6 +19,7 @@ import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
+import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -28,8 +28,8 @@ const Drive: FC = () => {
     useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
-  const [directories, setDirectories] = useState(null);
-  const [files, setFiles] = useState(null);
+  const [directories, setDirectories] = useState<DirectoryItem[] | null>(null);
+  const [files, setFiles] = useState<FileItem[] | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewFile, setPreviewFile] = useState(null);
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
@@ -59,7 +59,7 @@ const Drive: FC = () => {
     getFilesAndDirectories(fdpClient, activePod, directoryName || 'root')
       .then((response) => {
         setFiles(response.files);
-        setDirectories(response.dirs);
+        setDirectories(response.directories);
       })
       .catch(() => console.log('Error: Could not fetch directories & files!'))
       .finally(() => setLoading(false));
@@ -111,12 +111,12 @@ const Drive: FC = () => {
     }
   };
 
-  const handleFileOnClick = (data: FileResponse) => {
+  const handleFileOnClick = (data: FileItem) => {
     setPreviewFile(data);
     setShowPreviewModal(true);
   };
 
-  const handleSearchFilter = (driveItem: FileResponse) => {
+  const handleSearchFilter = (driveItem: DirectoryItem | FileItem) => {
     return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
   };
 
