@@ -53,3 +53,7 @@ export async function getFilesAndDirectories(
     dirs: directories as any,
   };
 }
+
+export function deletePod(fdp: FdpStorage, podName: string): Promise<void> {
+  return fdp.personalStorage.delete(podName);
+}

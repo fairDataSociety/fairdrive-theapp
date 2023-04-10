@@ -6,7 +6,7 @@ import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 import SearchContext from '@context/SearchContext';
 
-import { getFilesAndDirectories, getPods } from '@api/pod';
+import { deletePod, getFilesAndDirectories, getPods } from '@api/pod';
 import { FileResponse } from '@api/files';
 
 import { MainLayout } from '@components/Layouts';
@@ -25,8 +25,15 @@ import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
-  const { activePod, openPods, setPods, directoryName, setDirectoryName } =
-    useContext(PodContext);
+  const {
+    activePod,
+    openPods,
+    setPods,
+    directoryName,
+    setDirectoryName,
+    setActivePod,
+    deletePod: deletePodFromContext,
+  } = useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
   const [directories, setDirectories] = useState(null);
@@ -121,8 +128,29 @@ const Drive: FC = () => {
     return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
   };
 
+  const handleDeletePod = async () => {
+    try {
+      setLoading(true);
+
+      await deletePod(fdpClient, activePod);
+      deletePodFromContext(activePod);
+      setActivePod('');
+      setFiles(null);
+      setDirectories(null);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <MainLayout refreshDrive={handleFetchDrive} refreshPods={handleFetchPods}>
+    <MainLayout
+      activePod={activePod}
+      refreshDrive={handleFetchDrive}
+      refreshPods={handleFetchPods}
+      deletePod={handleDeletePod}
+    >
       <div className="block md:hidden">
         <DriveActionHeaderMobile />
       </div>
@@ -137,7 +165,11 @@ const Drive: FC = () => {
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-      <DriveActionBar refreshDrive={handleFetchDrive} activePod={activePod} />
+      <DriveActionBar
+        refreshDrive={handleFetchDrive}
+        activePod={activePod}
+        deletePod={handleDeletePod}
+      />
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>

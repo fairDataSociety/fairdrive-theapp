@@ -22,6 +22,8 @@ import classes from './MainSideBar.module.scss';
 import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
 
 interface MainSideBarProps {
+  activePod: string;
+  deletePod?: () => void;
   driveSideBarToggle: any;
   refreshDrive?: () => void;
   refreshPods?: () => void;
@@ -29,6 +31,8 @@ interface MainSideBarProps {
 
 const MainSideBar: FC<MainSideBarProps> = ({
   driveSideBarToggle,
+  activePod,
+  deletePod,
   refreshDrive,
   refreshPods,
 }) => {
@@ -101,6 +105,8 @@ const MainSideBar: FC<MainSideBarProps> = ({
 
       {renderDriveMenu && (
         <DriveActionBarMobile
+          activePod={activePod}
+          deletePod={deletePod}
           refreshDrive={refreshDrive}
           refreshPods={refreshPods}
         />

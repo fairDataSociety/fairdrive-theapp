@@ -8,12 +8,16 @@ import { useFdpStorage } from '@context/FdpStorageContext';
 import { useRouter } from 'next/router';
 interface MainLayoutProps {
   children: ReactChild | ReactChild[];
+  activePod: string;
+  deletePod?: () => void;
   refreshDrive?: () => void;
   refreshPods?: () => void;
 }
 
 const MainLayout: FC<MainLayoutProps> = ({
   children,
+  activePod,
+  deletePod,
   refreshDrive,
   refreshPods,
 }) => {
@@ -41,6 +45,8 @@ const MainLayout: FC<MainLayoutProps> = ({
       <div className="flex justify-items-stretch items-stretch w-full h-full overflow-hidden">
         <div className="w-28 dark:bg-color-shade-dark-3-night z-10">
           <MainSideBar
+            activePod={activePod}
+            deletePod={deletePod}
             driveSideBarToggle={driveSideBarToggle}
             refreshDrive={refreshDrive}
             refreshPods={refreshPods}

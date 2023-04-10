@@ -9,6 +9,7 @@ interface PodContext {
   activePod: string;
   setActivePod: (pod: string) => void;
   openPods: string[];
+  deletePod: (podName: string) => void;
   setOpenPods: (openPods: string[]) => void;
   directoryName: string;
   setDirectoryName: (directoryName: string) => void;
@@ -26,6 +27,7 @@ const podContextDefaultValues: PodContext = {
   setActivePod: (pod: string) => {},
   openPods: [],
   setOpenPods: (openPods: string[]) => {},
+  deletePod: (podName: string) => {},
   directoryName: '',
   setDirectoryName: (directoryName: string) => {},
   clearPodContext: () => {},
@@ -46,6 +48,32 @@ const PodProvider: FC<PodContextProps> = ({ children }) => {
     setDirectoryName('');
   };
 
+  const deletePodFromArray = (podName: string, pods: string[]) => {
+    const index = pods.findIndex((pod) => pod === podName);
+
+    if (index >= 0) {
+      pods.splice(index, 1);
+    }
+  };
+
+  const deletePod = (podName: string) => {
+    if (!pods) {
+      return;
+    }
+
+    const { pod_name, shared_pod_name } = pods;
+
+    const podsCopy = {
+      pod_name: [...pod_name],
+      shared_pod_name: [...shared_pod_name],
+    };
+
+    deletePodFromArray(podName, podsCopy.pod_name);
+    deletePodFromArray(podName, podsCopy.shared_pod_name);
+
+    setPods(podsCopy);
+  };
+
   return (
     <PodContext.Provider
       value={{
@@ -55,6 +83,7 @@ const PodProvider: FC<PodContextProps> = ({ children }) => {
         setActivePod,
         openPods,
         setOpenPods,
+        deletePod,
         directoryName,
         setDirectoryName,
         clearPodContext,

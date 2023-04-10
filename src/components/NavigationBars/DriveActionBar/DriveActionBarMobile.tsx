@@ -7,6 +7,7 @@ import {
   ImportFileModal,
   CreateFolderModal,
   CreatePodModal,
+  ConfirmDeleteModal,
 } from '@components/Modals';
 
 import DriveActiveLightIcon from '@media/UI/drive-active-light.svg';
@@ -21,7 +22,12 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 
+import CloseLightIcon from '@media/UI/close-light.svg';
+import CloseDarkIcon from '@media/UI/close-light.svg';
+
 export interface DriveActionBarMobileProps {
+  activePod: string;
+  deletePod?: () => void;
   refreshDrive?: () => void;
   refreshPods?: () => void;
 }
@@ -50,6 +56,8 @@ const DriveActionBarItem = (
 };
 
 const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
+  activePod,
+  deletePod,
   refreshDrive,
   refreshPods,
 }) => {
@@ -59,6 +67,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
+  const [showDeletePodModal, setShowDeletePodModal] = useState(false);
 
   return (
     <>
@@ -91,6 +100,14 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
           <CreateFolderDarkIcon />,
           () => setShowCreateFolderModal(true)
         )}
+        {activePod &&
+          DriveActionBarItem(
+            theme,
+            'Delete',
+            <CloseLightIcon />,
+            <CloseDarkIcon />,
+            () => setShowDeletePodModal(true)
+          )}
       </div>
       {showCreatePodModal ? (
         <CreatePodModal
@@ -122,6 +139,19 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
           refreshDrive={refreshDrive}
         />
       ) : null}
+
+      {showDeletePodModal && (
+        <ConfirmDeleteModal
+          showModal={showDeletePodModal}
+          closeModal={() => setShowDeletePodModal(false)}
+          type="pod"
+          name={activePod}
+          deleteHandler={() => {
+            setShowDeletePodModal(false);
+            deletePod();
+          }}
+        />
+      )}
     </>
   );
 };
