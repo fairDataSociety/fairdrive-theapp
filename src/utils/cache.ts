@@ -31,5 +31,5 @@ export function getCache(): string {
     cache = memoryCache;
   }
 
-  return !cache || cache === '' ? '{}' : cache;
+  return cache || '{}';
 }
