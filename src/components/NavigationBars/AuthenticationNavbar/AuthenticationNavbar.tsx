@@ -46,7 +46,7 @@ const AuthenticationNavbar: FC = () => {
               setFdpStorageType('native');
               setIsLoggedIn(true);
               setWallet(data);
-              router.push('/overview').then();
+              return router.push('/overview');
             }}
           />
         </a>

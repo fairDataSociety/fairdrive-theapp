@@ -20,7 +20,17 @@ const MetamaskNotFoundModal: FC<MetamaskNotFoundModalProps> = ({
       closeModal={closeModal}
       headerTitle="Metamask not found"
     >
-      <h5>Install Metamask to start using the site</h5>
+      <h5>
+        Install
+        <a
+          href="https://metamask.io/download/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Metamask
+        </a>
+        to start using the site
+      </h5>
 
       <Button
         type="button"

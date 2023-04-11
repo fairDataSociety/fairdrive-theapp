@@ -11,6 +11,7 @@ import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { BlossomLogin } from '@components/Blossom';
 import { getCache } from '@utils/cache';
+import { isEmpty } from '@utils/object';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -60,7 +61,9 @@ const LoginForm: FC = () => {
 
   useEffect(() => {
     // cache initialization after browser context is available (Next.js related)
-    fdpClient.cache.object = JSON.parse(getCache());
+    if (isEmpty(fdpClient.cache.object)) {
+      fdpClient.cache.object = JSON.parse(getCache());
+    }
   }, [fdpClient.cache]);
 
   return (
