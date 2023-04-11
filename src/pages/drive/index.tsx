@@ -59,25 +59,34 @@ const Drive: FC = () => {
   }, [activePod, directoryName, openPods]);
 
   const handleFetchDrive = async () => {
-    setLoading(true);
-
-    getFilesAndDirectories(fdpClient, activePod, directoryName || 'root')
-      .then((response) => {
-        setFiles(response.files);
-        setDirectories(response.directories);
-      })
-      .catch(() => console.log('Error: Could not fetch directories & files!'))
-      .finally(() => setLoading(false));
+    try {
+      setLoading(true);
+      setFiles([]);
+      setDirectories([]);
+      const response = await getFilesAndDirectories(
+        fdpClient,
+        activePod,
+        directoryName || 'root'
+      );
+      setFiles(response.files);
+      setDirectories(response.directories);
+    } catch (error) {
+      console.log('Error: Could not fetch directories & files (drive index)!');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleFetchPods = () => {
-    setLoading(true);
-    getPods(fdpClient)
-      .then((response) => {
-        setPods(response);
-      })
-      .catch(() => console.log('Error: Pods could not be fetched!'))
-      .finally(() => setLoading(false));
+  const handleFetchPods = async () => {
+    try {
+      setLoading(true);
+      const response = await getPods(fdpClient);
+      setPods(response);
+    } catch (error) {
+      console.log('Error: Pods could not be fetched (drive index)!');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleToggleView = () => {
@@ -102,7 +111,7 @@ const Drive: FC = () => {
     }
   };
 
-  const handleDirectyOnClick = (newDirectoryName: string) => {
+  const handleDirectoryOnClick = (newDirectoryName: string) => {
     if (!loading) {
       setLoading(true);
 
@@ -178,7 +187,7 @@ const Drive: FC = () => {
             <DriveGridView
               directories={handleSort(directories?.filter(handleSearchFilter))}
               files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectyOnClick}
+              directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleFetchDrive}
               dropdownOpenFileName={fileNameDropdownOpen}
@@ -190,7 +199,7 @@ const Drive: FC = () => {
             <DriveListView
               directories={handleSort(directories?.filter(handleSearchFilter))}
               files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectyOnClick}
+              directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleFetchDrive}
               dropdownOpenFileName={fileNameDropdownOpen}
