@@ -27,7 +27,7 @@ const MetamaskNotFoundModal: FC<MetamaskNotFoundModalProps> = ({
           target="_blank"
           rel="noreferrer"
         >
-          Metamask
+          &nbsp;Metamask&nbsp;
         </a>
         to start using the site
       </h5>
