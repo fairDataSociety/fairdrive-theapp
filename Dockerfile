@@ -3,7 +3,7 @@ FROM node:lts AS deps
 
 WORKDIR /opt/app
 COPY *.json ./
-RUN npm install
+RUN npm ci
 
 # Rebuild the source code only when needed
 # This is where because may be the case that you would try

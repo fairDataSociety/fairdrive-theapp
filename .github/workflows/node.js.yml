@@ -42,13 +42,13 @@ jobs:
       run: npm install -g @fairdatasociety/fdp-play
 
     - name: Run fdp-play
-      run: fdp-play start -d --bee-version $BEE_VERSION    
-    
+      run: fdp-play start -d --bee-version $BEE_VERSION
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
+    - run: npm ci
     - name: build
       run: npm run build
       env:

@@ -93,7 +93,7 @@ jobs:
         run: npm list
 
       - name: install
-        run: npm install
+        run: npm ci
       - name: copy NEXT vars to .env
         run: |
           env |grep 'NEXT_PUBLIC' > .env
