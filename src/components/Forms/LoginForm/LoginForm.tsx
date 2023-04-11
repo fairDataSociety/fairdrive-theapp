@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
@@ -10,6 +10,7 @@ import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { BlossomLogin } from '@components/Blossom';
+import { getCache } from '@utils/cache';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -56,6 +57,11 @@ const LoginForm: FC = () => {
     setUser('Blossom user');
     router.push('/overview');
   };
+
+  useEffect(() => {
+    // cache initialization after browser context is available (Next.js related)
+    fdpClient.cache.object = JSON.parse(getCache());
+  }, [fdpClient.cache]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">

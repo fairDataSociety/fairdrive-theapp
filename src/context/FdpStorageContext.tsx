@@ -9,6 +9,7 @@ import {
 import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
 import { BigNumber, providers, Wallet } from 'ethers';
 import { Blossom } from '@fairdatasociety/blossom';
+import { saveCache } from '@utils/cache';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
 
@@ -30,6 +31,12 @@ const nativeFdpStorage = new FdpStorage(
       },
     },
     ensDomain: 'fds',
+    cacheOptions: {
+      isUseCache: true,
+      onSaveCache: async (cacheObject) => {
+        saveCache(JSON.stringify(cacheObject));
+      },
+    },
   }
 );
 interface FdpStorageContextProps {

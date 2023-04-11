@@ -7,6 +7,7 @@ import UserContext from '@context/UserContext';
 import { ThemeToggle } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import PodContext from '@context/PodContext';
+import shortenString from '@utils/shortenString';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -18,7 +19,8 @@ const UserDropdown: FC<UserDropdownProps> = ({
   setShowDropdown,
 }) => {
   const { user, setUser } = useContext(UserContext);
-  const { setIsLoggedIn, setFdpStorageType, setWallet } = useFdpStorage();
+  const { fdpClient, setIsLoggedIn, setFdpStorageType, setWallet } =
+    useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
 
   const [showExportUserModal, setShowExportUserModal] = useState(false);
@@ -31,6 +33,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
     clearPodContext();
     setTimeout(() => router.push('/'));
   };
+  const address = fdpClient?.account?.wallet?.address;
 
   return (
     <>
@@ -44,7 +47,9 @@ const UserDropdown: FC<UserDropdownProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="pb-5 mr-5 mb-5 flex content-center items-center border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
-              <div>{user}</div>
+              <div title={user || address}>
+                {user || shortenString(address, 24)}
+              </div>
               <div className="ml-auto">
                 <ThemeToggle />
               </div>
