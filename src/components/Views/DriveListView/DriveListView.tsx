@@ -13,6 +13,8 @@ interface DriveListViewProps {
   directoryOnClick: (directoryName: string) => void;
   fileOnClick: (data: FileItem) => void;
   updateDrive: () => void;
+  dropdownOpenFileName: string;
+  onDropdownFileNameChange: (fileName: string) => void;
 }
 
 const DriveListView: FC<DriveListViewProps> = ({
@@ -21,6 +23,8 @@ const DriveListView: FC<DriveListViewProps> = ({
   directoryOnClick,
   fileOnClick,
   updateDrive,
+  dropdownOpenFileName,
+  onDropdownFileNameChange,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -58,6 +62,10 @@ const DriveListView: FC<DriveListViewProps> = ({
               }}
               onClick={() => directoryOnClick(directory.name)}
               updateDrive={updateDrive}
+              dropdownOpen={directory.name === dropdownOpenFileName}
+              onDropdownOpenChange={(open: boolean) =>
+                onDropdownFileNameChange(open ? directory.name : null)
+              }
             />
           ))}
 
@@ -76,6 +84,10 @@ const DriveListView: FC<DriveListViewProps> = ({
                 fileOnClick(data);
               }}
               updateDrive={updateDrive}
+              dropdownOpen={data.name === dropdownOpenFileName}
+              onDropdownOpenChange={(open: boolean) =>
+                onDropdownFileNameChange(open ? data.name : null)
+              }
             />
           ))}
       </table>

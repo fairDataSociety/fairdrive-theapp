@@ -15,6 +15,8 @@ interface DriveTableItemProps {
   };
   onClick: () => void;
   updateDrive: () => void;
+  dropdownOpen: boolean;
+  onDropdownOpenChange: (dropdownOpen: boolean) => void;
 }
 
 const DriveTableItem: FC<DriveTableItemProps> = ({
@@ -22,6 +24,8 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
   data,
   onClick,
   updateDrive,
+  dropdownOpen,
+  onDropdownOpenChange,
 }) => {
   const tableDataClasses =
     'pl-4 font-normal text-color-accents-purple-black text-left';
@@ -49,6 +53,8 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
           data={data}
           openClick={onClick}
           updateDrive={updateDrive}
+          showDropdown={dropdownOpen}
+          onShowDropdownChange={onDropdownOpenChange}
         />
       </td>
     </tr>
