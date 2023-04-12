@@ -79,6 +79,7 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
           type="button"
           variant="secondary"
           label="Create Folder"
+          disabled={loading}
           onClick={handleCreateNewFolder}
         />
       </div>
