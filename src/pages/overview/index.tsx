@@ -49,8 +49,8 @@ const Overview: FC<OverviewProps> = () => {
             </h3>
 
             <p className="mt-2 text-color-shade-light-2-night dark:text-color-shade-light-2-night">
-              Start interacting with the Fairtext in Fairdrive, create your
-              Subpods and explore new ways to organize your files.
+              Start interacting with dApps in Fairdrive, create pods and folders
+              and explore a decentralized storage solution for your files.
             </p>
 
             <div
