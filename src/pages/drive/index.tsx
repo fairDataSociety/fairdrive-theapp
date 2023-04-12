@@ -37,6 +37,9 @@ const Drive: FC = () => {
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
   const { fdpClient } = useFdpStorage();
+  const [fileNameDropdownOpen, setFileNameDropdownOpen] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     trackPageView({
@@ -163,6 +166,8 @@ const Drive: FC = () => {
               directoryOnClick={handleDirectyOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleFetchDrive}
+              dropdownOpenFileName={fileNameDropdownOpen}
+              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
 
@@ -173,6 +178,8 @@ const Drive: FC = () => {
               directoryOnClick={handleDirectyOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleFetchDrive}
+              dropdownOpenFileName={fileNameDropdownOpen}
+              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
         </div>

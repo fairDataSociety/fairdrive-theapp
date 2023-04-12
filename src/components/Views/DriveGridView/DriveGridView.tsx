@@ -8,6 +8,8 @@ interface DriveGridViewProps {
   directoryOnClick: (directoryName: string) => void;
   fileOnClick: (data: FileItem) => void;
   updateDrive: () => void;
+  dropdownOpenFileName: string;
+  onDropdownFileNameChange: (fileName: string) => void;
 }
 
 const DriveGridView: FC<DriveGridViewProps> = ({
@@ -16,6 +18,8 @@ const DriveGridView: FC<DriveGridViewProps> = ({
   directoryOnClick,
   fileOnClick,
   updateDrive,
+  dropdownOpenFileName,
+  onDropdownFileNameChange,
 }) => {
   return (
     <div className="flex flex-wrap h-full">
@@ -30,6 +34,10 @@ const DriveGridView: FC<DriveGridViewProps> = ({
           }}
           onClick={() => directoryOnClick(directory.name)}
           updateDrive={updateDrive}
+          dropdownOpen={directory.name === dropdownOpenFileName}
+          onDropdownOpenChange={(open: boolean) =>
+            onDropdownFileNameChange(open ? directory.name : null)
+          }
         />
       ))}
 
@@ -46,6 +54,10 @@ const DriveGridView: FC<DriveGridViewProps> = ({
             fileOnClick(data);
           }}
           updateDrive={updateDrive}
+          dropdownOpen={data.name === dropdownOpenFileName}
+          onDropdownOpenChange={(open: boolean) =>
+            onDropdownFileNameChange(open ? data.name : null)
+          }
         />
       ))}
     </div>
