@@ -1,7 +1,6 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
-import UserContext from '@context/UserContext';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { createPod } from '@api/pod';
 
@@ -10,7 +9,6 @@ import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import Spinner from '@components/Spinner/Spinner';
-import { createDefaultDirectory, createDirectory } from '@api/directory';
 
 interface CreatePodModalProps {
   showModal: boolean;

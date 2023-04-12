@@ -9,32 +9,26 @@ import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
+import { CreatorModalProps } from '@interfaces/handlers';
 
-interface ImportFileModalProps {
-  showModal: boolean;
-  closeModal: () => void;
-  refreshDrive: () => void;
-}
-
-const ImportFileModal: FC<ImportFileModalProps> = ({
+const ImportFileModal: FC<CreatorModalProps> = ({
   showModal,
   closeModal,
-  refreshDrive,
+  updateDrive,
 }) => {
   const { activePod, directoryName } = useContext(PodContext);
   const { fdpClient } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleImportFile = () => {
-    receiveFile(fdpClient, importCode, activePod, directoryName)
-      .then(() => {
-        refreshDrive();
-        closeModal();
-      })
-      .catch(() => {
-        setErrorMessage('Error: Could not import the File!');
-      });
+  const handleImportFile = async () => {
+    try {
+      await receiveFile(fdpClient, importCode, activePod, directoryName);
+      updateDrive();
+      closeModal();
+    } catch {
+      setErrorMessage('Error: Could not import the File!');
+    }
   };
 
   return (

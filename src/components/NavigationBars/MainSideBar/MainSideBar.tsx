@@ -20,16 +20,16 @@ import ExploreInactiveDark from '@media/UI/explore-inactive-dark.svg';
 
 import classes from './MainSideBar.module.scss';
 import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface MainSideBarProps {
+interface MainSideBarProps extends UpdateDriveProps {
   driveSideBarToggle: any;
-  refreshDrive?: () => void;
   refreshPods?: () => void;
 }
 
 const MainSideBar: FC<MainSideBarProps> = ({
   driveSideBarToggle,
-  refreshDrive,
+  updateDrive,
   refreshPods,
 }) => {
   const items = [
@@ -80,8 +80,8 @@ const MainSideBar: FC<MainSideBarProps> = ({
   const [renderDriveMenu, setRenderDriveMenu] = useState<boolean>(false);
 
   useEffect(() => {
-    setRenderDriveMenu(Boolean(router.pathname === '/drive' && refreshDrive));
-  }, [refreshDrive]);
+    setRenderDriveMenu(Boolean(router.pathname === '/drive' && updateDrive));
+  }, [updateDrive]);
 
   return (
     <div
@@ -101,7 +101,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
 
       {renderDriveMenu && (
         <DriveActionBarMobile
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
           refreshPods={refreshPods}
         />
       )}

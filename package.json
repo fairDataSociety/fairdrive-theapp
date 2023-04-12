@@ -17,6 +17,7 @@
     "format:check": "prettier --check .",
     "lint": "eslint --ext .ts,.tsx",
     "lint:fix": "eslint --ext .ts,.tsx --fix .",
+    "check:types": "tsc --project tsconfig.json",
     "test": "jest"
   },
   "dependencies": {

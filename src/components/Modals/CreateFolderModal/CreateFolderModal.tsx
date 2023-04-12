@@ -11,17 +11,14 @@ import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import Spinner from '@components/Spinner/Spinner';
+import { CreatorModalProps } from '@interfaces/handlers';
+import { addItemToCache, ContentType } from '@utils/cache';
+import { getFdpPathByDirectory } from '@api/pod';
 
-interface CreateFolderModalProps {
-  showModal: boolean;
-  closeModal: () => void;
-  refreshDrive: () => void;
-}
-
-const CreateFolderModal: FC<CreateFolderModalProps> = ({
+const CreateFolderModal: FC<CreatorModalProps> = ({
   showModal,
   closeModal,
-  refreshDrive,
+  updateDrive,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -31,28 +28,45 @@ const CreateFolderModal: FC<CreateFolderModalProps> = ({
   const [newFolderName, setNewFolderName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleCreateNewFolder = () => {
+  const handleCreateNewFolder = async () => {
     setLoading(true);
 
-    createDirectory(fdpClient, activePod, directoryName, newFolderName)
-      .then(() => {
-        trackEvent({
-          category: 'Create',
-          action: `Create Folder`,
-          name: `Create Folder: ${newFolderName}`,
-          documentTitle: 'Drive Page',
-          href: window.location.href,
-        });
+    try {
+      const userAddress = fdpClient.account.wallet.address;
+      const directory = directoryName || 'root';
+      const fdpPath = getFdpPathByDirectory(directory);
 
-        refreshDrive();
-        closeModal();
-      })
-      .catch((e) => {
-        setErrorMessage(`${e.message}`);
-      })
-      .finally(() => {
-        setLoading(false);
+      const item = await createDirectory(
+        fdpClient,
+        activePod,
+        directoryName,
+        newFolderName
+      );
+
+      trackEvent({
+        category: 'Create',
+        action: `Create Folder`,
+        name: `Create Folder: ${newFolderName}`,
+        documentTitle: 'Drive Page',
+        href: window.location.href,
       });
+
+      addItemToCache(
+        userAddress,
+        activePod,
+        fdpPath,
+        item,
+        ContentType.DIRECTORY
+      );
+      updateDrive({
+        isUseCacheOnly: true,
+      });
+      closeModal();
+    } catch (e) {
+      setErrorMessage(`${e.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

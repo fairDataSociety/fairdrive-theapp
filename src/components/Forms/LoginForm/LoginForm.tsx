@@ -9,8 +9,8 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
-import { getCache } from '@utils/cache';
 import { isEmpty } from '@utils/object';
+import { CacheType, getCache } from '@utils/cache';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -51,8 +51,8 @@ const LoginForm: FC = () => {
 
   useEffect(() => {
     // cache initialization after browser context is available (Next.js related)
-    if (fdpClient.cache && isEmpty(fdpClient.cache.object)) {
-      fdpClient.cache.object = JSON.parse(getCache());
+    if (isEmpty(fdpClient.cache.object)) {
+      fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
     }
   }, [fdpClient.cache]);
 

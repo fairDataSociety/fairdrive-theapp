@@ -17,17 +17,12 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
+import PodContext from '@context/PodContext';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-export interface DriveActionBarProps {
-  refreshDrive: () => void;
-  activePod: string;
-}
-
-const DriveActionBar: FC<DriveActionBarProps> = ({
-  refreshDrive,
-  activePod,
-}) => {
+const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
   const { theme } = useContext(ThemeContext);
+  const { activePod } = useContext(PodContext);
 
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
@@ -95,7 +90,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({
         <UploadFileModal
           showModal={showUploadFileModal}
           closeModal={() => setShowUploadFileModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
 
@@ -103,7 +98,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({
         <ImportFileModal
           showModal={showImportFileModal}
           closeModal={() => setShowImportFileModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
 
@@ -111,7 +106,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({
         <CreateFolderModal
           showModal={showCreateFolderModal}
           closeModal={() => setShowCreateFolderModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
     </div>
