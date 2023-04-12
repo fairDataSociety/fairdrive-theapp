@@ -5,6 +5,7 @@ import Logo from '@components/Logo/Logo';
 import { Button, ThemeToggle } from '@components/Buttons';
 
 import DownloadIcon from '@media/UI/download.svg';
+import AboutIcon from '@media/UI/about.svg';
 
 const AuthenticationNavbar: FC = () => {
   return (
@@ -21,7 +22,15 @@ const AuthenticationNavbar: FC = () => {
             />
           </a>
         </Link>
-
+        <Link href="/about" passHref>
+          <a className="mr-6">
+            <Button
+              variant="tertiary-outlined"
+              label="About"
+              icon={<AboutIcon className="inline-block ml-2" />}
+            />
+          </a>
+        </Link>
         <ThemeToggle />
       </div>
     </div>
