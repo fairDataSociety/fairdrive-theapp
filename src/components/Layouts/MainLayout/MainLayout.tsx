@@ -18,7 +18,7 @@ const MainLayout: FC<MainLayoutProps> = ({
   refreshPods,
 }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
-  const { wallet } = useFdpStorage();
+  const { isLoggedIn } = useFdpStorage();
 
   const driveSideBarToggle = () => {
     setShowDriveSideBar(!showDriveSideBar);
@@ -26,7 +26,7 @@ const MainLayout: FC<MainLayoutProps> = ({
 
   const router = useRouter();
   useEffect(() => {
-    if (wallet === null) {
+    if (!isLoggedIn) {
       // Always do navigations after the first render
       router.push('/');
     }

@@ -122,7 +122,7 @@ yarn
 Or:
 
 ```bash
-npm install
+npm ci
 ```
 
 And run the application:

@@ -10,20 +10,11 @@ export async function createDirectory(
   directory: string,
   directoryName: string
 ) {
-  let data = { dir_path: '' };
   if (directory === 'root') {
-    directory = `/`;
+    directory = '';
   }
-  data = {
-    dir_path: `${directory}${directoryName}`,
-  };
-  try {
-    await fdp.directory.create(podName, data.dir_path);
 
-    return true;
-  } catch (error) {
-    return error;
-  }
+  return fdp.directory.create(podName, `/${directory}/${directoryName}`);
 }
 
 export const deleteDirectory = async (

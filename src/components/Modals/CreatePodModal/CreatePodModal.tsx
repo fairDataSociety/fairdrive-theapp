@@ -75,6 +75,7 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
           type="button"
           variant="secondary"
           label="Create Pod"
+          disabled={loading}
           onClick={handleCreateNewPod}
         />
       </div>

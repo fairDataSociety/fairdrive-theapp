@@ -7,7 +7,6 @@ import PodContext from '@context/PodContext';
 import SearchContext from '@context/SearchContext';
 
 import { getFilesAndDirectories, getPods } from '@api/pod';
-import { FileResponse } from '@api/files';
 
 import { MainLayout } from '@components/Layouts';
 import { MainHeader } from '@components/Headers';
@@ -20,6 +19,9 @@ import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
+import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
+import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
+import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -28,14 +30,17 @@ const Drive: FC = () => {
     useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
-  const [directories, setDirectories] = useState(null);
-  const [files, setFiles] = useState(null);
+  const [directories, setDirectories] = useState<DirectoryItem[] | null>(null);
+  const [files, setFiles] = useState<FileItem[] | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewFile, setPreviewFile] = useState(null);
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
   const { fdpClient } = useFdpStorage();
+  const [fileNameDropdownOpen, setFileNameDropdownOpen] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     trackPageView({
@@ -59,7 +64,7 @@ const Drive: FC = () => {
     getFilesAndDirectories(fdpClient, activePod, directoryName || 'root')
       .then((response) => {
         setFiles(response.files);
-        setDirectories(response.dirs);
+        setDirectories(response.directories);
       })
       .catch(() => console.log('Error: Could not fetch directories & files!'))
       .finally(() => setLoading(false));
@@ -111,12 +116,24 @@ const Drive: FC = () => {
     }
   };
 
-  const handleFileOnClick = (data: FileResponse) => {
+  const handleDirectoryPathChange = (newDirectory: string) => {
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
+
+    setDirectoryName(newDirectory);
+
+    setLoading(false);
+  };
+
+  const handleFileOnClick = (data: FileItem) => {
     setPreviewFile(data);
     setShowPreviewModal(true);
   };
 
-  const handleSearchFilter = (driveItem: FileResponse) => {
+  const handleSearchFilter = (driveItem: DirectoryItem | FileItem) => {
     return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
   };
 
@@ -127,16 +144,17 @@ const Drive: FC = () => {
       </div>
       <MainHeader
         title={
-          <>
-            <span className="hidden md:inline">{activePod} | </span>
-            <span>{directoryName}</span>
-          </>
+          <DirectoryPath
+            podName={activePod}
+            directory={directoryName}
+            onDirectorySelect={handleDirectoryPathChange}
+          />
         }
         driveView={driveView}
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-      <DriveActionBar refreshDrive={handleFetchDrive} />
+      <DriveActionBar refreshDrive={handleFetchDrive} activePod={activePod} />
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>
@@ -162,6 +180,8 @@ const Drive: FC = () => {
               directoryOnClick={handleDirectyOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleFetchDrive}
+              dropdownOpenFileName={fileNameDropdownOpen}
+              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
 
@@ -172,11 +192,17 @@ const Drive: FC = () => {
               directoryOnClick={handleDirectyOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleFetchDrive}
+              dropdownOpenFileName={fileNameDropdownOpen}
+              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
         </div>
       ) : loading === false ? (
-        <EmptyDirectoryCard />
+        activePod ? (
+          <EmptyDirectoryCard />
+        ) : (
+          <SelectPodCard />
+        )
       ) : null}
       {showPreviewModal ? (
         <PreviewFileModal

@@ -9,6 +9,8 @@ interface DriveItemDropdownProps {
   data: {
     name: string;
   };
+  showDropdown: boolean;
+  onShowDropdownChange: (showDropdown: boolean) => void;
   openClick: () => void;
   updateDrive: () => void;
   handlePreviewClick?: () => void;
@@ -17,28 +19,26 @@ interface DriveItemDropdownProps {
 const DriveDropdown: FC<DriveItemDropdownProps> = ({
   type,
   data,
+  showDropdown,
+  onShowDropdownChange,
   openClick,
   updateDrive,
   handlePreviewClick,
 }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
   return (
     <div
       className="relative cursor-default"
       onClick={(event) => event.stopPropagation()}
     >
-      <DriveItemDropdownToggle onClickHandler={handleToggleDropdown} />
+      <DriveItemDropdownToggle
+        onClickHandler={() => onShowDropdownChange(!showDropdown)}
+      />
 
       <DriveItemMenu
         data={data}
         type={type}
         showDropdown={showDropdown}
-        setShowDropdown={setShowDropdown}
+        setShowDropdown={onShowDropdownChange}
         openClick={openClick}
         updateDrive={updateDrive}
         handlePreviewClick={handlePreviewClick}

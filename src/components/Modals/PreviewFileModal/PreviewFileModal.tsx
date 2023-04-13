@@ -7,7 +7,7 @@ import { useFdpStorage } from '@context/FdpStorageContext';
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 
-import { downloadFile, deleteFile, FileResponse } from '@api/files';
+import { downloadFile, deleteFile } from '@api/files';
 
 import { SideModal } from '@components/Modals';
 import { ShareFileModal, ConfirmDeleteModal } from '@components/Modals';
@@ -31,11 +31,12 @@ import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import FilePreview from '@components/FilePreview/FilePreview';
+import { FileItem } from '@fairdatasociety/fdp-storage';
 
 interface PreviewModalProps {
   showModal: boolean;
   closeModal: () => void;
-  previewFile: FileResponse;
+  previewFile: FileItem;
   updateDrive: () => void;
 }
 
@@ -175,7 +176,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
               File size
             </h4>
             <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
-              {previewFile?.size && prettyBytes(parseInt(previewFile?.size))}
+              {previewFile?.size && prettyBytes(previewFile?.size)}
             </span>
           </div>
 
@@ -184,7 +185,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
               File type
             </h4>
             <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
-              {previewFile?.raw?.contentType}
+              {(previewFile?.raw as any)?.contentType}
             </span>
           </div>
         </div>
@@ -194,8 +195,8 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
             Created
           </h4>
           <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
-            {previewFile?.raw?.creationTime &&
-              formatDate(String(previewFile?.raw?.creationTime), true)}
+            {(previewFile?.raw as any)?.creationTime &&
+              formatDate(String((previewFile?.raw as any)?.creationTime), true)}
           </span>
         </div>
 

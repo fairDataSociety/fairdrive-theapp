@@ -12,12 +12,14 @@ interface DriveCardProps {
   type: 'folder' | 'file';
   data: {
     name: string;
-    size: string;
-    creationTime: string;
+    size: number;
+    creationTime: number;
   };
   onClick: () => void;
   updateDrive: () => void;
   handlePreviewClick?: () => void;
+  dropdownOpen: boolean;
+  onDropdownOpenChange: (dropdownOpen: boolean) => void;
 }
 
 const DriveCard: FC<DriveCardProps> = ({
@@ -25,18 +27,14 @@ const DriveCard: FC<DriveCardProps> = ({
   data,
   onClick,
   updateDrive,
+  dropdownOpen,
+  onDropdownOpenChange,
 }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
   return (
     <>
       <div
         className="w-32 mb-2 py-2 flex-column lg:hidden cursor-pointer dark:hover:shadow-soft-purple hover:shadow-soft-purple"
-        onClick={handleToggleDropdown}
+        onClick={() => onDropdownOpenChange(!dropdownOpen)}
       >
         <DriveCardIcon
           type={type}
@@ -47,8 +45,8 @@ const DriveCard: FC<DriveCardProps> = ({
           <DriveItemMenu
             data={data}
             type={type}
-            showDropdown={showDropdown}
-            setShowDropdown={setShowDropdown}
+            showDropdown={dropdownOpen}
+            setShowDropdown={onDropdownOpenChange}
             openClick={null}
             updateDrive={updateDrive}
             handlePreviewClick={onClick}
@@ -72,6 +70,8 @@ const DriveCard: FC<DriveCardProps> = ({
           <DriveItemDropdown
             type={type}
             data={data}
+            showDropdown={dropdownOpen}
+            onShowDropdownChange={onDropdownOpenChange}
             openClick={onClick}
             updateDrive={updateDrive}
           />
@@ -90,7 +90,7 @@ const DriveCard: FC<DriveCardProps> = ({
                 File Size
               </h4>
               <span className="font-normal text-xs text-color-shade-light-2-day dark:text-color-shade-light-2-night uppercase">
-                {prettyBytes(parseInt(data?.size))}
+                {prettyBytes(data?.size)}
               </span>
             </div>
           ) : null}
@@ -100,7 +100,7 @@ const DriveCard: FC<DriveCardProps> = ({
               Date Added
             </h4>
             <span className="font-normal text-xs text-color-shade-light-2-day dark:text-color-shade-light-2-night uppercase">
-              {formatDate(data?.creationTime, false)}
+              {formatDate(String(data?.creationTime), false)}
             </span>
           </div>
         </div>

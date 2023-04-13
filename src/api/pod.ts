@@ -1,4 +1,4 @@
-import { FdpStorage } from '@fairdatasociety/fdp-storage';
+import { DirectoryItem, FdpStorage } from '@fairdatasociety/fdp-storage';
 
 export interface GetPodResponse {
   pod_name: string[];
@@ -11,8 +11,7 @@ export interface PodFilesResponse {
 }
 export async function getPods(fdp: FdpStorage): Promise<GetPodResponse> {
   const list = await fdp.personalStorage.list();
-  const pods = await list.getPods();
-  const sharedPods = await list.getSharedPods();
+  const { pods, sharedPods } = list;
   const response = {
     pod_name: pods.map((i) => i.name),
     shared_pod_name: sharedPods.map((i) => i.name),
@@ -32,7 +31,7 @@ export async function getFilesAndDirectories(
   fdp: FdpStorage,
   pod_name: string,
   directory: string
-): Promise<PodFilesResponse> {
+): Promise<DirectoryItem> {
   let data = { dir_path: '', pod_name: pod_name };
 
   if (directory === 'root') {
@@ -47,11 +46,5 @@ export async function getFilesAndDirectories(
     };
   }
 
-  const res = await fdp.directory.read(data.pod_name, data.dir_path, false);
-  const files = await res.getFiles();
-  const dirs = await res.getDirectories();
-  return {
-    files: files as any,
-    dirs: dirs as any,
-  };
+  return fdp.directory.read(data.pod_name, data.dir_path, false);
 }
