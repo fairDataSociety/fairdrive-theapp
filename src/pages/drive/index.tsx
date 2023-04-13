@@ -21,6 +21,7 @@ import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
 import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
 import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
+import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -112,6 +113,18 @@ const Drive: FC = () => {
     }
   };
 
+  const handleDirectoryPathChange = (newDirectory: string) => {
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
+
+    setDirectoryName(newDirectory);
+
+    setLoading(false);
+  };
+
   const handleFileOnClick = (data: FileItem) => {
     setPreviewFile(data);
     setShowPreviewModal(true);
@@ -128,10 +141,11 @@ const Drive: FC = () => {
       </div>
       <MainHeader
         title={
-          <>
-            <span className="hidden md:inline">{activePod} | </span>
-            <span>{directoryName}</span>
-          </>
+          <DirectoryPath
+            podName={activePod}
+            directory={directoryName}
+            onDirectorySelect={handleDirectoryPathChange}
+          />
         }
         driveView={driveView}
         toggleView={handleToggleView}
