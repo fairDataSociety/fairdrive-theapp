@@ -15,6 +15,7 @@ import SortDark from '@media/UI/sort-dark.svg';
 interface MainHeaderProps {
   title: string | JSX.Element;
   driveView: 'grid' | 'list';
+  activePod: string;
   toggleView: () => void;
   toggleSort: () => void;
 }
@@ -22,6 +23,7 @@ interface MainHeaderProps {
 const MainHeader: FC<MainHeaderProps> = ({
   title,
   driveView,
+  activePod,
   toggleView,
   toggleSort,
 }) => {
@@ -34,37 +36,39 @@ const MainHeader: FC<MainHeaderProps> = ({
           {title}
         </h2>
 
-        <div className="hidden md:block">
-          <Button
-            type="button"
-            variant="primary"
-            icon={
-              driveView === 'grid' ? (
-                theme === 'light' ? (
-                  <DriveViewListLight />
+        {activePod && (
+          <div className="hidden md:block">
+            <Button
+              type="button"
+              variant="primary"
+              icon={
+                driveView === 'grid' ? (
+                  theme === 'light' ? (
+                    <DriveViewListLight />
+                  ) : (
+                    <DriveViewListDark />
+                  )
+                ) : theme === 'light' ? (
+                  <DriveViewGridLight />
                 ) : (
-                  <DriveViewListDark />
+                  <DriveViewGridDark />
                 )
-              ) : theme === 'light' ? (
-                <DriveViewGridLight />
-              ) : (
-                <DriveViewGridDark />
-              )
-            }
-            className="mx-1"
-            padding="p-3"
-            onClick={toggleView}
-          />
+              }
+              className="mx-1"
+              padding="p-3"
+              onClick={toggleView}
+            />
 
-          <Button
-            type="button"
-            variant="primary"
-            icon={theme === 'light' ? <SortLight /> : <SortDark />}
-            className="mx-1"
-            padding="p-3"
-            onClick={toggleSort}
-          />
-        </div>
+            <Button
+              type="button"
+              variant="primary"
+              icon={theme === 'light' ? <SortLight /> : <SortDark />}
+              className="mx-1"
+              padding="p-3"
+              onClick={toggleSort}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
