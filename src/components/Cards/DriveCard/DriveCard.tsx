@@ -7,6 +7,7 @@ import { DriveItemDropdown } from '@components/Dropdowns';
 import shortenString from '@utils/shortenString';
 import formatDate from '@utils/formatDate';
 import DriveItemMenu from '@components/Dropdowns/DriveItemDropdown/DriveItemMenu';
+import { extractFileExtension } from '@utils/filemame';
 
 interface DriveCardProps {
   type: 'folder' | 'file';
@@ -38,7 +39,7 @@ const DriveCard: FC<DriveCardProps> = ({
       >
         <DriveCardIcon
           type={type}
-          fileExtention={type === 'file' ? data.name.split('.').pop() : ''}
+          fileExtention={type === 'file' ? extractFileExtension(data.name) : ''}
         />
 
         <div className="relative ml-auto" style={{ width: '1px' }}>
@@ -64,7 +65,9 @@ const DriveCard: FC<DriveCardProps> = ({
         <div className="flex justify-between items-start">
           <DriveCardIcon
             type={type}
-            fileExtention={type === 'file' ? data.name.split('.').pop() : ''}
+            fileExtention={
+              type === 'file' ? extractFileExtension(data.name) : ''
+            }
           />
 
           <DriveItemDropdown
