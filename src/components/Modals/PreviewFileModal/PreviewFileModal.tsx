@@ -166,7 +166,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           </div>
         ) : null}
 
-        <h2 className="font-semibold text-2xl text-color-accents-purple-black dark:text-color-shade-white-night">
+        <h2 className="text-base text-color-accents-purple-black dark:text-color-shade-white-night">
           {previewFile?.name}
         </h2>
 
