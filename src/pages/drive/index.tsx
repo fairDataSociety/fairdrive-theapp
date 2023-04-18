@@ -27,6 +27,7 @@ import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
 import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
 import { getContentItemsCache, saveContentItemsCache } from '@utils/cache';
 import { RefreshDriveOptions } from '@interfaces/handlers';
+import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -156,17 +157,17 @@ const Drive: FC = () => {
     setLoading(false);
   };
 
-const handleDirectoryPathChange = (newDirectory: string) => {
-  if (loading) {
-    return;
-  }
+  const handleDirectoryPathChange = (newDirectory: string) => {
+    if (loading) {
+      return;
+    }
 
-  setLoading(true);
+    setLoading(true);
 
-  setDirectoryName(newDirectory);
+    setDirectoryName(newDirectory);
 
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   const handleFileOnClick = (data: FileItem) => {
     setPreviewFile(data);
