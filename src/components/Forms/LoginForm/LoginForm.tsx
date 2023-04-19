@@ -9,6 +9,8 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
+import { getCache } from '@utils/cache';
+import { isEmpty } from '@utils/object';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -47,12 +49,12 @@ const LoginForm: FC = () => {
     setErrorMessage(null);
   }, []);
 
-  // useEffect(() => {
-  //   // cache initialization after browser context is available (Next.js related)
-  //   if (isEmpty(fdpClient.cache?.object || {})) {
-  //     fdpClient.cache.object = JSON.parse(getCache());
-  //   }
-  // }, [fdpClient.cache]);
+  useEffect(() => {
+    // cache initialization after browser context is available (Next.js related)
+    if (isEmpty(fdpClient.cache?.object || {})) {
+      fdpClient.cache.object = JSON.parse(getCache());
+    }
+  }, [fdpClient.cache]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
