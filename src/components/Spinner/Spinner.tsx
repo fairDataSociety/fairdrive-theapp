@@ -1,6 +1,9 @@
 import { ThreeDots } from 'react-loader-spinner';
 
-const Spinner: React.FC<{ isLoading?: boolean }> = ({ isLoading = true }) => {
+const Spinner: React.FC<{ isLoading?: boolean; className?: string }> = ({
+  isLoading = true,
+  className = '',
+}) => {
   return (
     <ThreeDots
       visible={isLoading}
@@ -10,7 +13,7 @@ const Spinner: React.FC<{ isLoading?: boolean }> = ({ isLoading = true }) => {
       width="100%"
       ariaLabel="three-dots-loading"
       wrapperStyle={{}}
-      wrapperClass=""
+      wrapperClass={className}
     />
   );
 };
