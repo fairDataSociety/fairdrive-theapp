@@ -41,7 +41,6 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
         documentTitle: 'Drive Page',
         href: window.location.href,
       });
-      await createDefaultDirectory(fdpClient, newPodName);
       refreshPods();
       closeModal();
     } catch (e) {

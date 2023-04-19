@@ -1,5 +1,4 @@
 import Modal from '@components/Modals/Modal/Modal';
-import ExportUserModal from '@components/Modals/ExportUserModal/ExportUserModal';
 import ShareFileModal from '@components/Modals/ShareFileModal/ShareFileModal';
 import CreatePodModal from '@components/Modals/CreatePodModal/CreatePodModal';
 import ImportPodModal from '@components/Modals/ImportPodModal/ImportPodModal';
@@ -12,7 +11,6 @@ import UploadFileModal from '@components/Modals/UploadFileModal/UploadFileModal'
 
 export {
   Modal,
-  ExportUserModal,
   ShareFileModal,
   CreatePodModal,
   ImportPodModal,

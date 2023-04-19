@@ -150,6 +150,7 @@ const Drive: FC = () => {
             onDirectorySelect={handleDirectoryPathChange}
           />
         }
+        activePod={activePod}
         driveView={driveView}
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
