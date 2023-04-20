@@ -51,7 +51,7 @@ const LoginForm: FC = () => {
 
   useEffect(() => {
     // cache initialization after browser context is available (Next.js related)
-    if (isEmpty(fdpClient.cache?.object || {})) {
+    if (fdpClient.cache && isEmpty(fdpClient.cache.object)) {
       fdpClient.cache.object = JSON.parse(getCache());
     }
   }, [fdpClient.cache]);
