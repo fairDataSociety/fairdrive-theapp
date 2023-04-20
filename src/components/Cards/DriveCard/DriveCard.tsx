@@ -77,6 +77,7 @@ const DriveCard: FC<DriveCardProps> = ({
             onShowDropdownChange={onDropdownOpenChange}
             openClick={onClick}
             updateDrive={updateDrive}
+            handlePreviewClick={onClick}
           />
         </div>
 
