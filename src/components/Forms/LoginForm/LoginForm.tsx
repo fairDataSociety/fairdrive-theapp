@@ -9,7 +9,6 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
-import { BlossomLogin } from '@components/Blossom';
 import { getCache } from '@utils/cache';
 import { isEmpty } from '@utils/object';
 
@@ -20,9 +19,8 @@ const LoginForm: FC = () => {
   });
   const { errors, isValid } = formState;
 
-  const { setUser } = useContext(UserContext);
+  const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
 
-  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const { fdpClient, setWallet, setIsLoggedIn, setFdpStorageType } =
@@ -32,6 +30,7 @@ const LoginForm: FC = () => {
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
       setLoading(true);
+      setErrorMessage(null);
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
@@ -46,18 +45,9 @@ const LoginForm: FC = () => {
     }
   };
 
-  const onBlossomLogin = (errorMessage: string) => {
-    setLoading(false);
-
-    if (errorMessage) {
-      return setErrorMessage(errorMessage);
-    }
-
-    setFdpStorageType('blossom');
-    setIsLoggedIn(true);
-    setUser('Blossom user');
-    router.push('/overview');
-  };
+  useEffect(() => {
+    setErrorMessage(null);
+  }, []);
 
   useEffect(() => {
     // cache initialization after browser context is available (Next.js related)
@@ -73,11 +63,6 @@ const LoginForm: FC = () => {
       <AuthenticationHeader
         title="Welcome back"
         content="Please log in to get access to your Fairdrive."
-      />
-
-      <BlossomLogin
-        onLoginStart={() => setLoading(true)}
-        onLoginEnd={onBlossomLogin}
       />
 
       <div className="w-full md:w-98 mt-12">
