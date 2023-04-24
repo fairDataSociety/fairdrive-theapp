@@ -1,3 +1,5 @@
+import { isJSONValid } from '@utils/object';
+
 /**
  * Cache types
  */
@@ -52,16 +54,43 @@ function createNestedKeys(keys: string[], obj: AnyObject): AnyObject {
 }
 
 /**
+ * Asserts that value is a valid JSON
+ */
+function assertJson(value: unknown): asserts value is string {
+  const data = value as string;
+  if (!isJSONValid(data)) {
+    throw new Error('Data is not a valid JSON');
+  }
+}
+
+/**
+ * Removes an item from an array
+ */
+function removeItem(items: NamedItem[], nameToRemove: string): NamedItem[] {
+  return items.filter((item) => item.name !== nameToRemove);
+}
+
+/**
+ * Clears memory cache
+ */
+export function clearMemoryCache(): void {
+  memoryCache = '';
+}
+
+/**
  * Checks that `localStorage` is available
  */
 export function isLocalStorageAvailable(): boolean {
-  return typeof window.localStorage !== 'undefined';
+  return (
+    typeof window !== 'undefined' && typeof window.localStorage !== 'undefined'
+  );
 }
 
 /**
  * Saves cache to `localStorage` or memory
  */
 export function saveCache(type: CacheType, cache: string): void {
+  assertJson(cache);
   if (isLocalStorageAvailable()) {
     window.localStorage.setItem(type, cache);
   } else {
@@ -80,7 +109,7 @@ export function getCache(type: CacheType): string {
     cache = memoryCache;
   }
 
-  return cache || '{}';
+  return isJSONValid(cache) ? cache : '{}';
 }
 
 /**
@@ -99,21 +128,18 @@ export function saveContentItemsCache(
 }
 
 /**
- * Removes item from an array
- */
-function removeItem(items: NamedItem[], nameToRemove: string): NamedItem[] {
-  return items.filter((item) => item.name !== nameToRemove);
-}
-
-/**
- * Gets all cache with extracted content items cache
+ * Gets content items from the cache
+ *
+ * @returns {ContentItemsCache} parsed cache content
  */
 export function getContentItemsCache(
   userAddress: string,
   podName: string,
   path: string
 ): ContentItemsCache {
-  const cache = JSON.parse(getCache(CacheType.CONTENT_ITEMS));
+  const json = getCache(CacheType.CONTENT_ITEMS);
+  assertJson(json);
+  const cache = JSON.parse(json);
   const contentItems = JSON.parse(
     cache?.[userAddress]?.[podName]?.[path] ?? '{}'
   );
@@ -122,7 +148,7 @@ export function getContentItemsCache(
 }
 
 /**
- * Removes content item from the cache
+ * Removes a content item from the cache
  */
 export function removeItemFromCache(
   userAddress: string,
@@ -149,7 +175,7 @@ export function removeItemFromCache(
 }
 
 /**
- * Adds item to the cache
+ * Adds an item to the cache
  */
 export function addItemToCache(
   userAddress: string,
@@ -172,5 +198,22 @@ export function addItemToCache(
   }
 
   cache[userAddress][podName][path] = JSON.stringify(contentItems);
+  saveCache(CacheType.CONTENT_ITEMS, JSON.stringify(cache));
+}
+
+/**
+ * Removes a path from the cache
+ */
+export function removePathFromCache(
+  userAddress: string,
+  podName: string,
+  path: string
+): void {
+  const cache = JSON.parse(getCache(CacheType.CONTENT_ITEMS));
+
+  if (cache?.[userAddress]?.[podName]?.[path]) {
+    delete cache[userAddress][podName][path];
+  }
+
   saveCache(CacheType.CONTENT_ITEMS, JSON.stringify(cache));
 }
