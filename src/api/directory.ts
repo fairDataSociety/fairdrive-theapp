@@ -1,6 +1,7 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
 import { DirectoryItem } from '@fairdatasociety/fdp-storage/dist/content-items/types';
 import { getUnixTimestamp } from '@utils/formatDate';
+import { combine } from '@utils/filename';
 
 export async function createDirectory(
   fdp: FdpStorage,
@@ -12,7 +13,7 @@ export async function createDirectory(
     directory = '';
   }
 
-  await fdp.directory.create(podName, `${directory}${directoryName}`);
+  await fdp.directory.create(podName, combine(directory, directoryName));
   const time = getUnixTimestamp();
   return {
     name: directoryName,

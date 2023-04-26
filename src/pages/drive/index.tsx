@@ -25,15 +25,29 @@ import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
 import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
 import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
-import { getContentItemsCache, saveContentItemsCache } from '@utils/cache';
+import {
+  CacheType,
+  getCache,
+  getContentItemsCache,
+  invalidateCache,
+  InvalidationResult,
+  saveContentItemsCache,
+} from '@utils/cache';
 import { RefreshDriveOptions } from '@interfaces/handlers';
 import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
+import { isDataNotFoundError, isJsonParsingError } from '@utils/error';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
-  const { activePod, openPods, setPods, directoryName, setDirectoryName } =
-    useContext(PodContext);
+  const {
+    activePod,
+    openPods,
+    setPods,
+    directoryName,
+    setDirectoryName,
+    clearPodContext,
+  } = useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
   const [directories, setDirectories] = useState<DirectoryItem[] | null>(null);
@@ -61,10 +75,10 @@ const Drive: FC = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchDrive();
+    handleUpdateDrive();
   }, [activePod, directoryName, openPods]);
 
-  const handleFetchDrive = async (props?: RefreshDriveOptions) => {
+  const handleUpdateDrive = async (props?: RefreshDriveOptions) => {
     if (!activePod) {
       return;
     }
@@ -102,6 +116,20 @@ const Drive: FC = () => {
       );
     } catch (e) {
       console.log('Error: Could not fetch directories & files!', e);
+      if (isDataNotFoundError(e) || isJsonParsingError(e)) {
+        const invalidationResult = invalidateCache(
+          userAddress,
+          activePod,
+          fdpPath
+        );
+        if (invalidationResult === InvalidationResult.FULL) {
+          fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+          clearPodContext();
+          setDirectories(null);
+          setFiles(null);
+          await handleFetchPods();
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -179,7 +207,7 @@ const Drive: FC = () => {
   };
 
   return (
-    <MainLayout updateDrive={handleFetchDrive} refreshPods={handleFetchPods}>
+    <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
       <div className="block md:hidden">
         <DriveActionHeaderMobile />
       </div>
@@ -196,7 +224,7 @@ const Drive: FC = () => {
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-      <DriveActionBar updateDrive={handleFetchDrive} />
+      <DriveActionBar updateDrive={handleUpdateDrive} />
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>
@@ -221,7 +249,7 @@ const Drive: FC = () => {
               files={handleSort(files?.filter(handleSearchFilter))}
               directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
-              updateDrive={handleFetchDrive}
+              updateDrive={handleUpdateDrive}
               dropdownOpenFileName={fileNameDropdownOpen}
               onDropdownFileNameChange={setFileNameDropdownOpen}
             />
@@ -233,7 +261,7 @@ const Drive: FC = () => {
               files={handleSort(files?.filter(handleSearchFilter))}
               directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
-              updateDrive={handleFetchDrive}
+              updateDrive={handleUpdateDrive}
               dropdownOpenFileName={fileNameDropdownOpen}
               onDropdownFileNameChange={setFileNameDropdownOpen}
             />
@@ -251,7 +279,7 @@ const Drive: FC = () => {
           showModal={showPreviewModal}
           closeModal={() => setShowPreviewModal(false)}
           previewFile={previewFile}
-          updateDrive={handleFetchDrive}
+          updateDrive={handleUpdateDrive}
         />
       ) : null}
     </MainLayout>

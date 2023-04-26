@@ -33,13 +33,12 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
 
     try {
       const userAddress = fdpClient.account.wallet.address;
-      const directory = directoryName || 'root';
-      const fdpPath = getFdpPathByDirectory(directory);
+      const fdpPath = getFdpPathByDirectory(directoryName || 'root');
 
       const item = await createDirectory(
         fdpClient,
         activePod,
-        directoryName,
+        fdpPath,
         newFolderName
       );
 

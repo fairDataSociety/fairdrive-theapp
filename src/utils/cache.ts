@@ -1,10 +1,22 @@
 import { isJSONValid } from '@utils/object';
 
 /**
+ * Empty cache object string
+ */
+const EMPTY_CACHE_OBJECT_STRING = '{}';
+
+/**
+ * Root directory of fdp-storage
+ */
+const ROOT_DIR = '/';
+
+/**
  * Cache types
  */
 export enum CacheType {
+  // a cache that comes from fdp-storage
   FDP = 'fdp_cache',
+  // a cache that got from UI
   CONTENT_ITEMS = 'content_items_cache',
 }
 
@@ -14,6 +26,16 @@ export enum CacheType {
 export enum ContentType {
   FILE = 'file',
   DIRECTORY = 'directory',
+}
+
+/**
+ * Invalidation results
+ */
+export enum InvalidationResult {
+  // part of the cache was invalidated
+  PARTIAL = 'partial',
+  // the whole cache was invalidated
+  FULL = 'full',
 }
 
 /**
@@ -109,7 +131,7 @@ export function getCache(type: CacheType): string {
     cache = memoryCache;
   }
 
-  return isJSONValid(cache) ? cache : '{}';
+  return isJSONValid(cache) ? cache : EMPTY_CACHE_OBJECT_STRING;
 }
 
 /**
@@ -141,7 +163,7 @@ export function getContentItemsCache(
   assertJson(json);
   const cache = JSON.parse(json);
   const contentItems = JSON.parse(
-    cache?.[userAddress]?.[podName]?.[path] ?? '{}'
+    cache?.[userAddress]?.[podName]?.[path] ?? EMPTY_CACHE_OBJECT_STRING
   );
 
   return { cache, contentItems };
@@ -216,4 +238,26 @@ export function removePathFromCache(
   }
 
   saveCache(CacheType.CONTENT_ITEMS, JSON.stringify(cache));
+}
+
+/**
+ * Invalidates the cache depending on the path
+ */
+export function invalidateCache(
+  userAddress,
+  podName,
+  path
+): InvalidationResult {
+  // if the path is empty or the problem is the root directory, we clear the whole cache
+  if (!path || path === ROOT_DIR) {
+    saveCache(CacheType.CONTENT_ITEMS, EMPTY_CACHE_OBJECT_STRING);
+    saveCache(CacheType.FDP, EMPTY_CACHE_OBJECT_STRING);
+
+    return InvalidationResult.FULL;
+  } else {
+    // in other cases, we remove the path from the cache
+    removePathFromCache(userAddress, podName, path);
+
+    return InvalidationResult.PARTIAL;
+  }
 }

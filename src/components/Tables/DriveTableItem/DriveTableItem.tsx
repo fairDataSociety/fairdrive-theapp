@@ -5,7 +5,7 @@ import { DriveItemDropdown } from '@components/Dropdowns';
 
 import shortenString from '@utils/shortenString';
 import formatDate from '@utils/formatDate';
-import { extractFileExtension } from '@utils/filemame';
+import { extractFileExtension } from '@utils/filename';
 import { UpdateDriveProps } from '@interfaces/handlers';
 
 interface DriveTableItemProps extends UpdateDriveProps {

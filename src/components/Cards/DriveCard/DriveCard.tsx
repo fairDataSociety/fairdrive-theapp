@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import prettyBytes from 'pretty-bytes';
 
 import DriveCardIcon from '@components/Cards/DriveCard/DriveCardIcon/DriveCardIcon';
@@ -7,7 +7,7 @@ import { DriveItemDropdown } from '@components/Dropdowns';
 import shortenString from '@utils/shortenString';
 import formatDate from '@utils/formatDate';
 import DriveItemMenu from '@components/Dropdowns/DriveItemDropdown/DriveItemMenu';
-import { extractFileExtension } from '@utils/filemame';
+import { extractFileExtension } from '@utils/filename';
 import { UpdateDriveProps } from '@interfaces/handlers';
 
 interface DriveCardProps extends UpdateDriveProps {
