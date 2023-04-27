@@ -11,8 +11,11 @@ import { deleteDirectory } from '@api/directory';
 import { ShareFileModal, ConfirmDeleteModal } from '@components/Modals';
 
 import formatDirectory from '@utils/formatDirectory';
+import { ContentType, removeItemFromCache } from '@utils/cache';
+import { getFdpPathByDirectory } from '@api/pod';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface DriveItemMenuProps {
+interface DriveItemMenuProps extends UpdateDriveProps {
   type: 'folder' | 'file';
   data: {
     name: string;
@@ -20,8 +23,7 @@ interface DriveItemMenuProps {
   showDropdown: boolean;
   setShowDropdown: (open: boolean) => void;
   openClick: () => void;
-  updateDrive: () => void;
-  handlePreviewClick: () => void;
+  handlePreviewClick?: () => void;
 }
 
 const DriveItemMenu: FC<DriveItemMenuProps> = ({
@@ -45,28 +47,28 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
     openClick();
   };
 
-  const handleDownloadClick = () => {
+  const handleDownloadClick = async () => {
     setShowDropdown(false);
 
-    downloadFile(fdpClient, {
-      filename: data?.name,
-      directory: directoryName,
-      podName: activePod,
-    })
-      .then((response) => {
-        FileSaver.saveAs(response, data?.name);
-
-        trackEvent({
-          category: 'File',
-          action: `Download File`,
-          name: `Download File: ${data?.name}`,
-          documentTitle: 'Drive Page',
-          href: window.location.href,
-        });
-      })
-      .catch(() => {
-        console.log('File could not be downloaded!');
+    try {
+      const response = await downloadFile(fdpClient, {
+        filename: data?.name,
+        directory: directoryName,
+        podName: activePod,
       });
+
+      FileSaver.saveAs(response, data?.name);
+
+      trackEvent({
+        category: 'File',
+        action: `Download File`,
+        name: `Download File: ${data?.name}`,
+        documentTitle: 'Drive Page',
+        href: window.location.href,
+      });
+    } catch (error) {
+      console.log('File could not be downloaded!');
+    }
   };
 
   const handleShareClick = () => {
@@ -79,56 +81,82 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
     setShowConfirmDeleteModal(true);
   };
 
-  const handleDeleteFile = () => {
+  const handleDeleteFile = async () => {
     setShowDropdown(false);
 
-    deleteFile(fdpClient, {
-      file_name: data?.name,
-      podName: activePod,
-      path: formatDirectory(directoryName),
-    })
-      .then(() => {
-        trackEvent({
-          category: 'File',
-          action: `Delete File`,
-          name: `Delete File: ${data?.name}`,
-          documentTitle: 'Drive Page',
-          href: window.location.href,
-        });
-
-        setShowConfirmDeleteModal(false);
-        updateDrive();
-      })
-      .catch(() => {
-        console.log('File could not be deleted!');
+    const userAddress = fdpClient.account.wallet.address;
+    const directory = directoryName || 'root';
+    const fdpPath = getFdpPathByDirectory(directory);
+    const itemName = data?.name;
+    try {
+      await deleteFile(fdpClient, {
+        file_name: itemName,
+        podName: activePod,
+        path: formatDirectory(directoryName),
       });
+
+      trackEvent({
+        category: 'File',
+        action: `Delete File`,
+        name: `Delete File: ${itemName}`,
+        documentTitle: 'Drive Page',
+        href: window.location.href,
+      });
+
+      setShowConfirmDeleteModal(false);
+      removeItemFromCache(
+        userAddress,
+        activePod,
+        fdpPath,
+        itemName,
+        ContentType.FILE
+      );
+      updateDrive({
+        isUseCacheOnly: true,
+      });
+    } catch (error) {
+      console.log('File could not be deleted!');
+    }
   };
 
-  const handleDeleteFolder = () => {
+  const handleDeleteFolder = async () => {
     setShowDropdown(false);
 
+    const userAddress = fdpClient.account.wallet.address;
+    const directory = directoryName || 'root';
+    const fdpPath = getFdpPathByDirectory(directory);
+    const itemName = data?.name;
     const deletePath =
       (directoryName !== 'root' ? '/' + directoryName + '/' : '/') + data.name;
 
-    deleteDirectory(fdpClient, {
-      podName: activePod,
-      path: deletePath,
-    })
-      .then(() => {
-        trackEvent({
-          category: 'Folder',
-          action: `Delete Folder`,
-          name: `Delete Folder: ${data?.name}`,
-          documentTitle: 'Drive Page',
-          href: window.location.href,
-        });
-
-        setShowConfirmDeleteModal(false);
-        updateDrive();
-      })
-      .catch(() => {
-        console.log('Folder could not be deleted!');
+    try {
+      await deleteDirectory(fdpClient, {
+        podName: activePod,
+        path: deletePath,
       });
+
+      trackEvent({
+        category: 'Folder',
+        action: `Delete Folder`,
+        name: `Delete Folder: ${data?.name}`,
+        documentTitle: 'Drive Page',
+        href: window.location.href,
+      });
+
+      setShowConfirmDeleteModal(false);
+      removeItemFromCache(
+        userAddress,
+        activePod,
+        fdpPath,
+        itemName,
+        ContentType.DIRECTORY
+      );
+      updateDrive({
+        isUseCacheOnly: true,
+      });
+    } catch (error) {
+      console.log('Folder could not be deleted!');
+    }
   };
 
   return (

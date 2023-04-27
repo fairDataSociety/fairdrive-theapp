@@ -19,10 +19,8 @@ Fairdrive works very similar to Google Drive or Dropbox, yet with some big diffe
 
 ## Development
 
-
 Please install `fdp-play`, be sure to use Node 16 and have Docker environment setup and verify that ports 3000, 1633, 1634, 1635 are available.
 Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
-
 
 - `npm i -g @fairdatasociety/fdp-play`
 - `fdp-play start --fresh`
@@ -61,7 +59,7 @@ async function testsSetup(): Promise<void> {
       );
 
       if (postageBatch) {
-         const pB = await beeDebug.createPostageBatch('1', 20);      
+        const pB = await beeDebug.createPostageBatch('1', 20);
       }
     } catch (e) {
       // It is possible that for unit tests the Bee nodes does not run
@@ -70,7 +68,6 @@ async function testsSetup(): Promise<void> {
     }
   }
 }
-
 ```
 
 ### Latest Goerli contract configuration
@@ -105,11 +102,7 @@ const fdpClient = new FdpStorage(
     ensDomain: 'fds',
   }
 );
-
-
-
 ```
-
 
 ## Running in development mode
 
@@ -142,4 +135,3 @@ To change the configuration, edit the `.env` file.
 ## Check it out
 
 Mainnet deployment: https://app.fairdrive.fairdatasociety.org
-

@@ -32,7 +32,7 @@ import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import FilePreview from '@components/FilePreview/FilePreview';
 import { FileItem } from '@fairdatasociety/fdp-storage';
-import { extractFileExtension } from '@utils/filemame';
+import { extractFileExtension } from '@utils/filename';
 
 interface PreviewModalProps {
   showModal: boolean;

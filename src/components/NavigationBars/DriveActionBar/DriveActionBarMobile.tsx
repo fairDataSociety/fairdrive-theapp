@@ -20,9 +20,9 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-export interface DriveActionBarMobileProps {
-  refreshDrive?: () => void;
+export interface DriveActionBarMobileProps extends UpdateDriveProps {
   refreshPods?: () => void;
 }
 
@@ -50,7 +50,7 @@ const DriveActionBarItem = (
 };
 
 const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
-  refreshDrive,
+  updateDrive,
   refreshPods,
 }) => {
   const { theme } = useContext(ThemeContext);
@@ -103,7 +103,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         <UploadFileModal
           showModal={showUploadFileModal}
           closeModal={() => setShowUploadFileModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
 
@@ -111,7 +111,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         <ImportFileModal
           showModal={showImportFileModal}
           closeModal={() => setShowImportFileModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
 
@@ -119,7 +119,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         <CreateFolderModal
           showModal={showCreateFolderModal}
           closeModal={() => setShowCreateFolderModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
     </>

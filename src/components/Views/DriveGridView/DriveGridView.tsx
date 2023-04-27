@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { DriveCard } from '@components/Cards';
 import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface DriveGridViewProps {
+interface DriveGridViewProps extends UpdateDriveProps {
   directories: DirectoryItem[];
   files: FileItem[];
   directoryOnClick: (directoryName: string) => void;
   fileOnClick: (data: FileItem) => void;
-  updateDrive: () => void;
   dropdownOpenFileName: string;
   onDropdownFileNameChange: (fileName: string) => void;
 }

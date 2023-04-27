@@ -1,20 +1,22 @@
-import { FC, useState, ReactChild, useEffect } from 'react';
-
-import { MainNavigationBar } from '@components/NavigationBars';
-import { MainSideBar } from '@components/NavigationBars';
+import { FC, ReactChild, useEffect, useState } from 'react';
+import {
+  DriveSideBar,
+  MainNavigationBar,
+  MainSideBar,
+} from '@components/NavigationBars';
 import { MainFooter } from '@components/Footers';
-import { DriveSideBar } from '@components/NavigationBars';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { useRouter } from 'next/router';
-interface MainLayoutProps {
+import { UpdateDriveProps } from '@interfaces/handlers';
+
+interface MainLayoutProps extends UpdateDriveProps {
   children: ReactChild | ReactChild[];
-  refreshDrive?: () => void;
   refreshPods?: () => void;
 }
 
 const MainLayout: FC<MainLayoutProps> = ({
   children,
-  refreshDrive,
+  updateDrive,
   refreshPods,
 }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
@@ -42,7 +44,7 @@ const MainLayout: FC<MainLayoutProps> = ({
         <div className="w-28 dark:bg-color-shade-dark-3-night z-10">
           <MainSideBar
             driveSideBarToggle={driveSideBarToggle}
-            refreshDrive={refreshDrive}
+            updateDrive={updateDrive}
             refreshPods={refreshPods}
           />
         </div>

@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
+import { BigNumber, providers, Wallet } from 'ethers';
+import { CacheType, saveCache } from '@utils/cache';
 import {
   createContext,
   ReactNode,
@@ -6,10 +9,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
-import { BigNumber, providers, Wallet } from 'ethers';
 import { Blossom } from '@fairdatasociety/blossom';
-import { saveCache } from '@utils/cache';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
 
@@ -34,7 +34,7 @@ const nativeFdpStorage = new FdpStorage(
     cacheOptions: {
       isUseCache: true,
       onSaveCache: async (cacheObject) => {
-        saveCache(JSON.stringify(cacheObject));
+        saveCache(CacheType.FDP, JSON.stringify(cacheObject));
       },
     },
   }

@@ -9,7 +9,7 @@ interface DirectoryPathProps {
 const MAX_FOLDERS = 3;
 const folderClasses =
   'text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar';
-const selectebleClasses = 'cursor-pointer hover:bg-color-shade-dark-3-day';
+const selectableClasses = 'cursor-pointer hover:bg-color-shade-dark-3-day';
 
 const DirectoryPath = ({
   podName,
@@ -30,7 +30,7 @@ const DirectoryPath = ({
   return (
     <>
       <span
-        className={`hidden md:inline ${folderClasses} ${selectebleClasses}`}
+        className={`hidden md:inline ${folderClasses} ${selectableClasses}`}
         onClick={() => onDirectorySelect('root')}
       >
         {podName}
@@ -40,7 +40,7 @@ const DirectoryPath = ({
         <span className={folderClasses} key={index}>
           &nbsp;/&nbsp;
           <a
-            className={selectebleClasses}
+            className={selectableClasses}
             onClick={() => onFolderClick(offset + index)}
           >
             {folder}

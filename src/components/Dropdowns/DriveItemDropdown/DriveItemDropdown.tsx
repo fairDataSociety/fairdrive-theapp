@@ -3,8 +3,9 @@ import { FC, useState } from 'react';
 import { DriveItemDropdownToggle } from '@components/Buttons';
 
 import DriveItemMenu from './DriveItemMenu';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface DriveItemDropdownProps {
+interface DriveItemDropdownProps extends UpdateDriveProps {
   type: 'folder' | 'file';
   data: {
     name: string;
@@ -12,7 +13,6 @@ interface DriveItemDropdownProps {
   showDropdown: boolean;
   onShowDropdownChange: (showDropdown: boolean) => void;
   openClick: () => void;
-  updateDrive: () => void;
   handlePreviewClick?: () => void;
 }
 
