@@ -37,7 +37,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, getAccountAddress } = useFdpStorage();
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const previewLabel = type === 'file' ? 'Preview' : 'Open';
@@ -84,7 +84,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   const handleDeleteFile = async () => {
     setShowDropdown(false);
 
-    const userAddress = fdpClient.account.wallet.address;
+    const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
     const itemName = data?.name;
@@ -122,7 +122,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   const handleDeleteFolder = async () => {
     setShowDropdown(false);
 
-    const userAddress = fdpClient.account.wallet.address;
+    const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
     const itemName = data?.name;

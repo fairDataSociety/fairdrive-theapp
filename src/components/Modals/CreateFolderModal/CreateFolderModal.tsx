@@ -24,7 +24,7 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
 
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, getAccountAddress } = useFdpStorage();
   const [newFolderName, setNewFolderName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -32,7 +32,7 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
     setLoading(true);
 
     try {
-      const userAddress = fdpClient.account.wallet.address;
+      const userAddress = await getAccountAddress();
       const fdpPath = getFdpPathByDirectory(directoryName || 'root');
 
       const item = await createDirectory(
