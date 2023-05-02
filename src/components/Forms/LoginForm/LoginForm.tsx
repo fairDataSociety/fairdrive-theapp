@@ -109,6 +109,7 @@ const LoginForm: FC = () => {
               loading={loading}
               disabled={!isValid}
               type="submit"
+              data-testid="submit"
               variant="secondary"
               label="Continue"
             />

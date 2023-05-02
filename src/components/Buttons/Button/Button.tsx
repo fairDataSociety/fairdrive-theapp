@@ -32,6 +32,7 @@ const Button: FC<ButtonProps> = ({
   children,
   disabled = false,
   loading = false,
+  ...rest
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -142,6 +143,7 @@ const Button: FC<ButtonProps> = ({
       onClick={onClick}
       className={`${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} ${getVariantSelectedStyle()} ${className} ${padding} text-center rounded`}
       disabled={disabled}
+      {...rest}
     >
       <div className="flex items-center gap-2">
         {children ? (
