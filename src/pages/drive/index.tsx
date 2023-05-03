@@ -57,7 +57,7 @@ const Drive: FC = () => {
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, getAccountAddress } = useFdpStorage();
   const [fileNameDropdownOpen, setFileNameDropdownOpen] = useState<
     string | null
   >(null);
@@ -83,7 +83,7 @@ const Drive: FC = () => {
       return;
     }
 
-    const userAddress = fdpClient.account.wallet.address;
+    const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
 
@@ -123,7 +123,11 @@ const Drive: FC = () => {
           fdpPath
         );
         if (invalidationResult === InvalidationResult.FULL) {
-          fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+          // update FDP cache if it is available
+          if (fdpClient?.cache?.object) {
+            fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+          }
+
           clearPodContext();
           setDirectories(null);
           setFiles(null);

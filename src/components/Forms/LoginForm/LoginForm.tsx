@@ -23,8 +23,13 @@ const LoginForm: FC = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { fdpClient, setWallet, setIsLoggedIn, setFdpStorageType } =
-    useFdpStorage();
+  const {
+    fdpClient,
+    setWallet,
+    setIsLoggedIn,
+    setFdpStorageType,
+    storageType,
+  } = useFdpStorage();
   const router = useRouter();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
@@ -49,12 +54,22 @@ const LoginForm: FC = () => {
     setErrorMessage(null);
   }, []);
 
+  /**
+   * Pods cache filling
+   *
+   * Works only with native fdp-storage
+   */
   useEffect(() => {
     // cache initialization after browser context is available (Next.js related)
-    if (isEmpty(fdpClient.cache.object)) {
+    if (storageType !== 'native') {
+      return;
+    }
+
+    // init the FDP cache if is not initialized yet
+    if (fdpClient?.cache?.object && isEmpty(fdpClient.cache.object)) {
       fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
     }
-  }, [fdpClient.cache]);
+  }, [fdpClient.cache, storageType]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">

@@ -12,6 +12,7 @@ import {
 import { Blossom } from '@fairdatasociety/blossom';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
+export const BLOSSOM_DEFAULT_ADDRESS = '[Blossom user]';
 
 const provider = new providers.JsonRpcProvider(
   process.env.NEXT_PUBLIC_RPC_URL as string
@@ -50,6 +51,7 @@ interface FdpStorageContext {
   isLoggedIn: boolean;
   blossom: Blossom;
   wallet: Wallet | null;
+  storageType: FDP_STORAGE_TYPE | null;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   setWallet: (wallet: Wallet) => void;
   setFdpStorageType: (type: FDP_STORAGE_TYPE) => void;
@@ -57,6 +59,7 @@ interface FdpStorageContext {
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
   getAccountBalance: (address: string) => Promise<BigNumber>;
+  getAccountAddress: () => Promise<string>;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
@@ -68,11 +71,13 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   setPassword: null,
   blossom: null,
   wallet: null,
+  storageType: null,
   setWallet: null,
   setIsLoggedIn: null,
   setFdpStorageType: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
   getAccountBalance: () => Promise.resolve(BigNumber.from(0)),
+  getAccountAddress: () => Promise.resolve(undefined),
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
@@ -83,6 +88,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const [password, setPassword] = useState<string>('');
   const [wallet, setWallet] = useState<Wallet>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [storageType, setStorageType] = useState<FDP_STORAGE_TYPE>(null);
 
   const isUsernameAvailable = async (
     username: string
@@ -101,6 +107,23 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
     return provider.getBalance(address);
   };
 
+  /**
+   * Gets the account address
+   *
+   * Although the address is a synchronous field, it will become asynchronous in the future when working through an extension.
+   */
+  const getAccountAddress = async () => {
+    // todo: should be replace with a correct user address after implementing https://github.com/fairDataSociety/blossom/issues/141
+    if (storageType === 'blossom') {
+      return BLOSSOM_DEFAULT_ADDRESS;
+    } else {
+      return fdpClient.account.wallet.address;
+    }
+  };
+
+  /**
+   * Sets the FDP storage type
+   */
   const setFdpStorageType = (type: FDP_STORAGE_TYPE) => {
     if (type === 'native') {
       setFdpClient(nativeFdpStorage);
@@ -110,6 +133,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
       throw new Error('Unknown FDP storage type');
     }
     setIsLoggedIn(false);
+    setStorageType(type);
   };
 
   useEffect(() => {
@@ -130,6 +154,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         isLoggedIn,
         blossom,
         wallet,
+        storageType,
         setWallet,
         setIsLoggedIn,
         setFdpStorageType,
@@ -137,6 +162,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         setPassword,
         isUsernameAvailable,
         getAccountBalance,
+        getAccountAddress,
       }}
     >
       {children}

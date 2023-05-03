@@ -35,7 +35,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
       if (activePod) {
@@ -51,7 +51,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
 
     setLoading(true);
     try {
-      const userAddress = fdpClient.account.wallet.address;
+      const userAddress = await getAccountAddress();
       const directory = directoryName || 'root';
       const fdpPath = getFdpPathByDirectory(directory);
       const item = await uploadFile(fdpClient, {
