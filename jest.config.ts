@@ -6,8 +6,9 @@ const config = {
   testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],
   moduleNameMapper: {
-    '@utils/cache': '<rootDir>/src/utils/cache.ts',
-    '@utils/object': '<rootDir>/src/utils/object.ts',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '@fairdatasociety/fdp-storage':
+      '<rootDir>/node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min',
   },
   moduleFileExtensions: ['ts', 'js', 'json'],
   transform: {
@@ -20,7 +21,7 @@ const config = {
   testTimeout: 60000,
   rootDir: '.',
   testPathIgnorePatterns: ['/node_modules/'],
-  moduleDirectories: ['node_modules'],
+  moduleDirectories: ['node_modules', 'test'],
 };
 
 export default config;

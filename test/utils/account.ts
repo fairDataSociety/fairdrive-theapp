@@ -1,6 +1,6 @@
 import { providers, Wallet, utils } from 'ethers';
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
-import { BEE_URL, PRIVATE_KEY, RPC_PROVIDER_URL } from 'test/config/constants';
+import { BEE_URL, PRIVATE_KEY, RPC_PROVIDER_URL } from '../config/constants';
 
 export async function createAccount(
   username: string,
