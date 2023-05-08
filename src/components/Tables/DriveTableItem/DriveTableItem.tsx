@@ -5,8 +5,10 @@ import { DriveItemDropdown } from '@components/Dropdowns';
 
 import shortenString from '@utils/shortenString';
 import formatDate from '@utils/formatDate';
+import { extractFileExtension } from '@utils/filename';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface DriveTableItemProps {
+interface DriveTableItemProps extends UpdateDriveProps {
   type: 'folder' | 'file';
   data: {
     name: string;
@@ -14,7 +16,6 @@ interface DriveTableItemProps {
     creationTime: string;
   };
   onClick: () => void;
-  updateDrive: () => void;
   dropdownOpen: boolean;
   onDropdownOpenChange: (dropdownOpen: boolean) => void;
 }
@@ -39,7 +40,7 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
         {shortenString(data.name.split('.').shift(), 24)}
       </td>
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
-        {type === 'file' ? data.name.split('.').pop().toUpperCase() : '-'}
+        {type === 'file' ? extractFileExtension(data.name)?.toUpperCase() : '-'}
       </td>
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
         {type === 'file' ? prettyBytes(data?.size) : '-'}

@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Modal } from '@components/Modals';
 import { Button } from '@components/Buttons';
 
 import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
+import Spinner from '@components/Spinner/Spinner';
 
 interface ConfirmDeleteModalProps {
   showModal: boolean;
@@ -21,10 +22,20 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
   name,
   deleteHandler,
 }) => {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [showModal]);
+
   return (
     <Modal
       showModal={showModal}
-      closeModal={closeModal}
+      closeModal={() => {
+        if (!loading) {
+          closeModal();
+        }
+      }}
       headerIcon={{
         light: <DeleteLightIcon />,
         dark: <DeleteDarkIcon />,
@@ -39,11 +50,21 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
         </p>
       </div>
 
+      {loading && (
+        <div className="mt-3">
+          <Spinner />
+        </div>
+      )}
+
       <Button
         type="button"
         variant="primary"
         label="Delete"
-        onClick={deleteHandler}
+        disabled={loading}
+        onClick={() => {
+          setLoading(true);
+          deleteHandler();
+        }}
         className="mt-8 w-auto text-color-status-negative-night"
       />
 
@@ -52,6 +73,7 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
         variant="secondary"
         label="Cancel"
         onClick={closeModal}
+        disabled={loading}
         className="mt-2 w-auto"
       />
     </Modal>

@@ -18,27 +18,24 @@ import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import Toast from '@components/Toast/Toast';
+import { CreatorModalProps } from '@interfaces/handlers';
+import { addItemToCache, ContentType } from '@utils/cache';
+import { getFdpPathByDirectory } from '@api/pod';
 
-interface UploadFileModalProps {
-  showModal: boolean;
-  closeModal: () => void;
-  refreshDrive: () => void;
-}
-
-const UploadFileModal: FC<UploadFileModalProps> = ({
+const UploadFileModal: FC<CreatorModalProps> = ({
   showModal,
   closeModal,
-  refreshDrive,
+  updateDrive,
 }) => {
   const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
-  const { activePod, directoryName, pods } = useContext(PodContext);
+  const { activePod, directoryName } = useContext(PodContext);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
       if (activePod) {
@@ -47,33 +44,40 @@ const UploadFileModal: FC<UploadFileModalProps> = ({
     },
   });
 
-  const handleUpload = () => {
-    if (fileToUpload && activePod) {
-      setLoading(true);
-      uploadFile(fdpClient, {
+  const handleUpload = async () => {
+    if (!(fileToUpload && activePod)) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const userAddress = await getAccountAddress();
+      const directory = directoryName || 'root';
+      const fdpPath = getFdpPathByDirectory(directory);
+      const item = await uploadFile(fdpClient, {
         file: fileToUpload,
         directory: directoryName,
         podName: activePod,
-      })
-        .then(() => {
-          trackEvent({
-            category: 'Upload',
-            action: `Upload File`,
-            name: `Upload File`,
-            documentTitle: 'Drive Page',
-            href: window.location.href,
-          });
+      });
 
-          refreshDrive();
-          closeModal();
-          setMessage('Successfully uploaded');
-        })
-        .catch((e) => {
-          setErrorMessage(`${e.message}`);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      trackEvent({
+        category: 'Upload',
+        action: `Upload File`,
+        name: `Upload File`,
+        documentTitle: 'Drive Page',
+        href: window.location.href,
+      });
+
+      addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE);
+      updateDrive({
+        isUseCacheOnly: true,
+      });
+      closeModal();
+      setMessage('Successfully uploaded');
+    } catch (e) {
+      setErrorMessage(`${e.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 

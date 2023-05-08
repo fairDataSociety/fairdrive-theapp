@@ -1,8 +1,6 @@
 import { FC, useContext, useState } from 'react';
 import router from 'next/router';
 
-import { ExportUserModal } from '@components/Modals';
-
 import UserContext from '@context/UserContext';
 import { ThemeToggle } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
@@ -22,8 +20,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
   const { fdpClient, setIsLoggedIn, setFdpStorageType, setWallet } =
     useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
-
-  const [showExportUserModal, setShowExportUserModal] = useState(false);
 
   const disconnect = async () => {
     setUser(null);
@@ -66,11 +62,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
           </div>
         </div>
       </div>
-
-      <ExportUserModal
-        showModal={showExportUserModal}
-        closeModal={() => setShowExportUserModal(false)}
-      />
     </>
   );
 };

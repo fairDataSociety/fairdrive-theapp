@@ -32,6 +32,7 @@ import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import FilePreview from '@components/FilePreview/FilePreview';
 import { FileItem } from '@fairdatasociety/fdp-storage';
+import { extractFileExtension } from '@utils/filename';
 
 interface PreviewModalProps {
   showModal: boolean;
@@ -166,7 +167,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           </div>
         ) : null}
 
-        <h2 className="font-semibold text-2xl text-color-accents-purple-black dark:text-color-shade-white-night">
+        <h2 className="text-base text-color-accents-purple-black dark:text-color-shade-white-night">
           {previewFile?.name}
         </h2>
 
@@ -185,7 +186,8 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
               File type
             </h4>
             <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
-              {(previewFile?.raw as any)?.contentType}
+              {(previewFile?.raw as any)?.contentType ||
+                extractFileExtension(previewFile.name)?.toUpperCase()}
             </span>
           </div>
         </div>

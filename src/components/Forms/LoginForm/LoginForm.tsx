@@ -9,9 +9,8 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
-import { BlossomLogin } from '@components/Blossom';
-import { getCache } from '@utils/cache';
 import { isEmpty } from '@utils/object';
+import { CacheType, getCache } from '@utils/cache';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -20,18 +19,23 @@ const LoginForm: FC = () => {
   });
   const { errors, isValid } = formState;
 
-  const { setUser } = useContext(UserContext);
+  const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
 
-  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { fdpClient, setWallet, setIsLoggedIn, setFdpStorageType } =
-    useFdpStorage();
+  const {
+    fdpClient,
+    setWallet,
+    setIsLoggedIn,
+    setFdpStorageType,
+    storageType,
+  } = useFdpStorage();
   const router = useRouter();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
       setLoading(true);
+      setErrorMessage(null);
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
@@ -46,25 +50,26 @@ const LoginForm: FC = () => {
     }
   };
 
-  const onBlossomLogin = (errorMessage: string) => {
-    setLoading(false);
+  useEffect(() => {
+    setErrorMessage(null);
+  }, []);
 
-    if (errorMessage) {
-      return setErrorMessage(errorMessage);
-    }
-
-    setFdpStorageType('blossom');
-    setIsLoggedIn(true);
-    setUser('Blossom user');
-    router.push('/overview');
-  };
-
+  /**
+   * Pods cache filling
+   *
+   * Works only with native fdp-storage
+   */
   useEffect(() => {
     // cache initialization after browser context is available (Next.js related)
-    if (isEmpty(fdpClient.cache.object)) {
-      fdpClient.cache.object = JSON.parse(getCache());
+    if (storageType !== 'native') {
+      return;
     }
-  }, [fdpClient.cache]);
+
+    // init the FDP cache if is not initialized yet
+    if (fdpClient?.cache?.object && isEmpty(fdpClient.cache.object)) {
+      fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+    }
+  }, [fdpClient.cache, storageType]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
@@ -73,11 +78,6 @@ const LoginForm: FC = () => {
       <AuthenticationHeader
         title="Welcome back"
         content="Please log in to get access to your Fairdrive."
-      />
-
-      <BlossomLogin
-        onLoginStart={() => setLoading(true)}
-        onLoginEnd={onBlossomLogin}
       />
 
       <div className="w-full md:w-98 mt-12">
