@@ -1,10 +1,11 @@
 import { FC, useContext, useState } from 'react';
 import router from 'next/router';
 
-import { ExportUserModal } from '@components/Modals';
-
 import UserContext from '@context/UserContext';
 import { ThemeToggle } from '@components/Buttons';
+import { useFdpStorage } from '@context/FdpStorageContext';
+import PodContext from '@context/PodContext';
+import shortenString from '@utils/shortenString';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -15,13 +16,20 @@ const UserDropdown: FC<UserDropdownProps> = ({
   showDropdown,
   setShowDropdown,
 }) => {
-  const { user } = useContext(UserContext);
-
-  const [showExportUserModal, setShowExportUserModal] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+  const { fdpClient, setIsLoggedIn, setFdpStorageType, setWallet } =
+    useFdpStorage();
+  const { clearPodContext } = useContext(PodContext);
 
   const disconnect = async () => {
-    router.push('/');
+    setUser(null);
+    setFdpStorageType('native');
+    setIsLoggedIn(false);
+    setWallet(null);
+    clearPodContext();
+    setTimeout(() => router.push('/'));
   };
+  const address = fdpClient?.account?.wallet?.address;
 
   return (
     <>
@@ -35,7 +43,9 @@ const UserDropdown: FC<UserDropdownProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="pb-5 mr-5 mb-5 flex content-center items-center border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
-              <div>{user}</div>
+              <div title={user || address}>
+                {user || shortenString(address, 24)}
+              </div>
               <div className="ml-auto">
                 <ThemeToggle />
               </div>
@@ -52,11 +62,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
           </div>
         </div>
       </div>
-
-      <ExportUserModal
-        showModal={showExportUserModal}
-        closeModal={() => setShowExportUserModal(false)}
-      />
     </>
   );
 };

@@ -3,42 +3,42 @@ import { FC, useState } from 'react';
 import { DriveItemDropdownToggle } from '@components/Buttons';
 
 import DriveItemMenu from './DriveItemMenu';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface DriveItemDropdownProps {
+interface DriveItemDropdownProps extends UpdateDriveProps {
   type: 'folder' | 'file';
   data: {
     name: string;
   };
+  showDropdown: boolean;
+  onShowDropdownChange: (showDropdown: boolean) => void;
   openClick: () => void;
-  updateDrive: () => void;
   handlePreviewClick?: () => void;
 }
 
 const DriveDropdown: FC<DriveItemDropdownProps> = ({
   type,
   data,
+  showDropdown,
+  onShowDropdownChange,
   openClick,
   updateDrive,
   handlePreviewClick,
 }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
   return (
     <div
       className="relative cursor-default"
       onClick={(event) => event.stopPropagation()}
     >
-      <DriveItemDropdownToggle onClickHandler={handleToggleDropdown} />
+      <DriveItemDropdownToggle
+        onClickHandler={() => onShowDropdownChange(!showDropdown)}
+      />
 
       <DriveItemMenu
         data={data}
         type={type}
         showDropdown={showDropdown}
-        setShowDropdown={setShowDropdown}
+        setShowDropdown={onShowDropdownChange}
         openClick={openClick}
         updateDrive={updateDrive}
         handlePreviewClick={handlePreviewClick}

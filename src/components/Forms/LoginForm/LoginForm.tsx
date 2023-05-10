@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
@@ -9,6 +9,8 @@ import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
+import { isEmpty } from '@utils/object';
+import { CacheType, getCache } from '@utils/cache';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -17,20 +19,28 @@ const LoginForm: FC = () => {
   });
   const { errors, isValid } = formState;
 
-  const { setUser } = useContext(UserContext);
+  const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
 
-  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { fdpClient, setWallet } = useFdpStorage();
+  const {
+    fdpClient,
+    setWallet,
+    setIsLoggedIn,
+    setFdpStorageType,
+    storageType,
+  } = useFdpStorage();
   const router = useRouter();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
       setLoading(true);
+      setErrorMessage(null);
       const { user_name, password } = data;
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
+      setFdpStorageType('native');
+      setIsLoggedIn(true);
       setUser(user_name);
       router.push('/overview');
     } catch (error) {
@@ -39,6 +49,27 @@ const LoginForm: FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setErrorMessage(null);
+  }, []);
+
+  /**
+   * Pods cache filling
+   *
+   * Works only with native fdp-storage
+   */
+  useEffect(() => {
+    // cache initialization after browser context is available (Next.js related)
+    if (storageType !== 'native') {
+      return;
+    }
+
+    // init the FDP cache if is not initialized yet
+    if (fdpClient?.cache?.object && isEmpty(fdpClient.cache.object)) {
+      fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+    }
+  }, [fdpClient.cache, storageType]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">

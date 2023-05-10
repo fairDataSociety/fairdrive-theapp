@@ -1,9 +1,9 @@
-import { FileResponse } from '@api/files';
 import ConsentViewer from '@components/ConsentViewer/ConsentViewer';
+import { FileItem } from '@fairdatasociety/fdp-storage';
 import { FC } from 'react';
 
 interface FilePreviewProps {
-  file: FileResponse;
+  file: FileItem;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   source: any;
   pod: string;

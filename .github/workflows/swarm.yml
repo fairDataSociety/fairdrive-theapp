@@ -12,6 +12,7 @@ env:
   NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9'
   NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14'
   NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
+  NEXT_PUBLIC_BLOSSOM_ID: 'caedjloenbhibmaeffockkiallpngmmd'
   NEXT_PUBLIC_NAME: 'Fairdrive'
 
 jobs:
@@ -56,7 +57,7 @@ jobs:
               echo "PURGE_URL=https://app.fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "SWARM_URL=https://gateway.dev.fairdatasociety.org/proxy/" >> "$GITHUB_ENV"
               echo "SIGNER=SIGNER_$GITHUB_REF_NAME" >> "$GITHUB_ENV"
-              echo "DEPLOYMENT=." >> "$GITHUB_ENV"
+              echo "DEPLOYMENT=.dev." >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'staging' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
@@ -67,10 +68,10 @@ jobs:
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=goerli" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=GOERLI" >> "$GITHUB_ENV"
-              echo "PURGE_URL=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "PURGE_URL=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "SWARM_URL=https://gateway.dev.fairdatasociety.org/proxy/" >> "$GITHUB_ENV"
               echo "SIGNER=SIGNER_$GITHUB_REF_NAME" >> "$GITHUB_ENV"
-              echo "DEPLOYMENT=." >> "$GITHUB_ENV"
+              echo "DEPLOYMENT=.dev." >> "$GITHUB_ENV"
           fi
       - name: Cache node modules
         id: cache-npm
@@ -92,7 +93,7 @@ jobs:
         run: npm list
 
       - name: install
-        run: npm install
+        run: npm ci
       - name: copy NEXT vars to .env
         run: |
           env |grep 'NEXT_PUBLIC' > .env

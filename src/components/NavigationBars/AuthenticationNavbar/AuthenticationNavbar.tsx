@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import Link from 'next/link';
-
 import Logo from '@components/Logo/Logo';
 import { Button, ThemeToggle } from '@components/Buttons';
-
 import DownloadIcon from '@media/UI/download.svg';
+
+import ConnectDropdown from '@components/Dropdowns/ConnectDropdown/ConnectDropdown';
 
 const AuthenticationNavbar: FC = () => {
   return (
@@ -21,6 +21,10 @@ const AuthenticationNavbar: FC = () => {
             />
           </a>
         </Link>
+
+        <a className="mr-6">
+          <ConnectDropdown />
+        </a>
 
         <ThemeToggle />
       </div>

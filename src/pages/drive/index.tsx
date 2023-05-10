@@ -1,13 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useContext, useState, useEffect } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 import SearchContext from '@context/SearchContext';
 
-import { getFilesAndDirectories, getPods } from '@api/pod';
-import { FileResponse } from '@api/files';
+import {
+  getFdpPathByDirectory,
+  getFilesAndDirectories,
+  getPods,
+} from '@api/pod';
 
 import { MainLayout } from '@components/Layouts';
 import { MainHeader } from '@components/Headers';
@@ -20,22 +23,44 @@ import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
+import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
+import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
+import {
+  CacheType,
+  getCache,
+  getContentItemsCache,
+  invalidateCache,
+  InvalidationResult,
+  saveContentItemsCache,
+} from '@utils/cache';
+import { RefreshDriveOptions } from '@interfaces/handlers';
+import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
+import { isDataNotFoundError, isJsonParsingError } from '@utils/error';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
-  const { activePod, openPods, setPods, directoryName, setDirectoryName } =
-    useContext(PodContext);
+  const {
+    activePod,
+    openPods,
+    setPods,
+    directoryName,
+    setDirectoryName,
+    clearPodContext,
+  } = useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
-  const [directories, setDirectories] = useState(null);
-  const [files, setFiles] = useState(null);
+  const [directories, setDirectories] = useState<DirectoryItem[] | null>(null);
+  const [files, setFiles] = useState<FileItem[] | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewFile, setPreviewFile] = useState(null);
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
-  const { fdpClient } = useFdpStorage();
+  const { fdpClient, getAccountAddress } = useFdpStorage();
+  const [fileNameDropdownOpen, setFileNameDropdownOpen] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     trackPageView({
@@ -50,29 +75,80 @@ const Drive: FC = () => {
   }, []);
 
   useEffect(() => {
-    handleFetchDrive();
+    handleUpdateDrive();
   }, [activePod, directoryName, openPods]);
 
-  const handleFetchDrive = async () => {
+  const handleUpdateDrive = async (props?: RefreshDriveOptions) => {
+    if (!activePod) {
+      return;
+    }
+
+    const userAddress = await getAccountAddress();
+    const directory = directoryName || 'root';
+    const fdpPath = getFdpPathByDirectory(directory);
+
+    const cachedItems = getContentItemsCache(
+      userAddress,
+      activePod,
+      fdpPath
+    ).contentItems;
+    setFiles(cachedItems.files || []);
+    setDirectories(cachedItems.directories || []);
+    if (props?.isUseCacheOnly) {
+      return;
+    }
+
     setLoading(true);
 
-    getFilesAndDirectories(fdpClient, activePod, directoryName || 'root')
-      .then((response) => {
-        setFiles(response.files);
-        setDirectories(response.dirs);
-      })
-      .catch(() => console.log('Error: Could not fetch directories & files!'))
-      .finally(() => setLoading(false));
+    try {
+      const response = await getFilesAndDirectories(
+        fdpClient,
+        activePod,
+        directory
+      );
+      setFiles(response.files);
+      setDirectories(response.directories);
+      saveContentItemsCache(
+        userAddress,
+        activePod,
+        fdpPath,
+        JSON.stringify(response)
+      );
+    } catch (e) {
+      console.log('Error: Could not fetch directories & files!', e);
+      if (isDataNotFoundError(e) || isJsonParsingError(e)) {
+        const invalidationResult = invalidateCache(
+          userAddress,
+          activePod,
+          fdpPath
+        );
+        if (invalidationResult === InvalidationResult.FULL) {
+          // update FDP cache if it is available
+          if (fdpClient?.cache?.object) {
+            fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+          }
+
+          clearPodContext();
+          setDirectories(null);
+          setFiles(null);
+          await handleFetchPods();
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleFetchPods = () => {
-    setLoading(true);
-    getPods(fdpClient)
-      .then((response) => {
-        setPods(response);
-      })
-      .catch(() => console.log('Error: Pods could not be fetched!'))
-      .finally(() => setLoading(false));
+  const handleFetchPods = async () => {
+    try {
+      setLoading(true);
+      const response = await getPods(fdpClient);
+      setPods(response);
+    } catch (error) {
+      console.log('Error: Pods could not be fetched (drive index)!');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleToggleView = () => {
@@ -97,46 +173,62 @@ const Drive: FC = () => {
     }
   };
 
-  const handleDirectyOnClick = (newDirectoryName: string) => {
-    if (!loading) {
-      setLoading(true);
-
-      if (directoryName !== 'root') {
-        setDirectoryName(directoryName + '/' + newDirectoryName);
-      } else {
-        setDirectoryName(newDirectoryName);
-      }
-
-      setLoading(false);
+  const handleDirectoryOnClick = (newDirectoryName: string) => {
+    if (loading) {
+      return;
     }
+
+    setLoading(true);
+
+    if (directoryName !== 'root') {
+      setDirectoryName(directoryName + '/' + newDirectoryName);
+    } else {
+      setDirectoryName(newDirectoryName);
+    }
+
+    setLoading(false);
   };
 
-  const handleFileOnClick = (data: FileResponse) => {
+  const handleDirectoryPathChange = (newDirectory: string) => {
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
+
+    setDirectoryName(newDirectory);
+
+    setLoading(false);
+  };
+
+  const handleFileOnClick = (data: FileItem) => {
     setPreviewFile(data);
     setShowPreviewModal(true);
   };
 
-  const handleSearchFilter = (driveItem: FileResponse) => {
+  const handleSearchFilter = (driveItem: DirectoryItem | FileItem) => {
     return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
   };
 
   return (
-    <MainLayout refreshDrive={handleFetchDrive} refreshPods={handleFetchPods}>
+    <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
       <div className="block md:hidden">
         <DriveActionHeaderMobile />
       </div>
       <MainHeader
         title={
-          <>
-            <span className="hidden md:inline">{activePod} | </span>
-            <span>{directoryName}</span>
-          </>
+          <DirectoryPath
+            podName={activePod}
+            directory={directoryName}
+            onDirectorySelect={handleDirectoryPathChange}
+          />
         }
+        activePod={activePod}
         driveView={driveView}
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-      <DriveActionBar refreshDrive={handleFetchDrive} />
+      <DriveActionBar updateDrive={handleUpdateDrive} />
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>
@@ -159,9 +251,11 @@ const Drive: FC = () => {
             <DriveGridView
               directories={handleSort(directories?.filter(handleSearchFilter))}
               files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectyOnClick}
+              directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
-              updateDrive={handleFetchDrive}
+              updateDrive={handleUpdateDrive}
+              dropdownOpenFileName={fileNameDropdownOpen}
+              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
 
@@ -169,21 +263,27 @@ const Drive: FC = () => {
             <DriveListView
               directories={handleSort(directories?.filter(handleSearchFilter))}
               files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectyOnClick}
+              directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
-              updateDrive={handleFetchDrive}
+              updateDrive={handleUpdateDrive}
+              dropdownOpenFileName={fileNameDropdownOpen}
+              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
         </div>
       ) : loading === false ? (
-        <EmptyDirectoryCard />
+        activePod ? (
+          <EmptyDirectoryCard />
+        ) : (
+          <SelectPodCard />
+        )
       ) : null}
       {showPreviewModal ? (
         <PreviewFileModal
           showModal={showPreviewModal}
           closeModal={() => setShowPreviewModal(false)}
           previewFile={previewFile}
-          updateDrive={handleFetchDrive}
+          updateDrive={handleUpdateDrive}
         />
       ) : null}
     </MainLayout>

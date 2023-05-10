@@ -5,16 +5,19 @@ import { DriveItemDropdown } from '@components/Dropdowns';
 
 import shortenString from '@utils/shortenString';
 import formatDate from '@utils/formatDate';
+import { extractFileExtension } from '@utils/filename';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface DriveTableItemProps {
+interface DriveTableItemProps extends UpdateDriveProps {
   type: 'folder' | 'file';
   data: {
     name: string;
-    size: string;
+    size: number;
     creationTime: string;
   };
   onClick: () => void;
-  updateDrive: () => void;
+  dropdownOpen: boolean;
+  onDropdownOpenChange: (dropdownOpen: boolean) => void;
 }
 
 const DriveTableItem: FC<DriveTableItemProps> = ({
@@ -22,6 +25,8 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
   data,
   onClick,
   updateDrive,
+  dropdownOpen,
+  onDropdownOpenChange,
 }) => {
   const tableDataClasses =
     'pl-4 font-normal text-color-accents-purple-black text-left';
@@ -35,10 +40,10 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
         {shortenString(data.name.split('.').shift(), 24)}
       </td>
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
-        {type === 'file' ? data.name.split('.').pop().toUpperCase() : '-'}
+        {type === 'file' ? extractFileExtension(data.name)?.toUpperCase() : '-'}
       </td>
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
-        {type === 'file' ? prettyBytes(parseInt(data?.size)) : '-'}
+        {type === 'file' ? prettyBytes(data?.size) : '-'}
       </td>
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
         {formatDate(data?.creationTime, false)}
@@ -49,6 +54,8 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
           data={data}
           openClick={onClick}
           updateDrive={updateDrive}
+          showDropdown={dropdownOpen}
+          onShowDropdownChange={onDropdownOpenChange}
         />
       </td>
     </tr>

@@ -17,13 +17,12 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
+import PodContext from '@context/PodContext';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-export interface DriveActionBarProps {
-  refreshDrive: () => void;
-}
-
-const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
+const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
   const { theme } = useContext(ThemeContext);
+  const { activePod } = useContext(PodContext);
 
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
@@ -36,47 +35,51 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
           Inventory
         </h2>
 
-        <div className="flex justify-center items-stretch mt-5">
-          <Button
-            type="button"
-            variant="primary"
-            className="mx-1 p-0"
-            onClick={() => setShowUploadFileModal(true)}
-          >
-            <span className="mr-2">
-              {theme === 'light' ? (
-                <UploadLightIcon className="inline-block" />
-              ) : (
-                <UploadDarkIcon className="inline-block" />
-              )}
-            </span>
-            <span className="text-color-accents-purple-heavy text-xs">
-              Upload
-            </span>
-          </Button>
+        {activePod && (
+          <div className="flex justify-center items-stretch mt-5">
+            <Button
+              type="button"
+              variant="primary"
+              className="mx-1 p-0"
+              onClick={() => setShowUploadFileModal(true)}
+            >
+              <span className="mr-2">
+                {theme === 'light' ? (
+                  <UploadLightIcon className="inline-block" />
+                ) : (
+                  <UploadDarkIcon className="inline-block" />
+                )}
+              </span>
+              <span className="text-color-accents-purple-heavy text-xs">
+                Upload
+              </span>
+            </Button>
 
-          <Button
-            type="button"
-            variant="primary"
-            icon={theme === 'light' ? <ImportLightIcon /> : <ImportDarkIcon />}
-            className="mx-1"
-            onClick={() => setShowImportFileModal(true)}
-          />
+            <Button
+              type="button"
+              variant="primary"
+              icon={
+                theme === 'light' ? <ImportLightIcon /> : <ImportDarkIcon />
+              }
+              className="mx-1"
+              onClick={() => setShowImportFileModal(true)}
+            />
 
-          <Button
-            type="button"
-            variant="primary"
-            icon={
-              theme === 'light' ? (
-                <CreateFolderLightIcon />
-              ) : (
-                <CreateFolderDarkIcon />
-              )
-            }
-            className="mx-1"
-            onClick={() => setShowCreateFolderModal(true)}
-          />
-        </div>
+            <Button
+              type="button"
+              variant="primary"
+              icon={
+                theme === 'light' ? (
+                  <CreateFolderLightIcon />
+                ) : (
+                  <CreateFolderDarkIcon />
+                )
+              }
+              className="mx-1"
+              onClick={() => setShowCreateFolderModal(true)}
+            />
+          </div>
+        )}
       </div>
 
       <div className="text-xs text-color-shade-light-2-night">
@@ -87,7 +90,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
         <UploadFileModal
           showModal={showUploadFileModal}
           closeModal={() => setShowUploadFileModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
 
@@ -95,7 +98,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
         <ImportFileModal
           showModal={showImportFileModal}
           closeModal={() => setShowImportFileModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
 
@@ -103,7 +106,7 @@ const DriveActionBar: FC<DriveActionBarProps> = ({ refreshDrive }) => {
         <CreateFolderModal
           showModal={showCreateFolderModal}
           closeModal={() => setShowCreateFolderModal(false)}
-          refreshDrive={refreshDrive}
+          updateDrive={updateDrive}
         />
       ) : null}
     </div>

@@ -14,7 +14,7 @@ const PodDropdownToggele: FC<PodDropdownToggeleProps> = ({
   onClickHandler,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const { activePod } = useContext(PodContext);
+  const { activePod, setDirectoryName } = useContext(PodContext);
 
   return (
     <div className="flex items-center w-full">
@@ -28,7 +28,10 @@ const PodDropdownToggele: FC<PodDropdownToggeleProps> = ({
           <DropdownMenuIconDark />
         )}
       </button>
-      <span className="font-semibold text-lg text-color-accents-purple-black dark:text-color-shade-white-night">
+      <span
+        onClick={() => setDirectoryName('root')}
+        className="font-semibold text-lg cursor-pointer hover:bg-color-shade-dark-3-day text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar"
+      >
         {activePod || 'Select a pod'}
       </span>
     </div>

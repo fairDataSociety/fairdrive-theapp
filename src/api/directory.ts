@@ -1,29 +1,38 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage';
-
-export async function createDefaultDirectory(fdp: FdpStorage, podName: string) {
-  return createDirectory(fdp, podName, '/', '');
-}
+import { DirectoryItem } from '@fairdatasociety/fdp-storage/dist/content-items/types';
+import { getUnixTimestamp } from '@utils/formatDate';
+import { combine } from '@utils/filename';
 
 export async function createDirectory(
   fdp: FdpStorage,
   podName: string,
   directory: string,
   directoryName: string
-) {
-  let data = { dir_path: '' };
+): Promise<DirectoryItem> {
   if (directory === 'root') {
-    directory = `/`;
+    directory = '';
   }
-  data = {
-    dir_path: `${directory}${directoryName}`,
-  };
-  try {
-    await fdp.directory.create(podName, data.dir_path);
 
-    return true;
-  } catch (error) {
-    return error;
-  }
+  await fdp.directory.create(podName, combine(directory, directoryName));
+  const time = getUnixTimestamp();
+  return {
+    name: directoryName,
+    directories: [],
+    files: [],
+    // todo: return correct metadata after implementation https://github.com/fairDataSociety/fdp-storage/issues/229
+    raw: {
+      fileOrDirNames: [],
+      meta: {
+        creationTime: time,
+        version: 0,
+        path: '',
+        name: '',
+        modificationTime: time,
+        accessTime: time,
+        mode: 0,
+      },
+    },
+  };
 }
 
 export const deleteDirectory = async (

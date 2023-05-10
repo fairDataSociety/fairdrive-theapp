@@ -24,7 +24,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
 
           <div className="flex flex-nowrap space-x-5">
             <UserDropdownToggle
-              address={wallet?.address}
+              address={wallet?.address || 'Blossom'}
               onClickHandler={() => setShowUserDropdown(true)}
             />
           </div>

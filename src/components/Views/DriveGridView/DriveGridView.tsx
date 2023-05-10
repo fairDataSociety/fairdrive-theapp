@@ -1,15 +1,15 @@
 import { FC } from 'react';
-
-import { FileResponse } from '@api/files';
-
 import { DriveCard } from '@components/Cards';
+import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
+import { UpdateDriveProps } from '@interfaces/handlers';
 
-interface DriveGridViewProps {
-  directories: FileResponse[];
-  files: FileResponse[];
+interface DriveGridViewProps extends UpdateDriveProps {
+  directories: DirectoryItem[];
+  files: FileItem[];
   directoryOnClick: (directoryName: string) => void;
-  fileOnClick: (data: FileResponse) => void;
-  updateDrive: () => void;
+  fileOnClick: (data: FileItem) => void;
+  dropdownOpenFileName: string;
+  onDropdownFileNameChange: (fileName: string) => void;
 }
 
 const DriveGridView: FC<DriveGridViewProps> = ({
@@ -18,6 +18,8 @@ const DriveGridView: FC<DriveGridViewProps> = ({
   directoryOnClick,
   fileOnClick,
   updateDrive,
+  dropdownOpenFileName,
+  onDropdownFileNameChange,
 }) => {
   return (
     <div className="flex flex-wrap h-full">
@@ -26,11 +28,16 @@ const DriveGridView: FC<DriveGridViewProps> = ({
           key={directory.name}
           type="folder"
           data={{
-            ...directory,
-            creationTime: String(directory.raw?.creationTime),
+            name: directory.name,
+            size: directory.size,
+            creationTime: (directory.raw as any)?.meta?.creationTime,
           }}
           onClick={() => directoryOnClick(directory.name)}
           updateDrive={updateDrive}
+          dropdownOpen={directory.name === dropdownOpenFileName}
+          onDropdownOpenChange={(open: boolean) =>
+            onDropdownFileNameChange(open ? directory.name : null)
+          }
         />
       ))}
 
@@ -39,13 +46,18 @@ const DriveGridView: FC<DriveGridViewProps> = ({
           key={data.name}
           type="file"
           data={{
-            ...data,
-            creationTime: String(data.raw?.creationTime),
+            name: data.name,
+            size: data.size,
+            creationTime: (data.raw as any)?.creationTime,
           }}
           onClick={() => {
             fileOnClick(data);
           }}
           updateDrive={updateDrive}
+          dropdownOpen={data.name === dropdownOpenFileName}
+          onDropdownOpenChange={(open: boolean) =>
+            onDropdownFileNameChange(open ? data.name : null)
+          }
         />
       ))}
     </div>
