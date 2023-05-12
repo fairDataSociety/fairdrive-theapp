@@ -61,9 +61,7 @@ const Overview: FC<OverviewProps> = () => {
                 type="button"
                 variant="primary-outlined"
                 label="Go to Drive"
-                onClick={() => {
-                  router.push('/drive');
-                }}
+                to="/drive"
               />
             </div>
           </div>
@@ -91,9 +89,7 @@ const Overview: FC<OverviewProps> = () => {
                 type="button"
                 variant="primary-outlined"
                 label="Explore DApps"
-                onClick={() => {
-                  router.push('/explore');
-                }}
+                to="/explore"
               />
             </div>
           </div>
