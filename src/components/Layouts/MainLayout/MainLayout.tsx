@@ -58,7 +58,7 @@ const MainLayout: FC<MainLayoutProps> = ({
         >
           <div className="flex justify-start items-stretch w-full h-full">
             {showDriveSideBar ? <DriveSideBar /> : null}
-            <div className="w-full pt-5 px-8 overflow-scroll no-scroll-bar">
+            <div className="w-full pt-5 md:px-8 px-5 overflow-scroll no-scroll-bar">
               {children}
             </div>
           </div>
