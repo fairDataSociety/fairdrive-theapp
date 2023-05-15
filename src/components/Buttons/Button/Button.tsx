@@ -145,7 +145,9 @@ const Button: FC<ButtonProps> = ({
       return router.push('/drive');
     }
 
-    return onClick(event);
+    if (onClick) {
+      return onClick(event);
+    }
   };
 
   return (
