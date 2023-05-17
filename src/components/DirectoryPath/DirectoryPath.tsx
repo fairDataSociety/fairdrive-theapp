@@ -28,7 +28,7 @@ const DirectoryPath = ({
   };
 
   return (
-    <>
+    <div className="md:ml-0 ml-2">
       <span
         className={`hidden md:inline ${folderClasses} ${selectableClasses}`}
         onClick={() => onDirectorySelect('root')}
@@ -47,7 +47,7 @@ const DirectoryPath = ({
           </a>
         </span>
       ))}
-    </>
+    </div>
   );
 };
 
