@@ -24,14 +24,14 @@ import DiscordDarkIcon from '@media/branding/discord-dark.svg';
 import MediumLightIcon from '@media/branding/medium-light.svg';
 import MediumDarkIcon from '@media/branding/medium-dark.svg';
 
-const FooterImage: FC<{ src: string; alt: string; width: string }> = ({
+const FooterImage: FC<{ src: string; alt: string; width?: string }> = ({
   src,
   alt,
   width,
 }: {
   src: string;
   alt: string;
-  width: string;
+  width?: string;
 }) => {
   return <img src={src} alt={alt} style={{ width, display: 'inline-block' }} />;
 };
@@ -81,7 +81,6 @@ const MainFooter: FC = () => {
             <FooterImage
               src="/media/general/mydata-operator-2021.png"
               alt="MyData Operator 2021"
-              width="80px"
             />
           </a>
 
@@ -93,7 +92,6 @@ const MainFooter: FC = () => {
             <FooterImage
               src="/media/general/mydata-operator-2022.png"
               alt="MyData Operator 2022"
-              width="80px"
             />
           </a>
         </div>
