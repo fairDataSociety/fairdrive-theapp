@@ -8,9 +8,9 @@ on:
       - staging
 env:
   BEE_VERSION: '1.6.1'
-  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42B22483e3c8dF794f351939620572d1a3193c12'
-  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9'
-  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14'
+  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42a96D45d787685ac4b36292d218B106Fb39be7F'
+  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xFBF00389140C00384d88d458239833E3231a7414'
+  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xC904989B579c2B216A75723688C784038AA99B56'
   NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
   NEXT_PUBLIC_BLOSSOM_ID: 'caedjloenbhibmaeffockkiallpngmmd'
   NEXT_PUBLIC_NAME: 'Fairdrive'
@@ -34,7 +34,7 @@ jobs:
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://xdai.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_RPC_URL=https://rpc.sepolia.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
@@ -48,7 +48,7 @@ jobs:
               echo "NEXT_PUBLIC_FAIROSHOST=https://app.fairos.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BEE_URL=https://bee-1.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://xdai.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_RPC_URL=https://rpc.sepolia.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.dev.fairdatasociety.org" >> "$GITHUB_ENV"
@@ -62,7 +62,7 @@ jobs:
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BEE_URL=https://bee-1.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://xdai.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_RPC_URL=https://rpc.sepolia.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
