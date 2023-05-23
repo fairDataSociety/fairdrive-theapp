@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { AppProps } from 'next/app';
 
 import Matomo from '@context/Matomo';
@@ -44,6 +45,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <UserProvider>
             <SearchProvider>
               <PodProvider>
+                <Head>
+                  <title>Fairdrive</title>
+                </Head>
                 <Component {...pageProps} />
               </PodProvider>
             </SearchProvider>
