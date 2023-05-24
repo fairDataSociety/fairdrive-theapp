@@ -109,6 +109,18 @@ const MainFooter: FC = () => {
             <StarDarkIcon className="inline-block" />
           )}
 
+          <Link href="/about">
+            <a className="font-normal text-xs text-color-accents-purple-heavy dark:text-color-shade-light-1-night leading-6">
+              About
+            </a>
+          </Link>
+
+          {theme === 'light' ? (
+            <StarLightIcon className="inline-block" />
+          ) : (
+            <StarDarkIcon className="inline-block" />
+          )}
+
           <Link href="/terms">
             <a className="font-normal text-xs text-color-accents-purple-heavy dark:text-color-shade-light-1-night leading-6">
               Terms & Conditions
