@@ -1,6 +1,7 @@
-import { FC, useContext, useState } from 'react';
+import { FC, Fragment, useContext, useState } from 'react';
 import FileSaver from 'file-saver';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
+import { Menu, Transition } from '@headlessui/react';
 
 import PodContext from '@context/PodContext';
 import { useFdpStorage } from '@context/FdpStorageContext';
@@ -20,18 +21,12 @@ interface DriveItemMenuProps extends UpdateDriveProps {
   data: {
     name: string;
   };
-  showDropdown: boolean;
-  setShowDropdown: (open: boolean) => void;
-  openClick: () => void;
   handlePreviewClick?: () => void;
 }
 
 const DriveItemMenu: FC<DriveItemMenuProps> = ({
   type,
   data,
-  showDropdown,
-  setShowDropdown,
-  openClick,
   updateDrive,
   handlePreviewClick,
 }) => {
@@ -42,14 +37,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const previewLabel = type === 'file' ? 'Preview' : 'Open';
 
-  const handleOpenClick = () => {
-    setShowDropdown(false);
-    openClick();
-  };
-
   const handleDownloadClick = async () => {
-    setShowDropdown(false);
-
     try {
       const response = await downloadFile(fdpClient, {
         filename: data?.name,
@@ -72,18 +60,14 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   };
 
   const handleShareClick = () => {
-    setShowDropdown(false);
     setShowShareFileModal(true);
   };
 
   const handleDeleteClick = () => {
-    setShowDropdown(false);
     setShowConfirmDeleteModal(true);
   };
 
   const handleDeleteFile = async () => {
-    setShowDropdown(false);
-
     const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
@@ -120,8 +104,6 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   };
 
   const handleDeleteFolder = async () => {
-    setShowDropdown(false);
-
     const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
@@ -161,8 +143,16 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
 
   return (
     <>
-      {showDropdown ? (
-        <div className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow z-30">
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow z-30">
           <h4 className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night cursor-pointer">
             <span onClick={handlePreviewClick}>{previewLabel}</span>
           </h4>
@@ -200,8 +190,8 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
               Delete
             </span>
           </div>
-        </div>
-      ) : null}
+        </Menu.Items>
+      </Transition>
 
       {showShareFileModal ? (
         <ShareFileModal
