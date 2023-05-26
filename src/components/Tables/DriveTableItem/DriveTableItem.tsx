@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import prettyBytes from 'pretty-bytes';
+import { Menu } from '@headlessui/react';
 
 import { DriveItemDropdown } from '@components/Dropdowns';
 
@@ -45,7 +46,13 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
         {formatDate(data?.creationTime, false)}
       </td>
       <td className="text-center">
-        <DriveItemDropdown type={type} data={data} updateDrive={updateDrive} />
+        <Menu as="div">
+          <DriveItemDropdown
+            type={type}
+            data={data}
+            updateDrive={updateDrive}
+          />
+        </Menu>
       </td>
     </tr>
   );

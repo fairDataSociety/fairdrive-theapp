@@ -1,7 +1,7 @@
-import { FC, Fragment, useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import FileSaver from 'file-saver';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
-import { Menu, Transition } from '@headlessui/react';
+import { Menu } from '@headlessui/react';
 
 import PodContext from '@context/PodContext';
 import { useFdpStorage } from '@context/FdpStorageContext';
@@ -15,6 +15,7 @@ import formatDirectory from '@utils/formatDirectory';
 import { ContentType, removeItemFromCache } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import DropdownTransition from '../DropdownTransition';
 
 interface DriveItemMenuProps extends UpdateDriveProps {
   type: 'folder' | 'file';
@@ -143,55 +144,46 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
 
   return (
     <>
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
+      <DropdownTransition>
         <Menu.Items className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow z-30">
-          <h4 className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night cursor-pointer">
+          <Menu.Item
+            as="h4"
+            className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night cursor-pointer"
+          >
             <span onClick={handlePreviewClick}>{previewLabel}</span>
-          </h4>
+          </Menu.Item>
 
           <div className="space-y-4">
-            {/* <span
-              className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
-              onClick={handleOpenClick}
-            >
-              Open
-            </span> */}
-
             {type === 'file' ? (
-              <span
+              <Menu.Item
+                as="span"
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleDownloadClick}
               >
                 Download
-              </span>
+              </Menu.Item>
             ) : null}
 
             {type === 'file' ? (
-              <span
+              <Menu.Item
+                as="span"
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleShareClick}
               >
                 Share
-              </span>
+              </Menu.Item>
             ) : null}
 
-            <span
+            <Menu.Item
+              as="span"
               className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
               onClick={handleDeleteClick}
             >
               Delete
-            </span>
+            </Menu.Item>
           </div>
         </Menu.Items>
-      </Transition>
+      </DropdownTransition>
 
       {showShareFileModal ? (
         <ShareFileModal
