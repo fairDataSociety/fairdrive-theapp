@@ -12,16 +12,15 @@ env:
   NEXT_PUBLIC_BEE_URL: http://localhost:1633
   REACT_APP_BEE_DEBUG_URL: http://localhost:1635
   NEXT_PUBLIC_BEE_DEBUG_URL: http://localhost:1635
-  NEXT_PUBLIC_RPC_URL: https://xdai.dev.fairdatasociety.org
+  NEXT_PUBLIC_RPC_URL: https://rpc.sepolia.org
   NEXT_PUBLIC_CONSENT_VIEWER: https://app.crviewer.dev.fairdatasociety.org
-  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42B22483e3c8dF794f351939620572d1a3193c12'
-  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9'
-  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14'
+  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42a96D45d787685ac4b36292d218B106Fb39be7F'
+  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xFBF00389140C00384d88d458239833E3231a7414'
+  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xC904989B579c2B216A75723688C784038AA99B56'
   NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,23 +32,23 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
 
-    - name: Install fdp-play
-      run: npm install -g @fairdatasociety/fdp-play
+      - name: Install fdp-play
+        run: npm install -g @fairdatasociety/fdp-play
 
-    - name: Run fdp-play
-      run: fdp-play start -d --bee-version $BEE_VERSION
+      - name: Run fdp-play
+        run: fdp-play start -d --bee-version $BEE_VERSION
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - name: build
-      run: npm run build
-      env:
-        CI: false
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - name: build
+        run: npm run build
+        env:
+          CI: false

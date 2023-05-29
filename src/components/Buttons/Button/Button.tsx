@@ -1,4 +1,5 @@
-import { FC, useContext, ReactNode, ReactChild } from 'react';
+import { FC, useContext, ReactNode, ReactChild, SyntheticEvent } from 'react';
+import router from 'next/router';
 
 import ThemeContext from '@context/ThemeContext';
 import Spinner from '@components/Spinner/Spinner';
@@ -13,7 +14,8 @@ interface ButtonProps {
     | 'tertiary-outlined';
   label?: string;
   icon?: ReactNode;
-  onClick?: any;
+  onClick?: (event: SyntheticEvent) => void;
+  to?: string;
   className?: string;
   padding?: string;
   children?: ReactChild | ReactChild[];
@@ -27,6 +29,7 @@ const Button: FC<ButtonProps> = ({
   label,
   icon,
   onClick,
+  to,
   className,
   padding,
   children,
@@ -136,10 +139,21 @@ const Button: FC<ButtonProps> = ({
     } else return '';
   };
 
+  const onClickHandler = (event: SyntheticEvent) => {
+    if (to) {
+      event.preventDefault();
+      return router.push('/drive');
+    }
+
+    if (onClick) {
+      return onClick(event);
+    }
+  };
+
   return (
     <button
       type={type}
-      onClick={onClick}
+      onClick={onClickHandler}
       className={`${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} ${getVariantSelectedStyle()} ${className} ${padding} text-center rounded`}
       disabled={disabled}
     >

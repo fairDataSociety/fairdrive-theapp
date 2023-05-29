@@ -24,35 +24,77 @@ import DiscordDarkIcon from '@media/branding/discord-dark.svg';
 import MediumLightIcon from '@media/branding/medium-light.svg';
 import MediumDarkIcon from '@media/branding/medium-dark.svg';
 
+const FooterImage: FC<{ src: string; alt: string; width?: string }> = ({
+  src,
+  alt,
+  width,
+}: {
+  src: string;
+  alt: string;
+  width?: string;
+}) => {
+  return <img src={src} alt={alt} style={{ width, display: 'inline-block' }} />;
+};
+
 const MainFooter: FC = () => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="hidden md:flex justify-between items-center w-full h-16 px-8 bg-white shadow-top">
-      <div className="space-x-8">
-        <a href="https://linumlabs.com/" target="_blank" rel="noreferrer">
-          {theme === 'light' ? (
-            <LinumLabsLightIcon className="inline-block" />
-          ) : (
-            <LinumLabsDarkIcon className="inline-block" />
-          )}
-        </a>
+    <div className="hidden md:flex justify-between items-center w-full h-32 px-8 bg-white shadow-top">
+      <div className="flex-col space-y-4">
+        <div className="space-x-8">
+          <a href="https://linumlabs.com/" target="_blank" rel="noreferrer">
+            {theme === 'light' ? (
+              <LinumLabsLightIcon className="inline-block" />
+            ) : (
+              <LinumLabsDarkIcon className="inline-block" />
+            )}
+          </a>
 
-        <a href="https://fairdatasociety.org/" target="_blank" rel="noreferrer">
-          {theme === 'light' ? (
-            <FairDataSocietyLightIcon className="inline-block" />
-          ) : (
-            <FairDataSocietyDarkIcon className="inline-block" />
-          )}
-        </a>
+          <a
+            href="https://fairdatasociety.org/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {theme === 'light' ? (
+              <FairDataSocietyLightIcon className="inline-block" />
+            ) : (
+              <FairDataSocietyDarkIcon className="inline-block" />
+            )}
+          </a>
 
-        <a href="https://www.ethswarm.org/" target="_blank" rel="noreferrer">
-          {theme === 'light' ? (
-            <SwarmLightIcon className="inline-block" />
-          ) : (
-            <SwarmDarkIcon className="inline-block" />
-          )}
-        </a>
+          <a href="https://www.ethswarm.org/" target="_blank" rel="noreferrer">
+            {theme === 'light' ? (
+              <SwarmLightIcon className="inline-block" />
+            ) : (
+              <SwarmDarkIcon className="inline-block" />
+            )}
+          </a>
+        </div>
+
+        <div className="space-x-8">
+          <a
+            href="https://www.mydata.org/participate/awards/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FooterImage
+              src="/media/general/mydata-operator-2021.png"
+              alt="MyData Operator 2021"
+            />
+          </a>
+
+          <a
+            href="https://www.mydata.org/participate/awards/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FooterImage
+              src="/media/general/mydata-operator-2022.png"
+              alt="MyData Operator 2022"
+            />
+          </a>
+        </div>
       </div>
 
       <div className="flex justify-center items-center space-x-16">

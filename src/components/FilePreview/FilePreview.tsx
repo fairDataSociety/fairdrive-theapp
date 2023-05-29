@@ -1,3 +1,4 @@
+import { Button } from '@components/Buttons';
 import ConsentViewer from '@components/ConsentViewer/ConsentViewer';
 import { FileItem } from '@fairdatasociety/fdp-storage';
 import { FC } from 'react';
@@ -74,18 +75,19 @@ const FilePreview: FC<FilePreviewProps> = ({
         </div>
         {(!directory || !directory.includes('/')) && (
           <div className="mb-4">
-            <a
-              className="text-color-accents-purple-black dark:text-color-shade-white-night"
-              target="_blank"
-              href={`${
-                process.env.NEXT_PUBLIC_CONSENT_VIEWER
-              }?pod=${pod}&file=${
-                directory && directory !== 'root' ? `${directory}/` : ''
-              }${file.name}`}
-              rel="noreferrer"
-            >
-              Open Consent
-            </a>
+            <Button
+              type="button"
+              variant="primary-outlined"
+              label="Open Consent"
+              onClick={() => {
+                window.open(
+                  `${process.env.NEXT_PUBLIC_CONSENT_VIEWER}?pod=${pod}&file=${
+                    directory && directory !== 'root' ? `${directory}/` : ''
+                  }${file.name}`,
+                  '_blank'
+                );
+              }}
+            />
           </div>
         )}
       </>
