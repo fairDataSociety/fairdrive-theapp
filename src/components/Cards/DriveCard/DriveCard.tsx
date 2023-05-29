@@ -45,7 +45,7 @@ const DriveCard: FC<DriveCardProps> = ({
           />
         </div>
 
-        <h4 className="text-sm md:text-base overflow-x-hidden lg:overflow-x-auto font-medium text-center text-color-shade-light-1-day dark:text-color-shade-light-1-night">
+        <h4 className="text-sm px-1 md:text-base overflow-x-hidden lg:overflow-x-auto font-medium text-center text-color-shade-light-1-day dark:text-color-shade-light-1-night">
           {shortenString(data.name, 24)}
         </h4>
       </Menu.Button>
