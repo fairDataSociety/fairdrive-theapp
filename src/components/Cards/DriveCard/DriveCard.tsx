@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import prettyBytes from 'pretty-bytes';
+import { Menu } from '@headlessui/react';
 
 import DriveCardIcon from '@components/Cards/DriveCard/DriveCardIcon/DriveCardIcon';
 import { DriveItemDropdown } from '@components/Dropdowns';
@@ -19,8 +20,6 @@ interface DriveCardProps extends UpdateDriveProps {
   };
   onClick: () => void;
   handlePreviewClick?: () => void;
-  dropdownOpen: boolean;
-  onDropdownOpenChange: (dropdownOpen: boolean) => void;
 }
 
 const DriveCard: FC<DriveCardProps> = ({
@@ -28,15 +27,10 @@ const DriveCard: FC<DriveCardProps> = ({
   data,
   onClick,
   updateDrive,
-  dropdownOpen,
-  onDropdownOpenChange,
 }) => {
   return (
-    <>
-      <div
-        className="w-32 mb-2 py-2 flex-column lg:hidden cursor-pointer dark:hover:shadow-soft-purple hover:shadow-soft-purple"
-        onClick={() => onDropdownOpenChange(!dropdownOpen)}
-      >
+    <Menu as="div" className="relative inline-block text-left">
+      <Menu.Button className="w-32 mb-2 py-2 flex-column lg:hidden cursor-pointer dark:hover:shadow-soft-purple hover:shadow-soft-purple">
         <DriveCardIcon
           type={type}
           fileExtention={type === 'file' ? extractFileExtension(data.name) : ''}
@@ -46,9 +40,6 @@ const DriveCard: FC<DriveCardProps> = ({
           <DriveItemMenu
             data={data}
             type={type}
-            showDropdown={dropdownOpen}
-            setShowDropdown={onDropdownOpenChange}
-            openClick={null}
             updateDrive={updateDrive}
             handlePreviewClick={onClick}
           />
@@ -57,7 +48,7 @@ const DriveCard: FC<DriveCardProps> = ({
         <h4 className="text-sm md:text-base overflow-x-hidden lg:overflow-x-auto font-medium text-center text-color-shade-light-1-day dark:text-color-shade-light-1-night">
           {shortenString(data.name, 24)}
         </h4>
-      </div>
+      </Menu.Button>
       <div
         className="w-68 h-60 hidden lg:block m-3 p-6 dark:bg-color-shade-dark-4-night border border-color-shade-black-day dark:border-color-accents-purple-black rounded-md shadow-lg cursor-pointer dark:hover:shadow-soft-purple hover:shadow-soft-purple"
         onClick={onClick}
@@ -73,9 +64,6 @@ const DriveCard: FC<DriveCardProps> = ({
           <DriveItemDropdown
             type={type}
             data={data}
-            showDropdown={dropdownOpen}
-            onShowDropdownChange={onDropdownOpenChange}
-            openClick={onClick}
             updateDrive={updateDrive}
             handlePreviewClick={onClick}
           />
@@ -109,7 +97,7 @@ const DriveCard: FC<DriveCardProps> = ({
           </div>
         </div>
       </div>
-    </>
+    </Menu>
   );
 };
 
