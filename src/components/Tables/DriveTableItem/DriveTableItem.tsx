@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import prettyBytes from 'pretty-bytes';
+import { Menu } from '@headlessui/react';
 
 import { DriveItemDropdown } from '@components/Dropdowns';
 
@@ -16,8 +17,6 @@ interface DriveTableItemProps extends UpdateDriveProps {
     creationTime: string;
   };
   onClick: () => void;
-  dropdownOpen: boolean;
-  onDropdownOpenChange: (dropdownOpen: boolean) => void;
 }
 
 const DriveTableItem: FC<DriveTableItemProps> = ({
@@ -25,8 +24,6 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
   data,
   onClick,
   updateDrive,
-  dropdownOpen,
-  onDropdownOpenChange,
 }) => {
   const tableDataClasses =
     'pl-4 font-normal text-color-accents-purple-black text-left';
@@ -49,14 +46,13 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
         {formatDate(data?.creationTime, false)}
       </td>
       <td className="text-center">
-        <DriveItemDropdown
-          type={type}
-          data={data}
-          openClick={onClick}
-          updateDrive={updateDrive}
-          showDropdown={dropdownOpen}
-          onShowDropdownChange={onDropdownOpenChange}
-        />
+        <Menu as="div">
+          <DriveItemDropdown
+            type={type}
+            data={data}
+            updateDrive={updateDrive}
+          />
+        </Menu>
       </td>
     </tr>
   );

@@ -55,7 +55,7 @@ jobs:
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
               echo "PURGE_URL=https://app.fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "SWARM_URL=https://gateway.dev.fairdatasociety.org/proxy/" >> "$GITHUB_ENV"
+              echo "SWARM_URL=https://gateway.fairdatasociety.org/proxy/" >> "$GITHUB_ENV"
               echo "SIGNER=SIGNER_$GITHUB_REF_NAME" >> "$GITHUB_ENV"
               echo "DEPLOYMENT=.dev." >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'staging' ]; then

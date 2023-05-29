@@ -26,6 +26,7 @@
     "@emotion/styled": "^11.3.0",
     "@fairdatasociety/blossom": "^0.3.0",
     "@fairdatasociety/fdp-storage": "github:fairDataSociety/fdp-storage#fix/bee-js-new-762",
+    "@headlessui/react": "^1.7.14",
     "@types/react-blockies": "^1.4.1",
     "axios": "^0.21.1",
     "cross-blob": "^3.0.1",
