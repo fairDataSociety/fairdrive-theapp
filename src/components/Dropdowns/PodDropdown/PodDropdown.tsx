@@ -1,27 +1,15 @@
-import { useState } from 'react';
+import { Menu } from '@headlessui/react';
 
 import PodDropdownToggele from './PodDropdownToggle';
 import PodDropdownMenu from './PodDropdownMenu';
 
 const PodDropdown = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleToggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
   return (
-    <div
-      className="relative flex cursor-default"
-      onClick={(event) => event.stopPropagation()}
-    >
-      <PodDropdownToggele onClickHandler={handleToggleDropdown} />
+    <Menu as="div" className="relative flex cursor-default">
+      <PodDropdownToggele />
 
-      <PodDropdownMenu
-        showDropdown={showDropdown}
-        onClose={() => setShowDropdown(false)}
-      />
-    </div>
+      <PodDropdownMenu />
+    </Menu>
   );
 };
 

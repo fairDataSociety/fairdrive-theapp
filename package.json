@@ -26,6 +26,7 @@
     "@emotion/styled": "^11.3.0",
     "@fairdatasociety/blossom": "^0.3.0",
     "@fairdatasociety/fdp-storage": "^0.7.2",
+    "@headlessui/react": "^1.7.14",
     "@types/react-blockies": "^1.4.1",
     "axios": "^0.21.1",
     "copy-to-clipboard": "^3.3.3",

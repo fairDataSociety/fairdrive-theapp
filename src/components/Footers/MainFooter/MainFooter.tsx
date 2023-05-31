@@ -71,30 +71,6 @@ const MainFooter: FC = () => {
             )}
           </a>
         </div>
-
-        <div className="space-x-8">
-          <a
-            href="https://www.mydata.org/participate/awards/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FooterImage
-              src="/media/general/mydata-operator-2021.png"
-              alt="MyData Operator 2021"
-            />
-          </a>
-
-          <a
-            href="https://www.mydata.org/participate/awards/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FooterImage
-              src="/media/general/mydata-operator-2022.png"
-              alt="MyData Operator 2022"
-            />
-          </a>
-        </div>
       </div>
 
       <div className="flex justify-center items-center space-x-16">
@@ -127,42 +103,69 @@ const MainFooter: FC = () => {
             </a>
           </Link>
         </div>
-        <div className="space-x-6">
-          <a
-            href="https://github.com/fairDataSociety/fairdrive-theapp"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {theme === 'light' ? (
-              <GithubLightIcon className="inline-block" />
-            ) : (
-              <GithubDarkIcon className="inline-block" />
-            )}
-          </a>
+        <div className="space-y-3">
+          <div className="space-x-6">
+            <a
+              href="https://github.com/fairDataSociety/fairdrive-theapp"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {theme === 'light' ? (
+                <GithubLightIcon className="inline-block" />
+              ) : (
+                <GithubDarkIcon className="inline-block" />
+              )}
+            </a>
 
-          <a
-            href="https://discord.gg/RpX5eU4Cpr"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {theme === 'light' ? (
-              <DiscordLightIcon className="inline-block" />
-            ) : (
-              <DiscordDarkIcon className="inline-block" />
-            )}
-          </a>
+            <a
+              href="https://discord.gg/RpX5eU4Cpr"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {theme === 'light' ? (
+                <DiscordLightIcon className="inline-block" />
+              ) : (
+                <DiscordDarkIcon className="inline-block" />
+              )}
+            </a>
 
-          <a
-            href="https://fairdatasociety.bzz.link/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {theme === 'light' ? (
-              <MediumLightIcon className="inline-block" />
-            ) : (
-              <MediumDarkIcon className="inline-block" />
-            )}
-          </a>
+            <a
+              href="https://fairdatasociety.bzz.link/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {theme === 'light' ? (
+                <MediumLightIcon className="inline-block" />
+              ) : (
+                <MediumDarkIcon className="inline-block" />
+              )}
+            </a>
+          </div>
+          <div className="flex space-x-2">
+            <a
+              href="https://www.mydata.org/participate/awards/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FooterImage
+                width="80px"
+                src="/media/general/mydata-operator-2021.png"
+                alt="MyData Operator 2021"
+              />
+            </a>
+
+            <a
+              href="https://www.mydata.org/participate/awards/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FooterImage
+                width="80px"
+                src="/media/general/mydata-operator-2022.png"
+                alt="MyData Operator 2022"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </div>
