@@ -26,7 +26,7 @@ const MetamaskConnect = ({ onConnect, onError }: MetamaskConnectProps) => {
       setLoading(true);
 
       if (!isMetamaskAvailable()) {
-        onError('Metamaks not available');
+        onError('Metamask is not available');
         return;
       }
 

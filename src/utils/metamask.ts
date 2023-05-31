@@ -9,6 +9,11 @@ declare const window: WindowWithEthereum;
 export const SIGN_WALLET_DATA = 'I am granting FULL ACCESS to the FDP account';
 
 /**
+ * Sepolia network ID in decimal
+ */
+export const NETWORK_SEPOLIA = 11155111;
+
+/**
  * Checks that Metamask is available
  */
 export function isMetamaskAvailable(): boolean {
@@ -64,4 +69,83 @@ export async function getSignatureWallet(): Promise<Wallet> {
   const mnemonic = utils.entropyToMnemonic(slicedSignature);
 
   return Wallet.fromMnemonic(mnemonic);
+}
+
+/**
+ * Gets a chain ID
+ */
+export async function getChainId(): Promise<string> {
+  return getMetamaskInstance().request({
+    method: 'eth_chainId',
+  });
+}
+
+/**
+ * Switches to a network
+ *
+ * @param chainId network ID in hex
+ */
+export async function switchToNetwork(chainId: string) {
+  const metamask = getMetamaskInstance();
+
+  const switchChain = async () => {
+    return metamask.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId }],
+    });
+  };
+
+  try {
+    await switchChain();
+  } catch (switchError) {
+    if (switchError.code === 4902) {
+      await metamask.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId,
+            chainName: 'Sepolia',
+            nativeCurrency: {
+              name: 'Sepolia',
+              symbol: 'SepoliaETH',
+              decimals: 18,
+            },
+            rpcUrls: ['https://sepolia.infura.io/v3/'],
+            blockExplorerUrls: ['https://sepolia.etherscan.io'],
+          },
+        ],
+      });
+      await switchChain();
+    } else {
+      console.log(`There was an issue switching to the "${chainId}" network.`);
+    }
+  }
+}
+
+/**
+ * Sends ETH to an address
+ *
+ * @param toAddress to ETH address
+ * @param ethAmount amount of ETH
+ */
+export async function sendAmount(
+  toAddress: string,
+  ethAmount: string
+): Promise<string> {
+  const metamask = getMetamaskInstance();
+  const address = await getAddress();
+  const weiAmount = utils.parseUnits(ethAmount, 'ether');
+  const hexAmount = utils.hexlify(weiAmount);
+  const params = [
+    {
+      from: address,
+      to: toAddress,
+      value: hexAmount,
+    },
+  ];
+
+  return metamask.request({
+    method: 'eth_sendTransaction',
+    params,
+  });
 }

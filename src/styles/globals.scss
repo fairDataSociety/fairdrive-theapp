@@ -49,6 +49,38 @@
   font-family: 'Work Sans';
 }
 
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgba(156, 163, 175, var(--tw-text-opacity));
+}
+
+.flex-container {
+  display: flex;
+  align-items: center; /* This will center the items vertically */
+}
+
+.flex-item {
+  margin-right: 16px; /* Adds some space between the items */
+}
+
+.blurred-text {
+  color: transparent;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.muted-image {
+  opacity: 0.5;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.pagination-image {
+  width: 38px;
+  height: 38px;
+}
+
 .text-style-96-header-1 {
   font-size: 96px;
   font-family: 'Work Sans';
