@@ -11,7 +11,6 @@ import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
-import Invite from '@pages/invite'
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -74,7 +73,6 @@ const LoginForm: FC = () => {
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
-      <Invite/>
       <DisclaimerMessage />
 
       <AuthenticationHeader
