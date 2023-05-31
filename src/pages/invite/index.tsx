@@ -16,6 +16,7 @@ import Invites from '@pages/invites';
 import { AuthenticationInput, TextInput } from '@components/Inputs';
 import Confetti from 'react-confetti';
 import TopUpInviteModal from '@components/Modals/TopUpInviteModal/TopUpInviteModal';
+import { FieldError } from 'react-hook-form/dist/types/errors';
 
 export const STEP_CREATE = 'create';
 export const STEP_FILL = 'fill';
@@ -25,7 +26,6 @@ interface InviteProps {}
 
 const Invite: FC<InviteProps> = () => {
   const { trackPageView } = useMatomo();
-  const [href, setHref] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { register, handleSubmit, formState, reset } = useForm({
     mode: 'all',
@@ -42,7 +42,9 @@ const Invite: FC<InviteProps> = () => {
   const onSaveInviteName = async (data: { name: string }) => {
     try {
       setStep(STEP_FINISH);
-      updateInviteLocally({ ...currentInvite, name: data.name });
+      const updatedInvite = { ...currentInvite, name: data.name };
+      updateInviteLocally(updatedInvite);
+      setCurrentInvite(updatedInvite);
       updateInvitesList();
       reset();
       // eslint-disable-next-line no-empty
@@ -82,10 +84,9 @@ const Invite: FC<InviteProps> = () => {
   };
 
   useEffect(() => {
-    setHref(window.location.href);
     trackPageView({
       documentTitle: 'Invite Page',
-      href,
+      href: window.location.href,
     });
     updateInvitesList();
   }, []);
@@ -142,9 +143,7 @@ const Invite: FC<InviteProps> = () => {
                           'Username field needs to contain at least 1 characters',
                       },
                     }}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    error={errors.name}
+                    error={errors.name as FieldError}
                   />
 
                   <div className="mt-5">
