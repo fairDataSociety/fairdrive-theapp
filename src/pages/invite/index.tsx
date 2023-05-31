@@ -13,9 +13,8 @@ import {
 } from '@utils/invite';
 import CelebrateImage from '@media/UI/invite/celebrate.png';
 import Invites from '@pages/invites';
-import { AuthenticationInput } from '@components/Inputs';
+import { AuthenticationInput, TextInput } from '@components/Inputs';
 import Confetti from 'react-confetti';
-import DisabledInput from '@components/Inputs/DisabledInput/DisabledInput';
 import TopUpInviteModal from '@components/Modals/TopUpInviteModal/TopUpInviteModal';
 
 export const STEP_CREATE = 'create';
@@ -42,7 +41,6 @@ const Invite: FC<InviteProps> = () => {
    */
   const onSaveInviteName = async (data: { name: string }) => {
     try {
-      setLoading(true);
       setStep(STEP_FINISH);
       updateInviteLocally({ ...currentInvite, name: data.name });
       updateInvitesList();
@@ -113,7 +111,6 @@ const Invite: FC<InviteProps> = () => {
               <div className="w-full step-create">
                 <div className="mt-10">
                   <Button
-                    loading={loading}
                     disabled={loading}
                     variant="primary-outlined"
                     label="Create invite"
@@ -153,7 +150,6 @@ const Invite: FC<InviteProps> = () => {
                   <div className="mt-5">
                     <Button
                       className="mr-4"
-                      loading={loading}
                       disabled={loading}
                       variant="secondary"
                       label="Skip"
@@ -161,7 +157,6 @@ const Invite: FC<InviteProps> = () => {
                     />
 
                     <Button
-                      loading={loading}
                       disabled={loading}
                       variant="primary-outlined"
                       label="Save"
@@ -189,10 +184,11 @@ const Invite: FC<InviteProps> = () => {
               </div>
 
               <div className="pr-4">
-                <DisabledInput
+                <TextInput
                   name="folder"
                   label="Invite URL for sharing"
                   value={makeInviteUrl(currentInvite.invite)}
+                  disabled={true}
                 />
               </div>
 
@@ -208,7 +204,6 @@ const Invite: FC<InviteProps> = () => {
               <div className="create-again mt-6">
                 <Button
                   className="primary-outlined mr-4"
-                  loading={loading}
                   disabled={loading}
                   variant="primary"
                   label="Gift crypto to invitee"
@@ -217,7 +212,6 @@ const Invite: FC<InviteProps> = () => {
 
                 <Button
                   className="primary-outlined"
-                  loading={loading}
                   disabled={loading}
                   variant="primary-outlined"
                   label="Create new invite"

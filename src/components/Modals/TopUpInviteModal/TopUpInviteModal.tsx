@@ -5,7 +5,6 @@ import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import Spinner from '@components/Spinner/Spinner';
 import { CreatorModalProps } from '@interfaces/handlers';
-import DisabledInput from '@components/Inputs/DisabledInput/DisabledInput';
 import { Invite } from '@utils/invite';
 import {
   getChainId,
@@ -77,15 +76,17 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
 
       <Spinner isLoading={loading} />
 
-      <DisabledInput
+      <TextInput
         name="name"
         label="Name"
+        disabled={true}
         value={invite?.name || invite?.id}
       />
 
-      <DisabledInput
+      <TextInput
         name="address"
         label="Invite address"
+        disabled={true}
         value={invite?.address}
       />
 
