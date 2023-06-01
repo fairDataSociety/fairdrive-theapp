@@ -6,14 +6,18 @@ import DownloadIcon from '@media/UI/download.svg';
 
 import ConnectDropdown from '@components/Dropdowns/ConnectDropdown/ConnectDropdown';
 
+import classes from './AuthenticationNavbar.module.scss';
+
 const AuthenticationNavbar: FC = () => {
   return (
-    <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
+    <div
+      className={`${classes.wrapper} flex justify-between items-center w-full h-16 px-6 shadow-lg`}
+    >
       <Logo />
 
       <div className="flex justify-between items-center">
         <Link href="/import">
-          <a className="mr-6">
+          <a className={`${classes.button} mr-6`}>
             <Button
               variant="tertiary-outlined"
               label="Import Account"
@@ -22,7 +26,7 @@ const AuthenticationNavbar: FC = () => {
           </a>
         </Link>
 
-        <a className="mr-6">
+        <a className={`${classes.button} mr-6`}>
           <ConnectDropdown />
         </a>
 
