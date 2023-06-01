@@ -26,7 +26,7 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [amount, setAmount] = useState('0.01');
+  const [amount, setAmount] = useState('0.001');
 
   const onMetamaskTopUp = async () => {
     setErrorMessage('');
