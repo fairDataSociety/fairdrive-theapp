@@ -12,7 +12,7 @@ import {
 import CelebrateImage from '@media/UI/invite/celebrate.png';
 import { AuthenticationInput, TextInput } from '@components/Inputs';
 import Confetti from 'react-confetti';
-import TopUpInviteModal from '@components/Modals/TopUpInviteModal/TopUpInviteModal';
+import { TopUpInviteModal } from '@components/Modals';
 import { FieldError } from 'react-hook-form/dist/types/errors';
 import Invites from '@components/Invites/Invites';
 
