@@ -1,4 +1,3 @@
-// implement show all invites from local as list ordered from new to old
 import { FC, useState } from 'react';
 import {
   deleteInviteLocally,
