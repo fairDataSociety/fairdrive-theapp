@@ -94,8 +94,8 @@ const Invite: FC<InviteProps> = () => {
         />
       )}
 
-      <div className="mt-10 grid md:grid-cols-2 gap-6">
-        <div className="border-r border-gray-300">
+      <div className="w-full mt-10 flex-col md:grid md:grid-cols-2 gap-6">
+        <div className="md:border-r border-gray-300">
           {step === STEP_CREATE && (
             <>
               <div className="w-full step-create">
@@ -116,7 +116,7 @@ const Invite: FC<InviteProps> = () => {
               <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
                 Who do you want to invite?
               </div>
-              <div className="step-fill mt-5 mr-40">
+              <div className="step-fill mx-5">
                 <form onSubmit={handleSubmit(onSaveInviteName)}>
                   <AuthenticationInput
                     id="name"
@@ -135,9 +135,9 @@ const Invite: FC<InviteProps> = () => {
                     error={errors.name as FieldError}
                   />
 
-                  <div className="mt-5">
+                  <div className="mt-5 flex flex-wrap justify-start">
                     <Button
-                      className="mr-4"
+                      className="w-24 mr-4 mb-2"
                       disabled={loading}
                       variant="secondary"
                       label="Skip"
@@ -145,6 +145,7 @@ const Invite: FC<InviteProps> = () => {
                     />
 
                     <Button
+                      className="w-24 mb-2"
                       disabled={loading}
                       variant="primary-outlined"
                       label="Save"
@@ -171,7 +172,7 @@ const Invite: FC<InviteProps> = () => {
                 />
               </div>
 
-              <div className="pr-4">
+              <div className="pr-0 md:pr-4">
                 <TextInput
                   name="folder"
                   label="Invite URL for sharing"
@@ -181,7 +182,7 @@ const Invite: FC<InviteProps> = () => {
               </div>
 
               <div className="sharing-box">
-                <ul className="flex">
+                <ul className="flex flex-wrap">
                   <li className="mr-2">[COPY URL]</li>
                   <li className="mr-2">[TWITTER]</li>
                   <li className="mr-2">[FACEBOOK]</li>
@@ -189,9 +190,9 @@ const Invite: FC<InviteProps> = () => {
                 </ul>
               </div>
 
-              <div className="create-again mt-6">
+              <div className="create-again flex flex-wrap justify-between mt-6">
                 <Button
-                  className="primary-outlined mr-4"
+                  className="primary-outlined w-60 mb-2 shrink-0 grow-0"
                   disabled={loading}
                   variant="primary"
                   label="Gift crypto to invitee"
@@ -199,7 +200,7 @@ const Invite: FC<InviteProps> = () => {
                 />
 
                 <Button
-                  className="primary-outlined"
+                  className="primary-outlined w-60 mb-2 shrink-0 grow-0"
                   disabled={loading}
                   variant="primary-outlined"
                   label="Create new invite"
@@ -210,7 +211,7 @@ const Invite: FC<InviteProps> = () => {
           )}
         </div>
 
-        <div>
+        <div className="mt-10 md:mt-0">
           <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
             Invites Address Book
           </div>
