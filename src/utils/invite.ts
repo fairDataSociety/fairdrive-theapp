@@ -134,8 +134,7 @@ export function deleteInviteLocally(inviteId: string): void {
  * Concatenates invite server url and invite private key
  */
 export function makeInviteUrl(invite: string) {
-  // todo move url to env
-  return `https://app.fairdrive.fairdatasociety.org/#I_${invite.replace(
+  return `https://app.fairdrive.fairdatasociety.org/#I/_${invite.replace(
     '0x',
     ''
   )}`;
