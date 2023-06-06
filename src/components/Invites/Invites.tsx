@@ -15,11 +15,17 @@ import DeleteImage from '@media/UI/invite/delete.png';
 import DollarImage from '@media/UI/invite/dollar-sign.png';
 import EmptyImage from '@media/UI/invite/empty.png';
 import copy from 'copy-to-clipboard';
+import { ConfirmDeleteModal } from '@components/Modals';
 
 interface AllInvitesProps {
   invites: Invite[];
   updateInvites: () => void;
   onTopUpInvite: (invite: Invite) => void;
+}
+
+enum InviteMode {
+  EDIT = 'edit',
+  DELETE = 'delete',
 }
 
 export const ITEMS_PER_PAGE = 6;
@@ -30,31 +36,27 @@ const Invites: FC<AllInvitesProps> = ({
   onTopUpInvite,
 }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  // keep track of the invite being edited
-  const [editingInvite, setEditingInvite] = useState<Invite>(null);
-  const [editingInviteName, setEditingInviteName] = useState('');
+  const [activeInvite, setActiveInvite] = useState<Invite>(null);
+  const [inviteMode, setInviteMode] = useState<InviteMode>(null);
+  const [newInviteName, setNewInviteName] = useState('');
   const [hoverInviteId, setHoverInviteId] = useState<string | null>(null);
 
-  const handleEditClick = (invite: Invite) => {
-    setEditingInvite(invite);
-    setEditingInviteName(invite.name || invite.id);
+  const setInviteAction = (invite: Invite, inviteMode: InviteMode) => {
+    setNewInviteName('');
+    setActiveInvite(invite);
+    setInviteMode(inviteMode);
   };
 
-  const handleDeleteClick = (invite: Invite) => {
-    if (!window.confirm('Are you sure you want to delete this invite?')) {
-      return;
-    }
-
-    deleteInviteLocally(invite.id);
-    if (updateInvites) {
-      updateInvites();
-    }
+  const resetInviteAction = () => {
+    setNewInviteName('');
+    setActiveInvite(null);
+    setInviteMode(null);
   };
 
   const handleSaveClick = () => {
-    updateInviteLocally({ ...editingInvite, name: editingInviteName });
-    setEditingInvite(null);
-    setEditingInviteName('');
+    updateInviteLocally({ ...activeInvite, name: newInviteName });
+    setActiveInvite(null);
+    setNewInviteName('');
     if (updateInvites) {
       updateInvites();
     }
@@ -116,12 +118,13 @@ const Invites: FC<AllInvitesProps> = ({
                 />
               </div>
               <div className="flex-1 min-w-0">
-                {editingInvite?.id === invite.id ? (
+                {inviteMode === InviteMode.EDIT &&
+                activeInvite?.id === invite.id ? (
                   <div className="flex items-center">
                     <input
                       className="flex-item mb-3 block w-full mt-1 p-3 font-normal text-xs bg-color-shade-dark-4-day dark:bg-color-shade-dark-2-night border dark:text-color-shade-black-day border-color-shade-black-day dark:border-color-accents-plum-black effect-style-small-button-drop-shadow rounded"
-                      value={editingInviteName}
-                      onChange={(e) => setEditingInviteName(e.target.value)}
+                      value={newInviteName}
+                      onChange={(e) => setNewInviteName(e.target.value)}
                       autoFocus
                     />
                     <button
@@ -143,7 +146,7 @@ const Invites: FC<AllInvitesProps> = ({
                       width={15}
                       src={EditImage.src}
                       alt="Edit the name"
-                      onClick={() => handleEditClick(invite)}
+                      onClick={() => setInviteAction(invite, InviteMode.EDIT)}
                     />
                     <img
                       className={`flex-item cursor-pointer ${
@@ -152,7 +155,7 @@ const Invites: FC<AllInvitesProps> = ({
                       width={15}
                       src={DeleteImage.src}
                       alt="Delete the invite"
-                      onClick={() => handleDeleteClick(invite)}
+                      onClick={() => setInviteAction(invite, InviteMode.DELETE)}
                     />
                     <img
                       className={`flex-item cursor-pointer ${
@@ -228,6 +231,23 @@ const Invites: FC<AllInvitesProps> = ({
           )}
         </li>
       </ul>
+
+      {inviteMode === InviteMode.DELETE ? (
+        <ConfirmDeleteModal
+          showModal={inviteMode === InviteMode.DELETE}
+          closeModal={resetInviteAction}
+          type="Invite"
+          name={activeInvite?.name || activeInvite?.id}
+          deleteHandler={() => {
+            deleteInviteLocally(activeInvite.id);
+            if (updateInvites) {
+              updateInvites();
+            }
+
+            resetInviteAction();
+          }}
+        />
+      ) : null}
     </div>
   );
 };
