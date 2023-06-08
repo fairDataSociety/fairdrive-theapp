@@ -25,6 +25,12 @@ module.exports = {
       },
     },
     colors: {
+      gray: {
+        100: '#F3F4F6',
+        200: '#E5E7EB',
+        300: '#D1D5DB',
+        900: '#111827',
+      },
       'color-accents-soft-lavender': '#ccd3ff',
       'color-accents-grey-pastel': '#a6b7ff',
       'color-accents-grey-lavendar': '#9aa8ff',
@@ -77,6 +83,9 @@ module.exports = {
         'dark',
         'odd',
         'even',
+        'responsive',
+        'hover',
+        'focus',
       ],
       shadow: ['dark'],
     },
