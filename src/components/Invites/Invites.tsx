@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import {
   deleteInviteLocally,
   Invite,
@@ -62,10 +62,12 @@ const Invites: FC<AllInvitesProps> = ({
     }
   };
 
-  const paginatedInvites = invites.slice(
-    currentPage * ITEMS_PER_PAGE,
-    (currentPage + 1) * ITEMS_PER_PAGE
-  );
+  const paginatedInvites = useMemo(() => {
+    return invites.slice(
+      currentPage * ITEMS_PER_PAGE,
+      (currentPage + 1) * ITEMS_PER_PAGE
+    );
+  }, [invites, currentPage]);
 
   const nextPage = () => {
     setCurrentPage((oldPage) =>
