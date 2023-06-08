@@ -16,6 +16,7 @@ import DollarImage from '@media/UI/invite/dollar-sign.png';
 import EmptyImage from '@media/UI/invite/empty.png';
 import copy from 'copy-to-clipboard';
 import { ConfirmDeleteModal } from '@components/Modals';
+import InfoModal from '@components/Modals/InfoModal/InfoModal';
 
 interface AllInvitesProps {
   invites: Invite[];
@@ -40,6 +41,7 @@ const Invites: FC<AllInvitesProps> = ({
   const [inviteMode, setInviteMode] = useState<InviteMode>(null);
   const [newInviteName, setNewInviteName] = useState('');
   const [hoverInviteId, setHoverInviteId] = useState<string | null>(null);
+  const [showCopiedModal, setShowCopiedModal] = useState<boolean>(false);
 
   const setInviteAction = (invite: Invite, inviteMode: InviteMode) => {
     setNewInviteName('');
@@ -174,7 +176,7 @@ const Invites: FC<AllInvitesProps> = ({
                   className="flex items-center text-sm text-gray-400"
                   onClick={() => {
                     copy(makeInviteUrl(invite.invite));
-                    alert('Invite copied to clipboard');
+                    setShowCopiedModal(true);
                   }}
                 >
                   <div>
@@ -250,6 +252,15 @@ const Invites: FC<AllInvitesProps> = ({
           }}
         />
       ) : null}
+
+      {showCopiedModal && (
+        <InfoModal
+          closeModal={() => setShowCopiedModal(false)}
+          header="URL copied"
+          showModal={showCopiedModal}
+          content="The invite URL has been copied to the clipboard"
+        />
+      )}
     </div>
   );
 };
