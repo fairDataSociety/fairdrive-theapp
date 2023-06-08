@@ -93,15 +93,15 @@ jobs:
           platforms: |
             linux/amd64
           build-args: |
-            "NEXT_PUBLIC_FAIROSHOST=${{ vars.NEXT_PUBLIC_FAIROSHOST }}"
-            "NEXT_PUBLIC_FAIRDRIVEHOST=${{ vars.NEXT_PUBLIC_FAIRDRIVEHOST }}"
-            "NEXT_PUBLIC_BEE_URL=${{ vars.NEXT_PUBLIC_BEE_URL }}"
-            "NEXT_PUBLIC_RPC_URL=${{ vars.NEXT_PUBLIC_RPC_URL }}"
-            "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=${{ vars.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT }}"
-            "NEXT_PUBLIC_NFT_GENERATOR_URL=${{ vars.NEXT_PUBLIC_NFT_GENERATOR_URL }}"
-            "NEXT_PUBLIC_CONSENT_VIEWER=${{ vars.NEXT_PUBLIC_CONSENT_VIEWER }}"
-            "NEXT_PUBLIC_BLOCKCHAIN_INFO=${{ vars.NEXT_PUBLIC_BLOCKCHAIN_INFO }}"
-            "NEXT_PUBLIC_ENVIRONMENT=${{ vars.NEXT_PUBLIC_ENVIRONMENT }}"
+            "NEXT_PUBLIC_FAIROSHOST=${{ env.NEXT_PUBLIC_FAIROSHOST }}"
+            "NEXT_PUBLIC_FAIRDRIVEHOST=${{ env.NEXT_PUBLIC_FAIRDRIVEHOST }}"
+            "NEXT_PUBLIC_BEE_URL=${{ env.NEXT_PUBLIC_BEE_URL }}"
+            "NEXT_PUBLIC_RPC_URL=${{ env.NEXT_PUBLIC_RPC_URL }}"
+            "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=${{ env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT }}"
+            "NEXT_PUBLIC_NFT_GENERATOR_URL=${{ env.NEXT_PUBLIC_NFT_GENERATOR_URL }}"
+            "NEXT_PUBLIC_CONSENT_VIEWER=${{ env.NEXT_PUBLIC_CONSENT_VIEWER }}"
+            "NEXT_PUBLIC_BLOCKCHAIN_INFO=${{ env.NEXT_PUBLIC_BLOCKCHAIN_INFO }}"
+            "NEXT_PUBLIC_ENVIRONMENT=${{ env.NEXT_PUBLIC_ENVIRONMENT }}"
           tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
           cache-to: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache,mode=max
