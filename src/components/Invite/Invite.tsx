@@ -116,7 +116,7 @@ const Invite: FC<InviteProps> = () => {
               <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
                 Who do you want to invite?
               </div>
-              <div className="step-fill mx-5">
+              <div className="step-fill sm:mx-5 mx-0">
                 <form onSubmit={handleSubmit(onSaveInviteName)}>
                   <AuthenticationInput
                     id="name"
@@ -135,11 +135,12 @@ const Invite: FC<InviteProps> = () => {
                     error={errors.name as FieldError}
                   />
 
-                  <div className="mt-5 flex flex-wrap justify-start">
+                  <div className="mt-5 flex sm:justify-start justify-between">
                     <Button
                       className="w-24 mr-4 mb-2"
                       disabled={loading}
                       variant="secondary"
+                      centerText={true}
                       label="Skip"
                       type="submit"
                     />
@@ -148,6 +149,7 @@ const Invite: FC<InviteProps> = () => {
                       className="w-24 mb-2"
                       disabled={loading}
                       variant="primary-outlined"
+                      centerText={true}
                       label="Save"
                       type="submit"
                     />
@@ -190,12 +192,13 @@ const Invite: FC<InviteProps> = () => {
                 </ul>
               </div>
 
-              <div className="create-again flex flex-wrap justify-between mt-6">
+              <div className="create-again flex flex-wrap justify-between mt-6 pr-4">
                 <Button
                   className="primary-outlined w-60 mb-2 shrink-0 grow-0"
                   disabled={loading}
                   variant="primary"
-                  label="Gift crypto to invitee"
+                  centerText={true}
+                  label="Attach funds"
                   onClick={() => setTopUpModal(true)}
                 />
 
@@ -203,7 +206,8 @@ const Invite: FC<InviteProps> = () => {
                   className="primary-outlined w-60 mb-2 shrink-0 grow-0"
                   disabled={loading}
                   variant="primary-outlined"
-                  label="Create new invite"
+                  centerText={true}
+                  label="New invite"
                   onClick={onCreateAgain}
                 />
               </div>
