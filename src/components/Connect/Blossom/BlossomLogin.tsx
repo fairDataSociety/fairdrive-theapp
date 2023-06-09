@@ -12,7 +12,8 @@ const TEST_MESSAGE = 'fairdrive';
 const BlossomLogin = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
-  const { blossom, setIsLoggedIn, setFdpStorageType } = useFdpStorage();
+  const { blossom, setIsLoggedIn, setFdpStorageType, setLoginType } =
+    useFdpStorage();
   const router = useRouter();
   const { setUser, setErrorMessage } = useContext(UserContext);
 
@@ -68,6 +69,7 @@ const BlossomLogin = () => {
 
       setFdpStorageType('blossom');
       setIsLoggedIn(true);
+      setLoginType('blossom');
       setUser('Blossom user');
       router.push('/overview');
     } catch (error) {

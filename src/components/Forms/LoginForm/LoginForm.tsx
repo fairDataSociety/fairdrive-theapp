@@ -28,6 +28,7 @@ const LoginForm: FC = () => {
     setWallet,
     setIsLoggedIn,
     setFdpStorageType,
+    setLoginType,
     storageType,
   } = useFdpStorage();
   const router = useRouter();
@@ -41,6 +42,7 @@ const LoginForm: FC = () => {
       setWallet(wallet);
       setFdpStorageType('native');
       setIsLoggedIn(true);
+      setLoginType('username');
       setUser(user_name);
       router.push('/overview');
     } catch (error) {

@@ -1,5 +1,4 @@
-import { FC, useContext, useEffect } from 'react';
-import router from 'next/router';
+import { FC, useContext, useEffect, useMemo } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
@@ -15,12 +14,20 @@ import OverviewExploreDark from '@media/UI/overview-explore-dark.svg';
 
 import OverviewEcosystemLight from '@media/UI/overview-ecosystem-light.svg';
 import OverviewEcosystemDark from '@media/UI/overview-ecosystem-dark.svg';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 interface OverviewProps {}
+
+export const INVITE_LOCAL_STORAGE_KEY = 'fd_invite';
 
 const Overview: FC<OverviewProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
+  const { loginType } = useFdpStorage();
+  const inviteKey = useMemo(
+    () => localStorage.getItem(INVITE_LOCAL_STORAGE_KEY),
+    []
+  );
 
   useEffect(() => {
     trackPageView({
@@ -35,6 +42,12 @@ const Overview: FC<OverviewProps> = () => {
         <h2 className="font-semibold text-xl text-color-accents-plum-black dark:text-color-shade-white-night">
           Overview
         </h2>
+
+        {loginType === 'metamask' && inviteKey && (
+          <p className="mt-2 text-color-shade-light-2-night dark:text-color-shade-light-2-night">
+            If you create a FDS account, you will get additional free storage.
+          </p>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 w-full">
           <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">

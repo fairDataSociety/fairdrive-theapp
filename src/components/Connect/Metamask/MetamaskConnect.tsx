@@ -16,8 +16,13 @@ interface MetamaskConnectProps {
 const MetamaskConnect = ({ onConnect, onError }: MetamaskConnectProps) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { fdpClient, setIsLoggedIn, setWallet, setFdpStorageType } =
-    useFdpStorage();
+  const {
+    fdpClient,
+    setIsLoggedIn,
+    setWallet,
+    setFdpStorageType,
+    setLoginType,
+  } = useFdpStorage();
   const { setErrorMessage } = useContext(UserContext);
   const router = useRouter();
 
@@ -34,6 +39,7 @@ const MetamaskConnect = ({ onConnect, onError }: MetamaskConnectProps) => {
       fdpClient.account.setAccountFromMnemonic(data.mnemonic.phrase);
       setFdpStorageType('native');
       setIsLoggedIn(true);
+      setLoginType('metamask');
       setWallet(data);
       onConnect();
       return router.push('/overview');
