@@ -13,6 +13,7 @@ import { Blossom } from '@fairdatasociety/blossom';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
 export const BLOSSOM_DEFAULT_ADDRESS = '[Blossom user]';
+export type LoginType = 'username' | 'blossom' | 'metamask';
 
 const provider = new providers.JsonRpcProvider(
   process.env.NEXT_PUBLIC_RPC_URL as string
@@ -49,10 +50,12 @@ interface FdpStorageContext {
   username: string;
   password: string;
   isLoggedIn: boolean;
+  loginType: LoginType | null;
   blossom: Blossom;
   wallet: Wallet | null;
   storageType: FDP_STORAGE_TYPE | null;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  setLoginType: (loginType: LoginType) => void;
   setWallet: (wallet: Wallet) => void;
   setFdpStorageType: (type: FDP_STORAGE_TYPE) => void;
   setUsername: (username: string) => void;
@@ -67,6 +70,7 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   username: '',
   password: '',
   isLoggedIn: false,
+  loginType: null,
   setUsername: null,
   setPassword: null,
   blossom: null,
@@ -74,6 +78,7 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   storageType: null,
   setWallet: null,
   setIsLoggedIn: null,
+  setLoginType: null,
   setFdpStorageType: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
   getAccountBalance: () => Promise.resolve(BigNumber.from(0)),
@@ -88,6 +93,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const [password, setPassword] = useState<string>('');
   const [wallet, setWallet] = useState<Wallet>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loginType, setLoginType] = useState<LoginType | null>(null);
   const [storageType, setStorageType] = useState<FDP_STORAGE_TYPE>(null);
 
   const isUsernameAvailable = async (
@@ -152,11 +158,13 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         username,
         password,
         isLoggedIn,
+        loginType,
         blossom,
         wallet,
         storageType,
         setWallet,
         setIsLoggedIn,
+        setLoginType,
         setFdpStorageType,
         setUsername,
         setPassword,
