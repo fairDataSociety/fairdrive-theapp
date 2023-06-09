@@ -110,6 +110,12 @@ jobs:
             "NEXT_PUBLIC_CONSENT_VIEWER=${{ env.NEXT_PUBLIC_CONSENT_VIEWER }}"
             "NEXT_PUBLIC_BLOCKCHAIN_INFO=${{ env.NEXT_PUBLIC_BLOCKCHAIN_INFO }}"
             "NEXT_PUBLIC_ENVIRONMENT=${{ env.NEXT_PUBLIC_ENVIRONMENT }}"
+            "NEXT_PUBLIC_ENS_REGISTRY_ADDRESS=${{ env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS }}"
+            "NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS=${{ env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS }}"
+            "NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS=${{ env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS }}"
+            "NEXT_PUBLIC_GLOBAL_BATCH_ID=${{ env.NEXT_PUBLIC_GLOBAL_BATCH_ID }}"
+            "NEXT_PUBLIC_BLOSSOM_ID=${{ env.NEXT_PUBLIC_BLOSSOM_ID }}"
+            "NEXT_PUBLIC_NAME=${{ env.NEXT_PUBLIC_NAME }}"
             "PORT=80"
           tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
