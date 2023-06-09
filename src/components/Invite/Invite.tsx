@@ -15,10 +15,13 @@ import Confetti from 'react-confetti';
 import { TopUpInviteModal } from '@components/Modals';
 import { FieldError } from 'react-hook-form/dist/types/errors';
 import Invites from '@components/Invites/Invites';
+import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
 
 export const STEP_CREATE = 'create';
 export const STEP_FILL = 'fill';
 export const STEP_FINISH = 'finish';
+
+export const PARTICIPATE_KEY_LOCAL_STORAGE = 'bb_participate';
 
 interface InviteProps {}
 
@@ -32,6 +35,7 @@ const Invite: FC<InviteProps> = () => {
   const [currentInvite, setCurrentInvite] = useState<Invite>(null);
   const [invites, setInvites] = useState<Invite[]>([]);
   const [topUpModal, setTopUpModal] = useState<boolean>(false);
+  const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
 
   /**
    * When user click by Save name button
@@ -80,8 +84,17 @@ const Invite: FC<InviteProps> = () => {
     setInvites(getInvitesLocally().reverse());
   };
 
+  const onTermsClick = () => {
+    const value = !termsAccepted;
+    setTermsAccepted(value);
+    localStorage.setItem(PARTICIPATE_KEY_LOCAL_STORAGE, value ? '1' : '0');
+  };
+
   useEffect(() => {
     updateInvitesList();
+    setTermsAccepted(
+      localStorage.getItem(PARTICIPATE_KEY_LOCAL_STORAGE) === '1'
+    );
   }, []);
 
   return (
@@ -98,15 +111,32 @@ const Invite: FC<InviteProps> = () => {
         <div className="md:border-r border-gray-300">
           {step === STEP_CREATE && (
             <>
-              <div className="w-full step-create">
-                <div className="mt-10">
-                  <Button
-                    disabled={loading}
-                    variant="primary-outlined"
-                    label="Create invite"
-                    onClick={onCreateInvite}
-                  />
+              <div className="flex mt-10">
+                <CustomCheckbox
+                  name="confirm"
+                  label="I want to participate in the award program."
+                  onChange={onTermsClick}
+                  checked={termsAccepted}
+                />
+                <div className="flex justify-start items-center underline">
+                  <a
+                    className="font-normal text-color-accents-plum-black dark:text-color-accents-soft-lavender text-sm"
+                    href={process.env.NEXT_PUBLIC_BB_RULES_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Rules.
+                  </a>
                 </div>
+              </div>
+
+              <div className="w-full step-create mt-8">
+                <Button
+                  disabled={loading}
+                  variant="primary-outlined"
+                  label="Create invite"
+                  onClick={onCreateInvite}
+                />
               </div>
             </>
           )}

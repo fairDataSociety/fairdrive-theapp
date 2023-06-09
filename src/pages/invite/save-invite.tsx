@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { saveInvite } from '@utils/invite';
 
-export const INVITE_LOCAL_STORAGE_KEY = 'fd_invite';
-
+/**
+ * Save invite key from url to local storage
+ */
 const SaveInvite = () => {
   const router = useRouter();
 
@@ -13,20 +15,14 @@ const SaveInvite = () => {
       return null;
     }
 
-    return `0x${uri.substring(4)}`;
-  };
-
-  const saveInvite = () => {
-    const inviteKey = extractInviteKey(router.asPath);
-
-    if (inviteKey) {
-      localStorage.setItem(INVITE_LOCAL_STORAGE_KEY, inviteKey);
-      console.log('Invite saved to local storage.');
-    }
+    return uri.substring(4);
   };
 
   useEffect(() => {
-    saveInvite();
+    const invite = extractInviteKey(router.asPath);
+    if (invite) {
+      saveInvite(invite);
+    }
   }, []);
 
   return null;

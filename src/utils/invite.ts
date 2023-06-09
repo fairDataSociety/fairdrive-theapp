@@ -3,6 +3,7 @@ import { getUnixTimestamp } from '@utils/formatDate';
 import { v4 as uuid } from 'uuid';
 
 export const INVITES_LOCAL_STORAGE_KEY = 'fd_invites';
+export const INVITE_LOCAL_STORAGE_KEY = 'fd_invite';
 export const INVITE_NAME_MIN_LENGTH = 1;
 export const INVITE_NAME_MAX_LENGTH = 255;
 
@@ -134,8 +135,22 @@ export function deleteInviteLocally(inviteId: string): void {
  * Concatenates invite server url and invite private key
  */
 export function makeInviteUrl(invite: string) {
-  return `https://app.fairdrive.fairdatasociety.org/#I/_${invite.replace(
+  return `${process.env.NEXT_PUBLIC_FAIRDRIVEHOST}/#I/_${invite.replace(
     '0x',
     ''
   )}`;
+}
+
+/**
+ * Saves invite to local storage
+ */
+export function saveInvite(invite: string): void {
+  localStorage.setItem(INVITE_LOCAL_STORAGE_KEY, invite);
+}
+
+/**
+ * Gets invite from local storage
+ */
+export function getInvite(): string | null {
+  return localStorage.getItem(INVITE_LOCAL_STORAGE_KEY);
 }

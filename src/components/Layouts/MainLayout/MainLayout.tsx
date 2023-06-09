@@ -1,4 +1,4 @@
-import { FC, ReactChild, useEffect, useState } from 'react';
+import { FC, ReactChild, useEffect, useMemo, useState } from 'react';
 import {
   DriveSideBar,
   MainNavigationBar,
@@ -8,6 +8,10 @@ import { MainFooter } from '@components/Footers';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { useRouter } from 'next/router';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { getInvite } from '@utils/invite';
+import DisclaimerMessage, {
+  IconType,
+} from '@components/DisclaimerMessage/DisclaimerMessage';
 
 interface MainLayoutProps extends UpdateDriveProps {
   children: ReactChild | ReactChild[];
@@ -21,6 +25,8 @@ const MainLayout: FC<MainLayoutProps> = ({
 }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
   const { isLoggedIn } = useFdpStorage();
+  const { loginType } = useFdpStorage();
+  const inviteKey = useMemo(() => getInvite(), []);
 
   const driveSideBarToggle = () => {
     setShowDriveSideBar(!showDriveSideBar);
@@ -59,6 +65,13 @@ const MainLayout: FC<MainLayoutProps> = ({
           <div className="flex justify-start items-stretch w-full h-full">
             {showDriveSideBar ? <DriveSideBar /> : null}
             <div className="w-full pt-5 md:px-8 px-5 overflow-scroll no-scroll-bar">
+              {loginType === 'metamask' && inviteKey && (
+                <DisclaimerMessage
+                  text="To finish setting up your account, you need to sign up for an FDS account."
+                  icon={IconType.INFO}
+                  url={`${process.env.NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL}/#/I_${inviteKey}`}
+                />
+              )}
               {children}
             </div>
           </div>
