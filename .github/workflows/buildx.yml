@@ -6,7 +6,14 @@ on:
       - 'main'
       - 'development'
       - 'staging'
-
+env:
+  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42a96D45d787685ac4b36292d218B106Fb39be7F'
+  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xFBF00389140C00384d88d458239833E3231a7414'
+  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xC904989B579c2B216A75723688C784038AA99B56'
+  NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
+  NEXT_PUBLIC_BLOSSOM_ID: 'caedjloenbhibmaeffockkiallpngmmd'
+  NEXT_PUBLIC_NAME: 'Fairdrive'
+  
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -111,7 +118,24 @@ jobs:
             "NEXT_PUBLIC_CONSENT_VIEWER=${{ env.NEXT_PUBLIC_CONSENT_VIEWER }}"
             "NEXT_PUBLIC_BLOCKCHAIN_INFO=${{ env.NEXT_PUBLIC_BLOCKCHAIN_INFO }}"
             "NEXT_PUBLIC_ENVIRONMENT=${{ env.NEXT_PUBLIC_ENVIRONMENT }}"
+            "NEXT_PUBLIC_ENS_REGISTRY_ADDRESS=${{ env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS }}"
+            "NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS=${{ env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS }}"
+            "NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS=${{ env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS }}"
+            "NEXT_PUBLIC_GLOBAL_BATCH_ID=${{ env.NEXT_PUBLIC_GLOBAL_BATCH_ID }}"
+            "NEXT_PUBLIC_BLOSSOM_ID=${{ env.NEXT_PUBLIC_BLOSSOM_ID }}"
+            "NEXT_PUBLIC_NAME=${{ env.NEXT_PUBLIC_NAME }}"
             "PORT=80"
           tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
           cache-to: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache,mode=max
+  
+  notify-servers:
+    needs: docker
+    uses: fairdatasociety/ci_utils/.github/workflows/webhook.yml@main
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      wh_secret: ${{ secrets.WEBHOOK_SECRET }}
+      wh_url_d: ${{ secrets.WEBHOOK_URL_DEVELOPMENT }}
+      wh_url_m: ${{ secrets.WEBHOOK_URL_MASTER }}
+    with:
+      branch: ${{ github.ref_name }}
