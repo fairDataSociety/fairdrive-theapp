@@ -234,7 +234,7 @@ const Invite: FC<InviteProps> = () => {
                   disabled={loading}
                   variant="primary"
                   centerText={true}
-                  label="Attach funds"
+                  label="Add funds"
                   onClick={() => setTopUpModal(true)}
                 />
 
