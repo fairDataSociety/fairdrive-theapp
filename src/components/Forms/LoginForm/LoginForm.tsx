@@ -3,7 +3,9 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
-import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
+import DisclaimerMessage, {
+  IconType,
+} from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
@@ -75,7 +77,12 @@ const LoginForm: FC = () => {
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
-      <DisclaimerMessage />
+      <DisclaimerMessage
+        icon={IconType.WARNING}
+        text="Fairdrive is in Beta and provided for evaluation only! File integrity
+      persistence and security are not assured! Expect that data in Fairdrive
+      can be deleted at any time."
+      />
 
       <AuthenticationHeader
         title="Welcome back"
