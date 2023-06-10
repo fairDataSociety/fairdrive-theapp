@@ -7,6 +7,7 @@ import {
   Invite,
   makeInviteUrl,
   saveInviteLocally,
+  shareInvite,
   updateInviteLocally,
 } from '@utils/invite';
 import CelebrateImage from '@media/UI/invite/celebrate.png';
@@ -16,6 +17,7 @@ import { TopUpInviteModal } from '@components/Modals';
 import { FieldError } from 'react-hook-form/dist/types/errors';
 import Invites from '@components/Invites/Invites';
 import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 export const STEP_CREATE = 'create';
 export const STEP_FILL = 'fill';
@@ -36,6 +38,7 @@ const Invite: FC<InviteProps> = () => {
   const [invites, setInvites] = useState<Invite[]>([]);
   const [topUpModal, setTopUpModal] = useState<boolean>(false);
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
+  const { wallet } = useFdpStorage();
 
   /**
    * When user click by Save name button
@@ -67,6 +70,9 @@ const Invite: FC<InviteProps> = () => {
       saveInviteLocally(invite);
       updateInvitesList();
       setLoading(false);
+      if (termsAccepted && wallet) {
+        shareInvite(wallet.privateKey, invite.invite);
+      }
     });
   };
 
