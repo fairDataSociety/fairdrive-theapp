@@ -69,7 +69,7 @@ const MainLayout: FC<MainLayoutProps> = ({
                 <DisclaimerMessage
                   text="To finish setting up your account, you need to sign up for an FDS account."
                   icon={IconType.INFO}
-                  url={`${process.env.NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL}/#/I_${inviteKey}`}
+                  url={`${process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT}/#/I_${inviteKey}`}
                 />
               )}
               {children}
