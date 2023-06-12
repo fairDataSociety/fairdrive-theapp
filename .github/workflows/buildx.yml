@@ -59,7 +59,7 @@ jobs:
           elif [ "$GITHUB_REF_NAME" == 'development' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://app.fairos.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_RPC_URL=https://sepolia.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
