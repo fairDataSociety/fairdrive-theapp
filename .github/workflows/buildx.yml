@@ -13,7 +13,7 @@ env:
   NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
   NEXT_PUBLIC_BLOSSOM_ID: 'caedjloenbhibmaeffockkiallpngmmd'
   NEXT_PUBLIC_NAME: 'Fairdrive'
-  
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -55,7 +55,6 @@ jobs:
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_RULES_URL=https://create.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'development' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://app.fairos.dev.fairdatasociety.org" >> "$GITHUB_ENV"
@@ -68,7 +67,6 @@ jobs:
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_RULES_URL=https://create.dev.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'staging' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
@@ -81,7 +79,6 @@ jobs:
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_RULES_URL=https://create.staging.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL=https://create.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           fi
 
@@ -128,7 +125,7 @@ jobs:
           tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
           cache-to: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache,mode=max
-  
+
   notify-servers:
     needs: docker
     uses: fairdatasociety/ci_utils/.github/workflows/webhook.yml@main
