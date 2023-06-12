@@ -136,7 +136,7 @@ export function deleteInviteLocally(inviteId: string): void {
  * Concatenates invite server url and invite private key
  */
 export function makeInviteUrl(invite: string) {
-  return `${process.env.NEXT_PUBLIC_FAIRDRIVEHOST}/#I/_${invite.replace(
+  return `${process.env.NEXT_PUBLIC_FAIRDRIVEHOST}/#I_${invite.replace(
     '0x',
     ''
   )}`;
