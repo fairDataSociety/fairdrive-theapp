@@ -54,6 +54,9 @@ jobs:
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_RULES_URL=https://create.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'development' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://app.fairos.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
@@ -64,6 +67,9 @@ jobs:
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_RULES_URL=https://create.dev.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'staging' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
@@ -74,6 +80,9 @@ jobs:
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_RULES_URL=https://create.staging.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_CREATE_ACCOUNT_URL=https://create.staging.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           fi
 
       - name: copy ca

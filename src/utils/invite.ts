@@ -3,8 +3,10 @@ import { getUnixTimestamp } from '@utils/formatDate';
 import { v4 as uuid } from 'uuid';
 
 export const INVITES_LOCAL_STORAGE_KEY = 'fd_invites';
+export const INVITE_LOCAL_STORAGE_KEY = 'fd_invite';
 export const INVITE_NAME_MIN_LENGTH = 1;
 export const INVITE_NAME_MAX_LENGTH = 255;
+export const INVITE_SHARE_URL = `${process.env.NEXT_PUBLIC_BB_API_URL}/v1/invite`;
 
 /**
  * Invite related data
@@ -134,8 +136,57 @@ export function deleteInviteLocally(inviteId: string): void {
  * Concatenates invite server url and invite private key
  */
 export function makeInviteUrl(invite: string) {
-  return `https://app.fairdrive.fairdatasociety.org/#I/_${invite.replace(
+  return `${process.env.NEXT_PUBLIC_FAIRDRIVEHOST}/#I/_${invite.replace(
     '0x',
     ''
   )}`;
+}
+
+/**
+ * Saves invite to local storage
+ */
+export function saveInvite(invite: string): void {
+  localStorage.setItem(INVITE_LOCAL_STORAGE_KEY, invite);
+}
+
+/**
+ * Gets invite from local storage
+ */
+export function getInvite(): string | null {
+  return localStorage.getItem(INVITE_LOCAL_STORAGE_KEY);
+}
+
+/**
+ * Shares invite address with signature of inviter and invite
+ *
+ * @param inviterPrivateKey Inviter private key for signing invite address
+ * @param invitePrivateKey Invite private key for signing inviter address
+ */
+export async function shareInvite(
+  inviterPrivateKey: string,
+  invitePrivateKey: string
+): Promise<void> {
+  const inviterWallet = new Wallet(inviterPrivateKey);
+  const inviteWallet = new Wallet(invitePrivateKey);
+  const inviterSignature = await inviterWallet.signMessage(
+    inviteWallet.address.toLowerCase()
+  );
+  const inviteSignature = await inviteWallet.signMessage(
+    inviterWallet.address.toLowerCase()
+  );
+
+  const data = {
+    inviter_address: inviterWallet.address.toLowerCase(),
+    invite_address: inviteWallet.address.toLowerCase(),
+    inviter_signature: inviterSignature,
+    invite_signature: inviteSignature,
+  };
+
+  await fetch(`${INVITE_SHARE_URL}/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
 }

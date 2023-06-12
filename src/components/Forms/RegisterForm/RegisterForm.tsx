@@ -5,7 +5,9 @@ import Link from 'next/link';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
+import DisclaimerMessage, {
+  IconType,
+} from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
@@ -40,7 +42,12 @@ const RegisterForm: FC = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <DisclaimerMessage />
+      <DisclaimerMessage
+        icon={IconType.WARNING}
+        text="Fairdrive is in Beta and provided for evaluation only! File integrity
+      persistence and security are not assured! Expect that data in Fairdrive
+      can be deleted at any time."
+      />
 
       <AuthenticationHeader
         title="Register your account"
