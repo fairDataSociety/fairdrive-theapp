@@ -63,9 +63,14 @@
   margin-right: 16px; /* Adds some space between the items */
 }
 
-.blurred-text {
+.blurred-text-light {
   color: transparent;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.blurred-text-dark {
+  color: transparent;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 .muted-image {

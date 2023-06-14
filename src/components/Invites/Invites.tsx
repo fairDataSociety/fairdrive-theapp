@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useContext, useMemo, useState } from 'react';
 import {
   deleteInviteLocally,
   Invite,
@@ -17,6 +17,7 @@ import EmptyImage from '@media/UI/invite/empty.png';
 import copy from 'copy-to-clipboard';
 import { ConfirmDeleteModal } from '@components/Modals';
 import InfoModal from '@components/Modals/InfoModal/InfoModal';
+import ThemeContext from '@context/ThemeContext';
 
 interface AllInvitesProps {
   invites: Invite[];
@@ -36,6 +37,7 @@ const Invites: FC<AllInvitesProps> = ({
   updateInvites,
   onTopUpInvite,
 }) => {
+  const { theme } = useContext(ThemeContext);
   const [currentPage, setCurrentPage] = useState(0);
   const [activeInvite, setActiveInvite] = useState<Invite>(null);
   const [inviteMode, setInviteMode] = useState<InviteMode>(null);
@@ -80,6 +82,11 @@ const Invites: FC<AllInvitesProps> = ({
   const previousPage = () => {
     setCurrentPage((oldPage) => Math.max(oldPage - 1, 0));
   };
+
+  const getActionClasses = (invite: Invite) =>
+    `flex-item cursor-pointer text-color-accents-purple-black dark:text-color-shade-white-night ${
+      hoverInviteId === invite.id ? '' : 'hidden'
+    }`;
 
   const isPreviousButtonDisabled = currentPage === 0;
   const isNextButtonDisabled =
@@ -140,31 +147,25 @@ const Invites: FC<AllInvitesProps> = ({
                   </div>
                 ) : (
                   <div className="flex items-center edit-container">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white flex-item">
+                    <p className="text-sm font-medium text-color-accents-purple-black dark:text-color-shade-white-night flex-item">
                       {invite.name || invite.id}
                     </p>
                     <img
-                      className={`flex-item cursor-pointer ${
-                        hoverInviteId === invite.id ? '' : 'hidden'
-                      }`}
+                      className={getActionClasses(invite)}
                       width={15}
                       src={EditImage.src}
                       alt="Edit the name"
                       onClick={() => setInviteAction(invite, InviteMode.EDIT)}
                     />
                     <img
-                      className={`flex-item cursor-pointer ${
-                        hoverInviteId === invite.id ? '' : 'hidden'
-                      }`}
+                      className={getActionClasses(invite)}
                       width={15}
                       src={DeleteImage.src}
                       alt="Delete the invite"
                       onClick={() => setInviteAction(invite, InviteMode.DELETE)}
                     />
                     <img
-                      className={`flex-item cursor-pointer ${
-                        hoverInviteId === invite.id ? '' : 'hidden'
-                      }`}
+                      className={getActionClasses(invite)}
                       width={18}
                       src={DollarImage.src}
                       alt="Top Up the invite"
@@ -173,7 +174,7 @@ const Invites: FC<AllInvitesProps> = ({
                   </div>
                 )}
                 <div
-                  className="flex items-center text-sm text-gray-400"
+                  className="flex items-center text-sm"
                   onClick={() => {
                     copy(makeInviteUrl(invite.invite));
                     setShowCopiedModal(true);
@@ -181,14 +182,18 @@ const Invites: FC<AllInvitesProps> = ({
                 >
                   <div>
                     <img
-                      className="flex-item cursor-pointer"
+                      className="flex-item cursor-pointer text-color-accents-purple-black dark:text-color-shade-white-night"
                       src={Key.src}
                       alt="Click to copy the invite"
                       width={15}
                     />
                   </div>
                   <div
-                    className="flex-item truncate blurred-text cursor-pointer"
+                    className={`flex-item truncate cursor-pointer ${
+                      theme === 'light'
+                        ? 'blurred-text-light'
+                        : 'blurred-text-dark'
+                    }`}
                     title="Click to copy the invite"
                   >
                     0x5416f2b3c072a29e577b6fcfa2230671958aaa4c759bb2e37d4bd647632aa76c
