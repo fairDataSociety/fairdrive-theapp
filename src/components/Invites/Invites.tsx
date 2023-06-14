@@ -1,4 +1,4 @@
-import { FC, useContext, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import {
   deleteInviteLocally,
   Invite,
@@ -17,7 +17,6 @@ import EmptyImage from '@media/UI/invite/empty.png';
 import copy from 'copy-to-clipboard';
 import { ConfirmDeleteModal } from '@components/Modals';
 import InfoModal from '@components/Modals/InfoModal/InfoModal';
-import ThemeContext from '@context/ThemeContext';
 
 interface AllInvitesProps {
   invites: Invite[];
@@ -37,7 +36,6 @@ const Invites: FC<AllInvitesProps> = ({
   updateInvites,
   onTopUpInvite,
 }) => {
-  const { theme } = useContext(ThemeContext);
   const [currentPage, setCurrentPage] = useState(0);
   const [activeInvite, setActiveInvite] = useState<Invite>(null);
   const [inviteMode, setInviteMode] = useState<InviteMode>(null);
