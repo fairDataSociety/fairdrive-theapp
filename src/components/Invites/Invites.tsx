@@ -84,7 +84,7 @@ const Invites: FC<AllInvitesProps> = ({
   };
 
   const getActionClasses = (invite: Invite) =>
-    `flex-item cursor-pointer text-color-accents-purple-black dark:text-color-shade-white-night ${
+    `flex-item cursor-pointer text-color-accents-purple-black dark:brighten dark:text-color-shade-white-night ${
       hoverInviteId === invite.id ? '' : 'hidden'
     }`;
 
@@ -102,7 +102,7 @@ const Invites: FC<AllInvitesProps> = ({
         {paginatedInvites.length === 0 && (
           <div className="flex items-center">
             <img
-              className="mr-4"
+              className="mr-4 dark:brighten"
               src={EmptyImage.src}
               alt="Address book is empty"
               width={40}
@@ -142,7 +142,12 @@ const Invites: FC<AllInvitesProps> = ({
                       className="flex-item mb-3"
                       onClick={() => handleSaveClick()}
                     >
-                      <img src={SaveImage.src} alt="Save changes" width={32} />
+                      <img
+                        className="dark:brighten"
+                        src={SaveImage.src}
+                        alt="Save changes"
+                        width={32}
+                      />
                     </button>
                   </div>
                 ) : (
@@ -182,18 +187,14 @@ const Invites: FC<AllInvitesProps> = ({
                 >
                   <div>
                     <img
-                      className="flex-item cursor-pointer text-color-accents-purple-black dark:text-color-shade-white-night"
+                      className="flex-item cursor-pointer text-color-accents-purple-black dark:text-color-shade-white-night dark:brighten"
                       src={Key.src}
                       alt="Click to copy the invite"
                       width={15}
                     />
                   </div>
                   <div
-                    className={`flex-item truncate cursor-pointer ${
-                      theme === 'light'
-                        ? 'blurred-text-light'
-                        : 'blurred-text-dark'
-                    }`}
+                    className="flex-item truncate cursor-pointer blurred-text"
                     title="Click to copy the invite"
                   >
                     0x5416f2b3c072a29e577b6fcfa2230671958aaa4c759bb2e37d4bd647632aa76c
@@ -214,7 +215,7 @@ const Invites: FC<AllInvitesProps> = ({
                 disabled={isPreviousButtonDisabled}
               >
                 <img
-                  className={`pagination-image ${
+                  className={`pagination-image dark:brighten ${
                     isPreviousButtonDisabled ? 'muted-image' : ''
                   }`}
                   src={BackImage.src}
@@ -229,7 +230,7 @@ const Invites: FC<AllInvitesProps> = ({
                 disabled={isNextButtonDisabled}
               >
                 <img
-                  className={`pagination-image ${
+                  className={`pagination-image dark:brighten ${
                     isNextButtonDisabled ? 'muted-image' : ''
                   }`}
                   src={NextImage.src}
