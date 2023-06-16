@@ -144,7 +144,7 @@ const Button: FC<ButtonProps> = ({
   const onClickHandler = (event: SyntheticEvent) => {
     if (to) {
       event.preventDefault();
-      return router.push('/drive');
+      return router.push(to);
     }
 
     if (onClick) {
