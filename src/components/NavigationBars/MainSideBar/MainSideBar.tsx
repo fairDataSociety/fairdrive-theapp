@@ -18,8 +18,11 @@ import ExploreInactiveLight from '@media/UI/explore-inactive-light.svg';
 import ExploreActiveDark from '@media/UI/explore-active-dark.svg';
 import ExploreInactiveDark from '@media/UI/explore-inactive-dark.svg';
 
-import InviteInactiveLight from '@media/UI/invite-inactive-ligth.svg';
-import InviteActiveLight from '@media/UI/invite-active-ligth.svg';
+import InviteInactiveLight from '@media/UI/invite-inactive-light.svg';
+import InviteActiveLight from '@media/UI/invite-active-light.svg';
+
+import InviteInactiveDark from '@media/UI/invite-inactive-dark.svg';
+import InviteActiveDark from '@media/UI/invite-active-dark.svg';
 
 import classes from './MainSideBar.module.scss';
 import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
@@ -87,8 +90,8 @@ const MainSideBar: FC<MainSideBarProps> = ({
           inactive: <InviteActiveLight />,
         },
         dark: {
-          active: <InviteInactiveLight />,
-          inactive: <InviteInactiveLight />,
+          active: <InviteActiveDark />,
+          inactive: <InviteInactiveDark />,
         },
       },
     },

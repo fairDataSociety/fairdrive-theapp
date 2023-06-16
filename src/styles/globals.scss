@@ -63,11 +63,6 @@
   margin-right: 16px; /* Adds some space between the items */
 }
 
-.blurred-text {
-  color: transparent;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
 .muted-image {
   opacity: 0.5;
 }
@@ -308,4 +303,22 @@
 .no-scroll-bar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.light {
+  .blurred-text {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.dark {
+  .blurred-text {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+
+  .dark\:brighten {
+    filter: invert(1);
+  }
 }
