@@ -20,17 +20,17 @@ const MetamaskNotFoundModal: FC<MetamaskNotFoundModalProps> = ({
       closeModal={closeModal}
       headerTitle="Metamask not found"
     >
-      <h5>
-        Install
+      <div>
+        Metamask extension is not currently installed.{' '}
         <a
+          className="text-color-accents-purple-heavy dark:text-color-shade-light-1-night"
           href="https://metamask.io/download/"
           target="_blank"
           rel="noreferrer"
         >
-          &nbsp;Metamask&nbsp;
+          Click here to install it.
         </a>
-        to start using the site
-      </h5>
+      </div>
 
       <Button
         type="button"
