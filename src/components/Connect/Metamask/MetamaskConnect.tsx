@@ -13,7 +13,7 @@ interface MetamaskConnectProps {
   onError: (errorMessage?: string) => void;
 }
 
-const MetamaskConnect = ({ onConnect, onError }: MetamaskConnectProps) => {
+const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -31,7 +31,7 @@ const MetamaskConnect = ({ onConnect, onError }: MetamaskConnectProps) => {
       setLoading(true);
 
       if (!isMetamaskAvailable()) {
-        onError('Metamask is not available');
+        setShowModal(true);
         return;
       }
 
