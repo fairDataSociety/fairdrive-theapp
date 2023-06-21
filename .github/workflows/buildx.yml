@@ -121,6 +121,7 @@ jobs:
             "NEXT_PUBLIC_GLOBAL_BATCH_ID=${{ env.NEXT_PUBLIC_GLOBAL_BATCH_ID }}"
             "NEXT_PUBLIC_BLOSSOM_ID=${{ env.NEXT_PUBLIC_BLOSSOM_ID }}"
             "NEXT_PUBLIC_NAME=${{ env.NEXT_PUBLIC_NAME }}"
+            "NEXT_PUBLIC_BB_API_URL=${{ env.NEXT_PUBLIC_BB_API_URL }}"
             "PORT=80"
           tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
