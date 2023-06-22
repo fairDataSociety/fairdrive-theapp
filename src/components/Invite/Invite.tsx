@@ -18,6 +18,7 @@ import { FieldError } from 'react-hook-form/dist/types/errors';
 import Invites from '@components/Invites/Invites';
 import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
 import { useFdpStorage } from '@context/FdpStorageContext';
+import copy from 'copy-to-clipboard';
 
 export const STEP_CREATE = 'create';
 export const STEP_FILL = 'fill';
@@ -219,23 +220,14 @@ const Invite: FC<InviteProps> = () => {
                 />
               </div>
 
-              <div className="sharing-box">
-                <ul className="flex flex-wrap">
-                  <li className="mr-2">[COPY URL]</li>
-                  <li className="mr-2">[TWITTER]</li>
-                  <li className="mr-2">[FACEBOOK]</li>
-                  <li className="mr-2"></li>
-                </ul>
-              </div>
-
               <div className="create-again flex flex-wrap justify-between mt-6 pr-4">
                 <Button
                   className="primary-outlined w-60 mb-2 shrink-0 grow-0"
                   disabled={loading}
                   variant="primary"
                   centerText={true}
-                  label="Add funds"
-                  onClick={() => setTopUpModal(true)}
+                  label="Copy"
+                  onClick={() => copy(makeInviteUrl(currentInvite.invite))}
                 />
 
                 <Button
