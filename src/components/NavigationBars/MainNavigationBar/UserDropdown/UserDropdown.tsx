@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext } from 'react';
 import router from 'next/router';
 
 import UserContext from '@context/UserContext';
@@ -6,6 +6,8 @@ import { ThemeToggle } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import PodContext from '@context/PodContext';
 import shortenString from '@utils/shortenString';
+import CopyIcon from '@media/UI/copy.svg';
+import copy from 'copy-to-clipboard';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -26,6 +28,12 @@ const UserDropdown: FC<UserDropdownProps> = ({
   } = useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
 
+  const address = fdpClient?.account?.wallet?.address;
+
+  const handleCopyClick = async () => {
+    copy(user || address);
+  };
+
   const disconnect = async () => {
     setUser(null);
     setFdpStorageType('native');
@@ -35,7 +43,6 @@ const UserDropdown: FC<UserDropdownProps> = ({
     clearPodContext();
     setTimeout(() => router.push('/'));
   };
-  const address = fdpClient?.account?.wallet?.address;
 
   return (
     <>
@@ -50,7 +57,15 @@ const UserDropdown: FC<UserDropdownProps> = ({
           >
             <div className="pb-5 mr-5 mb-5 flex content-center items-center border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
               <div title={user || address}>
-                {user || shortenString(address, 24)}
+                {user || shortenString(address, 24, 9)}
+              </div>
+              <div className="ml-auto">
+                <button
+                  className="cursor-pointer"
+                  onClick={() => handleCopyClick()}
+                >
+                  <CopyIcon className="inline-block" />
+                </button>
               </div>
               <div className="ml-auto">
                 <ThemeToggle />
