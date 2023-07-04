@@ -167,13 +167,13 @@ const Invites: FC<AllInvitesProps> = ({
                       alt="Delete the invite"
                       onClick={() => setInviteAction(invite, InviteMode.DELETE)}
                     />
-                    <img
-                      className={getActionClasses(invite)}
-                      width={18}
-                      src={DollarImage.src}
-                      alt="Top Up the invite"
-                      onClick={() => onTopUpInvite && onTopUpInvite(invite)}
-                    />
+                    {/*<img*/}
+                    {/*  className={getActionClasses(invite)}*/}
+                    {/*  width={18}*/}
+                    {/*  src={DollarImage.src}*/}
+                    {/*  alt="Top Up the invite"*/}
+                    {/*  onClick={() => onTopUpInvite && onTopUpInvite(invite)}*/}
+                    {/*/>*/}
                   </div>
                 )}
                 <div
