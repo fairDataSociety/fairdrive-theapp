@@ -205,6 +205,7 @@ const Invite: FC<InviteProps> = () => {
               <div className="flex justify-center">
                 <img
                   className="flex-item"
+                  style={{ margin: 0 }}
                   src={CelebrateImage.src}
                   alt="Finish!"
                   width={150}
