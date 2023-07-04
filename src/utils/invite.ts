@@ -2,11 +2,42 @@ import { Wallet } from 'ethers';
 import { getUnixTimestamp } from '@utils/formatDate';
 import { v4 as uuid } from 'uuid';
 
+/**
+ * Message to sign when user first time login with an invite via Metamask
+ */
+export const LOGIN_MESSAGE_TO_SIGN = 'Invitation activated';
 export const INVITES_LOCAL_STORAGE_KEY = 'fd_invites';
 export const INVITE_LOCAL_STORAGE_KEY = 'fd_invite';
 export const INVITE_NAME_MIN_LENGTH = 1;
 export const INVITE_NAME_MAX_LENGTH = 255;
 export const INVITE_SHARE_URL = `${process.env.NEXT_PUBLIC_BB_API_URL}/v1/invite`;
+
+/**
+ * Invites statuses
+ */
+export interface InvitesStatuses {
+  [key: string]: {
+    /**
+     * Is invite used for login
+     */
+    isUsed: boolean;
+
+    /**
+     * Is account created with invite
+     */
+    isAccountCreated: boolean;
+  };
+}
+
+/**
+ * Invites statuses response
+ */
+export interface InvitesStatusesResponse {
+  status: string;
+  data: {
+    invites: InvitesStatuses;
+  };
+}
 
 /**
  * Invite related data
@@ -34,10 +65,45 @@ export interface Invite {
   name?: string;
 }
 
+export function assertInvitesStatusesResponse(
+  value: unknown
+): asserts value is InvitesStatusesResponse {
+  const response = value as InvitesStatusesResponse;
+  if (typeof response !== 'object' || !response) {
+    throw new Error('Invites statuses response is not valid');
+  }
+
+  if (response.status !== 'ok') {
+    throw new Error('Invites statuses response status is not "ok"');
+  }
+
+  if (!response.data) {
+    throw new Error('Invites statuses response "data" is not valid');
+  }
+
+  if (!response.data.invites) {
+    throw new Error('Invites statuses response "invites" is not valid');
+  }
+
+  Object.values(response.data.invites).forEach((invite) => {
+    if (typeof invite !== 'object' || !invite) {
+      throw new Error('Invite data is not valid');
+    }
+
+    if (typeof invite.isUsed !== 'boolean') {
+      throw new Error('Invite "isUsed" is not valid');
+    }
+
+    if (typeof invite.isAccountCreated !== 'boolean') {
+      throw new Error('Invite "isAccountCreated" is not valid');
+    }
+  });
+}
+
 /**
  * Checks that invite data is valid
  */
-function assertInvite(value: unknown): asserts value is Invite {
+export function assertInvite(value: unknown): asserts value is Invite {
   const invite = value as Invite;
   if (typeof invite !== 'object' || !invite) {
     throw new Error('Invite data is not valid');
@@ -189,4 +255,63 @@ export async function shareInvite(
     },
     body: JSON.stringify(data),
   });
+}
+
+/**
+ * Gets invite statuses
+ *
+ * @param ownerAddress Owner address for checking invite statuses
+ * @param invites Invites for checking statuses
+ */
+export async function getInvitesStatuses(
+  ownerAddress: string,
+  invites: Invite[]
+): Promise<InvitesStatuses> {
+  const inviteAddresses = invites.map((invite) => invite.address);
+  const response = await fetch(`${INVITE_SHARE_URL}/inviter/${ownerAddress}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      invites: inviteAddresses,
+    }),
+  });
+
+  const responseObject = await response.json();
+  assertInvitesStatusesResponse(responseObject);
+
+  return responseObject.data.invites;
+}
+
+/**
+ * First time login with an invite
+ *
+ * @param invitePrivateKey Invite private key for signing the login message
+ */
+export async function login(invitePrivateKey: string): Promise<void> {
+  const inviteWallet = new Wallet(invitePrivateKey);
+  const inviteSignature = await inviteWallet.signMessage(LOGIN_MESSAGE_TO_SIGN);
+
+  const data = {
+    invite_address: inviteWallet.address.toLowerCase(),
+    invite_signature: inviteSignature,
+  };
+
+  const response = await fetch(`${INVITE_SHARE_URL}/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to login with invite');
+  }
+
+  const responseObject = await response.json();
+  if (responseObject.status !== 'ok') {
+    throw new Error(responseObject.message);
+  }
 }
