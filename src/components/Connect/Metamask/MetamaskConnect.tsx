@@ -7,6 +7,7 @@ import MetamaskNotFoundModal from '@components/Modals/MetamaskNotFoundModal/Meta
 import { useContext, useState } from 'react';
 import UserContext from '@context/UserContext';
 import Spinner from '@components/Spinner/Spinner';
+import { getInvite, login } from '@utils/invite';
 
 interface MetamaskConnectProps {
   onConnect: () => void;
@@ -26,6 +27,20 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   const { setErrorMessage } = useContext(UserContext);
   const router = useRouter();
 
+  /**
+   * When user retrieved `signature wallet` from metamask - send info that invite was participated
+   */
+  const markInviteAsParticipated = async () => {
+    try {
+      const savedInvite = getInvite();
+      if (savedInvite) {
+        await login(savedInvite);
+      }
+    } catch (e) {
+      console.error('Can not mark the invite as participated', e);
+    }
+  };
+
   const connect = async () => {
     try {
       setLoading(true);
@@ -35,12 +50,13 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
         return;
       }
 
-      const data = await getSignatureWallet();
-      fdpClient.account.setAccountFromMnemonic(data.mnemonic.phrase);
+      const wallet = await getSignatureWallet();
+      markInviteAsParticipated();
+      fdpClient.account.setAccountFromMnemonic(wallet.mnemonic.phrase);
       setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('metamask');
-      setWallet(data);
+      setWallet(wallet);
       onConnect();
       return router.push('/overview');
     } catch (error) {

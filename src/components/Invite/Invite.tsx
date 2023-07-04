@@ -250,6 +250,7 @@ const Invite: FC<InviteProps> = () => {
           </div>
           <div className="mt-10">
             <Invites
+              ownerAddress={wallet?.address}
               invites={invites}
               updateInvites={updateInvitesList}
               onTopUpInvite={(invite) => {
