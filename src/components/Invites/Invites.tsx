@@ -51,6 +51,11 @@ enum InviteStatus {
    * Invite not used yet
    */
   NotUsed = 'not-used',
+
+  /**
+   * Invite is private
+   */
+  Private = 'private',
 }
 
 /**
@@ -71,6 +76,11 @@ enum InviteStatusText {
    * Invite not used yet
    */
   'not-used' = 'Invite not used yet',
+
+  /**
+   * Invite is private
+   */
+  'private' = 'Invite is private',
 }
 
 export const ITEMS_PER_PAGE = 6;
@@ -145,7 +155,9 @@ const Invites: FC<AllInvitesProps> = ({
     const inviteStatus = invitesStatuses[invite.address.toLowerCase()];
     let status: InviteStatus;
     if (!inviteStatus) {
-      status = InviteStatus.NotUsed;
+      status = InviteStatus.Private;
+    } else if (!inviteStatus.isExists) {
+      status = InviteStatus.Private;
     } else if (inviteStatus.isAccountCreated) {
       status = InviteStatus.Registered;
     } else if (inviteStatus.isUsed) {
@@ -154,9 +166,12 @@ const Invites: FC<AllInvitesProps> = ({
       status = InviteStatus.NotUsed;
     }
 
+    const inviteStatusText = InviteStatusText[status];
     return {
       inviteStatusClass: classes[status],
-      inviteStatusText: InviteStatusText[status],
+      inviteStatusText: inviteStatusText
+        ? inviteStatusText
+        : 'Status is not available',
     };
   };
 
