@@ -26,6 +26,11 @@ export interface InvitesStatuses {
      * Is account created with invite
      */
     isAccountCreated: boolean;
+
+    /**
+     * Is invite exists
+     */
+    isExists: boolean;
   };
 }
 
