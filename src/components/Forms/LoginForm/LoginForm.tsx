@@ -13,6 +13,8 @@ import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
+import { Network, networks } from '@data/networks';
+import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -22,6 +24,7 @@ const LoginForm: FC = () => {
   const { errors, isValid } = formState;
 
   const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
+  const [network, setNetwork] = useState<Network>(networks[0]);
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -32,6 +35,7 @@ const LoginForm: FC = () => {
     setFdpStorageType,
     setLoginType,
     storageType,
+    setEnsConfig,
   } = useFdpStorage();
   const router = useRouter();
 
@@ -52,6 +56,11 @@ const LoginForm: FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const onNetworkChange = (network: Network) => {
+    setNetwork(network);
+    setEnsConfig(network.config);
   };
 
   useEffect(() => {
@@ -95,6 +104,12 @@ const LoginForm: FC = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <NetworkDropdown
+            className="mb-3"
+            value={network}
+            onChange={onNetworkChange}
+          />
+
           <AuthenticationInput
             label="username"
             id="user_name"
