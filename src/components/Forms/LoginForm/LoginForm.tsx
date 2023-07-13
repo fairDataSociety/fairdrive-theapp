@@ -10,7 +10,7 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import { useFdpStorage } from '@context/FdpStorageContext';
+import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
 import { Network, networks } from '@data/networks';
@@ -24,7 +24,7 @@ const LoginForm: FC = () => {
   const { errors, isValid } = formState;
 
   const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
-  const [network, setNetwork] = useState<Network>(networks[0]);
+  const [network, setNetwork] = useState<Network>(getDefaultNetwork());
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -50,6 +50,7 @@ const LoginForm: FC = () => {
       setIsLoggedIn(true);
       setLoginType('username');
       setUser(user_name);
+      localStorage.setItem('network', String(network.id));
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);

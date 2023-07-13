@@ -36,7 +36,17 @@ const createFdpStorage = (
   );
 };
 
-const defaultFdpStorage = createFdpStorage(networks[0].config);
+export const getDefaultNetwork = () => {
+  let defaultNetworkId;
+
+  if (typeof window !== 'undefined') {
+    defaultNetworkId = localStorage.getItem('network');
+  }
+
+  return (
+    networks.find(({ id }) => String(id) === defaultNetworkId) || networks[0]
+  );
+};
 
 interface FdpStorageContextProps {
   children: ReactNode;
@@ -85,7 +95,9 @@ const FdpStorageContext = createContext<FdpStorageContext>({
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
   const [blossom, setBlossom] = useState<Blossom>(null);
-  const [fdpClient, setFdpClient] = useState<FdpStorage>(defaultFdpStorage);
+  const [fdpClient, setFdpClient] = useState<FdpStorage>(
+    createFdpStorage(getDefaultNetwork().config)
+  );
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [wallet, setWallet] = useState<Wallet>(null);
