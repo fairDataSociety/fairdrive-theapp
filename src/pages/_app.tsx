@@ -9,6 +9,7 @@ import { PodProvider } from '@context/PodContext';
 
 import '@styles/globals.scss';
 import { FdpStorageProvider } from '@context/FdpStorageContext';
+import { AnimatePresence } from 'framer-motion';
 /* eslint-disable no-console */
 
 /**
@@ -37,7 +38,7 @@ import { FdpStorageProvider } from '@context/FdpStorageContext';
 //   }
 // }
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   return (
     <FdpStorageProvider>
       <Matomo>
@@ -48,7 +49,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Head>
                   <title>Fairdrive</title>
                 </Head>
-                <Component {...pageProps} />
+                <AnimatePresence mode="wait" initial={false}>
+                  <Component {...pageProps} key={router.asPath} />
+                </AnimatePresence>
               </PodProvider>
             </SearchProvider>
           </UserProvider>

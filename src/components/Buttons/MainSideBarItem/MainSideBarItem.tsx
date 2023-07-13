@@ -52,7 +52,7 @@ const MainSideBarItem: FC<MainSideBarItemProps> = ({
       }  w-full py-1 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night`}
       onClick={() => {
         if (router.pathname === '/drive') {
-          driveSideBarToggle();
+          setTimeout(() => driveSideBarToggle(), 300);
         }
       }}
     >
