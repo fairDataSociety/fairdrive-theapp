@@ -19,6 +19,16 @@ export const networks: Network[] = [
     id: Environments.GOERLI,
     config: getEnsEnvironmentConfig(Environments.GOERLI),
   },
+  {
+    name: 'Optimism Goerli',
+    id: Environments.OPTIMISM_GOERLI,
+    config: getEnsEnvironmentConfig(Environments.OPTIMISM_GOERLI),
+  },
+  {
+    name: 'Arbitrum Goerli',
+    id: Environments.ARBITRUM_GOERLI,
+    config: getEnsEnvironmentConfig(Environments.ARBITRUM_GOERLI),
+  },
 ];
 
 if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'PRODUCTION') {
