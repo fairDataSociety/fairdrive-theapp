@@ -4,6 +4,7 @@ import {
   MainNavigationBar,
   MainSideBar,
 } from '@components/NavigationBars';
+import { motion } from 'framer-motion';
 import { MainFooter } from '@components/Footers';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { useRouter } from 'next/router';
@@ -72,7 +73,16 @@ const MainLayout: FC<MainLayoutProps> = ({
                   url={`${process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT}/#/I_${inviteKey}`}
                 />
               )}
-              {children}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.1,
+                }}
+              >
+                {children}
+              </motion.div>
             </div>
           </div>
         </div>
