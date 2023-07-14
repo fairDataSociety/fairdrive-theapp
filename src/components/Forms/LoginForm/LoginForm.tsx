@@ -44,6 +44,7 @@ const LoginForm: FC = () => {
       setLoading(true);
       setErrorMessage(null);
       const { user_name, password } = data;
+      const fdpClient = setEnsConfig(network.config);
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
       setFdpStorageType('native');
@@ -61,7 +62,6 @@ const LoginForm: FC = () => {
 
   const onNetworkChange = (network: Network) => {
     setNetwork(network);
-    setEnsConfig(network.config);
   };
 
   useEffect(() => {

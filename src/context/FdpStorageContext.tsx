@@ -69,7 +69,7 @@ interface FdpStorageContext {
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
   getAccountAddress: () => Promise<string>;
-  setEnsConfig: (config: FdpContracts.EnsEnvironment) => void;
+  setEnsConfig: (config: FdpContracts.EnsEnvironment) => FdpStorage;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
@@ -106,7 +106,9 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const [storageType, setStorageType] = useState<FDP_STORAGE_TYPE>(null);
 
   const setEnsConfig = (config: FdpContracts.EnsEnvironment) => {
-    setFdpClient(createFdpStorage(config));
+    const fdpStorage = createFdpStorage(config);
+    setFdpClient(fdpStorage);
+    return fdpStorage;
   };
 
   const isUsernameAvailable = async (
