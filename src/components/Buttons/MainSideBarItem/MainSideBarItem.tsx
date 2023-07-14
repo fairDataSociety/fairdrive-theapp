@@ -46,17 +46,17 @@ const MainSideBarItem: FC<MainSideBarItemProps> = ({
   }, []);
 
   return (
-    <div
-      className={`${
-        isActive ? 'border-r-4 border-color-accents-purple-heavy' : ''
-      }  w-full py-1 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night`}
-      onClick={() => {
-        if (router.pathname === '/drive') {
-          setTimeout(() => driveSideBarToggle(), 100);
-        }
-      }}
-    >
-      <Link href={link}>
+    <Link href={link}>
+      <div
+        className={`${
+          isActive ? 'border-r-4 border-color-accents-purple-heavy' : ''
+        }  w-full py-1 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night`}
+        onClick={() => {
+          if (router.pathname === '/drive') {
+            setTimeout(() => driveSideBarToggle(), 100);
+          }
+        }}
+      >
         <a className="flex flex-col justify-center items-center">
           {theme === 'light'
             ? isActive
@@ -76,8 +76,8 @@ const MainSideBarItem: FC<MainSideBarItemProps> = ({
             {label}
           </span>
         </a>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 };
 
