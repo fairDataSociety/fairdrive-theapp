@@ -18,7 +18,7 @@ const ConnectDropdownMenu: FC<ConnectDropdownMenuProps> = ({
 
   return (
     <>
-      <div className="absolute top-10 -left-8 w-40 p-5 bg-color-shade-dark-3-day dark:bg-color-shade-dark-2-night text-left rounded-md shadow z-30">
+      <div className="absolute top-10 -right-8 w-40 p-5 bg-color-shade-dark-3-day dark:bg-color-shade-dark-2-night text-left rounded-md shadow z-30">
         <div className="mb-2">
           <BlossomLogin />
         </div>
