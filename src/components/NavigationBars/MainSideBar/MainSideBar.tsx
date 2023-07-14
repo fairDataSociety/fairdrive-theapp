@@ -86,8 +86,8 @@ const MainSideBar: FC<MainSideBarProps> = ({
       link: '/invite',
       icons: {
         light: {
-          active: <InviteInactiveLight />,
-          inactive: <InviteActiveLight />,
+          active: <InviteActiveLight />,
+          inactive: <InviteInactiveLight />,
         },
         dark: {
           active: <InviteActiveDark />,
