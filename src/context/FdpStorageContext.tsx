@@ -10,37 +10,44 @@ import {
   useState,
 } from 'react';
 import { Blossom } from '@fairdatasociety/blossom';
+import { FdpContracts } from '@fairdatasociety/fdp-storage';
+import { networks } from '@data/networks';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
 export const BLOSSOM_DEFAULT_ADDRESS = '[Blossom user]';
 export type LoginType = 'username' | 'blossom' | 'metamask';
 
-const provider = new providers.JsonRpcProvider(
-  process.env.NEXT_PUBLIC_RPC_URL as string
-);
+const createFdpStorage = (
+  ensOptions: FdpContracts.EnsEnvironment
+): FdpStorage => {
+  return new FdpStorage(
+    process.env.NEXT_PUBLIC_BEE_URL,
+    (process.env.NEXT_PUBLIC_GLOBAL_BATCH_ID || null) as any,
+    {
+      ensOptions,
+      ensDomain: 'fds',
+      cacheOptions: {
+        isUseCache: true,
+        onSaveCache: async (cacheObject) => {
+          saveCache(CacheType.FDP, JSON.stringify(cacheObject));
+        },
+      },
+    }
+  );
+};
 
-const nativeFdpStorage = new FdpStorage(
-  process.env.NEXT_PUBLIC_BEE_URL,
-  (process.env.NEXT_PUBLIC_GLOBAL_BATCH_ID || null) as any,
-  {
-    ensOptions: {
-      performChecks: true,
-      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
-      contractAddresses: {
-        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
-        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
-        fdsRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
-      },
-    },
-    ensDomain: 'fds',
-    cacheOptions: {
-      isUseCache: true,
-      onSaveCache: async (cacheObject) => {
-        saveCache(CacheType.FDP, JSON.stringify(cacheObject));
-      },
-    },
+export const getDefaultNetwork = () => {
+  let defaultNetworkId;
+
+  if (typeof window !== 'undefined') {
+    defaultNetworkId = localStorage.getItem('network');
   }
-);
+
+  return (
+    networks.find(({ id }) => String(id) === defaultNetworkId) || networks[0]
+  );
+};
+
 interface FdpStorageContextProps {
   children: ReactNode;
 }
@@ -61,8 +68,8 @@ interface FdpStorageContext {
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
-  getAccountBalance: (address: string) => Promise<BigNumber>;
   getAccountAddress: () => Promise<string>;
+  setEnsConfig: (config: FdpContracts.EnsEnvironment) => FdpStorage;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
@@ -81,14 +88,16 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   setLoginType: null,
   setFdpStorageType: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
-  getAccountBalance: () => Promise.resolve(BigNumber.from(0)),
   getAccountAddress: () => Promise.resolve(undefined),
+  setEnsConfig: () => {},
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
   const [blossom, setBlossom] = useState<Blossom>(null);
-  const [fdpClient, setFdpClient] = useState<FdpStorage>(nativeFdpStorage);
+  const [fdpClient, setFdpClient] = useState<FdpStorage>(
+    createFdpStorage(getDefaultNetwork().config)
+  );
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [wallet, setWallet] = useState<Wallet>(null);
@@ -96,21 +105,21 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const [loginType, setLoginType] = useState<LoginType | null>(null);
   const [storageType, setStorageType] = useState<FDP_STORAGE_TYPE>(null);
 
+  const setEnsConfig = (config: FdpContracts.EnsEnvironment) => {
+    const fdpStorage = createFdpStorage(config);
+    setFdpClient(fdpStorage);
+    return fdpStorage;
+  };
+
   const isUsernameAvailable = async (
     username: string
   ): Promise<boolean | string> => {
     try {
-      const isAvailable = await nativeFdpStorage.ens.isUsernameAvailable(
-        username
-      );
+      const isAvailable = await fdpClient.ens.isUsernameAvailable(username);
       return isAvailable ? true : 'Oops, username is already taken';
     } catch (error) {
       return error.message;
     }
-  };
-
-  const getAccountBalance = (address: string) => {
-    return provider.getBalance(address);
   };
 
   /**
@@ -132,7 +141,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
    */
   const setFdpStorageType = (type: FDP_STORAGE_TYPE) => {
     if (type === 'native') {
-      setFdpClient(nativeFdpStorage);
+      setFdpClient(fdpClient);
     } else if (type === 'blossom') {
       setFdpClient(blossom.fdpStorage);
     } else {
@@ -169,8 +178,8 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         setUsername,
         setPassword,
         isUsernameAvailable,
-        getAccountBalance,
         getAccountAddress,
+        setEnsConfig,
       }}
     >
       {children}

@@ -10,9 +10,11 @@ import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import { useFdpStorage } from '@context/FdpStorageContext';
+import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
+import { Network, networks } from '@data/networks';
+import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -22,6 +24,7 @@ const LoginForm: FC = () => {
   const { errors, isValid } = formState;
 
   const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
+  const [network, setNetwork] = useState<Network>(getDefaultNetwork());
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -32,6 +35,7 @@ const LoginForm: FC = () => {
     setFdpStorageType,
     setLoginType,
     storageType,
+    setEnsConfig,
   } = useFdpStorage();
   const router = useRouter();
 
@@ -40,18 +44,24 @@ const LoginForm: FC = () => {
       setLoading(true);
       setErrorMessage(null);
       const { user_name, password } = data;
+      const fdpClient = setEnsConfig(network.config);
       const wallet = await fdpClient.account.login(user_name, password);
       setWallet(wallet);
       setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('username');
       setUser(user_name);
+      localStorage.setItem('network', String(network.id));
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const onNetworkChange = (network: Network) => {
+    setNetwork(network);
   };
 
   useEffect(() => {
@@ -95,6 +105,12 @@ const LoginForm: FC = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <NetworkDropdown
+            className="mb-3"
+            value={network}
+            onChange={onNetworkChange}
+          />
+
           <AuthenticationInput
             label="username"
             id="user_name"
