@@ -109,7 +109,7 @@ const Overview: FC<OverviewProps> = () => {
             </p>
 
             <a
-              href="https://docs.fairos.fairdatasociety.org/docs/fairos-dfs/api-reference"
+              href="https://fairdataprotocol.bzz.link/"
               target="_blank"
               rel="noreferrer"
               className="mt-auto bottom-5 w-fit"
