@@ -89,7 +89,8 @@ const RegisterForm: FC = () => {
               required: 'Password field is required',
               minLength: {
                 value: 8,
-                message: 'Password field needs to contain at least 8 charcters',
+                message:
+                  'Password field needs to contain at least 8 characters',
               },
             }}
             // @ts-ignore
