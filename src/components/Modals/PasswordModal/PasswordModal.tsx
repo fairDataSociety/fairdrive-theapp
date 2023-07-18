@@ -6,6 +6,7 @@ import Spinner from '@components/Spinner/Spinner';
 import AuthenticationInput from '../../Inputs/AuthenticationInput/AuthenticationInput';
 import { useForm } from 'react-hook-form';
 import { FieldError } from 'react-hook-form/dist/types/errors';
+import { MIN_PASSWORD_LENGTH } from '@utils/password';
 
 interface PasswordModalProps {
   showModal: boolean;
@@ -56,8 +57,8 @@ const PasswordModal: FC<PasswordModalProps> = ({
           validationRules={{
             required: 'Password field is required',
             minLength: {
-              value: 8,
-              message: 'Password field needs to contain at least 8 characters',
+              value: MIN_PASSWORD_LENGTH,
+              message: `Password field needs to contain at least ${MIN_PASSWORD_LENGTH} characters`,
             },
           }}
           error={errors.password as FieldError}
