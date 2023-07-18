@@ -13,6 +13,7 @@ import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { Wallet } from 'ethers';
+import { MIN_PASSWORD_LENGTH } from '@utils/password';
 
 const RegisterForm: FC = () => {
   const { register, handleSubmit, formState } = useForm({
@@ -88,8 +89,8 @@ const RegisterForm: FC = () => {
             validationRules={{
               required: 'Password field is required',
               minLength: {
-                value: 8,
-                message: 'Password field needs to contain at least 8 charcters',
+                value: MIN_PASSWORD_LENGTH,
+                message: `Password field needs to contain at least ${MIN_PASSWORD_LENGTH} characters`,
               },
             }}
             // @ts-ignore

@@ -8,6 +8,7 @@ import { useContext, useState } from 'react';
 import UserContext from '@context/UserContext';
 import Spinner from '@components/Spinner/Spinner';
 import { getInvite, login } from '@utils/invite';
+import PasswordModal from '@components/Modals/PasswordModal/PasswordModal';
 
 interface MetamaskConnectProps {
   onConnect: () => void;
@@ -15,7 +16,8 @@ interface MetamaskConnectProps {
 }
 
 const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showNotFoundModal, setShowNotFoundModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const {
     fdpClient,
@@ -41,16 +43,14 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
     }
   };
 
-  const connect = async () => {
+  /**
+   * Handle password submission
+   *
+   * @param password Password from modal input
+   */
+  const handlePassword = async (password: string): Promise<void> => {
     try {
-      setLoading(true);
-
-      if (!isMetamaskAvailable()) {
-        setShowModal(true);
-        return;
-      }
-
-      const wallet = await getSignatureWallet();
+      const wallet = await getSignatureWallet(password);
       markInviteAsParticipated();
       fdpClient.account.setAccountFromMnemonic(wallet.mnemonic.phrase);
       setFdpStorageType('native');
@@ -58,12 +58,31 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       setLoginType('metamask');
       setWallet(wallet);
       onConnect();
-      return router.push('/overview');
+      router.push('/overview');
     } catch (error) {
       console.error(error);
       setErrorMessage(String(error.message || error));
     } finally {
       setLoading(false);
+    }
+  };
+
+  /**
+   * Clicking my connect to metamask button
+   */
+  const connect = async (): Promise<void> => {
+    try {
+      setLoading(true);
+
+      if (!isMetamaskAvailable()) {
+        setShowNotFoundModal(true);
+        return;
+      }
+
+      setShowPasswordModal(true);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(String(error.message || error));
     }
   };
 
@@ -84,8 +103,16 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
         onClick={connect}
       />
       <MetamaskNotFoundModal
-        showModal={showModal}
-        closeModal={() => setShowModal(false)}
+        showModal={showNotFoundModal}
+        closeModal={() => setShowNotFoundModal(false)}
+      />
+      <PasswordModal
+        showModal={showPasswordModal}
+        closeModal={() => {
+          setShowPasswordModal(false);
+          setLoading(false);
+        }}
+        handleSubmitForm={handlePassword}
       />
     </>
   );
