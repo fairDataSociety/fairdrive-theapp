@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { LocalStorageKeys } from '@utils/localStorage';
-import { FC, ReactNode, createContext, useState } from 'react';
+import { FC, ReactNode, createContext, useEffect, useState } from 'react';
+import { useFdpStorage } from './FdpStorageContext';
 
 export type MetamaskMigrationDialogStatus = undefined | 'closed' | 'completed';
 
@@ -43,12 +44,19 @@ const UserProvider: FC<UserContextProps> = ({ children }) => {
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { loginType } = useFdpStorage();
 
   const getMetamaskMigrationNotification =
     (): MetamaskMigrationDialogStatus => {
-      return localStorage.getItem(
+      if (loginType !== 'metamask') {
+        return undefined;
+      }
+
+      const value = localStorage.getItem(
         LocalStorageKeys.METAMASK_MIGRATION_DIALOG + '-' + address
       ) as MetamaskMigrationDialogStatus;
+
+      return value || 'closed';
     };
 
   const [metamaskMigration, setMetamaskMigration] = useState(
@@ -64,6 +72,10 @@ const UserProvider: FC<UserContextProps> = ({ children }) => {
     );
     setMetamaskMigration(status);
   };
+
+  useEffect(() => {
+    setMetamaskMigration(getMetamaskMigrationNotification());
+  }, [loginType]);
 
   return (
     <UserContext.Provider

@@ -82,7 +82,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
             </div>
 
             <div>
-              {metamaskMigrationNotification !== 'completed' && (
+              {metamaskMigrationNotification === 'closed' && (
                 <div
                   className="mb-4 text-color-shade-dark-3-night dark:text-color-shade-dark-4-day  cursor-pointer"
                   onClick={onMigrateClick}

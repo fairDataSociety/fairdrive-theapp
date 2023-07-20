@@ -31,7 +31,7 @@ const MetamaskMigrationDialog = ({
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [network, setNetwork] = useState<Network>(null);
-  const { setMetamaskMigrationNotification } = useContext(UserContext);
+  const { setMetamaskMigrationNotification, address } = useContext(UserContext);
 
   const onMnemonicExport = (mnemonic: string) => {
     setMnemonic(mnemonic);
@@ -84,7 +84,11 @@ const MetamaskMigrationDialog = ({
           />
         )}
         {step === Step.COMPLETE && (
-          <MetamaskMigrationComplete onConfirm={handleComplete} />
+          <MetamaskMigrationComplete
+            address={address}
+            username={username}
+            onConfirm={handleComplete}
+          />
         )}
       </>
     </DialogWrapper>

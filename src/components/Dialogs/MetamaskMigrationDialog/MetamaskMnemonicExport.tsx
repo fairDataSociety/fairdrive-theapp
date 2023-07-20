@@ -1,8 +1,9 @@
 import { Button } from '@components/Buttons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getSignatureWallet } from '@utils/metamask';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { CopyButton } from '@components/Buttons/CopyButton/CopyButton';
+import UserContext from '@context/UserContext';
 
 interface MetamaskMnemonicExportProps {
   onConfirm: (mnemonic: string) => void;
@@ -13,10 +14,11 @@ export default function MetamaskMnemonicExport({
 }: MetamaskMnemonicExportProps) {
   const [mnemonic, setMnemonic] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { password } = useContext(UserContext);
 
   const getMnemonic = async () => {
     try {
-      const wallet = await getSignatureWallet();
+      const wallet = await getSignatureWallet(password);
 
       setMnemonic(wallet.mnemonic.phrase);
     } catch (error) {
@@ -40,10 +42,10 @@ export default function MetamaskMnemonicExport({
       {error && <FeedbackMessage type="error" message={error} />}
       {mnemonic && (
         <div className="mt-4">
+          <p className="text-lg my-3">{mnemonic}</p>
           <div className="flex flex-col ">
             <CopyButton text={mnemonic} />
           </div>
-          <p className="text-lg my-3">{mnemonic}</p>
           <Button
             variant="primary-outlined"
             label="Next"

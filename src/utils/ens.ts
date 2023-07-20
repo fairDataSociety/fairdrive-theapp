@@ -19,3 +19,12 @@ export async function estimateRegistrationPrice(
 
   return gasPrice.maxFeePerGas.mul(gasAmount);
 }
+
+export function getAccountBalance(
+  address: string,
+  network: Network
+): Promise<BigNumber> {
+  return new providers.JsonRpcProvider(network.config.rpcUrl).getBalance(
+    address
+  );
+}

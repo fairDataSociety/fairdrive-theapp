@@ -11,8 +11,8 @@ export default function MetamaskIntroContent({
     <>
       <div className="mt-4">
         <p className="text-sm">
-          Migrate your Metamask account and discover other dApps with portable
-          account.
+          Migrate your Metamask account to FDS portable account and discover
+          other dApps with portable account.
         </p>
       </div>
 

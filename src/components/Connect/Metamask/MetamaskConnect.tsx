@@ -26,7 +26,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
     setFdpStorageType,
     setLoginType,
   } = useFdpStorage();
-  const { setErrorMessage, setAddress } = useContext(UserContext);
+  const { setErrorMessage, setAddress, setPassword } = useContext(UserContext);
   const router = useRouter();
 
   /**
@@ -59,6 +59,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       setWallet(wallet);
       onConnect();
       setAddress(wallet.address);
+      setPassword(password);
 
       router.push('/overview');
     } catch (error) {
