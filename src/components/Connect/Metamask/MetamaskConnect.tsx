@@ -9,7 +9,6 @@ import UserContext from '@context/UserContext';
 import Spinner from '@components/Spinner/Spinner';
 import { getInvite, login } from '@utils/invite';
 import PasswordModal from '@components/Modals/PasswordModal/PasswordModal';
-import { useDialogs } from '@context/DialogsContext';
 
 interface MetamaskConnectProps {
   onConnect: () => void;
@@ -27,9 +26,8 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
     setFdpStorageType,
     setLoginType,
   } = useFdpStorage();
-  const { setErrorMessage } = useContext(UserContext);
+  const { setErrorMessage, setAddress } = useContext(UserContext);
   const router = useRouter();
-  const { setMetamaskMigrationOpen } = useDialogs();
 
   /**
    * When user retrieved `signature wallet` from metamask - send info that invite was participated
@@ -60,7 +58,8 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       setLoginType('metamask');
       setWallet(wallet);
       onConnect();
-      setMetamaskMigrationOpen(true);
+      setAddress(wallet.address);
+
       router.push('/overview');
     } catch (error) {
       console.error(error);

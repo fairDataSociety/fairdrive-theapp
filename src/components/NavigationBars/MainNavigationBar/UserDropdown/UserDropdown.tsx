@@ -8,6 +8,8 @@ import PodContext from '@context/PodContext';
 import shortenString from '@utils/shortenString';
 import CopyIcon from '@media/UI/copy.svg';
 import copy from 'copy-to-clipboard';
+import { useDialogs } from '@context/DialogsContext';
+import Indicator from '@components/Indicator/Indicator';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -18,7 +20,8 @@ const UserDropdown: FC<UserDropdownProps> = ({
   showDropdown,
   setShowDropdown,
 }) => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, metamaskMigrationNotification } =
+    useContext(UserContext);
   const {
     fdpClient,
     setIsLoggedIn,
@@ -27,6 +30,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
     setLoginType,
   } = useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
+  const { setMetamaskMigrationOpen } = useDialogs();
 
   const address = fdpClient?.account?.wallet?.address;
 
@@ -42,6 +46,11 @@ const UserDropdown: FC<UserDropdownProps> = ({
     setWallet(null);
     clearPodContext();
     setTimeout(() => router.push('/'));
+  };
+
+  const onMigrateClick = () => {
+    setMetamaskMigrationOpen(true);
+    setShowDropdown(false);
   };
 
   return (
@@ -73,6 +82,15 @@ const UserDropdown: FC<UserDropdownProps> = ({
             </div>
 
             <div>
+              {metamaskMigrationNotification !== 'completed' && (
+                <div
+                  className="mb-4 text-color-shade-dark-3-night dark:text-color-shade-dark-4-day  cursor-pointer"
+                  onClick={onMigrateClick}
+                >
+                  Migrate Account
+                  <Indicator className="inline-block ml-2" />
+                </div>
+              )}
               <div
                 className="mb-4 text-color-status-negative-day cursor-pointer"
                 onClick={disconnect}

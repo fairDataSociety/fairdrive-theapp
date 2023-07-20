@@ -83,8 +83,10 @@ export default function MetamaskCreateAccount({
   };
 
   useEffect(() => {
-    fdpClient.account.setAccountFromMnemonic(mnemonic);
-    getFeePrice();
+    setTimeout(() => {
+      fdpClient.account.setAccountFromMnemonic(mnemonic);
+      getFeePrice();
+    });
   }, []);
 
   return (

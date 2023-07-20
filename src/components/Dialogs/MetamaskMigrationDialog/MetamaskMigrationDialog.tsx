@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import DialogWrapper from '../DialogWrapper';
 import MetamaskIntroContent from './MetamaskIntroContent';
@@ -7,6 +7,7 @@ import MetamaskUsernamePassword from './MetamaskUsernamePassword';
 import MetamaskMigrationComplete from './MetamaskMigrationComplete';
 import MetamaskCreateAccount from './MetamaskCreateAccount';
 import { Network } from '@data/networks';
+import UserContext from '@context/UserContext';
 
 interface MetamaskMigrationDialogProps {
   open: boolean;
@@ -30,6 +31,7 @@ const MetamaskMigrationDialog = ({
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [network, setNetwork] = useState<Network>(null);
+  const { setMetamaskMigrationNotification } = useContext(UserContext);
 
   const onMnemonicExport = (mnemonic: string) => {
     setMnemonic(mnemonic);
@@ -47,8 +49,18 @@ const MetamaskMigrationDialog = ({
     setStep(Step.REGISTER);
   };
 
+  const handleClose = () => {
+    setMetamaskMigrationNotification('closed');
+    onClose();
+  };
+
+  const handleComplete = () => {
+    setMetamaskMigrationNotification('completed');
+    onClose();
+  };
+
   return (
-    <DialogWrapper open={open} onClose={onClose}>
+    <DialogWrapper open={open} onClose={handleClose}>
       <>
         <Dialog.Title as="h3" className="text-lg font-medium leading-6">
           Account Migration
@@ -72,7 +84,7 @@ const MetamaskMigrationDialog = ({
           />
         )}
         {step === Step.COMPLETE && (
-          <MetamaskMigrationComplete onConfirm={onClose} />
+          <MetamaskMigrationComplete onConfirm={handleComplete} />
         )}
       </>
     </DialogWrapper>
