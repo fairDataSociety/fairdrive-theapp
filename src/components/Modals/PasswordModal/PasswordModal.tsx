@@ -48,7 +48,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
 
       <form onSubmit={handleSubmit(handleSubmitButton)} className="w-full">
         <AuthenticationInput
-          label="password"
+          label=""
           id="password"
           type="password"
           name="password"
