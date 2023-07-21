@@ -100,12 +100,15 @@ const LoginForm: FC = () => {
         content="Please log in to get access to your Fairdrive."
       />
 
-      <div className="w-full md:w-98 mt-12">
+      <div className="w-full md:w-98 mt-4">
         <div className="mb-5 text-center">
           <FeedbackMessage type="error" message={errorMessage} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <label className="font-normal text-base text-color-accents-plum-black dark:text-color-accents-grey-pastel">
+            Choose network:
+          </label>
           <NetworkDropdown
             className="mb-3"
             value={network}
@@ -145,7 +148,7 @@ const LoginForm: FC = () => {
             error={errors.password}
           />
 
-          <div className="mt-14 text-center">
+          <div className="mt-8 text-center">
             <Button
               loading={loading}
               disabled={!isValid}
