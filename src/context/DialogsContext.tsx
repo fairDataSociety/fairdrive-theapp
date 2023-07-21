@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import React, { useState } from 'react';
 import { createContext, useContext } from 'react';
 
 export interface IDialogContext {

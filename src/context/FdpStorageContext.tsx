@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
-import { BigNumber, providers, Wallet } from 'ethers';
+import { Wallet } from 'ethers';
 import { CacheType, saveCache } from '@utils/cache';
 import {
   createContext,

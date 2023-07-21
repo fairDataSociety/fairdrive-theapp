@@ -1,7 +1,7 @@
 import { Button } from '@components/Buttons';
 import { useState } from 'react';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-import { useForm } from 'react-hook-form';
+import { FieldError, useForm } from 'react-hook-form';
 import { AuthenticationInput } from '@components/Inputs';
 import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { Network } from '@data/networks';
@@ -86,8 +86,7 @@ export default function MetamaskUsernamePassword({
             message: 'Username field needs to contain at least 4 characters',
           },
         }}
-        // @ts-ignore
-        error={errors.username}
+        error={errors.username as FieldError}
         errorMessage={errors.username?.message?.toString()}
       />
 
@@ -105,8 +104,7 @@ export default function MetamaskUsernamePassword({
             message: 'Password must be at least 12 characters long.',
           },
         }}
-        // @ts-ignore
-        error={errors.password}
+        error={errors.password as FieldError}
         errorMessage={errors.password?.message?.toString()}
       />
 
@@ -125,8 +123,7 @@ export default function MetamaskUsernamePassword({
             }
           },
         }}
-        // @ts-ignore
-        error={errors.confirmPassword}
+        error={errors.confirmPassword as FieldError}
         errorMessage={errors.confirmPassword?.message?.toString()}
       />
 
