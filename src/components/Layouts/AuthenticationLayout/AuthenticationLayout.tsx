@@ -36,7 +36,7 @@ const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({
           </div>
         )}
 
-        <div className="w-full pt-14 overflow-scroll no-scroll-bar">
+        <div className="w-full pt-8 overflow-scroll no-scroll-bar">
           {children}
         </div>
 
