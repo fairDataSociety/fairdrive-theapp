@@ -210,7 +210,12 @@ export default function MetamaskCreateAccount({
           <div className="mt-5">
             {minBalance && (
               <>
-                <div className="text-sm mb-2">Couldn't check your balance</div>
+                {balanceError && (
+                  <div className="text-sm mb-2">
+                    Could not check your balance
+                  </div>
+                )}
+
                 <Button
                   variant="tertiary-outlined"
                   label="Send Minimal balance"
