@@ -11,8 +11,9 @@ export default function MetamaskIntroContent({
     <>
       <div className="mt-4">
         <p className="text-sm">
-          Migrate your Metamask account to FDS portable account and discover
-          other dApps with portable account.
+          Your FDS Lite account, managed with Metamask, can be seamlessly
+          migrated to an FDS Portable account. This enables you to use a
+          username and password for login on mobile devices and other dApps.
         </p>
       </div>
 

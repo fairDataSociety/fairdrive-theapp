@@ -13,9 +13,9 @@ export function DialogBackgroundTransition({
       as={Fragment}
       enter="ease-out duration-300"
       enterFrom="opacity-0"
-      enterTo="opacity-100"
+      enterTo="opacity-25"
       leave="ease-in duration-200"
-      leaveFrom="opacity-100"
+      leaveFrom="opacity-25"
       leaveTo="opacity-0"
     >
       {children}

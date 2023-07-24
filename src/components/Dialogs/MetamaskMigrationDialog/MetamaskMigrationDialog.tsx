@@ -49,7 +49,10 @@ const MetamaskMigrationDialog = ({
     setStep(Step.REGISTER);
   };
 
-  const handleClose = () => {
+  const handleClose = (clickOutside: boolean) => {
+    if (clickOutside) {
+      return;
+    }
     setMetamaskMigrationNotification('closed');
     onClose();
   };

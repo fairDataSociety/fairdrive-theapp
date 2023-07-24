@@ -7,7 +7,10 @@ import { Network } from '@data/networks';
 import { estimateRegistrationPrice, getAccountBalance } from '@utils/ens';
 import { sendAmount } from '@utils/metamask';
 import { BigNumber, utils } from 'ethers';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import InfoLight from '@media/UI/info-light.svg';
+import InfoDark from '@media/UI/info-dark.svg';
+import ThemeContext from '@context/ThemeContext';
 
 interface MetamaskCreateAccountProps {
   username: string;
@@ -32,23 +35,37 @@ export default function MetamaskCreateAccount({
     setLoginType,
   } = useFdpStorage();
   const [minBalance, setMinBalance] = useState<BigNumber | null>(null);
-  const [hasMinBalance, setHasMinBalance] = useState<boolean>(false);
+  const [canProceed, setCanProceed] = useState<boolean>(false);
   const [initialized, setInitialized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [sending, setSending] = useState<boolean>(false);
+  const [balanceError, setBalanceError] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { theme } = useContext(ThemeContext);
   const { setUser } = useContext(UserContext);
   const address = fdpClient.account.wallet?.address;
 
-  const checkMinBalance = async (minBalance: BigNumber): Promise<boolean> => {
-    const { address } = fdpClient.account.wallet;
+  const timer = useRef<NodeJS.Timeout | null>();
 
-    const balance = await getAccountBalance(address, network);
+  const checkMinBalance = async () => {
+    try {
+      const { address } = fdpClient.account.wallet;
 
-    const hasMinBalance = balance.gte(minBalance);
+      const balance = await getAccountBalance(address, network);
 
-    setHasMinBalance(hasMinBalance);
+      const canProceed = balance.gte(minBalance);
 
-    return hasMinBalance;
+      setCanProceed(canProceed);
+
+      if (canProceed) {
+        closeTimer();
+      }
+    } catch (error) {
+      console.error(error);
+      closeTimer();
+      setBalanceError(String(error));
+      setCanProceed(true);
+    }
   };
 
   const register = async () => {
@@ -72,7 +89,14 @@ export default function MetamaskCreateAccount({
   };
 
   const send = async () => {
-    await sendAmount(address, utils.formatEther(minBalance));
+    try {
+      setSending(true);
+      await sendAmount(address, utils.formatEther(minBalance));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSending(false);
+    }
   };
 
   const getFeePrice = async () => {
@@ -87,21 +111,39 @@ export default function MetamaskCreateAccount({
     );
 
     setMinBalance(price);
+  };
 
-    return price;
+  const closeTimer = () => {
+    if (timer.current) {
+      clearInterval(timer.current);
+      timer.current = null;
+    }
   };
 
   const initialize = async () => {
     try {
       fdpClient.account.setAccountFromMnemonic(mnemonic);
-      const minBalance = await getFeePrice();
-      await checkMinBalance(minBalance);
+      await getFeePrice();
     } catch (error) {
       console.error(error);
+      setBalanceError(String(error));
+      setCanProceed(true);
     } finally {
       setInitialized(true);
     }
   };
+
+  useEffect(() => {
+    if (!minBalance) {
+      return;
+    }
+
+    closeTimer();
+    checkMinBalance();
+    timer.current = setInterval(checkMinBalance, 10000);
+
+    return closeTimer;
+  }, [minBalance, checkMinBalance]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -132,15 +174,22 @@ export default function MetamaskCreateAccount({
                       minBalance
                     )}`
                   : "Gas estimation can't be performed on this network."}
-                <div className="pt-1 text-color-shade-dark-2-night dark:text-color-shade-light-2-night">
-                  *Info: Sometimes estimated balance is off and account
-                  registration will not be able to complete. There are three
-                  transactions involved:
-                  <ul>
-                    <li>ENS registration</li>
-                    <li>set ENS resolver </li>
-                    <li>public key registration</li>
-                  </ul>
+                <div>
+                  <div className="has-tooltip inline-block pt-1 text-color-shade-dark-2-night dark:text-color-shade-light-2-night cursor-pointer">
+                    <span>
+                      {theme === 'light' ? <InfoLight /> : <InfoDark />}
+                    </span>
+                    <span className="tooltip rounded w-96 left-0 top-8 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
+                      Sometimes estimated balance is off and account
+                      registration will not be able to complete. There are three
+                      transactions involved:
+                      <ul>
+                        <li>ENS registration</li>
+                        <li>set ENS resolver </li>
+                        <li>public key registration</li>
+                      </ul>
+                    </span>
+                  </div>
                 </div>
               </div>
             </>
@@ -152,23 +201,34 @@ export default function MetamaskCreateAccount({
 
       {errorMessage && <FeedbackMessage type="error" message={errorMessage} />}
 
-      {initialized && !hasMinBalance && (
-        <div className="mt-5">
-          <Button
-            variant="tertiary-outlined"
-            label="Send Minimal balance"
-            disabled={loading}
-            onClick={send}
-          />
-        </div>
-      )}
+      {initialized &&
+        (canProceed && !balanceError ? (
+          <div className="text-color-status-positive-day bold">
+            Funds sufficient
+          </div>
+        ) : (
+          <div className="mt-5">
+            {minBalance && (
+              <>
+                <div className="text-sm mb-2">Couldn't check your balance</div>
+                <Button
+                  variant="tertiary-outlined"
+                  label="Send Minimal balance"
+                  disabled={loading || sending}
+                  loading={sending}
+                  onClick={send}
+                />
+              </>
+            )}
+          </div>
+        ))}
 
       <div className="mt-5">
         {initialized && (
           <Button
             variant="primary-outlined"
-            label={loading ? 'Registering' : 'Register'}
-            disabled={loading}
+            label={loading ? 'Registering' : 'Continue registration'}
+            disabled={!canProceed || loading}
             loading={loading}
             onClick={register}
           />

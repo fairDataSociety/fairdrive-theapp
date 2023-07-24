@@ -11,7 +11,7 @@ import { Button } from '@components/Buttons';
 interface DialogWrapperProps {
   children: React.ReactElement;
   open: boolean;
-  onClose: () => void;
+  onClose: (clickOutside?: boolean) => void;
 }
 
 export default function DialogWrapper({
@@ -23,9 +23,9 @@ export default function DialogWrapper({
 
   return (
     <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={onClose}>
+      <Dialog as="div" className="relative z-10" onClose={() => onClose(true)}>
         <DialogBackgroundTransition>
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black opacity-75 bg-color-shade-black-night" />
         </DialogBackgroundTransition>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -33,7 +33,7 @@ export default function DialogWrapper({
             <DialogTransition>
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl text-color-shade-white-day dark:text-color-shade-white-night bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night p-6 text-left align-middle shadow-xl transition-all">
                 <Button
-                  onClick={onClose}
+                  onClick={() => onClose(false)}
                   variant="tertiary"
                   className="absolute right-2 top-2 cursor-pointer"
                   icon={
