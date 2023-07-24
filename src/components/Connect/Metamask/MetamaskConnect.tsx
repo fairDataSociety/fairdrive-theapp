@@ -26,7 +26,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
     setFdpStorageType,
     setLoginType,
   } = useFdpStorage();
-  const { setErrorMessage, setAddress, setPassword } = useContext(UserContext);
+  const { setErrorMessage, setAddress, setMnemonic } = useContext(UserContext);
   const router = useRouter();
 
   /**
@@ -51,15 +51,16 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   const handlePassword = async (password: string): Promise<void> => {
     try {
       const wallet = await getSignatureWallet(password);
+      const mnemonic = wallet.mnemonic.phrase;
       markInviteAsParticipated();
-      fdpClient.account.setAccountFromMnemonic(wallet.mnemonic.phrase);
+      fdpClient.account.setAccountFromMnemonic(mnemonic);
       setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('metamask');
       setWallet(wallet);
       onConnect();
       setAddress(wallet.address);
-      setPassword(password);
+      setMnemonic(mnemonic);
 
       router.push('/overview');
     } catch (error) {

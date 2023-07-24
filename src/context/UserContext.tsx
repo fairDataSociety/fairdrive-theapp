@@ -11,6 +11,8 @@ interface UserContext {
   setUser: (user: string) => void;
   password: string;
   setPassword: (user: string) => void;
+  mnemonic: string;
+  setMnemonic: (user: string) => void;
   address: string;
   setAddress: (address: string) => void;
   errorMessage: string | null;
@@ -29,6 +31,8 @@ const UserContextDefaultValues: UserContext = {
   setUser: (user: string) => {},
   password: '',
   setPassword: (User: string) => {},
+  mnemonic: '',
+  setMnemonic: (User: string) => {},
   address: '',
   setAddress: (address: string) => {},
   errorMessage: null,
@@ -42,6 +46,7 @@ const UserContext = createContext<UserContext>(UserContextDefaultValues);
 const UserProvider: FC<UserContextProps> = ({ children }) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [mnemonic, setMnemonic] = useState('');
   const [address, setAddress] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { loginType } = useFdpStorage();
@@ -86,6 +91,8 @@ const UserProvider: FC<UserContextProps> = ({ children }) => {
         setPassword,
         address,
         setAddress,
+        mnemonic,
+        setMnemonic,
         errorMessage,
         setErrorMessage,
         metamaskMigrationNotification: metamaskMigration,
