@@ -22,7 +22,7 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
   refreshPods,
 }) => {
   const { trackEvent } = useMatomo();
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [loading, setLoading] = useState(false);
 
   const [newPodName, setNewPodName] = useState('');
@@ -31,7 +31,7 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
   const handleCreateNewPod = async () => {
     setLoading(true);
     try {
-      await createPod(fdpClient, newPodName);
+      await createPod(fdpClientRef.current, newPodName);
       trackEvent({
         category: 'Create',
         action: `Create Pod`,

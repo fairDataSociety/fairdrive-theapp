@@ -20,7 +20,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
 }) => {
   const { user, setUser } = useContext(UserContext);
   const {
-    fdpClient,
+    fdpClientRef,
     setIsLoggedIn,
     setFdpStorageType,
     setWallet,
@@ -28,7 +28,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
   } = useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
 
-  const address = fdpClient?.account?.wallet?.address;
+  const address = fdpClientRef.current?.account?.wallet?.address;
 
   const handleCopyClick = async () => {
     copy(user || address);

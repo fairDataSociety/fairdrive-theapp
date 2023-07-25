@@ -18,12 +18,12 @@ const ImportPodModal: FC<ImportPodModalProps> = ({
   closeModal,
   refreshPods,
 }) => {
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleImportPod = () => {
-    receivePod(fdpClient, importCode)
+    receivePod(fdpClientRef.current, importCode)
       .then(() => {
         refreshPods();
         closeModal();
