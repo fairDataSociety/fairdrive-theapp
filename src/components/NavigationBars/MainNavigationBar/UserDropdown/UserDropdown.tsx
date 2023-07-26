@@ -20,19 +20,12 @@ const UserDropdown: FC<UserDropdownProps> = ({
   showDropdown,
   setShowDropdown,
 }) => {
-  const { user, setUser, metamaskMigrationNotification } =
+  const { user, setUser, metamaskMigrationNotification, address } =
     useContext(UserContext);
-  const {
-    fdpClientRef,
-    setIsLoggedIn,
-    setFdpStorageType,
-    setWallet,
-    setLoginType,
-  } = useFdpStorage();
+  const { setIsLoggedIn, setFdpStorageType, setWallet, setLoginType } =
+    useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
   const { setMetamaskMigrationOpen } = useDialogs();
-
-  const address = fdpClientRef.current?.account?.wallet?.address;
 
   const handleCopyClick = async () => {
     copy(user || address);

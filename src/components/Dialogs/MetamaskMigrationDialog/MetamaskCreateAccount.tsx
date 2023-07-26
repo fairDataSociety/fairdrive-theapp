@@ -28,7 +28,7 @@ export default function MetamaskCreateAccount({
   onConfirm,
 }: MetamaskCreateAccountProps) {
   const {
-    fdpClient,
+    fdpClientRef,
     setWallet,
     setFdpStorageType,
     setIsLoggedIn,
@@ -43,13 +43,13 @@ export default function MetamaskCreateAccount({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { theme } = useContext(ThemeContext);
   const { setUser } = useContext(UserContext);
-  const address = fdpClient.account.wallet?.address;
+  const address = fdpClientRef.current.account.wallet?.address;
 
   const timer = useRef<NodeJS.Timeout | null>();
 
   const checkMinBalance = async () => {
     try {
-      const { address } = fdpClient.account.wallet;
+      const { address } = fdpClientRef.current.account.wallet;
 
       const balance = await getAccountBalance(address, network);
 
@@ -73,8 +73,8 @@ export default function MetamaskCreateAccount({
       setLoading(true);
       setErrorMessage(null);
 
-      await fdpClient.account.register(username, password);
-      setWallet(fdpClient.account.wallet);
+      await fdpClientRef.current.account.register(username, password);
+      setWallet(fdpClientRef.current.account.wallet);
       setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('username');
@@ -100,8 +100,8 @@ export default function MetamaskCreateAccount({
   };
 
   const getFeePrice = async () => {
-    const { address } = fdpClient.account.wallet;
-    const { publicKey } = fdpClient.account;
+    const { address } = fdpClientRef.current.account.wallet;
+    const { publicKey } = fdpClientRef.current.account;
 
     const price = await estimateRegistrationPrice(
       username,
@@ -122,7 +122,7 @@ export default function MetamaskCreateAccount({
 
   const initialize = async () => {
     try {
-      fdpClient.account.setAccountFromMnemonic(mnemonic);
+      fdpClientRef.current.account.setAccountFromMnemonic(mnemonic);
       await getFeePrice();
     } catch (error) {
       console.error(error);
@@ -134,16 +134,17 @@ export default function MetamaskCreateAccount({
   };
 
   useEffect(() => {
-    if (!minBalance) {
+    closeTimer();
+
+    if (!minBalance || canProceed) {
       return;
     }
 
-    closeTimer();
     checkMinBalance();
     timer.current = setInterval(checkMinBalance, 10000);
 
     return closeTimer;
-  }, [minBalance, checkMinBalance]);
+  }, [minBalance, canProceed, checkMinBalance]);
 
   useEffect(() => {
     setTimeout(() => {

@@ -71,6 +71,7 @@ interface FdpStorageContext {
     type: FDP_STORAGE_TYPE,
     config?: FdpContracts.EnsEnvironment
   ) => void;
+  setFdpStorageConfig: (config: FdpContracts.EnsEnvironment) => void;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
@@ -92,6 +93,7 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   setIsLoggedIn: null,
   setLoginType: null,
   setFdpStorageType: () => {},
+  setFdpStorageConfig: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
   getAccountAddress: () => Promise.resolve(undefined),
 });
@@ -136,6 +138,14 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
     }
   };
 
+  const setFdpStorageConfig = (config: FdpContracts.EnsEnvironment) => {
+    if (storageType !== 'native') {
+      throw new Error('Invalid storage type');
+    }
+
+    fdpClientRef.current = createFdpStorage(config);
+  };
+
   /**
    * Sets the FDP storage type
    */
@@ -178,6 +188,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         setIsLoggedIn,
         setLoginType,
         setFdpStorageType,
+        setFdpStorageConfig,
         setUsername,
         setPassword,
         isUsernameAvailable,

@@ -31,18 +31,17 @@ export default function MetamaskUsernamePassword({
   const [network, setNetwork] = useState<Network>(getDefaultNetwork());
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { setEnsConfig } = useFdpStorage();
+  const { setFdpStorageConfig, fdpClientRef } = useFdpStorage();
 
   const onSubmit = async ({ username, password }: FormFields) => {
     try {
       setLoading(true);
       setErrorMessage(null);
 
-      const fdpClient = setEnsConfig(network.config);
+      setFdpStorageConfig(network.config);
 
-      const usernameAvailable = await fdpClient.account.ens.isUsernameAvailable(
-        username
-      );
+      const usernameAvailable =
+        await fdpClientRef.current.account.ens.isUsernameAvailable(username);
 
       if (!usernameAvailable) {
         return setError('username', {
