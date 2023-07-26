@@ -156,10 +156,9 @@ export function createInvite(): Invite {
  * Saves invite locally
  */
 export function saveInviteLocally(invite: Invite, userAddress: string): void {
-  const invitesKey = getInvitesKey(userAddress);
-  const invites = getInvitesLocally(invitesKey);
+  const invites = getInvitesLocally(userAddress);
   invites.push(invite);
-  localStorage.setItem(invitesKey, JSON.stringify(invites));
+  localStorage.setItem(getInvitesKey(userAddress), JSON.stringify(invites));
 }
 
 /**
@@ -184,9 +183,7 @@ export function getInvitesLocally(userAddress: string): Invite[] {
  * Updates invite locally
  */
 export function updateInviteLocally(invite: Invite, userAddress: string): void {
-  const invitesKey = getInvitesKey(userAddress);
-  const invites = getInvitesLocally(invitesKey);
-  console.log(invites);
+  const invites = getInvitesLocally(userAddress);
 
   const index = invites.findIndex((item) => item.id === invite.id);
   if (index === -1) {
@@ -194,7 +191,7 @@ export function updateInviteLocally(invite: Invite, userAddress: string): void {
   }
 
   invites[index] = invite;
-  localStorage.setItem(invitesKey, JSON.stringify(invites));
+  localStorage.setItem(getInvitesKey(userAddress), JSON.stringify(invites));
 }
 
 /**
@@ -204,15 +201,14 @@ export function deleteInviteLocally(
   inviteId: string,
   userAddress: string
 ): void {
-  const invitesKey = getInvitesKey(userAddress);
-  const invites = getInvitesLocally(invitesKey);
+  const invites = getInvitesLocally(userAddress);
   const index = invites.findIndex((item) => item.id === inviteId);
   if (index === -1) {
     throw new Error('Invite not found');
   }
 
   invites.splice(index, 1);
-  localStorage.setItem(invitesKey, JSON.stringify(invites));
+  localStorage.setItem(getInvitesKey(userAddress), JSON.stringify(invites));
 }
 
 /**
