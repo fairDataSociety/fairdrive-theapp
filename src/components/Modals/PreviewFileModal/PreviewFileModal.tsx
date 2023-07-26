@@ -47,7 +47,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   previewFile,
   updateDrive,
 }) => {
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
@@ -60,7 +60,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
 
   useEffect(() => {
     setLoading(true);
-    downloadFile(fdpClient, {
+    downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
@@ -87,7 +87,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const handleDownloadFile = () => {
     setLoading(true);
 
-    downloadFile(fdpClient, {
+    downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
@@ -113,7 +113,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const handleDeleteFile = () => {
     setLoading(true);
 
-    deleteFile(fdpClient, {
+    deleteFile(fdpClientRef.current, {
       file_name: previewFile?.name,
       podName: activePod,
       path: formatDirectory(directoryName),

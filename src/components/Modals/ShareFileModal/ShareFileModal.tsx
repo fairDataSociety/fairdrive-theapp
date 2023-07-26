@@ -29,11 +29,11 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
   path,
 }) => {
   const { trackEvent } = useMatomo();
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [shareCode, setShareCode] = useState('');
 
   useEffect(() => {
-    shareFile(fdpClient, {
+    shareFile(fdpClientRef.current, {
       fileName: fileName,
       podName: podName,
       path_file: path,

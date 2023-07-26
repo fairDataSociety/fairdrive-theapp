@@ -20,7 +20,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const {
-    fdpClient,
+    fdpClientRef,
     setIsLoggedIn,
     setWallet,
     setFdpStorageType,
@@ -53,7 +53,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       const wallet = await getSignatureWallet(password);
       const mnemonic = wallet.mnemonic.phrase;
       markInviteAsParticipated();
-      fdpClient.account.setAccountFromMnemonic(mnemonic);
+      fdpClientRef.current.account.setAccountFromMnemonic(mnemonic);
       setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('metamask');

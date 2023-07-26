@@ -26,7 +26,7 @@ const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
   const { pods, setPods, activePod, setActivePod, setDirectoryName } =
     useContext(PodContext);
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState('private');
@@ -42,7 +42,7 @@ const DriveSideBar: FC = () => {
   const handleFetchPods = async () => {
     setLoading(true);
     try {
-      const response = await getPods(fdpClient);
+      const response = await getPods(fdpClientRef.current);
       setPods(response);
     } catch (error) {
       console.log('Error: Pods could not be fetched (DriveSideBar)!');

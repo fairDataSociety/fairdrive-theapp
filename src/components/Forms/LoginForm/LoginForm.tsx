@@ -30,13 +30,12 @@ const LoginForm: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
-    fdpClient,
+    fdpClientRef,
     setWallet,
     setIsLoggedIn,
     setFdpStorageType,
     setLoginType,
     storageType,
-    setEnsConfig,
   } = useFdpStorage();
   const router = useRouter();
 
@@ -45,10 +44,12 @@ const LoginForm: FC = () => {
       setLoading(true);
       setErrorMessage(null);
       const { user_name, password } = data;
-      const fdpClient = setEnsConfig(network.config);
-      const wallet = await fdpClient.account.login(user_name, password);
+      setFdpStorageType('native', network.config);
+      const wallet = await fdpClientRef.current.account.login(
+        user_name,
+        password
+      );
       setWallet(wallet);
-      setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('username');
       setUser(user_name);
@@ -80,11 +81,13 @@ const LoginForm: FC = () => {
       return;
     }
 
+    const fdpClient = fdpClientRef.current;
+
     // init the FDP cache if is not initialized yet
     if (fdpClient?.cache?.object && isEmpty(fdpClient.cache.object)) {
       fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
     }
-  }, [fdpClient.cache, storageType]);
+  }, [fdpClientRef.current?.cache, storageType]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">

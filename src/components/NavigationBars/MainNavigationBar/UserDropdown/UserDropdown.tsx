@@ -23,7 +23,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
   const { user, setUser, metamaskMigrationNotification } =
     useContext(UserContext);
   const {
-    fdpClient,
+    fdpClientRef,
     setIsLoggedIn,
     setFdpStorageType,
     setWallet,
@@ -32,7 +32,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
   const { clearPodContext } = useContext(PodContext);
   const { setMetamaskMigrationOpen } = useDialogs();
 
-  const address = fdpClient?.account?.wallet?.address;
+  const address = fdpClientRef.current?.account?.wallet?.address;
 
   const handleCopyClick = async () => {
     copy(user || address);
