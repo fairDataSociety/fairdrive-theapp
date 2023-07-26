@@ -5,7 +5,7 @@ import { useFdpStorage } from '@context/FdpStorageContext';
 import UserContext from '@context/UserContext';
 import { Network } from '@data/networks';
 import { estimateRegistrationPrice, getAccountBalance } from '@utils/ens';
-import { sendAmount } from '@utils/metamask';
+import { sendAmount, switchToNetwork } from '@utils/metamask';
 import { BigNumber, utils } from 'ethers';
 import { useContext, useEffect, useRef, useState } from 'react';
 import InfoLight from '@media/UI/info-light.svg';
@@ -91,6 +91,7 @@ export default function MetamaskCreateAccount({
   const send = async () => {
     try {
       setSending(true);
+      await switchToNetwork('0x' + network.chainId.toString(16));
       await sendAmount(address, utils.formatEther(minBalance));
     } catch (error) {
       console.error(error);
