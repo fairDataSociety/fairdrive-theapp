@@ -48,7 +48,7 @@ const MainLayout: FC<MainLayoutProps> = ({
       </div>
 
       <div className="flex justify-items-stretch items-stretch w-full h-full overflow-hidden">
-        <div className="w-28 dark:bg-color-shade-dark-3-night z-10">
+        <div className="w-28 dark:bg-color-shade-dark-3-night">
           <MainSideBar
             driveSideBarToggle={driveSideBarToggle}
             updateDrive={updateDrive}
@@ -58,9 +58,7 @@ const MainLayout: FC<MainLayoutProps> = ({
 
         <div
           className={`w-full ${
-            !showDriveSideBar
-              ? 'py-5 px-8 overflow-scroll no-scroll-bar z-0'
-              : ''
+            !showDriveSideBar ? 'py-5 px-8 overflow-scroll no-scroll-bar' : ''
           }`}
         >
           <div className="flex justify-start items-stretch w-full h-full">
@@ -88,7 +86,7 @@ const MainLayout: FC<MainLayoutProps> = ({
         </div>
       </div>
 
-      <div className="hidden md:block w-full h-36 dark:bg-color-shade-dark-3-night z-10">
+      <div className="hidden md:block w-full h-36 dark:bg-color-shade-dark-3-night">
         <MainFooter />
       </div>
     </div>

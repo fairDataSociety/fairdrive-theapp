@@ -10,10 +10,10 @@ const ImportToggle: FC<ImportToggleProps> = ({
   updateImportMethod,
 }) => {
   const activeClass =
-    'text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar bg-color-shade-dark-4-day dark:bg-color-shade-dark-1-night effect-style-soft-purple-shadow z-30';
+    'text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar bg-color-shade-dark-4-day dark:bg-color-shade-dark-1-night effect-style-soft-purple-shadow';
 
   const inactiveClass =
-    'text-color-accents-plum-black dark:text-color-accents-grey-cloud bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night effect-style-small-button-drop-shadow z-10';
+    'text-color-accents-plum-black dark:text-color-accents-grey-cloud bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night effect-style-small-button-drop-shadow';
 
   return (
     <div className="flex justify-center items-center w-full mb-14 text-center">

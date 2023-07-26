@@ -7,10 +7,10 @@ interface DriveToggleProps {
 
 const DriveToggle: FC<DriveToggleProps> = ({ activeTab, setActiveTab }) => {
   const activeClass =
-    'font-semibold text-color-accents-plum-black dark:text-color-accents-grey-cloud bg-color-shade-dark-4-day dark:bg-color-shade-dark-1-night effect-style-soft-purple-shadow z-30';
+    'font-semibold text-color-accents-plum-black dark:text-color-accents-grey-cloud bg-color-shade-dark-4-day dark:bg-color-shade-dark-1-night effect-style-soft-purple-shadow';
 
   const inactiveClass =
-    'font-normal text-color-accents-plum-black dark:text-color-accents-grey-cloud bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night effect-style-small-button-drop-shadow z-10';
+    'font-normal text-color-accents-plum-black dark:text-color-accents-grey-cloud bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night effect-style-small-button-drop-shadow';
 
   return (
     <div className="flex justify-center items-center w-full text-center">
