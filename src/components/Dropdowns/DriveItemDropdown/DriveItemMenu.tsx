@@ -33,14 +33,14 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-  const { fdpClient, getAccountAddress } = useFdpStorage();
+  const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const previewLabel = type === 'file' ? 'Preview' : 'Open';
 
   const handleDownloadClick = async () => {
     try {
-      const response = await downloadFile(fdpClient, {
+      const response = await downloadFile(fdpClientRef.current, {
         filename: data?.name,
         directory: directoryName,
         podName: activePod,
@@ -74,7 +74,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
     const fdpPath = getFdpPathByDirectory(directory);
     const itemName = data?.name;
     try {
-      await deleteFile(fdpClient, {
+      await deleteFile(fdpClientRef.current, {
         file_name: itemName,
         podName: activePod,
         path: formatDirectory(directoryName),
@@ -113,7 +113,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
       (directoryName !== 'root' ? '/' + directoryName + '/' : '/') + data.name;
 
     try {
-      await deleteDirectory(fdpClient, {
+      await deleteDirectory(fdpClientRef.current, {
         podName: activePod,
         path: deletePath,
       });

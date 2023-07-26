@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
-import { BigNumber, providers, Wallet } from 'ethers';
+import { Wallet } from 'ethers';
 import { CacheType, saveCache } from '@utils/cache';
 import {
   createContext,
+  MutableRefObject,
   ReactNode,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { Blossom } from '@fairdatasociety/blossom';
@@ -53,7 +55,7 @@ interface FdpStorageContextProps {
 }
 
 interface FdpStorageContext {
-  fdpClient: FdpStorage;
+  fdpClientRef: MutableRefObject<FdpStorage>;
   username: string;
   password: string;
   isLoggedIn: boolean;
@@ -64,16 +66,18 @@ interface FdpStorageContext {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   setLoginType: (loginType: LoginType) => void;
   setWallet: (wallet: Wallet) => void;
-  setFdpStorageType: (type: FDP_STORAGE_TYPE) => void;
+  setFdpStorageType: (
+    type: FDP_STORAGE_TYPE,
+    config?: FdpContracts.EnsEnvironment
+  ) => void;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
   getAccountAddress: () => Promise<string>;
-  setEnsConfig: (config: FdpContracts.EnsEnvironment) => FdpStorage;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
-  fdpClient: null,
+  fdpClientRef: { current: null },
   username: '',
   password: '',
   isLoggedIn: false,
@@ -89,33 +93,28 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   setFdpStorageType: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
   getAccountAddress: () => Promise.resolve(undefined),
-  setEnsConfig: () => {},
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
   const [blossom, setBlossom] = useState<Blossom>(null);
-  const [fdpClient, setFdpClient] = useState<FdpStorage>(
-    createFdpStorage(getDefaultNetwork().config)
-  );
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [wallet, setWallet] = useState<Wallet>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loginType, setLoginType] = useState<LoginType | null>(null);
   const [storageType, setStorageType] = useState<FDP_STORAGE_TYPE>(null);
-
-  const setEnsConfig = (config: FdpContracts.EnsEnvironment) => {
-    const fdpStorage = createFdpStorage(config);
-    setFdpClient(fdpStorage);
-    return fdpStorage;
-  };
+  const fdpClientRef = useRef<FdpStorage>(
+    createFdpStorage(getDefaultNetwork().config)
+  );
 
   const isUsernameAvailable = async (
     username: string
   ): Promise<boolean | string> => {
     try {
-      const isAvailable = await fdpClient.ens.isUsernameAvailable(username);
+      const isAvailable = await fdpClientRef.current.ens.isUsernameAvailable(
+        username
+      );
       return isAvailable ? true : 'Oops, username is already taken';
     } catch (error) {
       return error.message;
@@ -132,18 +131,21 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
     if (storageType === 'blossom') {
       return BLOSSOM_DEFAULT_ADDRESS;
     } else {
-      return fdpClient.account.wallet.address;
+      return fdpClientRef.current.account.wallet.address;
     }
   };
 
   /**
    * Sets the FDP storage type
    */
-  const setFdpStorageType = (type: FDP_STORAGE_TYPE) => {
+  const setFdpStorageType = (
+    type: FDP_STORAGE_TYPE,
+    config?: FdpContracts.EnsEnvironment
+  ) => {
     if (type === 'native') {
-      setFdpClient(fdpClient);
+      fdpClientRef.current = createFdpStorage(config);
     } else if (type === 'blossom') {
-      setFdpClient(blossom.fdpStorage);
+      fdpClientRef.current = blossom.fdpStorage;
     } else {
       throw new Error('Unknown FDP storage type');
     }
@@ -163,7 +165,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   return (
     <FdpStorageContext.Provider
       value={{
-        fdpClient,
+        fdpClientRef,
         username,
         password,
         isLoggedIn,
@@ -179,7 +181,6 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         setPassword,
         isUsernameAvailable,
         getAccountAddress,
-        setEnsConfig,
       }}
     >
       {children}
