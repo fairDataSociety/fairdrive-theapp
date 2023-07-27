@@ -41,36 +41,45 @@ const MainFooter: FC = () => {
 
   return (
     <div className="hidden md:flex justify-between items-center w-full h-32 px-8 bg-white shadow-top">
-      <div className="flex-col space-y-4">
-        <div className="space-x-8">
-          <a href="https://linumlabs.com/" target="_blank" rel="noreferrer">
-            {theme === 'light' ? (
-              <LinumLabsLightIcon className="inline-block" />
-            ) : (
-              <LinumLabsDarkIcon className="inline-block" />
-            )}
-          </a>
+      <div className="flex flex-wrap justify-evenly items-center">
+        <a
+          className="mr-4 mb-2"
+          href="https://linumlabs.com/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {theme === 'light' ? (
+            <LinumLabsLightIcon className="inline-block" />
+          ) : (
+            <LinumLabsDarkIcon className="inline-block" />
+          )}
+        </a>
 
-          <a
-            href="https://fairdatasociety.org/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {theme === 'light' ? (
-              <FairDataSocietyLightIcon className="inline-block" />
-            ) : (
-              <FairDataSocietyDarkIcon className="inline-block" />
-            )}
-          </a>
+        <a
+          className="mr-4 mb-2"
+          href="https://fairdatasociety.org/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {theme === 'light' ? (
+            <FairDataSocietyLightIcon className="inline-block" />
+          ) : (
+            <FairDataSocietyDarkIcon className="inline-block" />
+          )}
+        </a>
 
-          <a href="https://www.ethswarm.org/" target="_blank" rel="noreferrer">
-            {theme === 'light' ? (
-              <SwarmLightIcon className="inline-block" />
-            ) : (
-              <SwarmDarkIcon className="inline-block" />
-            )}
-          </a>
-        </div>
+        <a
+          className="mr-4 mb-2"
+          href="https://www.ethswarm.org/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {theme === 'light' ? (
+            <SwarmLightIcon className="inline-block" />
+          ) : (
+            <SwarmDarkIcon className="inline-block" />
+          )}
+        </a>
       </div>
 
       <div className="flex justify-center items-center space-x-16">
