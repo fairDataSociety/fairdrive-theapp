@@ -11,6 +11,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import InfoLight from '@media/UI/info-light.svg';
 import InfoDark from '@media/UI/info-dark.svg';
 import ThemeContext from '@context/ThemeContext';
+import { RegistrationRequest } from '@fairdatasociety/fdp-storage/dist/account/types';
 
 interface MetamaskCreateAccountProps {
   username: string;
@@ -39,6 +40,8 @@ export default function MetamaskCreateAccount({
   const [initialized, setInitialized] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [sending, setSending] = useState<boolean>(false);
+  const [registrationRequest, setRegistrationRequest] =
+    useState<RegistrationRequest | null>(null);
   const [balanceError, setBalanceError] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { theme } = useContext(ThemeContext);
@@ -73,7 +76,21 @@ export default function MetamaskCreateAccount({
       setLoading(true);
       setErrorMessage(null);
 
-      await fdpClientRef.current.account.register(username, password);
+      let request = registrationRequest;
+
+      if (
+        !request ||
+        request?.username !== username ||
+        request?.password !== password
+      ) {
+        request = fdpClientRef.current.account.createRegistrationRequest(
+          username,
+          password
+        );
+        setRegistrationRequest(request);
+      }
+
+      await fdpClientRef.current.account.register(request);
       setWallet(fdpClientRef.current.account.wallet);
       setFdpStorageType('native');
       setIsLoggedIn(true);
