@@ -135,6 +135,10 @@ export function assertInvite(value: unknown): asserts value is Invite {
   }
 }
 
+function getInvitesKey(userAddress: string): string {
+  return `${INVITES_LOCAL_STORAGE_KEY}_${userAddress}`;
+}
+
 /**
  * Creates an invite using a random wallet
  */
@@ -151,17 +155,17 @@ export function createInvite(): Invite {
 /**
  * Saves invite locally
  */
-export function saveInviteLocally(invite: Invite): void {
-  const invites = getInvitesLocally();
+export function saveInviteLocally(invite: Invite, userAddress: string): void {
+  const invites = getInvitesLocally(userAddress);
   invites.push(invite);
-  localStorage.setItem(INVITES_LOCAL_STORAGE_KEY, JSON.stringify(invites));
+  localStorage.setItem(getInvitesKey(userAddress), JSON.stringify(invites));
 }
 
 /**
  * Gets invites from local storage
  */
-export function getInvitesLocally(): Invite[] {
-  const json = localStorage.getItem(INVITES_LOCAL_STORAGE_KEY);
+export function getInvitesLocally(userAddress: string): Invite[] {
+  const json = localStorage.getItem(getInvitesKey(userAddress));
   if (!json) {
     return [];
   }
@@ -178,29 +182,33 @@ export function getInvitesLocally(): Invite[] {
 /**
  * Updates invite locally
  */
-export function updateInviteLocally(invite: Invite): void {
-  const invites = getInvitesLocally();
+export function updateInviteLocally(invite: Invite, userAddress: string): void {
+  const invites = getInvitesLocally(userAddress);
+
   const index = invites.findIndex((item) => item.id === invite.id);
   if (index === -1) {
     throw new Error('Invite not found');
   }
 
   invites[index] = invite;
-  localStorage.setItem(INVITES_LOCAL_STORAGE_KEY, JSON.stringify(invites));
+  localStorage.setItem(getInvitesKey(userAddress), JSON.stringify(invites));
 }
 
 /**
  * Deletes invite locally by invite id
  */
-export function deleteInviteLocally(inviteId: string): void {
-  const invites = getInvitesLocally();
+export function deleteInviteLocally(
+  inviteId: string,
+  userAddress: string
+): void {
+  const invites = getInvitesLocally(userAddress);
   const index = invites.findIndex((item) => item.id === inviteId);
   if (index === -1) {
     throw new Error('Invite not found');
   }
 
   invites.splice(index, 1);
-  localStorage.setItem(INVITES_LOCAL_STORAGE_KEY, JSON.stringify(invites));
+  localStorage.setItem(getInvitesKey(userAddress), JSON.stringify(invites));
 }
 
 /**

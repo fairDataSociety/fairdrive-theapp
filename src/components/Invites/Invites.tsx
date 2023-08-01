@@ -112,7 +112,7 @@ const Invites: FC<AllInvitesProps> = ({
   };
 
   const handleSaveClick = () => {
-    updateInviteLocally({ ...activeInvite, name: newInviteName });
+    updateInviteLocally({ ...activeInvite, name: newInviteName }, ownerAddress);
     setActiveInvite(null);
     setNewInviteName('');
     if (updateInvites) {
@@ -366,7 +366,7 @@ const Invites: FC<AllInvitesProps> = ({
           type="Invite"
           name={activeInvite?.name || activeInvite?.id}
           deleteHandler={() => {
-            deleteInviteLocally(activeInvite.id);
+            deleteInviteLocally(activeInvite.id, ownerAddress);
             if (updateInvites) {
               updateInvites();
             }
