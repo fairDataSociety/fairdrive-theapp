@@ -39,7 +39,7 @@ const CustomCheckbox: FC<CheckboxProps> = ({
 
       <div className="flex justify-start items-center">
         <div
-          className={`inline-flex justify-center items-center w-5 h-5 shrink-0 ml-1 mr-3 border-2 border-color-accents-plum-black dark:border-color-accents-purple-heavy rounded`}
+          className={`inline-flex justify-center items-center w-5 h-5 flex-shrink-0 ml-1 mr-3 border-2 border-color-accents-plum-black dark:border-color-accents-purple-heavy rounded`}
         >
           {theme === 'light' ? (
             <CheckLightIcon className={`${classes.checkIcon} hidden`} />
