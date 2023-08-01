@@ -266,7 +266,7 @@ const Invites: FC<AllInvitesProps> = ({
                     </div>
                   ) : (
                     <div className="flex items-center edit-container">
-                      <p className="text-sm font-medium text-color-accents-purple-black dark:text-color-shade-white-night flex-item">
+                      <p className="text-sm font-medium truncate text-color-accents-purple-black dark:text-color-shade-white-night flex-item whitespace-nowrap">
                         {invite.name || invite.id}
                       </p>
                       <img
