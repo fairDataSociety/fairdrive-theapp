@@ -31,10 +31,6 @@ const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
   return (
     <div className="w-full hidden md:block mt-4 mb-6">
       <div className="flex justify-between items-center w-full">
-        <h2 className="font-semibold text-2xl text-color-accents-purple-black dark:text-color-shade-white-night">
-          Inventory
-        </h2>
-
         {activePod && (
           <div className="flex justify-center items-stretch mt-5">
             <Button
