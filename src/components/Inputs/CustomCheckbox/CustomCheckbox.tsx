@@ -13,6 +13,7 @@ interface CheckboxProps {
   onChange: any;
   checked: boolean;
   defaultValue?: boolean;
+  className?: string;
 }
 
 const CustomCheckbox: FC<CheckboxProps> = ({
@@ -21,11 +22,12 @@ const CustomCheckbox: FC<CheckboxProps> = ({
   onChange,
   checked,
   defaultValue,
+  className,
 }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="relative">
+    <div className={`relative ${className}`}>
       <input
         name={label.toLocaleLowerCase()}
         id={name}

@@ -118,14 +118,15 @@ const Invite: FC<InviteProps> = () => {
         <div className="md:border-r border-gray-300">
           {step === STEP_CREATE && (
             <>
-              <div className="flex mt-10">
+              <div className="flex flex-col sm:flex-row mt-10">
                 <CustomCheckbox
+                  className="mb-3 sm:mb-0"
                   name="confirm"
                   label="I want to participate in the award program."
                   onChange={onTermsClick}
                   checked={termsAccepted}
                 />
-                <div className="flex justify-start items-center underline">
+                <div className="flex justify-start items-center underline m-auto sm:m-0 sm:mr-2">
                   <a
                     className="font-normal text-color-accents-plum-black dark:text-color-accents-soft-lavender text-sm"
                     href={process.env.NEXT_PUBLIC_BB_RULES_URL}
