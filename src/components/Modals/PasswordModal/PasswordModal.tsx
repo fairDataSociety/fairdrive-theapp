@@ -44,8 +44,6 @@ const PasswordModal: FC<PasswordModalProps> = ({
       closeModal={closeModal}
       headerTitle="Enter password"
     >
-      <Spinner isLoading={loading} />
-
       <form onSubmit={handleSubmit(handleSubmitButton)} className="w-full">
         <AuthenticationInput
           label="password"
@@ -70,6 +68,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
             variant="secondary"
             label="Login"
             disabled={loading}
+            loading={loading}
           />
         </div>
       </form>
