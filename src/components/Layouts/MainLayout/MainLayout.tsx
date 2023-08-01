@@ -25,8 +25,7 @@ const MainLayout: FC<MainLayoutProps> = ({
   refreshPods,
 }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
-  const { isLoggedIn } = useFdpStorage();
-  const { loginType } = useFdpStorage();
+  const { isLoggedIn, loginType } = useFdpStorage();
   const inviteKey = useMemo(() => getInvite(), []);
 
   const driveSideBarToggle = () => {

@@ -112,7 +112,7 @@ const Invites: FC<AllInvitesProps> = ({
   };
 
   const handleSaveClick = () => {
-    updateInviteLocally({ ...activeInvite, name: newInviteName });
+    updateInviteLocally({ ...activeInvite, name: newInviteName }, ownerAddress);
     setActiveInvite(null);
     setNewInviteName('');
     if (updateInvites) {
@@ -266,7 +266,7 @@ const Invites: FC<AllInvitesProps> = ({
                     </div>
                   ) : (
                     <div className="flex items-center edit-container">
-                      <p className="text-sm font-medium text-color-accents-purple-black dark:text-color-shade-white-night flex-item">
+                      <p className="text-sm font-medium truncate text-color-accents-purple-black dark:text-color-shade-white-night flex-item whitespace-nowrap">
                         {invite.name || invite.id}
                       </p>
                       <img
@@ -366,7 +366,7 @@ const Invites: FC<AllInvitesProps> = ({
           type="Invite"
           name={activeInvite?.name || activeInvite?.id}
           deleteHandler={() => {
-            deleteInviteLocally(activeInvite.id);
+            deleteInviteLocally(activeInvite.id, ownerAddress);
             if (updateInvites) {
               updateInvites();
             }
