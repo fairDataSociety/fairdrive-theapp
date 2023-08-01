@@ -48,7 +48,7 @@ const Invite: FC<InviteProps> = () => {
     try {
       setStep(STEP_FINISH);
       const updatedInvite = { ...currentInvite, name: data.name };
-      updateInviteLocally(updatedInvite);
+      updateInviteLocally(updatedInvite, wallet.address);
       setCurrentInvite(updatedInvite);
       updateInvitesList();
       reset();
@@ -68,7 +68,7 @@ const Invite: FC<InviteProps> = () => {
     setTimeout(() => {
       const invite = createInvite();
       setCurrentInvite(invite);
-      saveInviteLocally(invite);
+      saveInviteLocally(invite, wallet.address);
       updateInvitesList();
       setLoading(false);
       if (termsAccepted && wallet) {
@@ -88,7 +88,7 @@ const Invite: FC<InviteProps> = () => {
    * Updates invites list from local storage reversed
    */
   const updateInvitesList = () => {
-    setInvites(getInvitesLocally().reverse());
+    setInvites(getInvitesLocally(wallet.address).reverse());
   };
 
   const onTermsClick = () => {
