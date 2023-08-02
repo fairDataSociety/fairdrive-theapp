@@ -17,28 +17,46 @@ Welcome to the Fairdrive User Guide! This guide will walk you through all the fe
 
 To use Fairdrive, you'll need to create an account. Here's how:
 
+#### 1. Using Metamask
+1. Click Connect
+2. Select Metamask 
+3. Type passphrase 
+4. Connect Metamask to site with your preffered account
+5. Sign Message
+
+#### 2. Using FDP Portable account
 1. Go to the Fairdrive website.
-2. Click on the "Sign Up" button.
+2. Click on the "Register New Account" button.
 3. Fill out the registration form with your details.
-4. Click "Submit" to create your account.
+4. When you finish procedure your FDP account will be ready
+4. Login using your username/password
+
+#### 3. Using Bloosom extension
+1. **TODO** WIP
 
 ## Logging In
+**Metamask** account:
+1. Click Connect
+2. Enter passphrase
+3. Sign message 
 
-Once you've created your account, you can log in to Fairdrive:
-
+**FDP Portable account** to log in to Fairdrive:
 1. Go to the Fairdrive website.
 2. Click on the "Log In" button.
 3. Enter your username and password.
 4. Click "Submit" to log in.
 
-## Managing Your Profile
+## Account Migration
+You have the option to transition your Metamask-created Lite account to an FDP Portable account. This transition enables you to utilize a username/password combination to access your data from mobile devices or other devices where Metamask isn't installed. Your Lite account will be connected with your new Portable account.
+During this transition process, you'll be given a new mnemonic. It's crucial to note this down and keep it in a secure location, as it will serve as your mnemonic for your Portable account recovery.
 
-You can update your profile information at any time:
+**Your Metamask account is only used to sign a message and is safe. Do NOT provide keys, passphrases, mnemonics to anyone for your Metamask account.**
 
-1. Click on your username in the top right corner of the screen.
-2. Select "Profile" from the dropdown menu.
-3. Make any changes you want to your profile.
-4. Click "Save" to update your profile.
+## Manage Your Profile
+
+You can view your profile information at any time:
+1. Click on Blockie in the top right corner of the screen.
+2. Dropdown menu will display available options.
 
 ## Creating a Pod
 
@@ -77,10 +95,8 @@ To search your pods, files, and directories:
 
 To change the theme of Fairdrive:
 
-1. Click on your username in the top right corner of the screen.
-2. Select "Settings" from the dropdown menu.
-3. Select "Theme".
-4. Choose the theme you want to use.
+1. Click on Blockie  in the top right corner of the screen.
+2. Click Theme Toggle.
 
 ## Getting Help
 
