@@ -10,7 +10,6 @@ import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-import Spinner from '@components/Spinner/Spinner';
 import { CreatorModalProps } from '@interfaces/handlers';
 import { addItemToCache, ContentType } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
@@ -74,8 +73,6 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
       closeModal={closeModal}
       headerTitle="Create New Folder"
     >
-      <Spinner isLoading={loading} />
-
       <TextInput
         name="folder"
         label="name your folder"
@@ -93,6 +90,7 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
           variant="secondary"
           label="Create Folder"
           disabled={loading}
+          loading={loading}
           onClick={handleCreateNewFolder}
         />
       </div>

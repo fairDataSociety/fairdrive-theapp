@@ -20,17 +20,22 @@ const ImportPodModal: FC<ImportPodModalProps> = ({
 }) => {
   const { fdpClientRef } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleImportPod = () => {
-    receivePod(fdpClientRef.current, importCode)
-      .then(() => {
-        refreshPods();
-        closeModal();
-      })
-      .catch(() => {
-        setErrorMessage('Error: Could not import the Pod.');
-      });
+  const handleImportPod = async () => {
+    try {
+      setLoading(true);
+
+      await receivePod(fdpClientRef.current, importCode);
+
+      refreshPods();
+      closeModal();
+    } catch (error) {
+      setErrorMessage('Error: Could not import the Pod.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,6 +60,8 @@ const ImportPodModal: FC<ImportPodModalProps> = ({
           type="button"
           variant="secondary"
           label="Import Pod"
+          disabled={loading}
+          loading={loading}
           onClick={handleImportPod}
         />
       </div>
