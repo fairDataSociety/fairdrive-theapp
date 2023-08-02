@@ -13,6 +13,7 @@ interface CheckboxProps {
   onChange: any;
   checked: boolean;
   defaultValue?: boolean;
+  className?: string;
 }
 
 const CustomCheckbox: FC<CheckboxProps> = ({
@@ -21,11 +22,12 @@ const CustomCheckbox: FC<CheckboxProps> = ({
   onChange,
   checked,
   defaultValue,
+  className,
 }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="relative">
+    <div className={`relative ${className}`}>
       <input
         name={label.toLocaleLowerCase()}
         id={name}
@@ -39,7 +41,7 @@ const CustomCheckbox: FC<CheckboxProps> = ({
 
       <div className="flex justify-start items-center">
         <div
-          className={`inline-flex justify-center items-center w-5 h-5 ml-1 mr-3 border-2 border-color-accents-plum-black dark:border-color-accents-purple-heavy rounded`}
+          className={`inline-flex justify-center items-center w-5 h-5 flex-shrink-0 ml-1 mr-3 border-2 border-color-accents-plum-black dark:border-color-accents-purple-heavy rounded`}
         >
           {theme === 'light' ? (
             <CheckLightIcon className={`${classes.checkIcon} hidden`} />
