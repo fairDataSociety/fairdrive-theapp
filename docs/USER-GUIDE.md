@@ -6,7 +6,8 @@ Welcome to the Fairdrive User Guide! This guide will walk you through all the fe
 
 - [Creating an Account](#creating-an-account)
 - [Logging In](#logging-in)
-- [Managing Your Profile](#managing-your-profile)
+- [Account Migration](#account-migration)
+- [Manage Your Profile](#manage-your-profile)
 - [Creating a Pod](#creating-a-pod)
 - [Managing Files and Directories](#managing-files-and-directories)
 - [Searching](#searching)
@@ -15,7 +16,7 @@ Welcome to the Fairdrive User Guide! This guide will walk you through all the fe
 
 ## Creating an Account
 
-To use Fairdrive, you'll need to create an account. Here's how:
+To use Fairdrive, you'll need to create an account using any of below options. Here's how:
 
 #### 1. Using Metamask
 1. Click Connect
