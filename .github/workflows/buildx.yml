@@ -3,17 +3,14 @@ name: buildx
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
       - 'development'
       - 'staging'
 env:
-  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42a96D45d787685ac4b36292d218B106Fb39be7F'
-  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xFBF00389140C00384d88d458239833E3231a7414'
-  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xC904989B579c2B216A75723688C784038AA99B56'
   NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
   NEXT_PUBLIC_BLOSSOM_ID: 'caedjloenbhibmaeffockkiallpngmmd'
   NEXT_PUBLIC_NAME: 'Fairdrive'
-  
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -48,32 +45,35 @@ jobs:
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://sepolia.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_ENVIRONMENT=PRODUCTION" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_RULES_URL=https://create.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'development' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://app.fairos.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://sepolia.dev.fairdatasociety.org" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_ENVIRONMENT=DEVELOPMENT" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_RULES_URL=https://create.dev.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'staging' ]; then
               echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://sepolia.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_ENVIRONMENT=PRODUCTION" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_RULES_URL=https://create.staging.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           fi
 
       - name: copy ca
@@ -103,23 +103,21 @@ jobs:
             "NEXT_PUBLIC_FAIROSHOST=${{ env.NEXT_PUBLIC_FAIROSHOST }}"
             "NEXT_PUBLIC_FAIRDRIVEHOST=${{ env.NEXT_PUBLIC_FAIRDRIVEHOST }}"
             "NEXT_PUBLIC_BEE_URL=${{ env.NEXT_PUBLIC_BEE_URL }}"
-            "NEXT_PUBLIC_RPC_URL=${{ env.NEXT_PUBLIC_RPC_URL }}"
             "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=${{ env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT }}"
             "NEXT_PUBLIC_NFT_GENERATOR_URL=${{ env.NEXT_PUBLIC_NFT_GENERATOR_URL }}"
             "NEXT_PUBLIC_CONSENT_VIEWER=${{ env.NEXT_PUBLIC_CONSENT_VIEWER }}"
             "NEXT_PUBLIC_BLOCKCHAIN_INFO=${{ env.NEXT_PUBLIC_BLOCKCHAIN_INFO }}"
             "NEXT_PUBLIC_ENVIRONMENT=${{ env.NEXT_PUBLIC_ENVIRONMENT }}"
-            "NEXT_PUBLIC_ENS_REGISTRY_ADDRESS=${{ env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS }}"
-            "NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS=${{ env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS }}"
-            "NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS=${{ env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS }}"
             "NEXT_PUBLIC_GLOBAL_BATCH_ID=${{ env.NEXT_PUBLIC_GLOBAL_BATCH_ID }}"
             "NEXT_PUBLIC_BLOSSOM_ID=${{ env.NEXT_PUBLIC_BLOSSOM_ID }}"
             "NEXT_PUBLIC_NAME=${{ env.NEXT_PUBLIC_NAME }}"
+            "NEXT_PUBLIC_BB_API_URL=${{ env.NEXT_PUBLIC_BB_API_URL }}"
+            "NEXT_PUBLIC_BB_RULES_URL=${{ env.NEXT_PUBLIC_BB_RULES_URL }}"
             "PORT=80"
           tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
           cache-to: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache,mode=max
-  
+
   notify-servers:
     needs: docker
     uses: fairdatasociety/ci_utils/.github/workflows/webhook.yml@main
