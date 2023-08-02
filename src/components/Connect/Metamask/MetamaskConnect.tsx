@@ -1,6 +1,10 @@
 import { Button } from '@components/Buttons';
 import MetamaskIcon from '@media/UI/metamask.svg';
-import { decryptWallet, getBasicSignatureWallet, isMetamaskAvailable } from '@utils/metamask'
+import {
+  decryptWallet,
+  getBasicSignatureWallet,
+  isMetamaskAvailable,
+} from '@utils/metamask';
 import { useRouter } from 'next/router';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import MetamaskNotFoundModal from '@components/Modals/MetamaskNotFoundModal/MetamaskNotFoundModal';
