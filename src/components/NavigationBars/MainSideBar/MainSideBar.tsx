@@ -18,6 +18,12 @@ import ExploreInactiveLight from '@media/UI/explore-inactive-light.svg';
 import ExploreActiveDark from '@media/UI/explore-active-dark.svg';
 import ExploreInactiveDark from '@media/UI/explore-inactive-dark.svg';
 
+import InviteInactiveLight from '@media/UI/invite-inactive-light.svg';
+import InviteActiveLight from '@media/UI/invite-active-light.svg';
+
+import InviteInactiveDark from '@media/UI/invite-inactive-dark.svg';
+import InviteActiveDark from '@media/UI/invite-active-dark.svg';
+
 import classes from './MainSideBar.module.scss';
 import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
 import { UpdateDriveProps } from '@interfaces/handlers';
@@ -72,6 +78,20 @@ const MainSideBar: FC<MainSideBarProps> = ({
         dark: {
           active: <ExploreActiveDark />,
           inactive: <ExploreInactiveDark />,
+        },
+      },
+    },
+    {
+      label: 'Invite',
+      link: '/invite',
+      icons: {
+        light: {
+          active: <InviteActiveLight />,
+          inactive: <InviteInactiveLight />,
+        },
+        dark: {
+          active: <InviteActiveDark />,
+          inactive: <InviteInactiveDark />,
         },
       },
     },

@@ -35,7 +35,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const { fdpClient, getAccountAddress } = useFdpStorage();
+  const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
       if (activePod) {
@@ -54,7 +54,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
       const userAddress = await getAccountAddress();
       const directory = directoryName || 'root';
       const fdpPath = getFdpPathByDirectory(directory);
-      const item = await uploadFile(fdpClient, {
+      const item = await uploadFile(fdpClientRef.current, {
         file: fileToUpload,
         directory: directoryName,
         podName: activePod,
@@ -126,7 +126,8 @@ const UploadFileModal: FC<CreatorModalProps> = ({
           variant="primary-outlined"
           label="Upload content"
           onClick={handleUpload}
-          disabled={!fileToUpload}
+          disabled={!fileToUpload || loading}
+          loading={loading}
         />
       </div>
 

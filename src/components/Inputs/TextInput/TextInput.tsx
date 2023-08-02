@@ -5,7 +5,8 @@ interface TextInputProps {
   label: string;
   placeholder?: string;
   value: string;
-  updateValue: (value: string) => void;
+  updateValue?: (value: string) => void;
+  disabled?: boolean;
 }
 
 const TextInput: FC<TextInputProps> = ({
@@ -14,6 +15,7 @@ const TextInput: FC<TextInputProps> = ({
   placeholder,
   value,
   updateValue,
+  disabled,
 }) => {
   return (
     <div className="w-full mb-6">
@@ -23,9 +25,10 @@ const TextInput: FC<TextInputProps> = ({
 
       <input
         type="text"
+        disabled={disabled}
         name={name}
         value={value}
-        onChange={(e) => updateValue(e.target.value)}
+        onChange={(e) => updateValue && updateValue(e.target.value)}
         className="block w-full mt-1 p-3 font-normal text-xs bg-color-shade-dark-4-day dark:bg-color-shade-dark-2-night border dark:text-color-shade-black-day border-color-shade-black-day dark:border-color-accents-plum-black effect-style-small-button-drop-shadow rounded"
         placeholder={placeholder}
       />

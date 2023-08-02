@@ -14,7 +14,7 @@ const DriveCardIcon: FC<DriveCardIconProps> = ({ type, fileExtention }) => {
       <span className="flex text-color-accents-grey-lavendar dark:text-color-shade-dark-1-night z-10">
         <div className="mx-auto lg:mx-0">
           {type === 'folder' ? (
-            <FolderIcon className="inline-block mb-8" />
+            <FolderIcon className="inline-block mb-3" />
           ) : (
             <FileIcon />
           )}

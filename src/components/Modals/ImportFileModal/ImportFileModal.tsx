@@ -17,13 +17,18 @@ const ImportFileModal: FC<CreatorModalProps> = ({
   updateDrive,
 }) => {
   const { activePod, directoryName } = useContext(PodContext);
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleImportFile = async () => {
     try {
-      await receiveFile(fdpClient, importCode, activePod, directoryName);
+      await receiveFile(
+        fdpClientRef.current,
+        importCode,
+        activePod,
+        directoryName
+      );
       updateDrive();
       closeModal();
     } catch {

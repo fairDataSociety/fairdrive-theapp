@@ -1,0 +1,23 @@
+@media (min-width: 640px) and (max-width: 720px) {
+  .wrapper {
+    padding-left: 0.75rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  .button {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+}
+
+@media (max-width: 440px) {
+  .wrapper {
+    padding-left: 0.75rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  .button {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+}

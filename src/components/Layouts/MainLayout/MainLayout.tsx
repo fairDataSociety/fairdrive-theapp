@@ -1,13 +1,18 @@
-import { FC, ReactChild, useEffect, useState } from 'react';
+import { FC, ReactChild, useEffect, useMemo, useState } from 'react';
 import {
   DriveSideBar,
   MainNavigationBar,
   MainSideBar,
 } from '@components/NavigationBars';
+import { motion } from 'framer-motion';
 import { MainFooter } from '@components/Footers';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { useRouter } from 'next/router';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { getInvite } from '@utils/invite';
+import DisclaimerMessage, {
+  IconType,
+} from '@components/DisclaimerMessage/DisclaimerMessage';
 
 interface MainLayoutProps extends UpdateDriveProps {
   children: ReactChild | ReactChild[];
@@ -20,7 +25,8 @@ const MainLayout: FC<MainLayoutProps> = ({
   refreshPods,
 }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
-  const { isLoggedIn } = useFdpStorage();
+  const { isLoggedIn, loginType } = useFdpStorage();
+  const inviteKey = useMemo(() => getInvite(), []);
 
   const driveSideBarToggle = () => {
     setShowDriveSideBar(!showDriveSideBar);
@@ -59,7 +65,23 @@ const MainLayout: FC<MainLayoutProps> = ({
           <div className="flex justify-start items-stretch w-full h-full">
             {showDriveSideBar ? <DriveSideBar /> : null}
             <div className="w-full pt-5 md:px-8 px-5 overflow-scroll no-scroll-bar">
-              {children}
+              {loginType === 'metamask' && inviteKey && (
+                <DisclaimerMessage
+                  text="To finish setting up your account, you need to sign up for an FDS account."
+                  icon={IconType.INFO}
+                  url={`${process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT}/#/I_${inviteKey}`}
+                />
+              )}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.1,
+                }}
+              >
+                {children}
+              </motion.div>
             </div>
           </div>
         </div>

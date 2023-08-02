@@ -3,14 +3,18 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
-import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
+import DisclaimerMessage, {
+  IconType,
+} from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import { useFdpStorage } from '@context/FdpStorageContext';
+import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
+import { Network, networks } from '@data/networks';
+import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -20,14 +24,16 @@ const LoginForm: FC = () => {
   const { errors, isValid } = formState;
 
   const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
+  const [network, setNetwork] = useState<Network>(getDefaultNetwork());
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
-    fdpClient,
+    fdpClientRef,
     setWallet,
     setIsLoggedIn,
     setFdpStorageType,
+    setLoginType,
     storageType,
   } = useFdpStorage();
   const router = useRouter();
@@ -37,17 +43,26 @@ const LoginForm: FC = () => {
       setLoading(true);
       setErrorMessage(null);
       const { user_name, password } = data;
-      const wallet = await fdpClient.account.login(user_name, password);
+      setFdpStorageType('native', network.config);
+      const wallet = await fdpClientRef.current.account.login(
+        user_name,
+        password
+      );
       setWallet(wallet);
-      setFdpStorageType('native');
       setIsLoggedIn(true);
+      setLoginType('username');
       setUser(user_name);
+      localStorage.setItem('network', String(network.id));
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const onNetworkChange = (network: Network) => {
+    setNetwork(network);
   };
 
   useEffect(() => {
@@ -65,27 +80,43 @@ const LoginForm: FC = () => {
       return;
     }
 
+    const fdpClient = fdpClientRef.current;
+
     // init the FDP cache if is not initialized yet
     if (fdpClient?.cache?.object && isEmpty(fdpClient.cache.object)) {
       fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
     }
-  }, [fdpClient.cache, storageType]);
+  }, [fdpClientRef.current?.cache, storageType]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
-      <DisclaimerMessage />
+      <DisclaimerMessage
+        icon={IconType.WARNING}
+        text="Fairdrive is in Beta and provided for evaluation only! File integrity
+      persistence and security are not assured! Expect that data in Fairdrive
+      can be deleted at any time."
+      />
 
       <AuthenticationHeader
         title="Welcome back"
         content="Please log in to get access to your Fairdrive."
       />
 
-      <div className="w-full md:w-98 mt-12">
+      <div className="w-full md:w-98 mt-4">
         <div className="mb-5 text-center">
           <FeedbackMessage type="error" message={errorMessage} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <label className="font-normal text-base text-color-accents-plum-black dark:text-color-accents-grey-pastel">
+            Choose network:
+          </label>
+          <NetworkDropdown
+            className="mb-3"
+            value={network}
+            onChange={onNetworkChange}
+          />
+
           <AuthenticationInput
             label="username"
             id="user_name"
@@ -119,7 +150,7 @@ const LoginForm: FC = () => {
             error={errors.password}
           />
 
-          <div className="mt-14 text-center">
+          <div className="mt-8 text-center">
             <Button
               loading={loading}
               disabled={!isValid}

@@ -1,5 +1,4 @@
 import { FC, useContext, useEffect } from 'react';
-import router from 'next/router';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
@@ -110,7 +109,7 @@ const Overview: FC<OverviewProps> = () => {
             </p>
 
             <a
-              href="https://docs.fairos.fairdatasociety.org/docs/fairos-dfs/api-reference"
+              href="https://fairdataprotocol.bzz.link/"
               target="_blank"
               rel="noreferrer"
               className="mt-auto bottom-5 w-fit"

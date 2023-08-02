@@ -7,41 +7,84 @@ import MetamaskNotFoundModal from '@components/Modals/MetamaskNotFoundModal/Meta
 import { useContext, useState } from 'react';
 import UserContext from '@context/UserContext';
 import Spinner from '@components/Spinner/Spinner';
+import { getInvite, login } from '@utils/invite';
+import PasswordModal from '@components/Modals/PasswordModal/PasswordModal';
 
 interface MetamaskConnectProps {
   onConnect: () => void;
   onError: (errorMessage?: string) => void;
 }
 
-const MetamaskConnect = ({ onConnect, onError }: MetamaskConnectProps) => {
-  const [showModal, setShowModal] = useState(false);
+const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
+  const [showNotFoundModal, setShowNotFoundModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { fdpClient, setIsLoggedIn, setWallet, setFdpStorageType } =
-    useFdpStorage();
+  const {
+    fdpClientRef,
+    setIsLoggedIn,
+    setWallet,
+    setFdpStorageType,
+    setLoginType,
+  } = useFdpStorage();
   const { setErrorMessage } = useContext(UserContext);
   const router = useRouter();
 
-  const connect = async () => {
+  /**
+   * When user retrieved `signature wallet` from metamask - send info that invite was participated
+   */
+  const markInviteAsParticipated = async () => {
     try {
-      setLoading(true);
-
-      if (!isMetamaskAvailable()) {
-        onError('Metamaks not available');
-        return;
+      const savedInvite = getInvite();
+      if (savedInvite) {
+        await login(savedInvite);
       }
+    } catch (e) {
+      console.error('Can not mark the invite as participated', e);
+    }
+  };
 
-      const data = await getSignatureWallet();
-      fdpClient.account.setAccountFromMnemonic(data.mnemonic.phrase);
+  /**
+   * Handle password submission
+   *
+   * @param password Password from modal input
+   */
+  const handlePassword = async (password: string): Promise<void> => {
+    try {
+      const wallet = await getSignatureWallet(password);
+      markInviteAsParticipated();
+      fdpClientRef.current.account.setAccountFromMnemonic(
+        wallet.mnemonic.phrase
+      );
       setFdpStorageType('native');
       setIsLoggedIn(true);
-      setWallet(data);
+      setLoginType('metamask');
+      setWallet(wallet);
       onConnect();
-      return router.push('/overview');
+      router.push('/overview');
     } catch (error) {
       console.error(error);
       setErrorMessage(String(error.message || error));
     } finally {
       setLoading(false);
+    }
+  };
+
+  /**
+   * Clicking my connect to metamask button
+   */
+  const connect = async (): Promise<void> => {
+    try {
+      setLoading(true);
+
+      if (!isMetamaskAvailable()) {
+        setShowNotFoundModal(true);
+        return;
+      }
+
+      setShowPasswordModal(true);
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(String(error.message || error));
     }
   };
 
@@ -62,8 +105,16 @@ const MetamaskConnect = ({ onConnect, onError }: MetamaskConnectProps) => {
         onClick={connect}
       />
       <MetamaskNotFoundModal
-        showModal={showModal}
-        closeModal={() => setShowModal(false)}
+        showModal={showNotFoundModal}
+        closeModal={() => setShowNotFoundModal(false)}
+      />
+      <PasswordModal
+        showModal={showPasswordModal}
+        closeModal={() => {
+          setShowPasswordModal(false);
+          setLoading(false);
+        }}
+        handleSubmitForm={handlePassword}
       />
     </>
   );

@@ -53,6 +53,8 @@ Please be aware that Fairdrive is currently in its development stage. This means
 
 During this development stage, there's also a risk of data loss. While we strive to ensure the integrity and security of all data stored on Fairdrive, the decentralized nature of the application and the ongoing development work mean that we cannot guarantee complete data preservation.
 
+## Running in development mode
+
 Furthermore, please note that the maintainers of Fairdrive do not assume responsibility for any data loss, changes in functionality, or any other issues that may arise while using the application during its development stage.
 
 We strongly recommend that you keep backups of any critical data you store on Fairdrive and use the application with an understanding of these risks during its development stage. We appreciate your understanding and patience as we continue to improve and refine Fairdrive.
