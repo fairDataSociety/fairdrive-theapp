@@ -16,7 +16,6 @@ import FolderDarkIcon from '@media/UI/folder-dark.svg';
 
 import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
-import Spinner from '@components/Spinner/Spinner';
 import Toast from '@components/Toast/Toast';
 import { CreatorModalProps } from '@interfaces/handlers';
 import { addItemToCache, ContentType } from '@utils/cache';
@@ -91,8 +90,6 @@ const UploadFileModal: FC<CreatorModalProps> = ({
       }}
       headerTitle="Upload File"
     >
-      <Spinner isLoading={loading} />
-
       <div
         className="mt-14 p-20 rounded shadow cursor-pointer"
         {...getRootProps()}
