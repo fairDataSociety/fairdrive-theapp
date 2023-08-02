@@ -84,8 +84,12 @@ To change the theme of Fairdrive:
 
 ## Getting Help
 
-If you need help using Fairdrive, check out our [FAQ](FAQ.md). 
-See [Design](DESIGN.md), [Functionality](FUNCTIONALITY.md) or [Architecture](ARCHITECTURE.md). 
+## Getting Help
+
+If you need help using Fairdrive, check out our [User Guide](USER-GUIDE.md) and [FAQ](FAQ.md). 
+Start [here](GETTING-STARTED.md) or see [Design](DESIGN.md), [Functionality](FUNCTIONALITY.md) or [Architecture](ARCHITECTURE.md). 
+Developers can check [Development Instructions](DEVELOPMENT.md).
+
 If you can't find the answer to your question, feel free to [contact us](CONTACT.md).
 
 We hope you enjoy using Fairdrive!

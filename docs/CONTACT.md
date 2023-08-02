@@ -20,4 +20,6 @@ You can also reach out to us on social media:
 
 If you need help using Fairdrive, check out our [User Guide](USER-GUIDE.md) and [FAQ](FAQ.md). 
 Start [here](GETTING-STARTED.md) or see [Design](DESIGN.md), [Functionality](FUNCTIONALITY.md) or [Architecture](ARCHITECTURE.md). 
+Developers can check [Development Instructions](DEVELOPMENT.md).
+
 If you can't find the answer to your question, feel free to [contact us](CONTACT.md).
