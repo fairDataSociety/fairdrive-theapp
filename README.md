@@ -22,14 +22,6 @@ Fairdrive is a decentralized application (dApp) that facilitates distributed sto
 - **Dependence on Swarm Network**: The performance and reliability of Fairdrive are dependent on the Swarm network. If there are issues with the network, it could affect the availability and performance of Fairdrive.
 - **Data Recovery**: In case of loss of access keys, data recovery might be challenging or impossible due to the decentralized and encrypted nature of the storage.
 
-### How does it work
-
-Fairdrive works very similar to other cloud storage services, yet with some big differences:
-- Data is encrypted out of the box
-- Data is owned by the user only
-- Data is stored on a Swarm decentralized network
-- Only the user has access to data and thus controls how data is used
-
 ## Getting Help
 
 If you need help using Fairdrive as user, check out [User Guide](docs/USER-GUIDE.md) and [FAQ](docs/FAQ.md). See [Getting Started](docs/GETTING-STARTED.md). 
@@ -37,45 +29,22 @@ Technical overview of [Design](docs/DESIGN.md), [Functionality](docs/FUNCTIONALI
 
 If you can't find the answer to your question, feel free to [contact us](docs/CONTACT.md).
 
-
-
-
-
 ## Development
-
-Please install `fdp-play`, be sure to use Node 16 and have Docker environment setup and verify that ports 3000, 1633, 1634, 1635 are available.
-Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
-
-- `npm i -g @fairdatasociety/fdp-play`
-- `fdp-play start --fresh`
-
-#### Post installation steps
-How to initialize [Postage batch](docs/POSTAGE-BATCH.md).
-#### Goerli contract configuration
-How to init [Goerli](docs/INIT-GOERLI.md).
-
-## Running in development mode
-
-Install dependencies and run:
-
-```bash
-yarn
-yarn start
-```
-
-Or using `npm`:
-
-```bash
-npm ci
-npm start
-```
-To change the configuration, edit the `.env` file.
-
+See [**Development instructions**](docs/DEVELOPMENT.md) for information how to install and develop on local machines.
 
 ### Active Deployments
 
-- **Mainnet**: https://app.fairdrive.fairdatasociety.org
+- **Testnet**: https://app.fairdrive.fairdatasociety.org
 - **Development**: https://app.fairdrive.dev.fairdatasociety.org
 
+Current testnet deployment is on: Sepolia. 
 
+## Development Stage Notice for Fairdrive
+Please be aware that Fairdrive is currently in its development stage. This means that the application is still undergoing substantial updates, modifications, and improvements. As a result, certain functionalities may change, be added, or removed without prior notice.
+
+During this development stage, there's also a risk of data loss. While we strive to ensure the integrity and security of all data stored on Fairdrive, the decentralized nature of the application and the ongoing development work mean that we cannot guarantee complete data preservation.
+
+Furthermore, please note that the maintainers of Fairdrive do not assume responsibility for any data loss, changes in functionality, or any other issues that may arise while using the application during its development stage.
+
+We strongly recommend that you keep backups of any critical data you store on Fairdrive and use the application with an understanding of these risks during its development stage. We appreciate your understanding and patience as we continue to improve and refine Fairdrive.
 
