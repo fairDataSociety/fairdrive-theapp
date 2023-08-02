@@ -5,9 +5,22 @@ At the intersection of innovation, interoperability, and decentralization, Faird
 
 [Login here](https://app.fairdrive.fairdatasociety.org)
 
-## What is Fairdrive
+### What is Fairdrive
 
-Fairdrive is a decentralized application (dApp) that facilitates distributed storage on the Swarm network. It features a "Drive" interface for managing pods, files and folders. Internally, Fairdrive uses FairDataProtocol, which is built on top of Ethereum Swarm. 
+Fairdrive is a decentralized application (dApp) that facilitates distributed storage on the Swarm network. It features a "Drive" interface for managing pods, files and folders. Internally, Fairdrive uses Fair Data Protocol, which is built on top of Ethereum Swarm. 
+
+### Why Fairdrive
+#### Pros
+- **Data Encryption**: Fairdrive encrypts all data by default, providing an additional layer of security for your files.
+- **Data Ownership**: Unlike traditional cloud storage services, where your data is technically owned by the service provider, with Fairdrive, you are the sole owner of your data.
+- **Decentralized Storage**: Fairdrive stores data on the Swarm decentralized network. This means your data isn't stored in a single location, but is distributed across multiple nodes, enhancing data security and reliability.
+- **User Control**: Only you have access to your data. You control who can access your data and how it's used.
+
+#### Cons
+- **Speed**: Due to its decentralized nature, Fairdrive can be slower than traditional cloud storage services. This is because data isn't stored in a single location, but is distributed across multiple nodes in the Swarm network. As a result, it can take longer to retrieve data.
+- **Learning Curve**: As a decentralized application (dApp), Fairdrive might have a steeper learning curve for users who are not familiar with blockchain technology and decentralized networks.
+- **Dependence on Swarm Network**: The performance and reliability of Fairdrive are dependent on the Swarm network. If there are issues with the network, it could affect the availability and performance of Fairdrive.
+- **Data Recovery**: In case of loss of access keys, data recovery might be challenging or impossible due to the decentralized and encrypted nature of the storage.
 
 ### How does it work
 
