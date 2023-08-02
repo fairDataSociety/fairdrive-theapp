@@ -127,4 +127,4 @@ jobs:
       wh_url_d: ${{ secrets.WEBHOOK_URL_DEVELOPMENT }}
       wh_url_m: ${{ secrets.WEBHOOK_URL_MASTER }}
     with:
-      branch: ${{ github.ref_name }}
+      branch: ${{ github.ref_name }} 
