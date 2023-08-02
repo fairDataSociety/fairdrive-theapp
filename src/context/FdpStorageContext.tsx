@@ -14,6 +14,7 @@ import {
 import { Blossom } from '@fairdatasociety/blossom';
 import { FdpContracts } from '@fairdatasociety/fdp-storage';
 import { networks } from '@data/networks';
+import { LocalStorageKeys } from '@utils/localStorage';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
 export const BLOSSOM_DEFAULT_ADDRESS = '[Blossom user]';
@@ -42,7 +43,7 @@ export const getDefaultNetwork = () => {
   let defaultNetworkId;
 
   if (typeof window !== 'undefined') {
-    defaultNetworkId = localStorage.getItem('network');
+    defaultNetworkId = localStorage.getItem(LocalStorageKeys.NETWORK);
   }
 
   return (
@@ -70,6 +71,7 @@ interface FdpStorageContext {
     type: FDP_STORAGE_TYPE,
     config?: FdpContracts.EnsEnvironment
   ) => void;
+  setFdpStorageConfig: (config: FdpContracts.EnsEnvironment) => void;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
@@ -91,6 +93,7 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   setIsLoggedIn: null,
   setLoginType: null,
   setFdpStorageType: () => {},
+  setFdpStorageConfig: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
   getAccountAddress: () => Promise.resolve(undefined),
 });
@@ -135,6 +138,14 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
     }
   };
 
+  const setFdpStorageConfig = (config: FdpContracts.EnsEnvironment) => {
+    if (storageType !== 'native') {
+      throw new Error('Invalid storage type');
+    }
+
+    fdpClientRef.current = createFdpStorage(config);
+  };
+
   /**
    * Sets the FDP storage type
    */
@@ -177,6 +188,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
         setIsLoggedIn,
         setLoginType,
         setFdpStorageType,
+        setFdpStorageConfig,
         setUsername,
         setPassword,
         isUsernameAvailable,

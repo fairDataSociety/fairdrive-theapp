@@ -13,8 +13,9 @@ import { Button } from '@components/Buttons';
 import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
-import { Network, networks } from '@data/networks';
+import { Network } from '@data/networks';
 import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
+import { LocalStorageKeys } from '@utils/localStorage';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -52,7 +53,7 @@ const LoginForm: FC = () => {
       setIsLoggedIn(true);
       setLoginType('username');
       setUser(user_name);
-      localStorage.setItem('network', String(network.id));
+      localStorage.setItem(LocalStorageKeys.NETWORK, String(network.id));
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);

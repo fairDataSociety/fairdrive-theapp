@@ -10,6 +10,8 @@ import { PodProvider } from '@context/PodContext';
 import '@styles/globals.scss';
 import { FdpStorageProvider } from '@context/FdpStorageContext';
 import { AnimatePresence } from 'framer-motion';
+import { DialogProvider } from '@context/DialogsContext';
+import Dialogs from '@components/Dialogs/Dialogs';
 /* eslint-disable no-console */
 
 /**
@@ -46,12 +48,15 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           <UserProvider>
             <SearchProvider>
               <PodProvider>
-                <Head>
-                  <title>Fairdrive</title>
-                </Head>
-                <AnimatePresence mode="wait" initial={false}>
-                  <Component {...pageProps} key={router.asPath} />
-                </AnimatePresence>
+                <DialogProvider>
+                  <Head>
+                    <title>Fairdrive</title>
+                  </Head>
+                  <Dialogs />
+                  <AnimatePresence mode="wait" initial={false}>
+                    <Component {...pageProps} key={router.asPath} />
+                  </AnimatePresence>
+                </DialogProvider>
               </PodProvider>
             </SearchProvider>
           </UserProvider>
