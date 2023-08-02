@@ -32,12 +32,21 @@ If you can't find the answer to your question, feel free to [contact us](docs/CO
 ## Development
 See [**Development instructions**](docs/DEVELOPMENT.md) for information how to install and develop on local machines.
 
-### Active Deployments
+## Join Us in Building Fairdrive
+Fairdrive is a community-driven initiative, and we welcome contributions from anyone who shares our vision for a decentralized, user-controlled digital world. Whether you're a developer, a designer, a writer, or just someone who's interested in what we're doing, there are many ways you can contribute to Fairdrive.
 
-- **Testnet**: https://app.fairdrive.fairdatasociety.org
-- **Development**: https://app.fairdrive.dev.fairdatasociety.org
+If you're a developer, you can help us improve the Fairdrive application by fixing bugs, adding new features, or improving our documentation. Check out our [open issues](https://github.com/fairDataSociety/fairdrive-theapp/issues) to see what we're currently working on.
 
-Current testnet deployment is on: Sepolia. 
+If you're a designer, we'd love your help in improving the user interface and user experience of Fairdrive. You can help us design new features, improve existing ones, or create assets like icons and illustrations.
+
+If you're a writer, you can help us improve our user documentation, write blog posts about Fairdrive, or help us spread the word about Fairdrive on social media.
+
+And even if you're not a developer, designer, or writer, you can still contribute by testing Fairdrive, reporting bugs, or suggesting new features.
+
+We believe that everyone has something valuable to contribute, and we're committed to creating a welcoming and inclusive environment for all contributors. So if you're interested in joining us, please check out our [contributing guide](CONTRIBUTING.md) to get started.
+
+Together, we can make Fairdrive the best it can be!
+
 
 ## Development Stage Notice for Fairdrive
 Please be aware that Fairdrive is currently in its development stage. This means that the application is still undergoing substantial updates, modifications, and improvements. As a result, certain functionalities may change, be added, or removed without prior notice.
@@ -48,3 +57,9 @@ Furthermore, please note that the maintainers of Fairdrive do not assume respons
 
 We strongly recommend that you keep backups of any critical data you store on Fairdrive and use the application with an understanding of these risks during its development stage. We appreciate your understanding and patience as we continue to improve and refine Fairdrive.
 
+### Active Deployments
+
+- **Testnet**: https://app.fairdrive.fairdatasociety.org
+- **Development**: https://app.fairdrive.dev.fairdatasociety.org
+
+Current testnet deployment is on: Sepolia. 
