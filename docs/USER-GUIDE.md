@@ -29,7 +29,7 @@ To use Fairdrive, you'll need to create an account. Here's how:
 2. Click on the "Register New Account" button.
 3. Fill out the registration form with your details.
 4. When you finish procedure your FDP account will be ready
-4. Login using your username/password
+4. Login into Fairdrive using your username/password
 
 #### 3. Using Bloosom extension
 1. **TODO** WIP
