@@ -31,10 +31,6 @@ const Overview: FC<OverviewProps> = () => {
   return (
     <MainLayout>
       <div className="w-full">
-        <h2 className="font-semibold text-xl text-color-accents-plum-black dark:text-color-shade-white-night">
-          Overview
-        </h2>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 w-full">
           <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
             {theme === 'light' ? (
