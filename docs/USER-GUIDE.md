@@ -33,7 +33,10 @@ To use Fairdrive, you'll need to create an account using any of below options. H
 4. Login into Fairdrive using your username/password
 
 #### 3. Using Bloosom extension
-1. **TODO** WIP
+1. Make sure you are logged in inside Blossom extension
+2. Click Connect
+3. Select Blossom
+4. Allow Fairdrive full access of your personal storage
 
 ## Logging In
 **Metamask** account:
