@@ -60,7 +60,7 @@ jobs:
               echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.dev.fairdatasociety.org" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_ENVIRONMENT=DEVELOPMENT" >> "$GITHUB_ENV"
+              echo "NEXT_PUBLIC_ENVIRONMENT=PRODUCTION" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_RULES_URL=https://create.dev.fairdatasociety.org/#/bb-rules" >> "$GITHUB_ENV"
               echo "NEXT_PUBLIC_BB_API_URL=https://bbapi.fairdatasociety.org" >> "$GITHUB_ENV"
           elif [ "$GITHUB_REF_NAME" == 'staging' ]; then
