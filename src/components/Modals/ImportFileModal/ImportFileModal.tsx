@@ -19,10 +19,12 @@ const ImportFileModal: FC<CreatorModalProps> = ({
   const { activePod, directoryName } = useContext(PodContext);
   const { fdpClientRef } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleImportFile = async () => {
     try {
+      setLoading(true);
       await receiveFile(
         fdpClientRef.current,
         importCode,
@@ -33,6 +35,8 @@ const ImportFileModal: FC<CreatorModalProps> = ({
       closeModal();
     } catch {
       setErrorMessage('Error: Could not import the File!');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,6 +63,8 @@ const ImportFileModal: FC<CreatorModalProps> = ({
           variant="secondary"
           label="Import File"
           onClick={handleImportFile}
+          disabled={loading}
+          loading={loading}
         />
       </div>
 

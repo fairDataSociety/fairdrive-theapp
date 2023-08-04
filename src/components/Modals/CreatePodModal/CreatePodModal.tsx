@@ -8,7 +8,6 @@ import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-import Spinner from '@components/Spinner/Spinner';
 
 interface CreatePodModalProps {
   showModal: boolean;
@@ -54,8 +53,6 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
       closeModal={closeModal}
       headerTitle="Create New Pod"
     >
-      <Spinner isLoading={loading} />
-
       <TextInput
         name="pod"
         label="name your pod"
@@ -73,6 +70,7 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
           variant="secondary"
           label="Create Pod"
           disabled={loading}
+          loading={loading}
           onClick={handleCreateNewPod}
         />
       </div>
