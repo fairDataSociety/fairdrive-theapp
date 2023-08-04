@@ -45,6 +45,10 @@ const PasswordModal: FC<PasswordModalProps> = ({
       headerTitle="Enter password"
     >
       <form onSubmit={handleSubmit(handleSubmitButton)} className="w-full">
+        <p className="text-sm mb-4">
+          Your passphrase is used for the encryption and decryption of your
+          data. Do not share it.
+        </p>
         <AuthenticationInput
           label=""
           id="password"
