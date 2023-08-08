@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Button } from '@components/Buttons';
+import { useLocales } from '@context/LocalesContext';
 
 export interface ConnectDropdownToggeleProps {
   onClickHandler: () => void;
@@ -8,10 +9,12 @@ export interface ConnectDropdownToggeleProps {
 const ConnectDropdownToggele: FC<ConnectDropdownToggeleProps> = ({
   onClickHandler,
 }) => {
+  const { intl } = useLocales();
+
   return (
     <Button
       variant="tertiary-outlined"
-      label="Connect"
+      label={intl.get('CONNECT')}
       onClick={onClickHandler}
     />
   );

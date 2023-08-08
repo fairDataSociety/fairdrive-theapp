@@ -6,6 +6,7 @@ import { Button } from '@components/Buttons';
 import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
+import { useLocales } from '@context/LocalesContext';
 
 interface ConfirmDeleteModalProps {
   showModal: boolean;
@@ -23,6 +24,7 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
   deleteHandler,
 }) => {
   const [loading, setLoading] = useState(false);
+  const { intl } = useLocales();
 
   useEffect(() => {
     setLoading(false);
@@ -40,9 +42,9 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
         light: <DeleteLightIcon />,
         dark: <DeleteDarkIcon />,
       }}
-      headerTitle="Confirm Delete"
+      headerTitle={intl.get('CONFIRM_DELETE')}
     >
-      <h5>Are you sure you want to delete the following {type}:</h5>
+      <h5>{intl.get('DELETE_CONFIRMATION', { type })}</h5>
 
       <div className="flex justify-between items-center mt-5">
         <p className="text-xs text-center" style={{ overflowWrap: 'anywhere' }}>
@@ -59,7 +61,7 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
       <Button
         type="button"
         variant="primary"
-        label="Delete"
+        label={intl.get('DELETE')}
         disabled={loading}
         onClick={() => {
           setLoading(true);
@@ -71,7 +73,7 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
       <Button
         type="button"
         variant="secondary"
-        label="Cancel"
+        label={intl.get('CANCEL')}
         onClick={closeModal}
         disabled={loading}
         className="mt-2 w-auto"

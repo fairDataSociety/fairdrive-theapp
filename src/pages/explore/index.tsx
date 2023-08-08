@@ -13,6 +13,7 @@ import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
 import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import { useRouter } from 'next/router';
 import { parseUrl } from 'next/dist/shared/lib/router/utils/parse-url';
+import { useLocales } from '@context/LocalesContext';
 
 interface ExploreProps {}
 
@@ -21,6 +22,7 @@ const Explore: FC<ExploreProps> = () => {
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
   const [href, setHref] = useState<string | null>(null);
+  const { intl } = useLocales();
 
   useEffect(() => {
     setHref(window.location.href);
@@ -46,7 +48,7 @@ const Explore: FC<ExploreProps> = () => {
   return (
     <MainLayout>
       <h2 className="font-semibold text-xl text-color-accents-plum-black dark:text-color-shade-white-night">
-        Explore DApps
+        {intl.get('EXPLORE_DAPPS')}
       </h2>
 
       {search.length > 0 ? (
@@ -75,7 +77,7 @@ const Explore: FC<ExploreProps> = () => {
                   key={dapp.name}
                   name={dapp.name}
                   link={dapp.link}
-                  description={dapp.description}
+                  description={intl.get(dapp.description)}
                 />
               );
             })}

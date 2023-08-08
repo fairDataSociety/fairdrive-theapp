@@ -5,6 +5,7 @@ import { Button } from '@components/Buttons';
 import CopyIcon from '@media/UI/copy.svg';
 import DownloadIcon from '@media/UI/download.svg';
 import copyToClipboard from '@utils/copyToClipboard';
+import { useLocales } from '@context/LocalesContext';
 
 interface MnemonicProps {
   mnemonicPhrase: string;
@@ -13,6 +14,7 @@ interface MnemonicProps {
 const Mnemonic: FC<MnemonicProps> = ({ mnemonicPhrase }) => {
   const [copyComplete, setCopyComplete] = useState(false);
   const [downloadComplete, setDownloadComplete] = useState(false);
+  const { intl } = useLocales();
 
   const handleCopyClick = async () => {
     try {
@@ -64,7 +66,7 @@ const Mnemonic: FC<MnemonicProps> = ({ mnemonicPhrase }) => {
           <Button
             variant="primary-outlined"
             onClick={handleCopyClick}
-            label={copyComplete ? 'Copied!' : 'Copy all'}
+            label={intl.get(copyComplete ? 'COPIED' : 'COPY_ALL')}
             icon={<CopyIcon className="inline ml-2" />}
             className="mr-3"
           />
@@ -72,7 +74,7 @@ const Mnemonic: FC<MnemonicProps> = ({ mnemonicPhrase }) => {
           <Button
             variant="primary-outlined"
             onClick={handleDownloadClick}
-            label={downloadComplete ? 'Downloaded!' : 'Download all'}
+            label={intl.get(downloadComplete ? 'DOWNLOADED' : 'DOWNLOAD_ALL')}
             icon={<DownloadIcon className="inline ml-2" />}
             className="ml-3"
           />

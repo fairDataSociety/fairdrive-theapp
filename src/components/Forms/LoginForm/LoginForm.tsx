@@ -16,6 +16,7 @@ import { CacheType, getCache } from '@utils/cache';
 import { Network } from '@data/networks';
 import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
 import { LocalStorageKeys } from '@utils/localStorage';
+import { useLocales } from '@context/LocalesContext';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -38,6 +39,7 @@ const LoginForm: FC = () => {
     storageType,
   } = useFdpStorage();
   const router = useRouter();
+  const { intl } = useLocales();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
@@ -93,14 +95,12 @@ const LoginForm: FC = () => {
     <div className="flex flex-col px-3 justify-center items-center">
       <DisclaimerMessage
         icon={IconType.WARNING}
-        text="Fairdrive is in Beta and provided for evaluation only! File integrity
-      persistence and security are not assured! Expect that data in Fairdrive
-      can be deleted at any time."
+        text={intl.get('DISCLAIMER')}
       />
 
       <AuthenticationHeader
-        title="Welcome back"
-        content="Please log in to get access to your Fairdrive."
+        title={intl.get('WELCOME_BACK')}
+        content={intl.get('LOG_IN_TO_GET_ACCESS')}
       />
 
       <div className="w-full md:w-98 mt-4">
@@ -110,7 +110,7 @@ const LoginForm: FC = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <label className="font-normal text-base text-color-accents-plum-black dark:text-color-accents-grey-pastel">
-            Choose network:
+            {intl.get('CHOOSE_NETWORK')}:
           </label>
           <NetworkDropdown
             className="mb-3"
@@ -119,18 +119,17 @@ const LoginForm: FC = () => {
           />
 
           <AuthenticationInput
-            label="username"
+            label={intl.get('USERNAME')}
             id="user_name"
             type="text"
             name="user_name"
-            placeholder="Type here"
+            placeholder={intl.get('TYPE_HERE')}
             useFormRegister={register}
             validationRules={{
-              required: 'Username is required',
+              required: intl.get('USERNAME_IS_REQUIRED'),
               minLength: {
                 value: 4,
-                message:
-                  'Username field needs to contain at least 4 characters',
+                message: intl.get('USERNAME_MIN_LENGTH_ERROR'),
               },
             }}
             // @ts-ignore
@@ -138,14 +137,14 @@ const LoginForm: FC = () => {
           />
 
           <AuthenticationInput
-            label="password"
+            label={intl.get('PASSWORD')}
             id="password"
             type="password"
             name="password"
-            placeholder="Type here"
+            placeholder={intl.get('TYPE_HERE')}
             useFormRegister={register}
             validationRules={{
-              required: 'Password is required',
+              required: intl.get('PASSWORD_IS_REQUIRED'),
             }}
             // @ts-ignore
             error={errors.password}
@@ -157,7 +156,7 @@ const LoginForm: FC = () => {
               disabled={!isValid}
               type="submit"
               variant="secondary"
-              label="Continue"
+              label={intl.get('CONTINUE')}
             />
           </div>
 
@@ -168,7 +167,7 @@ const LoginForm: FC = () => {
               rel="noopener noreferrer"
               className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar"
             >
-              Register New Account
+              {intl.get('REGISTER_NEW_ACCOUNT')}
             </a>
           </div>
         </form>

@@ -6,6 +6,7 @@ import blossomImg from '@media/UI/blossom.png';
 import Spinner from '@components/Spinner/Spinner';
 import BlossomNotFoundModal from '@components/Modals/BlossomNotFoundModal/BlossomNotFoundModal';
 import UserContext from '@context/UserContext';
+import { useLocales } from '@context/LocalesContext';
 
 const TEST_MESSAGE = 'fairdrive';
 
@@ -16,6 +17,7 @@ const BlossomLogin = () => {
     useFdpStorage();
   const router = useRouter();
   const { setUser, setErrorMessage } = useContext(UserContext);
+  const { intl } = useLocales();
 
   const checkIsBlossomInstalled = () => {
     // eslint-disable-next-line no-async-promise-executor
@@ -62,20 +64,18 @@ const BlossomLogin = () => {
         await blossom.fdpStorage.personalStorage.requestFullAccess();
 
       if (!allowed) {
-        return setErrorMessage(
-          'Fairdrive requires full access to personal storage in order to work properly.'
-        );
+        return setErrorMessage(intl.get('BLOSSOM_ERROR_MESSAGE'));
       }
 
       setFdpStorageType('blossom');
       setIsLoggedIn(true);
       setLoginType('blossom');
-      setUser('Blossom user');
+      setUser(intl.get('BLOSSOM_USER'));
       router.push('/overview');
     } catch (error) {
       console.error(error);
 
-      setErrorMessage(`Couldn't login using Blossom. ${error}`);
+      setErrorMessage(`${intl.get('COULDNT_LOGIN_USING_BLOSSOM')} ${error}`);
     } finally {
       setLoading(false);
     }

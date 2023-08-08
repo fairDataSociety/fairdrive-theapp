@@ -1,4 +1,5 @@
 import { Button } from '@components/Buttons';
+import { useLocales } from '@context/LocalesContext';
 
 interface MetamaskIntroContentProps {
   onConfirm: () => void;
@@ -7,18 +8,22 @@ interface MetamaskIntroContentProps {
 export default function MetamaskIntroContent({
   onConfirm,
 }: MetamaskIntroContentProps) {
+  const { intl } = useLocales();
+
   return (
     <>
       <div className="mt-4">
         <p className="text-sm">
-          Your FDS Lite account, managed with Metamask, can be seamlessly
-          migrated to an FDS Portable account. This enables you to use a
-          username and password for login on mobile devices and other dApps.
+          {intl.get('METAMASK_ACCOUNT_MIGRATION_EXPLANATION')}
         </p>
       </div>
 
       <div className="mt-5">
-        <Button variant="primary-outlined" label="Start" onClick={onConfirm} />
+        <Button
+          variant="primary-outlined"
+          label={intl.get('START')}
+          onClick={onConfirm}
+        />
       </div>
     </>
   );

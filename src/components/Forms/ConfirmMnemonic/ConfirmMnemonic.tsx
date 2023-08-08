@@ -5,6 +5,7 @@ import { AuthenticationHeader } from '@components/Headers';
 import { Button } from '@components/Buttons';
 import Chip from '@components/Chip/Chip';
 import shuffleArray from '@utils/shuffleArray';
+import { useLocales } from '@context/LocalesContext';
 
 interface ConfirmMnemonicProps {
   mnemonic: string;
@@ -14,6 +15,7 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
   const { mnemonic } = props;
   // const { clearPodContext } = useContext(PodContext);
   const [selected, setSelected] = useState<string[]>([]);
+  const { intl } = useLocales();
 
   const words = useMemo<Array<string>>(
     () => shuffleArray(mnemonic.split(' ')),
@@ -38,8 +40,8 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
   return (
     <div className="flex flex-col justify-center items-center">
       <AuthenticationHeader
-        title="Confirm your seed phrase"
-        content="Please select the words from your seed phrase in order of appearance to complete registration."
+        title={intl.get('CONFIRM_YOUR_SEED_PHRASE')}
+        content={intl.get('MNEMONIC_CONFIRMATION_INSTRUCTIONS')}
       />
 
       <div className="w-98 mt-10 mb-8">
@@ -74,7 +76,7 @@ export default function ConfirmMnemonic(props: ConfirmMnemonicProps) {
           <Button
             disabled={!isOrderCorrect}
             variant="secondary"
-            label="Register"
+            label={intl.get('REGISTER')}
             onClick={() => router.push('/register/payment')}
           />
         </div>

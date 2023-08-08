@@ -7,8 +7,11 @@ import DownloadIcon from '@media/UI/download.svg';
 import ConnectDropdown from '@components/Dropdowns/ConnectDropdown/ConnectDropdown';
 
 import classes from './AuthenticationNavbar.module.scss';
+import { useLocales } from '@context/LocalesContext';
 
 const AuthenticationNavbar: FC = () => {
+  const { intl } = useLocales();
+
   return (
     <div
       className={`${classes.wrapper} flex justify-between items-center w-full h-16 px-6 shadow-lg`}
@@ -20,7 +23,7 @@ const AuthenticationNavbar: FC = () => {
           <a className={`${classes.button} mr-6`}>
             <Button
               variant="tertiary-outlined"
-              label="Import Account"
+              label={intl.get('IMPORT_ACCOUNT')}
               icon={<DownloadIcon className="inline-block ml-2" />}
             />
           </a>

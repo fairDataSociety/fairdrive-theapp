@@ -1,3 +1,4 @@
+import { useLocales } from '@context/LocalesContext';
 import { FC } from 'react';
 
 interface ImportToggleProps {
@@ -9,6 +10,8 @@ const ImportToggle: FC<ImportToggleProps> = ({
   importMethod,
   updateImportMethod,
 }) => {
+  const { intl } = useLocales();
+
   const activeClass =
     'text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar bg-color-shade-dark-4-day dark:bg-color-shade-dark-1-night effect-style-soft-purple-shadow';
 
@@ -23,7 +26,7 @@ const ImportToggle: FC<ImportToggleProps> = ({
         } flex-grow py-2 px-3 rounded-l`}
         onClick={() => updateImportMethod('address')}
       >
-        Address
+        {intl.get('ADDRESS')}
       </button>
 
       <button
@@ -32,7 +35,7 @@ const ImportToggle: FC<ImportToggleProps> = ({
         } flex-grow py-2 px-3 rounded-r`}
         onClick={() => updateImportMethod('mnemonic')}
       >
-        Mnemonic
+        {intl.get('MNEMONIC')}
       </button>
     </div>
   );
