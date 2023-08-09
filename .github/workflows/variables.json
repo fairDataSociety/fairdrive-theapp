@@ -130,7 +130,7 @@
     },
     {
       "Name": "NEXT_PUBLIC_ENVIRONMENT",
-      "Value": "SEPOLIA",
+      "Value": "PRODUCTION",
       "Scope": {}
     },
     {
