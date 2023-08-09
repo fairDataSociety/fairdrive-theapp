@@ -197,7 +197,7 @@ export default function MetamaskCreateAccount({
                     <span>
                       {theme === 'light' ? <InfoLight /> : <InfoDark />}
                     </span>
-                    <span className="tooltip rounded w-96 left-0 top-8 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
+                    <span className="tooltip rounded w-96 left-0 bottom-8 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
                       {intl.get('NETWORK_UNRELIABILITY_EXPLANATION')}
                       <ul>
                         <li>{intl.get('ENS_REGISTRATION')}</li>
