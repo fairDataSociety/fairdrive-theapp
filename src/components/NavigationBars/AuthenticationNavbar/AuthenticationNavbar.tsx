@@ -8,6 +8,7 @@ import ConnectDropdown from '@components/Dropdowns/ConnectDropdown/ConnectDropdo
 
 import classes from './AuthenticationNavbar.module.scss';
 import { useLocales } from '@context/LocalesContext';
+import LanguageDropdown from '@components/Dropdowns/LanguageDropdown/LanguageDropdown';
 
 const AuthenticationNavbar: FC = () => {
   const { intl } = useLocales();
@@ -34,6 +35,10 @@ const AuthenticationNavbar: FC = () => {
         </a>
 
         <ThemeToggle />
+
+        <div className="ml-2">
+          <LanguageDropdown />
+        </div>
       </div>
     </div>
   );

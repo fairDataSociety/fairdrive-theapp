@@ -1,24 +1,26 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useMemo, useState } from 'react';
 import { createContext, useContext } from 'react';
 import intl from 'react-intl-universal';
 import enUsLocales from '../locales/en-US.json';
 
-import cnFlag from '../media/flags/cn.svg';
-import deFlag from '../media/flags/de.svg';
-import enFlag from '../media/flags/gb.svg';
-import esFlag from '../media/flags/es.svg';
-import frFlag from '../media/flags/fr.svg';
-import huFlag from '../media/flags/hu.svg';
-import itFlag from '../media/flags/it.svg';
-import jpFlag from '../media/flags/jp.svg';
-import ptFlag from '../media/flags/pt.svg';
-import rsFlag from '../media/flags/rs.svg';
-import slFlag from '../media/flags/si.svg';
-import trFlag from '../media/flags/tr.svg';
+import cnFlag from '../media/flags/cn.png';
+import deFlag from '../media/flags/de.png';
+import enFlag from '../media/flags/gb.png';
+import esFlag from '../media/flags/es.png';
+import frFlag from '../media/flags/fr.png';
+import huFlag from '../media/flags/hu.png';
+import itFlag from '../media/flags/it.png';
+import jpFlag from '../media/flags/jp.png';
+import ptFlag from '../media/flags/pt.png';
+import rsFlag from '../media/flags/rs.png';
+import slFlag from '../media/flags/si.png';
+import trFlag from '../media/flags/tr.png';
+import { StaticImageData } from 'next/image';
 
 const LOCAL_STORAGE_LOCALES_KEY = 'lang';
 
-const flagMap: Record<string, string> = {
+const flagMap: Record<string, StaticImageData> = {
   'ch-CH': cnFlag,
   'de-DE': deFlag,
   'en-US': enFlag,
@@ -37,7 +39,7 @@ export interface ILocalesContext {
   intl: typeof intl;
   currentLocale: string;
   languageCodes: string[];
-  getFlagImage: (language?: string) => string;
+  getFlagImage: (language?: string) => StaticImageData;
   setCurrentLocale: (locale: string) => void;
 }
 
@@ -45,7 +47,7 @@ const LocalesContext = createContext<ILocalesContext>({
   intl,
   currentLocale: 'en-US',
   languageCodes: [],
-  getFlagImage: () => '',
+  getFlagImage: () => null,
   setCurrentLocale: () => {},
 });
 

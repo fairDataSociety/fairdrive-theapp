@@ -8,6 +8,7 @@ import { UserDropdownToggle } from '@components/Buttons';
 // import { ActivityDropdownToggle } from '@components/Buttons';
 import UserDropdown from './UserDropdown/UserDropdown';
 import UserContext from '@context/UserContext';
+import LanguageDropdown from '@components/Dropdowns/LanguageDropdown/LanguageDropdown';
 // import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
 const MainNavigationBar: FC<Record<string, never>> = () => {
@@ -31,6 +32,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
               onClickHandler={() => setShowUserDropdown(true)}
               showNotification={metamaskMigrationNotification === 'closed'}
             />
+            <LanguageDropdown />
           </div>
         </div>
       </div>
