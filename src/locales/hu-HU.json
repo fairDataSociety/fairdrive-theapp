@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamask nem található",
   "METAMASK_NOT_INSTALLED": "A Metamask kiegészítő jelenleg nincs telepítve.",
   "GENERIC_ERROR": "Hiba: {message}",
-  "ENTER_PASSWORD": "Add meg a jelszót",
+  "ENTER_PASSPHRASE": "Írja be a jelszót",
   "LOGIN": "Bejelentkezés",
   "FILE_PREVIEW_ERROR": "A fájl előnézete nem tölthető be!",
   "PREVIEW_FILE": "Fájl Előnézet",

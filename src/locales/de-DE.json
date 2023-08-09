@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamask nicht gefunden",
   "METAMASK_NOT_INSTALLED": "Die Metamask-Erweiterung ist derzeit nicht installiert.",
   "GENERIC_ERROR": "Fehler: {message}",
-  "ENTER_PASSWORD": "Passwort eingeben",
+  "ENTER_PASSPHRASE": "Geben Sie die Passphrase ein",
   "LOGIN": "Anmelden",
   "FILE_PREVIEW_ERROR": "Dateivorschau konnte nicht geladen werden!",
   "PREVIEW_FILE": "Datei anzeigen",

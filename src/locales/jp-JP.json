@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamaskが見つかりません",
   "METAMASK_NOT_INSTALLED": "Metamask拡張機能は現在インストールされていません。",
   "GENERIC_ERROR": "エラー：{message}",
-  "ENTER_PASSWORD": "パスワードを入力",
+  "ENTER_PASSPHRASE": "パスフレーズを入力してください",
   "LOGIN": "ログイン",
   "FILE_PREVIEW_ERROR": "ファイルのプレビューを読み込むことができませんでした！",
   "PREVIEW_FILE": "ファイルのプレビュー",

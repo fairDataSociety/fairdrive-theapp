@@ -1,6 +1,10 @@
 import { Button } from '@components/Buttons';
 import MetamaskIcon from '@media/UI/metamask.svg';
-import { getSignatureWallet, isMetamaskAvailable } from '@utils/metamask';
+import {
+  decryptWallet,
+  getBasicSignatureWallet,
+  isMetamaskAvailable,
+} from '@utils/metamask';
 import { useRouter } from 'next/router';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import MetamaskNotFoundModal from '@components/Modals/MetamaskNotFoundModal/MetamaskNotFoundModal';
@@ -16,6 +20,7 @@ interface MetamaskConnectProps {
 }
 
 const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
+  const [localBasicWallet, setLocalBasicWallet] = useState(null);
   const [showNotFoundModal, setShowNotFoundModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,7 +55,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
    */
   const handlePassword = async (password: string): Promise<void> => {
     try {
-      const wallet = await getSignatureWallet(password);
+      const wallet = await decryptWallet(localBasicWallet, password);
       const mnemonic = wallet.mnemonic.phrase;
       markInviteAsParticipated();
       fdpClientRef.current.account.setAccountFromMnemonic(mnemonic);
@@ -83,6 +88,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
         return;
       }
 
+      setLocalBasicWallet(await getBasicSignatureWallet());
       setShowPasswordModal(true);
     } catch (error) {
       console.error(error);

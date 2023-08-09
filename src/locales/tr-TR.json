@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamask bulunamadı",
   "METAMASK_NOT_INSTALLED": "Metamask uzantısı şu anda yüklü değil.",
   "GENERIC_ERROR": "Hata: {message}",
-  "ENTER_PASSWORD": "Parolanızı girin",
+  "ENTER_PASSPHRASE": "Parola girin",
   "LOGIN": "Giriş Yap",
   "FILE_PREVIEW_ERROR": "Dosya önizlemesi yüklenemedi!",
   "PREVIEW_FILE": "Dosya Önizleme",

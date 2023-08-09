@@ -1,10 +1,9 @@
 import * as metamaskUtil from '../../src/utils/metamask';
 import {
-  getAddress,
-  getSignature,
+  decryptWallet,
   SIGN_WALLET_DATA,
+  getBasicSignatureWallet,
 } from '../../src/utils/metamask';
-import { getSignatureWallet } from '../../src/utils/metamask';
 import { Wallet } from 'ethers';
 
 const privateKey =
@@ -29,21 +28,30 @@ describe('Metamask', () => {
     );
   });
 
-  it('getSignatureWallet without password', async () => {
+  it('getBasicSignatureWallet without password', async () => {
     const expectedAddress = '0x61E18Ac267f4d5af06D421DeA020818255678649';
-    const wallet = await getSignatureWallet();
+    const wallet = await getBasicSignatureWallet();
     expect(wallet.address).toBe(expectedAddress);
   });
 
-  it('getSignatureWallet with password', async () => {
+  it('getBasicSignatureWallet with password', async () => {
     const expectedEasyAddress = '0xbb434d1D294455Aa6d85393187770b46Ecc11F95';
     const expectedStrongAddress = '0x1E721A883CeEbF8e2618140Ea00BE18dfC642238';
     const easyPassword = 'oneTwoThree';
     const strongPassword = 'Hello & world! =-0987654321`';
-    const wallet1 = await getSignatureWallet(easyPassword);
-    expect(wallet1.address).toBe(expectedEasyAddress);
+    const easyWallet = await getBasicSignatureWallet(easyPassword);
+    expect(easyWallet.address).toBe(expectedEasyAddress);
 
-    const wallet2 = await getSignatureWallet(strongPassword);
-    expect(wallet2.address).toBe(expectedStrongAddress);
+    const strongWallet = await getBasicSignatureWallet(strongPassword);
+    expect(strongWallet.address).toBe(expectedStrongAddress);
+
+    // checks two steps getting of a wallet: 1 - get basic wallet, 2 - get encrypted wallet
+    const walletBasic = await getBasicSignatureWallet();
+    expect((await decryptWallet(walletBasic, easyPassword)).address).toEqual(
+      easyWallet.address
+    );
+    expect((await decryptWallet(walletBasic, strongPassword)).address).toEqual(
+      strongWallet.address
+    );
   });
 });

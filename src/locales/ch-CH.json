@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "未找到 Metamask",
   "METAMASK_NOT_INSTALLED": "当前未安装 Metamask 扩展。",
   "GENERIC_ERROR": "错误：{message}",
-  "ENTER_PASSWORD": "输入密码",
+  "ENTER_PASSPHRASE": "输入密码",
   "LOGIN": "登录",
   "FILE_PREVIEW_ERROR": "无法加载文件预览！",
   "PREVIEW_FILE": "预览文件",

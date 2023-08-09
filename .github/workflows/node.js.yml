@@ -1,10 +1,9 @@
 name: Node.js CI
 
 on:
-  push:
+  pull_request:
     branches:
-      - master
-      - development
+      - '**'
 
 env:
   BEE_VERSION: '1.6.1'
@@ -12,7 +11,11 @@ env:
   NEXT_PUBLIC_BEE_URL: http://localhost:1633
   REACT_APP_BEE_DEBUG_URL: http://localhost:1635
   NEXT_PUBLIC_BEE_DEBUG_URL: http://localhost:1635
+  NEXT_PUBLIC_RPC_URL: https://rpc.sepolia.org
   NEXT_PUBLIC_CONSENT_VIEWER: https://app.crviewer.dev.fairdatasociety.org
+  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42a96D45d787685ac4b36292d218B106Fb39be7F'
+  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xFBF00389140C00384d88d458239833E3231a7414'
+  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xC904989B579c2B216A75723688C784038AA99B56'
   NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
 
 jobs:

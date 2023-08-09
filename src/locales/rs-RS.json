@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamask nije pronađen",
   "METAMASK_NOT_INSTALLED": "Metamask ekstenzija trenutno nije instalirana.",
   "GENERIC_ERROR": "Greška: {message}",
-  "ENTER_PASSWORD": "Unesite lozinku",
+  "ENTER_PASSPHRASE": "Унесите приступну фразу",
   "LOGIN": "Prijavi se",
   "FILE_PREVIEW_ERROR": "Pregled fajla nije moguć!",
   "PREVIEW_FILE": "Pregled fajla",

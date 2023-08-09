@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamask ni najden",
   "METAMASK_NOT_INSTALLED": "Razširitve Metamask trenutno niso nameščene.",
   "GENERIC_ERROR": "Napaka: {message}",
-  "ENTER_PASSWORD": "Vnesite geslo",
+  "ENTER_PASSPHRASE": "Vnesite geslo",
   "LOGIN": "Prijava",
   "FILE_PREVIEW_ERROR": "Predogled datoteke ni bil naložen!",
   "PREVIEW_FILE": "Predogled datoteke",

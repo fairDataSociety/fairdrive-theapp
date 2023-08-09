@@ -74,21 +74,33 @@ export const signatureToWallet = (signature: string): Wallet => {
 };
 
 /**
- * Creates a wallet using Metamask signature
+ * Creates a basic wallet using Metamask signature
  */
-export const getSignatureWallet = async (password = ''): Promise<Wallet> => {
+export const getBasicSignatureWallet = async (
+  password = ''
+): Promise<Wallet> => {
   const address = await getAddress();
   const signature = await getSignature(address, SIGN_WALLET_DATA);
   const wallet = signatureToWallet(signature);
   if (password) {
-    const signature = await wallet.signMessage(
-      utils.sha256(utils.toUtf8Bytes(password))
-    );
-
-    return signatureToWallet(signature);
+    return decryptWallet(wallet, password);
   } else {
     return wallet;
   }
+};
+
+/**
+ * Extracts an encrypted wallet from basic wallet
+ *
+ * @param wallet Basic wallet
+ * @param password Password
+ */
+export const decryptWallet = async (wallet: Wallet, password: string) => {
+  const signature = await wallet.signMessage(
+    utils.sha256(utils.toUtf8Bytes(password))
+  );
+
+  return signatureToWallet(signature);
 };
 
 /**

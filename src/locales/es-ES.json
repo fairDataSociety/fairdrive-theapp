@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamask no encontrado",
   "METAMASK_NOT_INSTALLED": "La extensión Metamask no está instalada actualmente.",
   "GENERIC_ERROR": "Error: {message}",
-  "ENTER_PASSWORD": "Ingresar contraseña",
+  "ENTER_PASSPHRASE": "Ingrese la frase de contraseña",
   "LOGIN": "Iniciar sesión",
   "FILE_PREVIEW_ERROR": "¡No se pudo cargar la vista previa del archivo!",
   "PREVIEW_FILE": "Vista Previa del Archivo",
