@@ -42,7 +42,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
     <Modal
       showModal={showModal}
       closeModal={closeModal}
-      headerTitle="Enter password"
+      headerTitle="Enter passphrase"
     >
       <form onSubmit={handleSubmit(handleSubmitButton)} className="w-full">
         <AuthenticationInput
@@ -61,6 +61,11 @@ const PasswordModal: FC<PasswordModalProps> = ({
           }}
           error={errors.password as FieldError}
         />
+
+        <p className="text-sm mb-5">
+          Your passphrase is used for the encryption and decryption of your
+          data. Do not share it.
+        </p>
 
         <div className="text-center">
           <Button
