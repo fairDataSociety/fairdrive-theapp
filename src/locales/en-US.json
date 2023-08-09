@@ -217,5 +217,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_2": "IN NO EVENT SHALL THE FAIRDRIVE PLATFORM OR ITS INDEPENDENT DEVELOPERS AND SUPPLIERS BE LIABLE FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF PROFITS, BUSINESS INTERRUPTION, LOSS OF INFORMATION) ARISING OUT OF THE USE OF OR INABILITY TO USE THE SOFTWARE, EVEN IF THE FAIRDRIVE PLATFORM PROVIDER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
   "USERS_COMMITMENTS": "Users Commitments:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "By using Fairdrive Beta Release you agree to report any flaws, errors or imperfections discovered on the platform or other materials where the user - Beta Tester has been granted access to the Fairdrive Beta Release. The user understands that prompt and accurate reporting is the purpose of the Fairdrive Beta Release and undertakes to use best efforts to provide frequent reports on all aspects of the product both positive and negative and acknowledges that any improvements, modifications and changes arising from or in connection with the Beta Testers contribution to the Fairdrive Project, remain or become the exclusive property of the Disclosing Party.",
-  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. All rights reserved"
+  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. All rights reserved",
+  "PASSPHRASE_EXPLANATION": "Your passphrase is used for the encryption and decryption of your data. Do not share it."
 }

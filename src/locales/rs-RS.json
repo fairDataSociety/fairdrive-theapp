@@ -217,5 +217,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_2": "U NIKAKVOM SLUČAJU NEĆE PLATFORMA FAIRDRIVE ILI NJENI NEZAVISNI RAZVIJAČI I DOBAVLJAČI BITI ODGOVORNI ZA BILO KAKVE ŠTETE (UKLJUČUJUĆI, BEZ OGRANIČENJA, ŠTETE ZBOG GUBLJENJA PROFITA, PREKIDA POSLOVANJA, GUBLJENJA INFORMACIJA) NASTALE IZ UPOTREBE ILI NESPOSOBNOSTI UPOTREBE SOFTVERA, ČAK I AKO JE PONUĐAČ PLATFORME FAIRDRIVE UPOZOREN NA MOGUĆNOST TAKVE ŠTETE.",
   "USERS_COMMITMENTS": "Obaveze korisnika:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "Korišćenjem Fairdrive Beta verzije slažete se da prijavljujete sve nedostatke, greške ili nesavršenosti koje pronađete na platformi ili drugim materijalima gde je korisnik - Beta Tester dobio pristup Fairdrive Beta verziji. Korisnik razume da je brzo i tačno izveštavanje cilj Fairdrive Beta verzije i preduzimaće sve moguće napore da često izveštava o svim aspektima proizvoda, kako pozitivnim tako i negativnim, i priznaje da svaka poboljšanja, modifikacije i promene proistekle iz ili u vezi sa doprinosom Beta Testera Projektu Fairdrive ostaju ili postaju isključiva svojina Otkrivajuće strane.",
-  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Sva prava zadržana"
+  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Sva prava zadržana",
+  "PASSPHRASE_EXPLANATION": "Vaša lozinka se koristi za šifrovanje i dešifrovanje vaših podataka. Nemojte je deliti."
 }

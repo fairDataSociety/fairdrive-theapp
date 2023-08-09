@@ -217,5 +217,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_2": "EN AUCUN CAS LA PLATEFORME FAIRDRIVE OU SES DÉVELOPPEURS ET FOURNISSEURS INDÉPENDANTS NE PEUVENT ÊTRE TENUS RESPONSABLES DE QUELQUE DOMMAGE QUE CE SOIT (Y COMPRIS, SANS LIMITATION, LES DOMMAGES CAUSÉS PAR LA PERTE DE PROFITS, L'INTERRUPTION D'ACTIVITÉ, LA PERTE D'INFORMATION) DÉCOULANT DE L'UTILISATION OU DE L'INCAPACITÉ À UTILISER LE LOGICIEL, MÊME SI LE FOURNISSEUR DE LA PLATEFORME FAIRDRIVE A ÉTÉ AVISÉ DE LA POSSIBILITÉ DE TELS DOMMAGES.",
   "USERS_COMMITMENTS": "Engagements des utilisateurs :",
   "TERMS_OF_USAGE_PARAGRAPH_3": "En utilisant la version bêta de Fairdrive, vous acceptez de signaler tout défaut, erreur ou imperfection découvert sur la plateforme ou d'autres supports où l'utilisateur - testeur bêta a eu accès à la version bêta de Fairdrive. L'utilisateur comprend que la communication rapide et précise est le but de la version bêta de Fairdrive et s'engage à faire de son mieux pour fournir des rapports fréquents sur tous les aspects du produit, positifs et négatifs, et reconnaît que toutes les améliorations, modifications et changements découlant de la contribution du testeur bêta au projet Fairdrive restent ou deviennent la propriété exclusive de la partie révélante.",
-  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Tous droits réservés"
+  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Tous droits réservés",
+  "PASSPHRASE_EXPLANATION": "Votre mot de passe est utilisé pour le chiffrement et le déchiffrement de vos données. Ne le partagez pas."
 }

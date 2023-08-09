@@ -217,5 +217,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_2": "SEMILYEN KÖRÜLMÉNYEK KÖZÖTT, A FAIRDRIVE PLATFORM VAGY AZ ANNÁL FÜGGETLENEBB FEJLESZTŐK ÉS BESZÁLLÍTÓK SEM VÁLLALNAK FELELŐSSÉGET SEMMILYEN KÁRÉRT (BELEÉRTVE, DE NEM KIZÁRÓLAGOSAN, A NYERESÉG KIESÉSÉÉRT, ÜZLETI ZAVAR ÉS INFORMÁCIÓVESZTÉSÉÉRT) AMELY A SZOFTVER HASZNÁLATÁBÓL VAGY A SZOFTVER HASZNÁLATÁNAK KÉPTELNÉGÉBŐL ERED, MÉG HA A FAIRDRIVE PLATFORM SZOLGÁLTATÓJÁT FIGYELMEZTETTÉK A KÁROSODÁS LEHETSÉGES VESZÉLYÉRE.",
   "USERS_COMMITMENTS": "Felhasználói Kötelezettségek:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "A Fairdrive Béta Verzió használatával elfogadod, hogy jelents be minden hibát, hibát vagy hiányosságot, amelyet felfedeztél a platformon vagy más anyagokon, ahol a felhasználó - Béta Tesztelő hozzáférést kapott a Fairdrive Béta Verziójához. A felhasználó megérti, hogy a Fairdrive Béta Verziójának gyors és pontos jelentése a cél, és elkötelezi magát arra, hogy minden termék vonatkozásában gyakori jelentéseket nyújtson be a pozitív és negatív szempontokról, és elismeri, hogy bármely fejlesztés, módosítás és változás a Béta Tesztelő hozzájárulásából, vagy a Fairdrive Projekt hozzájárulásából eredően, a Közzétevő Fél kizárólagos tulajdonában marad vagy anná válik.",
-  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Minden jog fenntartva"
+  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Minden jog fenntartva",
+  "PASSPHRASE_EXPLANATION": "A jelszót használjuk az adatok titkosításához és visszafejtéséhez. Ne ossza meg."
 }

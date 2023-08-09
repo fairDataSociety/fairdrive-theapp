@@ -217,5 +217,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_2": "FAIRDRIVEプラットフォームまたはその独立した開発者およびサプライヤーは、ソフトウェアの使用または使用不能に起因するいかなる損害に対しても（利益の損失、業務の中断、情報の損失などを含むがこれに限定されない）一切の責任を負いません。たとえFAIRDRIVEプラットフォームプロバイダーがそのような損害の可能性に対して警告されていた場合であってもです。",
   "USERS_COMMITMENTS": "ユーザーの約束事項:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "Fairdrive Beta Releaseを使用することにより、ユーザーはプラットフォームまたはユーザー - ベータテスターがFairdrive Beta Releaseにアクセスを許可されている他の資料上で発見したすべての欠陥、エラー、または欠陥を報告することに同意します。ユーザーは、適切な報告がFairdrive Beta Releaseの目的であり、製品のあらゆる側面について頻繁な報告を提供する最善の努力を行うことを理解し、製品へのベータテスターの貢献から生じる改良、修正、変更が開示側の独占的な財産となるか、またはなることを認識します。",
-  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. All rights reserved"
+  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. All rights reserved",
+  "PASSPHRASE_EXPLANATION": "パスフレーズはデータの暗号化と復号化に使用されます。共有しないでください。"
 }

@@ -66,10 +66,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
           error={errors.password as FieldError}
         />
 
-        <p className="text-sm mb-5">
-          Your passphrase is used for the encryption and decryption of your
-          data. Do not share it.
-        </p>
+        <p className="text-sm mb-5">{intl.get('PASSPHRASE_EXPLANATION')}</p>
 
         <div className="text-center">
           <Button

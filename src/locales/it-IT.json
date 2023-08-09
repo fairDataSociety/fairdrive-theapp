@@ -217,5 +217,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_2": "IN NESSUN CASO LA PIATTAFORMA FAIRDRIVE O I SUOI SVILUPPATORI E FORNITORI INDIPENDENTI SARANNO RESPONSABILI DI ALCUN DANNO (INCLUSI, SENZA LIMITAZIONE, DANNI PERDITA DI PROFITTI, INTERRUZIONE DI ATTIVITÀ, PERDITA DI INFORMAZIONI) DERIVANTE DALL'USO O DALL'IMPOSSIBILITÀ DI USARE IL SOFTWARE, ANCHE SE IL FORNITORE DELLA PIATTAFORMA FAIRDRIVE È STATO AVVISATO DELLA POSSIBILITÀ DI TALI DANNI.",
   "USERS_COMMITMENTS": "Impegno degli Utenti:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "Utilizzando Fairdrive Beta Release accetti di segnalare eventuali difetti, errori o imperfezioni riscontrati sulla piattaforma o su altri materiali a cui l'utente - Beta Tester ha avuto accesso tramite Fairdrive Beta Release. L'utente comprende che la segnalazione tempestiva e accurata è lo scopo di Fairdrive Beta Release e si impegna a fare del suo meglio per fornire segnalazioni frequenti su tutti gli aspetti del prodotto, sia positivi che negativi, e riconosce che qualsiasi miglioramento, modifica o cambiamento derivante o in relazione al contributo dei Beta Tester al Progetto Fairdrive rimane o diventa di proprietà esclusiva della Parte che Rende la Divulgazione.",
-  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Tutti i diritti riservati"
+  "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Tutti i diritti riservati",
+  "PASSPHRASE_EXPLANATION": "La tua frase di accesso viene utilizzata per la cifratura e la decifratura dei tuoi dati. Non condividerla."
 }
