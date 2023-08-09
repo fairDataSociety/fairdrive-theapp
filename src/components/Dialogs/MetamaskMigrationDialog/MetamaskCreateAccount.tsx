@@ -198,7 +198,7 @@ export default function MetamaskCreateAccount({
                     <span>
                       {theme === 'light' ? <InfoLight /> : <InfoDark />}
                     </span>
-                    <span className="tooltip rounded w-96 left-0 top-8 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
+                    <span className="tooltip rounded w-96 left-0 bottom-8 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
                       Sometimes estimated balance is off and account
                       registration will not be able to complete. There are three
                       transactions involved:
