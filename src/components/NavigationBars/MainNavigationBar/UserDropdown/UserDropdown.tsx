@@ -10,6 +10,7 @@ import CopyIcon from '@media/UI/copy.svg';
 import copy from 'copy-to-clipboard';
 import { useDialogs } from '@context/DialogsContext';
 import Indicator from '@components/Indicator/Indicator';
+import { useLocales } from '@context/LocalesContext';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -26,6 +27,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
     useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
   const { setMetamaskMigrationOpen } = useDialogs();
+  const { intl } = useLocales();
 
   const handleCopyClick = async () => {
     copy(user || address);
@@ -80,7 +82,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
                   className="mb-4 text-color-shade-dark-3-night dark:text-color-shade-dark-4-day  cursor-pointer"
                   onClick={onMigrateClick}
                 >
-                  Migrate Account
+                  {intl.get('MIGRATE_ACCOUNT')}
                   <Indicator className="inline-block ml-2" />
                 </div>
               )}
@@ -88,7 +90,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
                 className="mb-4 text-color-status-negative-day cursor-pointer"
                 onClick={disconnect}
               >
-                Log out
+                {intl.get('LOG_OUT')}
               </div>
             </div>
           </div>

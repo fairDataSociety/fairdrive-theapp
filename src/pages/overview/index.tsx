@@ -19,6 +19,7 @@ import LinumLabsLightIcon from '@media/branding/linum-labs-logo-light.svg';
 import LinumLabsDarkIcon from '@media/branding/linum-labs-logo-dark.svg';
 
 import OverviewCard from './overview-card';
+import { useLocales } from '@context/LocalesContext';
 
 interface OverviewProps {}
 
@@ -44,6 +45,7 @@ function AwardImages() {
 const Overview: FC<OverviewProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
+  const { intl } = useLocales();
 
   useEffect(() => {
     trackPageView({
@@ -58,16 +60,15 @@ const Overview: FC<OverviewProps> = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 w-full">
           <OverviewCard
             theme={theme}
-            title="Get started with your Drive"
-            description="Start interacting with the Fairtext in Fairdrive, create your
-            Subpods and explore new ways to organize your files."
+            title={intl.get('GET_STARTED_WITH_YOUR_DRIVE')}
+            description={intl.get('GET_STARTED_CARD_DESCRIPTION')}
             imageLight={<OverviewDriveLight className="inline-block" />}
             imageDark={<OverviewDriveDark className="inline-block" />}
             button={
               <Button
                 type="button"
                 variant="primary-outlined"
-                label="Go to Drive"
+                label={intl.get('GO_TO_DRIVE')}
                 to="/drive"
               />
             }
@@ -75,15 +76,15 @@ const Overview: FC<OverviewProps> = () => {
 
           <OverviewCard
             theme={theme}
-            title="Explore DApps"
-            description="Explore DApps that are in the Fair Data Society Ecosystem."
+            title={intl.get('EXPLORE_DAPPS')}
+            description={intl.get('EXPLORE_DAPPS_CARD_DESCRIPTION')}
             imageLight={<OverviewExploreLight className="inline-block" />}
             imageDark={<OverviewExploreDark className="inline-block" />}
             button={
               <Button
                 type="button"
                 variant="primary-outlined"
-                label="Explore DApps"
+                label={intl.get('EXPLORE_DAPPS')}
                 to="/explore"
               />
             }
@@ -91,8 +92,8 @@ const Overview: FC<OverviewProps> = () => {
 
           <OverviewCard
             theme={theme}
-            title="Join our ecosystem"
-            description="Develop for Fairdrive and grow the ecosystem."
+            title={intl.get('JOIN_OUR_ECOSYSTEM')}
+            description={intl.get('JOIN_OUR_ECOSYSTEM_CARD_DESCRIPTION')}
             imageLight={<OverviewEcosystemLight className="inline-block" />}
             imageDark={<OverviewEcosystemDark className="inline-block" />}
             button={
@@ -104,7 +105,7 @@ const Overview: FC<OverviewProps> = () => {
                 <Button
                   type="button"
                   variant="primary-outlined"
-                  label="Developer Docs"
+                  label={intl.get('DEVELOPER_DOCS')}
                 />
               </a>
             }
@@ -112,15 +113,15 @@ const Overview: FC<OverviewProps> = () => {
 
           <OverviewCard
             theme={theme}
-            title="A Fruitful Partnership with LinumLabs"
-            description="In the ever-evolving landscape of data-driven technologies, partnerships play a crucial role in driving innovation and fostering mutual growth."
+            title={intl.get('LINUMLABS_PAGE_TITLE')}
+            description={intl.get('LINUMLABS_CARD_DESCRIPTION')}
             imageLight={<LinumLabsLightIcon />}
             imageDark={<LinumLabsDarkIcon />}
             button={
               <Button
                 type="button"
                 variant="primary-outlined"
-                label="Read More"
+                label={intl.get('READ_MORE')}
                 to="/linum-labs"
               />
             }
@@ -128,15 +129,15 @@ const Overview: FC<OverviewProps> = () => {
 
           <OverviewCard
             theme={theme}
-            title="Our Role as MyData Operators in 2021 and 2022"
-            description="As MyData Operators, we believe in empowering individuals to have greater control over their personal data while unlocking its potential for creating positive impact."
+            title={intl.get('MYDATA_OPERATORS_PAGE_TITLE')}
+            description={intl.get('MYDATA_OPERATORS_CARD_DESCRIPTION')}
             imageLight={<AwardImages />}
             imageDark={<AwardImages />}
             button={
               <Button
                 type="button"
                 variant="primary-outlined"
-                label="Read More"
+                label={intl.get('READ_MORE')}
                 to="/my-data-operator"
               />
             }

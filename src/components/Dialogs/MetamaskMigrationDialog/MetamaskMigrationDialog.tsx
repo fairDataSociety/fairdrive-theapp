@@ -8,6 +8,7 @@ import MetamaskMigrationComplete from './MetamaskMigrationComplete';
 import MetamaskCreateAccount from './MetamaskCreateAccount';
 import { Network } from '@data/networks';
 import UserContext from '@context/UserContext';
+import { useLocales } from '@context/LocalesContext';
 
 interface MetamaskMigrationDialogProps {
   open: boolean;
@@ -32,6 +33,7 @@ const MetamaskMigrationDialog = ({
   const [password, setPassword] = useState<string>('');
   const [network, setNetwork] = useState<Network>(null);
   const { setMetamaskMigrationNotification, address } = useContext(UserContext);
+  const { intl } = useLocales();
 
   const onMnemonicExport = (mnemonic: string) => {
     setMnemonic(mnemonic);
@@ -66,7 +68,7 @@ const MetamaskMigrationDialog = ({
     <DialogWrapper open={open} onClose={handleClose}>
       <>
         <Dialog.Title as="h3" className="text-lg font-medium leading-6">
-          Account Migration
+          {intl.get('ACCOUNT_MIGRATION')}
         </Dialog.Title>
         {step === Step.INTRO && (
           <MetamaskIntroContent onConfirm={() => setStep(Step.MNEMONIC)} />

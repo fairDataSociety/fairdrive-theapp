@@ -27,6 +27,7 @@ import InviteActiveDark from '@media/UI/invite-active-dark.svg';
 import classes from './MainSideBar.module.scss';
 import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { useLocales } from '@context/LocalesContext';
 
 interface MainSideBarProps extends UpdateDriveProps {
   driveSideBarToggle: any;
@@ -38,9 +39,11 @@ const MainSideBar: FC<MainSideBarProps> = ({
   updateDrive,
   refreshPods,
 }) => {
+  const { intl } = useLocales();
+
   const items = [
     {
-      label: 'Overview',
+      label: intl.get('OVERVIEW'),
       link: '/overview',
       icons: {
         light: {
@@ -54,7 +57,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
       },
     },
     {
-      label: 'Drive',
+      label: intl.get('DRIVE'),
       link: '/drive',
       icons: {
         light: {
@@ -68,7 +71,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
       },
     },
     {
-      label: 'Explore',
+      label: intl.get('EXPLORE'),
       link: '/explore',
       icons: {
         light: {
@@ -82,7 +85,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
       },
     },
     {
-      label: 'Invite',
+      label: intl.get('INVITE'),
       link: '/invite',
       icons: {
         light: {

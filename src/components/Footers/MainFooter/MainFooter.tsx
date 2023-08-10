@@ -20,9 +20,11 @@ import DiscordDarkIcon from '@media/branding/discord-dark.svg';
 
 import MediumLightIcon from '@media/branding/medium-light.svg';
 import MediumDarkIcon from '@media/branding/medium-dark.svg';
+import { useLocales } from '@context/LocalesContext';
 
 const MainFooter: FC = () => {
   const { theme } = useContext(ThemeContext);
+  const { intl } = useLocales();
 
   return (
     <div className="hidden md:flex justify-between items-center w-full h-32 px-8 bg-white shadow-top">
@@ -57,7 +59,8 @@ const MainFooter: FC = () => {
       <div className="flex justify-center items-center space-x-16">
         <div className="flex justify-center items-center space-x-4">
           <p className="font-normal text-xs text-color-accents-purple-heavy dark:text-color-shade-light-1-night">
-            © {new Date().getFullYear()} Fairdrive. All rights reserved
+            © {new Date().getFullYear()}{' '}
+            {intl.get('FAIRDRIVE_ALL_RIGHTS_RESERVED')}
           </p>
 
           {theme === 'light' ? (
@@ -68,7 +71,7 @@ const MainFooter: FC = () => {
 
           <Link href="/terms">
             <a className="font-normal text-xs text-color-accents-purple-heavy dark:text-color-shade-light-1-night leading-6">
-              Terms & Conditions
+              {intl.get('TERMS_AND_CONDITIONS')}
             </a>
           </Link>
 
@@ -80,7 +83,7 @@ const MainFooter: FC = () => {
 
           <Link href="/privacy-policy">
             <a className="font-normal text-xs text-color-accents-purple-heavy dark:text-color-shade-light-1-night leading-6">
-              Privacy Policy
+              {intl.get('PRIVACY_POLICY')}
             </a>
           </Link>
         </div>

@@ -16,6 +16,7 @@ import { ContentType, removeItemFromCache } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import DropdownTransition from '../DropdownTransition';
+import { useLocales } from '@context/LocalesContext';
 
 interface DriveItemMenuProps extends UpdateDriveProps {
   type: 'folder' | 'file';
@@ -36,7 +37,8 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const previewLabel = type === 'file' ? 'Preview' : 'Open';
+  const { intl } = useLocales();
+  const previewLabel = intl.get(type === 'file' ? 'PREVIEW' : 'OPEN');
 
   const handleDownloadClick = async () => {
     try {
@@ -160,7 +162,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleDownloadClick}
               >
-                Download
+                {intl.get('DOWNLOAD')}
               </Menu.Item>
             ) : null}
 
@@ -170,7 +172,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleShareClick}
               >
-                Share
+                {intl.get('SHARE')}
               </Menu.Item>
             ) : null}
 
@@ -179,7 +181,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
               className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
               onClick={handleDeleteClick}
             >
-              Delete
+              {intl.get('DELETE')}
             </Menu.Item>
           </div>
         </Menu.Items>

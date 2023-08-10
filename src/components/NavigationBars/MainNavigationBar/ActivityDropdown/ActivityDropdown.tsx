@@ -1,3 +1,4 @@
+import { useLocales } from '@context/LocalesContext';
 import { FC } from 'react';
 
 interface ActivityDropdownProps {
@@ -9,6 +10,8 @@ const ActivityDropdown: FC<ActivityDropdownProps> = ({
   showDropdown,
   setShowDropdown,
 }) => {
+  const { intl } = useLocales();
+
   return (
     <div
       className={`${showDropdown ? 'block' : 'hidden'} inset-0 fixed z-50`}
@@ -20,10 +23,10 @@ const ActivityDropdown: FC<ActivityDropdownProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="mb-4 text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar">
-            Your Connected Dapps
+            {intl.get('YOUR_CONNECTED_DAPPS')}
           </div>
           <p className="text-color-accents-plum-black dark:text-color-shade-white-night">
-            Coming Soon
+            {intl.get('COMING_SOON')}
           </p>
         </div>
       </div>

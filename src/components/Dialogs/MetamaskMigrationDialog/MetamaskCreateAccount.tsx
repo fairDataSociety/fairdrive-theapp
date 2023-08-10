@@ -12,6 +12,7 @@ import InfoLight from '@media/UI/info-light.svg';
 import InfoDark from '@media/UI/info-dark.svg';
 import ThemeContext from '@context/ThemeContext';
 import { RegistrationRequest } from '@fairdatasociety/fdp-storage/dist/account/types';
+import { useLocales } from '@context/LocalesContext';
 
 interface MetamaskCreateAccountProps {
   username: string;
@@ -46,6 +47,7 @@ export default function MetamaskCreateAccount({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { theme } = useContext(ThemeContext);
   const { setUser } = useContext(UserContext);
+  const { intl } = useLocales();
   const address = fdpClientRef.current.account.wallet?.address;
 
   const timer = useRef<NodeJS.Timeout | null>();
@@ -177,35 +179,30 @@ export default function MetamaskCreateAccount({
           {initialized ? (
             <>
               <div>
-                Your account is: <br />
+                {intl.get('YOUR_ACCOUNT_IS')} <br />
                 <span>
                   {address}
                   <CopyButton text={address} />
                 </span>
               </div>
-              <div>
-                Before proceeding with account registration, make sure you have
-                enough funds on it.
-              </div>
+              <div>{intl.get('CHECK_FUNDS_BEFORE_REGISTRATION')}</div>
               <div className="py-3">
                 {minBalance
-                  ? `Estimated minimal balance is ${utils.formatEther(
-                      minBalance
-                    )}`
-                  : "Gas estimation can't be performed on this network."}
+                  ? intl.get('ESTIMATED_MINIMAL_BALANCE_IS', {
+                      balance: minBalance,
+                    })
+                  : intl.get('GAS_ESTIMATION_CANT_BE_PERFORMED')}
                 <div>
                   <div className="has-tooltip inline-block pt-1 text-color-shade-dark-2-night dark:text-color-shade-light-2-night cursor-pointer">
                     <span>
                       {theme === 'light' ? <InfoLight /> : <InfoDark />}
                     </span>
                     <span className="tooltip rounded w-96 left-0 bottom-8 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
-                      Sometimes estimated balance is off and account
-                      registration will not be able to complete. There are three
-                      transactions involved:
+                      {intl.get('NETWORK_UNRELIABILITY_EXPLANATION')}
                       <ul>
-                        <li>ENS registration</li>
-                        <li>set ENS resolver </li>
-                        <li>public key registration</li>
+                        <li>{intl.get('ENS_REGISTRATION')}</li>
+                        <li>{intl.get('SET_ENS_RESOLVER')}</li>
+                        <li>{intl.get('PUBLIC_KEY_REGISTRATION')}</li>
                       </ul>
                     </span>
                   </div>
@@ -213,7 +210,7 @@ export default function MetamaskCreateAccount({
               </div>
             </>
           ) : (
-            <>Estimating transaction fee price, please wait...</>
+            <>{intl.get('ESTIMATING_TRANSACTION_FEE_PRICE')}</>
           )}
         </div>
       </div>
@@ -223,7 +220,7 @@ export default function MetamaskCreateAccount({
       {initialized &&
         (canProceed && !balanceError ? (
           <div className="text-color-status-positive-day bold">
-            Funds sufficient
+            {intl.get('FUNDS_SUFFICIENT')}
           </div>
         ) : (
           <div className="mt-5">
@@ -231,13 +228,13 @@ export default function MetamaskCreateAccount({
               <>
                 {balanceError && (
                   <div className="text-sm mb-2">
-                    Could not check your balance
+                    {intl.get('COULD_NOT_CHECK_YOUR_BALANCE')}
                   </div>
                 )}
 
                 <Button
                   variant="tertiary-outlined"
-                  label="Send Minimal balance"
+                  label={intl.get('SEND_MINIMAL_BALANCE')}
                   disabled={loading || sending}
                   loading={sending}
                   onClick={send}

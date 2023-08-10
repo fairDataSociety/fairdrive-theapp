@@ -15,9 +15,10 @@ import { Blossom } from '@fairdatasociety/blossom';
 import { FdpContracts } from '@fairdatasociety/fdp-storage';
 import { networks } from '@data/networks';
 import { LocalStorageKeys } from '@utils/localStorage';
+import { useLocales } from './LocalesContext';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
-export const BLOSSOM_DEFAULT_ADDRESS = '[Blossom user]';
+export const BLOSSOM_DEFAULT_ADDRESS = `BLOSSOM_USER`;
 export type LoginType = 'username' | 'blossom' | 'metamask';
 
 const createFdpStorage = (
@@ -110,6 +111,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const fdpClientRef = useRef<FdpStorage>(
     createFdpStorage(getDefaultNetwork().config)
   );
+  const { intl } = useLocales();
 
   const isUsernameAvailable = async (
     username: string
@@ -118,7 +120,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
       const isAvailable = await fdpClientRef.current.ens.isUsernameAvailable(
         username
       );
-      return isAvailable ? true : 'Oops, username is already taken';
+      return isAvailable ? true : intl.get('USERNAME_TAKEN');
     } catch (error) {
       return error.message;
     }
@@ -132,7 +134,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const getAccountAddress = async () => {
     // todo: should be replace with a correct user address after implementing https://github.com/fairDataSociety/blossom/issues/141
     if (storageType === 'blossom') {
-      return BLOSSOM_DEFAULT_ADDRESS;
+      return `[${intl.get(BLOSSOM_DEFAULT_ADDRESS)}]`;
     } else {
       return fdpClientRef.current.account.wallet.address;
     }

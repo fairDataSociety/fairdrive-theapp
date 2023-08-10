@@ -14,6 +14,7 @@ import { Button } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { Wallet } from 'ethers';
 import { MIN_PASSWORD_LENGTH } from '@utils/password';
+import { useLocales } from '@context/LocalesContext';
 
 const RegisterForm: FC = () => {
   const { register, handleSubmit, formState } = useForm({
@@ -24,6 +25,7 @@ const RegisterForm: FC = () => {
   // using FDP Storage
   const { setUsername, setPassword, setWallet, isUsernameAvailable } =
     useFdpStorage();
+  const { intl } = useLocales();
 
   const onSubmit: SubmitHandler<{
     user_name: string;
@@ -45,31 +47,28 @@ const RegisterForm: FC = () => {
     <div className="flex flex-col justify-center items-center">
       <DisclaimerMessage
         icon={IconType.WARNING}
-        text="Fairdrive is in Beta and provided for evaluation only! File integrity
-      persistence and security are not assured! Expect that data in Fairdrive
-      can be deleted at any time."
+        text={intl.get('DISCLAIMER_2')}
       />
 
       <AuthenticationHeader
-        title="Register your account"
-        content="Welcome to Fairdrive, please complete the form below to get started."
+        title={intl.get('REGISTER_YOUR_ACCOUNT')}
+        content={intl.get('COMPLETE_THE_FORM_BELOW')}
       />
 
       <div className="w-98 mt-12">
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <AuthenticationInput
-            label="username"
+            label={intl.get('USERNAME')}
             id="user_name"
             type="text"
             name="user_name"
-            placeholder="Type here"
+            placeholder={intl.get('TYPE_HERE')}
             useFormRegister={register}
             validationRules={{
-              required: 'Username is required',
+              required: intl.get('USERNAME_IS_REQUIRED'),
               minLength: {
                 value: 4,
-                message:
-                  'Username field needs to contain at least 4 characters',
+                message: intl.get('USERNAME_MIN_LENGTH_ERROR'),
               },
               validate: async (value: string) => {
                 const userNameAvailable = await isUsernameAvailable(value);
@@ -80,17 +79,19 @@ const RegisterForm: FC = () => {
             error={errors.user_name}
           />
           <AuthenticationInput
-            label="password"
+            label={intl.get('PASSWORD')}
             id="password"
             type="password"
             name="password"
-            placeholder="Type here"
+            placeholder={intl.get('TYPE_HERE')}
             useFormRegister={register}
             validationRules={{
-              required: 'Password field is required',
+              required: intl.get('PASSWORD_IS_REQUIRED'),
               minLength: {
                 value: MIN_PASSWORD_LENGTH,
-                message: `Password field needs to contain at least ${MIN_PASSWORD_LENGTH} characters`,
+                message: intl.get('PASSWORD_MIN_LENGTH_ERROR_2', {
+                  length: String(MIN_PASSWORD_LENGTH),
+                }),
               },
             }}
             // @ts-ignore
@@ -102,14 +103,14 @@ const RegisterForm: FC = () => {
               disabled={!isValid}
               type="submit"
               variant="secondary"
-              label="Create account"
+              label={intl.get('CREATE_ACCOUNT')}
             />
           </div>
 
           <div className="my-6 text-center">
             <Link href="/">
               <a className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar">
-                Already have an account?
+                {intl.get('ALREADY_HAVE_AN_ACCOUNT')}
               </a>
             </Link>
           </div>

@@ -12,6 +12,7 @@ import shortenString from '@utils/shortenString';
 import FolderLightIcon from '@media/UI/folder-light.svg';
 import FolderDarkIcon from '@media/UI/folder-dark.svg';
 import CopyIcon from '@media/UI/copy.svg';
+import { useLocales } from '@context/LocalesContext';
 
 interface ShareFileModalProps {
   showModal: boolean;
@@ -31,6 +32,7 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
   const { trackEvent } = useMatomo();
   const { fdpClientRef } = useFdpStorage();
   const [shareCode, setShareCode] = useState('');
+  const { intl } = useLocales();
 
   useEffect(() => {
     shareFile(fdpClientRef.current, {
@@ -71,9 +73,9 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
         light: <FolderLightIcon />,
         dark: <FolderDarkIcon />,
       }}
-      headerTitle="Share File"
+      headerTitle={intl.get('SHARE_FILE')}
     >
-      <h5>Share this code with a friend:</h5>
+      <h5>{intl.get('SHARE_WITH_FRIEND')}</h5>
 
       <div className="flex justify-between items-center mt-5">
         <p className="text-xs text-center">{shortenString(shareCode, 40)}</p>
@@ -87,7 +89,7 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
       <Button
         type="button"
         variant="primary"
-        label="Complete Sharing"
+        label={intl.get('COMPLETE_SHARING')}
         onClick={closeModal}
         className="mt-8 w-auto"
       />

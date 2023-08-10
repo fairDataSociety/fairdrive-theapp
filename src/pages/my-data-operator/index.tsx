@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { MainLayout } from '@components/Layouts';
+import { useLocales } from '@context/LocalesContext';
 
 const MyDataOperator = () => {
   const { trackPageView } = useMatomo();
+  const { intl } = useLocales();
 
   useEffect(() => {
     trackPageView({
@@ -17,55 +19,33 @@ const MyDataOperator = () => {
     <MainLayout>
       <div className="w-full">
         <h2 className="font-semibold text-xl text-color-accents-plum-black dark:text-color-shade-white-night">
-          Our Role as MyData Operators in 2021 and 2022
+          {intl.get('MYDATA_OPERATORS_PAGE_TITLE')}
         </h2>
 
         <div className="mt-12 w-full">
+          <p className="mb-4">{intl.get('MYDATA_OPERATORS_PARAGRAPH_1')}</p>
+
           <p className="mb-4">
-            As MyData Operators, we believe in empowering individuals to have
-            greater control over their personal data while unlocking its
-            potential for creating positive impact. During the years 2021 and
-            2022, our collaborative efforts yielded remarkable achievements as
-            MyData Operators:
+            <b>{intl.get('MYDATA_OPERATORS_PARAGRAPH_2_START')}</b>{' '}
+            {intl.get('MYDATA_OPERATORS_PARAGRAPH_2')}
           </p>
 
           <p className="mb-4">
-            <b>Enhanced Data Protection:</b> Through a combination of advanced
-            encryption techniques and user-centric protocols, we fortified the
-            security of individuals&apos; data, ensuring its safe storage and
-            seamless utilization.
+            <b>{intl.get('MYDATA_OPERATORS_PARAGRAPH_3_START')}</b>{' '}
+            {intl.get('MYDATA_OPERATORS_PARAGRAPH_3')}
           </p>
 
           <p className="mb-4">
-            <b>User Empowerment:</b> Our joint initiatives provided individuals
-            with transparent access to their data and the ability to grant
-            permission for its use, thereby promoting trust and empowering users
-            to control their data&apos;s destiny.
+            <b>{intl.get('MYDATA_OPERATORS_PARAGRAPH_4_START')}</b>{' '}
+            {intl.get('MYDATA_OPERATORS_PARAGRAPH_4')}
           </p>
 
           <p className="mb-4">
-            <b>Innovation in Data Sharing:</b> Together, we pushed the
-            boundaries of data sharing models by devising mechanisms that
-            facilitated secure and privacy-preserving data exchanges between
-            stakeholders, unlocking new possibilities for research and
-            development.
+            <b>{intl.get('MYDATA_OPERATORS_PARAGRAPH_5_START')}</b>{' '}
+            {intl.get('MYDATA_OPERATORS_PARAGRAPH_5')}
           </p>
 
-          <p className="mb-4">
-            <b>Privacy by Design:</b> As advocates of privacy by design, we
-            implemented stringent measures to ensure data privacy at every
-            stage, setting a precedent for responsible data practices within our
-            industries.
-          </p>
-
-          <p className="mb-4">
-            As MyData Operators, we remain committed to empowering individuals
-            and businesses alike, offering them the tools they need to leverage
-            the power of data responsibly. Looking ahead, we are excited about
-            the future possibilities that arise from such fruitful
-            collaborations and remain dedicated to shaping a data-driven world
-            that places individuals at the heart of the data ecosystem.
-          </p>
+          <p className="mb-4">{intl.get('MYDATA_OPERATORS_PARAGRAPH_6')}</p>
         </div>
       </div>
     </MainLayout>
