@@ -18,11 +18,11 @@ function LanguageDropdownMenu() {
           <Menu.Item
             key={language}
             as="span"
-            className="block w-auto px-5 py-2 font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer dark:hover:bg-color-shade-dark-3-night dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-dark-3-day"
+            className="flex w-auto px-1 py-2 font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer dark:hover:bg-color-shade-dark-3-night dark:hover:shadow-soft-purple hover:shadow-soft-purple hover:bg-color-shade-dark-3-day"
             onClick={() => setCurrentLocale(language)}
           >
             <img
-              className={classes.flag}
+              className={`m-auto ${classes.flag}`}
               src={getFlagImage(language).src}
               alt={language}
             />

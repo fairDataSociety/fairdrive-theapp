@@ -11,3 +11,13 @@
   margin-right: 25px;
   width: 20px;
 }
+
+@media (max-width: 500px) {
+  .flag {
+    margin: 0;
+  }
+
+  .arrow {
+    display: none;
+  }
+}
