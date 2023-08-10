@@ -17,8 +17,8 @@ const MyDataOperator = () => {
 
   return (
     <MainLayout>
-      <div className="w-full">
-        <h2 className="font-semibold text-xl text-color-accents-plum-black dark:text-color-shade-white-night">
+      <div className="w-full text-color-accents-plum-black dark:text-color-shade-white-night">
+        <h2 className="font-semibold text-xl">
           {intl.get('MYDATA_OPERATORS_PAGE_TITLE')}
         </h2>
 
