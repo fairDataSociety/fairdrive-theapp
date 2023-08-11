@@ -6,6 +6,7 @@ import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
+import { useLocales } from '@context/LocalesContext';
 
 interface ImportPodModalProps {
   showModal: boolean;
@@ -18,43 +19,51 @@ const ImportPodModal: FC<ImportPodModalProps> = ({
   closeModal,
   refreshPods,
 }) => {
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [importCode, setImportCode] = useState('');
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { intl } = useLocales();
 
-  const handleImportPod = () => {
-    receivePod(fdpClient, importCode)
-      .then(() => {
-        refreshPods();
-        closeModal();
-      })
-      .catch(() => {
-        setErrorMessage('Error: Could not import the Pod.');
-      });
+  const handleImportPod = async () => {
+    try {
+      setLoading(true);
+
+      await receivePod(fdpClientRef.current, importCode);
+
+      refreshPods();
+      closeModal();
+    } catch (error) {
+      setErrorMessage(intl.get('POD_IMPORT_ERROR'));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Modal
       showModal={showModal}
       closeModal={closeModal}
-      headerTitle="Import Shared Pod"
+      headerTitle={intl.get('IMPORT_SHARED_POD')}
     >
       <TextInput
         name="code"
-        label="link shared with you"
+        label={intl.get('LINK_SHARED_WITH_YOU')}
         value={importCode}
         updateValue={setImportCode}
       />
 
       <p className="mb-5 text-color-shade-light-1-day dark:text-color-shade-light-1-night">
-        You are about to import a shared Pod.
+        {intl.get('ABOUT_TO_IMPORT_SHARED_POD')}
       </p>
 
       <div className="text-center">
         <Button
           type="button"
           variant="secondary"
-          label="Import Pod"
+          label={intl.get('IMPORT_POD')}
+          disabled={loading}
+          loading={loading}
           onClick={handleImportPod}
         />
       </div>

@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext } from 'react';
 import router from 'next/router';
 
 import UserContext from '@context/UserContext';
@@ -6,6 +6,11 @@ import { ThemeToggle } from '@components/Buttons';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import PodContext from '@context/PodContext';
 import shortenString from '@utils/shortenString';
+import CopyIcon from '@media/UI/copy.svg';
+import copy from 'copy-to-clipboard';
+import { useDialogs } from '@context/DialogsContext';
+import Indicator from '@components/Indicator/Indicator';
+import { useLocales } from '@context/LocalesContext';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -16,20 +21,32 @@ const UserDropdown: FC<UserDropdownProps> = ({
   showDropdown,
   setShowDropdown,
 }) => {
-  const { user, setUser } = useContext(UserContext);
-  const { fdpClient, setIsLoggedIn, setFdpStorageType, setWallet } =
+  const { user, setUser, metamaskMigrationNotification, address } =
+    useContext(UserContext);
+  const { setIsLoggedIn, setFdpStorageType, setWallet, setLoginType } =
     useFdpStorage();
   const { clearPodContext } = useContext(PodContext);
+  const { setMetamaskMigrationOpen } = useDialogs();
+  const { intl } = useLocales();
+
+  const handleCopyClick = async () => {
+    copy(user || address);
+  };
 
   const disconnect = async () => {
     setUser(null);
     setFdpStorageType('native');
     setIsLoggedIn(false);
+    setLoginType(null);
     setWallet(null);
     clearPodContext();
     setTimeout(() => router.push('/'));
   };
-  const address = fdpClient?.account?.wallet?.address;
+
+  const onMigrateClick = () => {
+    setMetamaskMigrationOpen(true);
+    setShowDropdown(false);
+  };
 
   return (
     <>
@@ -44,7 +61,15 @@ const UserDropdown: FC<UserDropdownProps> = ({
           >
             <div className="pb-5 mr-5 mb-5 flex content-center items-center border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
               <div title={user || address}>
-                {user || shortenString(address, 24)}
+                {user || shortenString(address, 24, 9)}
+              </div>
+              <div className="ml-auto">
+                <button
+                  className="cursor-pointer"
+                  onClick={() => handleCopyClick()}
+                >
+                  <CopyIcon className="inline-block" />
+                </button>
               </div>
               <div className="ml-auto">
                 <ThemeToggle />
@@ -52,11 +77,20 @@ const UserDropdown: FC<UserDropdownProps> = ({
             </div>
 
             <div>
+              {metamaskMigrationNotification === 'closed' && (
+                <div
+                  className="mb-4 text-color-shade-dark-3-night dark:text-color-shade-dark-4-day  cursor-pointer"
+                  onClick={onMigrateClick}
+                >
+                  {intl.get('MIGRATE_ACCOUNT')}
+                  <Indicator className="inline-block ml-2" />
+                </div>
+              )}
               <div
                 className="mb-4 text-color-status-negative-day cursor-pointer"
                 onClick={disconnect}
               >
-                Log out
+                {intl.get('LOG_OUT')}
               </div>
             </div>
           </div>

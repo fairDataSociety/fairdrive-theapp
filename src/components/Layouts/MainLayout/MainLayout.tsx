@@ -1,13 +1,19 @@
-import { FC, ReactChild, useEffect, useState } from 'react';
+import { FC, ReactChild, useEffect, useMemo, useState } from 'react';
 import {
   DriveSideBar,
   MainNavigationBar,
   MainSideBar,
 } from '@components/NavigationBars';
+import { motion } from 'framer-motion';
 import { MainFooter } from '@components/Footers';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import { useRouter } from 'next/router';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { getInvite } from '@utils/invite';
+import DisclaimerMessage, {
+  IconType,
+} from '@components/DisclaimerMessage/DisclaimerMessage';
+import { useLocales } from '@context/LocalesContext';
 
 interface MainLayoutProps extends UpdateDriveProps {
   children: ReactChild | ReactChild[];
@@ -20,7 +26,9 @@ const MainLayout: FC<MainLayoutProps> = ({
   refreshPods,
 }) => {
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
-  const { isLoggedIn } = useFdpStorage();
+  const { isLoggedIn, loginType } = useFdpStorage();
+  const inviteKey = useMemo(() => getInvite(), []);
+  const { intl } = useLocales();
 
   const driveSideBarToggle = () => {
     setShowDriveSideBar(!showDriveSideBar);
@@ -41,7 +49,7 @@ const MainLayout: FC<MainLayoutProps> = ({
       </div>
 
       <div className="flex justify-items-stretch items-stretch w-full h-full overflow-hidden">
-        <div className="w-28 dark:bg-color-shade-dark-3-night z-10">
+        <div className="w-28 dark:bg-color-shade-dark-3-night">
           <MainSideBar
             driveSideBarToggle={driveSideBarToggle}
             updateDrive={updateDrive}
@@ -51,21 +59,35 @@ const MainLayout: FC<MainLayoutProps> = ({
 
         <div
           className={`w-full ${
-            !showDriveSideBar
-              ? 'py-5 px-8 overflow-scroll no-scroll-bar z-0'
-              : ''
+            !showDriveSideBar ? 'py-5 px-8 overflow-scroll no-scroll-bar' : ''
           }`}
         >
           <div className="flex justify-start items-stretch w-full h-full">
             {showDriveSideBar ? <DriveSideBar /> : null}
             <div className="w-full pt-5 md:px-8 px-5 overflow-scroll no-scroll-bar">
-              {children}
+              {loginType === 'metamask' && inviteKey && (
+                <DisclaimerMessage
+                  text={intl.get('SIGN_UP_FOR_AN_FDS_ACCOUNT')}
+                  icon={IconType.INFO}
+                  url={`${process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT}/#/I_${inviteKey}`}
+                />
+              )}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.1,
+                }}
+              >
+                {children}
+              </motion.div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="hidden md:block w-full h-36 dark:bg-color-shade-dark-3-night z-10">
+      <div className="hidden md:block w-full h-36 dark:bg-color-shade-dark-3-night">
         <MainFooter />
       </div>
     </div>

@@ -1,9 +1,10 @@
 export default function shortenString(
   title: string,
-  maxLength: number
+  maxLength: number,
+  cutX = 10
 ): string {
   if (title && title.length > maxLength) {
-    return `${title.slice(0, 10)}...${title.slice(title.length - 10)}`;
+    return `${title.slice(0, cutX)}...${title.slice(title.length - cutX)}`;
   } else {
     return title;
   }

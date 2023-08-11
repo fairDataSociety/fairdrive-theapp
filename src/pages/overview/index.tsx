@@ -1,5 +1,4 @@
 import { FC, useContext, useEffect } from 'react';
-import router from 'next/router';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import ThemeContext from '@context/ThemeContext';
@@ -16,11 +15,37 @@ import OverviewExploreDark from '@media/UI/overview-explore-dark.svg';
 import OverviewEcosystemLight from '@media/UI/overview-ecosystem-light.svg';
 import OverviewEcosystemDark from '@media/UI/overview-ecosystem-dark.svg';
 
+import LinumLabsLightIcon from '@media/branding/linum-labs-logo-light.svg';
+import LinumLabsDarkIcon from '@media/branding/linum-labs-logo-dark.svg';
+
+import OverviewCard from './overview-card';
+import { useLocales } from '@context/LocalesContext';
+
 interface OverviewProps {}
+
+function AwardImages() {
+  return (
+    <div className="flex flex-col sm:flex-row">
+      <img
+        className="mr-2 mb-2 sm:mb-0"
+        width="80px"
+        src="/media/general/mydata-operator-2021.png"
+        alt="MyData Operator 2021"
+      />
+
+      <img
+        width="80px"
+        src="/media/general/mydata-operator-2022.png"
+        alt="MyData Operator 2022"
+      />
+    </div>
+  );
+}
 
 const Overview: FC<OverviewProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
+  const { intl } = useLocales();
 
   useEffect(() => {
     trackPageView({
@@ -32,97 +57,91 @@ const Overview: FC<OverviewProps> = () => {
   return (
     <MainLayout>
       <div className="w-full">
-        <h2 className="font-semibold text-xl text-color-accents-plum-black dark:text-color-shade-white-night">
-          Overview
-        </h2>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12 w-full">
-          <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
-            {theme === 'light' ? (
-              <OverviewDriveLight className="inline-block" />
-            ) : (
-              <OverviewDriveDark className="inline-block" />
-            )}
-
-            <h3 className="mt-4 font-semibold text-lg text-color-accents-plum-black dark:text-color-shade-white-night">
-              Get started with your Drive
-            </h3>
-
-            <p className="mt-2 text-color-shade-light-2-night dark:text-color-shade-light-2-night">
-              Start interacting with the Fairtext in Fairdrive, create your
-              Subpods and explore new ways to organize your files.
-            </p>
-
-            <div
-              className="mt-auto bottom-5 w-fit"
-              style={{ width: 'fit-content' }}
-            >
+          <OverviewCard
+            theme={theme}
+            title={intl.get('GET_STARTED_WITH_YOUR_DRIVE')}
+            description={intl.get('GET_STARTED_CARD_DESCRIPTION')}
+            imageLight={<OverviewDriveLight className="inline-block" />}
+            imageDark={<OverviewDriveDark className="inline-block" />}
+            button={
               <Button
                 type="button"
                 variant="primary-outlined"
-                label="Go to Drive"
+                label={intl.get('GO_TO_DRIVE')}
                 to="/drive"
               />
-            </div>
-          </div>
+            }
+          />
 
-          <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
-            {theme === 'light' ? (
-              <OverviewExploreLight className="inline-block" />
-            ) : (
-              <OverviewExploreDark className="inline-block" />
-            )}
-
-            <h3 className="mt-4 font-semibold text-lg text-color-accents-plum-black dark:text-color-shade-white-night">
-              Explore DApps
-            </h3>
-
-            <p className="mt-2 text-color-shade-light-2-night dark:text-color-shade-light-2-night">
-              Explore DApps that are in the Fair Data Society Ecosystem.
-            </p>
-
-            <div
-              className="mt-auto bottom-5 w-fit"
-              style={{ width: 'fit-content ' }}
-            >
+          <OverviewCard
+            theme={theme}
+            title={intl.get('EXPLORE_DAPPS')}
+            description={intl.get('EXPLORE_DAPPS_CARD_DESCRIPTION')}
+            imageLight={<OverviewExploreLight className="inline-block" />}
+            imageDark={<OverviewExploreDark className="inline-block" />}
+            button={
               <Button
                 type="button"
                 variant="primary-outlined"
-                label="Explore DApps"
+                label={intl.get('EXPLORE_DAPPS')}
                 to="/explore"
               />
-            </div>
-          </div>
+            }
+          />
 
-          <div className="relative flex flex-col h-92 py-8 px-8 shadow-lg dark:bg-color-shade-dark-4-night rounded">
-            {theme === 'light' ? (
-              <OverviewEcosystemLight className="inline-block" />
-            ) : (
-              <OverviewEcosystemDark className="inline-block" />
-            )}
+          <OverviewCard
+            theme={theme}
+            title={intl.get('JOIN_OUR_ECOSYSTEM')}
+            description={intl.get('JOIN_OUR_ECOSYSTEM_CARD_DESCRIPTION')}
+            imageLight={<OverviewEcosystemLight className="inline-block" />}
+            imageDark={<OverviewEcosystemDark className="inline-block" />}
+            button={
+              <a
+                href="https://fairdataprotocol.bzz.link/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Button
+                  type="button"
+                  variant="primary-outlined"
+                  label={intl.get('DEVELOPER_DOCS')}
+                />
+              </a>
+            }
+          />
 
-            <h3 className="mt-4 font-semibold text-lg text-color-accents-plum-black dark:text-color-shade-white-night">
-              Join our ecosystem
-            </h3>
-
-            <p className="mt-2 text-color-shade-light-2-night dark:text-color-shade-light-2-night">
-              Develop for Fairdrive and grow the ecosystem.
-            </p>
-
-            <a
-              href="https://docs.fairos.fairdatasociety.org/docs/fairos-dfs/api-reference"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-auto bottom-5 w-fit"
-              style={{ width: 'fit-content ' }}
-            >
+          <OverviewCard
+            theme={theme}
+            title={intl.get('LINUMLABS_PAGE_TITLE')}
+            description={intl.get('LINUMLABS_CARD_DESCRIPTION')}
+            imageLight={<LinumLabsLightIcon />}
+            imageDark={<LinumLabsDarkIcon />}
+            button={
               <Button
                 type="button"
                 variant="primary-outlined"
-                label="Developer Docs"
+                label={intl.get('READ_MORE')}
+                to="/linum-labs"
               />
-            </a>
-          </div>
+            }
+          />
+
+          <OverviewCard
+            theme={theme}
+            title={intl.get('MYDATA_OPERATORS_PAGE_TITLE')}
+            description={intl.get('MYDATA_OPERATORS_CARD_DESCRIPTION')}
+            imageLight={<AwardImages />}
+            imageDark={<AwardImages />}
+            button={
+              <Button
+                type="button"
+                variant="primary-outlined"
+                label={intl.get('READ_MORE')}
+                to="/my-data-operator"
+              />
+            }
+          />
         </div>
       </div>
     </MainLayout>

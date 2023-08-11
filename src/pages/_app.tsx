@@ -9,6 +9,10 @@ import { PodProvider } from '@context/PodContext';
 
 import '@styles/globals.scss';
 import { FdpStorageProvider } from '@context/FdpStorageContext';
+import { AnimatePresence } from 'framer-motion';
+import { DialogProvider } from '@context/DialogsContext';
+import Dialogs from '@components/Dialogs/Dialogs';
+import { LocalesProvider } from '@context/LocalesContext';
 /* eslint-disable no-console */
 
 /**
@@ -37,24 +41,31 @@ import { FdpStorageProvider } from '@context/FdpStorageContext';
 //   }
 // }
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   return (
-    <FdpStorageProvider>
-      <Matomo>
-        <ThemeProvider>
-          <UserProvider>
-            <SearchProvider>
-              <PodProvider>
-                <Head>
-                  <title>Fairdrive</title>
-                </Head>
-                <Component {...pageProps} />
-              </PodProvider>
-            </SearchProvider>
-          </UserProvider>
-        </ThemeProvider>
-      </Matomo>
-    </FdpStorageProvider>
+    <LocalesProvider>
+      <FdpStorageProvider>
+        <Matomo>
+          <ThemeProvider>
+            <UserProvider>
+              <SearchProvider>
+                <PodProvider>
+                  <DialogProvider>
+                    <Head>
+                      <title>Fairdrive</title>
+                    </Head>
+                    <Dialogs />
+                    <AnimatePresence mode="wait" initial={false}>
+                      <Component {...pageProps} key={router.asPath} />
+                    </AnimatePresence>
+                  </DialogProvider>
+                </PodProvider>
+              </SearchProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </Matomo>
+      </FdpStorageProvider>
+    </LocalesProvider>
   );
 }
 

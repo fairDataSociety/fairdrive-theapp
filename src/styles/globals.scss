@@ -49,6 +49,29 @@
   font-family: 'Work Sans';
 }
 
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgba(156, 163, 175, var(--tw-text-opacity));
+}
+
+.flex-container {
+  display: flex;
+  align-items: center; /* This will center the items vertically */
+}
+
+.flex-item {
+  margin-right: 16px; /* Adds some space between the items */
+}
+
+.muted-image {
+  opacity: 0.5;
+}
+
+.pagination-image {
+  width: 38px;
+  height: 38px;
+}
+
 .text-style-96-header-1 {
   font-size: 96px;
   font-family: 'Work Sans';
@@ -280,4 +303,36 @@
 .no-scroll-bar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.light {
+  .blurred-text {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.dark {
+  .blurred-text {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+
+  .dark\:brighten {
+    filter: invert(1);
+  }
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+}
+
+.has-tooltip {
+  position: relative;
+}
+
+.has-tooltip:hover .tooltip {
+  visibility: visible;
+  z-index: 50;
 }

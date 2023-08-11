@@ -1,6 +1,7 @@
 import { FC, useContext, useState } from 'react';
 import FileSaver from 'file-saver';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
+import { Menu } from '@headlessui/react';
 
 import PodContext from '@context/PodContext';
 import { useFdpStorage } from '@context/FdpStorageContext';
@@ -14,44 +15,34 @@ import formatDirectory from '@utils/formatDirectory';
 import { ContentType, removeItemFromCache } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import DropdownTransition from '../DropdownTransition';
+import { useLocales } from '@context/LocalesContext';
 
 interface DriveItemMenuProps extends UpdateDriveProps {
   type: 'folder' | 'file';
   data: {
     name: string;
   };
-  showDropdown: boolean;
-  setShowDropdown: (open: boolean) => void;
-  openClick: () => void;
   handlePreviewClick?: () => void;
 }
 
 const DriveItemMenu: FC<DriveItemMenuProps> = ({
   type,
   data,
-  showDropdown,
-  setShowDropdown,
-  openClick,
   updateDrive,
   handlePreviewClick,
 }) => {
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-  const { fdpClient, getAccountAddress } = useFdpStorage();
+  const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const previewLabel = type === 'file' ? 'Preview' : 'Open';
-
-  const handleOpenClick = () => {
-    setShowDropdown(false);
-    openClick();
-  };
+  const { intl } = useLocales();
+  const previewLabel = intl.get(type === 'file' ? 'PREVIEW' : 'OPEN');
 
   const handleDownloadClick = async () => {
-    setShowDropdown(false);
-
     try {
-      const response = await downloadFile(fdpClient, {
+      const response = await downloadFile(fdpClientRef.current, {
         filename: data?.name,
         directory: directoryName,
         podName: activePod,
@@ -72,24 +63,20 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   };
 
   const handleShareClick = () => {
-    setShowDropdown(false);
     setShowShareFileModal(true);
   };
 
   const handleDeleteClick = () => {
-    setShowDropdown(false);
     setShowConfirmDeleteModal(true);
   };
 
   const handleDeleteFile = async () => {
-    setShowDropdown(false);
-
     const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
     const itemName = data?.name;
     try {
-      await deleteFile(fdpClient, {
+      await deleteFile(fdpClientRef.current, {
         file_name: itemName,
         podName: activePod,
         path: formatDirectory(directoryName),
@@ -120,8 +107,6 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   };
 
   const handleDeleteFolder = async () => {
-    setShowDropdown(false);
-
     const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
@@ -130,7 +115,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
       (directoryName !== 'root' ? '/' + directoryName + '/' : '/') + data.name;
 
     try {
-      await deleteDirectory(fdpClient, {
+      await deleteDirectory(fdpClientRef.current, {
         podName: activePod,
         path: deletePath,
       });
@@ -161,47 +146,46 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
 
   return (
     <>
-      {showDropdown ? (
-        <div className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow z-30">
-          <h4 className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night cursor-pointer">
+      <DropdownTransition>
+        <Menu.Items className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow">
+          <Menu.Item
+            as="h4"
+            className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night cursor-pointer"
+          >
             <span onClick={handlePreviewClick}>{previewLabel}</span>
-          </h4>
+          </Menu.Item>
 
           <div className="space-y-4">
-            {/* <span
-              className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
-              onClick={handleOpenClick}
-            >
-              Open
-            </span> */}
-
             {type === 'file' ? (
-              <span
+              <Menu.Item
+                as="span"
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleDownloadClick}
               >
-                Download
-              </span>
+                {intl.get('DOWNLOAD')}
+              </Menu.Item>
             ) : null}
 
             {type === 'file' ? (
-              <span
+              <Menu.Item
+                as="span"
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleShareClick}
               >
-                Share
-              </span>
+                {intl.get('SHARE')}
+              </Menu.Item>
             ) : null}
 
-            <span
+            <Menu.Item
+              as="span"
               className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
               onClick={handleDeleteClick}
             >
-              Delete
-            </span>
+              {intl.get('DELETE')}
+            </Menu.Item>
           </div>
-        </div>
-      ) : null}
+        </Menu.Items>
+      </DropdownTransition>
 
       {showShareFileModal ? (
         <ShareFileModal

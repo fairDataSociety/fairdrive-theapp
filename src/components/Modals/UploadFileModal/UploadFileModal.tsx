@@ -16,11 +16,11 @@ import FolderDarkIcon from '@media/UI/folder-dark.svg';
 
 import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
-import Spinner from '@components/Spinner/Spinner';
 import Toast from '@components/Toast/Toast';
 import { CreatorModalProps } from '@interfaces/handlers';
 import { addItemToCache, ContentType } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
+import { useLocales } from '@context/LocalesContext';
 
 const UploadFileModal: FC<CreatorModalProps> = ({
   showModal,
@@ -35,7 +35,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
 
   const [fileToUpload, setFileToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const { fdpClient, getAccountAddress } = useFdpStorage();
+  const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
       if (activePod) {
@@ -43,6 +43,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
       }
     },
   });
+  const { intl } = useLocales();
 
   const handleUpload = async () => {
     if (!(fileToUpload && activePod)) {
@@ -54,7 +55,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
       const userAddress = await getAccountAddress();
       const directory = directoryName || 'root';
       const fdpPath = getFdpPathByDirectory(directory);
-      const item = await uploadFile(fdpClient, {
+      const item = await uploadFile(fdpClientRef.current, {
         file: fileToUpload,
         directory: directoryName,
         podName: activePod,
@@ -73,7 +74,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         isUseCacheOnly: true,
       });
       closeModal();
-      setMessage('Successfully uploaded');
+      setMessage(intl.get('SUCCESSFULLY_UPLOADED'));
     } catch (e) {
       setErrorMessage(`${e.message}`);
     } finally {
@@ -89,10 +90,8 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         light: <FolderLightIcon />,
         dark: <FolderDarkIcon />,
       }}
-      headerTitle="Upload File"
+      headerTitle={intl.get('UPLOAD_FILE')}
     >
-      <Spinner isLoading={loading} />
-
       <div
         className="mt-14 p-20 rounded shadow cursor-pointer"
         {...getRootProps()}
@@ -110,13 +109,13 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         </div>
 
         <p className="mt-14 text-base text-color-accents-purple-heavy text-center">
-          Click or drag here to upload
+          {intl.get('DRAG_HERE_TO_UPLOAD')}
         </p>
       </div>
 
       {fileToUpload ? (
         <p className="mt-5 text-sm text-center text-color-shade-light-2-night">
-          Ready to upload: <strong>{fileToUpload?.name}</strong>
+          {intl.get('READY_TO_UPLOAD')} <strong>{fileToUpload?.name}</strong>
         </p>
       ) : null}
 
@@ -124,9 +123,10 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         <Button
           type="button"
           variant="primary-outlined"
-          label="Upload content"
+          label={intl.get('UPLOAD_CONTENT')}
           onClick={handleUpload}
-          disabled={!fileToUpload}
+          disabled={!fileToUpload || loading}
+          loading={loading}
         />
       </div>
 

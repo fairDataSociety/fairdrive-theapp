@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 
 import { useFdpStorage } from '@context/FdpStorageContext';
 
@@ -7,11 +7,15 @@ import { SearchBar } from '@components/Inputs';
 import { UserDropdownToggle } from '@components/Buttons';
 // import { ActivityDropdownToggle } from '@components/Buttons';
 import UserDropdown from './UserDropdown/UserDropdown';
+import UserContext from '@context/UserContext';
+import LanguageDropdown from '@components/Dropdowns/LanguageDropdown/LanguageDropdown';
 // import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
 const MainNavigationBar: FC<Record<string, never>> = () => {
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const { wallet } = useFdpStorage();
+  const { metamaskMigrationNotification } = useContext(UserContext);
+
   return (
     <nav>
       <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
@@ -26,7 +30,9 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
             <UserDropdownToggle
               address={wallet?.address || 'Blossom'}
               onClickHandler={() => setShowUserDropdown(true)}
+              showNotification={metamaskMigrationNotification === 'closed'}
             />
+            <LanguageDropdown />
           </div>
         </div>
       </div>

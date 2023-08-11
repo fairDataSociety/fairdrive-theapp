@@ -1,137 +1,67 @@
-# Fairdrive v0.2.0
 
-Where innovation, interoperability and decentralization unite in the name of fair data.
-Fairdrive is a community-driven initiative with the mission to empower freedom. By enabling decentralized storage, developers can create and build interoperable, decentralized and open-sourced dApps so users can reclaim their privacy, own their data and control their digital identity.
+# Fairdrive
 
-## What is Fairdrive
+At the intersection of innovation, interoperability, and decentralization, Fairdrive emerges for the cause of fair data. This initiative, driven by the community, is dedicated to promoting freedom. By facilitating decentralized storage, it allows developers to construct interoperable, decentralized, and open-source dApps. This, in turn, enables users to regain their privacy, assume ownership of their data, and control their digital identity.
 
-Fairdrive is a dApp that enables decentralized storage on Swarm. It consists of a typical "Drive" interface with files and folders, and a BZZ wallet to manage token balances and keypairs. Under the hood, FairOS is running a filesystem on top of Ethereum Swarm. Fairdrive Protocol is used to communicate with FairOS.
+[Login here](https://app.fairdrive.fairdatasociety.org)
 
-## How does it work
+### What is Fairdrive
 
-Fairdrive works very similar to Google Drive or Dropbox, yet with some big differences:
+Fairdrive is a decentralized application (dApp) that facilitates distributed storage on the Swarm network. It features a "Drive" interface for managing pods, files and folders. Internally, Fairdrive uses Fair Data Protocol, which is built on top of Ethereum Swarm. 
 
-- Data is encrypted out of the box
-- Data is owned by the user only
-- Data is stored on a decentralized Incentivised network
-- Only the user has access to this data and thus controls how data is used
-- The user gets the revenue of their data
+### Why Fairdrive
+#### Pros
+- **Data Encryption**: Fairdrive encrypts all data by default, providing an additional layer of security for your files.
+- **Data Ownership**: Unlike traditional cloud storage services, where your data is technically owned by the service provider, with Fairdrive, you are the sole owner of your data.
+- **Decentralized Storage**: Fairdrive stores data on the Swarm decentralized network. This means your data isn't stored in a single location, but is distributed across multiple nodes, enhancing data security and reliability.
+- **User Control**: Only you have access to your data. You control who can access your data and how it's used.
+
+#### Cons
+- **Speed**: Due to its decentralized nature, Fairdrive can be slower than traditional cloud storage services. This is because data isn't stored in a single location, but is distributed across multiple nodes in the Swarm network. As a result, it can take longer to retrieve data.
+- **Learning Curve**: As a decentralized application (dApp), Fairdrive might have a steeper learning curve for users who are not familiar with blockchain technology and decentralized networks.
+- **Dependence on Swarm Network**: The performance and reliability of Fairdrive are dependent on the Swarm network. If there are issues with the network, it could affect the availability and performance of Fairdrive.
+- **Data Recovery**: In case of loss of access keys, data recovery might be challenging or impossible due to the decentralized and encrypted nature of the storage.
+
+## Getting Help
+
+If you need help using Fairdrive as user, check out [User Guide](docs/USER-GUIDE.md) and [FAQ](docs/FAQ.md). See [Getting Started](docs/GETTING-STARTED.md). 
+Technical overview of [Design](docs/DESIGN.md), [Functionality](docs/FUNCTIONALITY.md) and [Architecture](docs/ARCHITECTURE.md). 
+
+If you can't find the answer to your question, feel free to [contact us](docs/CONTACT.md).
 
 ## Development
+See [**Development instructions**](docs/DEVELOPMENT.md) for information how to install and develop on local machines.
 
-Please install `fdp-play`, be sure to use Node 16 and have Docker environment setup and verify that ports 3000, 1633, 1634, 1635 are available.
-Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
+## Join Us in Building Fairdrive
+Fairdrive is a community-driven initiative, and we welcome contributions from anyone who shares our vision for a decentralized, user-controlled digital world. Whether you're a developer, a designer, a writer, or just someone who's interested in what we're doing, there are many ways you can contribute to Fairdrive.
 
-- `npm i -g @fairdatasociety/fdp-play`
-- `fdp-play start --fresh`
+If you're a developer, you can help us improve the Fairdrive application by fixing bugs, adding new features, or improving our documentation. Check out our [open issues](https://github.com/fairDataSociety/fairdrive-theapp/issues) to see what we're currently working on.
 
-## Post installation steps
+If you're a designer, we'd love your help in improving the user interface and user experience of Fairdrive. You can help us design new features, improve existing ones, or create assets like icons and illustrations.
 
-### Postage batch initialization
+If you're a writer, you can help us improve our user documentation, write blog posts about Fairdrive, or help us spread the word about Fairdrive on social media.
 
-Use this helper function and run it once to create a postage batch. This is only required anytime you create fdp-play docker containers from zero.
+And even if you're not a developer, designer, or writer, you can still contribute by testing Fairdrive, reporting bugs, or suggesting new features.
 
-```typescript
-import { AppProps } from 'next/app';
+We believe that everyone has something valuable to contribute, and we're committed to creating a welcoming and inclusive environment for all contributors. So if you're interested in joining us, please check out our [contributing guide](CONTRIBUTING.md) to get started.
 
-import Matomo from '@context/Matomo';
-import { ThemeProvider } from '@context/ThemeContext';
-import { UserProvider } from '@context/UserContext';
-import { SearchProvider } from '@context/SearchContext';
-import { PodProvider } from '@context/PodContext';
+Together, we can make Fairdrive the best it can be!
 
-import '@styles/globals.scss';
-import { FdpStorageProvider } from '@context/FdpStorageContext';
-/* eslint-disable no-console */
 
-/**
- * This is a helper function to create or get the postage batch stamp. Once gotten
- * it is included in the env file so the app can use it
- */
+## Development Stage Notice for Fairdrive
+Please be aware that Fairdrive is currently in its development stage. This means that the application is still undergoing substantial updates, modifications, and improvements. As a result, certain functionalities may change, be added, or removed without prior notice.
 
-async function testsSetup(): Promise<void> {
-  if (!process.env.BEE_POSTAGE) {
-    try {
-      const beeDebugUrl = process.env.NEXT_PUBLIC_BEE_DEBUG_URL;
-      const beeDebug = new BeeDebug(beeDebugUrl);
-      const postageBatch = await beeDebug.getPostageBatch(
-        process.env.NEXT_PUBLIC_POSTAGE_STAMP
-      );
-
-      if (postageBatch) {
-        const pB = await beeDebug.createPostageBatch('1', 20);
-      }
-    } catch (e) {
-      // It is possible that for unit tests the Bee nodes does not run
-      // so we are only logging errors and not leaving them to propagate
-      console.error(e);
-    }
-  }
-}
-```
-
-### Latest Goerli contract configuration
-
-If you would like to use Goerli, in this [file](https://github.com/fairDataSociety/fdp-contracts/blob/master/js-library/src/contracts/contracts-goerli.env) you can find the respective contract addresses. To override the default configuration, use this:
-
-```typescript
-// FdpStorageContext.tsx
-
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { createContext, ReactNode, useContext, useState } from 'react';
-import { FdpStorage } from '@fairdatasociety/fdp-storage';
-import { BigNumber, providers, Wallet } from 'ethers';
-
-const provider = new providers.JsonRpcProvider(
-  process.env.NEXT_PUBLIC_RPC_URL as string
-);
-
-const fdpClient = new FdpStorage(
-  process.env.NEXT_PUBLIC_BEE_URL,
-  process.env.NEXT_PUBLIC_BEE_DEBUG_URL,
-  {
-    ensOptions: {
-      performChecks: true,
-      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
-      contractAddresses: {
-        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
-        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
-        fdsRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
-      },
-    },
-    ensDomain: 'fds',
-  }
-);
-```
+During this development stage, there's also a risk of data loss. While we strive to ensure the integrity and security of all data stored on Fairdrive, the decentralized nature of the application and the ongoing development work mean that we cannot guarantee complete data preservation.
 
 ## Running in development mode
 
-Install dependencies:
+Furthermore, please note that the maintainers of Fairdrive do not assume responsibility for any data loss, changes in functionality, or any other issues that may arise while using the application during its development stage.
 
-```bash
-yarn
-```
+We strongly recommend that you keep backups of any critical data you store on Fairdrive and use the application with an understanding of these risks during its development stage. We appreciate your understanding and patience as we continue to improve and refine Fairdrive.
 
-Or:
+### Active Deployments
 
-```bash
-npm ci
-```
+- **Testnet**: https://app.fairdrive.fairdatasociety.org
+- **Development**: https://app.fairdrive.dev.fairdatasociety.org
 
-And run the application:
-
-```bash
-yarn start
-```
-
-Or:
-
-```bash
-npm start
-```
-
-To change the configuration, edit the `.env` file.
-
-## Check it out
-
-Mainnet deployment: https://app.fairdrive.fairdatasociety.org
+Current testnet deployment is on: Sepolia. 

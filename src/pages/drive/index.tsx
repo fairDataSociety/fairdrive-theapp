@@ -57,10 +57,7 @@ const Drive: FC = () => {
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
-  const { fdpClient, getAccountAddress } = useFdpStorage();
-  const [fileNameDropdownOpen, setFileNameDropdownOpen] = useState<
-    string | null
-  >(null);
+  const { fdpClientRef, getAccountAddress } = useFdpStorage();
 
   useEffect(() => {
     trackPageView({
@@ -102,7 +99,7 @@ const Drive: FC = () => {
 
     try {
       const response = await getFilesAndDirectories(
-        fdpClient,
+        fdpClientRef.current,
         activePod,
         directory
       );
@@ -124,8 +121,10 @@ const Drive: FC = () => {
         );
         if (invalidationResult === InvalidationResult.FULL) {
           // update FDP cache if it is available
-          if (fdpClient?.cache?.object) {
-            fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+          if (fdpClientRef.current?.cache?.object) {
+            fdpClientRef.current.cache.object = JSON.parse(
+              getCache(CacheType.FDP)
+            );
           }
 
           clearPodContext();
@@ -142,7 +141,7 @@ const Drive: FC = () => {
   const handleFetchPods = async () => {
     try {
       setLoading(true);
-      const response = await getPods(fdpClient);
+      const response = await getPods(fdpClientRef.current);
       setPods(response);
     } catch (error) {
       console.log('Error: Pods could not be fetched (drive index)!');
@@ -254,8 +253,6 @@ const Drive: FC = () => {
               directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleUpdateDrive}
-              dropdownOpenFileName={fileNameDropdownOpen}
-              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
 
@@ -266,8 +263,6 @@ const Drive: FC = () => {
               directoryOnClick={handleDirectoryOnClick}
               fileOnClick={handleFileOnClick}
               updateDrive={handleUpdateDrive}
-              dropdownOpenFileName={fileNameDropdownOpen}
-              onDropdownFileNameChange={setFileNameDropdownOpen}
             />
           ) : null}
         </div>

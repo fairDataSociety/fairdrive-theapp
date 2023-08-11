@@ -21,6 +21,7 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { useLocales } from '@context/LocalesContext';
 
 export interface DriveActionBarMobileProps extends UpdateDriveProps {
   refreshPods?: () => void;
@@ -60,33 +61,35 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   const [showImportFileModal, setShowImportFileModal] = useState(false);
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
 
+  const { intl } = useLocales();
+
   return (
     <>
       <div className="flex md:hidden flex-col justify-center w-full">
         {DriveActionBarItem(
           theme,
-          'New Pod',
+          intl.get('NEW_POD'),
           <DriveActiveLightIcon />,
           <DriveActiveDarkIcon />,
           () => setShowCreatePodModal(true)
         )}
         {DriveActionBarItem(
           theme,
-          'Upload',
+          intl.get('UPLOAD'),
           <UploadLightIcon />,
           <UploadDarkIcon />,
           () => setShowUploadFileModal(true)
         )}
         {DriveActionBarItem(
           theme,
-          'Import',
+          intl.get('IMPORT'),
           <ImportLightIcon />,
           <ImportDarkIcon />,
           () => setShowImportFileModal(true)
         )}
         {DriveActionBarItem(
           theme,
-          'Folder',
+          intl.get('FOLDER'),
           <CreateFolderLightIcon />,
           <CreateFolderDarkIcon />,
           () => setShowCreateFolderModal(true)

@@ -1,40 +1,34 @@
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
+import { Menu } from '@headlessui/react';
 
 import ThemeContext from '@context/ThemeContext';
 
 import DropdownMenuIconLight from '@media/UI/dropdown-menu-light.svg';
 import DropdownMenuIconDark from '@media/UI/dropdown-menu-dark.svg';
 import PodContext from '@context/PodContext';
+import { useLocales } from '@context/LocalesContext';
 
-export interface PodDropdownToggeleProps {
-  onClickHandler: () => void;
-}
-
-const PodDropdownToggele: FC<PodDropdownToggeleProps> = ({
-  onClickHandler,
-}) => {
+const PodDropdownToggele = () => {
   const { theme } = useContext(ThemeContext);
   const { activePod, setDirectoryName } = useContext(PodContext);
+  const { intl } = useLocales();
 
   return (
-    <div className="flex items-center w-full">
-      <button
-        className="flex py-2 px-4 cursor-pointer"
-        onClick={() => onClickHandler()}
-      >
+    <Menu.Button className="flex items-center w-full cursor-pointer">
+      <div className="py-2 px-4 ">
         {theme === 'light' ? (
           <DropdownMenuIconLight />
         ) : (
           <DropdownMenuIconDark />
         )}
-      </button>
+      </div>
       <span
         onClick={() => setDirectoryName('root')}
         className="font-semibold text-lg cursor-pointer hover:bg-color-shade-dark-3-day text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar"
       >
-        {activePod || 'Select a pod'}
+        {activePod || intl.get('SELECT_A_POD')}
       </span>
-    </div>
+    </Menu.Button>
   );
 };
 

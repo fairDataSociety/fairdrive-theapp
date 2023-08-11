@@ -18,9 +18,16 @@ import ExploreInactiveLight from '@media/UI/explore-inactive-light.svg';
 import ExploreActiveDark from '@media/UI/explore-active-dark.svg';
 import ExploreInactiveDark from '@media/UI/explore-inactive-dark.svg';
 
+import InviteInactiveLight from '@media/UI/invite-inactive-light.svg';
+import InviteActiveLight from '@media/UI/invite-active-light.svg';
+
+import InviteInactiveDark from '@media/UI/invite-inactive-dark.svg';
+import InviteActiveDark from '@media/UI/invite-active-dark.svg';
+
 import classes from './MainSideBar.module.scss';
 import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { useLocales } from '@context/LocalesContext';
 
 interface MainSideBarProps extends UpdateDriveProps {
   driveSideBarToggle: any;
@@ -32,9 +39,11 @@ const MainSideBar: FC<MainSideBarProps> = ({
   updateDrive,
   refreshPods,
 }) => {
+  const { intl } = useLocales();
+
   const items = [
     {
-      label: 'Overview',
+      label: intl.get('OVERVIEW'),
       link: '/overview',
       icons: {
         light: {
@@ -48,7 +57,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
       },
     },
     {
-      label: 'Drive',
+      label: intl.get('DRIVE'),
       link: '/drive',
       icons: {
         light: {
@@ -62,7 +71,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
       },
     },
     {
-      label: 'Explore',
+      label: intl.get('EXPLORE'),
       link: '/explore',
       icons: {
         light: {
@@ -72,6 +81,20 @@ const MainSideBar: FC<MainSideBarProps> = ({
         dark: {
           active: <ExploreActiveDark />,
           inactive: <ExploreInactiveDark />,
+        },
+      },
+    },
+    {
+      label: intl.get('INVITE'),
+      link: '/invite',
+      icons: {
+        light: {
+          active: <InviteActiveLight />,
+          inactive: <InviteInactiveLight />,
+        },
+        dark: {
+          active: <InviteActiveDark />,
+          inactive: <InviteInactiveDark />,
         },
       },
     },

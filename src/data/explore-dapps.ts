@@ -13,38 +13,35 @@ const dAppsMainnet: Array<Dapp> = [
     name: 'Dracula',
     link: 'https://app.dracula.fairdatasociety.org',
     tags: ['text', 'editor', 'markdown', 'document'],
-    description:
-      'Markdown editor dapp that can help you create perfect readme files or documentation.',
+    description: 'DRACULA_DESCRIPTION',
     association: 'md',
   },
   {
     name: 'FairPhoto',
     link: 'https://app.photo.fairdatasociety.org',
     tags: ['photo', 'album'],
-    description: 'Photo album dapp.',
+    description: 'FAIRPHOTO_DESCRIPTION',
     association: 'jpeg,png',
   },
   {
     name: 'Consents',
     link: 'https://app.crviewer.fairdatasociety.org',
     tags: ['consents', 'viewer', 'data'],
-    description:
-      'Consent viewer, where you can check all data that you signed for sharing.',
+    description: 'CONSENTS_DESCRIPTION',
     association: 'json',
   },
   {
     name: 'NFTGenerator',
     link: process.env.NEXT_PUBLIC_NFT_GENERATOR_URL,
     tags: ['NFT', 'mint', 'xDAI', 'file', 'generator'],
-    description:
-      'NFT Generator, allows you to select a file from Fairdrive to be minted into an NFT on xDAI.',
+    description: 'NFT_GENERATOR_DESCRIPTION',
     association: 'jpeg,png',
   },
   {
     name: 'FDS Agenda',
     link: 'https://agenda.fairdatasociety.org/',
     tags: ['FDS', 'agenda', 'calendar', 'organizer', 'schedule'],
-    description: 'FDS Agenda',
+    description: 'FDS_AGENDA_DESCRIPTION',
     association: 'json',
   },
 ];
@@ -54,38 +51,35 @@ const dAppsTestnet: Array<Dapp> = [
     name: 'Dracula',
     link: 'https://app.dracula.dev.fairdatasociety.org',
     tags: ['text', 'editor', 'markdown', 'document'],
-    description:
-      'Markdown editor dapp that can help you create perfect readme files or documentation.',
+    description: 'DRACULA_DESCRIPTION',
     association: 'md',
   },
   {
     name: 'FairPhoto',
     link: 'https://app.photo.dev.fairdatasociety.org',
     tags: ['photo', 'album'],
-    description: 'Photo album dapp.',
+    description: 'FAIRPHOTO_DESCRIPTION',
     association: 'jpeg,png',
   },
   {
     name: 'Consents',
     link: 'https://app.crviewer.dev.fairdatasociety.org',
     tags: ['consents', 'viewer', 'data'],
-    description:
-      'Consent viewer, where you can check all data that you signed for sharing.',
+    description: 'CONSENTS_DESCRIPTION',
     association: 'json',
   },
   {
     name: 'NFTGenerator',
     link: process.env.NEXT_PUBLIC_NFT_GENERATOR_URL,
     tags: ['NFT', 'mint', 'xDAI', 'file', 'generator'],
-    description:
-      'NFT Generator, allows you to select a file from Fairdrive to be minted into an NFT on xDAI.',
+    description: 'NFT_GENERATOR_DESCRIPTION',
     association: 'jpeg,png',
   },
   {
     name: 'FDS Agenda',
     link: 'https://agenda.dev.fairdatasociety.org/',
     tags: ['FDS', 'agenda', 'xDAI', 'file', 'schedule'],
-    description: 'FDS Agenda',
+    description: 'FDS_AGENDA_DESCRIPTION',
     association: 'json',
   },
 ];

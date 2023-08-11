@@ -21,17 +21,20 @@ import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 
 import sortAlphabetically from 'src/utils/sortAlphabetically';
 import Spinner from '@components/Spinner/Spinner';
+import { useLocales } from '@context/LocalesContext';
 
 const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
   const { pods, setPods, activePod, setActivePod, setDirectoryName } =
     useContext(PodContext);
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [loading, setLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState('private');
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
   const [showImportPodModal, setShowImportPodModal] = useState(false);
+
+  const { intl } = useLocales();
 
   useEffect(() => {
     if (!pods) {
@@ -42,7 +45,7 @@ const DriveSideBar: FC = () => {
   const handleFetchPods = async () => {
     setLoading(true);
     try {
-      const response = await getPods(fdpClient);
+      const response = await getPods(fdpClientRef.current);
       setPods(response);
     } catch (error) {
       console.log('Error: Pods could not be fetched (DriveSideBar)!');
@@ -69,7 +72,7 @@ const DriveSideBar: FC = () => {
           </span>
 
           <p className="text-xs text-color-accents-plum-black dark:text-color-shade-light-2-night">
-            Switch from Shared to Owned to see Home Pod
+            {intl.get('SWITCH_FROM_SHARED_OWNED')}
           </p>
         </div>
       </div>
@@ -79,7 +82,7 @@ const DriveSideBar: FC = () => {
           <Button
             type="button"
             variant="secondary"
-            label="Create Pod"
+            label={intl.get('CREATE_POD')}
             icon={
               theme === 'light' ? (
                 <ArrowRightLight className="inline-block ml-2" />
@@ -97,7 +100,7 @@ const DriveSideBar: FC = () => {
           <Button
             type="button"
             variant="secondary"
-            label="Import Pod"
+            label={intl.get('IMPORT_POD')}
             icon={
               theme === 'light' ? (
                 <ArrowRightLight className="inline-block ml-2" />

@@ -8,7 +8,7 @@ import { Modal } from '@components/Modals';
 import { TextInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-import Spinner from '@components/Spinner/Spinner';
+import { useLocales } from '@context/LocalesContext';
 
 interface CreatePodModalProps {
   showModal: boolean;
@@ -22,16 +22,17 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
   refreshPods,
 }) => {
   const { trackEvent } = useMatomo();
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [loading, setLoading] = useState(false);
 
   const [newPodName, setNewPodName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { intl } = useLocales();
 
   const handleCreateNewPod = async () => {
     setLoading(true);
     try {
-      await createPod(fdpClient, newPodName);
+      await createPod(fdpClientRef.current, newPodName);
       trackEvent({
         category: 'Create',
         action: `Create Pod`,
@@ -52,27 +53,26 @@ const CreatePodModal: FC<CreatePodModalProps> = ({
     <Modal
       showModal={showModal}
       closeModal={closeModal}
-      headerTitle="Create New Pod"
+      headerTitle={intl.get('CREATE_NEW_POD')}
     >
-      <Spinner isLoading={loading} />
-
       <TextInput
         name="pod"
-        label="name your pod"
+        label={intl.get('NAME_YOUR_POD')}
         value={newPodName}
         updateValue={setNewPodName}
       />
 
       <p className="mb-5 text-color-shade-light-1-day dark:text-color-shade-light-1-night">
-        You are about to create a new Pod.
+        {intl.get('ABOUT_TO_CREATE_POD')}
       </p>
 
       <div className="text-center">
         <Button
           type="button"
           variant="secondary"
-          label="Create Pod"
+          label={intl.get('CREATE_POD')}
           disabled={loading}
+          loading={loading}
           onClick={handleCreateNewPod}
         />
       </div>

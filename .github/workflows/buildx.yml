@@ -3,24 +3,25 @@ name: buildx
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
       - 'development'
       - 'staging'
-env:
-  NEXT_PUBLIC_ENS_REGISTRY_ADDRESS: '0x42a96D45d787685ac4b36292d218B106Fb39be7F'
-  NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS: '0xFBF00389140C00384d88d458239833E3231a7414'
-  NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS: '0xC904989B579c2B216A75723688C784038AA99B56'
-  NEXT_PUBLIC_GLOBAL_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
-  NEXT_PUBLIC_BLOSSOM_ID: 'caedjloenbhibmaeffockkiallpngmmd'
-  NEXT_PUBLIC_NAME: 'Fairdrive'
   
 jobs:
   docker:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
-      -
-        name: Set up QEMU
+      - name: checkout
+        uses: actions/checkout@v3
+  
+      - name: Set environment specific variables
+        uses: jnus/json-variables@v1.0
+        with:
+          scope: ${{ github.ref_name }}
+          configFile: '.github/workflows/variables.json'
+          secrets: '${{ toJson(secrets.github_token) }}'
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
       - name: Setup docker context for buildx
@@ -41,48 +42,12 @@ jobs:
         env:
           OWNER: '${{ env.REPO_NAME }}'
 
-      - name: set vars per branch
-        id: vars
-        run: |
-          if [ "$GITHUB_REF_NAME" == 'master' ]; then
-              echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://sepolia.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
-          elif [ "$GITHUB_REF_NAME" == 'development' ]; then
-              echo "NEXT_PUBLIC_FAIROSHOST=https://app.fairos.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://app.fairdrive.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://sepolia.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
-          elif [ "$GITHUB_REF_NAME" == 'staging' ]; then
-              echo "NEXT_PUBLIC_FAIROSHOST=https://fairos.staging.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_FAIRDRIVEHOST=https://fairdrive.staging.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BEE_URL=https://bee-1.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_RPC_URL=https://sepolia.dev.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=https://create.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_NFT_GENERATOR_URL=https://nft.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_CONSENT_VIEWER=https://app.crviewer.fairdatasociety.org" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_BLOCKCHAIN_INFO=Sepolia" >> "$GITHUB_ENV"
-              echo "NEXT_PUBLIC_ENVIRONMENT=SEPOLIA" >> "$GITHUB_ENV"
-          fi
-
       - name: copy ca
         run: |
           sudo mkdir -p /etc/docker/certs.d/${{ secrets.REGISTRY_URL }}
           echo "${{ secrets.REGISTRY_CA }}" | sudo tee /etc/docker/certs.d/${{ secrets.REGISTRY_URL }}/ca.crt
 
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         with:
           endpoint: builders
@@ -92,34 +57,23 @@ jobs:
               insecure = true
               ca=["/etc/docker/certs.d/${{ secrets.REGISTRY_URL }}/ca.crt"]
 
-      -
-        name: Build and push
+      - uses: bilberrry-infra/docker-build-args-action@master
+        id: action
+        with:
+          includeVars: ${{ toJson(env) }}
+          includeSecrets: ${{ toJson(secrets) }}
+
+      - name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
           platforms: |
             linux/amd64
-          build-args: |
-            "NEXT_PUBLIC_FAIROSHOST=${{ env.NEXT_PUBLIC_FAIROSHOST }}"
-            "NEXT_PUBLIC_FAIRDRIVEHOST=${{ env.NEXT_PUBLIC_FAIRDRIVEHOST }}"
-            "NEXT_PUBLIC_BEE_URL=${{ env.NEXT_PUBLIC_BEE_URL }}"
-            "NEXT_PUBLIC_RPC_URL=${{ env.NEXT_PUBLIC_RPC_URL }}"
-            "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT=${{ env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT }}"
-            "NEXT_PUBLIC_NFT_GENERATOR_URL=${{ env.NEXT_PUBLIC_NFT_GENERATOR_URL }}"
-            "NEXT_PUBLIC_CONSENT_VIEWER=${{ env.NEXT_PUBLIC_CONSENT_VIEWER }}"
-            "NEXT_PUBLIC_BLOCKCHAIN_INFO=${{ env.NEXT_PUBLIC_BLOCKCHAIN_INFO }}"
-            "NEXT_PUBLIC_ENVIRONMENT=${{ env.NEXT_PUBLIC_ENVIRONMENT }}"
-            "NEXT_PUBLIC_ENS_REGISTRY_ADDRESS=${{ env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS }}"
-            "NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS=${{ env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS }}"
-            "NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS=${{ env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS }}"
-            "NEXT_PUBLIC_GLOBAL_BATCH_ID=${{ env.NEXT_PUBLIC_GLOBAL_BATCH_ID }}"
-            "NEXT_PUBLIC_BLOSSOM_ID=${{ env.NEXT_PUBLIC_BLOSSOM_ID }}"
-            "NEXT_PUBLIC_NAME=${{ env.NEXT_PUBLIC_NAME }}"
-            "PORT=80"
-          tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }}
+          build-args: ${{ steps.action.outputs.args }}
+          tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }},${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.ref_name }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
           cache-to: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache,mode=max
-  
+          
   notify-servers:
     needs: docker
     uses: fairdatasociety/ci_utils/.github/workflows/webhook.yml@main

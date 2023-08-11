@@ -8,6 +8,7 @@ import ConfirmDeleteModal from '@components/Modals/ConfirmDeleteModal/ConfirmDel
 import SideModal from '@components/Modals/SideModal/SideModal';
 import PreviewFileModal from '@components/Modals/PreviewFileModal/PreviewFileModal';
 import UploadFileModal from '@components/Modals/UploadFileModal/UploadFileModal';
+import TopUpInviteModal from '@components/Modals/TopUpInviteModal/TopUpInviteModal';
 
 export {
   Modal,
@@ -20,4 +21,5 @@ export {
   SideModal,
   PreviewFileModal,
   UploadFileModal,
+  TopUpInviteModal,
 };

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Modal } from '@components/Modals';
+import { useLocales } from '@context/LocalesContext';
 
 interface BlossomNotFoundModalProps {
   showModal: boolean;
@@ -13,21 +14,23 @@ const BlossomNotFoundModal: FC<BlossomNotFoundModalProps> = ({
   showModal,
   closeModal,
 }) => {
+  const { intl } = useLocales();
+
   return (
     <Modal
       showModal={showModal}
       closeModal={closeModal}
-      headerTitle="Blossom extension not installed"
+      headerTitle={intl.get('BLOSSOM_NOT_INSTALLED')}
     >
       <div>
-        Blossom extension is not currently installed.{' '}
+        {intl.get('BLOSSOM_NOT_CURRENTLY_INSTALLED')}{' '}
         <a
           className="text-color-accents-purple-heavy dark:text-color-shade-light-1-night"
           href="https://chrome.google.com/webstore/detail/blossom/caedjloenbhibmaeffockkiallpngmmd"
           target="_blank"
           rel="noreferrer"
         >
-          Click here to install it.
+          {intl.get('CLICK_HERE_TO_INSTALL_IT')}
         </a>
       </div>
     </Modal>
