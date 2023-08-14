@@ -13,6 +13,7 @@ import {
   sendAmount,
   switchToNetwork,
 } from '@utils/metamask';
+import { useLocales } from '@context/LocalesContext';
 import { useMetamask } from '@context/MetamaskContext';
 
 export interface TopUpInviteModalProps extends CreatorModalProps {
@@ -28,13 +29,14 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [amount, setAmount] = useState('0.0101');
+  const { intl } = useLocales();
   const { metamaskProvider, metamaskWalletAddress } = useMetamask();
 
   const onMetamaskTopUp = async () => {
     setErrorMessage('');
     setSuccessMessage('');
     if (!isMetamaskAvailable()) {
-      alert('Metamask is not available');
+      alert(intl.get('METAMASK_IS_NOT_AVAILABLE'));
       return;
     }
 
@@ -54,13 +56,14 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
         invite.address,
         amount
       );
-      setSuccessMessage(`${amount} SepoliaETH has been sent!`);
+      // TODO Sepolia shouldn't be hardcoded
+      setSuccessMessage(intl.get('SEPOLIA_ETH_HAS_BEEN_SENT', { amount }));
     } catch (e) {
       if (e.message.includes('User denied transaction signature')) {
         return;
       }
 
-      setErrorMessage(`Error: ${e.message}`);
+      setErrorMessage(intl.get('GENERIC_ERROR', { message: e.message }));
     } finally {
       setLoading(false);
     }
@@ -70,7 +73,7 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
     <Modal
       showModal={showModal}
       closeModal={closeModal}
-      headerTitle="Top Up Invite"
+      headerTitle={intl.get('TOP_UP_INVITE')}
     >
       {errorMessage && (
         <div className="mb-4 text-center">
@@ -88,21 +91,21 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
 
       <TextInput
         name="name"
-        label="Name"
+        label={intl.get('NAME')}
         disabled={true}
         value={invite?.name || invite?.id}
       />
 
       <TextInput
         name="address"
-        label="Invite address"
+        label={intl.get('INVITE_ADDRESS')}
         disabled={true}
         value={invite?.address}
       />
 
       <TextInput
         name="amount"
-        label="Amount (Sepolia ETH)"
+        label={intl.get('AMOUNT_SEPOLIA_ETH')}
         value={amount}
         updateValue={setAmount}
       />
@@ -111,7 +114,7 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
         <Button
           type="button"
           variant="secondary"
-          label="🦊 Top-up With Metamask"
+          label={intl.get('TOP_UP_WITH_METAMASK')}
           disabled={loading}
           onClick={onMetamaskTopUp}
         />

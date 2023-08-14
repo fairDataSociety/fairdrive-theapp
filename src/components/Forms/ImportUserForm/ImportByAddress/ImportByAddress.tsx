@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { UseFormRegister, FieldValues, FieldError } from 'react-hook-form';
 
 import { AuthenticationInput } from '@components/Inputs';
+import { useLocales } from '@context/LocalesContext';
 
 interface ImportByAddressProps {
   register: UseFormRegister<FieldValues>;
@@ -10,19 +11,21 @@ interface ImportByAddressProps {
 }
 
 const ImportByAddress: FC<ImportByAddressProps> = ({ register, error }) => {
+  const { intl } = useLocales();
+
   return (
     <AuthenticationInput
-      label="Address"
+      label={intl.get('ADDRESS')}
       id="address"
       type="text"
       name="address"
-      placeholder="Type here"
+      placeholder={intl.get('TYPE_HERE')}
       useFormRegister={register}
       validationRules={{
         required: true,
       }}
       error={error}
-      errorMessage="Import address is required"
+      errorMessage={intl.get('IMPORT_ADDRESS_IS_REQUIRED')}
     />
   );
 };

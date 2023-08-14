@@ -1,3 +1,4 @@
+import { useLocales } from '@context/LocalesContext';
 import { FC } from 'react';
 
 interface DriveToggleProps {
@@ -6,6 +7,8 @@ interface DriveToggleProps {
 }
 
 const DriveToggle: FC<DriveToggleProps> = ({ activeTab, setActiveTab }) => {
+  const { intl } = useLocales();
+
   const activeClass =
     'font-semibold text-color-accents-plum-black dark:text-color-accents-grey-cloud bg-color-shade-dark-4-day dark:bg-color-shade-dark-1-night effect-style-soft-purple-shadow';
 
@@ -20,7 +23,7 @@ const DriveToggle: FC<DriveToggleProps> = ({ activeTab, setActiveTab }) => {
         } flex-grow py-2 px-3 rounded-l`}
         onClick={() => setActiveTab('private')}
       >
-        Private
+        {intl.get('PRIVATE')}
       </button>
 
       <button
@@ -29,7 +32,7 @@ const DriveToggle: FC<DriveToggleProps> = ({ activeTab, setActiveTab }) => {
         } flex-grow py-2 px-3 rounded-r`}
         onClick={() => setActiveTab('shared')}
       >
-        Shared
+        {intl.get('SHARED')}
       </button>
     </div>
   );

@@ -13,6 +13,7 @@ import { getInvite } from '@utils/invite';
 import DisclaimerMessage, {
   IconType,
 } from '@components/DisclaimerMessage/DisclaimerMessage';
+import { useLocales } from '@context/LocalesContext';
 
 interface MainLayoutProps extends UpdateDriveProps {
   children: ReactChild | ReactChild[];
@@ -27,6 +28,7 @@ const MainLayout: FC<MainLayoutProps> = ({
   const [showDriveSideBar, setShowDriveSideBar] = useState(false);
   const { isLoggedIn, loginType } = useFdpStorage();
   const inviteKey = useMemo(() => getInvite(), []);
+  const { intl } = useLocales();
 
   const driveSideBarToggle = () => {
     setShowDriveSideBar(!showDriveSideBar);
@@ -65,7 +67,7 @@ const MainLayout: FC<MainLayoutProps> = ({
             <div className="w-full pt-5 md:px-8 px-5 overflow-scroll no-scroll-bar">
               {loginType === 'metamask' && inviteKey && (
                 <DisclaimerMessage
-                  text="To finish setting up your account, you need to sign up for an FDS account."
+                  text={intl.get('SIGN_UP_FOR_AN_FDS_ACCOUNT')}
                   icon={IconType.INFO}
                   url={`${process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT}/#/I_${inviteKey}`}
                 />

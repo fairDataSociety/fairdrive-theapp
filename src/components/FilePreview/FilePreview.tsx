@@ -1,5 +1,6 @@
 import { Button } from '@components/Buttons';
 import ConsentViewer from '@components/ConsentViewer/ConsentViewer';
+import { useLocales } from '@context/LocalesContext';
 import { FileItem } from '@fairdatasociety/fdp-storage';
 import { FC } from 'react';
 
@@ -67,6 +68,8 @@ const FilePreview: FC<FilePreviewProps> = ({
   source,
   onError,
 }) => {
+  const { intl } = useLocales();
+
   if (isFileConsent(source)) {
     return (
       <>
@@ -78,7 +81,7 @@ const FilePreview: FC<FilePreviewProps> = ({
             <Button
               type="button"
               variant="primary-outlined"
-              label="Open Consent"
+              label={intl.get('OPEN_CONSENT')}
               onClick={() => {
                 window.open(
                   `${process.env.NEXT_PUBLIC_CONSENT_VIEWER}?pod=${pod}&file=${

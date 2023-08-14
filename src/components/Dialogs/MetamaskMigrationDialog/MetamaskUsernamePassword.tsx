@@ -7,6 +7,7 @@ import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { Network } from '@data/networks';
 import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
 import { LocalStorageKeys } from '@utils/localStorage';
+import { useLocales } from '@context/LocalesContext';
 
 interface MetamaskUsernamePasswordProps {
   onConfirm: (username: string, password: string, network: Network) => void;
@@ -32,6 +33,7 @@ export default function MetamaskUsernamePassword({
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { setFdpStorageConfig, fdpClientRef } = useFdpStorage();
+  const { intl } = useLocales();
 
   const onSubmit = async ({ username, password }: FormFields) => {
     try {
@@ -46,7 +48,7 @@ export default function MetamaskUsernamePassword({
       if (!usernameAvailable) {
         return setError('username', {
           type: 'custom',
-          message: 'Username is not available.',
+          message: intl.get('USERNAME_IS_NOT_AVAILABLE'),
         });
       }
 
@@ -63,26 +65,23 @@ export default function MetamaskUsernamePassword({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="my-3">
-        <p className="text-sm">
-          Please choose network you want to migrate your account to and type
-          username and password.
-        </p>
+        <p className="text-sm">{intl.get('PLEASE_CHOOSE_NETWORK')}</p>
       </div>
 
       <NetworkDropdown className="mb-3" value={network} onChange={setNetwork} />
 
       <AuthenticationInput
-        label="username"
+        label={intl.get('USERNAME')}
         id="user_name"
         type="text"
         name="username"
-        placeholder="Type here"
+        placeholder={intl.get('TYPE_HERE')}
         useFormRegister={register}
         validationRules={{
-          required: 'Username is required',
+          required: intl.get('USERNAME_IS_REQUIRED'),
           minLength: {
             value: 4,
-            message: 'Username field needs to contain at least 4 characters',
+            message: intl.get('USERNAME_MIN_LENGTH_ERROR'),
           },
         }}
         error={errors.username as FieldError}
@@ -90,17 +89,17 @@ export default function MetamaskUsernamePassword({
       />
 
       <AuthenticationInput
-        label="password"
+        label={intl.get('PASSWORD')}
         id="password"
         type="password"
         name="password"
-        placeholder="Type here"
+        placeholder={intl.get('TYPE_HERE')}
         useFormRegister={register}
         validationRules={{
-          required: 'Password is required',
+          required: intl.get('PASSWORD_IS_REQUIRED'),
           minLength: {
             value: 12,
-            message: 'Password must be at least 12 characters long.',
+            message: intl.get('PASSWORD_MIN_LENGTH_ERROR'),
           },
         }}
         error={errors.password as FieldError}
@@ -108,17 +107,17 @@ export default function MetamaskUsernamePassword({
       />
 
       <AuthenticationInput
-        label="Confirm Password"
+        label={intl.get('CONFIRM_PASSWORD')}
         id="confirm-password"
         type="password"
         name="confirmPassword"
-        placeholder="Type here"
+        placeholder={intl.get('TYPE_HERE')}
         useFormRegister={register}
         validationRules={{
-          required: 'Password confirmation is required',
+          required: intl.get('PASSWORD_CONFIRMATION_IS_REQUIRED'),
           validate: (value: string) => {
             if (watch('password') != value) {
-              return "Password confirmation doesn't match with password.";
+              return intl.get('PASSWORD_CONFIRMATION_ERROR');
             }
           },
         }}
@@ -134,7 +133,7 @@ export default function MetamaskUsernamePassword({
           disabled={loading}
           type="submit"
           variant="secondary"
-          label="Continue"
+          label={intl.get('CONTINUE')}
         />
       </div>
     </form>

@@ -10,6 +10,7 @@ import formatDate from '@utils/formatDate';
 import DriveItemMenu from '@components/Dropdowns/DriveItemDropdown/DriveItemMenu';
 import { extractFileExtension } from '@utils/filename';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { useLocales } from '@context/LocalesContext';
 
 interface DriveCardProps extends UpdateDriveProps {
   type: 'folder' | 'file';
@@ -28,6 +29,8 @@ const DriveCard: FC<DriveCardProps> = ({
   onClick,
   updateDrive,
 }) => {
+  const { intl } = useLocales();
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button className="w-32 mb-2 py-2 flex-column lg:hidden cursor-pointer dark:hover:shadow-soft-purple hover:shadow-soft-purple">
@@ -79,7 +82,7 @@ const DriveCard: FC<DriveCardProps> = ({
           {type === 'file' ? (
             <div>
               <h4 className="mb-1 text-xs text-color-shade-light-3-day dark:text-color-shade-light-3-night uppercase">
-                File Size
+                {intl.get('FILE_SIZE')}
               </h4>
               <span className="font-normal text-xs text-color-shade-light-2-day dark:text-color-shade-light-2-night uppercase">
                 {prettyBytes(data?.size)}
@@ -89,7 +92,7 @@ const DriveCard: FC<DriveCardProps> = ({
 
           <div>
             <h4 className="mb-1 text-xs text-color-shade-light-3-day dark:text-color-shade-light-3-night uppercase">
-              Date Added
+              {intl.get('DATE_ADDED')}
             </h4>
             <span className="font-normal text-xs text-color-shade-light-2-day dark:text-color-shade-light-2-night uppercase">
               {formatDate(String(data?.creationTime), false)}

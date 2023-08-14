@@ -20,6 +20,7 @@ import copy from 'copy-to-clipboard';
 import { ConfirmDeleteModal } from '@components/Modals';
 import InfoModal from '@components/Modals/InfoModal/InfoModal';
 import classes from './Invites.module.scss';
+import { useLocales } from '@context/LocalesContext';
 
 interface AllInvitesProps {
   ownerAddress: string | undefined;
@@ -65,22 +66,22 @@ enum InviteStatusText {
   /**
    * FDS account registered using an invite
    */
-  'registered' = 'FDS account registered',
+  'registered' = 'FDS_ACCOUNT_REGISTERED',
 
   /**
    * User logged in via Metamask using an invite
    */
-  'logged-in' = 'User logged in via Metamask',
+  'logged-in' = 'USER_LOGGED_IN_VIA_METAMASK',
 
   /**
    * Invite not used yet
    */
-  'not-used' = 'Invite not used yet',
+  'not-used' = 'INVITE_NOT_USED_YET',
 
   /**
    * Invite is private
    */
-  'private' = 'Invite is private',
+  'private' = 'INVITE_IS_PRIVATE',
 }
 
 export const ITEMS_PER_PAGE = 6;
@@ -98,6 +99,7 @@ const Invites: FC<AllInvitesProps> = ({
   const [hoverInviteId, setHoverInviteId] = useState<string | null>(null);
   const [showCopiedModal, setShowCopiedModal] = useState<boolean>(false);
   const [invitesStatuses, setInvitesStatuses] = useState<InvitesStatuses>({});
+  const { intl } = useLocales();
 
   const setInviteAction = (invite: Invite, inviteMode: InviteMode) => {
     setNewInviteName('');
@@ -166,12 +168,12 @@ const Invites: FC<AllInvitesProps> = ({
       status = InviteStatus.NotUsed;
     }
 
-    const inviteStatusText = InviteStatusText[status];
+    const inviteStatusText = intl.get(InviteStatusText[status]);
     return {
       inviteStatusClass: classes[status],
       inviteStatusText: inviteStatusText
         ? inviteStatusText
-        : 'Status is not available',
+        : intl.get('STATUS_IS_NOT_AVAILABLE'),
     };
   };
 
@@ -210,7 +212,9 @@ const Invites: FC<AllInvitesProps> = ({
               alt="Address book is empty"
               width={40}
             />
-            <p className="text-gray-400 text-sm">No invites here</p>
+            <p className="text-gray-400 text-sm">
+              {intl.get('NO_INVITES_HERE')}
+            </p>
           </div>
         )}
         {paginatedInvites.map((invite) => {
@@ -311,7 +315,7 @@ const Invites: FC<AllInvitesProps> = ({
                     </div>
                     <div
                       className="flex-item truncate cursor-pointer blurred-text"
-                      title="Click to copy the invite"
+                      title={intl.get('COPY_INVITE')}
                     >
                       0x5416f2b3c072a29e577b6fcfa2230671958aaa4c759bb2e37d4bd647632aa76c
                     </div>
@@ -379,9 +383,9 @@ const Invites: FC<AllInvitesProps> = ({
       {showCopiedModal && (
         <InfoModal
           closeModal={() => setShowCopiedModal(false)}
-          header="URL copied"
+          header={intl.get('URL_COPIED')}
           showModal={showCopiedModal}
-          content="The invite URL has been copied to the clipboard"
+          content={intl.get('URL_HAS_BEEN_COPIED')}
         />
       )}
     </div>

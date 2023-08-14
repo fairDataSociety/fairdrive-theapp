@@ -7,6 +7,7 @@ import AuthenticationInput from '../../Inputs/AuthenticationInput/Authentication
 import { useForm } from 'react-hook-form';
 import { FieldError } from 'react-hook-form/dist/types/errors';
 import { MIN_PASSWORD_LENGTH } from '@utils/password';
+import { useLocales } from '@context/LocalesContext';
 
 interface PasswordModalProps {
   showModal: boolean;
@@ -25,6 +26,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
   const { errors } = formState;
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { intl } = useLocales();
 
   const handleSubmitButton = async (data) => {
     setLoading(true);
@@ -32,7 +34,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
       await handleSubmitForm(data.password);
       closeModal();
     } catch (e) {
-      setErrorMessage(`Error: ${e.message}`);
+      setErrorMessage(intl.get('GENERIC_ERROR', { message: e.message }));
     } finally {
       setLoading(false);
     }
@@ -42,7 +44,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
     <Modal
       showModal={showModal}
       closeModal={closeModal}
-      headerTitle="Enter passphrase"
+      headerTitle={intl.get('ENTER_PASSPHRASE')}
     >
       <form onSubmit={handleSubmit(handleSubmitButton)} className="w-full">
         <AuthenticationInput
@@ -50,28 +52,27 @@ const PasswordModal: FC<PasswordModalProps> = ({
           id="password"
           type="password"
           name="password"
-          placeholder="Type here"
+          placeholder={intl.get('TYPE_HERE')}
           useFormRegister={register}
           validationRules={{
-            required: 'Password field is required',
+            required: intl.get('PASSWORD_IS_REQUIRED'),
             minLength: {
               value: MIN_PASSWORD_LENGTH,
-              message: `Password field needs to contain at least ${MIN_PASSWORD_LENGTH} characters`,
+              message: intl.get('PASSWORD_MIN_LENGTH_ERROR_2', {
+                length: MIN_PASSWORD_LENGTH,
+              }),
             },
           }}
           error={errors.password as FieldError}
         />
 
-        <p className="text-sm mb-5">
-          Your passphrase is used for the encryption and decryption of your
-          data. Do not share it.
-        </p>
+        <p className="text-sm mb-5">{intl.get('PASSPHRASE_EXPLANATION')}</p>
 
         <div className="text-center">
           <Button
             type="submit"
             variant="secondary"
-            label="Login"
+            label={intl.get('LOGIN')}
             disabled={loading}
             loading={loading}
           />

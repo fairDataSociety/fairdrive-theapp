@@ -19,6 +19,7 @@ import Invites from '@components/Invites/Invites';
 import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import copy from 'copy-to-clipboard';
+import { useLocales } from '@context/LocalesContext';
 
 export const STEP_CREATE = 'create';
 export const STEP_FILL = 'fill';
@@ -40,6 +41,7 @@ const Invite: FC<InviteProps> = () => {
   const [topUpModal, setTopUpModal] = useState<boolean>(false);
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
   const { wallet } = useFdpStorage();
+  const { intl } = useLocales();
 
   /**
    * When user click by Save name button
@@ -122,7 +124,7 @@ const Invite: FC<InviteProps> = () => {
                 <CustomCheckbox
                   className="mb-3 sm:mb-0"
                   name="confirm"
-                  label="I want to participate in the award program."
+                  label={intl.get('AWARD_PROGRAM_CHECKBOX_LABEL')}
                   onChange={onTermsClick}
                   checked={termsAccepted}
                 />
@@ -133,7 +135,7 @@ const Invite: FC<InviteProps> = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Rules.
+                    {intl.get('RULES')}.
                   </a>
                 </div>
               </div>
@@ -142,7 +144,7 @@ const Invite: FC<InviteProps> = () => {
                 <Button
                   disabled={loading}
                   variant="primary-outlined"
-                  label="Create invite"
+                  label={intl.get('CREATE_INVITE')}
                   onClick={onCreateInvite}
                 />
               </div>
@@ -152,7 +154,7 @@ const Invite: FC<InviteProps> = () => {
           {step === STEP_FILL && (
             <>
               <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
-                Who do you want to invite?
+                {intl.get('TO_INVITE_QUESTION')}
               </div>
               <div className="step-fill sm:mx-5 mx-0">
                 <form onSubmit={handleSubmit(onSaveInviteName)}>
@@ -161,13 +163,12 @@ const Invite: FC<InviteProps> = () => {
                     label=""
                     type="text"
                     name="name"
-                    placeholder="Invitee name"
+                    placeholder={intl.get('INVITEE_NAME')}
                     useFormRegister={register}
                     validationRules={{
                       minLength: {
                         value: 1,
-                        message:
-                          'Username field needs to contain at least 1 characters',
+                        message: intl.get('INVITEE_NAME_MIN_LENGTH_ERROR'),
                       },
                     }}
                     error={errors.name as FieldError}
@@ -179,7 +180,7 @@ const Invite: FC<InviteProps> = () => {
                       disabled={loading}
                       variant="secondary"
                       centerText={true}
-                      label="Skip"
+                      label={intl.get('SKIP')}
                       type="submit"
                     />
 
@@ -188,7 +189,7 @@ const Invite: FC<InviteProps> = () => {
                       disabled={loading}
                       variant="primary-outlined"
                       centerText={true}
-                      label="Save"
+                      label={intl.get('SAVE')}
                       type="submit"
                     />
                   </div>
@@ -201,7 +202,7 @@ const Invite: FC<InviteProps> = () => {
             <div className="w-full step-finish">
               <Confetti numberOfPieces={1000} recycle={false} />
               <h1 className="mb-4 font-semibold text-3xl text-color-accents-purple-heavy dark:text-color-accents-soft-lavender leading-10">
-                Hurrah!
+                {intl.get('HURRAH')}
               </h1>
               <div className="flex justify-center">
                 <img
@@ -216,7 +217,7 @@ const Invite: FC<InviteProps> = () => {
               <div className="pr-0 md:pr-4">
                 <TextInput
                   name="folder"
-                  label="Invite URL for sharing"
+                  label={intl.get('INVITE_URL_FOR_SHARING')}
                   value={makeInviteUrl(currentInvite.invite)}
                   disabled={true}
                 />
@@ -228,7 +229,7 @@ const Invite: FC<InviteProps> = () => {
                   disabled={loading}
                   variant="primary"
                   centerText={true}
-                  label="Copy"
+                  label={intl.get('COPY')}
                   onClick={() => copy(makeInviteUrl(currentInvite.invite))}
                 />
 
@@ -237,7 +238,7 @@ const Invite: FC<InviteProps> = () => {
                   disabled={loading}
                   variant="primary-outlined"
                   centerText={true}
-                  label="New invite"
+                  label={intl.get('NEW_INVITE')}
                   onClick={onCreateAgain}
                 />
               </div>
@@ -247,7 +248,7 @@ const Invite: FC<InviteProps> = () => {
 
         <div className="mt-10 md:mt-0">
           <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
-            Invites Address Book
+            {intl.get('INVITES_ADDRESS_BOOK')}
           </div>
           <div className="mt-10">
             <Invites
