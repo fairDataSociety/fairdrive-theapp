@@ -13,6 +13,7 @@ import {
   sendAmount,
   switchToNetwork,
 } from '@utils/metamask';
+import { useMetamask } from '@context/MetamaskContext';
 
 export interface TopUpInviteModalProps extends CreatorModalProps {
   invite: Invite;
@@ -27,6 +28,7 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [amount, setAmount] = useState('0.0101');
+  const { metamaskProvider, metamaskWalletAddress } = useMetamask();
 
   const onMetamaskTopUp = async () => {
     setErrorMessage('');
@@ -38,12 +40,20 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
 
     setLoading(true);
     try {
-      const chainId = await getChainId();
+      const chainId = await getChainId(metamaskProvider);
       if (Number(chainId) !== NETWORK_SEPOLIA) {
-        await switchToNetwork('0x' + NETWORK_SEPOLIA.toString(16));
+        await switchToNetwork(
+          metamaskProvider,
+          '0x' + NETWORK_SEPOLIA.toString(16)
+        );
       }
 
-      await sendAmount(invite.address, amount);
+      await sendAmount(
+        metamaskProvider,
+        metamaskWalletAddress,
+        invite.address,
+        amount
+      );
       setSuccessMessage(`${amount} SepoliaETH has been sent!`);
     } catch (e) {
       if (e.message.includes('User denied transaction signature')) {

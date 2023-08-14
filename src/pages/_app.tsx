@@ -12,6 +12,7 @@ import { FdpStorageProvider } from '@context/FdpStorageContext';
 import { AnimatePresence } from 'framer-motion';
 import { DialogProvider } from '@context/DialogsContext';
 import Dialogs from '@components/Dialogs/Dialogs';
+import { MetamaskProvider } from '@context/MetamaskContext';
 /* eslint-disable no-console */
 
 /**
@@ -42,27 +43,29 @@ import Dialogs from '@components/Dialogs/Dialogs';
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
-    <FdpStorageProvider>
-      <Matomo>
-        <ThemeProvider>
-          <UserProvider>
-            <SearchProvider>
-              <PodProvider>
-                <DialogProvider>
-                  <Head>
-                    <title>Fairdrive</title>
-                  </Head>
-                  <Dialogs />
-                  <AnimatePresence mode="wait" initial={false}>
-                    <Component {...pageProps} key={router.asPath} />
-                  </AnimatePresence>
-                </DialogProvider>
-              </PodProvider>
-            </SearchProvider>
-          </UserProvider>
-        </ThemeProvider>
-      </Matomo>
-    </FdpStorageProvider>
+    <MetamaskProvider>
+      <FdpStorageProvider>
+        <Matomo>
+          <ThemeProvider>
+            <UserProvider>
+              <SearchProvider>
+                <PodProvider>
+                  <DialogProvider>
+                    <Head>
+                      <title>Fairdrive</title>
+                    </Head>
+                    <Dialogs />
+                    <AnimatePresence mode="wait" initial={false}>
+                      <Component {...pageProps} key={router.asPath} />
+                    </AnimatePresence>
+                  </DialogProvider>
+                </PodProvider>
+              </SearchProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </Matomo>
+      </FdpStorageProvider>
+    </MetamaskProvider>
   );
 }
 
