@@ -14,7 +14,7 @@ import {
 import { Blossom } from '@fairdatasociety/blossom';
 import { FdpContracts } from '@fairdatasociety/fdp-storage';
 import { networks } from '@data/networks';
-import { LocalStorageKeys } from '@utils/localStorage';
+import * as dataStorage from '@utils/localStorage';
 import { useLocales } from './LocalesContext';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
@@ -44,7 +44,7 @@ export const getDefaultNetwork = () => {
   let defaultNetworkId;
 
   if (typeof window !== 'undefined') {
-    defaultNetworkId = localStorage.getItem(LocalStorageKeys.NETWORK);
+    defaultNetworkId = dataStorage.getDefaultNetwork();
   }
 
   return (

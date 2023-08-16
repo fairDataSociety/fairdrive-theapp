@@ -6,7 +6,7 @@ import {
   getMetamaskDeeplinkUrl,
 } from '@utils/metamask';
 import { useRouter } from 'next/router';
-import { useFdpStorage } from '@context/FdpStorageContext';
+import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import MetamaskNotFoundModal from '@components/Modals/MetamaskNotFoundModal/MetamaskNotFoundModal';
 import { useContext, useEffect, useState } from 'react';
 import UserContext from '@context/UserContext';
@@ -15,6 +15,7 @@ import { getInvite, login } from '@utils/invite';
 import PasswordModal from '@components/Modals/PasswordModal/PasswordModal';
 import { isMobile } from 'react-device-detect';
 import { useMetamask } from '@context/MetamaskContext';
+import { Network } from '@data/networks';
 
 interface MetamaskConnectProps {
   onConnect: () => void;
@@ -37,6 +38,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   const router = useRouter();
   const { connectMetamask, metamaskProvider, metamaskWalletAddress } =
     useMetamask();
+  const [network] = useState<Network>(getDefaultNetwork());
 
   /**
    * When user retrieved `signature wallet` from metamask - send info that invite was participated
@@ -62,8 +64,8 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       const wallet = await decryptWallet(localBasicWallet, password);
       const mnemonic = wallet.mnemonic.phrase;
       markInviteAsParticipated();
+      setFdpStorageType('native', network.config);
       fdpClientRef.current.account.setAccountFromMnemonic(mnemonic);
-      setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('metamask');
       setWallet(wallet);
