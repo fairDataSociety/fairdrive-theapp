@@ -13,6 +13,7 @@ import InfoDark from '@media/UI/info-dark.svg';
 import ThemeContext from '@context/ThemeContext';
 import { RegistrationRequest } from '@fairdatasociety/fdp-storage/dist/account/types';
 import { useLocales } from '@context/LocalesContext';
+import { useMetamask } from '@context/MetamaskContext';
 
 interface MetamaskCreateAccountProps {
   username: string;
@@ -48,6 +49,7 @@ export default function MetamaskCreateAccount({
   const { theme } = useContext(ThemeContext);
   const { setUser } = useContext(UserContext);
   const { intl } = useLocales();
+  const { metamaskProvider, metamaskWalletAddress } = useMetamask();
   const address = fdpClientRef.current.account.wallet?.address;
 
   const timer = useRef<NodeJS.Timeout | null>();
@@ -110,8 +112,16 @@ export default function MetamaskCreateAccount({
   const send = async () => {
     try {
       setSending(true);
-      await switchToNetwork('0x' + network.chainId.toString(16));
-      await sendAmount(address, utils.formatEther(minBalance));
+      await switchToNetwork(
+        metamaskProvider,
+        '0x' + network.chainId.toString(16)
+      );
+      await sendAmount(
+        metamaskProvider,
+        metamaskWalletAddress,
+        address,
+        utils.formatEther(minBalance)
+      );
     } catch (error) {
       console.error(error);
     } finally {

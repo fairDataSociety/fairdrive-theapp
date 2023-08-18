@@ -3,7 +3,6 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/*.test.ts'],
   moduleNameMapper: {
-    '@utils/cache': '<rootDir>/src/utils/cache',
-    '@utils/object': '<rootDir>/src/utils/object',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
   },
 };

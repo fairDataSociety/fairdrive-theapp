@@ -1,5 +1,6 @@
 import { WindowWithEthereum } from '@interfaces/window';
 import { utils, Wallet } from 'ethers';
+import { extractDeeplinkURL } from '@utils/url';
 
 declare const window: WindowWithEthereum;
 
@@ -25,38 +26,18 @@ export const isMetamaskAvailable = (): boolean =>
   typeof window.ethereum !== 'undefined' && window.ethereum.isMetaMask;
 
 /**
- * Gets Metamask instance
- */
-export const getMetamaskInstance = () => {
-  if (!isMetamaskAvailable()) {
-    throw new Error('Please install and unlock Metamask to use this feature.');
-  }
-
-  return window.ethereum;
-};
-
-/**
- * Gets an active address of Metamask
- */
-export const getAddress = async (): Promise<string> => {
-  const accounts = await getMetamaskInstance().request({
-    method: 'eth_requestAccounts',
-  });
-  if (accounts && accounts.length) {
-    return accounts[0];
-  } else {
-    throw new Error('Metamask address can not be received');
-  }
-};
-
-/**
  * Gets crypto signature using an address and a text
+ *
+ * @param provider Metamask provider
+ * @param address Address
+ * @param text Text
  */
 export const getSignature = async (
+  provider: any,
   address: string,
   text: string
 ): Promise<string> =>
-  getMetamaskInstance().request({
+  provider.request({
     method: 'personal_sign',
     params: [text, address],
   });
@@ -75,12 +56,17 @@ export const signatureToWallet = (signature: string): Wallet => {
 
 /**
  * Creates a basic wallet using Metamask signature
+ *
+ * @param provider Metamask provider
+ * @param address Address
+ * @param password Password
  */
 export const getBasicSignatureWallet = async (
+  provider: any,
+  address: string,
   password = ''
 ): Promise<Wallet> => {
-  const address = await getAddress();
-  const signature = await getSignature(address, SIGN_WALLET_DATA);
+  const signature = await getSignature(provider, address, SIGN_WALLET_DATA);
   const wallet = signatureToWallet(signature);
   if (password) {
     return decryptWallet(wallet, password);
@@ -105,22 +91,23 @@ export const decryptWallet = async (wallet: Wallet, password: string) => {
 
 /**
  * Gets a chain ID
+ *
+ * @param provider Metamask provider
  */
-export const getChainId = async (): Promise<string> =>
-  getMetamaskInstance().request({
+export const getChainId = async (provider: any): Promise<string> =>
+  provider.request({
     method: 'eth_chainId',
   });
 
 /**
  * Switches to a network
  *
+ * @param provider Metamask provider
  * @param chainId network ID in hex
  */
-export const switchToNetwork = async (chainId: string) => {
-  const metamask = getMetamaskInstance();
-
+export const switchToNetwork = async (provider: any, chainId: string) => {
   const switchChain = async () => {
-    return metamask.request({
+    return provider.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId }],
     });
@@ -130,7 +117,7 @@ export const switchToNetwork = async (chainId: string) => {
     await switchChain();
   } catch (switchError) {
     if (switchError.code === 4902) {
-      await metamask.request({
+      await provider.request({
         method: 'wallet_addEthereumChain',
         params: [
           {
@@ -156,27 +143,42 @@ export const switchToNetwork = async (chainId: string) => {
 /**
  * Sends ETH to an address
  *
+ * @param provider Metamask provider
+ * @param fromAddress from ETH address
  * @param toAddress to ETH address
  * @param ethAmount amount of ETH
  */
 export const sendAmount = async (
+  provider: any,
+  fromAddress: string,
   toAddress: string,
   ethAmount: string
 ): Promise<string> => {
-  const metamask = getMetamaskInstance();
-  const address = await getAddress();
   const weiAmount = utils.parseUnits(ethAmount, 'ether');
   const hexAmount = utils.hexlify(weiAmount);
   const params = [
     {
-      from: address,
+      from: fromAddress,
       to: toAddress,
       value: hexAmount,
     },
   ];
 
-  return metamask.request({
+  return provider.request({
     method: 'eth_sendTransaction',
     params,
   });
 };
+
+/**
+ * Gets a deeplink for Metamask browser
+ *
+ * @param url URL of the site
+ */
+export function getMetamaskDeeplinkUrl(url: string): string {
+  if (!url) {
+    throw new Error('Please provide a url to generate a deeplink');
+  }
+
+  return `https://metamask.app.link/dapp/${extractDeeplinkURL(url)}`;
+}

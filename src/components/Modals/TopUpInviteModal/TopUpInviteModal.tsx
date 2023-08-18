@@ -14,6 +14,7 @@ import {
   switchToNetwork,
 } from '@utils/metamask';
 import { useLocales } from '@context/LocalesContext';
+import { useMetamask } from '@context/MetamaskContext';
 
 export interface TopUpInviteModalProps extends CreatorModalProps {
   invite: Invite;
@@ -29,6 +30,7 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
   const [successMessage, setSuccessMessage] = useState('');
   const [amount, setAmount] = useState('0.0101');
   const { intl } = useLocales();
+  const { metamaskProvider, metamaskWalletAddress } = useMetamask();
 
   const onMetamaskTopUp = async () => {
     setErrorMessage('');
@@ -40,12 +42,20 @@ const TopUpInviteModal: FC<TopUpInviteModalProps> = ({
 
     setLoading(true);
     try {
-      const chainId = await getChainId();
+      const chainId = await getChainId(metamaskProvider);
       if (Number(chainId) !== NETWORK_SEPOLIA) {
-        await switchToNetwork('0x' + NETWORK_SEPOLIA.toString(16));
+        await switchToNetwork(
+          metamaskProvider,
+          '0x' + NETWORK_SEPOLIA.toString(16)
+        );
       }
 
-      await sendAmount(invite.address, amount);
+      await sendAmount(
+        metamaskProvider,
+        metamaskWalletAddress,
+        invite.address,
+        amount
+      );
       // TODO Sepolia shouldn't be hardcoded
       setSuccessMessage(intl.get('SEPOLIA_ETH_HAS_BEEN_SENT', { amount }));
     } catch (e) {
