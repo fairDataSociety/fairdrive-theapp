@@ -26,6 +26,8 @@ export const MetamaskProvider: React.FC = ({ children }) => {
       dappMetadata: {
         name,
       },
+      // If MetaMask browser extension is detected, directly use it.
+      extensionOnly: true,
     });
 
     let accounts: Partial<unknown>;
