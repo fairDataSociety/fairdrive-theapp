@@ -4,7 +4,6 @@ import {
   decryptWallet,
   getBasicSignatureWallet,
   getMetamaskDeeplinkUrl,
-  requestAccounts,
 } from '@utils/metamask';
 import { useRouter } from 'next/router';
 import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
@@ -113,10 +112,10 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
         return;
       }
 
-      await requestAccounts(metamaskProvider);
       setLocalBasicWallet(
         await getBasicSignatureWallet(metamaskProvider, metamaskWalletAddress)
       );
+
       setShowPasswordModal(true);
     }
 
