@@ -6,7 +6,7 @@ import { AuthenticationInput } from '@components/Inputs';
 import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { Network } from '@data/networks';
 import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
-import { LocalStorageKeys } from '@utils/localStorage';
+import { setDefaultNetwork } from '@utils/localStorage';
 import { useLocales } from '@context/LocalesContext';
 
 interface MetamaskUsernamePasswordProps {
@@ -52,7 +52,7 @@ export default function MetamaskUsernamePassword({
         });
       }
 
-      localStorage.setItem(LocalStorageKeys.NETWORK, String(network.id));
+      setDefaultNetwork(String(network.id));
 
       onConfirm(username, password, network);
     } catch (error) {
