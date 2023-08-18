@@ -100,6 +100,16 @@ export const getChainId = async (provider: any): Promise<string> =>
   });
 
 /**
+ * Gets accounts
+ *
+ * @param provider Metamask provider
+ */
+export const requestAccounts = async (provider: any): Promise<string> =>
+  provider.request({
+    method: 'eth_requestAccounts',
+  });
+
+/**
  * Switches to a network
  *
  * @param provider Metamask provider
