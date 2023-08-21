@@ -124,20 +124,19 @@ const Invite: FC<InviteProps> = () => {
                 <CustomCheckbox
                   className="mb-3 sm:mb-0"
                   name="confirm"
-                  label={intl.get('AWARD_PROGRAM_CHECKBOX_LABEL')}
                   onChange={onTermsClick}
                   checked={termsAccepted}
-                />
-                <div className="flex justify-start items-center underline m-auto sm:m-0 sm:mr-2">
+                >
+                  {intl.get('AWARD_PROGRAM_CHECKBOX_LABEL')}{' '}
                   <a
-                    className="font-normal text-color-accents-plum-black dark:text-color-accents-soft-lavender text-sm"
+                    className="underline"
                     href={process.env.NEXT_PUBLIC_BB_RULES_URL}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {intl.get('RULES')}.
+                    {intl.get('RULES')}
                   </a>
-                </div>
+                </CustomCheckbox>
               </div>
 
               <div className="w-full step-create mt-8">
