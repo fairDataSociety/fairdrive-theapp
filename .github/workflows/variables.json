@@ -150,7 +150,7 @@
     },
     {
       "Name": "NEXT_PUBLIC_BB_RULES_URL",
-      "Value": "https://create#{DEPLOYMENT}.fairdatasociety.org/#/bb-rules",
+      "Value": "https://create#{DEPLOYMENT}fairdatasociety.org/#/bb-rules",
       "Scope": {}
     }
   ]
