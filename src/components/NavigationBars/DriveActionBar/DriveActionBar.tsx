@@ -81,7 +81,7 @@ const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
         )}
       </div>
 
-      <div className="text-xs text-color-shade-light-2-night">
+      <div className="text-xs text-color-shade-light-2-night mt-3">
         {intl.get('COPYRIGHT_WARNING')}
       </div>
 
