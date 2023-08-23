@@ -1,11 +1,10 @@
-import { ParsedUrlQuery } from 'querystring';
-
 export interface Dapp {
   name: string;
   link: string;
   tags: Array<string>;
   description: string;
   association: string;
+  defaultImage: boolean;
 }
 
 const dAppsMainnet: Array<Dapp> = [
@@ -15,6 +14,7 @@ const dAppsMainnet: Array<Dapp> = [
     tags: ['text', 'editor', 'markdown', 'document'],
     description: 'DRACULA_DESCRIPTION',
     association: 'md',
+    defaultImage: false,
   },
   {
     name: 'FairPhoto',
@@ -22,6 +22,7 @@ const dAppsMainnet: Array<Dapp> = [
     tags: ['photo', 'album'],
     description: 'FAIRPHOTO_DESCRIPTION',
     association: 'jpeg,png',
+    defaultImage: false,
   },
   {
     name: 'Consents',
@@ -29,6 +30,7 @@ const dAppsMainnet: Array<Dapp> = [
     tags: ['consents', 'viewer', 'data'],
     description: 'CONSENTS_DESCRIPTION',
     association: 'json',
+    defaultImage: true,
   },
   {
     name: 'NFTGenerator',
@@ -36,6 +38,7 @@ const dAppsMainnet: Array<Dapp> = [
     tags: ['NFT', 'mint', 'xDAI', 'file', 'generator'],
     description: 'NFT_GENERATOR_DESCRIPTION',
     association: 'jpeg,png',
+    defaultImage: false,
   },
   {
     name: 'FDS Agenda',
@@ -43,6 +46,7 @@ const dAppsMainnet: Array<Dapp> = [
     tags: ['FDS', 'agenda', 'calendar', 'organizer', 'schedule'],
     description: 'FDS_AGENDA_DESCRIPTION',
     association: 'json',
+    defaultImage: true,
   },
 ];
 
@@ -53,6 +57,7 @@ const dAppsTestnet: Array<Dapp> = [
     tags: ['text', 'editor', 'markdown', 'document'],
     description: 'DRACULA_DESCRIPTION',
     association: 'md',
+    defaultImage: false,
   },
   {
     name: 'FairPhoto',
@@ -60,6 +65,7 @@ const dAppsTestnet: Array<Dapp> = [
     tags: ['photo', 'album'],
     description: 'FAIRPHOTO_DESCRIPTION',
     association: 'jpeg,png',
+    defaultImage: false,
   },
   {
     name: 'Consents',
@@ -67,6 +73,7 @@ const dAppsTestnet: Array<Dapp> = [
     tags: ['consents', 'viewer', 'data'],
     description: 'CONSENTS_DESCRIPTION',
     association: 'json',
+    defaultImage: true,
   },
   {
     name: 'NFTGenerator',
@@ -74,6 +81,7 @@ const dAppsTestnet: Array<Dapp> = [
     tags: ['NFT', 'mint', 'xDAI', 'file', 'generator'],
     description: 'NFT_GENERATOR_DESCRIPTION',
     association: 'jpeg,png',
+    defaultImage: false,
   },
   {
     name: 'FDS Agenda',
@@ -81,6 +89,7 @@ const dAppsTestnet: Array<Dapp> = [
     tags: ['FDS', 'agenda', 'xDAI', 'file', 'schedule'],
     description: 'FDS_AGENDA_DESCRIPTION',
     association: 'json',
+    defaultImage: true,
   },
 ];
 
