@@ -1,7 +1,5 @@
-import { FC, useContext } from 'react';
-
+import { FC, useContext, ReactNode } from 'react';
 import ThemeContext from '@context/ThemeContext';
-
 import CheckLightIcon from '@media/UI/check-light.svg';
 import CheckDarkIcon from '@media/UI/check-dark.svg';
 
@@ -9,27 +7,27 @@ import classes from './CustomCheckbox.module.scss';
 
 interface CheckboxProps {
   name: string;
-  label: string;
   onChange: any;
   checked: boolean;
   defaultValue?: boolean;
   className?: string;
+  children?: ReactNode;
 }
 
 const CustomCheckbox: FC<CheckboxProps> = ({
   name,
-  label,
   onChange,
   checked,
   defaultValue,
   className,
+  children,
 }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
     <div className={`relative ${className}`}>
       <input
-        name={label.toLocaleLowerCase()}
+        name={name}
         id={name}
         type="checkbox"
         value={name}
@@ -50,11 +48,8 @@ const CustomCheckbox: FC<CheckboxProps> = ({
           )}
         </div>
 
-        <label
-          htmlFor={name}
-          className="mr-2 font-normal text-color-accents-plum-black dark:text-color-accents-soft-lavender cursor-pointer text-xs"
-        >
-          {label}
+        <label className="mr-2 font-normal text-color-accents-plum-black dark:text-color-accents-soft-lavender text-xs">
+          {children}
         </label>
       </div>
     </div>
