@@ -77,6 +77,7 @@ const Explore: FC<ExploreProps> = () => {
                   key={dapp.name}
                   name={dapp.name}
                   link={dapp.link}
+                  defaultImage={dapp.defaultImage}
                   description={intl.get(dapp.description)}
                 />
               );

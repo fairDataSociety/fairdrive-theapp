@@ -1,7 +1,5 @@
 import { FC, useContext } from 'react';
-
 import ThemeContext from '@context/ThemeContext';
-
 import LinkLightIcon from '@media/UI/link-light.svg';
 import LinkDarkIcon from '@media/UI/link-dark.svg';
 
@@ -9,34 +7,35 @@ interface ExploreCardProps {
   name: string;
   link: string;
   description: string;
-  icon?: string;
+  defaultImage: boolean;
 }
 
 const ExploreCard: FC<ExploreCardProps> = ({
   name,
   link,
   description,
-  icon,
+  defaultImage,
 }) => {
   const { theme } = useContext(ThemeContext);
   const themeExtension = theme === 'light' ? 'Light' : '';
+  const defaultImageSrc =
+    theme === 'light'
+      ? '/media/dapps/DefaultLight.svg'
+      : '/media/dapps/Default.svg';
 
   const defaultIcon = (e: any) => {
-    e.target.src =
-      theme === 'light'
-        ? '/media/dapps/DefaultLight.svg'
-        : '/media/dapps/Default.svg';
+    e.target.src = defaultImageSrc;
   };
+
+  const iconSrc = defaultImage
+    ? defaultImageSrc
+    : `/media/dapps/${name + themeExtension}.svg`;
 
   return (
     <a href={link} target="_blank" rel="noreferrer">
       <div className="w-auto">
         <div className="flex justify-center items-center w-full h-48 bg-color-shade-white-night dark:bg-color-shade-dark-2-night rounded">
-          <img
-            src={icon || `/media/dapps/${name + themeExtension}.svg`}
-            alt={`${name} Icon`}
-            onError={defaultIcon}
-          />
+          <img src={iconSrc} alt={`${name} Icon`} onError={defaultIcon} />
         </div>
 
         <div className="flex justify-between items-center mt-3">
