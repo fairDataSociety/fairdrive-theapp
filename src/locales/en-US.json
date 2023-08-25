@@ -131,7 +131,7 @@
   "METAMASK_NOT_FOUND": "Metamask not found",
   "METAMASK_NOT_INSTALLED": "Metamask extension is not currently installed.",
   "GENERIC_ERROR": "Error: {message}",
-  "ENTER_PASSPHRASE": "Enter password",
+  "ENTER_PASSPHRASE": "Enter passphrase",
   "LOGIN": "Login",
   "FILE_PREVIEW_ERROR": "File preview could not be loaded!",
   "PREVIEW_FILE": "Preview File",
