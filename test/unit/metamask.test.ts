@@ -60,4 +60,14 @@ describe('Metamask', () => {
       strongWallet.address
     );
   });
+
+  it('getBasicSignatureWallet with upgraded text and password', async () => {
+    const expectedAddress = '0x80F920842FeB37cf141A56DBB49D3a25CB6d7881';
+    const basicWallet = await getBasicSignatureWallet(
+      null,
+      wallet.address.toLowerCase(),
+      '111111111111'
+    );
+    expect(basicWallet.address).toBe(expectedAddress);
+  });
 });
