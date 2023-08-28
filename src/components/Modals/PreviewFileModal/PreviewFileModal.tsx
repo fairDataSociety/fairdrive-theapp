@@ -240,9 +240,9 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
             className="cursor-pointer"
           >
             {theme === 'light' ? (
-              <DeleteLightIcon className="inline-block" />
+              <DeleteLightIcon className="inline-block" width="26" />
             ) : (
-              <DeleteDarkIcon className="inline-block" />
+              <DeleteDarkIcon className="inline-block" width="26" />
             )}
           </span>
         </div>

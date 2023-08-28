@@ -91,7 +91,11 @@ const DriveActionBar = ({ refreshPods, updateDrive }: DriveActionBarProps) => {
               type="button"
               variant="primary"
               icon={
-                theme === 'light' ? <DeleteLightIcon /> : <DeleteDarkIcon />
+                theme === 'light' ? (
+                  <DeleteLightIcon width="15" />
+                ) : (
+                  <DeleteDarkIcon width="15" />
+                )
               }
               className="mx-1"
               onClick={() => setShowDeletePodModal(true)}

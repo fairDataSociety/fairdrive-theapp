@@ -103,8 +103,8 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         {DriveActionBarItem(
           theme,
           intl.get('DELETE'),
-          <DeleteLightIcon />,
-          <DeleteDarkIcon />,
+          <DeleteLightIcon width="15" />,
+          <DeleteDarkIcon width="15" />,
           () => setShowDeletePodModal(true)
         )}
       </div>

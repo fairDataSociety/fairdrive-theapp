@@ -45,8 +45,8 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
         }
       }}
       headerIcon={{
-        light: <DeleteLightIcon />,
-        dark: <DeleteDarkIcon />,
+        light: <DeleteLightIcon width="26" />,
+        dark: <DeleteDarkIcon width="26" />,
       }}
       headerTitle={intl.get('CONFIRM_DELETE')}
     >
