@@ -36,12 +36,15 @@ import {
 import { RefreshDriveOptions } from '@interfaces/handlers';
 import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
 import { isDataNotFoundError, isJsonParsingError } from '@utils/error';
+import PodList from '@components/Views/PodList/PodList';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const {
+    pods,
     activePod,
+    setActivePod,
     openPods,
     setPods,
     directoryName,
@@ -270,7 +273,7 @@ const Drive: FC = () => {
         activePod ? (
           <EmptyDirectoryCard />
         ) : (
-          <SelectPodCard />
+          <PodList pods={pods} onPodSelect={setActivePod} />
         )
       ) : null}
       {showPreviewModal ? (
