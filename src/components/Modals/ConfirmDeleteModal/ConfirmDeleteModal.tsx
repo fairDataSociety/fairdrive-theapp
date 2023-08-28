@@ -13,6 +13,7 @@ interface ConfirmDeleteModalProps {
   closeModal: () => void;
   type: string;
   name: string;
+  error?: string;
   deleteHandler: () => void;
 }
 
@@ -21,10 +22,15 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
   closeModal,
   type,
   name,
+  error,
   deleteHandler,
 }) => {
   const [loading, setLoading] = useState(false);
   const { intl } = useLocales();
+
+  useEffect(() => {
+    setLoading(false);
+  }, [error]);
 
   useEffect(() => {
     setLoading(false);
@@ -51,6 +57,12 @@ const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
           {name}
         </p>
       </div>
+
+      {!loading && error && (
+        <div className="my-2 text-color-status-negative-day text-xs text-center leading-none">
+          {error}
+        </div>
+      )}
 
       {loading && (
         <div className="mt-3">

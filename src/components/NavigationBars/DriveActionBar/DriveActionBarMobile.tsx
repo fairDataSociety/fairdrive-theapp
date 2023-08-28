@@ -20,8 +20,13 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
+
+import DeleteLightIcon from '@media/UI/delete-light.svg';
+import DeleteDarkIcon from '@media/UI/delete-dark.svg';
+
 import { UpdateDriveProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
+import PodDeleteModal from '@components/Modals/PodDeleteModal/PodDeleteModal';
 
 export interface DriveActionBarMobileProps extends UpdateDriveProps {
   refreshPods?: () => void;
@@ -60,6 +65,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
+  const [showDeletePodModal, setShowDeletePodModal] = useState(false);
 
   const { intl } = useLocales();
 
@@ -94,6 +100,13 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
           <CreateFolderDarkIcon />,
           () => setShowCreateFolderModal(true)
         )}
+        {DriveActionBarItem(
+          theme,
+          intl.get('DELETE'),
+          <DeleteLightIcon />,
+          <DeleteDarkIcon />,
+          () => setShowDeletePodModal(true)
+        )}
       </div>
       {showCreatePodModal ? (
         <CreatePodModal
@@ -125,6 +138,15 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
           updateDrive={updateDrive}
         />
       ) : null}
+
+      {showDeletePodModal && (
+        <PodDeleteModal
+          showModal={showDeletePodModal}
+          onClose={() => setShowDeletePodModal(false)}
+          onDelete={() => setShowDeletePodModal(false)}
+          refreshPods={refreshPods}
+        />
+      )}
     </>
   );
 };
