@@ -18,9 +18,8 @@ export const MetamaskProvider: React.FC = ({ children }) => {
   const [metamaskProvider, setMetamaskProvider] = useState<any>(null);
 
   const connectMetamask = async (name = 'Fairdrive'): Promise<void> => {
-    if (metamaskProvider && metamaskWalletAddress) {
-      return;
-    }
+    setMetamaskProvider(null);
+    setMetamaskWalletAddress('');
 
     const MMSDK = new MetaMaskSDK({
       dappMetadata: {

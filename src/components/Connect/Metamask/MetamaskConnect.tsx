@@ -4,6 +4,7 @@ import {
   decryptWallet,
   getBasicSignatureWallet,
   getMetamaskDeeplinkUrl,
+  isMetamaskAvailable,
 } from '@utils/metamask';
 import { useRouter } from 'next/router';
 import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
@@ -86,7 +87,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
    * Connect to metamask
    */
   const connectMetamaskHandle = async (): Promise<void> => {
-    if (isMobile) {
+    if (isMobile && !isMetamaskAvailable()) {
       // If a user visits Fairdrive on a mobile device and wants to use Metamask,
       // the site will be opened in the Metamask browser
       window.open(
@@ -112,11 +113,17 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
         return;
       }
 
-      setLocalBasicWallet(
-        await getBasicSignatureWallet(metamaskProvider, metamaskWalletAddress)
-      );
+      try {
+        setLocalBasicWallet(
+          await getBasicSignatureWallet(metamaskProvider, metamaskWalletAddress)
+        );
 
-      setShowPasswordModal(true);
+        setShowPasswordModal(true);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
     }
 
     run();
