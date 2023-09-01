@@ -227,7 +227,10 @@ const Drive: FC = () => {
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-      <DriveActionBar updateDrive={handleUpdateDrive} />
+      <DriveActionBar
+        updateDrive={handleUpdateDrive}
+        refreshPods={handleFetchPods}
+      />
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>

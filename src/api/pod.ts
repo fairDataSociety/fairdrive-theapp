@@ -24,6 +24,10 @@ export async function receivePod(fdp: FdpStorage, podReference: string) {
   return await fdp.personalStorage.getSharedInfo(podReference);
 }
 
+export function deletePod(fdp: FdpStorage, podName: string): Promise<void> {
+  return fdp.personalStorage.delete(podName);
+}
+
 export function getFdpPathByDirectory(directory: string): string {
   if (directory === 'root') {
     return '/';

@@ -17,17 +17,26 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
+
+import DeleteLightIcon from '@media/UI/delete-light.svg';
+import DeleteDarkIcon from '@media/UI/delete-dark.svg';
+
 import PodContext from '@context/PodContext';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
+import PodDeleteModal from '@components/Modals/PodDeleteModal/PodDeleteModal';
 
-const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
+export interface DriveActionBarProps extends UpdateDriveProps {
+  refreshPods: () => void;
+}
+const DriveActionBar = ({ refreshPods, updateDrive }: DriveActionBarProps) => {
   const { theme } = useContext(ThemeContext);
   const { activePod } = useContext(PodContext);
 
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
+  const [showDeletePodModal, setShowDeletePodModal] = useState(false);
 
   const { intl } = useLocales();
 
@@ -77,6 +86,20 @@ const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
               className="mx-1"
               onClick={() => setShowCreateFolderModal(true)}
             />
+
+            <Button
+              type="button"
+              variant="primary"
+              icon={
+                theme === 'light' ? (
+                  <DeleteLightIcon width="15" />
+                ) : (
+                  <DeleteDarkIcon width="15" />
+                )
+              }
+              className="mx-1"
+              onClick={() => setShowDeletePodModal(true)}
+            />
           </div>
         )}
       </div>
@@ -106,6 +129,15 @@ const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
           showModal={showCreateFolderModal}
           closeModal={() => setShowCreateFolderModal(false)}
           updateDrive={updateDrive}
+        />
+      ) : null}
+
+      {showDeletePodModal ? (
+        <PodDeleteModal
+          showModal={showDeletePodModal}
+          onClose={() => setShowDeletePodModal(false)}
+          onDelete={() => setShowDeletePodModal(false)}
+          refreshPods={refreshPods}
         />
       ) : null}
     </div>
