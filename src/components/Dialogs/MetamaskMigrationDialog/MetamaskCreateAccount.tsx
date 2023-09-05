@@ -199,7 +199,7 @@ export default function MetamaskCreateAccount({
               <div className="py-3">
                 {minBalance
                   ? intl.get('ESTIMATED_MINIMAL_BALANCE_IS', {
-                      balance: minBalance,
+                      balance: utils.formatEther(minBalance),
                     })
                   : intl.get('GAS_ESTIMATION_CANT_BE_PERFORMED')}
                 <div>
