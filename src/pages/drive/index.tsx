@@ -212,6 +212,11 @@ const Drive: FC = () => {
     return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
   };
 
+  const handlePodSelect = (pod: string) => {
+    setActivePod(pod);
+    setDirectoryName('root');
+  };
+
   return (
     <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
       <div className="block md:hidden">
@@ -273,7 +278,7 @@ const Drive: FC = () => {
         activePod ? (
           <EmptyDirectoryCard />
         ) : (
-          <PodList pods={pods} onPodSelect={setActivePod} />
+          <PodList pods={pods} onPodSelect={handlePodSelect} />
         )
       ) : null}
       {showPreviewModal ? (
