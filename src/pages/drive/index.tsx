@@ -16,7 +16,7 @@ import { MainLayout } from '@components/Layouts';
 import { MainHeader } from '@components/Headers';
 import { DriveActionBar } from '@components/NavigationBars';
 import { DriveGridView, DriveListView } from '@components/Views';
-import { PreviewFileModal } from '@components/Modals';
+import { PreviewFileModal, UploadFileModal } from '@components/Modals';
 import { EmptyDirectoryCard } from '@components/Cards';
 
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
@@ -53,6 +53,8 @@ const Drive: FC = () => {
   } = useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
+  const [showUploadFileModal, setShowUploadFileModal] =
+    useState<boolean>(false);
   const [directories, setDirectories] = useState<DirectoryItem[] | null>(null);
   const [files, setFiles] = useState<FileItem[] | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -217,6 +219,11 @@ const Drive: FC = () => {
     setDirectoryName('root');
   };
 
+  const onBackToDrive = () => {
+    setActivePod('');
+    setDirectoryName('');
+  };
+
   return (
     <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
       <div className="block md:hidden">
@@ -228,6 +235,7 @@ const Drive: FC = () => {
             podName={activePod}
             directory={directoryName}
             onDirectorySelect={handleDirectoryPathChange}
+            onBackToDrive={onBackToDrive}
           />
         }
         activePod={activePod}
@@ -235,7 +243,10 @@ const Drive: FC = () => {
         toggleView={handleToggleView}
         toggleSort={handleToggleSort}
       />
-      <DriveActionBar updateDrive={handleUpdateDrive} />
+      <DriveActionBar
+        updateDrive={handleUpdateDrive}
+        onFileUploadClick={() => setShowUploadFileModal(true)}
+      />
       {search.length > 0 ? (
         <div className="flex justify-start items-center mt-10 mb-5">
           <span>
@@ -252,35 +263,51 @@ const Drive: FC = () => {
         </div>
       ) : null}
       <Spinner isLoading={loading} />
-      {directories?.length || files?.length ? (
-        <div>
-          {driveView === 'grid' ? (
-            <DriveGridView
-              directories={handleSort(directories?.filter(handleSearchFilter))}
-              files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectoryOnClick}
-              fileOnClick={handleFileOnClick}
-              updateDrive={handleUpdateDrive}
-            />
-          ) : null}
 
-          {driveView === 'list' ? (
-            <DriveListView
-              directories={handleSort(directories?.filter(handleSearchFilter))}
-              files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectoryOnClick}
-              fileOnClick={handleFileOnClick}
-              updateDrive={handleUpdateDrive}
+      {!loading &&
+        (activePod ? (
+          directories?.length || files?.length ? (
+            <div>
+              {driveView === 'grid' ? (
+                <DriveGridView
+                  directories={handleSort(
+                    directories?.filter(handleSearchFilter)
+                  )}
+                  files={handleSort(files?.filter(handleSearchFilter))}
+                  directoryOnClick={handleDirectoryOnClick}
+                  fileOnClick={handleFileOnClick}
+                  updateDrive={handleUpdateDrive}
+                />
+              ) : null}
+
+              {driveView === 'list' ? (
+                <DriveListView
+                  directories={handleSort(
+                    directories?.filter(handleSearchFilter)
+                  )}
+                  files={handleSort(files?.filter(handleSearchFilter))}
+                  directoryOnClick={handleDirectoryOnClick}
+                  fileOnClick={handleFileOnClick}
+                  updateDrive={handleUpdateDrive}
+                />
+              ) : null}
+            </div>
+          ) : (
+            <EmptyDirectoryCard
+              onUploadClick={() => setShowUploadFileModal(true)}
             />
-          ) : null}
-        </div>
-      ) : loading === false ? (
-        activePod ? (
-          <EmptyDirectoryCard />
+          )
         ) : (
           <PodList pods={pods} onPodSelect={handlePodSelect} />
-        )
-      ) : null}
+        ))}
+      {showUploadFileModal && (
+        <UploadFileModal
+          showModal={showUploadFileModal}
+          closeModal={() => setShowUploadFileModal(false)}
+          updateDrive={handleUpdateDrive}
+        />
+      )}
+
       {showPreviewModal ? (
         <PreviewFileModal
           showModal={showPreviewModal}
