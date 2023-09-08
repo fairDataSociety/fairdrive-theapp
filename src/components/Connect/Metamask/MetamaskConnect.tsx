@@ -3,16 +3,20 @@ import MetamaskIcon from '@media/UI/metamask.svg';
 import {
   decryptWallet,
   getBasicSignatureWallet,
+  getMetamaskDeeplinkUrl,
   isMetamaskAvailable,
 } from '@utils/metamask';
 import { useRouter } from 'next/router';
-import { useFdpStorage } from '@context/FdpStorageContext';
+import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import MetamaskNotFoundModal from '@components/Modals/MetamaskNotFoundModal/MetamaskNotFoundModal';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserContext from '@context/UserContext';
 import Spinner from '@components/Spinner/Spinner';
 import { getInvite, login } from '@utils/invite';
 import PasswordModal from '@components/Modals/PasswordModal/PasswordModal';
+import { isMobile } from 'react-device-detect';
+import { useMetamask } from '@context/MetamaskContext';
+import { Network } from '@data/networks';
 
 interface MetamaskConnectProps {
   onConnect: () => void;
@@ -33,6 +37,9 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   } = useFdpStorage();
   const { setErrorMessage, setAddress, setMnemonic } = useContext(UserContext);
   const router = useRouter();
+  const { connectMetamask, metamaskProvider, metamaskWalletAddress } =
+    useMetamask();
+  const [network] = useState<Network>(getDefaultNetwork());
 
   /**
    * When user retrieved `signature wallet` from metamask - send info that invite was participated
@@ -58,8 +65,8 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       const wallet = await decryptWallet(localBasicWallet, password);
       const mnemonic = wallet.mnemonic.phrase;
       markInviteAsParticipated();
+      setFdpStorageType('native', network.config);
       fdpClientRef.current.account.setAccountFromMnemonic(mnemonic);
-      setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('metamask');
       setWallet(wallet);
@@ -77,24 +84,50 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   };
 
   /**
-   * Clicking my connect to metamask button
+   * Connect to metamask
    */
-  const connect = async (): Promise<void> => {
+  const connectMetamaskHandle = async (): Promise<void> => {
+    if (isMobile && !isMetamaskAvailable()) {
+      // If a user visits Fairdrive on a mobile device and wants to use Metamask,
+      // the site will be opened in the Metamask browser
+      window.open(
+        getMetamaskDeeplinkUrl(process.env.NEXT_PUBLIC_FAIRDRIVEHOST)
+      );
+
+      return;
+    }
+
     try {
       setLoading(true);
-
-      if (!isMetamaskAvailable()) {
-        setShowNotFoundModal(true);
-        return;
-      }
-
-      setLocalBasicWallet(await getBasicSignatureWallet());
-      setShowPasswordModal(true);
+      await connectMetamask();
     } catch (error) {
       console.error(error);
       setErrorMessage(String(error.message || error));
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    async function run() {
+      if (!(metamaskProvider && metamaskWalletAddress)) {
+        return;
+      }
+
+      try {
+        setLocalBasicWallet(
+          await getBasicSignatureWallet(metamaskProvider, metamaskWalletAddress)
+        );
+
+        setShowPasswordModal(true);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    run();
+  }, [metamaskProvider, metamaskWalletAddress]);
 
   return (
     <>
@@ -110,7 +143,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
             <MetamaskIcon className="inline-block ml-2" />
           )
         }
-        onClick={connect}
+        onClick={connectMetamaskHandle}
       />
       <MetamaskNotFoundModal
         showModal={showNotFoundModal}

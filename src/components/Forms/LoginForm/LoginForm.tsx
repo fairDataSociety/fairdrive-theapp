@@ -15,7 +15,7 @@ import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
 import { Network } from '@data/networks';
 import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
-import { LocalStorageKeys } from '@utils/localStorage';
+import { setDefaultNetwork } from '@utils/localStorage';
 import { useLocales } from '@context/LocalesContext';
 
 const LoginForm: FC = () => {
@@ -27,7 +27,6 @@ const LoginForm: FC = () => {
 
   const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
   const [network, setNetwork] = useState<Network>(getDefaultNetwork());
-
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
@@ -55,7 +54,7 @@ const LoginForm: FC = () => {
       setIsLoggedIn(true);
       setLoginType('username');
       setUser(user_name);
-      localStorage.setItem(LocalStorageKeys.NETWORK, String(network.id));
+      setDefaultNetwork(String(network.id));
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);

@@ -119,6 +119,12 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         </p>
       ) : null}
 
+      {errorMessage ? (
+        <div className="mt-10 text-color-status-negative-day text-xs text-center leading-none">
+          {errorMessage}
+        </div>
+      ) : null}
+
       <div className="mt-14 text-center">
         <Button
           type="button"
@@ -135,12 +141,6 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         open={Boolean(message)}
         onClose={() => setMessage(null)}
       />
-
-      {errorMessage ? (
-        <div className="my-28 text-color-status-negative-day text-xs text-center leading-none">
-          {errorMessage}
-        </div>
-      ) : null}
     </SideModal>
   );
 };

@@ -28,6 +28,7 @@ import classes from './MainSideBar.module.scss';
 import DriveActionBarMobile from '../DriveActionBar/DriveActionBarMobile';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
+import { useFdpStorage } from '@context/FdpStorageContext';
 
 interface MainSideBarProps extends UpdateDriveProps {
   driveSideBarToggle: any;
@@ -40,6 +41,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
   refreshPods,
 }) => {
   const { intl } = useLocales();
+  const { loginType } = useFdpStorage();
 
   const items = [
     {
@@ -84,7 +86,10 @@ const MainSideBar: FC<MainSideBarProps> = ({
         },
       },
     },
-    {
+  ];
+
+  if (loginType !== 'blossom') {
+    items.push({
       label: intl.get('INVITE'),
       link: '/invite',
       icons: {
@@ -97,8 +102,8 @@ const MainSideBar: FC<MainSideBarProps> = ({
           inactive: <InviteInactiveDark />,
         },
       },
-    },
-  ];
+    });
+  }
 
   const [renderDriveMenu, setRenderDriveMenu] = useState<boolean>(false);
 
@@ -108,7 +113,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
 
   return (
     <div
-      className={`${classes.sideBar} flex flex-col justify-start items-center w-full h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night`}
+      className={`${classes.sideBar} flex flex-row overflow-x-auto sm:overflow-x-visible sm:flex-col sm:justify-start sm:items-center w-full sm:h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night`}
     >
       {items.map((item) => {
         return (

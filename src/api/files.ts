@@ -1,5 +1,5 @@
 import { FdpStorage, FileItem } from '@fairdatasociety/fdp-storage';
-import formatURL from '@utils/formatURL';
+import { formatUrl } from '@utils/url';
 
 interface DownloadFileData {
   filename: string;
@@ -32,7 +32,7 @@ export const receiveFile = async (
   directory: string
 ) => {
   try {
-    const writePath = directory === 'root' ? '/' : '/' + formatURL(directory);
+    const writePath = directory === 'root' ? '/' : '/' + formatUrl(directory);
 
     const shareFileInfoResult = await fdp.file.saveShared(
       podName,
@@ -51,7 +51,7 @@ export async function downloadFile(
   data: DownloadFileData
 ): Promise<Blob> {
   const writePath =
-    data.directory === 'root' ? '/' : '/' + formatURL(data.directory) + '/';
+    data.directory === 'root' ? '/' : '/' + formatUrl(data.directory) + '/';
   const downloadFile = await fdp.file.downloadData(
     data.podName,
     `${writePath}${data.filename}`
@@ -81,7 +81,7 @@ export async function uploadFile(
   data: UploadFileData
 ): Promise<FileItem> {
   const writePath =
-    data.directory === 'root' ? '' : '/' + formatURL(data.directory);
+    data.directory === 'root' ? '' : '/' + formatUrl(data.directory);
   const f = await data.file.arrayBuffer();
   const fileBytes = new Uint8Array(f);
   const fileMetadata = await fdp.file.uploadData(

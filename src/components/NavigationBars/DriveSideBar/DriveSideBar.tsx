@@ -48,7 +48,7 @@ const DriveSideBar: FC = () => {
       const response = await getPods(fdpClientRef.current);
       setPods(response);
     } catch (error) {
-      console.log('Error: Pods could not be fetched (DriveSideBar)!');
+      console.log('Error: Pods could not be fetched (DriveSideBar)!', error);
     } finally {
       setLoading(false);
     }
