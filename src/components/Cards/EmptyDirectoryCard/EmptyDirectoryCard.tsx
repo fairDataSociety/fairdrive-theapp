@@ -1,9 +1,12 @@
-import { FC } from 'react';
-
 import InfoDarkIcon from '@media/UI/info-dark.svg';
 import { useLocales } from '@context/LocalesContext';
+import { Button } from '@components/Buttons';
 
-const EmptyDirectoryCard: FC = () => {
+export interface EmptyDirectoryCardProps {
+  onUploadClick: () => void;
+}
+
+const EmptyDirectoryCard = ({ onUploadClick }: EmptyDirectoryCardProps) => {
   const { intl } = useLocales();
 
   return (
@@ -21,6 +24,14 @@ const EmptyDirectoryCard: FC = () => {
           <p className="mt-2 font-normal text-xs text-color-accents-plum-black dark:text-color-shade-light-2-night text-center">
             {intl.get('START_UPLOADING_OR_CREATING_FOLDERS')}
           </p>
+
+          <Button
+            className="mt-4"
+            variant="tertiary-outlined"
+            onClick={onUploadClick}
+          >
+            {intl.get('UPLOAD')}
+          </Button>
         </div>
       </div>
     </div>
