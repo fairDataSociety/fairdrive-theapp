@@ -18,7 +18,7 @@ const AuthenticationLayout: FC<AuthenticationLayoutProps> = ({
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className="flex pl-2 justify-items-stretch w-screen h-screen dark:bg-color-shade-dark-3-night">
+    <div className="flex md:pl-2 lg:pl-2 justify-items-stretch w-screen h-screen dark:bg-color-shade-dark-3-night">
       <div
         className={`w-0 sm:w-100 bg-auth-${theme} bg-center bg-cover bg-no-repeat`}
       >
