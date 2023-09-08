@@ -6,7 +6,7 @@
       "Scope": {
         "Environment": [
           "master",
-	  "main"
+    "main"
         ]
       }
     },
@@ -85,21 +85,13 @@
     },
     {
       "Name": "NEXT_PUBLIC_BEE_URL",
-      "Value": "https://bee-1#{DEPLOYMENT}fairdatasociety.org",
+      "Value": "https://bee-1.fairdatasociety.org",
       "Scope": {
         "Environment": [
           "main",
           "master",
+          "staging",
           "development"
-        ]
-      }
-    },
-    {
-      "Name": "NEXT_PUBLIC_BEE_URL",
-      "Value": "https://bee-1.dev.fairdatasociety.org",
-      "Scope": {
-        "Environment": [
-          "staging"
         ]
       }
     },
