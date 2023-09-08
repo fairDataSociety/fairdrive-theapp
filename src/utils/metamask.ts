@@ -7,7 +7,12 @@ declare const window: WindowWithEthereum;
 /**
  * FIP-63 data for signing
  */
-export const SIGN_WALLET_DATA = 'I am granting FULL ACCESS to the FDP account';
+export const SIGN_WALLET_DATA = `I am granting FULL ACCESS to the FDP account`;
+
+/**
+ * FIP-63 data (upgraded) for signing
+ */
+const SIGN_WALLET_ADDRESS_DATA = `I am granting FULL ACCESS to the FDP account for address: {address}`;
 
 /**
  * Sepolia network ID in decimal
@@ -66,7 +71,11 @@ export const getBasicSignatureWallet = async (
   address: string,
   password = ''
 ): Promise<Wallet> => {
-  const signature = await getSignature(provider, address, SIGN_WALLET_DATA);
+  const signature = await getSignature(
+    provider,
+    address,
+    getSignWalletData(address)
+  );
   const wallet = signatureToWallet(signature);
   if (password) {
     return decryptWallet(wallet, password);
@@ -181,4 +190,17 @@ export function getMetamaskDeeplinkUrl(url: string): string {
   }
 
   return `https://metamask.app.link/dapp/${extractDeeplinkURL(url)}`;
+}
+
+/**
+ * Gets a data for signing a wallet
+ *
+ * @param address ETH address
+ */
+export function getSignWalletData(address: string): string {
+  if (!utils.isAddress(address)) {
+    throw new Error('Address is not a valid Ethereum address');
+  }
+
+  return SIGN_WALLET_ADDRESS_DATA.replace('{address}', address.toLowerCase());
 }
