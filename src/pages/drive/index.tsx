@@ -36,12 +36,15 @@ import {
 import { RefreshDriveOptions } from '@interfaces/handlers';
 import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
 import { isDataNotFoundError, isJsonParsingError } from '@utils/error';
+import PodList from '@components/Views/PodList/PodList';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const {
+    pods,
     activePod,
+    setActivePod,
     openPods,
     setPods,
     directoryName,
@@ -209,6 +212,11 @@ const Drive: FC = () => {
     return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
   };
 
+  const handlePodSelect = (pod: string) => {
+    setActivePod(pod);
+    setDirectoryName('root');
+  };
+
   return (
     <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
       <div className="block md:hidden">
@@ -270,7 +278,7 @@ const Drive: FC = () => {
         activePod ? (
           <EmptyDirectoryCard />
         ) : (
-          <SelectPodCard />
+          <PodList pods={pods} onPodSelect={handlePodSelect} />
         )
       ) : null}
       {showPreviewModal ? (
