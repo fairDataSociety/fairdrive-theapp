@@ -48,8 +48,8 @@ const MainLayout: FC<MainLayoutProps> = ({
         <MainNavigationBar />
       </div>
 
-      <div className="flex justify-items-stretch items-stretch w-full h-full overflow-hidden">
-        <div className="w-28 dark:bg-color-shade-dark-3-night">
+      <div className="flex flex-col sm:flex-row justify-items-stretch items-stretch w-full h-full overflow-hidden">
+        <div className="sm:w-28 dark:bg-color-shade-dark-3-night">
           <MainSideBar
             driveSideBarToggle={driveSideBarToggle}
             updateDrive={updateDrive}
@@ -58,13 +58,13 @@ const MainLayout: FC<MainLayoutProps> = ({
         </div>
 
         <div
-          className={`w-full ${
+          className={`w-full h-full ${
             !showDriveSideBar ? 'py-5 px-8 overflow-scroll no-scroll-bar' : ''
           }`}
         >
           <div className="flex justify-start items-stretch w-full h-full">
             {showDriveSideBar ? <DriveSideBar /> : null}
-            <div className="w-full pt-5 md:px-8 px-5 overflow-scroll no-scroll-bar">
+            <div className="w-full pt-5 mb-24 sm:mb-0 md:px-8 px-5 overflow-scroll no-scroll-bar">
               {loginType === 'metamask' && inviteKey && (
                 <DisclaimerMessage
                   text={intl.get('SIGN_UP_FOR_AN_FDS_ACCOUNT')}

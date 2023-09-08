@@ -113,7 +113,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
 
   return (
     <div
-      className={`${classes.sideBar} flex flex-col justify-start items-center w-full h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night`}
+      className={`${classes.sideBar} flex flex-row overflow-x-auto sm:overflow-x-visible sm:flex-col sm:justify-start sm:items-center w-full sm:h-full bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night`}
     >
       {items.map((item) => {
         return (

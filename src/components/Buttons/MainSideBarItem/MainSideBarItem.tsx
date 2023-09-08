@@ -48,8 +48,10 @@ const MainSideBarItem: FC<MainSideBarItemProps> = ({
   return (
     <div
       className={`${
-        isActive ? 'border-r-4 border-color-accents-purple-heavy' : ''
-      }  w-full py-1 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night`}
+        isActive
+          ? 'border-r-0 border-b-4 sm:border-r-4 sm:border-b-0 border-color-accents-purple-heavy'
+          : ''
+      }  w-24 sm:w-full py-1 md:py-4 flex-shrink-0 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night`}
       onClick={() => {
         if (router.pathname === '/drive') {
           setTimeout(() => driveSideBarToggle(), 100);

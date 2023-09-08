@@ -36,7 +36,7 @@ const DriveActionBarItem = (
 ) => {
   return (
     <div
-      className="py-2 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
+      className="py-2 w-24 block md:hidden sm:w-full py-1 flex-shrink-0 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
       onClick={onClick}
     >
       <a className="flex flex-col justify-center items-center">
@@ -65,36 +65,34 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
 
   return (
     <>
-      <div className="flex md:hidden flex-col justify-center w-full">
-        {DriveActionBarItem(
-          theme,
-          intl.get('NEW_POD'),
-          <DriveActiveLightIcon />,
-          <DriveActiveDarkIcon />,
-          () => setShowCreatePodModal(true)
-        )}
-        {DriveActionBarItem(
-          theme,
-          intl.get('UPLOAD'),
-          <UploadLightIcon />,
-          <UploadDarkIcon />,
-          () => setShowUploadFileModal(true)
-        )}
-        {DriveActionBarItem(
-          theme,
-          intl.get('IMPORT'),
-          <ImportLightIcon />,
-          <ImportDarkIcon />,
-          () => setShowImportFileModal(true)
-        )}
-        {DriveActionBarItem(
-          theme,
-          intl.get('FOLDER'),
-          <CreateFolderLightIcon />,
-          <CreateFolderDarkIcon />,
-          () => setShowCreateFolderModal(true)
-        )}
-      </div>
+      {DriveActionBarItem(
+        theme,
+        intl.get('NEW_POD'),
+        <DriveActiveLightIcon />,
+        <DriveActiveDarkIcon />,
+        () => setShowCreatePodModal(true)
+      )}
+      {DriveActionBarItem(
+        theme,
+        intl.get('UPLOAD'),
+        <UploadLightIcon />,
+        <UploadDarkIcon />,
+        () => setShowUploadFileModal(true)
+      )}
+      {DriveActionBarItem(
+        theme,
+        intl.get('IMPORT'),
+        <ImportLightIcon />,
+        <ImportDarkIcon />,
+        () => setShowImportFileModal(true)
+      )}
+      {DriveActionBarItem(
+        theme,
+        intl.get('FOLDER'),
+        <CreateFolderLightIcon />,
+        <CreateFolderDarkIcon />,
+        () => setShowCreateFolderModal(true)
+      )}
       {showCreatePodModal ? (
         <CreatePodModal
           showModal={showCreatePodModal}
