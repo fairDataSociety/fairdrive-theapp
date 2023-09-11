@@ -130,15 +130,7 @@ export default function MetamaskCreateAccount({
   };
 
   const getFeePrice = async () => {
-    const { address } = fdpClientRef.current.account.wallet;
-    const { publicKey } = fdpClientRef.current.account;
-
-    const price = await estimateRegistrationPrice(
-      username,
-      address,
-      publicKey,
-      network
-    );
+    const price = await estimateRegistrationPrice(network);
 
     setMinBalance(price);
   };
