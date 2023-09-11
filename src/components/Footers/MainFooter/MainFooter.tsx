@@ -18,8 +18,8 @@ import GithubDarkIcon from '@media/branding/github-dark.svg';
 import DiscordLightIcon from '@media/branding/discord-light.svg';
 import DiscordDarkIcon from '@media/branding/discord-dark.svg';
 
-import MediumLightIcon from '@media/branding/medium-light.svg';
-import MediumDarkIcon from '@media/branding/medium-dark.svg';
+import BlogLightIcon from '@media/branding/blog-light.svg';
+import BlogDarkIcon from '@media/branding/blog-dark.svg';
 import { useLocales } from '@context/LocalesContext';
 
 const MainFooter: FC = () => {
@@ -114,14 +114,14 @@ const MainFooter: FC = () => {
             </a>
 
             <a
-              href="https://fairdatasociety.bzz.link/"
+              href="https://fairdatasociety.org/blog/"
               target="_blank"
               rel="noreferrer"
             >
               {theme === 'light' ? (
-                <MediumLightIcon className="inline-block" />
+                <BlogLightIcon className="inline-block" />
               ) : (
-                <MediumDarkIcon className="inline-block" />
+                <BlogDarkIcon className="inline-block" />
               )}
             </a>
           </div>
