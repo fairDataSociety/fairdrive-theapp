@@ -263,7 +263,7 @@ const Drive: FC = () => {
             </span>
           </div>
         ) : null}
-        <Spinner isLoading={loading} />
+        <Spinner isLoading={loading || !pods} />
 
         {!loading &&
           (activePod ? (
