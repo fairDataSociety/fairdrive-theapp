@@ -147,7 +147,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   return (
     <>
       <DropdownTransition>
-        <Menu.Items className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow">
+        <Menu.Items className="absolute -left-32 w-48 p-5 z-10 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow">
           <Menu.Item
             as="h4"
             className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night cursor-pointer"

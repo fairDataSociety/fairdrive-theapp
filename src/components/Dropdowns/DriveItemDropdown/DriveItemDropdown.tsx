@@ -21,7 +21,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
 }) => {
   return (
     <div
-      className="relative cursor-default z-10"
+      className="relative cursor-default"
       onClick={(event) => event.stopPropagation()}
     >
       <DriveItemDropdownToggle />
