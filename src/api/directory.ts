@@ -13,7 +13,10 @@ export async function createDirectory(
     directory = '';
   }
 
-  await fdp.directory.create(podName, combine(directory, directoryName));
+  await fdp.directory.create(
+    podName,
+    combine(...directory.split('/'), directoryName)
+  );
   const time = getUnixTimestamp();
   return {
     name: directoryName,

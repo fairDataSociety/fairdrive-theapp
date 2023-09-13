@@ -39,7 +39,7 @@ const PodDropdownToggele = () => {
         />
       )}
       <Menu.Button className="flex items-center w-full cursor-pointer">
-        <div className="py-2 px-4 ">
+        <div className="py-2 px-4 hidden sm:block">
           {theme === 'light' ? (
             <DropdownMenuIconLight />
           ) : (
