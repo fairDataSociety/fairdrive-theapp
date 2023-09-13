@@ -98,7 +98,7 @@ const Overview: FC<OverviewProps> = () => {
             imageDark={<OverviewEcosystemDark className="inline-block" />}
             button={
               <a
-                href="https://fairdataprotocol.bzz.link/"
+                href="https://fdp.fairdatasociety.org/"
                 target="_blank"
                 rel="noreferrer"
               >
