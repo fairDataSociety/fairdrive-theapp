@@ -237,7 +237,7 @@ const Drive: FC = () => {
         <MainHeader
           title={
             <DirectoryPath
-              className="hidden sm:flex"
+              className="hidden md:flex"
               podName={activePod}
               directory={directoryName}
               onDirectorySelect={handleDirectoryPathChange}
