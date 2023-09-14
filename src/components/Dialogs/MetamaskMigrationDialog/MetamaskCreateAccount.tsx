@@ -182,7 +182,7 @@ export default function MetamaskCreateAccount({
             <>
               <div>
                 {intl.get('YOUR_ACCOUNT_IS')} <br />
-                <span>
+                <span className="flex items-center flex-wrap">
                   {address}
                   <CopyButton text={address} />
                 </span>
