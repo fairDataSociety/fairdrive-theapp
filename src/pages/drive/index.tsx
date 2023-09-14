@@ -24,7 +24,6 @@ import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
 import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
-import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
 import {
   CacheType,
   getCache,
@@ -227,12 +226,18 @@ const Drive: FC = () => {
   return (
     <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
       <div className="flex flex-col">
-        <div className="block md:hidden">
-          <DriveActionHeaderMobile />
+        <div className="flex md:hidden">
+          <DriveActionHeaderMobile
+            podName={activePod}
+            directory={directoryName}
+            onDirectorySelect={handleDirectoryPathChange}
+            onBackToDrive={onBackToDrive}
+          />
         </div>
         <MainHeader
           title={
             <DirectoryPath
+              className="hidden sm:flex"
               podName={activePod}
               directory={directoryName}
               onDirectorySelect={handleDirectoryPathChange}
@@ -263,7 +268,7 @@ const Drive: FC = () => {
             </span>
           </div>
         ) : null}
-        <Spinner isLoading={loading} />
+        <Spinner isLoading={loading || !pods} />
 
         {!loading &&
           (activePod ? (

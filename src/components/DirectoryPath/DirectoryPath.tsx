@@ -9,6 +9,7 @@ interface DirectoryPathProps {
   directory: string;
   onDirectorySelect: (newDirectory: string) => void;
   onBackToDrive: () => void;
+  className?: string;
 }
 
 const MAX_FOLDERS = 3;
@@ -21,6 +22,7 @@ const DirectoryPath = ({
   directory,
   onDirectorySelect,
   onBackToDrive,
+  className,
 }: DirectoryPathProps) => {
   const { theme } = useContext(ThemeContext);
   const [folders, displayedFolders] = useMemo(() => {
@@ -35,7 +37,7 @@ const DirectoryPath = ({
   };
 
   return (
-    <div className="md:ml-0 ml-2 flex items-center">
+    <div className={`flex items-center overflow-hidden ${className}`}>
       {podName && (
         <Button
           variant="tertiary"
