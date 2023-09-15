@@ -68,29 +68,29 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
       {DriveActionBarItem(
         theme,
         intl.get('NEW_POD'),
-        <DriveActiveLightIcon />,
-        <DriveActiveDarkIcon />,
+        <DriveActiveLightIcon height="22" />,
+        <DriveActiveDarkIcon height="22" />,
         () => setShowCreatePodModal(true)
       )}
       {DriveActionBarItem(
         theme,
         intl.get('UPLOAD'),
-        <UploadLightIcon />,
-        <UploadDarkIcon />,
+        <UploadLightIcon height="22" />,
+        <UploadDarkIcon height="22" />,
         () => setShowUploadFileModal(true)
       )}
       {DriveActionBarItem(
         theme,
         intl.get('IMPORT'),
-        <ImportLightIcon />,
-        <ImportDarkIcon />,
+        <ImportLightIcon height="22" />,
+        <ImportDarkIcon height="22" />,
         () => setShowImportFileModal(true)
       )}
       {DriveActionBarItem(
         theme,
         intl.get('FOLDER'),
-        <CreateFolderLightIcon />,
-        <CreateFolderDarkIcon />,
+        <CreateFolderLightIcon height="22" />,
+        <CreateFolderDarkIcon height="22" />,
         () => setShowCreateFolderModal(true)
       )}
       {showCreatePodModal ? (

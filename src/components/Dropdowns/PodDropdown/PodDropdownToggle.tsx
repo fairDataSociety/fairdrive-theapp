@@ -35,7 +35,11 @@ const PodDropdownToggele = () => {
           className="m-auto sm:block md:hidden"
         />
       )}
-      <Menu.Button className="flex items-center w-full cursor-pointer">
+      <Menu.Button
+        className={`flex items-center w-full cursor-pointer ${
+          activePod ? '' : 'pl-4'
+        }`}
+      >
         <span
           onClick={() => setDirectoryName('root')}
           className="font-semibold text-lg cursor-pointer hover:bg-color-shade-dark-3-day text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar"
