@@ -218,5 +218,6 @@
   "USERS_COMMITMENTS": "Zaveze uporabnikov:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "Z uporabo izdaje Fairdrive Beta se strinjate, da boste poročali o napakah, napakah ali pomanjkljivostih, odkritih na platformi ali drugih materialih, kjer je uporabniku - testnemu uporabniku dodeljen dostop do izdaje Fairdrive Beta. Uporabnik razume, da je namen izdaje Fairdrive Beta hitro in natančno poročanje ter si bo prizadeval za pogosto poročanje o vseh vidikih izdelka tako pozitivnih kot negativnih ter priznava, da vsak izboljšanje, sprememba in sprememba, ki izhajajo iz ali v zvezi z doprinosom testnega uporabnika k projektu Fairdrive, ostanejo ali postanejo izključna last Disclosing Party.",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Vse pravice pridržane",
-  "PASSPHRASE_EXPLANATION": "Vaše geslo se uporablja za šifriranje in dešifriranje vaših podatkov. Ne delite ga."
+  "PASSPHRASE_EXPLANATION": "Vaše geslo se uporablja za šifriranje in dešifriranje vaših podatkov. Ne delite ga.",
+  "ROOT_DIRECTORY": "Koreninski imenik"
 }
