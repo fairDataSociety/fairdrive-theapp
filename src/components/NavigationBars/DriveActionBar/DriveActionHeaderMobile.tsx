@@ -18,7 +18,6 @@ const DriveActionHeaderMobile = ({
     <>
       <PodDropdown />
       <DirectoryPath
-        className="flex sm:hidden"
         podName={podName}
         directory={directory}
         onDirectorySelect={onDirectorySelect}
