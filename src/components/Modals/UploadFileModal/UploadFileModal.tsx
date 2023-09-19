@@ -33,20 +33,20 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const [fileToUpload, setFileToUpload] = useState(null);
+  const [filesToUpload, setFilesToUpload] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: any) => {
       if (activePod) {
-        setFileToUpload(acceptedFiles[0]);
+        setFilesToUpload(acceptedFiles);
       }
     },
   });
   const { intl } = useLocales();
 
   const handleUpload = async () => {
-    if (!(fileToUpload && activePod)) {
+    if (!(filesToUpload && activePod)) {
       return;
     }
 
@@ -55,11 +55,15 @@ const UploadFileModal: FC<CreatorModalProps> = ({
       const userAddress = await getAccountAddress();
       const directory = directoryName || 'root';
       const fdpPath = getFdpPathByDirectory(directory);
-      const item = await uploadFile(fdpClientRef.current, {
-        file: fileToUpload,
-        directory: directoryName,
-        podName: activePod,
-      });
+      const items = await Promise.all(
+        filesToUpload.map((file) =>
+          uploadFile(fdpClientRef.current, {
+            file,
+            directory: directoryName,
+            podName: activePod,
+          })
+        )
+      );
 
       trackEvent({
         category: 'Upload',
@@ -69,7 +73,9 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         href: window.location.href,
       });
 
-      addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE);
+      items.forEach((item) =>
+        addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE)
+      );
       updateDrive({
         isUseCacheOnly: true,
       });
@@ -113,11 +119,12 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         </p>
       </div>
 
-      {fileToUpload ? (
-        <p className="mt-5 text-sm text-center text-color-shade-light-2-night">
-          {intl.get('READY_TO_UPLOAD')} <strong>{fileToUpload?.name}</strong>
-        </p>
-      ) : null}
+      {filesToUpload &&
+        filesToUpload.map((file) => (
+          <p className="mt-5 text-sm text-center text-color-shade-light-2-night">
+            {intl.get('READY_TO_UPLOAD')} <strong>{file?.name}</strong>
+          </p>
+        ))}
 
       {errorMessage ? (
         <div className="mt-10 text-color-status-negative-day text-xs text-center leading-none">
@@ -131,7 +138,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
           variant="primary-outlined"
           label={intl.get('UPLOAD_CONTENT')}
           onClick={handleUpload}
-          disabled={!fileToUpload || loading}
+          disabled={!filesToUpload || loading}
           loading={loading}
         />
       </div>
