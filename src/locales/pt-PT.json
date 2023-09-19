@@ -218,5 +218,6 @@
   "USERS_COMMITMENTS": "Compromissos dos Usuários:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "Ao usar a Versão Beta do Fairdrive, você concorda em relatar quaisquer falhas, erros ou imperfeições descobertas na plataforma ou em outros materiais nos quais o usuário - Testador Beta tenha acesso à Versão Beta do Fairdrive. O usuário compreende que relatar prontamente e com precisão é o propósito da Versão Beta do Fairdrive e se compromete a fazer o melhor esforço para fornecer relatórios frequentes sobre todos os aspectos do produto, tanto positivos quanto negativos, e reconhece que quaisquer melhorias, modificações e alterações decorrentes ou relacionadas à contribuição do Testador Beta para o Projeto Fairdrive permanecem ou se tornam propriedade exclusiva da Parte Divulgadora.",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Todos os direitos reservados",
-  "PASSPHRASE_EXPLANATION": "Sua senha é usada para a criptografia e descriptografia de seus dados. Não a compartilhe."
+  "PASSPHRASE_EXPLANATION": "Sua senha é usada para a criptografia e descriptografia de seus dados. Não a compartilhe.",
+  "ROOT_DIRECTORY": "Diretório raiz"
 }
