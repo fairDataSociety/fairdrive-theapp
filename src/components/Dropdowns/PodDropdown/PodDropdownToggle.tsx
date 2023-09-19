@@ -40,10 +40,7 @@ const PodDropdownToggele = () => {
           activePod ? '' : 'pl-4'
         }`}
       >
-        <span
-          onClick={() => setDirectoryName('root')}
-          className="font-semibold text-lg cursor-pointer hover:bg-color-shade-dark-3-day text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar"
-        >
+        <span className="font-semibold text-lg cursor-pointer hover:bg-color-shade-dark-3-day text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar">
           {activePod || intl.get('SELECT_A_POD')}
         </span>
       </Menu.Button>
