@@ -64,7 +64,6 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
 
   useEffect(() => {
     if (!isFilePreviewSupported(previewFile?.name)) {
-      setErrorMessage(intl.get('FILE_PREVIEW_ERROR'));
       return;
     }
 
@@ -171,7 +170,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           </div>
         ) : null}
 
-        <h2 className="text-base text-color-accents-purple-black dark:text-color-shade-white-night">
+        <h2 className="text-base mt-8 text-color-accents-purple-black dark:text-color-shade-white-night">
           {previewFile?.name}
         </h2>
 
