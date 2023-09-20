@@ -219,5 +219,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_3": "Fairdrive Beta Releaseを使用することにより、ユーザーはプラットフォームまたはユーザー - ベータテスターがFairdrive Beta Releaseにアクセスを許可されている他の資料上で発見したすべての欠陥、エラー、または欠陥を報告することに同意します。ユーザーは、適切な報告がFairdrive Beta Releaseの目的であり、製品のあらゆる側面について頻繁な報告を提供する最善の努力を行うことを理解し、製品へのベータテスターの貢献から生じる改良、修正、変更が開示側の独占的な財産となるか、またはなることを認識します。",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. All rights reserved",
   "PASSPHRASE_EXPLANATION": "パスフレーズはデータの暗号化と復号化に使用されます。共有しないでください。",
-  "ROOT_DIRECTORY": "ルートディレクトリ"
+  "ROOT_DIRECTORY": "ルートディレクトリ",
+  "NEW_FOLDER": "新しいフォルダ"
 }

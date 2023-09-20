@@ -219,5 +219,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_3": "Al utilizar Fairdrive Beta Release, aceptas informar cualquier defecto, error o imperfección descubierta en la plataforma u otros materiales donde al usuario - Beta Tester se le haya concedido acceso a Fairdrive Beta Release. El usuario entiende que informar de manera rápida y precisa es el propósito de Fairdrive Beta Release y se compromete a utilizar sus mejores esfuerzos para proporcionar informes frecuentes sobre todos los aspectos del producto, tanto positivos como negativos, y reconoce que cualquier mejora, modificación y cambio que surja o en relación con la contribución de los Beta Testers al Proyecto Fairdrive, permanecen o se convierten en propiedad exclusiva de la Parte Divulgante.",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Todos los derechos reservados.",
   "PASSPHRASE_EXPLANATION": "Su frase de contraseña se utiliza para la encriptación y desencriptación de sus datos. No lo comparta.",
-  "ROOT_DIRECTORY": "Directorio raíz"
+  "ROOT_DIRECTORY": "Directorio raíz",
+  "NEW_FOLDER": "Nueva Carpeta"
 }
