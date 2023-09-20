@@ -20,24 +20,6 @@ const AuthenticationNavbar: FC = () => {
       <Logo />
 
       <div className="flex justify-between items-center">
-        <Link href="/import">
-          <a className={`${classes.button} mr-4`}>
-            <span className="hidden md:inline">
-              <Button
-                variant="tertiary-outlined"
-                label={intl.get('IMPORT_ACCOUNT')}
-                icon={<DownloadIcon className="inline-block ml-2" />}
-              />
-            </span>
-            <span className="md:hidden">
-              <Button
-                variant="tertiary-outlined"
-                icon={<DownloadIcon className="inline-block" />}
-              />
-            </span>
-          </a>
-        </Link>
-
         <a className={`${classes.button} mr-4`}>
           <ConnectDropdown />
         </a>
