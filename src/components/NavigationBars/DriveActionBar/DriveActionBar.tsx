@@ -42,6 +42,7 @@ const DriveActionBar = ({
               type="button"
               variant="primary"
               className="mx-1 p-0"
+              disabled={!activePod}
               onClick={onFileUploadClick}
             >
               <span className="mr-2">

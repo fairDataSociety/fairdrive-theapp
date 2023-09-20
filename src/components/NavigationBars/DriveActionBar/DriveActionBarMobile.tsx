@@ -22,6 +22,7 @@ import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
+import PodContext from '@context/PodContext';
 
 export interface DriveActionBarMobileProps extends UpdateDriveProps {
   refreshPods?: () => void;
@@ -32,12 +33,13 @@ const DriveActionBarItem = (
   label: string,
   imageLight: JSX.Element,
   imageDark: JSX.Element,
-  onClick: () => void
+  onClick: () => void,
+  disabled = false
 ) => {
   return (
     <div
       className="py-2 w-24 block md:hidden sm:w-full py-1 flex-shrink-0 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
     >
       <a className="flex flex-col justify-center items-center">
         {theme === 'light' ? imageLight : imageDark}
@@ -55,6 +57,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   refreshPods,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const { activePod } = useContext(PodContext);
 
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
@@ -77,7 +80,8 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         intl.get('UPLOAD'),
         <UploadLightIcon height="22" />,
         <UploadDarkIcon height="22" />,
-        () => setShowUploadFileModal(true)
+        () => setShowUploadFileModal(true),
+        !activePod
       )}
       {DriveActionBarItem(
         theme,
@@ -91,7 +95,8 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         intl.get('FOLDER'),
         <CreateFolderLightIcon height="22" />,
         <CreateFolderDarkIcon height="22" />,
-        () => setShowCreateFolderModal(true)
+        () => setShowCreateFolderModal(true),
+        !activePod
       )}
       {showCreatePodModal ? (
         <CreatePodModal
