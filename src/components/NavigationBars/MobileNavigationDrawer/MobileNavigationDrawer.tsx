@@ -15,6 +15,7 @@ const MobileNavigationDrawer = ({
       <div className="flex flex-col">
         <NavigationItems
           className="flex h-20"
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           driveSideBarToggle={() => {}}
           onOptionClick={onClose}
         />

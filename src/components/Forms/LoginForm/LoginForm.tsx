@@ -155,7 +155,7 @@ const LoginForm: FC = () => {
               disabled={!isValid}
               type="submit"
               variant="secondary"
-              label={intl.get('CONTINUE')}
+              label={intl.get('LOGIN')}
             />
           </div>
 
