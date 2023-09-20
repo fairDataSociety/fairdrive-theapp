@@ -13,6 +13,8 @@ interface FilePreviewProps {
   onError: () => void;
 }
 
+const MAX_TEXT_PREVIEW_LENGTH = 500;
+
 enum PreviewType {
   Consent,
   Text,
@@ -51,6 +53,10 @@ const VIDEO_FILE_EXTENSIONS = [
   '.flv',
   '.swf',
 ];
+
+export function isFilePreviewSupported(fileName: string): boolean {
+  return isTextFile(fileName) || isFileImage(fileName) || isFileVideo(fileName);
+}
 
 function isString(data: unknown): boolean {
   return typeof data === 'string';
@@ -128,7 +134,10 @@ const FilePreview: FC<FilePreviewProps> = ({
           }
         }
 
-        setContent(text);
+        setContent(
+          text.substring(0, MAX_TEXT_PREVIEW_LENGTH) +
+            (text.length > MAX_TEXT_PREVIEW_LENGTH ? '...' : '')
+        );
         return setType(PreviewType.Text);
       }
 

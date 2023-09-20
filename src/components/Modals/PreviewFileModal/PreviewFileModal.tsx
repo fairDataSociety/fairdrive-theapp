@@ -30,7 +30,9 @@ import ShareDarkIcon from '@media/UI/share-dark.svg';
 import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
-import FilePreview from '@components/FilePreview/FilePreview';
+import FilePreview, {
+  isFilePreviewSupported,
+} from '@components/FilePreview/FilePreview';
 import { FileItem } from '@fairdatasociety/fdp-storage';
 import { extractFileExtension } from '@utils/filename';
 import { useLocales } from '@context/LocalesContext';
@@ -61,6 +63,11 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const { intl } = useLocales();
 
   useEffect(() => {
+    if (!isFilePreviewSupported(previewFile?.name)) {
+      setErrorMessage(intl.get('FILE_PREVIEW_ERROR'));
+      return;
+    }
+
     setLoading(true);
     downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
