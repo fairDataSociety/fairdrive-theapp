@@ -41,6 +41,9 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
+      setUploadedItems([]);
+      setFailedUplods([]);
+      setErrorMessage('');
       if (activePod) {
         setFilesToUpload(acceptedFiles);
       }
