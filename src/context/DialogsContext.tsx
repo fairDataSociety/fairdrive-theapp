@@ -4,12 +4,16 @@ import { createContext, useContext } from 'react';
 
 export interface IDialogContext {
   metamaskMigrationOpen: boolean;
+  mobileNavigationOpen: boolean;
   setMetamaskMigrationOpen: (value: boolean) => void;
+  setMobileNavigationOpen: (value: boolean) => void;
 }
 
 const DialogContext = createContext<IDialogContext>({
   metamaskMigrationOpen: false,
+  mobileNavigationOpen: false,
   setMetamaskMigrationOpen: () => {},
+  setMobileNavigationOpen: () => {},
 });
 
 export const useDialogs = () => useContext(DialogContext);
@@ -21,12 +25,16 @@ export interface DialogContextProps {
 export const DialogProvider = ({ children }: DialogContextProps) => {
   const [metamaskMigrationOpen, setMetamaskMigrationOpen] =
     useState<boolean>(false);
+  const [mobileNavigationOpen, setMobileNavigationOpen] =
+    useState<boolean>(false);
 
   return (
     <DialogContext.Provider
       value={{
         metamaskMigrationOpen,
+        mobileNavigationOpen,
         setMetamaskMigrationOpen,
+        setMobileNavigationOpen,
       }}
     >
       {children}

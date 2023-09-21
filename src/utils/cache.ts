@@ -166,7 +166,7 @@ export function getContentItemsCache(
     cache?.[userAddress]?.[podName]?.[path] ?? EMPTY_CACHE_OBJECT_STRING
   );
 
-  return { cache, contentItems };
+  return { cache, contentItems: contentItems || {} };
 }
 
 /**

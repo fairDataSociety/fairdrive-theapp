@@ -4,28 +4,21 @@
       "Name": "DEPLOYMENT",
       "Value": ".",
       "Scope": {
-        "Environment": [
-          "master",
-    "main"
-        ]
+        "Environment": ["master", "main"]
       }
     },
     {
       "Name": "DEPLOYMENT",
       "Value": ".dev.",
       "Scope": {
-        "Environment": [
-          "development"
-        ]
+        "Environment": ["development"]
       }
     },
     {
       "Name": "DEPLOYMENT",
       "Value": ".staging.",
       "Scope": {
-        "Environment": [
-          "staging"
-        ]
+        "Environment": ["staging"]
       }
     },
     {
@@ -67,32 +60,28 @@
       "Name": "NEXT_PUBLIC_FAIRDRIVEHOST",
       "Value": "https://app.fairdrive#{DEPLOYMENT}fairdatasociety.org",
       "Scope": {
-        "Environment": [
-          "main",
-          "master",
-          "development"
-        ]
+        "Environment": ["main", "master", "development"]
       }
     },
     {
       "Name": "NEXT_PUBLIC_FAIRDRIVEHOST",
       "Value": "https://fairdrive#{DEPLOYMENT}fairdatasociety.org",
       "Scope": {
-        "Environment": [
-          "staging"
-        ]
+        "Environment": ["staging"]
       }
     },
     {
       "Name": "NEXT_PUBLIC_BEE_URL",
       "Value": "https://bee-1.fairdatasociety.org",
       "Scope": {
-        "Environment": [
-          "main",
-          "master",
-          "staging",
-          "development"
-        ]
+        "Environment": ["main", "master", "development"]
+      }
+    },
+    {
+      "Name": "NEXT_PUBLIC_BEE_URL",
+      "Value": "https://bee-1.dev.fairdatasociety.org",
+      "Scope": {
+        "Environment": ["staging"]
       }
     },
     {
