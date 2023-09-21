@@ -4,28 +4,21 @@
       "Name": "DEPLOYMENT",
       "Value": ".",
       "Scope": {
-        "Environment": [
-          "master",
-	  "main"
-        ]
+        "Environment": ["master", "main"]
       }
     },
     {
       "Name": "DEPLOYMENT",
       "Value": ".dev.",
       "Scope": {
-        "Environment": [
-          "development"
-        ]
+        "Environment": ["development"]
       }
     },
     {
       "Name": "DEPLOYMENT",
       "Value": ".staging.",
       "Scope": {
-        "Environment": [
-          "staging"
-        ]
+        "Environment": ["staging"]
       }
     },
     {
@@ -67,40 +60,21 @@
       "Name": "NEXT_PUBLIC_FAIRDRIVEHOST",
       "Value": "https://app.fairdrive#{DEPLOYMENT}fairdatasociety.org",
       "Scope": {
-        "Environment": [
-          "main",
-          "master",
-          "development"
-        ]
+        "Environment": ["main", "master", "development"]
       }
     },
     {
       "Name": "NEXT_PUBLIC_FAIRDRIVEHOST",
       "Value": "https://fairdrive#{DEPLOYMENT}fairdatasociety.org",
       "Scope": {
-        "Environment": [
-          "staging"
-        ]
+        "Environment": ["staging"]
       }
     },
     {
       "Name": "NEXT_PUBLIC_BEE_URL",
-      "Value": "https://bee-1#{DEPLOYMENT}fairdatasociety.org",
+      "Value": "https://bee-1.fairdatasociety.org",
       "Scope": {
-        "Environment": [
-          "main",
-          "master",
-          "development"
-        ]
-      }
-    },
-    {
-      "Name": "NEXT_PUBLIC_BEE_URL",
-      "Value": "https://bee-1.dev.fairdatasociety.org",
-      "Scope": {
-        "Environment": [
-          "staging"
-        ]
+        "Environment": ["main", "master", "staging", "development"]
       }
     },
     {
@@ -141,6 +115,16 @@
     {
       "Name": "SWARM_URL",
       "Value": "https://gateway#{DEPLOYMENT}fairdatasociety.org/proxy/",
+      "Scope": {}
+    },
+    {
+      "Name": "NEXT_PUBLIC_BB_API_URL",
+      "Value": "https://bbapi.fairdatasociety.org",
+      "Scope": {}
+    },
+    {
+      "Name": "NEXT_PUBLIC_BB_RULES_URL",
+      "Value": "https://create#{DEPLOYMENT}fairdatasociety.org/#/bb-rules",
       "Scope": {}
     }
   ]

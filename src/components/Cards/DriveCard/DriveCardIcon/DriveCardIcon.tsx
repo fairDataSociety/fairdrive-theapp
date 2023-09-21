@@ -11,10 +11,10 @@ interface DriveCardIconProps {
 const DriveCardIcon: FC<DriveCardIconProps> = ({ type, fileExtention }) => {
   return (
     <div className="">
-      <span className="flex text-color-accents-grey-lavendar dark:text-color-shade-dark-1-night z-10">
+      <span className="flex text-color-accents-grey-lavendar dark:text-color-shade-dark-1-night">
         <div className="mx-auto lg:mx-0">
           {type === 'folder' ? (
-            <FolderIcon className="inline-block mb-8" />
+            <FolderIcon className="inline-block mb-3" />
           ) : (
             <FileIcon />
           )}
@@ -22,7 +22,7 @@ const DriveCardIcon: FC<DriveCardIconProps> = ({ type, fileExtention }) => {
       </span>
 
       {type === 'file' ? (
-        <span className="block -mt-10 mb-5 lg:mb-10 ml-0 text-center text-ellipsis lg:text-center text-color-shade-black-day dark:text-color-accents-grey-pastel uppercase z-20">
+        <span className="block -mt-10 mb-5 lg:mb-10 ml-0 text-center text-ellipsis lg:text-center text-color-shade-black-day dark:text-color-accents-grey-pastel uppercase">
           {(fileExtention || '').substring(0, 5)}
         </span>
       ) : null}

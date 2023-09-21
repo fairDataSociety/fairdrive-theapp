@@ -1,72 +1,90 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
-import { BigNumber, providers, Wallet } from 'ethers';
+import { Wallet } from 'ethers';
 import { CacheType, saveCache } from '@utils/cache';
 import {
   createContext,
+  MutableRefObject,
   ReactNode,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { Blossom } from '@fairdatasociety/blossom';
+import { FdpContracts } from '@fairdatasociety/fdp-storage';
+import { networks } from '@data/networks';
+import * as dataStorage from '@utils/localStorage';
+import { useLocales } from './LocalesContext';
 
 type FDP_STORAGE_TYPE = 'native' | 'blossom';
-export const BLOSSOM_DEFAULT_ADDRESS = '[Blossom user]';
+export const BLOSSOM_DEFAULT_ADDRESS = `BLOSSOM_USER`;
+export type LoginType = 'username' | 'blossom' | 'metamask';
 
-const provider = new providers.JsonRpcProvider(
-  process.env.NEXT_PUBLIC_RPC_URL as string
-);
+const createFdpStorage = (
+  ensOptions: FdpContracts.EnsEnvironment
+): FdpStorage => {
+  return new FdpStorage(
+    process.env.NEXT_PUBLIC_BEE_URL,
+    (process.env.NEXT_PUBLIC_GLOBAL_BATCH_ID || null) as any,
+    {
+      ensOptions,
+      ensDomain: 'fds',
+      cacheOptions: {
+        isUseCache: true,
+        onSaveCache: async (cacheObject) => {
+          saveCache(CacheType.FDP, JSON.stringify(cacheObject));
+        },
+      },
+    }
+  );
+};
 
-const nativeFdpStorage = new FdpStorage(
-  process.env.NEXT_PUBLIC_BEE_URL,
-  (process.env.NEXT_PUBLIC_GLOBAL_BATCH_ID || null) as any,
-  {
-    ensOptions: {
-      performChecks: true,
-      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
-      contractAddresses: {
-        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY_ADDRESS,
-        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER_ADDRESS,
-        fdsRegistrar: process.env.NEXT_PUBLIC_SUBDOMAIN_REGISTRAR_ADDRESS,
-      },
-    },
-    ensDomain: 'fds',
-    cacheOptions: {
-      isUseCache: true,
-      onSaveCache: async (cacheObject) => {
-        saveCache(CacheType.FDP, JSON.stringify(cacheObject));
-      },
-    },
+export const getDefaultNetwork = () => {
+  let defaultNetworkId;
+
+  if (typeof window !== 'undefined') {
+    defaultNetworkId = dataStorage.getDefaultNetwork();
   }
-);
+
+  return (
+    networks.find(({ id }) => String(id) === defaultNetworkId) || networks[0]
+  );
+};
+
 interface FdpStorageContextProps {
   children: ReactNode;
 }
 
 interface FdpStorageContext {
-  fdpClient: FdpStorage;
+  fdpClientRef: MutableRefObject<FdpStorage>;
   username: string;
   password: string;
   isLoggedIn: boolean;
+  loginType: LoginType | null;
   blossom: Blossom;
   wallet: Wallet | null;
   storageType: FDP_STORAGE_TYPE | null;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  setLoginType: (loginType: LoginType) => void;
   setWallet: (wallet: Wallet) => void;
-  setFdpStorageType: (type: FDP_STORAGE_TYPE) => void;
+  setFdpStorageType: (
+    type: FDP_STORAGE_TYPE,
+    config?: FdpContracts.EnsEnvironment
+  ) => void;
+  setFdpStorageConfig: (config: FdpContracts.EnsEnvironment) => void;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
-  getAccountBalance: (address: string) => Promise<BigNumber>;
   getAccountAddress: () => Promise<string>;
 }
 
 const FdpStorageContext = createContext<FdpStorageContext>({
-  fdpClient: null,
+  fdpClientRef: { current: null },
   username: '',
   password: '',
   isLoggedIn: false,
+  loginType: null,
   setUsername: null,
   setPassword: null,
   blossom: null,
@@ -74,37 +92,38 @@ const FdpStorageContext = createContext<FdpStorageContext>({
   storageType: null,
   setWallet: null,
   setIsLoggedIn: null,
+  setLoginType: null,
   setFdpStorageType: () => {},
+  setFdpStorageConfig: () => {},
   isUsernameAvailable: () => Promise.resolve(false),
-  getAccountBalance: () => Promise.resolve(BigNumber.from(0)),
   getAccountAddress: () => Promise.resolve(undefined),
 });
 
 function FdpStorageProvider(props: FdpStorageContextProps) {
   const { children } = props;
   const [blossom, setBlossom] = useState<Blossom>(null);
-  const [fdpClient, setFdpClient] = useState<FdpStorage>(nativeFdpStorage);
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [wallet, setWallet] = useState<Wallet>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loginType, setLoginType] = useState<LoginType | null>(null);
   const [storageType, setStorageType] = useState<FDP_STORAGE_TYPE>(null);
+  const fdpClientRef = useRef<FdpStorage>(
+    createFdpStorage(getDefaultNetwork().config)
+  );
+  const { intl } = useLocales();
 
   const isUsernameAvailable = async (
     username: string
   ): Promise<boolean | string> => {
     try {
-      const isAvailable = await nativeFdpStorage.ens.isUsernameAvailable(
+      const isAvailable = await fdpClientRef.current.ens.isUsernameAvailable(
         username
       );
-      return isAvailable ? true : 'Oops, username is already taken';
+      return isAvailable ? true : intl.get('USERNAME_TAKEN');
     } catch (error) {
       return error.message;
     }
-  };
-
-  const getAccountBalance = (address: string) => {
-    return provider.getBalance(address);
   };
 
   /**
@@ -115,20 +134,31 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const getAccountAddress = async () => {
     // todo: should be replace with a correct user address after implementing https://github.com/fairDataSociety/blossom/issues/141
     if (storageType === 'blossom') {
-      return BLOSSOM_DEFAULT_ADDRESS;
+      return `[${intl.get(BLOSSOM_DEFAULT_ADDRESS)}]`;
     } else {
-      return fdpClient.account.wallet.address;
+      return fdpClientRef.current.account.wallet.address;
     }
+  };
+
+  const setFdpStorageConfig = (config: FdpContracts.EnsEnvironment) => {
+    if (storageType !== 'native') {
+      throw new Error('Invalid storage type');
+    }
+
+    fdpClientRef.current = createFdpStorage(config);
   };
 
   /**
    * Sets the FDP storage type
    */
-  const setFdpStorageType = (type: FDP_STORAGE_TYPE) => {
+  const setFdpStorageType = (
+    type: FDP_STORAGE_TYPE,
+    config?: FdpContracts.EnsEnvironment
+  ) => {
     if (type === 'native') {
-      setFdpClient(nativeFdpStorage);
+      fdpClientRef.current = createFdpStorage(config);
     } else if (type === 'blossom') {
-      setFdpClient(blossom.fdpStorage);
+      fdpClientRef.current = blossom.fdpStorage;
     } else {
       throw new Error('Unknown FDP storage type');
     }
@@ -148,20 +178,22 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   return (
     <FdpStorageContext.Provider
       value={{
-        fdpClient,
+        fdpClientRef,
         username,
         password,
         isLoggedIn,
+        loginType,
         blossom,
         wallet,
         storageType,
         setWallet,
         setIsLoggedIn,
+        setLoginType,
         setFdpStorageType,
+        setFdpStorageConfig,
         setUsername,
         setPassword,
         isUsernameAvailable,
-        getAccountBalance,
         getAccountAddress,
       }}
     >

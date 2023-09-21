@@ -16,6 +16,7 @@ import { ContentType, removeItemFromCache } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import DropdownTransition from '../DropdownTransition';
+import { useLocales } from '@context/LocalesContext';
 
 interface DriveItemMenuProps extends UpdateDriveProps {
   type: 'folder' | 'file';
@@ -33,14 +34,15 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
 }) => {
   const { trackEvent } = useMatomo();
   const { activePod, directoryName } = useContext(PodContext);
-  const { fdpClient, getAccountAddress } = useFdpStorage();
+  const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
-  const previewLabel = type === 'file' ? 'Preview' : 'Open';
+  const { intl } = useLocales();
+  const previewLabel = intl.get(type === 'file' ? 'PREVIEW' : 'OPEN');
 
   const handleDownloadClick = async () => {
     try {
-      const response = await downloadFile(fdpClient, {
+      const response = await downloadFile(fdpClientRef.current, {
         filename: data?.name,
         directory: directoryName,
         podName: activePod,
@@ -74,7 +76,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
     const fdpPath = getFdpPathByDirectory(directory);
     const itemName = data?.name;
     try {
-      await deleteFile(fdpClient, {
+      await deleteFile(fdpClientRef.current, {
         file_name: itemName,
         podName: activePod,
         path: formatDirectory(directoryName),
@@ -113,7 +115,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
       (directoryName !== 'root' ? '/' + directoryName + '/' : '/') + data.name;
 
     try {
-      await deleteDirectory(fdpClient, {
+      await deleteDirectory(fdpClientRef.current, {
         podName: activePod,
         path: deletePath,
       });
@@ -145,7 +147,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   return (
     <>
       <DropdownTransition>
-        <Menu.Items className="absolute -left-32 w-48 p-5 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow z-30">
+        <Menu.Items className="absolute sm:-left-32 w-48 p-5 z-10 bg-color-shade-dark-1-day dark:bg-color-shade-dark-3-night text-left rounded-md shadow">
           <Menu.Item
             as="h4"
             className="mb-3 pb-3 font-semibold text-color-shade-white-day dark:text-color-shade-white-night text-base border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night cursor-pointer"
@@ -160,7 +162,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleDownloadClick}
               >
-                Download
+                {intl.get('DOWNLOAD')}
               </Menu.Item>
             ) : null}
 
@@ -170,7 +172,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
                 onClick={handleShareClick}
               >
-                Share
+                {intl.get('SHARE')}
               </Menu.Item>
             ) : null}
 
@@ -179,7 +181,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
               className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
               onClick={handleDeleteClick}
             >
-              Delete
+              {intl.get('DELETE')}
             </Menu.Item>
           </div>
         </Menu.Items>

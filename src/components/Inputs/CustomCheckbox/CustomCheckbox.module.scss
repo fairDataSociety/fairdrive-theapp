@@ -1,0 +1,9 @@
+/* Permission Checkbox: Display check icon if checkbox is checked */
+.checkbox:checked + div .checkIcon {
+  display: block;
+}
+
+/* Custom Checkbox Style */
+.checkbox:checked + div div {
+  background-color: var(--yellow-1);
+}

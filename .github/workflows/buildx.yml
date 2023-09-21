@@ -3,10 +3,10 @@ name: buildx
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
       - 'development'
       - 'staging'
-  
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -14,7 +14,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-  
       - name: Set environment specific variables
         uses: jnus/json-variables@v1.0
         with:
@@ -73,7 +72,6 @@ jobs:
           tags: ${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.sha }},${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:${{ github.ref_name }}
           cache-from: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache
           cache-to: type=registry,ref=${{ secrets.REGISTRY_URL }}/${{ env.REPO_LC }}:buildcache,mode=max
-          
   notify-servers:
     needs: docker
     uses: fairdatasociety/ci_utils/.github/workflows/webhook.yml@main

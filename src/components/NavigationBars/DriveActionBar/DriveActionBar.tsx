@@ -1,13 +1,9 @@
-import { FC, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import ThemeContext from '@context/ThemeContext';
 
 import { Button } from '@components/Buttons';
-import {
-  UploadFileModal,
-  ImportFileModal,
-  CreateFolderModal,
-} from '@components/Modals';
+import { ImportFileModal, CreateFolderModal } from '@components/Modals';
 
 import UploadLightIcon from '@media/UI/upload-light.svg';
 import UploadDarkIcon from '@media/UI/upload-dark.svg';
@@ -19,29 +15,35 @@ import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 import PodContext from '@context/PodContext';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { useLocales } from '@context/LocalesContext';
 
-const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
+export interface DriveActionBarProps extends UpdateDriveProps {
+  onFileUploadClick: () => void;
+}
+
+const DriveActionBar = ({
+  updateDrive,
+  onFileUploadClick,
+}: DriveActionBarProps) => {
   const { theme } = useContext(ThemeContext);
   const { activePod } = useContext(PodContext);
 
-  const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
+
+  const { intl } = useLocales();
 
   return (
     <div className="w-full hidden md:block mt-4 mb-6">
       <div className="flex justify-between items-center w-full">
-        <h2 className="font-semibold text-2xl text-color-accents-purple-black dark:text-color-shade-white-night">
-          Inventory
-        </h2>
-
         {activePod && (
           <div className="flex justify-center items-stretch mt-5">
             <Button
               type="button"
               variant="primary"
               className="mx-1 p-0"
-              onClick={() => setShowUploadFileModal(true)}
+              disabled={!activePod}
+              onClick={onFileUploadClick}
             >
               <span className="mr-2">
                 {theme === 'light' ? (
@@ -51,7 +53,7 @@ const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
                 )}
               </span>
               <span className="text-color-accents-purple-heavy text-xs">
-                Upload
+                {intl.get('UPLOAD')}
               </span>
             </Button>
 
@@ -82,17 +84,9 @@ const DriveActionBar: FC<UpdateDriveProps> = ({ updateDrive }) => {
         )}
       </div>
 
-      <div className="text-xs text-color-shade-light-2-night">
-        Note: You cannot share content that you do not own
+      <div className="text-xs text-color-shade-light-2-night mt-3">
+        {intl.get('COPYRIGHT_WARNING')}
       </div>
-
-      {showUploadFileModal ? (
-        <UploadFileModal
-          showModal={showUploadFileModal}
-          closeModal={() => setShowUploadFileModal(false)}
-          updateDrive={updateDrive}
-        />
-      ) : null}
 
       {showImportFileModal ? (
         <ImportFileModal

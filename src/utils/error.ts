@@ -12,5 +12,5 @@ export function isDataNotFoundError(error: unknown): boolean {
  * Checks that error is a fdp-storage JSON parsing error
  */
 export function isJsonParsingError(error: unknown): boolean {
-  return (error as Error)?.message.startsWith(ERROR_MESSAGE_JSON_PARSING);
+  return (error as Error)?.message?.startsWith(ERROR_MESSAGE_JSON_PARSING);
 }

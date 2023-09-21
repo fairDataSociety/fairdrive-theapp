@@ -4,6 +4,7 @@ import { useMatomo } from '@datapunt/matomo-tracker-react';
 
 import { AuthenticationLayout } from '@components/Layouts';
 import { LoginForm } from '@components/Forms';
+import SaveInvite from './invite/save-invite';
 
 const Home: NextPage = () => {
   const { trackPageView } = useMatomo();
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
 
   return (
     <AuthenticationLayout>
+      <SaveInvite />
       <LoginForm />
     </AuthenticationLayout>
   );

@@ -30,9 +30,12 @@ import ShareDarkIcon from '@media/UI/share-dark.svg';
 import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
-import FilePreview from '@components/FilePreview/FilePreview';
+import FilePreview, {
+  isFilePreviewSupported,
+} from '@components/FilePreview/FilePreview';
 import { FileItem } from '@fairdatasociety/fdp-storage';
 import { extractFileExtension } from '@utils/filename';
+import { useLocales } from '@context/LocalesContext';
 
 interface PreviewModalProps {
   showModal: boolean;
@@ -47,20 +50,25 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   previewFile,
   updateDrive,
 }) => {
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const { trackEvent } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { activePod, directoryName } = useContext(PodContext);
   const [loading, setLoading] = useState(false);
 
-  const [imageSource, setImageSource] = useState('');
+  const [fileContent, setFileContent] = useState<Blob | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+  const { intl } = useLocales();
 
   useEffect(() => {
+    if (!isFilePreviewSupported(previewFile?.name)) {
+      return;
+    }
+
     setLoading(true);
-    downloadFile(fdpClient, {
+    downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
@@ -69,15 +77,10 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         const blob = await response.arrayBuffer();
         const content = new Blob([blob]);
 
-        if (previewFile?.name.endsWith('.json')) {
-          const json = await content.text();
-          return setImageSource(JSON.parse(json));
-        }
-
-        setImageSource(window.URL.createObjectURL(content));
+        setFileContent(content);
       })
       .catch((e) => {
-        setErrorMessage('File preview could not be loaded!');
+        setErrorMessage(intl.get('FILE_PREVIEW_ERROR'));
       })
       .finally(() => {
         setLoading(false);
@@ -87,7 +90,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const handleDownloadFile = () => {
     setLoading(true);
 
-    downloadFile(fdpClient, {
+    downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
       directory: directoryName,
       podName: activePod,
@@ -113,7 +116,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const handleDeleteFile = () => {
     setLoading(true);
 
-    deleteFile(fdpClient, {
+    deleteFile(fdpClientRef.current, {
       file_name: previewFile?.name,
       podName: activePod,
       path: formatDirectory(directoryName),
@@ -147,19 +150,19 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           light: <FolderLightIcon />,
           dark: <FolderDarkIcon />,
         }}
-        headerTitle="Preview File"
+        headerTitle={intl.get('PREVIEW_FILE')}
         className="w-full md:w-98"
       >
-        {imageSource ? (
+        {fileContent ? (
           <FilePreview
             file={previewFile}
-            source={imageSource}
+            source={fileContent}
             pod={activePod}
             directory={directoryName}
-            onError={() => setErrorMessage('File preview could not be loaded!')}
+            onError={() => setErrorMessage(intl.get('FILE_PREVIEW_ERROR'))}
           />
         ) : null}
-        <Spinner isLoading={loading} />
+        <Spinner className="my-8" isLoading={loading} />
 
         {errorMessage ? (
           <div className="my-28 text-color-status-negative-day text-xs text-center leading-none">
@@ -167,14 +170,14 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           </div>
         ) : null}
 
-        <h2 className="text-base text-color-accents-purple-black dark:text-color-shade-white-night">
+        <h2 className="text-base mt-8 text-color-accents-purple-black dark:text-color-shade-white-night">
           {previewFile?.name}
         </h2>
 
         <div className="flex justify-between items-center w-full mt-5">
           <div>
             <h4 className="font-bold text-base text-color-accents-purple-black dark:text-color-shade-white-night">
-              File size
+              {intl.get('FILE_SIZE')}
             </h4>
             <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
               {previewFile?.size && prettyBytes(previewFile?.size)}
@@ -183,7 +186,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
 
           <div>
             <h4 className="font-bold text-base text-color-accents-purple-black dark:text-color-shade-white-night">
-              File type
+              {intl.get('FILE_TYPE')}
             </h4>
             <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
               {(previewFile?.raw as any)?.contentType ||
@@ -194,7 +197,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
 
         <div className="mt-5">
           <h4 className="font-bold text-base text-color-accents-purple-black dark:text-color-shade-white-night">
-            Created
+            {intl.get('CREATED')}
           </h4>
           <span className="font-normal text-xs text-color-accents-purple-black dark:text-color-shade-light-2-night">
             {(previewFile?.raw as any)?.creationTime &&

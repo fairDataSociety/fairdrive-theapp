@@ -3,14 +3,20 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import UserContext from '@context/UserContext';
-import DisclaimerMessage from '@components/DisclaimerMessage/DisclaimerMessage';
+import DisclaimerMessage, {
+  IconType,
+} from '@components/DisclaimerMessage/DisclaimerMessage';
 import { AuthenticationHeader } from '@components/Headers';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { AuthenticationInput } from '@components/Inputs';
 import { Button } from '@components/Buttons';
-import { useFdpStorage } from '@context/FdpStorageContext';
+import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import { isEmpty } from '@utils/object';
 import { CacheType, getCache } from '@utils/cache';
+import { Network } from '@data/networks';
+import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
+import { setDefaultNetwork } from '@utils/localStorage';
+import { useLocales } from '@context/LocalesContext';
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -20,34 +26,45 @@ const LoginForm: FC = () => {
   const { errors, isValid } = formState;
 
   const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
-
+  const [network, setNetwork] = useState<Network>(getDefaultNetwork());
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
-    fdpClient,
+    fdpClientRef,
     setWallet,
     setIsLoggedIn,
     setFdpStorageType,
+    setLoginType,
     storageType,
   } = useFdpStorage();
   const router = useRouter();
+  const { intl } = useLocales();
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
       setLoading(true);
       setErrorMessage(null);
       const { user_name, password } = data;
-      const wallet = await fdpClient.account.login(user_name, password);
+      setFdpStorageType('native', network.config);
+      const wallet = await fdpClientRef.current.account.login(
+        user_name,
+        password
+      );
       setWallet(wallet);
-      setFdpStorageType('native');
       setIsLoggedIn(true);
+      setLoginType('username');
       setUser(user_name);
+      setDefaultNetwork(String(network.id));
       router.push('/overview');
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const onNetworkChange = (network: Network) => {
+    setNetwork(network);
   };
 
   useEffect(() => {
@@ -65,40 +82,53 @@ const LoginForm: FC = () => {
       return;
     }
 
+    const fdpClient = fdpClientRef.current;
+
     // init the FDP cache if is not initialized yet
     if (fdpClient?.cache?.object && isEmpty(fdpClient.cache.object)) {
       fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
     }
-  }, [fdpClient.cache, storageType]);
+  }, [fdpClientRef.current?.cache, storageType]);
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
-      <DisclaimerMessage />
-
-      <AuthenticationHeader
-        title="Welcome back"
-        content="Please log in to get access to your Fairdrive."
+      <DisclaimerMessage
+        icon={IconType.WARNING}
+        text={intl.get('DISCLAIMER')}
       />
 
-      <div className="w-full md:w-98 mt-12">
+      <AuthenticationHeader
+        title={intl.get('WELCOME_BACK')}
+        content={intl.get('LOG_IN_TO_GET_ACCESS')}
+      />
+
+      <div className="w-full md:w-98 mt-4">
         <div className="mb-5 text-center">
           <FeedbackMessage type="error" message={errorMessage} />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <label className="font-normal text-base text-color-accents-plum-black dark:text-color-accents-grey-pastel">
+            {intl.get('CHOOSE_NETWORK')}:
+          </label>
+          <NetworkDropdown
+            className="mb-3"
+            value={network}
+            onChange={onNetworkChange}
+          />
+
           <AuthenticationInput
-            label="username"
+            label={intl.get('USERNAME')}
             id="user_name"
             type="text"
             name="user_name"
-            placeholder="Type here"
+            placeholder={intl.get('TYPE_HERE')}
             useFormRegister={register}
             validationRules={{
-              required: 'Username is required',
+              required: intl.get('USERNAME_IS_REQUIRED'),
               minLength: {
                 value: 4,
-                message:
-                  'Username field needs to contain at least 4 characters',
+                message: intl.get('USERNAME_MIN_LENGTH_ERROR'),
               },
             }}
             // @ts-ignore
@@ -106,26 +136,26 @@ const LoginForm: FC = () => {
           />
 
           <AuthenticationInput
-            label="password"
+            label={intl.get('PASSWORD')}
             id="password"
             type="password"
             name="password"
-            placeholder="Type here"
+            placeholder={intl.get('TYPE_HERE')}
             useFormRegister={register}
             validationRules={{
-              required: 'Password is required',
+              required: intl.get('PASSWORD_IS_REQUIRED'),
             }}
             // @ts-ignore
             error={errors.password}
           />
 
-          <div className="mt-14 text-center">
+          <div className="mt-8 text-center">
             <Button
               loading={loading}
               disabled={!isValid}
               type="submit"
               variant="secondary"
-              label="Continue"
+              label={intl.get('LOGIN')}
             />
           </div>
 
@@ -136,7 +166,7 @@ const LoginForm: FC = () => {
               rel="noopener noreferrer"
               className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar"
             >
-              Register New Account
+              {intl.get('REGISTER_NEW_ACCOUNT')}
             </a>
           </div>
         </form>

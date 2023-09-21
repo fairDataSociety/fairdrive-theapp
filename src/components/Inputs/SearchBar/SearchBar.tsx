@@ -9,12 +9,14 @@ import CloseLightIcon from '@media/UI/close-light.svg';
 import CloseDarkIcon from '@media/UI/close-light.svg';
 
 import classes from './SearchBar.module.scss';
+import { useLocales } from '@context/LocalesContext';
 
 interface SearchBarProps {}
 
 const SearchBar: FC<SearchBarProps> = () => {
   const { theme } = useContext(ThemeContext);
   const { search, updateSearch } = useContext(SearchContext);
+  const { intl } = useLocales();
 
   return (
     <div className="flex justify-center items-center w-80 md:w-98 h-10 py-2 px-4 bg-color-shade-dark-4-day dark:bg-color-shade-dark-4-night border border-color-shade-black-day dark:border-color-shade-dark-1-night effect-style-small-button-drop-shadow rounded">
@@ -28,7 +30,7 @@ const SearchBar: FC<SearchBarProps> = () => {
         type="text"
         id="search"
         name="search"
-        placeholder="Search"
+        placeholder={intl.get('SEARCH')}
         className={`${classes.searchBar} ${
           theme === 'light' ? classes.searchBarLight : classes.searchBarDark
         }`}

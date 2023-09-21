@@ -9,6 +9,7 @@ import PageUpDark from '@media/UI/page-up-dark.svg';
 
 import PageDownLight from '@media/UI/page-down-light.svg';
 import PageDownDark from '@media/UI/page-down-dark.svg';
+import { useLocales } from '@context/LocalesContext';
 
 interface DriveTableFooterProps {
   page: number;
@@ -28,6 +29,7 @@ const DriveTableFooter: FC<DriveTableFooterProps> = ({
   pageDown,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const { intl } = useLocales();
 
   const rowsPerPageOptions = [
     {
@@ -55,7 +57,7 @@ const DriveTableFooter: FC<DriveTableFooterProps> = ({
   return (
     <div className="flex justify-end items-center w-full h-16 pr-4 font-medium text-color-accents-plum-black dark:text-color-shade-light-1-night bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night shadow">
       <div className="px-5">
-        <span className="inline-block mr-2">Rows per page:</span>
+        <span className="inline-block mr-2">{intl.get('ROWS_PER_PAGE')}</span>
 
         <Select
           name="Rows Per Page"

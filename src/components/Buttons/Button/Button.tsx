@@ -21,6 +21,7 @@ interface ButtonProps {
   children?: ReactChild | ReactChild[];
   disabled?: boolean;
   loading?: boolean;
+  centerText?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -35,6 +36,7 @@ const Button: FC<ButtonProps> = ({
   children,
   disabled = false,
   loading = false,
+  centerText = false,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -142,7 +144,7 @@ const Button: FC<ButtonProps> = ({
   const onClickHandler = (event: SyntheticEvent) => {
     if (to) {
       event.preventDefault();
-      return router.push('/drive');
+      return router.push(to);
     }
 
     if (onClick) {
@@ -157,7 +159,11 @@ const Button: FC<ButtonProps> = ({
       className={`${getVariantStyling()} ${getVariantHoverStyle()} ${getVariantDisabledStyle()} ${getVariantSelectedStyle()} ${className} ${padding} text-center rounded`}
       disabled={disabled}
     >
-      <div className="flex items-center gap-2">
+      <div
+        className={`flex items-center gap-2 ${
+          centerText ? 'justify-center' : ''
+        }`}
+      >
         {children ? (
           children
         ) : (

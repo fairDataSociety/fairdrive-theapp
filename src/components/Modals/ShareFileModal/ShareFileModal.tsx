@@ -12,6 +12,8 @@ import shortenString from '@utils/shortenString';
 import FolderLightIcon from '@media/UI/folder-light.svg';
 import FolderDarkIcon from '@media/UI/folder-dark.svg';
 import CopyIcon from '@media/UI/copy.svg';
+import { useLocales } from '@context/LocalesContext';
+import Spinner from '@components/Spinner/Spinner';
 
 interface ShareFileModalProps {
   showModal: boolean;
@@ -29,16 +31,20 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
   path,
 }) => {
   const { trackEvent } = useMatomo();
-  const { fdpClient } = useFdpStorage();
+  const { fdpClientRef } = useFdpStorage();
   const [shareCode, setShareCode] = useState('');
+  const { intl } = useLocales();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    shareFile(fdpClient, {
-      fileName: fileName,
-      podName: podName,
-      path_file: path,
-    })
-      .then((response) => {
+    async function run() {
+      setLoading(true);
+      try {
+        const response = await shareFile(fdpClientRef.current, {
+          fileName: fileName,
+          podName: podName,
+          path_file: path,
+        });
         setShareCode(response);
 
         trackEvent({
@@ -48,10 +54,14 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
           documentTitle: 'Drive Page',
           href: window.location.href,
         });
-      })
-      .catch(() => {
-        console.log('Could not receive share code!');
-      });
+      } catch (e) {
+        console.log('Could not receive share code!', e);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    run();
   }, []);
 
   const handleCopyClick = () => {
@@ -63,34 +73,51 @@ const ShareFileModal: FC<ShareFileModalProps> = ({
       .catch(() => console.log('Could not copy share code!'));
   };
 
-  return (
-    <Modal
-      showModal={showModal}
-      closeModal={closeModal}
-      headerIcon={{
-        light: <FolderLightIcon />,
-        dark: <FolderDarkIcon />,
-      }}
-      headerTitle="Share File"
-    >
-      <h5>Share this code with a friend:</h5>
+  const headerIcons = {
+    light: <FolderLightIcon />,
+    dark: <FolderDarkIcon />,
+  };
 
-      <div className="flex justify-between items-center mt-5">
+  const closeButton = (
+    <Button
+      type="button"
+      variant="primary"
+      label={intl.get('COMPLETE_SHARING')}
+      onClick={closeModal}
+      className="mt-8 w-auto"
+    />
+  );
+
+  const ShareBody = ({ loading, shareCode, handleCopyClick }) =>
+    loading ? (
+      <Spinner />
+    ) : (
+      <>
         <p className="text-xs text-center">{shortenString(shareCode, 40)}</p>
         <Button
           variant="tertiary"
           onClick={handleCopyClick}
           icon={<CopyIcon className="inline" />}
         />
-      </div>
+      </>
+    );
 
-      <Button
-        type="button"
-        variant="primary"
-        label="Complete Sharing"
-        onClick={closeModal}
-        className="mt-8 w-auto"
-      />
+  return (
+    <Modal
+      showModal={showModal}
+      closeModal={closeModal}
+      headerIcon={headerIcons}
+      headerTitle={intl.get('SHARE_FILE')}
+    >
+      <h5>{intl.get('SHARE_WITH_FRIEND')}</h5>
+      <div className="flex justify-between items-center mt-5">
+        <ShareBody
+          loading={loading}
+          shareCode={shareCode}
+          handleCopyClick={handleCopyClick}
+        />
+      </div>
+      {closeButton}
     </Modal>
   );
 };

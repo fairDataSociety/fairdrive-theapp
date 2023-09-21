@@ -16,7 +16,7 @@ import { MainLayout } from '@components/Layouts';
 import { MainHeader } from '@components/Headers';
 import { DriveActionBar } from '@components/NavigationBars';
 import { DriveGridView, DriveListView } from '@components/Views';
-import { PreviewFileModal } from '@components/Modals';
+import { PreviewFileModal, UploadFileModal } from '@components/Modals';
 import { EmptyDirectoryCard } from '@components/Cards';
 
 import SearchResultsLightIcon from '@media/UI/search-results-light.svg';
@@ -24,7 +24,6 @@ import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
 import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
-import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
 import {
   CacheType,
   getCache,
@@ -36,12 +35,15 @@ import {
 import { RefreshDriveOptions } from '@interfaces/handlers';
 import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
 import { isDataNotFoundError, isJsonParsingError } from '@utils/error';
+import PodList from '@components/Views/PodList/PodList';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const {
+    pods,
     activePod,
+    setActivePod,
     openPods,
     setPods,
     directoryName,
@@ -50,6 +52,8 @@ const Drive: FC = () => {
   } = useContext(PodContext);
   const { search, updateSearch } = useContext(SearchContext);
 
+  const [showUploadFileModal, setShowUploadFileModal] =
+    useState<boolean>(false);
   const [directories, setDirectories] = useState<DirectoryItem[] | null>(null);
   const [files, setFiles] = useState<FileItem[] | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -57,7 +61,7 @@ const Drive: FC = () => {
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
-  const { fdpClient, getAccountAddress } = useFdpStorage();
+  const { fdpClientRef, getAccountAddress } = useFdpStorage();
 
   useEffect(() => {
     trackPageView({
@@ -99,7 +103,7 @@ const Drive: FC = () => {
 
     try {
       const response = await getFilesAndDirectories(
-        fdpClient,
+        fdpClientRef.current,
         activePod,
         directory
       );
@@ -121,8 +125,10 @@ const Drive: FC = () => {
         );
         if (invalidationResult === InvalidationResult.FULL) {
           // update FDP cache if it is available
-          if (fdpClient?.cache?.object) {
-            fdpClient.cache.object = JSON.parse(getCache(CacheType.FDP));
+          if (fdpClientRef.current?.cache?.object) {
+            fdpClientRef.current.cache.object = JSON.parse(
+              getCache(CacheType.FDP)
+            );
           }
 
           clearPodContext();
@@ -139,7 +145,7 @@ const Drive: FC = () => {
   const handleFetchPods = async () => {
     try {
       setLoading(true);
-      const response = await getPods(fdpClient);
+      const response = await getPods(fdpClientRef.current);
       setPods(response);
     } catch (error) {
       console.log('Error: Pods could not be fetched (drive index)!');
@@ -207,78 +213,116 @@ const Drive: FC = () => {
     return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
   };
 
+  const handlePodSelect = (pod: string) => {
+    setActivePod(pod);
+    setDirectoryName('root');
+  };
+
+  const onBackToDrive = () => {
+    setActivePod('');
+    setDirectoryName('');
+  };
+
   return (
     <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
-      <div className="block md:hidden">
-        <DriveActionHeaderMobile />
-      </div>
-      <MainHeader
-        title={
-          <DirectoryPath
+      <div className="flex flex-col">
+        <div className="flex md:hidden">
+          <DriveActionHeaderMobile
             podName={activePod}
             directory={directoryName}
             onDirectorySelect={handleDirectoryPathChange}
+            onBackToDrive={onBackToDrive}
           />
-        }
-        activePod={activePod}
-        driveView={driveView}
-        toggleView={handleToggleView}
-        toggleSort={handleToggleSort}
-      />
-      <DriveActionBar updateDrive={handleUpdateDrive} />
-      {search.length > 0 ? (
-        <div className="flex justify-start items-center mt-10 mb-5">
-          <span>
-            {theme === 'light' ? (
-              <SearchResultsLightIcon className="inline-block mr-2" />
-            ) : (
-              <SearchResultsDarkIcon className="inline-block mr-2" />
-            )}
-          </span>
-
-          <span className="text-2xl font-semibold text-color-accents-grey-lavendar">
-            {search}
-          </span>
         </div>
-      ) : null}
-      <Spinner isLoading={loading} />
-      {directories?.length || files?.length ? (
-        <div>
-          {driveView === 'grid' ? (
-            <DriveGridView
-              directories={handleSort(directories?.filter(handleSearchFilter))}
-              files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectoryOnClick}
-              fileOnClick={handleFileOnClick}
-              updateDrive={handleUpdateDrive}
+        <MainHeader
+          title={
+            <DirectoryPath
+              className="hidden md:flex"
+              podName={activePod}
+              directory={directoryName}
+              onDirectorySelect={handleDirectoryPathChange}
+              onBackToDrive={onBackToDrive}
             />
-          ) : null}
-
-          {driveView === 'list' ? (
-            <DriveListView
-              directories={handleSort(directories?.filter(handleSearchFilter))}
-              files={handleSort(files?.filter(handleSearchFilter))}
-              directoryOnClick={handleDirectoryOnClick}
-              fileOnClick={handleFileOnClick}
-              updateDrive={handleUpdateDrive}
-            />
-          ) : null}
-        </div>
-      ) : loading === false ? (
-        activePod ? (
-          <EmptyDirectoryCard />
-        ) : (
-          <SelectPodCard />
-        )
-      ) : null}
-      {showPreviewModal ? (
-        <PreviewFileModal
-          showModal={showPreviewModal}
-          closeModal={() => setShowPreviewModal(false)}
-          previewFile={previewFile}
-          updateDrive={handleUpdateDrive}
+          }
+          activePod={activePod}
+          driveView={driveView}
+          toggleView={handleToggleView}
+          toggleSort={handleToggleSort}
         />
-      ) : null}
+        <DriveActionBar
+          updateDrive={handleUpdateDrive}
+          onFileUploadClick={() => setShowUploadFileModal(true)}
+        />
+        {search.length > 0 ? (
+          <div className="flex justify-start items-center mt-10 mb-5">
+            <span>
+              {theme === 'light' ? (
+                <SearchResultsLightIcon className="inline-block mr-2" />
+              ) : (
+                <SearchResultsDarkIcon className="inline-block mr-2" />
+              )}
+            </span>
+
+            <span className="text-2xl font-semibold text-color-accents-grey-lavendar">
+              {search}
+            </span>
+          </div>
+        ) : null}
+        <Spinner isLoading={loading || !pods} />
+
+        {!loading &&
+          (activePod ? (
+            directories?.length || files?.length ? (
+              <div>
+                {driveView === 'grid' ? (
+                  <DriveGridView
+                    directories={handleSort(
+                      directories?.filter(handleSearchFilter)
+                    )}
+                    files={handleSort(files?.filter(handleSearchFilter))}
+                    directoryOnClick={handleDirectoryOnClick}
+                    fileOnClick={handleFileOnClick}
+                    updateDrive={handleUpdateDrive}
+                  />
+                ) : null}
+
+                {driveView === 'list' ? (
+                  <DriveListView
+                    directories={handleSort(
+                      directories?.filter(handleSearchFilter)
+                    )}
+                    files={handleSort(files?.filter(handleSearchFilter))}
+                    directoryOnClick={handleDirectoryOnClick}
+                    fileOnClick={handleFileOnClick}
+                    updateDrive={handleUpdateDrive}
+                  />
+                ) : null}
+              </div>
+            ) : (
+              <EmptyDirectoryCard
+                onUploadClick={() => setShowUploadFileModal(true)}
+              />
+            )
+          ) : (
+            <PodList pods={pods} onPodSelect={handlePodSelect} />
+          ))}
+        {showUploadFileModal && (
+          <UploadFileModal
+            showModal={showUploadFileModal}
+            closeModal={() => setShowUploadFileModal(false)}
+            updateDrive={handleUpdateDrive}
+          />
+        )}
+
+        {showPreviewModal ? (
+          <PreviewFileModal
+            showModal={showPreviewModal}
+            closeModal={() => setShowPreviewModal(false)}
+            previewFile={previewFile}
+            updateDrive={handleUpdateDrive}
+          />
+        ) : null}
+      </div>
     </MainLayout>
   );
 };

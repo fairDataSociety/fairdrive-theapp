@@ -21,6 +21,8 @@ import ImportDarkIcon from '@media/UI/import-dark.svg';
 import CreateFolderLightIcon from '@media/UI/create-folder-light.svg';
 import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 import { UpdateDriveProps } from '@interfaces/handlers';
+import { useLocales } from '@context/LocalesContext';
+import PodContext from '@context/PodContext';
 
 export interface DriveActionBarMobileProps extends UpdateDriveProps {
   refreshPods?: () => void;
@@ -31,12 +33,13 @@ const DriveActionBarItem = (
   label: string,
   imageLight: JSX.Element,
   imageDark: JSX.Element,
-  onClick: () => void
+  onClick: () => void,
+  disabled = false
 ) => {
   return (
     <div
-      className="py-2 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
-      onClick={onClick}
+      className="py-2 w-24 block md:hidden sm:w-full py-1 flex-shrink-0 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
+      onClick={disabled ? undefined : onClick}
     >
       <a className="flex flex-col justify-center items-center">
         {theme === 'light' ? imageLight : imageDark}
@@ -54,44 +57,47 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   refreshPods,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const { activePod } = useContext(PodContext);
 
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
   const [showUploadFileModal, setShowUploadFileModal] = useState(false);
   const [showImportFileModal, setShowImportFileModal] = useState(false);
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
 
+  const { intl } = useLocales();
+
   return (
     <>
-      <div className="flex md:hidden flex-col justify-center w-full">
-        {DriveActionBarItem(
-          theme,
-          'New Pod',
-          <DriveActiveLightIcon />,
-          <DriveActiveDarkIcon />,
-          () => setShowCreatePodModal(true)
-        )}
-        {DriveActionBarItem(
-          theme,
-          'Upload',
-          <UploadLightIcon />,
-          <UploadDarkIcon />,
-          () => setShowUploadFileModal(true)
-        )}
-        {DriveActionBarItem(
-          theme,
-          'Import',
-          <ImportLightIcon />,
-          <ImportDarkIcon />,
-          () => setShowImportFileModal(true)
-        )}
-        {DriveActionBarItem(
-          theme,
-          'Folder',
-          <CreateFolderLightIcon />,
-          <CreateFolderDarkIcon />,
-          () => setShowCreateFolderModal(true)
-        )}
-      </div>
+      {DriveActionBarItem(
+        theme,
+        intl.get('NEW_POD'),
+        <DriveActiveLightIcon height="22" />,
+        <DriveActiveDarkIcon height="22" />,
+        () => setShowCreatePodModal(true)
+      )}
+      {DriveActionBarItem(
+        theme,
+        intl.get('UPLOAD'),
+        <UploadLightIcon height="22" />,
+        <UploadDarkIcon height="22" />,
+        () => setShowUploadFileModal(true),
+        !activePod
+      )}
+      {DriveActionBarItem(
+        theme,
+        intl.get('IMPORT'),
+        <ImportLightIcon height="22" />,
+        <ImportDarkIcon height="22" />,
+        () => setShowImportFileModal(true)
+      )}
+      {DriveActionBarItem(
+        theme,
+        intl.get('FOLDER'),
+        <CreateFolderLightIcon height="22" />,
+        <CreateFolderDarkIcon height="22" />,
+        () => setShowCreateFolderModal(true),
+        !activePod
+      )}
       {showCreatePodModal ? (
         <CreatePodModal
           showModal={showCreatePodModal}

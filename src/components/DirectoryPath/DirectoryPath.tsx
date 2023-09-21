@@ -1,9 +1,15 @@
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import PageDownLight from '@media/UI/page-down-light.svg';
+import PageDownDark from '@media/UI/page-down-dark.svg';
+import { Button } from '@components/Buttons';
+import ThemeContext from '@context/ThemeContext';
 
 interface DirectoryPathProps {
   podName: string;
   directory: string;
   onDirectorySelect: (newDirectory: string) => void;
+  onBackToDrive: () => void;
+  className?: string;
 }
 
 const MAX_FOLDERS = 3;
@@ -15,7 +21,10 @@ const DirectoryPath = ({
   podName,
   directory,
   onDirectorySelect,
+  onBackToDrive,
+  className,
 }: DirectoryPathProps) => {
+  const { theme } = useContext(ThemeContext);
   const [folders, displayedFolders] = useMemo(() => {
     const folders = (directory === 'root' ? '' : directory).split('/');
     return [folders, folders.slice(-MAX_FOLDERS)];
@@ -28,7 +37,22 @@ const DirectoryPath = ({
   };
 
   return (
-    <div className="md:ml-0 ml-2">
+    <div className={`flex items-center overflow-hidden ${className}`}>
+      {podName && (
+        <Button
+          variant="tertiary"
+          onClick={onBackToDrive}
+          icon={
+            theme === 'light' ? (
+              <PageDownLight className="inline ml-2" />
+            ) : (
+              <PageDownDark className="inline ml-2" />
+            )
+          }
+          className="m-auto hidden md:block"
+        />
+      )}
+
       <span
         className={`hidden md:inline ${folderClasses} ${selectableClasses}`}
         onClick={() => onDirectorySelect('root')}

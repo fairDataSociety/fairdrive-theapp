@@ -1,0 +1,23 @@
+.arrow {
+  transition: transform 0.3s ease-in-out;
+  transform: rotate(90deg);
+}
+
+.arrowOpen {
+  transform: rotate(270deg);
+}
+
+.flag {
+  margin-right: 25px;
+  width: 20px;
+}
+
+@media (max-width: 500px) {
+  .flag {
+    margin: 0;
+  }
+
+  .arrow {
+    display: none;
+  }
+}

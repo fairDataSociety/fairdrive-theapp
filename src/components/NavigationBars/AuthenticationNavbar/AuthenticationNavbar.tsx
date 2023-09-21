@@ -6,27 +6,29 @@ import DownloadIcon from '@media/UI/download.svg';
 
 import ConnectDropdown from '@components/Dropdowns/ConnectDropdown/ConnectDropdown';
 
+import classes from './AuthenticationNavbar.module.scss';
+import { useLocales } from '@context/LocalesContext';
+import LanguageDropdown from '@components/Dropdowns/LanguageDropdown/LanguageDropdown';
+
 const AuthenticationNavbar: FC = () => {
+  const { intl } = useLocales();
+
   return (
-    <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
+    <div
+      className={`${classes.wrapper} flex justify-between items-center w-full h-16 px-6 shadow-lg`}
+    >
       <Logo />
 
       <div className="flex justify-between items-center">
-        <Link href="/import">
-          <a className="mr-6">
-            <Button
-              variant="tertiary-outlined"
-              label="Import Account"
-              icon={<DownloadIcon className="inline-block ml-2" />}
-            />
-          </a>
-        </Link>
-
-        <a className="mr-6">
+        <a className={`${classes.button} mr-4`}>
           <ConnectDropdown />
         </a>
 
         <ThemeToggle />
+
+        <div className="ml-2">
+          <LanguageDropdown />
+        </div>
       </div>
     </div>
   );
