@@ -30,7 +30,7 @@ const MainSideBar: FC<MainSideBarProps> = ({
       bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night`}
     >
       <NavigationItems
-        className="hidden sm:block"
+        className="hidden md:block"
         driveSideBarToggle={driveSideBarToggle}
         onOptionClick={onOptionClick}
       />
