@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { Button } from '@components/Buttons';
 import { useForm } from 'react-hook-form';
 import {
@@ -20,6 +20,9 @@ import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import copy from 'copy-to-clipboard';
 import { useLocales } from '@context/LocalesContext';
+import ThemeContext from '@context/ThemeContext';
+import InfoLight from '@media/UI/info-light.svg';
+import InfoDark from '@media/UI/info-dark.svg';
 
 export const STEP_CREATE = 'create';
 export const STEP_FILL = 'fill';
@@ -42,6 +45,7 @@ const Invite: FC<InviteProps> = () => {
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
   const { wallet } = useFdpStorage();
   const { intl } = useLocales();
+  const { theme } = useContext(ThemeContext);
 
   /**
    * When user click by Save name button
@@ -120,6 +124,7 @@ const Invite: FC<InviteProps> = () => {
         <div className="md:border-r border-gray-300">
           {step === STEP_CREATE && (
             <>
+              <p className="pr-8">{intl.get('INVITES_DESCRIPTION')}</p>
               <div className="flex flex-col sm:flex-row mt-10">
                 <CustomCheckbox
                   className="mb-3 sm:mb-0"
@@ -250,8 +255,14 @@ const Invite: FC<InviteProps> = () => {
         </div>
 
         <div className="mt-10 md:mt-0">
-          <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
+          <div className="font-semibold relative flex items-center text-l text-color-accents-plum-black dark:text-color-shade-white-night">
             {intl.get('INVITES_ADDRESS_BOOK')}
+            <div className="has-tooltip inline-block ml-2 text-color-shade-dark-2-night dark:text-color-shade-light-2-night cursor-pointer">
+              <span>{theme === 'light' ? <InfoLight /> : <InfoDark />}</span>
+              <span className="tooltip rounded w-48 -left-24 sm:w-56 sm:-left-28 top-4 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
+                {intl.get('INVITES_TOOLTIP')}
+              </span>
+            </div>
           </div>
           <div className="mt-10">
             <Invites

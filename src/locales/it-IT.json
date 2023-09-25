@@ -220,5 +220,7 @@
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Tutti i diritti riservati",
   "PASSPHRASE_EXPLANATION": "La tua frase di accesso viene utilizzata per la cifratura e la decifratura dei tuoi dati. Non condividerla.",
   "PASSPHRASE_EXPLANATION_2": "Per migliorare la sicurezza, l'accesso è protetto da una combinazione di una passphrase e una firma digitale da MetaMask. L'inserimento corretto di passphrase e firma sbloccherà i tuoi dati specifici, pod, cartelle e file. Nota: una passphrase errata non negherà l'accesso, ma mostrerà dati completamente diversi. Se decidi di passare a un account FDP completo, solo i dati del conto attualmente loggato verranno migrati.",
-  "ROOT_DIRECTORY": "Directory principale"
+  "ROOT_DIRECTORY": "Directory principale",
+  "INVITES_TOOLTIP": "Gli inviti semplificano l'accesso! Condividi un link di invito per fornire agli amici un accesso immediato a un portafoglio prefinanziato.",
+  "INVITES_DESCRIPTION": "Il nostro sistema di inviti è progettato per rendere fluido il processo di integrazione per i nuovi utenti. Creando un invito, stai essenzialmente generando un link di riferimento incastonato con una chiave privata per un portafoglio prefinanziato. Condividendo questo link con amici o colleghi, dai loro accesso immediato per iniziare a utilizzare il servizio con fondi già presenti. Questo non solo aiuta a evitare i problemi della configurazione iniziale, ma incoraggia anche una più rapida adozione e utilizzo della nostra piattaforma."
 }

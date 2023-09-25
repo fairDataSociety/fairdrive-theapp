@@ -220,5 +220,7 @@
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Vse pravice pridržane",
   "PASSPHRASE_EXPLANATION": "Vaše geslo se uporablja za šifriranje in dešifriranje vaših podatkov. Ne delite ga.",
   "PASSPHRASE_EXPLANATION_2": "Za izboljšanje varnosti je vaš dostop zaščiten s kombinacijo geselske fraze in digitalnega podpisa v MetaMasku. Pravilen vnos geselske fraze in podpisa odklene vaše specifične podatke, pod, mape in datoteke. Opozorilo: V primeru napačno vnesene geselske fraze ne bo zavrnjen dostop, prikazani pa bodo popolnoma različni podatki. Če se odločite za nadgradnjo na popoln FDP račun, bodo migrirani",
-  "ROOT_DIRECTORY": "Koreninski imenik"
+  "ROOT_DIRECTORY": "Koreninski imenik",
+  "INVITES_TOOLTIP": "Vabila poenostavijo postopek vključevanja! Delite povezavo za vabilo, da svojim prijateljem omogočite takojšen dostop do prednaložene denarnice.",
+  "INVITES_DESCRIPTION": "Naš sistem vabil je zasnovan tako, da novim uporabnikom olajša postopek vključevanja. Ko ustvarite vabilo, v bistvu generirate napotnično povezavo, vgrajeno s privatnim ključem za predhodno financirano denarnico. Z deljenjem te povezave s prijatelji ali kolegi jim omogočate takojšen dostop in začetek uporabe storitve z že obstoječimi sredstvi. To ne le olajša začetne težave z nastavitvami, ampak tudi spodbuja hitrejše sprejetje in uporabo naše platforme."
 }
