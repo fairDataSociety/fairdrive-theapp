@@ -11,7 +11,7 @@ const MobileNavigationDrawer = ({
   onClose,
 }: MobileNavigationDrawerProps) => {
   return (
-    <Drawer className="w-44" open={open} onClose={onClose}>
+    <Drawer className="w-44 block md:hidden" open={open} onClose={onClose}>
       <div className="flex flex-col">
         <NavigationItems
           className="flex h-20"

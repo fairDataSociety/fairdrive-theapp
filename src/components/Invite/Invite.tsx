@@ -199,7 +199,11 @@ const Invite: FC<InviteProps> = () => {
 
           {step === STEP_FINISH && (
             <div className="w-full step-finish">
-              <Confetti numberOfPieces={1000} recycle={false} />
+              <Confetti
+                numberOfPieces={1000}
+                recycle={false}
+                width={window.innerWidth}
+              />
               <h1 className="mb-4 font-semibold text-3xl text-color-accents-purple-heavy dark:text-color-accents-soft-lavender leading-10">
                 {intl.get('HURRAH')}
               </h1>

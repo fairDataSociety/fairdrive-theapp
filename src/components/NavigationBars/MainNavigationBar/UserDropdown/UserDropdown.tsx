@@ -60,7 +60,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="pb-5 mr-5 mb-5 flex content-center items-center border-b-2 border-color-shade-light-1-day dark:border-color-shade-light-1-night dark:text-color-shade-white-night">
-              <div title={user || address}>
+              <div className="pr-2" title={user || address}>
                 {user || shortenString(address, 24, 9)}
               </div>
               <div className="ml-auto">

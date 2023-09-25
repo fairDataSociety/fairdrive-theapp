@@ -31,7 +31,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
           <Button
             onClick={() => setMobileNavigationOpen(true)}
             variant="tertiary"
-            className="cursor-pointer block sm:hidden"
+            className="cursor-pointer block md:hidden"
             icon={
               theme === 'light' ? (
                 <NavigationMenuLight className="inline-block" />
@@ -44,10 +44,6 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="hidden sm:block mr-16">
-            <SearchBar />
-          </div>
-
           <div className="flex flex-nowrap space-x-5">
             <UserDropdownToggle
               address={wallet?.address || 'Blossom'}
