@@ -44,7 +44,7 @@ const DriveActionBarItem = (
       <a className="flex flex-col justify-center items-center">
         {theme === 'light' ? imageLight : imageDark}
 
-        <span className="inline-block mt-2 text-color-accents-plum-black dark:text-color-shade-light-2-night">
+        <span className="inline-block text-center mt-2 text-color-accents-plum-black dark:text-color-shade-light-2-night">
           {label}
         </span>
       </a>
@@ -92,7 +92,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
       )}
       {DriveActionBarItem(
         theme,
-        intl.get('FOLDER'),
+        intl.get('NEW_FOLDER'),
         <CreateFolderLightIcon height="22" />,
         <CreateFolderDarkIcon height="22" />,
         () => setShowCreateFolderModal(true),
