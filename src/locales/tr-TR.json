@@ -219,5 +219,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_3": "Fairdrive Beta Sürümünü kullanarak, kullanıcı, Beta Tester olarak Fairdrive Beta Sürümü'ne erişimi verilen diğer materyallerde bulunan hataları, hataları veya kusurları rapor etmeyi kabul eder. Kullanıcı, zamanında ve doğru rapor vermenin Fairdrive Beta Sürümü'nün amacı olduğunu anlar ve ürünün tüm yönlerine yönelik olumlu ve olumsuz sık raporlar sunma çabalarını kullanır ve bunun, İfşa Eden Tarafın münhasır mülkü olan Fairdrive Projesine Beta Tester'ın katkısından kaynaklanan veya bununla bağlantılı olarak meydana gelen tüm iyileştirmeleri, değişiklikleri ve değişiklikleri içerdiğini kabul eder.",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Tüm hakları saklıdır",
   "PASSPHRASE_EXPLANATION": "Parolanız, verilerinizin şifrelenmesi ve şifre çözme işlemleri için kullanılır. Paylaşmayın lütfen.",
+  "PASSPHRASE_EXPLANATION_2": "Güvenliği artırmak için, erişiminiz bir şifre cümlesi ve MetaMask'tan bir dijital imza kombinasyonu ile korunmaktadır. Doğru şifre cümlesi ve imzayı girerek özgü verilerinizi, podlarınızı, klasörlerinizi ve dosyalarınızı açabilirsiniz. Not: Yanlış bir şifre cümlesi girerseniz, erişiminiz engellenmez, tamamen farklı veriler gösterilir. Tam bir FDP hesabına geçiş yapmayı seçerseniz, yalnızca şu anda oturum açmış olduğunuz hesabın verileri taşınacaktır.",
   "ROOT_DIRECTORY": "Kök dizin"
 }

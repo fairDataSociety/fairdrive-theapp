@@ -219,5 +219,6 @@
   "TERMS_OF_USAGE_PARAGRAPH_3": "通过使用Fairdrive Beta版本，您同意报告在平台上发现的任何缺陷、错误或瑕疵，或者用户 - Beta测试人员已获准访问Fairdrive Beta版本的其他材料。用户理解及时准确地报告是Fairdrive Beta版本的目的，并承诺在产品的所有方面（无论是积极的还是消极的）上提供频繁的报告，并承认任何因Beta测试人员对Fairdrive项目的贡献而产生的改进、修改和变更，仍然或变为披露方的专有财产。",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive。保留所有权利。",
   "PASSPHRASE_EXPLANATION": "您的密码用于加密和解密您的数据。不要分享。",
+  "PASSPHRASE_EXPLANATION_2": "为了增强安全性，您的访问受到密码短语和MetaMask的数字签名的双重保护。输入正确的密码短语和签名会解锁您特定的数据、Pods、文件夹和文件。注意：输入错误的密码短语不会拒绝访问，而是会显示完全不相关的数据。如果您决定升级到完全的FDP帐户，请注意，只有当前登录帐户的数据才会被迁移。",
   "ROOT_DIRECTORY": "根目录 "
 }

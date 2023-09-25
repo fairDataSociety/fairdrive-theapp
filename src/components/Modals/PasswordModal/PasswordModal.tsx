@@ -68,6 +68,8 @@ const PasswordModal: FC<PasswordModalProps> = ({
 
         <p className="text-sm mb-5">{intl.get('PASSPHRASE_EXPLANATION')}</p>
 
+        <p className="text-sm mb-5">{intl.get('PASSPHRASE_EXPLANATION_2')}</p>
+
         <div className="text-center">
           <Button
             type="submit"
