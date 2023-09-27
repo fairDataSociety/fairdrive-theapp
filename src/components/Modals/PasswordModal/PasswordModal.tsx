@@ -73,17 +73,6 @@ const PasswordModal: FC<PasswordModalProps> = ({
 
         <p className="text-sm mb-5">{intl.get('PASSPHRASE_EXPLANATION')}</p>
 
-        <div className="my-5">
-          <Disclosure
-            title={intl.get('READ_MORE')}
-            defaultOpen={!getMetamaskPassphraseExplanation()}
-          >
-            <p className="text-sm mb-5">
-              {intl.get('PASSPHRASE_EXPLANATION_2')}
-            </p>
-          </Disclosure>
-        </div>
-
         <div className="text-center">
           <Button
             type="submit"
@@ -92,6 +81,16 @@ const PasswordModal: FC<PasswordModalProps> = ({
             disabled={loading}
             loading={loading}
           />
+        </div>
+        <div className="mt-5">
+          <Disclosure
+            title={'How it works'}
+            defaultOpen={!getMetamaskPassphraseExplanation()}
+          >
+            <p className="text-sm mb-3">
+              {intl.get('PASSPHRASE_EXPLANATION_2')}
+            </p>
+          </Disclosure>
         </div>
       </form>
 
