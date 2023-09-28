@@ -11,6 +11,7 @@ import copy from 'copy-to-clipboard';
 import { useDialogs } from '@context/DialogsContext';
 import Indicator from '@components/Indicator/Indicator';
 import { useLocales } from '@context/LocalesContext';
+import { useMetamask } from '@context/MetamaskContext';
 
 interface UserDropdownProps {
   showDropdown: boolean;
@@ -28,6 +29,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
   const { clearPodContext } = useContext(PodContext);
   const { setMetamaskMigrationOpen } = useDialogs();
   const { intl } = useLocales();
+  const { reset } = useMetamask();
 
   const handleCopyClick = async () => {
     copy(user || address);
@@ -39,6 +41,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
     setIsLoggedIn(false);
     setLoginType(null);
     setWallet(null);
+    reset();
     clearPodContext();
     setTimeout(() => router.push('/'));
   };
