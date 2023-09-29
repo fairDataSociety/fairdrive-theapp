@@ -14,7 +14,7 @@ interface SideModalProps {
   };
   headerTitle: string;
   className?: string;
-  children: ReactChild | ReactChild[];
+  children: React.ReactNode;
 }
 
 const SideModal: FC<SideModalProps> = ({

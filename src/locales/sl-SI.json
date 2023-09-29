@@ -218,5 +218,10 @@
   "USERS_COMMITMENTS": "Zaveze uporabnikov:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "Z uporabo izdaje Fairdrive Beta se strinjate, da boste poročali o napakah, napakah ali pomanjkljivostih, odkritih na platformi ali drugih materialih, kjer je uporabniku - testnemu uporabniku dodeljen dostop do izdaje Fairdrive Beta. Uporabnik razume, da je namen izdaje Fairdrive Beta hitro in natančno poročanje ter si bo prizadeval za pogosto poročanje o vseh vidikih izdelka tako pozitivnih kot negativnih ter priznava, da vsak izboljšanje, sprememba in sprememba, ki izhajajo iz ali v zvezi z doprinosom testnega uporabnika k projektu Fairdrive, ostanejo ali postanejo izključna last Disclosing Party.",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Vse pravice pridržane",
-  "PASSPHRASE_EXPLANATION": "Vaše geslo se uporablja za šifriranje in dešifriranje vaših podatkov. Ne delite ga."
+  "PASSPHRASE_EXPLANATION": "Vaše geslo se uporablja za šifriranje in dešifriranje vaših podatkov. Ne delite ga.",
+  "PASSPHRASE_EXPLANATION_2": "Za izboljšanje varnosti je vaš dostop zaščiten s kombinacijo geselske fraze in digitalnega podpisa v MetaMasku. Pravilen vnos geselske fraze in podpisa odklene vaše specifične podatke, pod, mape in datoteke. Opozorilo: V primeru napačno vnesene geselske fraze ne bo zavrnjen dostop, prikazani pa bodo popolnoma različni podatki. Če se odločite za nadgradnjo na popoln FDP račun, bodo migrirani",
+  "ROOT_DIRECTORY": "Koreninski imenik",
+  "INVITES_TOOLTIP": "Vabila poenostavijo postopek vključevanja! Delite povezavo za vabilo, da svojim prijateljem omogočite takojšen dostop do prednaložene denarnice.",
+  "INVITES_DESCRIPTION": "Naš sistem vabil je zasnovan tako, da novim uporabnikom olajša postopek vključevanja. Ko ustvarite vabilo, v bistvu generirate napotnično povezavo, vgrajeno s privatnim ključem za predhodno financirano denarnico. Z deljenjem te povezave s prijatelji ali kolegi jim omogočate takojšen dostop in začetek uporabe storitve z že obstoječimi sredstvi. To ne le olajša začetne težave z nastavitvami, ampak tudi spodbuja hitrejše sprejetje in uporabo naše platforme.",
+  "NEW_FOLDER": "Nova mapa"
 }

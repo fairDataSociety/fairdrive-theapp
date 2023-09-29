@@ -6,6 +6,7 @@ import { MetaMaskSDK } from '@metamask/sdk';
  */
 interface MetamaskContextProps {
   connectMetamask: () => Promise<void>;
+  reset: () => void;
   metamaskWalletAddress: string;
   metamaskProvider: any;
 }
@@ -49,10 +50,16 @@ export const MetamaskProvider: React.FC = ({ children }) => {
     setMetamaskWalletAddress(accounts[0]);
   };
 
+  const reset = () => {
+    setMetamaskWalletAddress('');
+    setMetamaskProvider(null);
+  };
+
   return (
     <MetamaskContext.Provider
       value={{
         connectMetamask,
+        reset,
         metamaskWalletAddress,
         metamaskProvider,
       }}

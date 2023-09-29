@@ -64,7 +64,7 @@ const MainLayout: FC<MainLayoutProps> = ({
         >
           <div className="flex justify-start items-stretch w-full h-full">
             {showDriveSideBar ? <DriveSideBar /> : null}
-            <div className="w-full pt-5 pb-20 sm:mb-0 md:px-8 px-5 overflow-scroll no-scroll-bar">
+            <div className="w-full pt-5 pb-20 sm:mb-0 md:px-8 px-1 sm:px-5 overflow-scroll no-scroll-bar">
               {loginType === 'metamask' && inviteKey && (
                 <DisclaimerMessage
                   text={intl.get('SIGN_UP_FOR_AN_FDS_ACCOUNT')}
