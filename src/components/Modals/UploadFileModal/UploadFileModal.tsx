@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
@@ -36,14 +36,14 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const [message, setMessage] = useState<string | null>(null);
 
   const [filesToUpload, setFilesToUpload] = useState<File[]>(null);
-  const [uploadedItems, setUploadedItems] = useState<FileItem[]>([]);
+  const uploadedItemsRef = useRef<FileItem[]>([]);
   const [failedUplods, setFailedUplods] = useState<File[]>([]);
   const [uploadPercentage, setUploadPercentage] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState('');
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
-      setUploadedItems([]);
+      uploadedItemsRef.current = [];
       setFailedUplods([]);
       setErrorMessage('');
       if (activePod) {
@@ -54,14 +54,14 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const { intl } = useLocales();
 
   const onClose = async () => {
-    if (uploadedItems.length > 0) {
+    if (uploadedItemsRef.current.length > 0) {
       const userAddress = await getAccountAddress();
       const directory = directoryName || 'root';
       const fdpPath = getFdpPathByDirectory(directory);
 
       setMessage(intl.get('SUCCESSFULLY_UPLOADED'));
 
-      uploadedItems.forEach((item) =>
+      uploadedItemsRef.current.forEach((item) =>
         addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE)
       );
 
@@ -102,15 +102,13 @@ const UploadFileModal: FC<CreatorModalProps> = ({
     setUploadPercentage(0);
 
     try {
-      const uploadedFiles = [];
       setFailedUplods([]);
 
       await filesToUpload.reduce(async (prevUpload, file) => {
         try {
           await prevUpload;
 
-          if (uploadedItems.some(({ name }) => name === file.name)) {
-            uploadedFiles.push(file);
+          if (uploadedItemsRef.current.some(({ name }) => name === file.name)) {
             return;
           }
 
@@ -127,7 +125,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
               if (uploadPercentage) {
                 setUploadPercentage(
                   calculateUploadPercentage(
-                    uploadedFiles.length + failedUplods.length,
+                    uploadedItemsRef.current.length + failedUplods.length,
                     filesToUpload.length,
                     uploadPercentage
                   )
@@ -136,13 +134,12 @@ const UploadFileModal: FC<CreatorModalProps> = ({
             }
           );
 
-          uploadedFiles.push(file);
-          setUploadedItems((uploadedItems) => [...uploadedItems, item]);
+          uploadedItemsRef.current.push(item);
         } catch (error) {
           setFailedUplods((failedUplods) => [...failedUplods, file]);
           setUploadPercentage(
             calculateUploadPercentage(
-              uploadedFiles.length + failedUplods.length,
+              uploadedItemsRef.current.length + failedUplods.length,
               filesToUpload.length,
               100
             )
@@ -150,7 +147,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         }
       }, Promise.resolve());
 
-      if (uploadedFiles.length === filesToUpload.length) {
+      if (uploadedItemsRef.current.length === filesToUpload.length) {
         onClose();
       } else {
         throw new Error("Some files weren't uploaded successfully.");
@@ -165,7 +162,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const getFileUploadStatus = (
     file: File
   ): 'pending' | 'success' | 'failed' => {
-    if (uploadedItems.some((item) => item.name === file.name)) {
+    if (uploadedItemsRef.current.some((item) => item.name === file.name)) {
       return 'success';
     }
     if (failedUplods.some((failedFile) => failedFile.name === file.name)) {
