@@ -270,42 +270,45 @@ const Drive: FC = () => {
         ) : null}
         <Spinner isLoading={loading || !pods} />
 
-        {!loading &&
-          (activePod ? (
-            directories?.length || files?.length ? (
-              <div>
-                {driveView === 'grid' ? (
-                  <DriveGridView
-                    directories={handleSort(
-                      directories?.filter(handleSearchFilter)
-                    )}
-                    files={handleSort(files?.filter(handleSearchFilter))}
-                    directoryOnClick={handleDirectoryOnClick}
-                    fileOnClick={handleFileOnClick}
-                    updateDrive={handleUpdateDrive}
-                  />
-                ) : null}
+        {!loading && (
+          <div style={{ marginTop: 15 }}>
+            {activePod ? (
+              directories?.length || files?.length ? (
+                <div>
+                  {driveView === 'grid' ? (
+                    <DriveGridView
+                      directories={handleSort(
+                        directories?.filter(handleSearchFilter)
+                      )}
+                      files={handleSort(files?.filter(handleSearchFilter))}
+                      directoryOnClick={handleDirectoryOnClick}
+                      fileOnClick={handleFileOnClick}
+                      updateDrive={handleUpdateDrive}
+                    />
+                  ) : null}
 
-                {driveView === 'list' ? (
-                  <DriveListView
-                    directories={handleSort(
-                      directories?.filter(handleSearchFilter)
-                    )}
-                    files={handleSort(files?.filter(handleSearchFilter))}
-                    directoryOnClick={handleDirectoryOnClick}
-                    fileOnClick={handleFileOnClick}
-                    updateDrive={handleUpdateDrive}
-                  />
-                ) : null}
-              </div>
+                  {driveView === 'list' ? (
+                    <DriveListView
+                      directories={handleSort(
+                        directories?.filter(handleSearchFilter)
+                      )}
+                      files={handleSort(files?.filter(handleSearchFilter))}
+                      directoryOnClick={handleDirectoryOnClick}
+                      fileOnClick={handleFileOnClick}
+                      updateDrive={handleUpdateDrive}
+                    />
+                  ) : null}
+                </div>
+              ) : (
+                <EmptyDirectoryCard
+                  onUploadClick={() => setShowUploadFileModal(true)}
+                />
+              )
             ) : (
-              <EmptyDirectoryCard
-                onUploadClick={() => setShowUploadFileModal(true)}
-              />
-            )
-          ) : (
-            <PodList pods={pods} onPodSelect={handlePodSelect} />
-          ))}
+              <PodList pods={pods} onPodSelect={handlePodSelect} />
+            )}
+          </div>
+        )}
         {showUploadFileModal && (
           <UploadFileModal
             showModal={showUploadFileModal}
