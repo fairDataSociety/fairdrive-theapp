@@ -23,7 +23,7 @@ jobs:
       - name: Set environment specific variables
         uses: jnus/json-variables@v1.0
         with:
-          scope: ${{ github.ref_name }}
+          scope: "swarm"
           configFile: '.github/workflows/variables.json'
           secrets: '${{ toJson(secrets.github_token) }}'
 

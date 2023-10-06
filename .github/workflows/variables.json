@@ -6,7 +6,8 @@
       "Scope": {
         "Environment": [
           "master",
-    "main"
+          "main",
+          "swarm"
         ]
       }
     },
@@ -76,6 +77,15 @@
     },
     {
       "Name": "NEXT_PUBLIC_FAIRDRIVEHOST",
+      "Value": "https://app.fairdrive.io",
+      "Scope": {
+        "Environment": [
+          "swarm"
+        ]
+      }
+    },
+    {
+      "Name": "NEXT_PUBLIC_FAIRDRIVEHOST",
       "Value": "https://fairdrive#{DEPLOYMENT}fairdatasociety.org",
       "Scope": {
         "Environment": [
@@ -103,17 +113,65 @@
     {
       "Name": "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT",
       "Value": "https://create#{DEPLOYMENT}fairdatasociety.org",
-      "Scope": {}
+      "Scope": {
+        "Environment": [
+          "main",
+          "master",
+          "staging",
+          "development"
+        ]
+      }
+    },
+    {
+      "Name": "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT",
+      "Value": "https://create.faridrive.io",
+      "Scope": {
+        "Environment": [
+          "swarm"
+        ]
+      }
     },
     {
       "Name": "NEXT_PUBLIC_NFT_GENERATOR_URL",
       "Value": "https://nft#{DEPLOYMENT}fairdatasociety.org",
-      "Scope": {}
+      "Scope": {
+        "Environment": [
+          "main",
+          "master",
+          "staging",
+          "development"
+        ]
+      }
+    },
+    {
+      "Name": "NEXT_PUBLIC_NFT_GENERATOR_URL",
+      "Value": "https://nft.fairdrive.io",
+      "Scope": {
+        "Environment": [
+          "swarm"
+        ]
+      }
     },
     {
       "Name": "NEXT_PUBLIC_CONSENT_VIEWER",
       "Value": "https://app.crviewer#{DEPLOYMENT}fairdatasociety.org",
-      "Scope": {}
+      "Scope": {
+        "Environment": [
+          "main",
+          "master",
+          "staging",
+          "development"
+        ]
+      }
+    },
+    {
+      "Name": "NEXT_PUBLIC_CONSENT_VIEWER",
+      "Value": "https://crviewer.fairdrive.org",
+      "Scope": {
+        "Environment": [
+          "swarm"
+        ]
+      }
     },
     {
       "Name": "NEXT_PUBLIC_BLOCKCHAIN_INFO",
