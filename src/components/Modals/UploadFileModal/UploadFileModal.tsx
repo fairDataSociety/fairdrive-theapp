@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
@@ -21,7 +21,8 @@ import { CreatorModalProps } from '@interfaces/handlers';
 import { addItemToCache, ContentType } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
 import { useLocales } from '@context/LocalesContext';
-import { FileItem } from '@fairdatasociety/fdp-storage';
+import { FileItem, UploadProgressInfo } from '@fairdatasociety/fdp-storage';
+import ProgressBar from '@components/ProgressBar/ProgressBar';
 
 const UploadFileModal: FC<CreatorModalProps> = ({
   showModal,
@@ -35,13 +36,14 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const [message, setMessage] = useState<string | null>(null);
 
   const [filesToUpload, setFilesToUpload] = useState<File[]>(null);
-  const [uploadedItems, setUploadedItems] = useState<FileItem[]>([]);
+  const uploadedItemsRef = useRef<FileItem[]>([]);
   const [failedUplods, setFailedUplods] = useState<File[]>([]);
+  const [uploadPercentage, setUploadPercentage] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState('');
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
-      setUploadedItems([]);
+      uploadedItemsRef.current = [];
       setFailedUplods([]);
       setErrorMessage('');
       if (activePod) {
@@ -52,14 +54,14 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const { intl } = useLocales();
 
   const onClose = async () => {
-    if (uploadedItems.length > 0) {
+    if (uploadedItemsRef.current.length > 0) {
       const userAddress = await getAccountAddress();
       const directory = directoryName || 'root';
       const fdpPath = getFdpPathByDirectory(directory);
 
       setMessage(intl.get('SUCCESSFULLY_UPLOADED'));
 
-      uploadedItems.forEach((item) =>
+      uploadedItemsRef.current.forEach((item) =>
         addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE)
       );
 
@@ -79,6 +81,16 @@ const UploadFileModal: FC<CreatorModalProps> = ({
     closeModal();
   };
 
+  const calculateUploadPercentage = (
+    completedCount: number,
+    totalCount: number,
+    currentPercentage: number
+  ): number => {
+    return (
+      ((completedCount * 100 + currentPercentage) / (totalCount * 100)) * 100
+    );
+  };
+
   const handleUpload = async () => {
     setErrorMessage('');
 
@@ -87,33 +99,55 @@ const UploadFileModal: FC<CreatorModalProps> = ({
     }
 
     setLoading(true);
+    setUploadPercentage(0);
+
     try {
-      const uploadedFiles = [];
       setFailedUplods([]);
 
       await filesToUpload.reduce(async (prevUpload, file) => {
         try {
           await prevUpload;
 
-          if (uploadedItems.some(({ name }) => name === file.name)) {
-            uploadedFiles.push(file);
+          if (uploadedItemsRef.current.some(({ name }) => name === file.name)) {
             return;
           }
 
-          const item = await uploadFile(fdpClientRef.current, {
-            file,
-            directory: directoryName,
-            podName: activePod,
-          });
+          const item = await uploadFile(
+            fdpClientRef.current,
+            {
+              file,
+              directory: directoryName,
+              podName: activePod,
+            },
+            (event: UploadProgressInfo) => {
+              const { uploadPercentage } = event.data || {};
 
-          uploadedFiles.push(file);
-          setUploadedItems((uploadedItems) => [...uploadedItems, item]);
+              if (uploadPercentage) {
+                setUploadPercentage(
+                  calculateUploadPercentage(
+                    uploadedItemsRef.current.length + failedUplods.length,
+                    filesToUpload.length,
+                    uploadPercentage
+                  )
+                );
+              }
+            }
+          );
+
+          uploadedItemsRef.current.push(item);
         } catch (error) {
           setFailedUplods((failedUplods) => [...failedUplods, file]);
+          setUploadPercentage(
+            calculateUploadPercentage(
+              uploadedItemsRef.current.length + failedUplods.length,
+              filesToUpload.length,
+              100
+            )
+          );
         }
       }, Promise.resolve());
 
-      if (uploadedFiles.length === filesToUpload.length) {
+      if (uploadedItemsRef.current.length === filesToUpload.length) {
         onClose();
       } else {
         throw new Error("Some files weren't uploaded successfully.");
@@ -128,7 +162,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const getFileUploadStatus = (
     file: File
   ): 'pending' | 'success' | 'failed' => {
-    if (uploadedItems.some((item) => item.name === file.name)) {
+    if (uploadedItemsRef.current.some((item) => item.name === file.name)) {
       return 'success';
     }
     if (failedUplods.some((failedFile) => failedFile.name === file.name)) {
@@ -189,6 +223,8 @@ const UploadFileModal: FC<CreatorModalProps> = ({
           {errorMessage}
         </div>
       ) : null}
+
+      {loading && <ProgressBar className="mt-3" percent={uploadPercentage} />}
 
       <div className="mt-14 text-center">
         <Button
