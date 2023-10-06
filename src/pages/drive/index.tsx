@@ -34,8 +34,13 @@ import {
 } from '@utils/cache';
 import { RefreshDriveOptions } from '@interfaces/handlers';
 import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
-import { isDataNotFoundError, isJsonParsingError } from '@utils/error';
+import {
+  errorToString,
+  isDataNotFoundError,
+  isJsonParsingError,
+} from '@utils/error';
 import PodList from '@components/Views/PodList/PodList';
+import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -62,6 +67,7 @@ const Drive: FC = () => {
   const [driveSort, setDriveSort] = useState('a-z');
   const [loading, setLoading] = useState(false);
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     trackPageView({
@@ -83,6 +89,7 @@ const Drive: FC = () => {
     if (!activePod) {
       return;
     }
+    setError(null);
 
     const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
@@ -136,6 +143,8 @@ const Drive: FC = () => {
           setFiles(null);
           await handleFetchPods();
         }
+      } else {
+        setError(errorToString(error));
       }
     } finally {
       setLoading(false);
@@ -144,6 +153,7 @@ const Drive: FC = () => {
 
   const handleFetchPods = async () => {
     try {
+      setError(null);
       setLoading(true);
       const response = await getPods(fdpClientRef.current);
       setPods(response);
@@ -181,6 +191,8 @@ const Drive: FC = () => {
       return;
     }
 
+    setError(null);
+
     setLoading(true);
 
     if (directoryName !== 'root') {
@@ -197,6 +209,8 @@ const Drive: FC = () => {
       return;
     }
 
+    setError(null);
+
     setLoading(true);
 
     setDirectoryName(newDirectory);
@@ -205,6 +219,7 @@ const Drive: FC = () => {
   };
 
   const handleFileOnClick = (data: FileItem) => {
+    setError(null);
     setPreviewFile(data);
     setShowPreviewModal(true);
   };
@@ -214,11 +229,13 @@ const Drive: FC = () => {
   };
 
   const handlePodSelect = (pod: string) => {
+    setError(null);
     setActivePod(pod);
     setDirectoryName('root');
   };
 
   const onBackToDrive = () => {
+    setError(null);
     setActivePod('');
     setDirectoryName('');
   };
@@ -269,6 +286,9 @@ const Drive: FC = () => {
           </div>
         ) : null}
         <Spinner isLoading={loading || !pods} />
+        <div className="mb-5 text-center">
+          <FeedbackMessage type="error" message={error} />
+        </div>
 
         {!loading && (
           <div style={{ marginTop: 15 }}>
