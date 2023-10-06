@@ -101,7 +101,8 @@
           "main",
           "master",
           "staging",
-          "development"
+          "development",
+	  "swarm"
         ]
       }
     },
@@ -124,7 +125,7 @@
     },
     {
       "Name": "NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT",
-      "Value": "https://create.faridrive.io",
+      "Value": "https://create.fairdrive.io",
       "Scope": {
         "Environment": [
           "swarm"
