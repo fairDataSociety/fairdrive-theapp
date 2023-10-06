@@ -46,6 +46,8 @@ const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const {
+    loading,
+    setLoading,
     pods,
     activePod,
     setActivePod,
@@ -65,7 +67,6 @@ const Drive: FC = () => {
   const [previewFile, setPreviewFile] = useState(null);
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
-  const [loading, setLoading] = useState(false);
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [error, setError] = useState<string | null>(null);
 

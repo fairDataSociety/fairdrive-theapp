@@ -11,7 +11,8 @@ import PageDownDark from '@media/UI/page-down-dark.svg';
 
 const PodDropdownToggele = () => {
   const { theme } = useContext(ThemeContext);
-  const { activePod, setActivePod, setDirectoryName } = useContext(PodContext);
+  const { loading, activePod, setActivePod, setDirectoryName } =
+    useContext(PodContext);
   const { intl } = useLocales();
 
   const onBackToDrive = () => {
@@ -36,6 +37,7 @@ const PodDropdownToggele = () => {
         />
       )}
       <Menu.Button
+        disabled={loading}
         className={`flex items-center w-full cursor-pointer ${
           activePod ? '' : 'pl-4'
         }`}
