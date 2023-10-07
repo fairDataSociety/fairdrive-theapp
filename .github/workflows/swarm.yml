@@ -87,4 +87,4 @@ jobs:
         env:
           TOKEN: '${{ secrets.purge_token }}'
         run: |
-          curl -s ${{ env.PURGE_URL }}/deploy/purge?token=${{ secrets.purge_token }} -H "site: app.fairdrive${{ env.DEPLOYMENT }}fairdatasociety.org" -H "uri: "
+          curl -s ${{ env.PURGE_URL }}/deploy/purge?token=${{ secrets.purge_token }} -H "site: app.fairdrive${{ env.DEPLOYMENT }}io" -H "uri: /"
