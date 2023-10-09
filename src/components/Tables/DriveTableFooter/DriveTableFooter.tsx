@@ -67,16 +67,18 @@ const DriveTableFooter: FC<DriveTableFooterProps> = ({
       </div>
 
       <div className="px-5">
-        {`
-        ${page * rowsPerPage + 1}-${
-          page * rowsPerPage + rowsPerPage > totalDriveItems
-            ? totalDriveItems
-            : page * rowsPerPage + rowsPerPage
-        } of
-        ${totalDriveItems}`}
+        <span className="hidden sm:inline">
+          {`
+            ${page * rowsPerPage + 1}-${
+            page * rowsPerPage + rowsPerPage > totalDriveItems
+              ? totalDriveItems
+              : page * rowsPerPage + rowsPerPage
+          } of `}
+        </span>
+        {totalDriveItems}
       </div>
 
-      <div className="px-5">
+      <div className="px-5 flex items-center">
         <span className="inline-block mr-3 cursor-pointer" onClick={pageDown}>
           {theme === 'light' ? <PageDownLight /> : <PageDownDark />}
         </span>

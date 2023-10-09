@@ -12,7 +12,9 @@ const DriveTableHeader: FC = () => {
       <th className={tableHeadingClasses}>{intl.get('FILE_NAME')}</th>
       <th className={tableHeadingClasses}>{intl.get('FILE_TYPE')}</th>
       <th className={tableHeadingClasses}>{intl.get('FILE_SIZE')}</th>
-      <th className={tableHeadingClasses}>{intl.get('CREATED')}</th>
+      <th className={`${tableHeadingClasses} hidden md:table-cell`}>
+        {intl.get('CREATED')}
+      </th>
       <th>{/* Empty Table Header for Dropdown Menu */}</th>
     </tr>
   );
