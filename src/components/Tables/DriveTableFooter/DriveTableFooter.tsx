@@ -57,7 +57,9 @@ const DriveTableFooter: FC<DriveTableFooterProps> = ({
   return (
     <div className="flex justify-end items-center w-full h-16 pr-4 font-medium text-color-accents-plum-black dark:text-color-shade-light-1-night bg-color-shade-dark-4-day dark:bg-color-shade-dark-3-night shadow">
       <div className="px-5">
-        <span className="inline-block mr-2">{intl.get('ROWS_PER_PAGE')}</span>
+        <span className="mr-2 hidden sm:inline-block">
+          {intl.get('ROWS_PER_PAGE')}
+        </span>
 
         <Select
           name="Rows Per Page"
@@ -67,15 +69,12 @@ const DriveTableFooter: FC<DriveTableFooterProps> = ({
       </div>
 
       <div className="px-5">
-        <span className="hidden sm:inline">
-          {`
+        {`
             ${page * rowsPerPage + 1}-${
-            page * rowsPerPage + rowsPerPage > totalDriveItems
-              ? totalDriveItems
-              : page * rowsPerPage + rowsPerPage
-          } of `}
-        </span>
-        {totalDriveItems}
+          page * rowsPerPage + rowsPerPage > totalDriveItems
+            ? totalDriveItems
+            : page * rowsPerPage + rowsPerPage
+        } of ${totalDriveItems}`}
       </div>
 
       <div className="px-5 flex items-center">
