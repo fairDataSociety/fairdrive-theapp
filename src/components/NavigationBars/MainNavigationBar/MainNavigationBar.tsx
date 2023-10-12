@@ -44,10 +44,9 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
         </div>
 
         <div className="flex justify-between items-center">
-          {/* TODO: Search functionality should be implemented */}
-          {/* <div className="hidden sm:block mr-16">
+          <div className="hidden sm:block mr-16">
             <SearchBar />
-          </div> */}
+          </div>
           <div className="flex flex-nowrap space-x-5">
             <UserDropdownToggle
               address={wallet?.address || 'Blossom'}

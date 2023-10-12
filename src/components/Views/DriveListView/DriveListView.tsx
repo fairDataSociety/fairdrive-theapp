@@ -11,7 +11,7 @@ import { UpdateDriveProps } from '@interfaces/handlers';
 interface DriveListViewProps extends UpdateDriveProps {
   directories: DirectoryItem[];
   files: FileItem[];
-  directoryOnClick: (directoryName: string) => void;
+  directoryOnClick: (directory: DirectoryItem) => void;
   fileOnClick: (data: FileItem) => void;
 }
 
@@ -56,7 +56,7 @@ const DriveListView: FC<DriveListViewProps> = ({
                 size: directory.size,
                 creationTime: (directory.raw as any)?.meta?.creationTime,
               }}
-              onClick={() => directoryOnClick(directory.name)}
+              onClick={() => directoryOnClick(directory)}
               updateDrive={updateDrive}
             />
           ))}

@@ -70,7 +70,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
     setLoading(true);
     downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
-      directory: directoryName,
+      directory: previewFile.path || directoryName,
       podName: activePod,
     })
       .then(async (response) => {

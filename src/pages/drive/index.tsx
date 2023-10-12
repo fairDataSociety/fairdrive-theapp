@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import ThemeContext from '@context/ThemeContext';
@@ -41,6 +41,7 @@ import {
 } from '@utils/error';
 import PodList from '@components/Views/PodList/PodList';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
+import { constructPath, rootPathToRelative } from '@utils/filename';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -69,6 +70,7 @@ const Drive: FC = () => {
   const [driveSort, setDriveSort] = useState('a-z');
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [error, setError] = useState<string | null>(null);
+  const searchControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     trackPageView({
@@ -91,6 +93,7 @@ const Drive: FC = () => {
       return;
     }
     setError(null);
+    updateSearch('');
 
     const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
@@ -187,7 +190,7 @@ const Drive: FC = () => {
     }
   };
 
-  const handleDirectoryOnClick = (newDirectoryName: string) => {
+  const handleDirectoryOnClick = (newDirectory: DirectoryItem) => {
     if (loading) {
       return;
     }
@@ -196,10 +199,14 @@ const Drive: FC = () => {
 
     setLoading(true);
 
-    if (directoryName !== 'root') {
-      setDirectoryName(directoryName + '/' + newDirectoryName);
+    if (newDirectory.path) {
+      setDirectoryName(
+        rootPathToRelative(constructPath(newDirectory.path, newDirectory.name))
+      );
+    } else if (directoryName !== 'root') {
+      setDirectoryName(directoryName + '/' + newDirectory.name);
     } else {
-      setDirectoryName(newDirectoryName);
+      setDirectoryName(newDirectory.name);
     }
 
     setLoading(false);
@@ -225,10 +232,6 @@ const Drive: FC = () => {
     setShowPreviewModal(true);
   };
 
-  const handleSearchFilter = (driveItem: DirectoryItem | FileItem) => {
-    return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
-  };
-
   const handlePodSelect = (pod: string) => {
     setError(null);
     setActivePod(pod);
@@ -240,6 +243,94 @@ const Drive: FC = () => {
     setActivePod('');
     setDirectoryName('');
   };
+
+  const handleSearch = async () => {
+    try {
+      if (loading || !activePod) {
+        return;
+      }
+
+      searchControllerRef.current = new AbortController();
+
+      setLoading(true);
+
+      let matchedFiles: FileItem[] = [];
+      let matchedDirectories: DirectoryItem[] = [];
+      let folders: { path: string; depth: number }[] = [
+        { path: '/', depth: 0 },
+      ];
+      const maxDepth = 3;
+
+      while (folders.length > 0) {
+        const { path, depth } = folders.shift();
+
+        let content: DirectoryItem;
+        try {
+          content = await getFilesAndDirectories(
+            fdpClientRef.current,
+            activePod,
+            path === '/' ? 'root' : path
+          );
+
+          // eslint-disable-next-line no-empty
+        } catch (error) {
+          console.error(error);
+        }
+
+        if (searchControllerRef.current.signal.aborted) {
+          return;
+        }
+
+        if (Array.isArray(content?.files)) {
+          matchedFiles = matchedFiles
+            .concat(content.files.filter(({ name }) => name.includes(search)))
+            .map((file) => {
+              file.path = path;
+              return file;
+            });
+        }
+
+        if (Array.isArray(content?.directories)) {
+          matchedDirectories = matchedDirectories.concat(
+            content.directories
+              .filter(({ name }) => name.includes(search))
+              .map((directory) => {
+                directory.path = path;
+                return directory;
+              })
+          );
+
+          if (depth < maxDepth) {
+            folders = folders.concat(
+              content.directories.map(({ name }) => ({
+                path: constructPath(path, name),
+                depth: depth + 1,
+              }))
+            );
+          }
+        }
+      }
+
+      setFiles(matchedFiles);
+      setDirectories(matchedDirectories);
+    } catch (error) {
+      setError(errorToString(error));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (searchControllerRef.current) {
+      searchControllerRef.current.abort();
+    }
+
+    if (search) {
+      handleSearch();
+    } else {
+      handleUpdateDrive();
+    }
+  }, [search]);
 
   return (
     <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
@@ -298,10 +389,8 @@ const Drive: FC = () => {
                 <div>
                   {driveView === 'grid' ? (
                     <DriveGridView
-                      directories={handleSort(
-                        directories?.filter(handleSearchFilter)
-                      )}
-                      files={handleSort(files?.filter(handleSearchFilter))}
+                      directories={handleSort(directories)}
+                      files={handleSort(files)}
                       directoryOnClick={handleDirectoryOnClick}
                       fileOnClick={handleFileOnClick}
                       updateDrive={handleUpdateDrive}
@@ -310,10 +399,8 @@ const Drive: FC = () => {
 
                   {driveView === 'list' ? (
                     <DriveListView
-                      directories={handleSort(
-                        directories?.filter(handleSearchFilter)
-                      )}
-                      files={handleSort(files?.filter(handleSearchFilter))}
+                      directories={handleSort(directories)}
+                      files={handleSort(files)}
                       directoryOnClick={handleDirectoryOnClick}
                       fileOnClick={handleFileOnClick}
                       updateDrive={handleUpdateDrive}
