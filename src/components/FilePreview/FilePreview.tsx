@@ -182,7 +182,9 @@ const FilePreview: FC<FilePreviewProps> = ({
 
   if (type === PreviewType.Text) {
     return (
-      <p className="w-full h-auto my-10 max-h-48 overflow-auto">{content}</p>
+      <p className="w-full h-auto my-10 max-h-48 overflow-auto text-color-accents-purple-black dark:text-color-shade-white-night">
+        {content}
+      </p>
     );
   }
 
