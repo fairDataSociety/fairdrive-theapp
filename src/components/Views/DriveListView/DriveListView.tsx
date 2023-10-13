@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import {
   DriveTableHeader,
@@ -24,6 +24,19 @@ const DriveListView: FC<DriveListViewProps> = ({
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+
+  const { pageDirectories, pageFiles } = useMemo(
+    () => ({
+      pageDirectories: (directories || []).slice(startIndex, endIndex),
+      pageFiles: (files || []).slice(
+        startIndex - directories.length,
+        endIndex - directories.length
+      ),
+    }),
+    [directories, files, startIndex, endIndex]
+  );
 
   const handlePageUp = () => {
     if (
@@ -41,13 +54,12 @@ const DriveListView: FC<DriveListViewProps> = ({
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full mb-32">
       <table className="w-full h-auto table-auto shadow">
         <DriveTableHeader />
 
-        {directories
-          ?.slice(page * rowsPerPage, page * rowsPerPage + (rowsPerPage + 1))
-          .map((directory) => (
+        <tbody>
+          {pageDirectories.map((directory) => (
             <DriveTableItem
               key={directory.name}
               type="folder"
@@ -61,9 +73,7 @@ const DriveListView: FC<DriveListViewProps> = ({
             />
           ))}
 
-        {files
-          ?.slice(page * rowsPerPage, page * rowsPerPage + (rowsPerPage + 1))
-          .map((data) => (
+          {pageFiles.map((data) => (
             <DriveTableItem
               key={data.name}
               type="file"
@@ -78,6 +88,7 @@ const DriveListView: FC<DriveListViewProps> = ({
               updateDrive={updateDrive}
             />
           ))}
+        </tbody>
       </table>
 
       <DriveTableFooter

@@ -9,6 +9,8 @@ import formatDate from '@utils/formatDate';
 import { extractFileExtension } from '@utils/filename';
 import { UpdateDriveProps } from '@interfaces/handlers';
 
+import classes from './DrivaTableItem.module.scss';
+
 interface DriveTableItemProps extends UpdateDriveProps {
   type: 'folder' | 'file';
   data: {
@@ -33,7 +35,9 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
       className="w-full h-14 even:bg-color-shade-dark-3-day odd:bg-color-shade-dark-4-day dark:odd:bg-color-shade-dark-4-night dark:even:bg-color-shade-white-day border border-color-shade-black-day dark:border-color-accents-purple-black shadow-sm cursor-pointer"
       onClick={onClick}
     >
-      <td className={`${tableDataClasses} dark:text-color-shade-light-1-night`}>
+      <td
+        className={`${tableDataClasses} ${classes['name-column']} overflow-hidden dark:text-color-shade-light-1-night`}
+      >
         {shortenString(data.name.split('.').shift(), 24)}
       </td>
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
@@ -42,7 +46,9 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
       <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
         {type === 'file' ? prettyBytes(data?.size) : '-'}
       </td>
-      <td className={`${tableDataClasses} dark:text-color-shade-light-2-night`}>
+      <td
+        className={`${tableDataClasses} hidden md:table-cell dark:text-color-shade-light-2-night`}
+      >
         {formatDate(data?.creationTime, false)}
       </td>
       <td className="text-center">
@@ -50,6 +56,8 @@ const DriveTableItem: FC<DriveTableItemProps> = ({
           <DriveItemDropdown
             type={type}
             data={data}
+            mobileAlign="right"
+            handlePreviewClick={onClick}
             updateDrive={updateDrive}
           />
         </Menu>

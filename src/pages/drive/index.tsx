@@ -338,9 +338,12 @@ const Drive: FC = () => {
         <div className="flex md:hidden">
           <DriveActionHeaderMobile
             podName={activePod}
+            driveView={driveView}
             directory={directoryName}
             onDirectorySelect={handleDirectoryPathChange}
             onBackToDrive={onBackToDrive}
+            toggleView={handleToggleView}
+            toggleSort={handleToggleSort}
           />
         </div>
         <MainHeader
