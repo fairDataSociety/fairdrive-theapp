@@ -34,7 +34,7 @@ import FilePreview, {
   isFilePreviewSupported,
 } from '@components/FilePreview/FilePreview';
 import { FileItem } from '@fairdatasociety/fdp-storage';
-import { extractFileExtension } from '@utils/filename';
+import { extractFileExtension, rootPathToRelative } from '@utils/filename';
 import { useLocales } from '@context/LocalesContext';
 
 interface PreviewModalProps {
@@ -62,6 +62,8 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const { intl } = useLocales();
 
+  const directory = rootPathToRelative(previewFile.path || directoryName);
+
   useEffect(() => {
     if (!isFilePreviewSupported(previewFile?.name)) {
       return;
@@ -70,7 +72,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
     setLoading(true);
     downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
-      directory: previewFile.path || directoryName,
+      directory,
       podName: activePod,
     })
       .then(async (response) => {
@@ -92,7 +94,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
 
     downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
-      directory: directoryName,
+      directory,
       podName: activePod,
     })
       .then((response) => {
@@ -119,7 +121,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
     deleteFile(fdpClientRef.current, {
       file_name: previewFile?.name,
       podName: activePod,
-      path: formatDirectory(directoryName),
+      path: formatDirectory(directory),
     })
       .then(() => {
         trackEvent({
@@ -158,7 +160,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
             file={previewFile}
             source={fileContent}
             pod={activePod}
-            directory={directoryName}
+            directory={directory}
             onError={() => setErrorMessage(intl.get('FILE_PREVIEW_ERROR'))}
           />
         ) : null}
@@ -254,7 +256,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         closeModal={() => setShowShareFileModal(false)}
         fileName={previewFile?.name}
         podName={activePod}
-        path={formatDirectory(directoryName)}
+        path={formatDirectory(directory)}
       />
 
       <ConfirmDeleteModal
