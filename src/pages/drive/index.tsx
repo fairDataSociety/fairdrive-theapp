@@ -282,22 +282,24 @@ const Drive: FC = () => {
         }
 
         if (Array.isArray(content?.files)) {
-          matchedFiles = matchedFiles
-            .concat(content.files.filter(({ name }) => name.includes(search)))
-            .map((file) => {
-              file.path = path;
-              return file;
-            });
+          matchedFiles = matchedFiles.concat(
+            content.files
+              .filter(({ name }) => name.includes(search))
+              .map((file) => ({
+                ...file,
+                path,
+              }))
+          );
         }
 
         if (Array.isArray(content?.directories)) {
           matchedDirectories = matchedDirectories.concat(
             content.directories
               .filter(({ name }) => name.includes(search))
-              .map((directory) => {
-                directory.path = path;
-                return directory;
-              })
+              .map((directory) => ({
+                ...directory,
+                path,
+              }))
           );
 
           if (depth < maxDepth) {

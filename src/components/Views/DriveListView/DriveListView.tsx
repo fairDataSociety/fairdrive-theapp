@@ -61,7 +61,7 @@ const DriveListView: FC<DriveListViewProps> = ({
         <tbody>
           {pageDirectories.map((directory) => (
             <DriveTableItem
-              key={directory.name}
+              key={directory.path || directory.name}
               type="folder"
               data={{
                 name: directory.name,
@@ -75,7 +75,7 @@ const DriveListView: FC<DriveListViewProps> = ({
 
           {pageFiles.map((data) => (
             <DriveTableItem
-              key={data.name}
+              key={data.path || data.name}
               type="file"
               data={{
                 name: data.name,
