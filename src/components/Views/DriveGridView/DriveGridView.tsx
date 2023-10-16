@@ -21,7 +21,7 @@ const DriveGridView: FC<DriveGridViewProps> = ({
     <div className="flex flex-wrap h-full">
       {directories?.map((directory) => (
         <DriveCard
-          key={directory.name}
+          key={directory.path || directory.name}
           type="folder"
           data={{
             name: directory.name,
@@ -35,7 +35,7 @@ const DriveGridView: FC<DriveGridViewProps> = ({
 
       {files?.map((data) => (
         <DriveCard
-          key={data.name}
+          key={data.path || data.name}
           type="file"
           data={{
             name: data.name,
