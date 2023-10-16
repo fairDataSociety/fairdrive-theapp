@@ -10,12 +10,14 @@ interface DriveItemDropdownProps extends UpdateDriveProps {
   data: {
     name: string;
   };
+  mobileAlign?: 'left' | 'right';
   handlePreviewClick?: () => void;
 }
 
 const DriveDropdown: FC<DriveItemDropdownProps> = ({
   type,
   data,
+  mobileAlign,
   updateDrive,
   handlePreviewClick,
 }) => {
@@ -29,6 +31,7 @@ const DriveDropdown: FC<DriveItemDropdownProps> = ({
       <DriveItemMenu
         data={data}
         type={type}
+        mobileAlign={mobileAlign}
         updateDrive={updateDrive}
         handlePreviewClick={handlePreviewClick}
       />
