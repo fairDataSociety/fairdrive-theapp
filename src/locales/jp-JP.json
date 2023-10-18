@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "ユーザー名またはメールアドレスが必要です",
   "SUBMIT": "送信",
   "DISCLAIMER": "Fairdriveはベータ版であり、評価専用です！ファイルの完全性、永続性、セキュリティは保証されていません！Fairdriveのデータはいつでも削除される可能性があります。",
+  "DISCLAIMER_DEV": "このバージョンは、デフォルトでtestnet上で実行されるように設定されています。",
   "WELCOME_BACK": "お帰りなさい",
   "LOG_IN_TO_GET_ACCESS": "Fairdriveにアクセスするにはログインしてください。",
   "CHOOSE_NETWORK": "ネットワークを選択",

@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "Kullanıcı adı veya e-posta gereklidir",
   "SUBMIT": "Gönder",
   "DISCLAIMER": "Fairdrive Beta aşamasındadır ve yalnızca değerlendirme amacıyla sunulmaktadır! Dosya bütünlüğü sürekliliği ve güvenliği garanti edilmemektedir! Fairdrive içindeki verilerin her zaman silinebileceğini unutmayın.",
+  "DISCLAIMER_DEV": "Bu sürüm varsayılan olarak testnet'te çalışacak şekilde yapılandırılmıştır.",
   "WELCOME_BACK": "Tekrar hoş geldiniz",
   "LOG_IN_TO_GET_ACCESS": "Fairdrive'a erişim sağlamak için lütfen giriş yapın.",
   "CHOOSE_NETWORK": "Ağı Seç",

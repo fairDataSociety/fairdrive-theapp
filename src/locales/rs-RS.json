@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "Korisničko ime ili e-mail su obavezni",
   "SUBMIT": "Podnesi",
   "DISCLAIMER": "Fairdrive je u Beta fazi i pružen je samo u svrhu evaluacije! Postojanost integriteta fajlova i bezbednost nisu zagarantovani! Očekujte da podaci u Fairdrive-u mogu biti izbrisani u bilo kom trenutku.",
+  "DISCLAIMER_DEV": "Ova verzija je po podrazumevanoj postavci konfigurisana da se izvršava na testnet.",
   "WELCOME_BACK": "Dobrodošli nazad",
   "LOG_IN_TO_GET_ACCESS": "Molimo prijavite se kako biste pristupili svom Fairdrive-u.",
   "CHOOSE_NETWORK": "Izaberite mrežu",

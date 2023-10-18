@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "Felhasználónév vagy e-mail kötelező",
   "SUBMIT": "Beküldés",
   "DISCLAIMER": "A Fairdrive béta verzióban elérhető és csak értékelés céljára szolgál! A fájlintegritás, a tartósság és a biztonság nem biztosított! Számíts arra, hogy az adatokat a Fairdrive-ban bármikor törölhetik.",
+  "DISCLAIMER_DEV": "Ez a verzió alapértelmezés szerint a testneten fut.",
   "WELCOME_BACK": "Üdvözöljük ismét",
   "LOG_IN_TO_GET_ACCESS": "Kérlek jelentkezz be, hogy hozzáférhess a Fairdrive-hoz.",
   "CHOOSE_NETWORK": "Válassz hálózatot",
