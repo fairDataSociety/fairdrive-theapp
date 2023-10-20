@@ -90,11 +90,16 @@ const LoginForm: FC = () => {
     }
   }, [fdpClientRef.current?.cache, storageType]);
 
+  const disclaimerMessages = [intl.get('DISCLAIMER')];
+  if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'PRODUCTION') {
+    disclaimerMessages.push(intl.get('DISCLAIMER_DEV'));
+  }
+
   return (
     <div className="flex flex-col px-3 justify-center items-center">
       <DisclaimerMessage
         icon={IconType.WARNING}
-        text={intl.get('DISCLAIMER')}
+        text={disclaimerMessages.join(' ')}
       />
 
       <AuthenticationHeader

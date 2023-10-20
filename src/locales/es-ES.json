@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "Se requiere nombre de usuario o correo electrónico",
   "SUBMIT": "Enviar",
   "DISCLAIMER": "¡Fairdrive está en Beta y se proporciona solo para evaluación! ¡No se garantiza la persistencia ni la seguridad de la integridad del archivo! ¡Espere que los datos en Fairdrive puedan ser eliminados en cualquier momento!",
+  "DISCLAIMER_DEV": "Esta versión está configurada por defecto para ejecutarse en la testnet.",
   "WELCOME_BACK": "Bienvenido de nuevo",
   "LOG_IN_TO_GET_ACCESS": "Por favor, inicie sesión para acceder a su Fairdrive.",
   "CHOOSE_NETWORK": "Elija red",
