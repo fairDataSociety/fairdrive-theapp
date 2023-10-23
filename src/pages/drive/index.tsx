@@ -148,7 +148,7 @@ const Drive: FC = () => {
           await handleFetchPods();
         }
       } else {
-        setError(errorToString(error));
+        setError(errorToString(e));
       }
     } finally {
       setLoading(false);
