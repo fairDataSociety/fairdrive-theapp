@@ -42,37 +42,39 @@ const DriveActionHeaderMobile = ({
         onDirectorySelect={onDirectorySelect}
         onBackToDrive={onBackToDrive}
       />
-      <div className="ml-auto flex md:hidden">
-        <Button
-          type="button"
-          variant="primary"
-          icon={
-            driveView === 'grid' ? (
-              theme === 'light' ? (
-                <DriveViewListLight />
+      {podName && (
+        <div className="ml-auto flex md:hidden">
+          <Button
+            type="button"
+            variant="primary"
+            icon={
+              driveView === 'grid' ? (
+                theme === 'light' ? (
+                  <DriveViewListLight />
+                ) : (
+                  <DriveViewListDark />
+                )
+              ) : theme === 'light' ? (
+                <DriveViewGridLight />
               ) : (
-                <DriveViewListDark />
+                <DriveViewGridDark />
               )
-            ) : theme === 'light' ? (
-              <DriveViewGridLight />
-            ) : (
-              <DriveViewGridDark />
-            )
-          }
-          className="mx-1"
-          padding="p-3"
-          onClick={toggleView}
-        />
+            }
+            className="mx-1"
+            padding="p-3"
+            onClick={toggleView}
+          />
 
-        <Button
-          type="button"
-          variant="primary"
-          icon={theme === 'light' ? <SortLight /> : <SortDark />}
-          className="mx-1"
-          padding="p-3"
-          onClick={toggleSort}
-        />
-      </div>
+          <Button
+            type="button"
+            variant="primary"
+            icon={theme === 'light' ? <SortLight /> : <SortDark />}
+            className="mx-1"
+            padding="p-3"
+            onClick={toggleSort}
+          />
+        </div>
+      )}
     </div>
   );
 };
