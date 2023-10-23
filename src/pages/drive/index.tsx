@@ -239,6 +239,9 @@ const Drive: FC = () => {
   };
 
   const onBackToDrive = () => {
+    if (loading) {
+      return;
+    }
     setError(null);
     setActivePod('');
     setDirectoryName('');
