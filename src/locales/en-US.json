@@ -225,5 +225,5 @@
   "INVITES_TOOLTIP": "Invites simplify onboarding! Share an invite link to give friends instant access to a pre-funded wallet.",
   "INVITES_DESCRIPTION": "Our invitation system is designed to make the onboarding process seamless for new users. When you create an invite, you're essentially generating a referral link embedded with a private key to a pre-funded wallet. By sharing this link with friends or colleagues, you give them immediate access to start using the service with funds already in place. This not only helps them bypass the initial setup hassles but also encourages quicker adoption and usage of our platform.",
   "NEW_FOLDER": "New Folder",
-  "ALLOW_TRACKING": "Allow the application to anonymously track some events."
+  "ALLOW_TRACKING": "Allow the app to track your activities in an anonymous manner."
 }
