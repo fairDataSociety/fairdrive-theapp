@@ -17,6 +17,16 @@ import { Network } from '@data/networks';
 import NetworkDropdown from '@components/Dropdowns/NetworkDropdown/NetworkDropdown';
 import { setDefaultNetwork } from '@utils/localStorage';
 import { useLocales } from '@context/LocalesContext';
+import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
+import { useMatomoContext } from '@context/Matomo';
+
+const ALLOW_TRACKING_KEY = 'allow-matomo';
+
+function getDefaultTrackingValue(): boolean {
+  const enabled = localStorage.getItem(ALLOW_TRACKING_KEY);
+
+  return enabled === 'true' || enabled === null ? true : false;
+}
 
 const LoginForm: FC = () => {
   const CREATE_USER_URL = process.env.NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT;
@@ -26,8 +36,10 @@ const LoginForm: FC = () => {
   const { errors, isValid } = formState;
 
   const { setUser, errorMessage, setErrorMessage } = useContext(UserContext);
+  const [allowTracking, setAllowTracking] = useState(getDefaultTrackingValue());
   const [network, setNetwork] = useState<Network>(getDefaultNetwork());
   const [loading, setLoading] = useState<boolean>(false);
+  const { setEnabled } = useMatomoContext();
 
   const {
     fdpClientRef,
@@ -46,6 +58,7 @@ const LoginForm: FC = () => {
       setErrorMessage(null);
       const { user_name, password } = data;
       setFdpStorageType('native', network.config);
+      setEnabled(allowTracking);
       const wallet = await fdpClientRef.current.account.login(
         user_name,
         password
@@ -65,6 +78,12 @@ const LoginForm: FC = () => {
 
   const onNetworkChange = (network: Network) => {
     setNetwork(network);
+  };
+
+  const onAllowTrackingClick = () => {
+    const enabled = !allowTracking;
+    setAllowTracking(enabled);
+    localStorage.setItem(ALLOW_TRACKING_KEY, String(enabled));
   };
 
   useEffect(() => {
@@ -153,6 +172,15 @@ const LoginForm: FC = () => {
             // @ts-ignore
             error={errors.password}
           />
+
+          <CustomCheckbox
+            className="mb-3 sm:mb-0"
+            name="confirm"
+            onChange={onAllowTrackingClick}
+            checked={allowTracking}
+          >
+            {intl.get('ALLOW_TRACKING')}
+          </CustomCheckbox>
 
           <div className="mt-8 text-center">
             <Button

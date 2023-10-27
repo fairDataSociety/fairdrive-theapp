@@ -224,5 +224,6 @@
   "ROOT_DIRECTORY": "Stammverzeichnis",
   "INVITES_TOOLTIP": "Einladungen erleichtern den Einstieg! Teile einen Einladungslink, um Freunden sofortigen Zugang zu einem vorgefundenen Wallet zu geben.",
   "INVITES_DESCRIPTION": "Unser Einladungssystem ist darauf ausgelegt, den Einstieg für neue Benutzer nahtlos zu gestalten. Wenn Sie eine Einladung erstellen, generieren Sie im Wesentlichen einen Empfehlungslink, der mit einem privaten Schlüssel zu einer vorgefundenen Brieftasche versehen ist. Durch das Teilen dieses Links mit Freunden oder Kollegen ermöglichen Sie ihnen den sofortigen Zugang und die sofortige Nutzung unseres Dienstes mit bereits vorhandenen Mitteln. Dies erleichtert nicht nur die Erstkonfiguration, sondern fördert auch die schnellere Nutzung unserer Plattform.",
-  "NEW_FOLDER": "Neuer Ordner"
+  "NEW_FOLDER": "Neuer Ordner",
+  "ALLOW_TRACKING": "Erlauben Sie der App, Ihre Aktivitäten in anonymer Weise zu verfolgen."
 }
