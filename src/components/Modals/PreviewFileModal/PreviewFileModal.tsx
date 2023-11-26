@@ -30,9 +30,11 @@ import ShareDarkIcon from '@media/UI/share-dark.svg';
 import DeleteLightIcon from '@media/UI/delete-light.svg';
 import DeleteDarkIcon from '@media/UI/delete-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
-import FilePreview from '@components/FilePreview/FilePreview';
+import FilePreview, {
+  isFilePreviewSupported,
+} from '@components/FilePreview/FilePreview';
 import { FileItem } from '@fairdatasociety/fdp-storage';
-import { extractFileExtension } from '@utils/filename';
+import { extractFileExtension, rootPathToRelative } from '@utils/filename';
 import { useLocales } from '@context/LocalesContext';
 
 interface PreviewModalProps {
@@ -54,29 +56,30 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
   const { activePod, directoryName } = useContext(PodContext);
   const [loading, setLoading] = useState(false);
 
-  const [imageSource, setImageSource] = useState('');
+  const [fileContent, setFileContent] = useState<Blob | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [showShareFileModal, setShowShareFileModal] = useState(false);
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const { intl } = useLocales();
 
+  const directory = rootPathToRelative(previewFile.path || directoryName);
+
   useEffect(() => {
+    if (!isFilePreviewSupported(previewFile?.name)) {
+      return;
+    }
+
     setLoading(true);
     downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
-      directory: directoryName,
+      directory,
       podName: activePod,
     })
       .then(async (response) => {
         const blob = await response.arrayBuffer();
         const content = new Blob([blob]);
 
-        if (previewFile?.name.endsWith('.json')) {
-          const json = await content.text();
-          return setImageSource(JSON.parse(json));
-        }
-
-        setImageSource(window.URL.createObjectURL(content));
+        setFileContent(content);
       })
       .catch((e) => {
         setErrorMessage(intl.get('FILE_PREVIEW_ERROR'));
@@ -91,7 +94,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
 
     downloadFile(fdpClientRef.current, {
       filename: previewFile?.name,
-      directory: directoryName,
+      directory,
       podName: activePod,
     })
       .then((response) => {
@@ -118,7 +121,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
     deleteFile(fdpClientRef.current, {
       file_name: previewFile?.name,
       podName: activePod,
-      path: formatDirectory(directoryName),
+      path: formatDirectory(directory),
     })
       .then(() => {
         trackEvent({
@@ -152,16 +155,16 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         headerTitle={intl.get('PREVIEW_FILE')}
         className="w-full md:w-98"
       >
-        {imageSource ? (
+        {fileContent ? (
           <FilePreview
             file={previewFile}
-            source={imageSource}
+            source={fileContent}
             pod={activePod}
-            directory={directoryName}
+            directory={directory}
             onError={() => setErrorMessage(intl.get('FILE_PREVIEW_ERROR'))}
           />
         ) : null}
-        <Spinner isLoading={loading} />
+        <Spinner className="my-8" isLoading={loading} />
 
         {errorMessage ? (
           <div className="my-28 text-color-status-negative-day text-xs text-center leading-none">
@@ -169,7 +172,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
           </div>
         ) : null}
 
-        <h2 className="text-base text-color-accents-purple-black dark:text-color-shade-white-night">
+        <h2 className="text-base mt-8 text-color-accents-purple-black dark:text-color-shade-white-night">
           {previewFile?.name}
         </h2>
 
@@ -253,7 +256,7 @@ const PreviewFileModal: FC<PreviewModalProps> = ({
         closeModal={() => setShowShareFileModal(false)}
         fileName={previewFile?.name}
         podName={activePod}
-        path={formatDirectory(directoryName)}
+        path={formatDirectory(directory)}
       />
 
       <ConfirmDeleteModal

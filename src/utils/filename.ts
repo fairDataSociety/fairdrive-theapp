@@ -59,3 +59,11 @@ export function combine(...parts: string[]): string {
 
   return getPathFromParts(parts);
 }
+
+export function constructPath(path: string, folder: string): string {
+  return path?.endsWith('/') ? path + folder : `${path}/${folder}`;
+}
+
+export function rootPathToRelative(path: string): string {
+  return path.startsWith('/') ? path.substring(1) : path;
+}

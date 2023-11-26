@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "Le nom d'utilisateur ou l'e-mail est requis",
   "SUBMIT": "Soumettre",
   "DISCLAIMER": "Fairdrive est en version bêta et fourni à des fins d'évaluation uniquement ! L'intégrité des fichiers, leur persistance et leur sécurité ne sont pas assurées ! Attendez-vous à ce que les données dans Fairdrive puissent être supprimées à tout moment.",
+  "DISCLAIMER_DEV": "Cette version est configurée par défaut pour fonctionner sur le testnet.",
   "WELCOME_BACK": "Bienvenue de retour",
   "LOG_IN_TO_GET_ACCESS": "Veuillez vous connecter pour accéder à votre Fairdrive.",
   "CHOOSE_NETWORK": "Choisir le réseau",
@@ -218,5 +219,11 @@
   "USERS_COMMITMENTS": "Engagements des utilisateurs :",
   "TERMS_OF_USAGE_PARAGRAPH_3": "En utilisant la version bêta de Fairdrive, vous acceptez de signaler tout défaut, erreur ou imperfection découvert sur la plateforme ou d'autres supports où l'utilisateur - testeur bêta a eu accès à la version bêta de Fairdrive. L'utilisateur comprend que la communication rapide et précise est le but de la version bêta de Fairdrive et s'engage à faire de son mieux pour fournir des rapports fréquents sur tous les aspects du produit, positifs et négatifs, et reconnaît que toutes les améliorations, modifications et changements découlant de la contribution du testeur bêta au projet Fairdrive restent ou deviennent la propriété exclusive de la partie révélante.",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Tous droits réservés",
-  "PASSPHRASE_EXPLANATION": "Votre mot de passe est utilisé pour le chiffrement et le déchiffrement de vos données. Ne le partagez pas."
+  "PASSPHRASE_EXPLANATION": "Votre mot de passe est utilisé pour le chiffrement et le déchiffrement de vos données. Ne le partagez pas.",
+  "PASSPHRASE_EXPLANATION_2": "Pour améliorer la sécurité, votre accès est protégé par une combinaison de phrase secrète et d'une signature numérique via MetaMask. Saisir la phrase secrète et la signature correctes vous donnera accès à vos données, pods, dossiers et fichiers spécifiques. Remarque : une phrase secrète mal saisie ne refusera pas l'accès mais affichera des données complètement différentes. Si vous choisissez de migrer vers un compte FDP complet, seules les données du compte actuellement connecté seront migrées.",
+  "ROOT_DIRECTORY": "Répertoire racine",
+  "INVITES_TOOLTIP": "Les invitations simplifient l'intégration ! Partagez un lien d'invitation pour offrir à vos amis un accès instantané à un portefeuille préfinancé.",
+  "INVITES_DESCRIPTION": "Notre système d'invitation est conçu pour faciliter l'intégration des nouveaux utilisateurs. Lorsque vous créez une invitation, vous générez essentiellement un lien de parrainage intégré avec une clé privée pour un portefeuille préfinancé. En partageant ce lien avec des amis ou des collègues, vous leur donnez un accès immédiat pour commencer à utiliser le service avec des fonds déjà en place. Cela les aide non seulement à éviter les tracas de la configuration initiale, mais encourage également une adoption et une utilisation plus rapides de notre plateforme.",
+  "NEW_FOLDER": "Nouveau Dossier",
+  "ALLOW_TRACKING": "Autorisez l'application à suivre vos activités de manière anonyme."
 }
