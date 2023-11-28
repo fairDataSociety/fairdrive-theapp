@@ -9,7 +9,7 @@ RUN npm ci
 # This is where because may be the case that you would try
 # to build the app based on some `X_TAG` in my case (Git commit hash)
 # but the code hasn't changed.
-FROM node:lts AS builder
+FROM node:18 AS builder
 
 WORKDIR /opt/app
 COPY . .
