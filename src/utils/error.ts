@@ -14,3 +14,10 @@ export function isDataNotFoundError(error: unknown): boolean {
 export function isJsonParsingError(error: unknown): boolean {
   return (error as Error)?.message?.startsWith(ERROR_MESSAGE_JSON_PARSING);
 }
+
+export function errorToString(error: unknown): string {
+  const message =
+    typeof error?.toString === 'function' ? error.toString() : String(error);
+
+  return message === '[object Object]' ? 'Unknown error' : message;
+}

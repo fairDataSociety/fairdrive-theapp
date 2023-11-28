@@ -29,6 +29,10 @@ export function getFdpPathByDirectory(directory: string): string {
     return '/';
   }
 
+  if (directory.startsWith('/')) {
+    return directory;
+  }
+
   return '/' + directory;
 }
 

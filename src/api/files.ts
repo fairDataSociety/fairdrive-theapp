@@ -1,4 +1,8 @@
-import { FdpStorage, FileItem } from '@fairdatasociety/fdp-storage';
+import {
+  FdpStorage,
+  FileItem,
+  UploadProgressInfo,
+} from '@fairdatasociety/fdp-storage';
 import { formatUrl } from '@utils/url';
 
 interface DownloadFileData {
@@ -78,7 +82,8 @@ export async function shareFile(
 
 export async function uploadFile(
   fdp: FdpStorage,
-  data: UploadFileData
+  data: UploadFileData,
+  progressCallback?: (info: UploadProgressInfo) => void
 ): Promise<FileItem> {
   const writePath =
     data.directory === 'root' ? '' : '/' + formatUrl(data.directory);
@@ -87,7 +92,8 @@ export async function uploadFile(
   const fileMetadata = await fdp.file.uploadData(
     data.podName,
     `${writePath}/${data.file.name}`,
-    fileBytes
+    fileBytes,
+    progressCallback && { progressCallback }
   );
 
   // todo remove this when fdp-storage implements this https://github.com/fairDataSociety/fdp-storage/issues/229

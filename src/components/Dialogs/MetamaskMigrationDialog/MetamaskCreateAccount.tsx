@@ -14,6 +14,7 @@ import ThemeContext from '@context/ThemeContext';
 import { RegistrationRequest } from '@fairdatasociety/fdp-storage/dist/account/types';
 import { useLocales } from '@context/LocalesContext';
 import { useMetamask } from '@context/MetamaskContext';
+import { errorToString } from '@utils/error';
 
 interface MetamaskCreateAccountProps {
   username: string;
@@ -70,7 +71,7 @@ export default function MetamaskCreateAccount({
     } catch (error) {
       console.error(error);
       closeTimer();
-      setBalanceError(String(error));
+      setBalanceError(errorToString(error));
       setCanProceed(true);
     }
   };
@@ -103,7 +104,7 @@ export default function MetamaskCreateAccount({
 
       onConfirm();
     } catch (error) {
-      setErrorMessage(String(error));
+      setErrorMessage(errorToString(error));
     } finally {
       setLoading(false);
     }
@@ -130,15 +131,7 @@ export default function MetamaskCreateAccount({
   };
 
   const getFeePrice = async () => {
-    const { address } = fdpClientRef.current.account.wallet;
-    const { publicKey } = fdpClientRef.current.account;
-
-    const price = await estimateRegistrationPrice(
-      username,
-      address,
-      publicKey,
-      network
-    );
+    const price = await estimateRegistrationPrice(network);
 
     setMinBalance(price);
   };
@@ -190,7 +183,7 @@ export default function MetamaskCreateAccount({
             <>
               <div>
                 {intl.get('YOUR_ACCOUNT_IS')} <br />
-                <span>
+                <span className="flex items-center flex-wrap">
                   {address}
                   <CopyButton text={address} />
                 </span>

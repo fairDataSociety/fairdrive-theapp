@@ -48,7 +48,10 @@ const CustomCheckbox: FC<CheckboxProps> = ({
           )}
         </div>
 
-        <label className="mr-2 font-normal text-color-accents-plum-black dark:text-color-accents-soft-lavender text-xs">
+        <label
+          htmlFor={name}
+          className="mr-2 font-normal text-color-accents-plum-black dark:text-color-accents-soft-lavender text-xs"
+        >
           {children}
         </label>
       </div>

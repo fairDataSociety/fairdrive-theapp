@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 
@@ -21,6 +21,8 @@ import { CreatorModalProps } from '@interfaces/handlers';
 import { addItemToCache, ContentType } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
 import { useLocales } from '@context/LocalesContext';
+import { FileItem, UploadProgressInfo } from '@fairdatasociety/fdp-storage';
+import ProgressBar from '@components/ProgressBar/ProgressBar';
 
 const UploadFileModal: FC<CreatorModalProps> = ({
   showModal,
@@ -33,33 +35,35 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const [fileToUpload, setFileToUpload] = useState(null);
+  const [filesToUpload, setFilesToUpload] = useState<File[]>(null);
+  const uploadedItemsRef = useRef<FileItem[]>([]);
+  const [failedUplods, setFailedUplods] = useState<File[]>([]);
+  const [uploadPercentage, setUploadPercentage] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState('');
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles: any) => {
+    onDrop: (acceptedFiles: File[]) => {
+      uploadedItemsRef.current = [];
+      setFailedUplods([]);
+      setErrorMessage('');
       if (activePod) {
-        setFileToUpload(acceptedFiles[0]);
+        setFilesToUpload(acceptedFiles);
       }
     },
   });
   const { intl } = useLocales();
 
-  const handleUpload = async () => {
-    if (!(fileToUpload && activePod)) {
-      return;
-    }
-
-    setLoading(true);
-    try {
+  const onClose = async () => {
+    if (uploadedItemsRef.current.length > 0) {
       const userAddress = await getAccountAddress();
       const directory = directoryName || 'root';
       const fdpPath = getFdpPathByDirectory(directory);
-      const item = await uploadFile(fdpClientRef.current, {
-        file: fileToUpload,
-        directory: directoryName,
-        podName: activePod,
-      });
+
+      setMessage(intl.get('SUCCESSFULLY_UPLOADED'));
+
+      uploadedItemsRef.current.forEach((item) =>
+        addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE)
+      );
 
       trackEvent({
         category: 'Upload',
@@ -69,12 +73,85 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         href: window.location.href,
       });
 
-      addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE);
       updateDrive({
         isUseCacheOnly: true,
       });
-      closeModal();
-      setMessage(intl.get('SUCCESSFULLY_UPLOADED'));
+    }
+
+    closeModal();
+  };
+
+  const calculateUploadPercentage = (
+    completedCount: number,
+    totalCount: number,
+    currentPercentage: number
+  ): number => {
+    return (
+      ((completedCount * 100 + currentPercentage) / (totalCount * 100)) * 100
+    );
+  };
+
+  const handleUpload = async () => {
+    setErrorMessage('');
+
+    if (loading || !(filesToUpload && activePod)) {
+      return;
+    }
+
+    setLoading(true);
+    setUploadPercentage(0);
+
+    try {
+      setFailedUplods([]);
+
+      await filesToUpload.reduce(async (prevUpload, file) => {
+        try {
+          await prevUpload;
+
+          if (uploadedItemsRef.current.some(({ name }) => name === file.name)) {
+            return;
+          }
+
+          const item = await uploadFile(
+            fdpClientRef.current,
+            {
+              file,
+              directory: directoryName,
+              podName: activePod,
+            },
+            (event: UploadProgressInfo) => {
+              const { uploadPercentage } = event.data || {};
+
+              if (uploadPercentage) {
+                setUploadPercentage(
+                  calculateUploadPercentage(
+                    uploadedItemsRef.current.length + failedUplods.length,
+                    filesToUpload.length,
+                    uploadPercentage
+                  )
+                );
+              }
+            }
+          );
+
+          uploadedItemsRef.current.push(item);
+        } catch (error) {
+          setFailedUplods((failedUplods) => [...failedUplods, file]);
+          setUploadPercentage(
+            calculateUploadPercentage(
+              uploadedItemsRef.current.length + failedUplods.length,
+              filesToUpload.length,
+              100
+            )
+          );
+        }
+      }, Promise.resolve());
+
+      if (uploadedItemsRef.current.length === filesToUpload.length) {
+        onClose();
+      } else {
+        throw new Error("Some files weren't uploaded successfully.");
+      }
     } catch (e) {
       setErrorMessage(`${e.message}`);
     } finally {
@@ -82,10 +159,22 @@ const UploadFileModal: FC<CreatorModalProps> = ({
     }
   };
 
+  const getFileUploadStatus = (
+    file: File
+  ): 'pending' | 'success' | 'failed' => {
+    if (uploadedItemsRef.current.some((item) => item.name === file.name)) {
+      return 'success';
+    }
+    if (failedUplods.some((failedFile) => failedFile.name === file.name)) {
+      return 'failed';
+    }
+    return 'pending';
+  };
+
   return (
     <SideModal
       showModal={showModal}
-      closeModal={closeModal}
+      closeModal={onClose}
       headerIcon={{
         light: <FolderLightIcon />,
         dark: <FolderDarkIcon />,
@@ -113,11 +202,21 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         </p>
       </div>
 
-      {fileToUpload ? (
-        <p className="mt-5 text-sm text-center text-color-shade-light-2-night">
-          {intl.get('READY_TO_UPLOAD')} <strong>{fileToUpload?.name}</strong>
-        </p>
-      ) : null}
+      {filesToUpload &&
+        filesToUpload.map((file) => {
+          const status = getFileUploadStatus(file);
+          return (
+            <p
+              key={file.name}
+              className={`mt-5 text-sm text-center text-color-shade-light-2-night ${
+                status === 'success' ? 'text-color-status-positive-day' : ''
+              } ${status === 'failed' ? 'text-color-status-negative-day' : ''}`}
+            >
+              {status === 'pending' && intl.get('READY_TO_UPLOAD')}{' '}
+              <strong>{file?.name}</strong>
+            </p>
+          );
+        })}
 
       {errorMessage ? (
         <div className="mt-10 text-color-status-negative-day text-xs text-center leading-none">
@@ -125,13 +224,15 @@ const UploadFileModal: FC<CreatorModalProps> = ({
         </div>
       ) : null}
 
+      {loading && <ProgressBar className="mt-3" percent={uploadPercentage} />}
+
       <div className="mt-14 text-center">
         <Button
           type="button"
           variant="primary-outlined"
           label={intl.get('UPLOAD_CONTENT')}
           onClick={handleUpload}
-          disabled={!fileToUpload || loading}
+          disabled={!filesToUpload || loading}
           loading={loading}
         />
       </div>

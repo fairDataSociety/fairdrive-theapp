@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { Button } from '@components/Buttons';
 import { useForm } from 'react-hook-form';
 import {
@@ -20,6 +20,9 @@ import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import copy from 'copy-to-clipboard';
 import { useLocales } from '@context/LocalesContext';
+import ThemeContext from '@context/ThemeContext';
+import InfoLight from '@media/UI/info-light.svg';
+import InfoDark from '@media/UI/info-dark.svg';
 
 export const STEP_CREATE = 'create';
 export const STEP_FILL = 'fill';
@@ -42,6 +45,7 @@ const Invite: FC<InviteProps> = () => {
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
   const { wallet } = useFdpStorage();
   const { intl } = useLocales();
+  const { theme } = useContext(ThemeContext);
 
   /**
    * When user click by Save name button
@@ -120,6 +124,7 @@ const Invite: FC<InviteProps> = () => {
         <div className="md:border-r border-gray-300">
           {step === STEP_CREATE && (
             <>
+              <p className="pr-8">{intl.get('INVITES_DESCRIPTION')}</p>
               <div className="flex flex-col sm:flex-row mt-10">
                 <CustomCheckbox
                   className="mb-3 sm:mb-0"
@@ -139,9 +144,11 @@ const Invite: FC<InviteProps> = () => {
                 </CustomCheckbox>
               </div>
 
-              <div className="w-full step-create mt-8">
+              <div className="w-full step-create mt-8 md:pr-4">
                 <Button
                   disabled={loading}
+                  className="w-full lg:w-auto"
+                  centerText={true}
                   variant="primary-outlined"
                   label={intl.get('CREATE_INVITE')}
                   onClick={onCreateInvite}
@@ -155,7 +162,7 @@ const Invite: FC<InviteProps> = () => {
               <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
                 {intl.get('TO_INVITE_QUESTION')}
               </div>
-              <div className="step-fill sm:mx-5 mx-0">
+              <div className="step-fill sm:mr-4 mx-0">
                 <form onSubmit={handleSubmit(onSaveInviteName)}>
                   <AuthenticationInput
                     id="name"
@@ -175,7 +182,7 @@ const Invite: FC<InviteProps> = () => {
 
                   <div className="mt-5 flex sm:justify-start justify-between">
                     <Button
-                      className="w-24 mr-4 mb-2"
+                      className="mr-4 mb-2 w-full lg:w-24"
                       disabled={loading}
                       variant="secondary"
                       centerText={true}
@@ -184,7 +191,7 @@ const Invite: FC<InviteProps> = () => {
                     />
 
                     <Button
-                      className="w-24 mb-2"
+                      className="mb-2 w-full lg:w-24"
                       disabled={loading}
                       variant="primary-outlined"
                       centerText={true}
@@ -199,7 +206,11 @@ const Invite: FC<InviteProps> = () => {
 
           {step === STEP_FINISH && (
             <div className="w-full step-finish">
-              <Confetti numberOfPieces={1000} recycle={false} />
+              <Confetti
+                numberOfPieces={1000}
+                recycle={false}
+                width={window.innerWidth}
+              />
               <h1 className="mb-4 font-semibold text-3xl text-color-accents-purple-heavy dark:text-color-accents-soft-lavender leading-10">
                 {intl.get('HURRAH')}
               </h1>
@@ -222,9 +233,9 @@ const Invite: FC<InviteProps> = () => {
                 />
               </div>
 
-              <div className="create-again flex flex-wrap justify-between mt-6 pr-4">
+              <div className="create-again flex flex-wrap justify-between mt-6 lg:pr-4">
                 <Button
-                  className="primary-outlined w-60 mb-2 shrink-0 grow-0"
+                  className="primary-outlined w-full lg:w-60 mb-2 shrink-0 grow-0 md:mr-4"
                   disabled={loading}
                   variant="primary"
                   centerText={true}
@@ -233,7 +244,7 @@ const Invite: FC<InviteProps> = () => {
                 />
 
                 <Button
-                  className="primary-outlined w-60 mb-2 shrink-0 grow-0"
+                  className="primary-outlined w-full lg:w-60 mb-2 shrink-0 grow-0 md:mr-4 lg:mr-0"
                   disabled={loading}
                   variant="primary-outlined"
                   centerText={true}
@@ -246,8 +257,14 @@ const Invite: FC<InviteProps> = () => {
         </div>
 
         <div className="mt-10 md:mt-0">
-          <div className="font-semibold text-l text-color-accents-plum-black dark:text-color-shade-white-night">
+          <div className="font-semibold relative flex items-center text-l text-color-accents-plum-black dark:text-color-shade-white-night">
             {intl.get('INVITES_ADDRESS_BOOK')}
+            <div className="has-tooltip inline-block ml-2 text-color-shade-dark-2-night dark:text-color-shade-light-2-night cursor-pointer">
+              <span>{theme === 'light' ? <InfoLight /> : <InfoDark />}</span>
+              <span className="tooltip rounded w-48 -left-24 sm:w-56 sm:-left-28 top-4 shadow-lg p-3 bg-color-shade-dark-2-day dark:bg-color-shade-dark-2-night">
+                {intl.get('INVITES_TOOLTIP')}
+              </span>
+            </div>
           </div>
           <div className="mt-10">
             <Invites
