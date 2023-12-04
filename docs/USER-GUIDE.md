@@ -23,11 +23,7 @@ To use Fairdrive, you'll need to create an account using any of below options. H
 1. Click Connect
 2. Select Metamask
 3. Type passphrase
-<<<<<<< HEAD
-4. Connect Metamask to site with your preffered account
-=======
 4. Connect Metamask to site with your preferred account
->>>>>>> b33ba95f0aa99f54d47b2903d511fd45e954b0e0
 5. Sign Message
 
 #### 2. Using FDP Portable account
