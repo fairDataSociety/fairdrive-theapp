@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "Felhasználónév vagy e-mail kötelező",
   "SUBMIT": "Beküldés",
   "DISCLAIMER": "A Fairdrive béta verzióban elérhető és csak értékelés céljára szolgál! A fájlintegritás, a tartósság és a biztonság nem biztosított! Számíts arra, hogy az adatokat a Fairdrive-ban bármikor törölhetik.",
+  "DISCLAIMER_DEV": "Ez a verzió alapértelmezés szerint a testneten fut.",
   "WELCOME_BACK": "Üdvözöljük ismét",
   "LOG_IN_TO_GET_ACCESS": "Kérlek jelentkezz be, hogy hozzáférhess a Fairdrive-hoz.",
   "CHOOSE_NETWORK": "Válassz hálózatot",
@@ -218,5 +219,11 @@
   "USERS_COMMITMENTS": "Felhasználói Kötelezettségek:",
   "TERMS_OF_USAGE_PARAGRAPH_3": "A Fairdrive Béta Verzió használatával elfogadod, hogy jelents be minden hibát, hibát vagy hiányosságot, amelyet felfedeztél a platformon vagy más anyagokon, ahol a felhasználó - Béta Tesztelő hozzáférést kapott a Fairdrive Béta Verziójához. A felhasználó megérti, hogy a Fairdrive Béta Verziójának gyors és pontos jelentése a cél, és elkötelezi magát arra, hogy minden termék vonatkozásában gyakori jelentéseket nyújtson be a pozitív és negatív szempontokról, és elismeri, hogy bármely fejlesztés, módosítás és változás a Béta Tesztelő hozzájárulásából, vagy a Fairdrive Projekt hozzájárulásából eredően, a Közzétevő Fél kizárólagos tulajdonában marad vagy anná válik.",
   "FAIRDRIVE_COPYRIGHT": "© 2021 Fairdrive. Minden jog fenntartva",
-  "PASSPHRASE_EXPLANATION": "A jelszót használjuk az adatok titkosításához és visszafejtéséhez. Ne ossza meg."
+  "PASSPHRASE_EXPLANATION": "A jelszót használjuk az adatok titkosításához és visszafejtéséhez. Ne ossza meg.",
+  "PASSPHRASE_EXPLANATION_2": "A biztonság fokozása érdekében az hozzáférését egy jelszó és egy digitális aláírás kombinációja védi a MetaMask alkalmazásban. A helyes jelszó és aláírás megadása engedi a hozzáférést a saját adatokhoz, podokhoz, mappákhoz és fájlokhoz. Megjegyzés: Egy hibásan beírt jelszó nem tagadja meg a hozzáférést, de teljesen irreleváns adatokat fog mutatni. Ha úgy dönt, hogy teljes FDP fiókra vált, vegye figyelembe, hogy csak a jelenleg bejelentkezett fiók adatai lesznek áthelyezve.",
+  "ROOT_DIRECTORY": "Gyökérkönyvtár",
+  "INVITES_TOOLTIP": "Az meghívók egyszerűsítik a bekapcsolódást! Ossz meg egy meghívó linket, hogy barátaid azonnal hozzáférjenek egy előre finanszírozott tárcához.",
+  "INVITES_DESCRIPTION": "A meghívó rendszerünk arra lett tervezve, hogy az új felhasználók számára gördülékenyebbé tegye az első lépéseket. Egy meghívó létrehozásakor lényegében egy olyan hivatkozási linket generálsz, amely egy előre finanszírozott tárcához tartozó privát kulccsal van ellátva. Ennek a linknek a megosztásával azonnali hozzáférést és a már meglévő alapokkal történő szolgáltatás használatát teszed lehetővé barátaid vagy kollégáid számára. Ez nem csak az első beállításokkal járó bonyodalmakat hárítja el, de gyorsabbá is teszi platformunk elfogadását és használatát.",
+  "NEW_FOLDER": "Új Mappa",
+  "ALLOW_TRACKING": "Engedélyezze az alkalmazásnak, hogy anonim módon kövesse nyomon tevékenységeit."
 }

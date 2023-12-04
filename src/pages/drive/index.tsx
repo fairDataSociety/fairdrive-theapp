@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 import { useFdpStorage } from '@context/FdpStorageContext';
 import ThemeContext from '@context/ThemeContext';
@@ -24,7 +24,6 @@ import SearchResultsDarkIcon from '@media/UI/search-results-dark.svg';
 import Spinner from '@components/Spinner/Spinner';
 import DriveActionHeaderMobile from '@components/NavigationBars/DriveActionBar/DriveActionHeaderMobile';
 import { DirectoryItem, FileItem } from '@fairdatasociety/fdp-storage';
-import SelectPodCard from '@components/Cards/SelectPodCard/SelectPodCard';
 import {
   CacheType,
   getCache,
@@ -35,13 +34,21 @@ import {
 } from '@utils/cache';
 import { RefreshDriveOptions } from '@interfaces/handlers';
 import DirectoryPath from '@components/DirectoryPath/DirectoryPath';
-import { isDataNotFoundError, isJsonParsingError } from '@utils/error';
+import {
+  errorToString,
+  isDataNotFoundError,
+  isJsonParsingError,
+} from '@utils/error';
 import PodList from '@components/Views/PodList/PodList';
+import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
+import { constructPath, rootPathToRelative } from '@utils/filename';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const {
+    loading,
+    setLoading,
     pods,
     activePod,
     setActivePod,
@@ -61,8 +68,9 @@ const Drive: FC = () => {
   const [previewFile, setPreviewFile] = useState(null);
   const [driveView, setDriveView] = useState<'grid' | 'list'>('grid');
   const [driveSort, setDriveSort] = useState('a-z');
-  const [loading, setLoading] = useState(false);
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
+  const [error, setError] = useState<string | null>(null);
+  const searchControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     trackPageView({
@@ -84,6 +92,8 @@ const Drive: FC = () => {
     if (!activePod) {
       return;
     }
+    setError(null);
+    updateSearch('');
 
     const userAddress = await getAccountAddress();
     const directory = directoryName || 'root';
@@ -137,6 +147,8 @@ const Drive: FC = () => {
           setFiles(null);
           await handleFetchPods();
         }
+      } else {
+        setError(errorToString(e));
       }
     } finally {
       setLoading(false);
@@ -145,6 +157,7 @@ const Drive: FC = () => {
 
   const handleFetchPods = async () => {
     try {
+      setError(null);
       setLoading(true);
       const response = await getPods(fdpClientRef.current);
       setPods(response);
@@ -177,17 +190,23 @@ const Drive: FC = () => {
     }
   };
 
-  const handleDirectoryOnClick = (newDirectoryName: string) => {
+  const handleDirectoryOnClick = (newDirectory: DirectoryItem) => {
     if (loading) {
       return;
     }
 
+    setError(null);
+
     setLoading(true);
 
-    if (directoryName !== 'root') {
-      setDirectoryName(directoryName + '/' + newDirectoryName);
+    if (newDirectory.path) {
+      setDirectoryName(
+        rootPathToRelative(constructPath(newDirectory.path, newDirectory.name))
+      );
+    } else if (directoryName !== 'root') {
+      setDirectoryName(directoryName + '/' + newDirectory.name);
     } else {
-      setDirectoryName(newDirectoryName);
+      setDirectoryName(newDirectory.name);
     }
 
     setLoading(false);
@@ -198,6 +217,8 @@ const Drive: FC = () => {
       return;
     }
 
+    setError(null);
+
     setLoading(true);
 
     setDirectoryName(newDirectory);
@@ -206,33 +227,134 @@ const Drive: FC = () => {
   };
 
   const handleFileOnClick = (data: FileItem) => {
+    setError(null);
     setPreviewFile(data);
     setShowPreviewModal(true);
   };
 
-  const handleSearchFilter = (driveItem: DirectoryItem | FileItem) => {
-    return driveItem.name.toLowerCase().includes(search.toLocaleLowerCase());
-  };
-
   const handlePodSelect = (pod: string) => {
+    setError(null);
     setActivePod(pod);
     setDirectoryName('root');
   };
 
   const onBackToDrive = () => {
+    if (loading) {
+      return;
+    }
+    setError(null);
     setActivePod('');
     setDirectoryName('');
   };
 
+  const handleSearch = async () => {
+    try {
+      if (loading || !activePod) {
+        return;
+      }
+
+      searchControllerRef.current = new AbortController();
+
+      setLoading(true);
+
+      let matchedFiles: FileItem[] = [];
+      let matchedDirectories: DirectoryItem[] = [];
+      let folders: { path: string; depth: number }[] = [
+        { path: '/', depth: 0 },
+      ];
+      const maxDepth = 3;
+
+      while (folders.length > 0) {
+        const { path, depth } = folders.shift();
+
+        let content: DirectoryItem;
+        try {
+          content = await getFilesAndDirectories(
+            fdpClientRef.current,
+            activePod,
+            path === '/' ? 'root' : path
+          );
+
+          // eslint-disable-next-line no-empty
+        } catch (error) {
+          console.error(error);
+        }
+
+        if (searchControllerRef.current.signal.aborted) {
+          return;
+        }
+
+        if (Array.isArray(content?.files)) {
+          matchedFiles = matchedFiles.concat(
+            content.files
+              .filter(({ name }) => name.includes(search))
+              .map((file) => ({
+                ...file,
+                path,
+              }))
+          );
+        }
+
+        if (Array.isArray(content?.directories)) {
+          matchedDirectories = matchedDirectories.concat(
+            content.directories
+              .filter(({ name }) => name.includes(search))
+              .map((directory) => ({
+                ...directory,
+                path,
+              }))
+          );
+
+          if (depth < maxDepth) {
+            folders = folders.concat(
+              content.directories.map(({ name }) => ({
+                path: constructPath(path, name),
+                depth: depth + 1,
+              }))
+            );
+          }
+        }
+      }
+
+      setFiles(matchedFiles);
+      setDirectories(matchedDirectories);
+    } catch (error) {
+      setError(errorToString(error));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (searchControllerRef.current) {
+      searchControllerRef.current.abort();
+    }
+
+    if (search) {
+      handleSearch();
+    } else {
+      handleUpdateDrive();
+    }
+  }, [search]);
+
   return (
     <MainLayout updateDrive={handleUpdateDrive} refreshPods={handleFetchPods}>
       <div className="flex flex-col">
-        <div className="block md:hidden">
-          <DriveActionHeaderMobile />
+        <div className="flex md:hidden">
+          <DriveActionHeaderMobile
+            podName={activePod}
+            driveView={driveView}
+            directory={directoryName}
+            onDirectorySelect={handleDirectoryPathChange}
+            onBackToDrive={onBackToDrive}
+            toggleView={handleToggleView}
+            toggleSort={handleToggleSort}
+          />
         </div>
         <MainHeader
           title={
             <DirectoryPath
+              className="hidden md:flex"
               podName={activePod}
               directory={directoryName}
               onDirectorySelect={handleDirectoryPathChange}
@@ -263,44 +385,46 @@ const Drive: FC = () => {
             </span>
           </div>
         ) : null}
-        <Spinner isLoading={loading} />
+        <Spinner isLoading={loading || !pods} />
+        <div className="mb-5 text-center">
+          <FeedbackMessage type="error" message={error} />
+        </div>
 
-        {!loading &&
-          (activePod ? (
-            directories?.length || files?.length ? (
-              <div>
-                {driveView === 'grid' ? (
-                  <DriveGridView
-                    directories={handleSort(
-                      directories?.filter(handleSearchFilter)
-                    )}
-                    files={handleSort(files?.filter(handleSearchFilter))}
-                    directoryOnClick={handleDirectoryOnClick}
-                    fileOnClick={handleFileOnClick}
-                    updateDrive={handleUpdateDrive}
-                  />
-                ) : null}
+        {!loading && (
+          <div style={{ marginTop: 15 }}>
+            {activePod ? (
+              directories?.length || files?.length ? (
+                <div>
+                  {driveView === 'grid' ? (
+                    <DriveGridView
+                      directories={handleSort(directories)}
+                      files={handleSort(files)}
+                      directoryOnClick={handleDirectoryOnClick}
+                      fileOnClick={handleFileOnClick}
+                      updateDrive={handleUpdateDrive}
+                    />
+                  ) : null}
 
-                {driveView === 'list' ? (
-                  <DriveListView
-                    directories={handleSort(
-                      directories?.filter(handleSearchFilter)
-                    )}
-                    files={handleSort(files?.filter(handleSearchFilter))}
-                    directoryOnClick={handleDirectoryOnClick}
-                    fileOnClick={handleFileOnClick}
-                    updateDrive={handleUpdateDrive}
-                  />
-                ) : null}
-              </div>
+                  {driveView === 'list' ? (
+                    <DriveListView
+                      directories={handleSort(directories)}
+                      files={handleSort(files)}
+                      directoryOnClick={handleDirectoryOnClick}
+                      fileOnClick={handleFileOnClick}
+                      updateDrive={handleUpdateDrive}
+                    />
+                  ) : null}
+                </div>
+              ) : (
+                <EmptyDirectoryCard
+                  onUploadClick={() => setShowUploadFileModal(true)}
+                />
+              )
             ) : (
-              <EmptyDirectoryCard
-                onUploadClick={() => setShowUploadFileModal(true)}
-              />
-            )
-          ) : (
-            <PodList pods={pods} onPodSelect={handlePodSelect} />
-          ))}
+              <PodList pods={pods} onPodSelect={handlePodSelect} />
+            )}
+          </div>
+        )}
         {showUploadFileModal && (
           <UploadFileModal
             showModal={showUploadFileModal}

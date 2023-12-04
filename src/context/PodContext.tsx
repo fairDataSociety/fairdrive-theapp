@@ -4,6 +4,8 @@ import { GetPodResponse } from '@api/pod';
 import { FC, ReactNode, createContext, useState } from 'react';
 
 interface PodContext {
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
   pods: GetPodResponse;
   setPods: (pods: GetPodResponse) => void;
   activePod: string;
@@ -20,6 +22,8 @@ interface PodContextProps {
 }
 
 const podContextDefaultValues: PodContext = {
+  loading: false,
+  setLoading: () => {},
   pods: { pod_name: [], shared_pod_name: [] },
   setPods: (pods: GetPodResponse) => {},
   activePod: '',
@@ -34,12 +38,14 @@ const podContextDefaultValues: PodContext = {
 const PodContext = createContext<PodContext>(podContextDefaultValues);
 
 const PodProvider: FC<PodContextProps> = ({ children }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [pods, setPods] = useState(null);
   const [activePod, setActivePod] = useState('');
   const [openPods, setOpenPods] = useState([]);
   const [directoryName, setDirectoryName] = useState('');
 
   const clearPodContext = () => {
+    setLoading(false);
     setPods(null);
     setActivePod('');
     setOpenPods([]);
@@ -49,6 +55,8 @@ const PodProvider: FC<PodContextProps> = ({ children }) => {
   return (
     <PodContext.Provider
       value={{
+        loading,
+        setLoading,
         pods,
         setPods,
         activePod,

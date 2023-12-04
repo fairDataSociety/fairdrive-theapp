@@ -25,8 +25,14 @@ import { useLocales } from '@context/LocalesContext';
 
 const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
-  const { pods, setPods, activePod, setActivePod, setDirectoryName } =
-    useContext(PodContext);
+  const {
+    loading: podLoading,
+    pods,
+    setPods,
+    activePod,
+    setActivePod,
+    setDirectoryName,
+  } = useContext(PodContext);
   const { fdpClientRef } = useFdpStorage();
   const [loading, setLoading] = useState(false);
 
@@ -55,6 +61,9 @@ const DriveSideBar: FC = () => {
   };
 
   const handleOpenPod = (podName: string) => {
+    if (podLoading) {
+      return;
+    }
     setActivePod(podName);
     setDirectoryName('root');
   };

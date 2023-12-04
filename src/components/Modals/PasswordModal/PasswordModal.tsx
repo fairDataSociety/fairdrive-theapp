@@ -2,12 +2,16 @@ import { FC, useState } from 'react';
 import { Modal } from '@components/Modals';
 import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
-import Spinner from '@components/Spinner/Spinner';
 import AuthenticationInput from '../../Inputs/AuthenticationInput/AuthenticationInput';
 import { useForm } from 'react-hook-form';
 import { FieldError } from 'react-hook-form/dist/types/errors';
 import { MIN_PASSWORD_LENGTH } from '@utils/password';
 import { useLocales } from '@context/LocalesContext';
+import Disclosure from '@components/Disclosure/Disclosure';
+import {
+  getMetamaskPassphraseExplanation,
+  setMetamaskPassphraseExplanation,
+} from '@utils/localStorage';
 
 interface PasswordModalProps {
   showModal: boolean;
@@ -32,6 +36,7 @@ const PasswordModal: FC<PasswordModalProps> = ({
     setLoading(true);
     try {
       await handleSubmitForm(data.password);
+      setMetamaskPassphraseExplanation(false);
       closeModal();
     } catch (e) {
       setErrorMessage(intl.get('GENERIC_ERROR', { message: e.message }));
@@ -76,6 +81,16 @@ const PasswordModal: FC<PasswordModalProps> = ({
             disabled={loading}
             loading={loading}
           />
+        </div>
+        <div className="mt-5">
+          <Disclosure
+            title={'How it works'}
+            defaultOpen={!getMetamaskPassphraseExplanation()}
+          >
+            <p className="text-sm mb-3">
+              {intl.get('PASSPHRASE_EXPLANATION_2')}
+            </p>
+          </Disclosure>
         </div>
       </form>
 

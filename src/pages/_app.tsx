@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 
-import Matomo from '@context/Matomo';
+import { MatomoProvider } from '@context/Matomo';
 import { ThemeProvider } from '@context/ThemeContext';
 import { UserProvider } from '@context/UserContext';
 import { SearchProvider } from '@context/SearchContext';
@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     <MetamaskProvider>
       <LocalesProvider>
         <FdpStorageProvider>
-          <Matomo>
+          <MatomoProvider>
             <ThemeProvider>
               <UserProvider>
                 <SearchProvider>
@@ -65,7 +65,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                 </SearchProvider>
               </UserProvider>
             </ThemeProvider>
-          </Matomo>
+          </MatomoProvider>
         </FdpStorageProvider>
       </LocalesProvider>
     </MetamaskProvider>

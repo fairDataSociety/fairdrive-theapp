@@ -139,10 +139,8 @@ const Invites: FC<AllInvitesProps> = ({
     setCurrentPage((oldPage) => Math.max(oldPage - 1, 0));
   };
 
-  const getActionClasses = (invite: Invite) =>
-    `flex-item cursor-pointer text-color-accents-purple-black dark:brighten dark:text-color-shade-white-night ${
-      hoverInviteId === invite.id ? '' : 'hidden'
-    }`;
+  const getActionClasses = () =>
+    'flex-item cursor-pointer text-color-accents-purple-black dark:brighten dark:text-color-shade-white-night';
 
   const isPreviousButtonDisabled = currentPage === 0;
   const isNextButtonDisabled =
@@ -274,14 +272,14 @@ const Invites: FC<AllInvitesProps> = ({
                         {invite.name || invite.id}
                       </p>
                       <img
-                        className={getActionClasses(invite)}
+                        className={getActionClasses()}
                         width={15}
                         src={EditImage.src}
                         alt="Edit the name"
                         onClick={() => setInviteAction(invite, InviteMode.Edit)}
                       />
                       <img
-                        className={getActionClasses(invite)}
+                        className={getActionClasses()}
                         width={15}
                         src={DeleteImage.src}
                         alt="Delete the invite"
