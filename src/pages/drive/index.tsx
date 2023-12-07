@@ -42,6 +42,7 @@ import {
 import PodList from '@components/Views/PodList/PodList';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { constructPath, rootPathToRelative } from '@utils/filename';
+import { TutorialState, useTutorialContext } from '@context/TutorialContext';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -71,6 +72,7 @@ const Drive: FC = () => {
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [error, setError] = useState<string | null>(null);
   const searchControllerRef = useRef<AbortController | null>(null);
+  const { activateStep, deactivateStep } = useTutorialContext();
 
   useEffect(() => {
     trackPageView({
@@ -81,7 +83,11 @@ const Drive: FC = () => {
 
   useEffect(() => {
     updateSearch('');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    activateStep(TutorialState.DRIVE);
+
+    return () => {
+      deactivateStep();
+    };
   }, []);
 
   useEffect(() => {

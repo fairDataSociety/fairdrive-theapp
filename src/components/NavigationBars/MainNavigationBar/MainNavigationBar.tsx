@@ -34,7 +34,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
           <Button
             onClick={() => setMobileNavigationOpen(true)}
             variant="tertiary"
-            className="cursor-pointer block md:hidden"
+            className="cursor-pointer block md:hidden main-navigation-button"
             icon={
               theme === 'light' ? (
                 <NavigationMenuLight className="inline-block" />

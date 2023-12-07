@@ -86,7 +86,7 @@ const DriveSideBar: FC = () => {
         </div>
       </div>
 
-      <div className="my-2 text-center">
+      <div className="my-2 text-center create-pod-button">
         {activeTab === 'private' ? (
           <Button
             type="button"

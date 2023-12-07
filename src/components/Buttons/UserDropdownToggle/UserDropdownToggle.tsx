@@ -18,7 +18,7 @@ const ThemeToggle: FC<UserDropdownToggleProps> = ({
 }) => {
   return address ? (
     <button
-      className="cursor-pointer relative"
+      className="cursor-pointer relative user-dropdown"
       onClick={() => onClickHandler()}
     >
       <Blockies className="inline-block rounded" seed={address} />{' '}

@@ -53,6 +53,7 @@ const NavigationItems = ({
       },
     },
     {
+      className: 'drive-navigation-button',
       label: intl.get('DRIVE'),
       link: '/drive',
       icons: {
@@ -84,6 +85,7 @@ const NavigationItems = ({
 
   if (loginType !== 'blossom') {
     items.push({
+      className: 'invite-navigation-button',
       label: intl.get('INVITE'),
       link: '/invite',
       icons: {
@@ -104,7 +106,7 @@ const NavigationItems = ({
       {items.map((item) => {
         return (
           <MainSideBarItem
-            className={className}
+            className={`${className} ${item.className}`}
             key={item.label}
             icons={item.icons}
             label={item.label}

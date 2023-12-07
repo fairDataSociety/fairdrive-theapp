@@ -14,6 +14,7 @@ import { DialogProvider } from '@context/DialogsContext';
 import Dialogs from '@components/Dialogs/Dialogs';
 import { LocalesProvider } from '@context/LocalesContext';
 import { MetamaskProvider } from '@context/MetamaskContext';
+import { TutorialProvider } from '@context/TutorialContext';
 /* eslint-disable no-console */
 
 /**
@@ -53,13 +54,15 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                 <SearchProvider>
                   <PodProvider>
                     <DialogProvider>
-                      <Head>
-                        <title>Fairdrive</title>
-                      </Head>
-                      <Dialogs />
-                      <AnimatePresence mode="wait" initial={false}>
-                        <Component {...pageProps} key={router.asPath} />
-                      </AnimatePresence>
+                      <TutorialProvider>
+                        <Head>
+                          <title>Fairdrive</title>
+                        </Head>
+                        <Dialogs />
+                        <AnimatePresence mode="wait" initial={false}>
+                          <Component {...pageProps} key={router.asPath} />
+                        </AnimatePresence>
+                      </TutorialProvider>
                     </DialogProvider>
                   </PodProvider>
                 </SearchProvider>

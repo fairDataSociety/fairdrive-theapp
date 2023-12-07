@@ -33,12 +33,13 @@ const DriveActionBarItem = (
   label: string,
   imageLight: JSX.Element,
   imageDark: JSX.Element,
+  className: string,
   onClick: () => void,
   disabled = false
 ) => {
   return (
     <div
-      className="py-2 w-24 block md:hidden sm:w-full py-1 flex-shrink-0 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
+      className={`py-2 w-24 block md:hidden sm:w-full py-1 flex-shrink-0 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night ${className}`}
       onClick={disabled ? undefined : onClick}
     >
       <a className="flex flex-col justify-center items-center">
@@ -73,6 +74,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         intl.get('NEW_POD'),
         <DriveActiveLightIcon height="22" />,
         <DriveActiveDarkIcon height="22" />,
+        'create-pod-button-mobile',
         () => setShowCreatePodModal(true)
       )}
       {DriveActionBarItem(
@@ -80,6 +82,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         intl.get('UPLOAD'),
         <UploadLightIcon height="22" />,
         <UploadDarkIcon height="22" />,
+        '',
         () => setShowUploadFileModal(true),
         !activePod
       )}
@@ -88,6 +91,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         intl.get('IMPORT'),
         <ImportLightIcon height="22" />,
         <ImportDarkIcon height="22" />,
+        '',
         () => setShowImportFileModal(true)
       )}
       {DriveActionBarItem(
@@ -95,6 +99,7 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         intl.get('NEW_FOLDER'),
         <CreateFolderLightIcon height="22" />,
         <CreateFolderDarkIcon height="22" />,
+        '',
         () => setShowCreateFolderModal(true),
         !activePod
       )}

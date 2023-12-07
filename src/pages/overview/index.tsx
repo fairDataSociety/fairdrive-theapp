@@ -20,6 +20,8 @@ import LinumLabsDarkIcon from '@media/branding/linum-labs-logo-dark.svg';
 
 import OverviewCard from './overview-card';
 import { useLocales } from '@context/LocalesContext';
+import { TutorialState, useTutorialContext } from '@context/TutorialContext';
+import UserContext from '@context/UserContext';
 
 interface OverviewProps {}
 
@@ -46,12 +48,27 @@ const Overview: FC<OverviewProps> = () => {
   const { trackPageView } = useMatomo();
   const { theme } = useContext(ThemeContext);
   const { intl } = useLocales();
+  const { metamaskMigrationNotification } = useContext(UserContext);
+  const { activateStep, deactivateStep, isStepCompleted } =
+    useTutorialContext();
 
   useEffect(() => {
     trackPageView({
       documentTitle: 'Overview Page',
       href: window.location.href,
     });
+  }, []);
+
+  useEffect(() => {
+    if (metamaskMigrationNotification === 'closed') {
+      activateStep(TutorialState.OVERVIEW_METAMASK);
+    } else if (!isStepCompleted(TutorialState.OVERVIEW_METAMASK)) {
+      activateStep(TutorialState.OVERVIEW);
+    }
+
+    return () => {
+      deactivateStep();
+    };
   }, []);
 
   return (
