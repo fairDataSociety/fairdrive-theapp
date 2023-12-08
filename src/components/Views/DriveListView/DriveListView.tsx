@@ -24,18 +24,39 @@ const DriveListView: FC<DriveListViewProps> = ({
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
+
+  const folderLength = directories.length;
+  const folderStartIndex =
+    page * rowsPerPage > folderLength ? folderLength : page * rowsPerPage;
+  const folderEndIndex =
+    folderStartIndex + rowsPerPage > folderLength
+      ? folderLength
+      : folderStartIndex + rowsPerPage;
+
+  const someFoldersAreDisplayed = folderEndIndex - folderStartIndex > 0;
+  const fileStartIndex = someFoldersAreDisplayed
+    ? 0
+    : page * rowsPerPage - folderLength;
+  const fileEndIndex = someFoldersAreDisplayed
+    ? rowsPerPage - (folderEndIndex - folderStartIndex)
+    : fileStartIndex + rowsPerPage;
 
   const { pageDirectories, pageFiles } = useMemo(
     () => ({
-      pageDirectories: (directories || []).slice(startIndex, endIndex),
-      pageFiles: (files || []).slice(
-        startIndex - directories.length,
-        endIndex - directories.length
+      pageDirectories: (directories || []).slice(
+        folderStartIndex,
+        folderEndIndex
       ),
+      pageFiles: (files || []).slice(fileStartIndex, fileEndIndex),
     }),
-    [directories, files, startIndex, endIndex]
+    [
+      directories,
+      files,
+      folderStartIndex,
+      folderEndIndex,
+      fileStartIndex,
+      fileEndIndex,
+    ]
   );
 
   const handlePageUp = () => {
