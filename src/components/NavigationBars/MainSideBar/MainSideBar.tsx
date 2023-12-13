@@ -24,6 +24,14 @@ const MainSideBar: FC<MainSideBarProps> = ({
     setRenderDriveMenu(Boolean(router.pathname === '/drive' && updateDrive));
   }, [updateDrive]);
 
+  // Moved from NavigationItems, should be removed when the NavigationItems is enabled
+  useEffect(() => {
+    if (router.pathname === '/drive') {
+      driveSideBarToggle();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
       className={`${classes.sideBar} flex flex-row overflow-x-auto sm:overflow-x-visible sm:flex-col sm:justify-start sm:items-center w-full sm:h-full
