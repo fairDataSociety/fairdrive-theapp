@@ -19,6 +19,7 @@ import { setDefaultNetwork } from '@utils/localStorage';
 import { useLocales } from '@context/LocalesContext';
 import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
 import { useMatomoContext } from '@context/Matomo';
+import MetamaskConnect from '@components/Connect/Metamask/MetamaskConnect';
 
 const ALLOW_TRACKING_KEY = 'allow-matomo';
 
@@ -51,6 +52,7 @@ const LoginForm: FC = () => {
   } = useFdpStorage();
   const router = useRouter();
   const { intl } = useLocales();
+  const fdsLoginEnabled = router?.query['fdsLogin'] === 'true';
 
   const onSubmit = async (data: { user_name: string; password: string }) => {
     try {
@@ -131,78 +133,87 @@ const LoginForm: FC = () => {
           <FeedbackMessage type="error" message={errorMessage} />
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <label className="font-normal text-base text-color-accents-plum-black dark:text-color-accents-grey-pastel">
-            {intl.get('CHOOSE_NETWORK')}:
-          </label>
-          <NetworkDropdown
-            className="mb-3"
-            value={network}
-            onChange={onNetworkChange}
-          />
-
-          <AuthenticationInput
-            label={intl.get('USERNAME')}
-            id="user_name"
-            type="text"
-            name="user_name"
-            placeholder={intl.get('TYPE_HERE')}
-            useFormRegister={register}
-            validationRules={{
-              required: intl.get('USERNAME_IS_REQUIRED'),
-              minLength: {
-                value: 4,
-                message: intl.get('USERNAME_MIN_LENGTH_ERROR'),
-              },
-            }}
-            // @ts-ignore
-            error={errors.user_name}
-          />
-
-          <AuthenticationInput
-            label={intl.get('PASSWORD')}
-            id="password"
-            type="password"
-            name="password"
-            placeholder={intl.get('TYPE_HERE')}
-            useFormRegister={register}
-            validationRules={{
-              required: intl.get('PASSWORD_IS_REQUIRED'),
-            }}
-            // @ts-ignore
-            error={errors.password}
-          />
-
-          <CustomCheckbox
-            className="mb-3 sm:mb-0"
-            name="confirm"
-            onChange={onAllowTrackingClick}
-            checked={allowTracking}
-          >
-            {intl.get('ALLOW_TRACKING')}
-          </CustomCheckbox>
-
-          <div className="mt-8 text-center">
-            <Button
-              loading={loading}
-              disabled={!isValid}
-              type="submit"
-              variant="secondary"
-              label={intl.get('LOGIN')}
+        {fdsLoginEnabled ? (
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+            <label className="font-normal text-base text-color-accents-plum-black dark:text-color-accents-grey-pastel">
+              {intl.get('CHOOSE_NETWORK')}:
+            </label>
+            <NetworkDropdown
+              className="mb-3"
+              value={network}
+              onChange={onNetworkChange}
             />
-          </div>
 
-          <div className="my-6 text-center">
-            <a
-              href={CREATE_USER_URL}
-              target={'_blank'}
-              rel="noopener noreferrer"
-              className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar"
+            <AuthenticationInput
+              label={intl.get('USERNAME')}
+              id="user_name"
+              type="text"
+              name="user_name"
+              placeholder={intl.get('TYPE_HERE')}
+              useFormRegister={register}
+              validationRules={{
+                required: intl.get('USERNAME_IS_REQUIRED'),
+                minLength: {
+                  value: 4,
+                  message: intl.get('USERNAME_MIN_LENGTH_ERROR'),
+                },
+              }}
+              // @ts-ignore
+              error={errors.user_name}
+            />
+
+            <AuthenticationInput
+              label={intl.get('PASSWORD')}
+              id="password"
+              type="password"
+              name="password"
+              placeholder={intl.get('TYPE_HERE')}
+              useFormRegister={register}
+              validationRules={{
+                required: intl.get('PASSWORD_IS_REQUIRED'),
+              }}
+              // @ts-ignore
+              error={errors.password}
+            />
+
+            <CustomCheckbox
+              className="mb-3 sm:mb-0"
+              name="confirm"
+              onChange={onAllowTrackingClick}
+              checked={allowTracking}
             >
-              {intl.get('REGISTER_NEW_ACCOUNT')}
-            </a>
+              {intl.get('ALLOW_TRACKING')}
+            </CustomCheckbox>
+
+            <div className="mt-8 text-center">
+              <Button
+                loading={loading}
+                disabled={!isValid}
+                type="submit"
+                variant="secondary"
+                label={intl.get('LOGIN')}
+              />
+            </div>
+
+            <div className="my-6 text-center">
+              <a
+                href={CREATE_USER_URL}
+                target={'_blank'}
+                rel="noopener noreferrer"
+                className="font-normal text-xs text-color-accents-purple-black dark:text-color-accents-grey-lavendar"
+              >
+                {intl.get('REGISTER_NEW_ACCOUNT')}
+              </a>
+            </div>
+          </form>
+        ) : (
+          <div className="w-full flex">
+            <span className="m-auto">
+              {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
+              <MetamaskConnect onConnect={() => {}} onError={() => {}} />
+            </span>
           </div>
-        </form>
+        )}
       </div>
     </div>
   );

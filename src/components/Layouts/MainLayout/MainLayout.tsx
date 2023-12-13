@@ -49,7 +49,8 @@ const MainLayout: FC<MainLayoutProps> = ({
       </div>
 
       <div className="flex flex-col sm:flex-row justify-items-stretch items-stretch w-full h-full overflow-hidden">
-        <div className="sm:w-28 dark:bg-color-shade-dark-3-night">
+        {/* sm:w-28 */}
+        <div className="dark:bg-color-shade-dark-3-night">
           <MainSideBar
             driveSideBarToggle={driveSideBarToggle}
             updateDrive={updateDrive}

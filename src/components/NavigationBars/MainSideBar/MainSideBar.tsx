@@ -29,11 +29,11 @@ const MainSideBar: FC<MainSideBarProps> = ({
       className={`${classes.sideBar} flex flex-row overflow-x-auto sm:overflow-x-visible sm:flex-col sm:justify-start sm:items-center w-full sm:h-full
       bg-color-shade-dark-3-day dark:bg-color-shade-dark-3-night`}
     >
-      <NavigationItems
+      {/* <NavigationItems
         className="hidden md:block"
         driveSideBarToggle={driveSideBarToggle}
         onOptionClick={onOptionClick}
-      />
+      /> */}
 
       {renderDriveMenu && (
         <DriveActionBarMobile

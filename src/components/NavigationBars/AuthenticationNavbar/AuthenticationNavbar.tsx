@@ -9,9 +9,12 @@ import ConnectDropdown from '@components/Dropdowns/ConnectDropdown/ConnectDropdo
 import classes from './AuthenticationNavbar.module.scss';
 import { useLocales } from '@context/LocalesContext';
 import LanguageDropdown from '@components/Dropdowns/LanguageDropdown/LanguageDropdown';
+import { useRouter } from 'next/router';
 
 const AuthenticationNavbar: FC = () => {
   const { intl } = useLocales();
+  const router = useRouter();
+  const fdsLoginEnabled = router?.query['fdsLogin'] === 'true';
 
   return (
     <div
@@ -20,9 +23,11 @@ const AuthenticationNavbar: FC = () => {
       <Logo />
 
       <div className="flex justify-between items-center">
-        <a className={`${classes.button} mr-4`}>
-          <ConnectDropdown />
-        </a>
+        {fdsLoginEnabled && (
+          <a className={`${classes.button} mr-4`}>
+            <ConnectDropdown />
+          </a>
+        )}
 
         <ThemeToggle />
 

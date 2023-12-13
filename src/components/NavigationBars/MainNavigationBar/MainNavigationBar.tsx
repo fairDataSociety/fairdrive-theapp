@@ -31,7 +31,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
     <nav>
       <div className="flex justify-between items-center w-full h-16 px-6 shadow-lg">
         <div className="flex items-center">
-          <Button
+          {/* <Button
             onClick={() => setMobileNavigationOpen(true)}
             variant="tertiary"
             className="cursor-pointer block md:hidden"
@@ -42,7 +42,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
                 <NavigationMenuDark className="inline-block" />
               )
             }
-          />
+          /> */}
           <Logo />
         </div>
 
