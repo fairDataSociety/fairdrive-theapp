@@ -88,7 +88,7 @@ const MainLayout: FC<MainLayoutProps> = ({
         </div>
       </div>
 
-      <div className="hidden md:block w-full h-36 dark:bg-color-shade-dark-3-night">
+      <div className="hidden md:block w-full dark:bg-color-shade-dark-3-night">
         <MainFooter />
       </div>
     </div>

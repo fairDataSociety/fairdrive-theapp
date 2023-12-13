@@ -64,7 +64,8 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
             <UserDropdownToggle
               address={wallet?.address || 'Blossom'}
               onClickHandler={() => setShowUserDropdown(true)}
-              showNotification={metamaskMigrationNotification === 'closed'}
+              showNotification={false}
+              // showNotification={metamaskMigrationNotification === 'closed'}
             />
             <LanguageDropdown />
           </div>

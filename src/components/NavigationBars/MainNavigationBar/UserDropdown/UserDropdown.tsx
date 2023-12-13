@@ -80,7 +80,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
             </div>
 
             <div>
-              {metamaskMigrationNotification === 'closed' && (
+              {/* {metamaskMigrationNotification === 'closed' && (
                 <div
                   className="mb-4 text-color-shade-dark-3-night dark:text-color-shade-dark-4-day  cursor-pointer"
                   onClick={onMigrateClick}
@@ -88,7 +88,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
                   {intl.get('MIGRATE_ACCOUNT')}
                   <Indicator className="inline-block ml-2" />
                 </div>
-              )}
+              )} */}
               <div
                 className="mb-4 text-color-status-negative-day cursor-pointer"
                 onClick={disconnect}

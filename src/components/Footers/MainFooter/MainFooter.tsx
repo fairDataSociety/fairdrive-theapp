@@ -27,7 +27,7 @@ const MainFooter: FC = () => {
   const { intl } = useLocales();
 
   return (
-    <div className="hidden md:flex justify-between items-center w-full h-32 px-8 bg-white shadow-top">
+    <div className="hidden md:flex justify-between items-center w-full my-2 px-8 bg-white shadow-top">
       <div className="flex items-center flex-wrap mr-4">
         <a
           href="https://fairdatasociety.org/"
