@@ -36,16 +36,17 @@ const stepsByState: Record<TutorialState, TutorialStep[]> = {
     },
     driveStep,
   ],
+  // Tests shows this doesn't appear
   [TutorialState.DRIVE]: [
     {
       smElement: '.create-pod-button-mobile',
       element: '.create-pod-button',
-      intro: 'Welcome to the drive. Start using your drive by creating a pod.',
+      intro: 'Welcome to your drive. Start using your drive by creating a pod.',
     },
     {
       smElement: '.main-navigation-button',
       element: '.invite-navigation-button',
-      intro: 'Invite your friends to Fairdrive here.',
+      intro: 'Invite your friends to use Fairdrive.',
     },
   ],
 };
