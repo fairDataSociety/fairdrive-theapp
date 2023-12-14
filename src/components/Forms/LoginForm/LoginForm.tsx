@@ -118,10 +118,12 @@ const LoginForm: FC = () => {
 
   return (
     <div className="flex flex-col px-3 justify-center items-center">
-      <DisclaimerMessage
-        icon={IconType.WARNING}
-        text={disclaimerMessages.join(' ')}
-      />
+      <div className="max-w-xl">
+        <DisclaimerMessage
+          icon={IconType.WARNING}
+          text={disclaimerMessages.join(' ')}
+        />
+      </div>
 
       <AuthenticationHeader
         title={intl.get('WELCOME_BACK')}
