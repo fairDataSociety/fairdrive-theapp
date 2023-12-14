@@ -11,6 +11,7 @@ import { UpdateDriveProps } from '@interfaces/handlers';
 interface DriveListViewProps extends UpdateDriveProps {
   directories: DirectoryItem[];
   files: FileItem[];
+  driveSort: string;
   directoryOnClick: (directory: DirectoryItem) => void;
   fileOnClick: (data: FileItem) => void;
 }
@@ -18,6 +19,7 @@ interface DriveListViewProps extends UpdateDriveProps {
 const DriveListView: FC<DriveListViewProps> = ({
   directories,
   files,
+  driveSort,
   directoryOnClick,
   fileOnClick,
   updateDrive,
@@ -26,12 +28,8 @@ const DriveListView: FC<DriveListViewProps> = ({
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const folderLength = directories.length;
-  const folderStartIndex =
-    page * rowsPerPage > folderLength ? folderLength : page * rowsPerPage;
-  const folderEndIndex =
-    folderStartIndex + rowsPerPage > folderLength
-      ? folderLength
-      : folderStartIndex + rowsPerPage;
+  const folderStartIndex = Math.min(page * rowsPerPage, folderLength);
+  const folderEndIndex = Math.min(folderStartIndex + rowsPerPage, folderLength);
 
   const someFoldersAreDisplayed = folderEndIndex - folderStartIndex > 0;
   const fileStartIndex = someFoldersAreDisplayed
@@ -49,9 +47,11 @@ const DriveListView: FC<DriveListViewProps> = ({
       ),
       pageFiles: (files || []).slice(fileStartIndex, fileEndIndex),
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       directories,
       files,
+      driveSort,
       folderStartIndex,
       folderEndIndex,
       fileStartIndex,
