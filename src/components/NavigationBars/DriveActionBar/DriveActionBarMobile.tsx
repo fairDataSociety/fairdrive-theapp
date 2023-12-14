@@ -24,6 +24,8 @@ import { UpdateDriveProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
 import PodContext from '@context/PodContext';
 
+import classes from './DriveActionBarMobile.module.scss';
+
 export interface DriveActionBarMobileProps extends UpdateDriveProps {
   refreshPods?: () => void;
 }
@@ -38,7 +40,7 @@ const DriveActionBarItem = (
 ) => {
   return (
     <div
-      className="py-2 w-24 block md:hidden sm:w-full py-1 flex-shrink-0 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night"
+      className={`py-2 w-24 block md:hidden sm:w-full py-1 flex-shrink-0 md:py-4 shadow cursor-pointer hover:bg-color-shade-dark-4-day dark:hover:bg-color-shade-dark-2-night ${classes.DriveActionBarItem}`}
       onClick={disabled ? undefined : onClick}
     >
       <a className="flex flex-col justify-center items-center">
