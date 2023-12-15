@@ -14,7 +14,6 @@ import BackImage from '@media/UI/invite/back.png';
 import EditImage from '@media/UI/invite/pencil.png';
 import SaveImage from '@media/UI/invite/check-mark.png';
 import DeleteImage from '@media/UI/invite/delete.png';
-import DollarImage from '@media/UI/invite/dollar-sign.png';
 import EmptyImage from '@media/UI/invite/empty.png';
 import copy from 'copy-to-clipboard';
 import { ConfirmDeleteModal } from '@components/Modals';
@@ -167,11 +166,15 @@ const Invites: FC<AllInvitesProps> = ({
     }
 
     const inviteStatusText = intl.get(InviteStatusText[status]);
+    const inviteStatusTextShort = intl.get(`${InviteStatusText[status]}_SHORT`);
     return {
       inviteStatusClass: classes[status],
       inviteStatusText: inviteStatusText
         ? inviteStatusText
         : intl.get('STATUS_IS_NOT_AVAILABLE'),
+      inviteStatusTextShort: inviteStatusTextShort
+        ? inviteStatusTextShort
+        : intl.get('STATUS_IS_NOT_AVAILABLE_SHORT'),
     };
   };
 
@@ -287,13 +290,9 @@ const Invites: FC<AllInvitesProps> = ({
                           setInviteAction(invite, InviteMode.Delete)
                         }
                       />
-                      {/*<img*/}
-                      {/*  className={getActionClasses(invite)}*/}
-                      {/*  width={18}*/}
-                      {/*  src={DollarImage.src}*/}
-                      {/*  alt="Top Up the invite"*/}
-                      {/*  onClick={() => onTopUpInvite && onTopUpInvite(invite)}*/}
-                      {/*/>*/}
+                      <button className="ml-auto text-sm font-medium bg-green-200 text-green-700 py-0.5 px-2 rounded-full shadow-md hover:bg-green-300 focus:outline-none focus:ring-green-400 focus:ring-opacity-75 flex items-center whitespace-nowrap mb-1">
+                        {inviteStatus.inviteStatusTextShort}
+                      </button>
                     </div>
                   )}
                   <div
