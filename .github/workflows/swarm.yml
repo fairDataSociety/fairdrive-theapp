@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - master
-      - development
-      - staging
 
 jobs:
   build:
@@ -15,15 +13,20 @@ jobs:
         working-directory: .
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [16.x]
     steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          
       - name: checkout
         uses: actions/checkout@v3
 
       - name: Set environment specific variables
         uses: jnus/json-variables@v1.0
         with:
-          scope: ${{ github.ref_name }}
+          scope: "swarm"
           configFile: '.github/workflows/variables.json'
           secrets: '${{ toJson(secrets.github_token) }}'
 
@@ -62,6 +65,7 @@ jobs:
           bee-url: ${{ env.SWARM_URL }}
           dir: ./out
           index-document: index.html
+          pin: true
           timeout: 200000
       - name: update feed
         id: swarm-feed
@@ -71,7 +75,7 @@ jobs:
         with:
           bee-url: ${{ env.SWARM_URL }}
           reference: ${{ steps.swarm-upload.outputs.reference }}
-          topic: consents
+          topic: theapp
           signer: ${{ secrets[env.SIGNER] }}
       - name: get CID
         id: swarm-cid
@@ -88,4 +92,4 @@ jobs:
         env:
           TOKEN: '${{ secrets.purge_token }}'
         run: |
-          curl -s ${{ env.PURGE_URL }}/deploy/purge?token=${{ secrets.purge_token }} -H "site: app.fairdrive${{ env.DEPLOYMENT }}fairdatasociety.org" -H "uri: "
+          curl -s ${{ env.PURGE_URL }}/deploy/purge?token=${{ secrets.purge_token }} -H "site: app.fairdrive${{ env.DEPLOYMENT }}io" -H "uri: /"
