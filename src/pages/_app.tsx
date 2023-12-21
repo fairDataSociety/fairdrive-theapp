@@ -45,11 +45,11 @@ import { MetamaskProvider } from '@context/MetamaskContext';
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
     <LocalesProvider>
-      <FdpStorageProvider>
-        <MetamaskProvider>
-          <MatomoProvider>
-            <ThemeProvider>
-              <UserProvider>
+      <UserProvider>
+        <FdpStorageProvider>
+          <MetamaskProvider>
+            <MatomoProvider>
+              <ThemeProvider>
                 <SearchProvider>
                   <PodProvider>
                     <DialogProvider>
@@ -63,11 +63,11 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                     </DialogProvider>
                   </PodProvider>
                 </SearchProvider>
-              </UserProvider>
-            </ThemeProvider>
-          </MatomoProvider>
-        </MetamaskProvider>
-      </FdpStorageProvider>
+              </ThemeProvider>
+            </MatomoProvider>
+          </MetamaskProvider>
+        </FdpStorageProvider>
+      </UserProvider>
     </LocalesProvider>
   );
 }
