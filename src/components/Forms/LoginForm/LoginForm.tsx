@@ -70,7 +70,7 @@ const LoginForm: FC = () => {
       setLoginType('username');
       setUser(user_name);
       setDefaultNetwork(String(network.id));
-      router.push('/overview');
+      router.push('/drive');
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
