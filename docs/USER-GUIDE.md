@@ -34,13 +34,6 @@ To use Fairdrive, you'll need to create an account using any of below options. H
 4. When you finish procedure your FDP account will be ready
 5. Login into Fairdrive using your username/password
 
-#### 3. Using Bloosom extension
-
-1. Make sure you are logged in inside Blossom extension
-2. Click Connect
-3. Select Blossom
-4. Allow Fairdrive full access of your personal storage
-
 ## Logging In
 
 **Metamask** account:
@@ -49,7 +42,7 @@ To use Fairdrive, you'll need to create an account using any of below options. H
 2. Enter passphrase
 3. Sign message
 
-**FDP Portable account** to log in to Fairdrive:
+**FDP Portable account** (development only) to log in to Fairdrive:
 
 1. Go to the Fairdrive website.
 2. Click on the "Log In" button.
