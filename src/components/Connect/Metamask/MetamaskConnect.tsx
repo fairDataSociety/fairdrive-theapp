@@ -74,7 +74,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       setAddress(wallet.address);
       setMnemonic(mnemonic);
 
-      router.push('/overview');
+      router.push('/drive');
     } catch (error) {
       console.error(error);
       setErrorMessage(String(error.message || error));

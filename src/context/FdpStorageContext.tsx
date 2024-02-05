@@ -70,7 +70,8 @@ interface FdpStorageContext {
   setWallet: (wallet: Wallet) => void;
   setFdpStorageType: (
     type: FDP_STORAGE_TYPE,
-    config?: FdpContracts.EnsEnvironment
+    config?: FdpContracts.EnsEnvironment,
+    create?: boolean
   ) => void;
   setFdpStorageConfig: (config: FdpContracts.EnsEnvironment) => void;
   setUsername: (username: string) => void;
@@ -153,15 +154,19 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
    */
   const setFdpStorageType = (
     type: FDP_STORAGE_TYPE,
-    config?: FdpContracts.EnsEnvironment
+    config?: FdpContracts.EnsEnvironment,
+    create = true
   ) => {
-    if (type === 'native') {
-      fdpClientRef.current = createFdpStorage(config);
-    } else if (type === 'blossom') {
-      fdpClientRef.current = blossom.fdpStorage;
-    } else {
-      throw new Error('Unknown FDP storage type');
+    if (create) {
+      if (type === 'native') {
+        fdpClientRef.current = createFdpStorage(config);
+      } else if (type === 'blossom') {
+        fdpClientRef.current = blossom.fdpStorage;
+      } else {
+        throw new Error('Unknown FDP storage type');
+      }
     }
+
     setIsLoggedIn(false);
     setStorageType(type);
   };

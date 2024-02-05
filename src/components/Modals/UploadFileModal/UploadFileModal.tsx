@@ -120,9 +120,9 @@ const UploadFileModal: FC<CreatorModalProps> = ({
               podName: activePod,
             },
             (event: UploadProgressInfo) => {
-              const { uploadPercentage } = event.data || {};
+              const { percentage } = event.data || {};
 
-              if (uploadPercentage) {
+              if (percentage) {
                 setUploadPercentage(
                   calculateUploadPercentage(
                     uploadedItemsRef.current.length + failedUplods.length,
