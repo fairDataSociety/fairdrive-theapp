@@ -23,6 +23,7 @@ import { getFdpPathByDirectory } from '@api/pod';
 import { useLocales } from '@context/LocalesContext';
 import { FileItem, UploadProgressInfo } from '@fairdatasociety/fdp-storage';
 import ProgressBar from '@components/ProgressBar/ProgressBar';
+import { getPodName } from '@utils/pod';
 
 const UploadFileModal: FC<CreatorModalProps> = ({
   showModal,
@@ -41,12 +42,13 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const [uploadPercentage, setUploadPercentage] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState('');
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
+  const podName = getPodName(activePod);
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       uploadedItemsRef.current = [];
       setFailedUplods([]);
       setErrorMessage('');
-      if (activePod) {
+      if (podName) {
         setFilesToUpload(acceptedFiles);
       }
     },
@@ -62,7 +64,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
       setMessage(intl.get('SUCCESSFULLY_UPLOADED'));
 
       uploadedItemsRef.current.forEach((item) =>
-        addItemToCache(userAddress, activePod, fdpPath, item, ContentType.FILE)
+        addItemToCache(userAddress, podName, fdpPath, item, ContentType.FILE)
       );
 
       trackEvent({
@@ -94,7 +96,7 @@ const UploadFileModal: FC<CreatorModalProps> = ({
   const handleUpload = async () => {
     setErrorMessage('');
 
-    if (loading || !(filesToUpload && activePod)) {
+    if (loading || !(filesToUpload && podName)) {
       return;
     }
 
@@ -117,17 +119,17 @@ const UploadFileModal: FC<CreatorModalProps> = ({
             {
               file,
               directory: directoryName,
-              podName: activePod,
+              podName,
             },
             (event: UploadProgressInfo) => {
-              const { uploadPercentage } = event.data || {};
+              const { percentage } = event.data || {};
 
-              if (uploadPercentage) {
+              if (percentage) {
                 setUploadPercentage(
                   calculateUploadPercentage(
                     uploadedItemsRef.current.length + failedUplods.length,
                     filesToUpload.length,
-                    uploadPercentage
+                    percentage
                   )
                 );
               }

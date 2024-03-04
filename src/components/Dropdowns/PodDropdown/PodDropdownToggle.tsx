@@ -8,12 +8,14 @@ import { Button } from '@components/Buttons';
 
 import PageDownLight from '@media/UI/page-down-light.svg';
 import PageDownDark from '@media/UI/page-down-dark.svg';
+import { getPodName, isSharedPod } from '@utils/pod';
 
 const PodDropdownToggele = () => {
   const { theme } = useContext(ThemeContext);
   const { loading, activePod, setActivePod, setDirectoryName } =
     useContext(PodContext);
   const { intl } = useLocales();
+  const podName = getPodName(activePod);
 
   const onBackToDrive = () => {
     setActivePod('');
@@ -22,7 +24,7 @@ const PodDropdownToggele = () => {
 
   return (
     <>
-      {activePod && (
+      {podName && (
         <Button
           variant="tertiary"
           onClick={onBackToDrive}
@@ -39,11 +41,15 @@ const PodDropdownToggele = () => {
       <Menu.Button
         disabled={loading}
         className={`flex items-center w-full cursor-pointer ${
-          activePod ? '' : 'pl-4'
+          podName ? '' : 'pl-4'
         }`}
       >
         <span className="font-semibold text-lg cursor-pointer hover:bg-color-shade-dark-3-day text-color-accents-purple-heavy dark:text-color-accents-grey-lavendar">
-          {activePod || intl.get('SELECT_A_POD')}
+          {podName || intl.get('SELECT_A_POD')}
+
+          {isSharedPod(activePod) && (
+            <div className="text-xs">({intl.get('SUBSCRIBED')})</div>
+          )}
         </span>
       </Menu.Button>
     </>

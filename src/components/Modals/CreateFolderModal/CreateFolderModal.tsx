@@ -14,6 +14,7 @@ import { CreatorModalProps } from '@interfaces/handlers';
 import { addItemToCache, ContentType } from '@utils/cache';
 import { getFdpPathByDirectory } from '@api/pod';
 import { useLocales } from '@context/LocalesContext';
+import { getPodName } from '@utils/pod';
 
 const CreateFolderModal: FC<CreatorModalProps> = ({
   showModal,
@@ -28,6 +29,7 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
   const [newFolderName, setNewFolderName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { intl } = useLocales();
+  const podName = getPodName(activePod);
 
   const handleCreateNewFolder = async () => {
     setLoading(true);
@@ -38,7 +40,7 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
 
       const item = await createDirectory(
         fdpClientRef.current,
-        activePod,
+        podName,
         fdpPath,
         newFolderName
       );
@@ -53,7 +55,7 @@ const CreateFolderModal: FC<CreatorModalProps> = ({
 
       addItemToCache(
         userAddress,
-        activePod,
+        podName,
         fdpPath,
         item,
         ContentType.DIRECTORY

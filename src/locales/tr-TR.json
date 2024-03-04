@@ -225,5 +225,9 @@
   "INVITES_TOOLTIP": "Davetiyeler katılım sürecini kolaylaştırır! Arkadaşlarınıza önceden finanse edilmiş bir cüzdana anında erişim sağlamak için bir davet bağlantısı paylaşın.",
   "INVITES_DESCRIPTION": "Davet sistemimiz, yeni kullanıcıların hızlı bir şekilde sisteme dahil olmalarını sağlamak amacıyla tasarlanmıştır. Bir davet oluşturduğunuzda, esasen önceden finanse edilmiş bir cüzdana özel anahtar ile kodlanmış bir referans bağlantısı oluşturmuş olursunuz. Bu bağlantıyı arkadaşlarınızla veya meslektaşlarınızla paylaşarak, hemen kullanmaya başlayabilecekleri ve zaten var olan fonlarla hizmetimizi kullanmalarını sağlarsınız. Bu, sadece ilk kurulumun karmaşıklığını ortadan kaldırmakla kalmaz, aynı zamanda platformumuzu daha hızlı benimsemelerini ve kullanmalarını teşvik eder.",
   "NEW_FOLDER": "Yeni Klasör",
-  "ALLOW_TRACKING": "Uygulamanın etkinliklerinizi anonim bir şekilde izlemesine izin verin."
+  "ALLOW_TRACKING": "Uygulamanın etkinliklerinizi anonim bir şekilde izlemesine izin verin.",
+  "MARKET": "Pazar",
+  "PUBLISHERS": "Yayıncılar",
+  "SUBSCRIBED": "Abone",
+  "LOAD_MORE": "Daha Fazla Yükle"
 }

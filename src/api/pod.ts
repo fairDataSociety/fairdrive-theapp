@@ -1,4 +1,7 @@
+import { SubItem } from '@data/subscription';
 import { DirectoryItem, FdpStorage } from '@fairdatasociety/fdp-storage';
+import { PodShareInfo } from '@fairdatasociety/fdp-storage/dist/pod/types';
+import { isSharedPod } from '@utils/pod';
 
 export interface GetPodResponse {
   pod_name: string[];
@@ -14,6 +17,35 @@ export async function getPods(fdp: FdpStorage): Promise<GetPodResponse> {
   };
 
   return response as GetPodResponse;
+}
+
+export async function getUsersSubItems(
+  fdp: FdpStorage,
+  address: string
+): Promise<SubItem[]> {
+  return fdp.dataHub.getAllSubItems(address);
+}
+
+export async function getSubscriptionPods(
+  fdp: FdpStorage,
+  subItems: SubItem[]
+): Promise<PodShareInfo[]> {
+  const subs: PodShareInfo[] = [];
+
+  for (const subItem of subItems) {
+    try {
+      const sub = await fdp.personalStorage.openSubscribedPod(
+        subItem.subHash,
+        subItem.unlockKeyLocation
+      );
+
+      subs.push(sub);
+    } catch (error) {
+      console.warn(String(error));
+    }
+  }
+
+  return subs;
 }
 
 export async function createPod(fdp: FdpStorage, pod_name: string) {
@@ -38,8 +70,15 @@ export function getFdpPathByDirectory(directory: string): string {
 
 export async function getFilesAndDirectories(
   fdp: FdpStorage,
-  podName: string,
+  pod: string | PodShareInfo,
   directory: string
 ): Promise<DirectoryItem> {
-  return fdp.directory.read(podName, getFdpPathByDirectory(directory), false);
+  if (isSharedPod(pod)) {
+    return fdp.directory.readFromShared(
+      pod,
+      getFdpPathByDirectory(directory),
+      false
+    );
+  }
+  return fdp.directory.read(pod, getFdpPathByDirectory(directory), false);
 }

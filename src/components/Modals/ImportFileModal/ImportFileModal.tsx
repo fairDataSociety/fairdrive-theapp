@@ -11,6 +11,7 @@ import { Button } from '@components/Buttons';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { CreatorModalProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
+import { getPodName } from '@utils/pod';
 
 const ImportFileModal: FC<CreatorModalProps> = ({
   showModal,
@@ -23,6 +24,7 @@ const ImportFileModal: FC<CreatorModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { intl } = useLocales();
+  const podName = getPodName(activePod);
 
   const handleImportFile = async () => {
     try {
@@ -30,7 +32,7 @@ const ImportFileModal: FC<CreatorModalProps> = ({
       await receiveFile(
         fdpClientRef.current,
         importCode,
-        activePod,
+        podName,
         directoryName
       );
       updateDrive();

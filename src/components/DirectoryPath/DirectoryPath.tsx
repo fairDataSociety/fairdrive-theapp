@@ -3,9 +3,11 @@ import PageDownLight from '@media/UI/page-down-light.svg';
 import PageDownDark from '@media/UI/page-down-dark.svg';
 import { Button } from '@components/Buttons';
 import ThemeContext from '@context/ThemeContext';
+import { useLocales } from '@context/LocalesContext';
 
 interface DirectoryPathProps {
   podName: string;
+  subscribedPod: boolean;
   directory: string;
   onDirectorySelect: (newDirectory: string) => void;
   onBackToDrive: () => void;
@@ -19,6 +21,7 @@ const selectableClasses = 'cursor-pointer hover:bg-color-shade-dark-3-day';
 
 const DirectoryPath = ({
   podName,
+  subscribedPod,
   directory,
   onDirectorySelect,
   onBackToDrive,
@@ -29,6 +32,7 @@ const DirectoryPath = ({
     const folders = (directory === 'root' ? '' : directory).split('/');
     return [folders, folders.slice(-MAX_FOLDERS)];
   }, [directory]);
+  const { intl } = useLocales();
 
   const offset = folders.length - displayedFolders.length;
 
@@ -54,10 +58,13 @@ const DirectoryPath = ({
       )}
 
       <span
-        className={`hidden md:inline ${folderClasses} ${selectableClasses}`}
+        className={`relative hidden md:inline ${folderClasses} ${selectableClasses}`}
         onClick={() => onDirectorySelect('root')}
       >
         {podName}
+        {subscribedPod && (
+          <div className="text-xs">({intl.get('SUBSCRIBED')})</div>
+        )}
       </span>
       {offset > 0 && <span className={folderClasses}>&nbsp;/ ...</span>}
       {displayedFolders.map((folder, index) => (

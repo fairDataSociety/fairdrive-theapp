@@ -14,6 +14,7 @@ import SortDark from '@media/UI/sort-dark.svg';
 
 interface DriveActionHeaderMobileProps {
   podName: string;
+  subscribedPod: boolean;
   driveView: 'grid' | 'list';
   directory: string;
   onDirectorySelect: (newDirectory: string) => void;
@@ -24,6 +25,7 @@ interface DriveActionHeaderMobileProps {
 
 const DriveActionHeaderMobile = ({
   podName,
+  subscribedPod,
   driveView,
   directory,
   onDirectorySelect,
@@ -38,6 +40,7 @@ const DriveActionHeaderMobile = ({
       <PodDropdown />
       <DirectoryPath
         podName={podName}
+        subscribedPod={subscribedPod}
         directory={directory}
         onDirectorySelect={onDirectorySelect}
         onBackToDrive={onBackToDrive}
