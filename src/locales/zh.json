@@ -227,6 +227,5 @@
   "ALLOW_TRACKING": "允许该应用以匿名方式跟踪您的活动。",
   "MARKET": "市场",
   "PUBLISHERS": "出版商",
-  "SUBSCRIBED": "已订阅",
-  "LOAD_MORE": "加载更多"
+  "SUBSCRIBED": "已订阅"
 }

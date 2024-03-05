@@ -43,6 +43,8 @@ import PodList from '@components/Views/PodList/PodList';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { constructPath, rootPathToRelative } from '@utils/filename';
 import { getPodName, isSharedPod } from '@utils/pod';
+import SubscribedPodList from '@components/Views/PodList/SubscribedPodList';
+import { PodShareInfo } from '@fairdatasociety/fdp-storage/dist/pod/types';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -51,6 +53,7 @@ const Drive: FC = () => {
     loading,
     setLoading,
     pods,
+    subscribedPods,
     activePod,
     setActivePod,
     openPods,
@@ -238,7 +241,7 @@ const Drive: FC = () => {
     setShowPreviewModal(true);
   };
 
-  const handlePodSelect = (pod: string) => {
+  const handlePodSelect = (pod: string | PodShareInfo) => {
     setError(null);
     setActivePod(pod);
     setDirectoryName('root');
@@ -429,7 +432,13 @@ const Drive: FC = () => {
                 />
               )
             ) : (
-              <PodList pods={pods} onPodSelect={handlePodSelect} />
+              <>
+                <PodList pods={pods} onPodSelect={handlePodSelect} />
+                <SubscribedPodList
+                  pods={subscribedPods}
+                  onPodSelect={handlePodSelect}
+                />
+              </>
             )}
           </div>
         )}

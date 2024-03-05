@@ -39,8 +39,6 @@ const PodDropdownMenu = () => {
   const podName = getPodName(activePod);
 
   const onPodSelect = (pod: string | PodShareInfo) => {
-    console.log(pod);
-
     setActivePod(pod);
     setDirectoryName('root');
   };

@@ -33,7 +33,6 @@ const DriveSideBar: FC = () => {
     loading: podLoading,
     pods,
     setPods,
-    allSubItems,
     setAllSubItems,
     subscribedPods,
     setSubscribedPods,
@@ -75,7 +74,8 @@ const DriveSideBar: FC = () => {
 
       const subscribedPods = await getSubscriptionPods(
         fdpClientRef.current,
-        subItems.slice(0, 5)
+        // TODO pods might be loaded in batches
+        subItems
       );
 
       setPods(pods);
@@ -189,16 +189,6 @@ const DriveSideBar: FC = () => {
                   onClick={() => handleOpenPod(pod)}
                 />
               ))}
-              {allSubItems.length < subscribedPods.length && (
-                <Button
-                  type="button"
-                  variant="secondary"
-                  label={intl.get('LOAD_MORE')}
-                  onClick={() => {
-                    setShowImportPodModal(true);
-                  }}
-                />
-              )}
             </>
           )}
         </div>

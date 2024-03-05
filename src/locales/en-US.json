@@ -228,6 +228,5 @@
   "ALLOW_TRACKING": "Allow the app to track your activities in an anonymous manner.",
   "MARKET": "Market",
   "PUBLISHERS": "Publishers",
-  "SUBSCRIBED": "Subscribed",
-  "LOAD_MORE": "Load More"
+  "SUBSCRIBED": "Subscribed"
 }
