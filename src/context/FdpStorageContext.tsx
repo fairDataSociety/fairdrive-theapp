@@ -166,7 +166,8 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
     if (type === 'native') {
       fdpClientRef.current = createFdpStorage(ensConfig, datahubConfig);
     } else if (type === 'blossom') {
-      fdpClientRef.current = blossom.fdpStorage;
+      // TODO Blossom doesn't support dataHub
+      fdpClientRef.current = blossom.fdpStorage as unknown as FdpStorage;
     } else {
       throw new Error('Unknown FDP storage type');
     }
