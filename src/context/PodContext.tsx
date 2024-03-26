@@ -2,14 +2,20 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { GetPodResponse } from '@api/pod';
 import { FC, ReactNode, createContext, useState } from 'react';
+import { PodShareInfo } from '@fairdatasociety/fdp-storage/dist/pod/types';
+import { SubItem } from '@data/subscription';
 
 interface PodContext {
   loading: boolean;
   setLoading: (loading: boolean) => void;
   pods: GetPodResponse;
   setPods: (pods: GetPodResponse) => void;
-  activePod: string;
-  setActivePod: (pod: string) => void;
+  allSubItems: SubItem[];
+  setAllSubItems: (subItems: SubItem[]) => void;
+  subscribedPods: PodShareInfo[];
+  setSubscribedPods: (subscribedPods: PodShareInfo[]) => void;
+  activePod: string | PodShareInfo;
+  setActivePod: (pod: string | PodShareInfo) => void;
   openPods: string[];
   setOpenPods: (openPods: string[]) => void;
   directoryName: string;
@@ -26,8 +32,12 @@ const podContextDefaultValues: PodContext = {
   setLoading: () => {},
   pods: { pod_name: [], shared_pod_name: [] },
   setPods: (pods: GetPodResponse) => {},
-  activePod: '',
-  setActivePod: (pod: string) => {},
+  allSubItems: [],
+  setAllSubItems: (subItems: SubItem[]) => {},
+  subscribedPods: [],
+  setSubscribedPods: (subscribedPods: PodShareInfo[]) => {},
+  activePod: null,
+  setActivePod: (pod: string | PodShareInfo) => {},
   openPods: [],
   setOpenPods: (openPods: string[]) => {},
   directoryName: '',
@@ -40,7 +50,9 @@ const PodContext = createContext<PodContext>(podContextDefaultValues);
 const PodProvider: FC<PodContextProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [pods, setPods] = useState(null);
-  const [activePod, setActivePod] = useState('');
+  const [allSubItems, setAllSubItems] = useState(null);
+  const [subscribedPods, setSubscribedPods] = useState(null);
+  const [activePod, setActivePod] = useState<string | PodShareInfo>('');
   const [openPods, setOpenPods] = useState([]);
   const [directoryName, setDirectoryName] = useState('');
 
@@ -59,6 +71,10 @@ const PodProvider: FC<PodContextProps> = ({ children }) => {
         setLoading,
         pods,
         setPods,
+        allSubItems,
+        setAllSubItems,
+        subscribedPods,
+        setSubscribedPods,
         activePod,
         setActivePod,
         openPods,

@@ -6,7 +6,7 @@ import UserContext from '@context/UserContext';
 import { Network } from '@data/networks';
 import { estimateRegistrationPrice, getAccountBalance } from '@utils/ens';
 import { sendAmount, switchToNetwork } from '@utils/metamask';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber, Wallet, utils } from 'ethers';
 import { useContext, useEffect, useRef, useState } from 'react';
 import InfoLight from '@media/UI/info-light.svg';
 import InfoDark from '@media/UI/info-dark.svg';
@@ -96,7 +96,8 @@ export default function MetamaskCreateAccount({
       }
 
       await fdpClientRef.current.account.register(request);
-      setWallet(fdpClientRef.current.account.wallet);
+      const wallet = new Wallet(fdpClientRef.current.account.wallet.privateKey);
+      setWallet(wallet);
       setFdpStorageType('native');
       setIsLoggedIn(true);
       setLoginType('username');

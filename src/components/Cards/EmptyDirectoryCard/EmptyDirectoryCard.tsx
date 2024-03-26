@@ -1,6 +1,9 @@
 import InfoDarkIcon from '@media/UI/info-dark.svg';
 import { useLocales } from '@context/LocalesContext';
 import { Button } from '@components/Buttons';
+import { useContext } from 'react';
+import PodContext from '@context/PodContext';
+import { isSharedPod } from '@utils/pod';
 
 export interface EmptyDirectoryCardProps {
   onUploadClick: () => void;
@@ -8,6 +11,7 @@ export interface EmptyDirectoryCardProps {
 
 const EmptyDirectoryCard = ({ onUploadClick }: EmptyDirectoryCardProps) => {
   const { intl } = useLocales();
+  const { activePod } = useContext(PodContext);
 
   return (
     <div className="flex justify-center items-center w-full pt-10">
@@ -21,17 +25,21 @@ const EmptyDirectoryCard = ({ onUploadClick }: EmptyDirectoryCardProps) => {
             {intl.get('NO_ITEMS')}
           </h2>
 
-          <p className="mt-2 font-normal text-xs text-color-accents-plum-black dark:text-color-shade-light-2-night text-center">
-            {intl.get('START_UPLOADING_OR_CREATING_FOLDERS')}
-          </p>
+          {!isSharedPod(activePod) && (
+            <>
+              <p className="mt-2 font-normal text-xs text-color-accents-plum-black dark:text-color-shade-light-2-night text-center">
+                {intl.get('START_UPLOADING_OR_CREATING_FOLDERS')}
+              </p>
 
-          <Button
-            className="mt-4"
-            variant="tertiary-outlined"
-            onClick={onUploadClick}
-          >
-            {intl.get('UPLOAD')}
-          </Button>
+              <Button
+                className="mt-4"
+                variant="tertiary-outlined"
+                onClick={onUploadClick}
+              >
+                {intl.get('UPLOAD')}
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import classes from './SearchBar.module.scss';
 import { useLocales } from '@context/LocalesContext';
 import { useForm } from 'react-hook-form';
 import PodContext from '@context/PodContext';
+import { getPodName } from '@utils/pod';
 
 interface SearchBarProps {}
 
@@ -21,6 +22,7 @@ const SearchBar: FC<SearchBarProps> = () => {
   const { activePod, loading } = useContext(PodContext);
   const { intl } = useLocales();
   const { register, handleSubmit, reset } = useForm<{ search: '' }>();
+  const podName = getPodName(activePod);
 
   const onSubmitInternal = ({ search }) => updateSearch(search);
 
@@ -41,7 +43,7 @@ const SearchBar: FC<SearchBarProps> = () => {
         type="text"
         id="search"
         name="search"
-        disabled={!activePod || loading || searchDisabled}
+        disabled={!podName || loading || searchDisabled}
         placeholder={intl.get('SEARCH')}
         className={`${classes.searchBar} ${
           theme === 'light' ? classes.searchBarLight : classes.searchBarDark

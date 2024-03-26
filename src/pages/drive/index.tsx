@@ -42,6 +42,9 @@ import {
 import PodList from '@components/Views/PodList/PodList';
 import FeedbackMessage from '@components/FeedbackMessage/FeedbackMessage';
 import { constructPath, rootPathToRelative } from '@utils/filename';
+import { getPodName, isSharedPod } from '@utils/pod';
+import SubscribedPodList from '@components/Views/PodList/SubscribedPodList';
+import { PodShareInfo } from '@fairdatasociety/fdp-storage/dist/pod/types';
 
 const Drive: FC = () => {
   const { trackPageView } = useMatomo();
@@ -50,6 +53,7 @@ const Drive: FC = () => {
     loading,
     setLoading,
     pods,
+    subscribedPods,
     activePod,
     setActivePod,
     openPods,
@@ -71,6 +75,7 @@ const Drive: FC = () => {
   const { fdpClientRef, getAccountAddress } = useFdpStorage();
   const [error, setError] = useState<string | null>(null);
   const searchControllerRef = useRef<AbortController | null>(null);
+  const podName = getPodName(activePod);
 
   useEffect(() => {
     trackPageView({
@@ -89,7 +94,7 @@ const Drive: FC = () => {
   }, [activePod, directoryName, openPods]);
 
   const handleUpdateDrive = async (props?: RefreshDriveOptions) => {
-    if (!activePod) {
+    if (!podName) {
       return;
     }
     setError(null);
@@ -99,15 +104,17 @@ const Drive: FC = () => {
     const directory = directoryName || 'root';
     const fdpPath = getFdpPathByDirectory(directory);
 
-    const cachedItems = getContentItemsCache(
-      userAddress,
-      activePod,
-      fdpPath
-    ).contentItems;
-    setFiles(cachedItems.files || []);
-    setDirectories(cachedItems.directories || []);
-    if (props?.isUseCacheOnly) {
-      return;
+    if (!isSharedPod(activePod)) {
+      const cachedItems = getContentItemsCache(
+        userAddress,
+        activePod,
+        fdpPath
+      ).contentItems;
+      setFiles(cachedItems.files || []);
+      setDirectories(cachedItems.directories || []);
+      if (props?.isUseCacheOnly) {
+        return;
+      }
     }
 
     setLoading(true);
@@ -120,12 +127,14 @@ const Drive: FC = () => {
       );
       setFiles(response.files);
       setDirectories(response.directories);
-      saveContentItemsCache(
-        userAddress,
-        activePod,
-        fdpPath,
-        JSON.stringify(response)
-      );
+      if (!isSharedPod(activePod)) {
+        saveContentItemsCache(
+          userAddress,
+          activePod,
+          fdpPath,
+          JSON.stringify(response)
+        );
+      }
     } catch (e) {
       console.log('Error: Could not fetch directories & files!', e);
       if (isDataNotFoundError(e) || isJsonParsingError(e)) {
@@ -232,7 +241,7 @@ const Drive: FC = () => {
     setShowPreviewModal(true);
   };
 
-  const handlePodSelect = (pod: string) => {
+  const handlePodSelect = (pod: string | PodShareInfo) => {
     setError(null);
     setActivePod(pod);
     setDirectoryName('root');
@@ -249,7 +258,7 @@ const Drive: FC = () => {
 
   const handleSearch = async () => {
     try {
-      if (loading || !activePod) {
+      if (loading || !podName) {
         return;
       }
 
@@ -342,7 +351,8 @@ const Drive: FC = () => {
       <div className="flex flex-col">
         <div className="flex md:hidden">
           <DriveActionHeaderMobile
-            podName={activePod}
+            podName={podName}
+            subscribedPod={isSharedPod(activePod)}
             driveView={driveView}
             directory={directoryName}
             onDirectorySelect={handleDirectoryPathChange}
@@ -355,13 +365,14 @@ const Drive: FC = () => {
           title={
             <DirectoryPath
               className="hidden md:flex"
-              podName={activePod}
+              podName={podName}
+              subscribedPod={isSharedPod(activePod)}
               directory={directoryName}
               onDirectorySelect={handleDirectoryPathChange}
               onBackToDrive={onBackToDrive}
             />
           }
-          activePod={activePod}
+          activePod={podName}
           driveView={driveView}
           toggleView={handleToggleView}
           toggleSort={handleToggleSort}
@@ -392,7 +403,7 @@ const Drive: FC = () => {
 
         {!loading && (
           <div style={{ marginTop: 15 }}>
-            {activePod ? (
+            {podName ? (
               directories?.length || files?.length ? (
                 <div>
                   {driveView === 'grid' ? (
@@ -421,7 +432,13 @@ const Drive: FC = () => {
                 />
               )
             ) : (
-              <PodList pods={pods} onPodSelect={handlePodSelect} />
+              <>
+                <PodList pods={pods} onPodSelect={handlePodSelect} />
+                <SubscribedPodList
+                  pods={subscribedPods}
+                  onPodSelect={handlePodSelect}
+                />
+              </>
             )}
           </div>
         )}

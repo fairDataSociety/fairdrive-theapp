@@ -65,7 +65,7 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       const wallet = await decryptWallet(localBasicWallet, password);
       const mnemonic = wallet.mnemonic.phrase;
       markInviteAsParticipated();
-      setFdpStorageType('native', network.config);
+      setFdpStorageType('native', network.ensConfig, network.datahubConfig);
       fdpClientRef.current.account.setAccountFromMnemonic(mnemonic);
       setIsLoggedIn(true);
       setLoginType('metamask');

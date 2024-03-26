@@ -10,10 +10,10 @@ export default function PodList({ pods, onPodSelect }: PodListProps) {
   return (
     <div className="flex justify-center sm:justify-start flex-wrap h-full">
       {(pods?.pod_name || []).map((pod) => (
-        <PodCard key={pod} podName={pod} onClick={onPodSelect} />
+        <PodCard key={pod} pod={pod} onClick={onPodSelect} />
       ))}
       {(pods?.shared_pod_name || []).map((pod) => (
-        <PodCard key={pod} podName={pod} onClick={onPodSelect} />
+        <PodCard key={pod} pod={pod} onClick={onPodSelect} />
       ))}
     </div>
   );

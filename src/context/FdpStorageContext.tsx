@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { FdpStorage } from '@fairdatasociety/fdp-storage/dist/index.browser.min';
+import { FdpStorage } from '@fairdatasociety/fdp-storage';
 import { Wallet } from 'ethers';
 import { CacheType, saveCache } from '@utils/cache';
 import {
@@ -22,13 +22,15 @@ export const BLOSSOM_DEFAULT_ADDRESS = `BLOSSOM_USER`;
 export type LoginType = 'username' | 'blossom' | 'metamask';
 
 const createFdpStorage = (
-  ensOptions: FdpContracts.EnsEnvironment
+  ensOptions: FdpContracts.EnsEnvironment,
+  dataHubOptions: FdpContracts.DataHubEnvironment
 ): FdpStorage => {
   return new FdpStorage(
     process.env.NEXT_PUBLIC_BEE_URL,
     (process.env.NEXT_PUBLIC_GLOBAL_BATCH_ID || null) as any,
     {
       ensOptions,
+      dataHubOptions,
       ensDomain: 'fds',
       cacheOptions: {
         isUseCache: true,
@@ -70,9 +72,13 @@ interface FdpStorageContext {
   setWallet: (wallet: Wallet) => void;
   setFdpStorageType: (
     type: FDP_STORAGE_TYPE,
-    config?: FdpContracts.EnsEnvironment
+    ensConfig?: FdpContracts.EnsEnvironment,
+    datahubConfig?: FdpContracts.DataHubEnvironment
   ) => void;
-  setFdpStorageConfig: (config: FdpContracts.EnsEnvironment) => void;
+  setFdpStorageConfig: (
+    config: FdpContracts.EnsEnvironment,
+    datahubConfig: FdpContracts.DataHubEnvironment
+  ) => void;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   isUsernameAvailable: (username: string) => Promise<boolean | string>;
@@ -108,9 +114,7 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loginType, setLoginType] = useState<LoginType | null>(null);
   const [storageType, setStorageType] = useState<FDP_STORAGE_TYPE>(null);
-  const fdpClientRef = useRef<FdpStorage>(
-    createFdpStorage(getDefaultNetwork().config)
-  );
+  const fdpClientRef = useRef<FdpStorage>(null);
   const { intl } = useLocales();
 
   const isUsernameAvailable = async (
@@ -140,12 +144,15 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
     }
   };
 
-  const setFdpStorageConfig = (config: FdpContracts.EnsEnvironment) => {
+  const setFdpStorageConfig = (
+    ensConfig: FdpContracts.EnsEnvironment,
+    datahubConfig?: FdpContracts.DataHubEnvironment
+  ) => {
     if (storageType !== 'native') {
       throw new Error('Invalid storage type');
     }
 
-    fdpClientRef.current = createFdpStorage(config);
+    fdpClientRef.current = createFdpStorage(ensConfig, datahubConfig);
   };
 
   /**
@@ -153,12 +160,14 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
    */
   const setFdpStorageType = (
     type: FDP_STORAGE_TYPE,
-    config?: FdpContracts.EnsEnvironment
+    ensConfig?: FdpContracts.EnsEnvironment,
+    datahubConfig?: FdpContracts.DataHubEnvironment
   ) => {
     if (type === 'native') {
-      fdpClientRef.current = createFdpStorage(config);
+      fdpClientRef.current = createFdpStorage(ensConfig, datahubConfig);
     } else if (type === 'blossom') {
-      fdpClientRef.current = blossom.fdpStorage;
+      // TODO Blossom doesn't support dataHub
+      fdpClientRef.current = blossom.fdpStorage as unknown as FdpStorage;
     } else {
       throw new Error('Unknown FDP storage type');
     }

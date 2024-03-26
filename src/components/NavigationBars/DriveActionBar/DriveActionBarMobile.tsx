@@ -23,6 +23,7 @@ import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
 import PodContext from '@context/PodContext';
+import { getPodName, isSharedPod } from '@utils/pod';
 
 export interface DriveActionBarMobileProps extends UpdateDriveProps {
   refreshPods?: () => void;
@@ -65,6 +66,8 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
 
   const { intl } = useLocales();
+  const podName = getPodName(activePod);
+  const canEdit = !isSharedPod(activePod);
 
   return (
     <>
@@ -75,29 +78,32 @@ const DriveActionBarMobile: FC<DriveActionBarMobileProps> = ({
         <DriveActiveDarkIcon height="22" />,
         () => setShowCreatePodModal(true)
       )}
-      {DriveActionBarItem(
-        theme,
-        intl.get('UPLOAD'),
-        <UploadLightIcon height="22" />,
-        <UploadDarkIcon height="22" />,
-        () => setShowUploadFileModal(true),
-        !activePod
-      )}
-      {DriveActionBarItem(
-        theme,
-        intl.get('IMPORT'),
-        <ImportLightIcon height="22" />,
-        <ImportDarkIcon height="22" />,
-        () => setShowImportFileModal(true)
-      )}
-      {DriveActionBarItem(
-        theme,
-        intl.get('NEW_FOLDER'),
-        <CreateFolderLightIcon height="22" />,
-        <CreateFolderDarkIcon height="22" />,
-        () => setShowCreateFolderModal(true),
-        !activePod
-      )}
+      {canEdit &&
+        DriveActionBarItem(
+          theme,
+          intl.get('UPLOAD'),
+          <UploadLightIcon height="22" />,
+          <UploadDarkIcon height="22" />,
+          () => setShowUploadFileModal(true),
+          !podName
+        )}
+      {canEdit &&
+        DriveActionBarItem(
+          theme,
+          intl.get('IMPORT'),
+          <ImportLightIcon height="22" />,
+          <ImportDarkIcon height="22" />,
+          () => setShowImportFileModal(true)
+        )}
+      {canEdit &&
+        DriveActionBarItem(
+          theme,
+          intl.get('NEW_FOLDER'),
+          <CreateFolderLightIcon height="22" />,
+          <CreateFolderDarkIcon height="22" />,
+          () => setShowCreateFolderModal(true),
+          !podName
+        )}
       {showCreatePodModal ? (
         <CreatePodModal
           showModal={showCreatePodModal}

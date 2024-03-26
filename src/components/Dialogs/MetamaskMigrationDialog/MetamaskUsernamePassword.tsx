@@ -40,7 +40,7 @@ export default function MetamaskUsernamePassword({
       setLoading(true);
       setErrorMessage(null);
 
-      setFdpStorageConfig(network.config);
+      setFdpStorageConfig(network.ensConfig, network.datahubConfig);
 
       const usernameAvailable =
         await fdpClientRef.current.account.ens.isUsernameAvailable(username);
