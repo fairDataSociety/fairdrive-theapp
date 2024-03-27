@@ -73,10 +73,11 @@ interface FdpStorageContext {
   setFdpStorageType: (
     type: FDP_STORAGE_TYPE,
     ensConfig?: FdpContracts.EnsEnvironment,
-    datahubConfig?: FdpContracts.DataHubEnvironment
+    datahubConfig?: FdpContracts.DataHubEnvironment,
+    create?: boolean
   ) => void;
   setFdpStorageConfig: (
-    config: FdpContracts.EnsEnvironment,
+    ensConfig: FdpContracts.EnsEnvironment,
     datahubConfig: FdpContracts.DataHubEnvironment
   ) => void;
   setUsername: (username: string) => void;
@@ -161,16 +162,20 @@ function FdpStorageProvider(props: FdpStorageContextProps) {
   const setFdpStorageType = (
     type: FDP_STORAGE_TYPE,
     ensConfig?: FdpContracts.EnsEnvironment,
-    datahubConfig?: FdpContracts.DataHubEnvironment
+    datahubConfig?: FdpContracts.DataHubEnvironment,
+    create = true
   ) => {
-    if (type === 'native') {
-      fdpClientRef.current = createFdpStorage(ensConfig, datahubConfig);
-    } else if (type === 'blossom') {
-      // TODO Blossom doesn't support dataHub
-      fdpClientRef.current = blossom.fdpStorage as unknown as FdpStorage;
-    } else {
-      throw new Error('Unknown FDP storage type');
+    if (create) {
+      if (type === 'native') {
+        fdpClientRef.current = createFdpStorage(ensConfig, datahubConfig);
+      } else if (type === 'blossom') {
+        // TODO Blossom doesn't support dataHub
+        fdpClientRef.current = blossom.fdpStorage as unknown as FdpStorage;
+      } else {
+        throw new Error('Unknown FDP storage type');
+      }
     }
+
     setIsLoggedIn(false);
     setStorageType(type);
   };

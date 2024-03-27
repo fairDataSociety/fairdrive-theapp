@@ -98,7 +98,7 @@ export default function MetamaskCreateAccount({
       await fdpClientRef.current.account.register(request);
       const wallet = new Wallet(fdpClientRef.current.account.wallet.privateKey);
       setWallet(wallet);
-      setFdpStorageType('native');
+      setFdpStorageType('native', undefined, undefined, false);
       setIsLoggedIn(true);
       setLoginType('username');
       setUser(username);
