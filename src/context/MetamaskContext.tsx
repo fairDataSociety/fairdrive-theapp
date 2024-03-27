@@ -88,7 +88,7 @@ export const MetamaskProvider: React.FC = ({ children }) => {
 
       const wallet = Wallet.fromMnemonic(mnemonic);
 
-      setFdpStorageType('native', network.config);
+      setFdpStorageType('native', network.ensConfig, network.datahubConfig);
       fdpClientRef.current.account.setAccountFromMnemonic(mnemonic);
       setIsLoggedIn(true);
       setLoginType('metamask');
