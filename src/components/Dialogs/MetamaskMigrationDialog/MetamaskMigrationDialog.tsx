@@ -55,7 +55,9 @@ const MetamaskMigrationDialog = ({
     if (clickOutside) {
       return;
     }
-    setMetamaskMigrationNotification('closed');
+    setMetamaskMigrationNotification(
+      step === Step.COMPLETE ? 'completed' : 'closed'
+    );
     onClose();
   };
 

@@ -420,6 +420,7 @@ const Drive: FC = () => {
                     <DriveListView
                       directories={handleSort(directories)}
                       files={handleSort(files)}
+                      driveSort={driveSort}
                       directoryOnClick={handleDirectoryOnClick}
                       fileOnClick={handleFileOnClick}
                       updateDrive={handleUpdateDrive}

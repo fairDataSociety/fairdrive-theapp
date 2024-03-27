@@ -11,6 +11,7 @@ import { UpdateDriveProps } from '@interfaces/handlers';
 interface DriveListViewProps extends UpdateDriveProps {
   directories: DirectoryItem[];
   files: FileItem[];
+  driveSort: string;
   directoryOnClick: (directory: DirectoryItem) => void;
   fileOnClick: (data: FileItem) => void;
 }
@@ -18,24 +19,44 @@ interface DriveListViewProps extends UpdateDriveProps {
 const DriveListView: FC<DriveListViewProps> = ({
   directories,
   files,
+  driveSort,
   directoryOnClick,
   fileOnClick,
   updateDrive,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
+
+  const folderLength = directories.length;
+  const folderStartIndex = Math.min(page * rowsPerPage, folderLength);
+  const folderEndIndex = Math.min(folderStartIndex + rowsPerPage, folderLength);
+
+  const someFoldersAreDisplayed = folderEndIndex - folderStartIndex > 0;
+  const fileStartIndex = someFoldersAreDisplayed
+    ? 0
+    : page * rowsPerPage - folderLength;
+  const fileEndIndex = someFoldersAreDisplayed
+    ? rowsPerPage - (folderEndIndex - folderStartIndex)
+    : fileStartIndex + rowsPerPage;
 
   const { pageDirectories, pageFiles } = useMemo(
     () => ({
-      pageDirectories: (directories || []).slice(startIndex, endIndex),
-      pageFiles: (files || []).slice(
-        startIndex - directories.length,
-        endIndex - directories.length
+      pageDirectories: (directories || []).slice(
+        folderStartIndex,
+        folderEndIndex
       ),
+      pageFiles: (files || []).slice(fileStartIndex, fileEndIndex),
     }),
-    [directories, files, startIndex, endIndex]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      directories,
+      files,
+      driveSort,
+      folderStartIndex,
+      folderEndIndex,
+      fileStartIndex,
+      fileEndIndex,
+    ]
   );
 
   const handlePageUp = () => {

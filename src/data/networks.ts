@@ -43,6 +43,13 @@ export const networks: Network[] = [
     ensConfig: getEnsEnvironmentConfig(Environments.ARBITRUM_GOERLI),
     datahubConfig: getDataHubEnvironmentConfig(Environments.ARBITRUM_GOERLI),
   },
+  {
+    name: 'zkEVM Testnet',
+    id: Environments.ZKEVM_TESTNET,
+    chainId: 1442,
+    ensConfig: getEnsEnvironmentConfig(Environments.ZKEVM_TESTNET),
+    datahubConfig: getDataHubEnvironmentConfig(Environments.ZKEVM_TESTNET),
+  },
 ];
 
 if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'PRODUCTION') {
