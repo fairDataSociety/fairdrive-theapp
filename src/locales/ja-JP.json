@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "アプリが匿名であなたの活動を追跡することを許可します。",
   "MARKET": "市場",
   "PUBLISHERS": "出版社",
-  "SUBSCRIBED": "購読済み"
+  "SUBSCRIBED": "購読済み",
+  "REMEMBER_ME": "自動ログイン"
 }

@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "Dozvolite aplikaciji da prati vaše aktivnosti na anoniman način.",
   "MARKET": "Tržište",
   "PUBLISHERS": "Izdavači",
-  "SUBSCRIBED": "Pretplaćen"
+  "SUBSCRIBED": "Pretplaćen",
+  "REMEMBER_ME": "Automatska prijava"
 }

@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "Permetti all'app di tracciare le tue attività in modo anonimo.",
   "MARKET": "Mercato",
   "PUBLISHERS": "Editori",
-  "SUBSCRIBED": "Iscritto"
+  "SUBSCRIBED": "Iscritto",
+  "REMEMBER_ME": "Accesso automatico"
 }

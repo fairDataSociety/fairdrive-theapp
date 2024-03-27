@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "Autorisez l'application à suivre vos activités de manière anonyme.",
   "MARKET": "Marché",
   "PUBLISHERS": "Éditeurs",
-  "SUBSCRIBED": "Abonné"
+  "SUBSCRIBED": "Abonné",
+  "REMEMBER_ME": "Connexion automatique"
 }
