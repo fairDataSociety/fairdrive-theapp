@@ -2,6 +2,8 @@ import { Button } from '@components/Buttons';
 import MetamaskIcon from '@media/UI/metamask.svg';
 import {
   decryptWallet,
+  encryptMnemonic,
+  getBasicSignature,
   getBasicSignatureWallet,
   getMetamaskDeeplinkUrl,
   isMetamaskAvailable,
@@ -9,7 +11,7 @@ import {
 import { useRouter } from 'next/router';
 import { getDefaultNetwork, useFdpStorage } from '@context/FdpStorageContext';
 import MetamaskNotFoundModal from '@components/Modals/MetamaskNotFoundModal/MetamaskNotFoundModal';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import UserContext from '@context/UserContext';
 import Spinner from '@components/Spinner/Spinner';
 import { getInvite, login } from '@utils/invite';
@@ -17,6 +19,7 @@ import PasswordModal from '@components/Modals/PasswordModal/PasswordModal';
 import { isMobile } from 'react-device-detect';
 import { useMetamask } from '@context/MetamaskContext';
 import { Network } from '@data/networks';
+import { setMetamaskMnemonic } from '@utils/localStorage';
 
 interface MetamaskConnectProps {
   onConnect: () => void;
@@ -37,8 +40,12 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
   } = useFdpStorage();
   const { setErrorMessage, setAddress, setMnemonic } = useContext(UserContext);
   const router = useRouter();
-  const { connectMetamask, metamaskProvider, metamaskWalletAddress } =
-    useMetamask();
+  const {
+    loading: metamaskLoading,
+    connectMetamask,
+    metamaskProvider,
+    metamaskWalletAddress,
+  } = useMetamask();
   const [network] = useState<Network>(getDefaultNetwork());
 
   /**
@@ -60,7 +67,10 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
    *
    * @param password Password from modal input
    */
-  const handlePassword = async (password: string): Promise<void> => {
+  const handlePassword = async (
+    password: string,
+    saveMnemonic: boolean
+  ): Promise<void> => {
     try {
       const wallet = await decryptWallet(localBasicWallet, password);
       const mnemonic = wallet.mnemonic.phrase;
@@ -73,6 +83,17 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
       onConnect();
       setAddress(wallet.address);
       setMnemonic(mnemonic);
+
+      if (saveMnemonic) {
+        const signature = await getBasicSignature(
+          metamaskProvider,
+          metamaskWalletAddress
+        );
+
+        setMetamaskMnemonic(encryptMnemonic(mnemonic, signature));
+      } else {
+        setMetamaskMnemonic('');
+      }
 
       router.push('/drive');
     } catch (error) {
@@ -99,35 +120,18 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
 
     try {
       setLoading(true);
-      await connectMetamask();
+      const { provider, account } = await connectMetamask();
+
+      setLocalBasicWallet(await getBasicSignatureWallet(provider, account));
+
+      setShowPasswordModal(true);
     } catch (error) {
       console.error(error);
       setErrorMessage(String(error.message || error));
+    } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    async function run() {
-      if (!(metamaskProvider && metamaskWalletAddress)) {
-        return;
-      }
-
-      try {
-        setLocalBasicWallet(
-          await getBasicSignatureWallet(metamaskProvider, metamaskWalletAddress)
-        );
-
-        setShowPasswordModal(true);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    run();
-  }, [metamaskProvider, metamaskWalletAddress]);
 
   return (
     <>
@@ -135,9 +139,9 @@ const MetamaskConnect = ({ onConnect }: MetamaskConnectProps) => {
         variant="tertiary-outlined"
         className="w-28 h-10 relative text-color-accents-purple-black dark:text-color-accents-grey-lavendar"
         label="Metamask"
-        disabled={loading}
+        disabled={loading || metamaskLoading}
         icon={
-          loading ? (
+          loading || metamaskLoading ? (
             <Spinner className="absolute top-3 left-6" />
           ) : (
             <MetamaskIcon className="inline-block ml-2" />

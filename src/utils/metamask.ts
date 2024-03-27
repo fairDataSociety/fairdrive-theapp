@@ -1,6 +1,9 @@
+import { enc } from 'crypto-js';
 import { WindowWithEthereum } from '@interfaces/window';
 import { utils, Wallet } from 'ethers';
 import { extractDeeplinkURL } from '@utils/url';
+import { SDKProvider } from '@metamask/sdk';
+import { decrypt, encrypt } from './encryption';
 
 declare const window: WindowWithEthereum;
 
@@ -59,6 +62,13 @@ export const signatureToWallet = (signature: string): Wallet => {
   return Wallet.fromMnemonic(mnemonic);
 };
 
+export function getBasicSignature(
+  provider: SDKProvider,
+  address: string
+): Promise<string> {
+  return getSignature(provider, address, getSignWalletData(address));
+}
+
 /**
  * Creates a basic wallet using Metamask signature
  *
@@ -71,11 +81,7 @@ export const getBasicSignatureWallet = async (
   address: string,
   password = ''
 ): Promise<Wallet> => {
-  const signature = await getSignature(
-    provider,
-    address,
-    getSignWalletData(address)
-  );
+  const signature = await getBasicSignature(provider, address);
   const wallet = signatureToWallet(signature);
   if (password) {
     return decryptWallet(wallet, password);
@@ -97,6 +103,14 @@ export const decryptWallet = async (wallet: Wallet, password: string) => {
 
   return signatureToWallet(signature);
 };
+
+export function encryptMnemonic(mnemonic: string, signature: string): string {
+  return enc.Base64.stringify(encrypt(signature, enc.Utf8.parse(mnemonic)));
+}
+
+export function decryptMnemonic(mnemonic: string, signature: string): string {
+  return enc.Utf8.stringify(decrypt(signature, enc.Base64.parse(mnemonic)));
+}
 
 /**
  * Gets a chain ID
