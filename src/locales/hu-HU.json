@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "Engedélyezze az alkalmazásnak, hogy anonim módon kövesse nyomon tevékenységeit.",
   "MARKET": "Piac",
   "PUBLISHERS": "Kiadók",
-  "SUBSCRIBED": "Feliratkozva"
+  "SUBSCRIBED": "Feliratkozva",
+  "REMEMBER_ME": "Automatikus bejelentkezés"
 }

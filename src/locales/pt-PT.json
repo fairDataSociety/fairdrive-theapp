@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "Permita que o aplicativo rastreie suas atividades de forma anônima.",
   "MARKET": "Mercado",
   "PUBLISHERS": "Editores",
-  "SUBSCRIBED": "Inscrito"
+  "SUBSCRIBED": "Inscrito",
+  "REMEMBER_ME": "Login automático"
 }

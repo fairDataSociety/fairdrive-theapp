@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "Uygulamanın etkinliklerinizi anonim bir şekilde izlemesine izin verin.",
   "MARKET": "Pazar",
   "PUBLISHERS": "Yayıncılar",
-  "SUBSCRIBED": "Abone"
+  "SUBSCRIBED": "Abone",
+  "REMEMBER_ME": "Otomatik giriş"
 }

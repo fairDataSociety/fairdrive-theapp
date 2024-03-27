@@ -228,5 +228,6 @@
   "ALLOW_TRACKING": "Dovolite aplikaciji, da sledi vašim dejavnostim na anonimen način.",
   "MARKET": "Trg",
   "PUBLISHERS": "Založniki",
-  "SUBSCRIBED": "Naročen"
+  "SUBSCRIBED": "Naročen",
+  "REMEMBER_ME": "Samodejna prijava"
 }
