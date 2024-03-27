@@ -225,5 +225,8 @@
   "INVITES_TOOLTIP": "Les invitations simplifient l'intégration ! Partagez un lien d'invitation pour offrir à vos amis un accès instantané à un portefeuille préfinancé.",
   "INVITES_DESCRIPTION": "Notre système d'invitation est conçu pour faciliter l'intégration des nouveaux utilisateurs. Lorsque vous créez une invitation, vous générez essentiellement un lien de parrainage intégré avec une clé privée pour un portefeuille préfinancé. En partageant ce lien avec des amis ou des collègues, vous leur donnez un accès immédiat pour commencer à utiliser le service avec des fonds déjà en place. Cela les aide non seulement à éviter les tracas de la configuration initiale, mais encourage également une adoption et une utilisation plus rapides de notre plateforme.",
   "NEW_FOLDER": "Nouveau Dossier",
-  "ALLOW_TRACKING": "Autorisez l'application à suivre vos activités de manière anonyme."
+  "ALLOW_TRACKING": "Autorisez l'application à suivre vos activités de manière anonyme.",
+  "MARKET": "Marché",
+  "PUBLISHERS": "Éditeurs",
+  "SUBSCRIBED": "Abonné"
 }
