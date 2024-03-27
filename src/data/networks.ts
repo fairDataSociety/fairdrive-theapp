@@ -47,7 +47,8 @@ export const networks: Network[] = [
     name: 'zkEVM Testnet',
     id: Environments.ZKEVM_TESTNET,
     chainId: 1442,
-    config: getEnsEnvironmentConfig(Environments.ZKEVM_TESTNET),
+    ensConfig: getEnsEnvironmentConfig(Environments.ZKEVM_TESTNET),
+    datahubConfig: getDataHubEnvironmentConfig(Environments.ZKEVM_TESTNET),
   },
 ];
 
