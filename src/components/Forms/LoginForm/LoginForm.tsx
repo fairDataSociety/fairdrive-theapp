@@ -59,7 +59,7 @@ const LoginForm: FC = () => {
       setLoading(true);
       setErrorMessage(null);
       const { user_name, password } = data;
-      setFdpStorageType('native', network.config);
+      setFdpStorageType('native', network.ensConfig, network.datahubConfig);
       setEnabled(allowTracking);
       const wallet = await fdpClientRef.current.account.login(
         user_name,
@@ -70,7 +70,7 @@ const LoginForm: FC = () => {
       setLoginType('username');
       setUser(user_name);
       setDefaultNetwork(String(network.id));
-      router.push('/overview');
+      router.push('/drive');
     } catch (error) {
       setErrorMessage(error.message);
     } finally {

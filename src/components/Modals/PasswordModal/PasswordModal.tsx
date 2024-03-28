@@ -12,11 +12,12 @@ import {
   getMetamaskPassphraseExplanation,
   setMetamaskPassphraseExplanation,
 } from '@utils/localStorage';
+import CustomCheckbox from '@components/Inputs/CustomCheckbox/CustomCheckbox';
 
 interface PasswordModalProps {
   showModal: boolean;
   closeModal: () => void;
-  handleSubmitForm: (password: string) => Promise<void>;
+  handleSubmitForm: (password: string, save: boolean) => Promise<void>;
 }
 
 const PasswordModal: FC<PasswordModalProps> = ({
@@ -30,12 +31,13 @@ const PasswordModal: FC<PasswordModalProps> = ({
   const { errors } = formState;
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [saveMnemonic, setSaveMnemonic] = useState(true);
   const { intl } = useLocales();
 
   const handleSubmitButton = async (data) => {
     setLoading(true);
     try {
-      await handleSubmitForm(data.password);
+      await handleSubmitForm(data.password, saveMnemonic);
       setMetamaskPassphraseExplanation(false);
       closeModal();
     } catch (e) {
@@ -73,6 +75,16 @@ const PasswordModal: FC<PasswordModalProps> = ({
 
         <p className="text-sm mb-5">{intl.get('PASSPHRASE_EXPLANATION')}</p>
 
+        <div className="flex">
+          <CustomCheckbox
+            className="m-auto mb-8"
+            name="save"
+            checked={saveMnemonic}
+            onChange={() => setSaveMnemonic(!saveMnemonic)}
+          >
+            {intl.get('REMEMBER_ME')}
+          </CustomCheckbox>
+        </div>
         <div className="text-center">
           <Button
             type="submit"

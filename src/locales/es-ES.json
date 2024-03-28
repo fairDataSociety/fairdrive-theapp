@@ -230,5 +230,9 @@
   "INVITES_TOOLTIP": "¡Las invitaciones simplifican el proceso de incorporación! Comparte un enlace de invitación para dar a tus amigos acceso instantáneo a una billetera prefinanciada.",
   "INVITES_DESCRIPTION": "Nuestro sistema de invitación está diseñado para hacer que el proceso de incorporación sea fluido para los nuevos usuarios. Al crear una invitación, esencialmente estás generando un enlace de referencia incrustado con una clave privada para una billetera prefinanciada. Al compartir este enlace con amigos o colegas, les das acceso inmediato para empezar a usar el servicio con fondos ya establecidos. Esto no solo les ayuda a evitar las complicaciones de la configuración inicial, sino que también fomenta una adopción y uso más rápidos de nuestra plataforma.",
   "NEW_FOLDER": "Nueva Carpeta",
-  "ALLOW_TRACKING": "Permita que la aplicación rastree sus actividades de manera anónima."
+  "ALLOW_TRACKING": "Permita que la aplicación rastree sus actividades de manera anónima.",
+  "MARKET": "Mercado",
+  "PUBLISHERS": "Editores",
+  "SUBSCRIBED": "Suscrito",
+  "REMEMBER_ME": "Inicio de sesión automático"
 }

@@ -3,12 +3,14 @@ import {
   FileItem,
   UploadProgressInfo,
 } from '@fairdatasociety/fdp-storage';
+import { PodShareInfo } from '@fairdatasociety/fdp-storage/dist/pod/types';
+import { isSharedPod } from '@utils/pod';
 import { formatUrl } from '@utils/url';
 
 interface DownloadFileData {
   filename: string;
   directory: string;
-  podName: string;
+  pod: string | PodShareInfo;
 }
 
 interface ShareFileData {
@@ -54,12 +56,21 @@ export async function downloadFile(
   fdp: FdpStorage,
   data: DownloadFileData
 ): Promise<Blob> {
+  const { pod, directory, filename } = data;
   const writePath =
-    data.directory === 'root' ? '/' : '/' + formatUrl(data.directory) + '/';
-  const downloadFile = await fdp.file.downloadData(
-    data.podName,
-    `${writePath}${data.filename}`
-  );
+    data.directory === 'root' ? '/' : '/' + formatUrl(directory) + '/';
+  const path = `${writePath}${filename}`;
+  let downloadFile: Uint8Array;
+
+  if (isSharedPod(pod)) {
+    downloadFile = await fdp.file.downloadArbitraryPodData(
+      pod.podAddress,
+      pod.password,
+      path
+    );
+  } else {
+    downloadFile = await fdp.file.downloadData(pod, path);
+  }
 
   return new Blob([downloadFile]);
 }

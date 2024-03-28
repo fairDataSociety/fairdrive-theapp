@@ -230,5 +230,9 @@
   "INVITES_TOOLTIP": "Gli inviti semplificano l'accesso! Condividi un link di invito per fornire agli amici un accesso immediato a un portafoglio prefinanziato.",
   "INVITES_DESCRIPTION": "Il nostro sistema di inviti è progettato per rendere fluido il processo di integrazione per i nuovi utenti. Creando un invito, stai essenzialmente generando un link di riferimento incastonato con una chiave privata per un portafoglio prefinanziato. Condividendo questo link con amici o colleghi, dai loro accesso immediato per iniziare a utilizzare il servizio con fondi già presenti. Questo non solo aiuta a evitare i problemi della configurazione iniziale, ma incoraggia anche una più rapida adozione e utilizzo della nostra piattaforma.",
   "NEW_FOLDER": "Nuova Cartella",
-  "ALLOW_TRACKING": "Permetti all'app di tracciare le tue attività in modo anonimo."
+  "ALLOW_TRACKING": "Permetti all'app di tracciare le tue attività in modo anonimo.",
+  "MARKET": "Mercato",
+  "PUBLISHERS": "Editori",
+  "SUBSCRIBED": "Iscritto",
+  "REMEMBER_ME": "Accesso automatico"
 }

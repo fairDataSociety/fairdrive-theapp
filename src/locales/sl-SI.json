@@ -230,5 +230,9 @@
   "INVITES_TOOLTIP": "Vabila poenostavijo postopek vključevanja! Delite povezavo za vabilo, da svojim prijateljem omogočite takojšen dostop do prednaložene denarnice.",
   "INVITES_DESCRIPTION": "Naš sistem vabil je zasnovan tako, da novim uporabnikom olajša postopek vključevanja. Ko ustvarite vabilo, v bistvu generirate napotnično povezavo, vgrajeno s privatnim ključem za predhodno financirano denarnico. Z deljenjem te povezave s prijatelji ali kolegi jim omogočate takojšen dostop in začetek uporabe storitve z že obstoječimi sredstvi. To ne le olajša začetne težave z nastavitvami, ampak tudi spodbuja hitrejše sprejetje in uporabo naše platforme.",
   "NEW_FOLDER": "Nova mapa",
-  "ALLOW_TRACKING": "Dovolite aplikaciji, da sledi vašim dejavnostim na anonimen način."
+  "ALLOW_TRACKING": "Dovolite aplikaciji, da sledi vašim dejavnostim na anonimen način.",
+  "MARKET": "Trg",
+  "PUBLISHERS": "Založniki",
+  "SUBSCRIBED": "Naročen",
+  "REMEMBER_ME": "Samodejna prijava"
 }

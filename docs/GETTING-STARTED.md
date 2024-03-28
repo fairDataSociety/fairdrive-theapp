@@ -15,12 +15,24 @@ Fairdrive is a web application, so there's no need to install anything on your c
 
 ## Creating an Account
 
-To use Fairdrive, you'll need to create an account. Here's how:
+To use Fairdrive, you'll need to create an account, or migrate through Metamask.
+
+Follow these steps to create an account:
 
 1. Go to the Fairdrive website.
 2. Click on the "Sign Up" button.
 3. Fill out the registration form with your details.
 4. Click "Submit" to create your account.
+
+Follow these steps to login with Metamask
+
+1. Install Metamask extension to Chrome.
+2. Go to the Fairdrive website.
+3. Click on the connect button in the right header corner.
+4. Select Metamask, if you are not logged in currently, please login.
+5. Provide a one-time-only password for athentication.
+6. Send the neccessary gas fee.
+7. When the funding is done, you are able to see the Fairdrive overview section. In this page you will see the migrate button above, to proceed with user credentials for interoperability.
 
 ## Logging In
 
@@ -41,8 +53,8 @@ Once you're logged in, you can start using Fairdrive to manage your pods, files,
 
 ## Getting Help
 
-If you need help using Fairdrive, check out our [User Guide](USER-GUIDE.md) and [FAQ](FAQ.md). 
-Start [here](GETTING-STARTED.md) or see [Design](DESIGN.md), [Functionality](FUNCTIONALITY.md) or [Architecture](ARCHITECTURE.md). 
+If you need help using Fairdrive, check out our [User Guide](USER-GUIDE.md) and [FAQ](FAQ.md).
+Start [here](GETTING-STARTED.md) or see [Design](DESIGN.md), [Functionality](FUNCTIONALITY.md) or [Architecture](ARCHITECTURE.md).
 Developers can check [Development Instructions](DEVELOPMENT.md).
 
 If you can't find the answer to your question, feel free to [contact us](CONTACT.md).

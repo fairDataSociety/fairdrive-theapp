@@ -16,6 +16,7 @@ import NavigationMenuDark from '@media/UI/drive-view-list-dark.svg';
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 import { Transition } from '@headlessui/react';
+import { getPodName } from '@utils/pod';
 
 // import ActivityDropdown from './ActivityDropdown/ActivityDropdown';
 
@@ -26,6 +27,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
   const { metamaskMigrationNotification } = useContext(UserContext);
   const { setMobileNavigationOpen } = useDialogs();
   const { activePod } = useContext(PodContext);
+  const podName = getPodName(activePod);
 
   return (
     <nav>
@@ -49,7 +51,7 @@ const MainNavigationBar: FC<Record<string, never>> = () => {
         <div className="flex justify-between items-center">
           <div className="hidden sm:block mr-16">
             <Transition
-              show={Boolean(activePod)}
+              show={Boolean(podName)}
               enter="transition ease duration-700 transform"
               enterFrom="opacity-0 -translate-y-full"
               enterTo="opacity-100 translate-y-0"
