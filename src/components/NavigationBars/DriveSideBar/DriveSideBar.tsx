@@ -5,7 +5,7 @@ import { FC, useContext, useState, useEffect } from 'react';
 import ThemeContext from '@context/ThemeContext';
 import PodContext from '@context/PodContext';
 
-import { getPods } from '@api/pod';
+import { getPods, getSubscriptionPods } from '@api/pod';
 import { useFdpStorage } from '@context/FdpStorageContext';
 
 import { DriveToggle } from '@components/Buttons';
@@ -22,6 +22,10 @@ import ArrowRightDark from '@media/UI/arrow-right-dark.svg';
 import sortAlphabetically from 'src/utils/sortAlphabetically';
 import Spinner from '@components/Spinner/Spinner';
 import { useLocales } from '@context/LocalesContext';
+import { PodShareInfo } from '@fairdatasociety/fdp-storage/dist/pod/types';
+import { getPodName, isSharedPod } from '@utils/pod';
+import UserContext from '@context/UserContext';
+import { hashUsername } from '@utils/ens';
 
 const DriveSideBar: FC = () => {
   const { theme } = useContext(ThemeContext);
@@ -29,14 +33,22 @@ const DriveSideBar: FC = () => {
     loading: podLoading,
     pods,
     setPods,
+    setAllSubItems,
+    subscribedPods,
+    setSubscribedPods,
     activePod,
     setActivePod,
     setDirectoryName,
   } = useContext(PodContext);
   const { fdpClientRef } = useFdpStorage();
+  const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
-  const [activeTab, setActiveTab] = useState('private');
+  const podName = getPodName(activePod);
+
+  const [activeTab, setActiveTab] = useState(
+    isSharedPod(activePod) ? 'subscribed' : 'private'
+  );
   const [showCreatePodModal, setShowCreatePodModal] = useState(false);
   const [showImportPodModal, setShowImportPodModal] = useState(false);
 
@@ -51,8 +63,24 @@ const DriveSideBar: FC = () => {
   const handleFetchPods = async () => {
     setLoading(true);
     try {
-      const response = await getPods(fdpClientRef.current);
-      setPods(response);
+      const [pods, subItems] = await Promise.all([
+        getPods(fdpClientRef.current),
+        user
+          ? fdpClientRef.current.dataHub.getAllSubItemsForNameHash(
+              hashUsername(user)
+            )
+          : Promise.resolve([]),
+      ]);
+
+      const subscribedPods = await getSubscriptionPods(
+        fdpClientRef.current,
+        // TODO pods might be loaded in batches
+        subItems
+      );
+
+      setPods(pods);
+      setAllSubItems(subItems);
+      setSubscribedPods(subscribedPods);
     } catch (error) {
       console.log('Error: Pods could not be fetched (DriveSideBar)!', error);
     } finally {
@@ -60,11 +88,11 @@ const DriveSideBar: FC = () => {
     }
   };
 
-  const handleOpenPod = (podName: string) => {
+  const handleOpenPod = (pod: string | PodShareInfo) => {
     if (podLoading) {
       return;
     }
-    setActivePod(podName);
+    setActivePod(pod);
     setDirectoryName('root');
   };
 
@@ -74,7 +102,11 @@ const DriveSideBar: FC = () => {
         <div className="mb-2">
           <Spinner isLoading={loading} />
         </div>
-        <DriveToggle activeTab={activeTab} setActiveTab={setActiveTab} />
+        <DriveToggle
+          activeTab={activeTab}
+          showSubscribed={Boolean(user)}
+          setActiveTab={setActiveTab}
+        />
         <div className="flex justify-between items-center w-full mt-8">
           <span className="block -ml-1 mr-3">
             {theme === 'light' ? <InfoLightIcon /> : <InfoDarkIcon />}
@@ -126,23 +158,39 @@ const DriveSideBar: FC = () => {
 
       <div className="text-center">
         <div className="mt-5">
-          {activeTab === 'private'
-            ? sortAlphabetically(pods?.pod_name).map((pod: string) => (
+          {activeTab === 'private' &&
+            sortAlphabetically(pods?.pod_name).map((pod: string) => (
+              <PodItem
+                podName={pod}
+                key={pod}
+                isActivePod={!isSharedPod(activePod) && pod === podName}
+                onClick={() => handleOpenPod(pod)}
+              />
+            ))}
+          {activeTab === 'shared' &&
+            sortAlphabetically(pods?.shared_pod_name).map((pod: string) => (
+              <PodItem
+                podName={pod}
+                key={pod}
+                isActivePod={pod === podName}
+                onClick={() => handleOpenPod(pod)}
+              />
+            ))}
+          {activeTab === 'subscribed' && (
+            <>
+              {subscribedPods.map((pod) => (
                 <PodItem
-                  podName={pod}
-                  key={pod}
-                  isActivePod={pod === activePod}
-                  onClick={() => handleOpenPod(pod)}
-                />
-              ))
-            : sortAlphabetically(pods?.shared_pod_name).map((pod: string) => (
-                <PodItem
-                  podName={pod}
-                  key={pod}
-                  isActivePod={pod === activePod}
+                  podName={pod.podName}
+                  key={pod.podAddress}
+                  isActivePod={
+                    isSharedPod(activePod) &&
+                    pod.podAddress === activePod.podAddress
+                  }
                   onClick={() => handleOpenPod(pod)}
                 />
               ))}
+            </>
+          )}
         </div>
       </div>
 

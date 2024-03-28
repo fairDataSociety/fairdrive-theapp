@@ -97,6 +97,11 @@
   "INVITE_NOT_USED_YET": "A meghívó még nem lett használva",
   "INVITE_IS_PRIVATE": "A meghívó privát",
   "STATUS_IS_NOT_AVAILABLE": "Az állapot nem érhető el",
+  "FDS_ACCOUNT_REGISTERED_SHORT": "Regisztrált",
+  "USER_LOGGED_IN_VIA_METAMASK_SHORT": "Bejelentkezett",
+  "INVITE_NOT_USED_YET_SHORT": "Még nem használt",
+  "INVITE_IS_PRIVATE_SHORT": "Privát",
+  "STATUS_IS_NOT_AVAILABLE_SHORT": "Nem elérhető",
   "NO_INVITES_HERE": "Nincsenek meghívók itt",
   "COPY_INVITE": "Kattints a meghívó másolásához",
   "URL_COPIED": "URL másolva",
@@ -225,5 +230,9 @@
   "INVITES_TOOLTIP": "Az meghívók egyszerűsítik a bekapcsolódást! Ossz meg egy meghívó linket, hogy barátaid azonnal hozzáférjenek egy előre finanszírozott tárcához.",
   "INVITES_DESCRIPTION": "A meghívó rendszerünk arra lett tervezve, hogy az új felhasználók számára gördülékenyebbé tegye az első lépéseket. Egy meghívó létrehozásakor lényegében egy olyan hivatkozási linket generálsz, amely egy előre finanszírozott tárcához tartozó privát kulccsal van ellátva. Ennek a linknek a megosztásával azonnali hozzáférést és a már meglévő alapokkal történő szolgáltatás használatát teszed lehetővé barátaid vagy kollégáid számára. Ez nem csak az első beállításokkal járó bonyodalmakat hárítja el, de gyorsabbá is teszi platformunk elfogadását és használatát.",
   "NEW_FOLDER": "Új Mappa",
-  "ALLOW_TRACKING": "Engedélyezze az alkalmazásnak, hogy anonim módon kövesse nyomon tevékenységeit."
+  "ALLOW_TRACKING": "Engedélyezze az alkalmazásnak, hogy anonim módon kövesse nyomon tevékenységeit.",
+  "MARKET": "Piac",
+  "PUBLISHERS": "Kiadók",
+  "SUBSCRIBED": "Feliratkozva",
+  "REMEMBER_ME": "Automatikus bejelentkezés"
 }

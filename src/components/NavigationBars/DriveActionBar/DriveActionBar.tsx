@@ -16,6 +16,7 @@ import CreateFolderDarkIcon from '@media/UI/create-folder-dark.svg';
 import PodContext from '@context/PodContext';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import { useLocales } from '@context/LocalesContext';
+import { getPodName, isSharedPod } from '@utils/pod';
 
 export interface DriveActionBarProps extends UpdateDriveProps {
   onFileUploadClick: () => void;
@@ -32,17 +33,18 @@ const DriveActionBar = ({
   const [showCreateFolderModal, setShowCreateFolderModal] = useState(false);
 
   const { intl } = useLocales();
+  const podName = getPodName(activePod);
 
   return (
     <div className="w-full hidden md:block mt-4 mb-6">
       <div className="flex justify-between items-center w-full">
-        {activePod && (
+        {podName && !isSharedPod(activePod) && (
           <div className="flex justify-center items-stretch mt-5">
             <Button
               type="button"
               variant="primary"
               className="mx-1 p-0"
-              disabled={!activePod}
+              disabled={!podName}
               onClick={onFileUploadClick}
             >
               <span className="mr-2">

@@ -97,6 +97,11 @@
   "INVITE_NOT_USED_YET": "Invite not used yet",
   "INVITE_IS_PRIVATE": "Invite is private",
   "STATUS_IS_NOT_AVAILABLE": "Status is not available",
+  "FDS_ACCOUNT_REGISTERED_SHORT": "Registered",
+  "USER_LOGGED_IN_VIA_METAMASK_SHORT": "Logged in",
+  "INVITE_NOT_USED_YET_SHORT": "Not used",
+  "INVITE_IS_PRIVATE_SHORT": "Private",
+  "STATUS_IS_NOT_AVAILABLE_SHORT": "N/A",
   "NO_INVITES_HERE": "No invites here",
   "COPY_INVITE": "Click to copy the invite",
   "URL_COPIED": "URL copied",
@@ -225,5 +230,9 @@
   "INVITES_TOOLTIP": "Invites simplify onboarding! Share an invite link to give friends instant access to a pre-funded wallet.",
   "INVITES_DESCRIPTION": "Our invitation system is designed to make the onboarding process seamless for new users. When you create an invite, you're essentially generating a referral link embedded with a private key to a pre-funded wallet. By sharing this link with friends or colleagues, you give them immediate access to start using the service with funds already in place. This not only helps them bypass the initial setup hassles but also encourages quicker adoption and usage of our platform.",
   "NEW_FOLDER": "New Folder",
-  "ALLOW_TRACKING": "Allow the app to track your activities in an anonymous manner."
+  "ALLOW_TRACKING": "Allow the app to track your activities in an anonymous manner.",
+  "MARKET": "Market",
+  "PUBLISHERS": "Publishers",
+  "SUBSCRIBED": "Subscribed",
+  "REMEMBER_ME": "Auto login"
 }

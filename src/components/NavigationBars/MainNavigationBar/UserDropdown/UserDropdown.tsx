@@ -37,7 +37,7 @@ const UserDropdown: FC<UserDropdownProps> = ({
 
   const disconnect = async () => {
     setUser(null);
-    setFdpStorageType('native');
+    setFdpStorageType('native', undefined, undefined, false);
     setIsLoggedIn(false);
     setLoginType(null);
     setWallet(null);

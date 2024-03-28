@@ -44,12 +44,12 @@ import { MetamaskProvider } from '@context/MetamaskContext';
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
-    <MetamaskProvider>
-      <LocalesProvider>
+    <LocalesProvider>
+      <UserProvider>
         <FdpStorageProvider>
-          <MatomoProvider>
-            <ThemeProvider>
-              <UserProvider>
+          <MetamaskProvider>
+            <MatomoProvider>
+              <ThemeProvider>
                 <SearchProvider>
                   <PodProvider>
                     <DialogProvider>
@@ -63,12 +63,12 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                     </DialogProvider>
                   </PodProvider>
                 </SearchProvider>
-              </UserProvider>
-            </ThemeProvider>
-          </MatomoProvider>
+              </ThemeProvider>
+            </MatomoProvider>
+          </MetamaskProvider>
         </FdpStorageProvider>
-      </LocalesProvider>
-    </MetamaskProvider>
+      </UserProvider>
+    </LocalesProvider>
   );
 }
 

@@ -97,6 +97,11 @@
   "INVITE_NOT_USED_YET": "Einladung noch nicht verwendet",
   "INVITE_IS_PRIVATE": "Einladung ist privat",
   "STATUS_IS_NOT_AVAILABLE": "Status ist nicht verfügbar",
+  "FDS_ACCOUNT_REGISTERED_SHORT": "Registriert",
+  "USER_LOGGED_IN_VIA_METAMASK_SHORT": "Eingeloggt",
+  "INVITE_NOT_USED_YET_SHORT": "Noch nicht verwendet",
+  "INVITE_IS_PRIVATE_SHORT": "Privat",
+  "STATUS_IS_NOT_AVAILABLE_SHORT": "Nicht verfügbar",
   "NO_INVITES_HERE": "Keine Einladungen hier",
   "COPY_INVITE": "Klicken, um die Einladung zu kopieren",
   "URL_COPIED": "URL kopiert",
@@ -225,5 +230,9 @@
   "INVITES_TOOLTIP": "Einladungen erleichtern den Einstieg! Teile einen Einladungslink, um Freunden sofortigen Zugang zu einem vorgefundenen Wallet zu geben.",
   "INVITES_DESCRIPTION": "Unser Einladungssystem ist darauf ausgelegt, den Einstieg für neue Benutzer nahtlos zu gestalten. Wenn Sie eine Einladung erstellen, generieren Sie im Wesentlichen einen Empfehlungslink, der mit einem privaten Schlüssel zu einer vorgefundenen Brieftasche versehen ist. Durch das Teilen dieses Links mit Freunden oder Kollegen ermöglichen Sie ihnen den sofortigen Zugang und die sofortige Nutzung unseres Dienstes mit bereits vorhandenen Mitteln. Dies erleichtert nicht nur die Erstkonfiguration, sondern fördert auch die schnellere Nutzung unserer Plattform.",
   "NEW_FOLDER": "Neuer Ordner",
-  "ALLOW_TRACKING": "Erlauben Sie der App, Ihre Aktivitäten in anonymer Weise zu verfolgen."
+  "ALLOW_TRACKING": "Erlauben Sie der App, Ihre Aktivitäten in anonymer Weise zu verfolgen.",
+  "MARKET": "Markt",
+  "PUBLISHERS": "Verlage",
+  "SUBSCRIBED": "Abonniert",
+  "REMEMBER_ME": "Automatische Anmeldung"
 }

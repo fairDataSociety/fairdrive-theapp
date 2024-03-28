@@ -17,6 +17,7 @@ import { getFdpPathByDirectory } from '@api/pod';
 import { UpdateDriveProps } from '@interfaces/handlers';
 import DropdownTransition from '../DropdownTransition';
 import { useLocales } from '@context/LocalesContext';
+import { getPodName, isSharedPod } from '@utils/pod';
 
 interface DriveItemMenuProps extends UpdateDriveProps {
   type: 'folder' | 'file';
@@ -41,13 +42,15 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const { intl } = useLocales();
   const previewLabel = intl.get(type === 'file' ? 'PREVIEW' : 'OPEN');
+  const podName = getPodName(activePod);
+  const canEdit = !isSharedPod(activePod);
 
   const handleDownloadClick = async () => {
     try {
       const response = await downloadFile(fdpClientRef.current, {
         filename: data?.name,
         directory: directoryName,
-        podName: activePod,
+        pod: activePod,
       });
 
       FileSaver.saveAs(response, data?.name);
@@ -80,7 +83,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
     try {
       await deleteFile(fdpClientRef.current, {
         file_name: itemName,
-        podName: activePod,
+        podName,
         path: formatDirectory(directoryName),
       });
 
@@ -95,7 +98,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
       setShowConfirmDeleteModal(false);
       removeItemFromCache(
         userAddress,
-        activePod,
+        podName,
         fdpPath,
         itemName,
         ContentType.FILE
@@ -118,7 +121,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
 
     try {
       await deleteDirectory(fdpClientRef.current, {
-        podName: activePod,
+        podName,
         path: deletePath,
       });
 
@@ -133,7 +136,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
       setShowConfirmDeleteModal(false);
       removeItemFromCache(
         userAddress,
-        activePod,
+        podName,
         fdpPath,
         itemName,
         ContentType.DIRECTORY
@@ -162,7 +165,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
           </Menu.Item>
 
           <div className="space-y-4">
-            {type === 'file' ? (
+            {type === 'file' && canEdit ? (
               <Menu.Item
                 as="span"
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
@@ -172,7 +175,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
               </Menu.Item>
             ) : null}
 
-            {type === 'file' ? (
+            {type === 'file' && canEdit ? (
               <Menu.Item
                 as="span"
                 className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
@@ -182,13 +185,15 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
               </Menu.Item>
             ) : null}
 
-            <Menu.Item
-              as="span"
-              className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
-              onClick={handleDeleteClick}
-            >
-              {intl.get('DELETE')}
-            </Menu.Item>
+            {canEdit && (
+              <Menu.Item
+                as="span"
+                className="block w-auto font-normal text-color-shade-white-day dark:text-color-shade-white-night text-base cursor-pointer"
+                onClick={handleDeleteClick}
+              >
+                {intl.get('DELETE')}
+              </Menu.Item>
+            )}
           </div>
         </Menu.Items>
       </DropdownTransition>
@@ -198,7 +203,7 @@ const DriveItemMenu: FC<DriveItemMenuProps> = ({
           showModal={showShareFileModal}
           closeModal={() => setShowShareFileModal(false)}
           fileName={data?.name}
-          podName={activePod}
+          podName={podName}
           path={formatDirectory(directoryName)}
         />
       ) : null}

@@ -97,6 +97,11 @@
   "INVITE_NOT_USED_YET": "Convite ainda não utilizado",
   "INVITE_IS_PRIVATE": "Convite é privado",
   "STATUS_IS_NOT_AVAILABLE": "Status não disponível",
+  "FDS_ACCOUNT_REGISTERED_SHORT": "Registrado",
+  "USER_LOGGED_IN_VIA_METAMASK_SHORT": "Logado",
+  "INVITE_NOT_USED_YET_SHORT": "Não utilizado",
+  "INVITE_IS_PRIVATE_SHORT": "Privado",
+  "STATUS_IS_NOT_AVAILABLE_SHORT": "Indisponível",
   "NO_INVITES_HERE": "Nenhum convite aqui",
   "COPY_INVITE": "Clique para copiar o convite",
   "URL_COPIED": "URL copiada",
@@ -225,5 +230,9 @@
   "INVITES_TOOLTIP": "Convites simplificam a integração! Compartilhe um link de convite para dar aos seus amigos acesso imediato a uma carteira pré-financiada.",
   "INVITES_DESCRIPTION": "O nosso sistema de convites foi projetado para tornar o processo de integração transparente para novos usuários. Ao criar um convite, você está essencialmente gerando um link de referência embutido com uma chave privada para uma carteira pré-financiada. Ao compartilhar este link com amigos ou colegas, você lhes dá acesso imediato para começar a usar o serviço com fundos já estabelecidos. Isso não só ajuda a evitar as complicações da configuração inicial, como também incentiva uma adoção e uso mais rápidos da nossa plataforma.",
   "NEW_FOLDER": "Nova Pasta",
-  "ALLOW_TRACKING": "Permita que o aplicativo rastreie suas atividades de forma anônima."
+  "ALLOW_TRACKING": "Permita que o aplicativo rastreie suas atividades de forma anônima.",
+  "MARKET": "Mercado",
+  "PUBLISHERS": "Editores",
+  "SUBSCRIBED": "Inscrito",
+  "REMEMBER_ME": "Login automático"
 }

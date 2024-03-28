@@ -67,6 +67,7 @@
   "USERNAME_OR_EMAIL_IS_REQUIRED": "需要用户名或电子邮件",
   "SUBMIT": "提交",
   "DISCLAIMER": "Fairdrive 处于测试阶段，仅供评估使用！文件完整性持久性和安全性未得到保证！请预期 Fairdrive 中的数据随时可能被删除。",
+  "DISCLAIMER_DEV": "此版本默认配置为在测试网上运行。",
   "WELCOME_BACK": "欢迎回来",
   "LOG_IN_TO_GET_ACCESS": "请登录以访问您的 Fairdrive。",
   "CHOOSE_NETWORK": "选择网络",
@@ -96,6 +97,11 @@
   "INVITE_NOT_USED_YET": "邀请尚未使用",
   "INVITE_IS_PRIVATE": "邀请是私密的",
   "STATUS_IS_NOT_AVAILABLE": "状态不可用",
+  "FDS_ACCOUNT_REGISTERED_SHORT": "已注册",
+  "USER_LOGGED_IN_VIA_METAMASK_SHORT": "通过MetaMask登录",
+  "INVITE_NOT_USED_YET_SHORT": "未使用",
+  "INVITE_IS_PRIVATE_SHORT": "私有",
+  "STATUS_IS_NOT_AVAILABLE_SHORT": "不可用",
   "NO_INVITES_HERE": "这里没有邀请",
   "COPY_INVITE": "点击复制邀请",
   "URL_COPIED": "URL 已复制",
@@ -224,5 +230,9 @@
   "INVITES_TOOLTIP": "邀请简化了入门过程！分享邀请链接，让朋友们即时访问预先充值的钱包。",
   "INVITES_DESCRIPTION": "我们的邀请制度旨在使新用户的入门过程变得无缝。当您创建邀请时，您实际上是生成了一个嵌入预先充值钱包的私钥的推荐链接。通过与朋友或同事共享此链接，您可以让他们立即访问并开始使用已配置好的服务。这不仅可以帮助他们避免初次设置的麻烦，还可以更快地推动他们使用我们的平台。",
   "NEW_FOLDER": "新建文件夹",
-  "ALLOW_TRACKING": "允许该应用以匿名方式跟踪您的活动。"
+  "ALLOW_TRACKING": "允许该应用以匿名方式跟踪您的活动。",
+  "MARKET": "市场",
+  "PUBLISHERS": "出版商",
+  "SUBSCRIBED": "已订阅",
+  "REMEMBER_ME": "自动登录"
 }

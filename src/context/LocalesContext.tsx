@@ -2,16 +2,16 @@
 import React, { useMemo, useState } from 'react';
 import { createContext, useContext } from 'react';
 import intl from 'react-intl-universal';
-import cnCnLocales from '../locales/ch-CH.json';
+import cnCnLocales from '../locales/zh.json';
 import deDeLocales from '../locales/de-DE.json';
 import enUsLocales from '../locales/en-US.json';
 import esEsLocales from '../locales/es-ES.json';
 import frFrLocales from '../locales/fr-FR.json';
 import huHuLocales from '../locales/hu-HU.json';
 import itItLocales from '../locales/it-IT.json';
-import jpJpLocales from '../locales/jp-JP.json';
+import jpJpLocales from '../locales/ja-JP.json';
 import prPtLocales from '../locales/pt-PT.json';
-import rsSrLocales from '../locales/rs-RS.json';
+import rsSrLocales from '../locales/sr-LATN.json';
 import slSiLocales from '../locales/sl-SI.json';
 import trTrLocales from '../locales/tr-TR.json';
 
@@ -32,16 +32,16 @@ import { StaticImageData } from 'next/image';
 const LOCAL_STORAGE_LOCALES_KEY = 'lang';
 
 const flagMap: Record<string, StaticImageData> = {
-  'ch-CH': cnFlag,
+  zh: cnFlag,
   'de-DE': deFlag,
   'en-US': enFlag,
   'es-ES': esFlag,
   'fr-FR': frFlag,
   'hu-HU': huFlag,
   'it-IT': itFlag,
-  'jp-JP': jpFlag,
+  'ja-JP': jpFlag,
   'pt-PT': ptFlag,
-  'rs-RS': rsFlag,
+  'sr-LATN': rsFlag,
   'sl-SI': slFlag,
   'tr-TR': trFlag,
 };
@@ -80,16 +80,16 @@ function setLanguage(language: string) {
   intl.init({
     currentLocale: language,
     locales: {
-      'ch-CH': cnCnLocales,
+      zh: cnCnLocales,
       'de-DE': deDeLocales,
       'en-US': enUsLocales,
       'es-ES': esEsLocales,
       'fr-FR': frFrLocales,
       'hu-HU': huHuLocales,
       'it-IT': itItLocales,
-      'jp-JP': jpJpLocales,
+      'ja-JP': jpJpLocales,
       'pt-PT': prPtLocales,
-      'rs-RS': rsSrLocales,
+      'sr-LATN': rsSrLocales,
       'sl-SI': slSiLocales,
       'tr-TR': trTrLocales,
     },

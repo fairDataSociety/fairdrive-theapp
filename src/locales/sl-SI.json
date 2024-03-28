@@ -97,6 +97,11 @@
   "INVITE_NOT_USED_YET": "Povabilo še ni uporabljeno",
   "INVITE_IS_PRIVATE": "Povabilo je zasebno",
   "STATUS_IS_NOT_AVAILABLE": "Status ni na voljo",
+  "FDS_ACCOUNT_REGISTERED_SHORT": "Registriran",
+  "USER_LOGGED_IN_VIA_METAMASK_SHORT": "Prijavljen",
+  "INVITE_NOT_USED_YET_SHORT": "Še ni uporabljeno",
+  "INVITE_IS_PRIVATE_SHORT": "Zasebno",
+  "STATUS_IS_NOT_AVAILABLE_SHORT": "Ni na voljo",
   "NO_INVITES_HERE": "Tukaj ni povabil",
   "COPY_INVITE": "Kliknite za kopiranje povabila",
   "URL_COPIED": "URL kopiran",
@@ -225,5 +230,9 @@
   "INVITES_TOOLTIP": "Vabila poenostavijo postopek vključevanja! Delite povezavo za vabilo, da svojim prijateljem omogočite takojšen dostop do prednaložene denarnice.",
   "INVITES_DESCRIPTION": "Naš sistem vabil je zasnovan tako, da novim uporabnikom olajša postopek vključevanja. Ko ustvarite vabilo, v bistvu generirate napotnično povezavo, vgrajeno s privatnim ključem za predhodno financirano denarnico. Z deljenjem te povezave s prijatelji ali kolegi jim omogočate takojšen dostop in začetek uporabe storitve z že obstoječimi sredstvi. To ne le olajša začetne težave z nastavitvami, ampak tudi spodbuja hitrejše sprejetje in uporabo naše platforme.",
   "NEW_FOLDER": "Nova mapa",
-  "ALLOW_TRACKING": "Dovolite aplikaciji, da sledi vašim dejavnostim na anonimen način."
+  "ALLOW_TRACKING": "Dovolite aplikaciji, da sledi vašim dejavnostim na anonimen način.",
+  "MARKET": "Trg",
+  "PUBLISHERS": "Založniki",
+  "SUBSCRIBED": "Naročen",
+  "REMEMBER_ME": "Samodejna prijava"
 }
