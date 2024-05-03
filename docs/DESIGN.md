@@ -42,6 +42,12 @@ The application interacts with the backend through several APIs, encapsulated in
 
 Styling in Fairdrive is handled using CSS. Each component has its own CSS file, which is imported into the component's JavaScript file. This allows for component-specific styles that don't affect other parts of the application.
 
+### Layout Examples
+
+<img src="./assets/columnUI.png" alt="Colomn UI" width="220"/>
+<!-- <br/> -->
+<img src="./assets/buttonsUI.png" alt="Button UI" width="480"/>, <img src="./assets/importWindowUI.png" alt="ImpWin UI" width="440"/>
+
 ## Testing
 
 Testing in Fairdrive is done using Jest, a JavaScript testing framework, and React Testing Library, a library for testing React components. Tests are located in the `__tests__` directory.
@@ -50,11 +56,10 @@ Testing in Fairdrive is done using Jest, a JavaScript testing framework, and Rea
 
 This document provides a high-level overview of the design of the Fairdrive application. For more detailed information, please refer to the codebase and the other documentation files.
 
-
 ## Getting Help
 
-If you need help using Fairdrive, check out our [User Guide](USER-GUIDE.md) and [FAQ](FAQ.md). 
-Start [here](GETTING-STARTED.md) or see [Design](DESIGN.md), [Functionality](FUNCTIONALITY.md) or [Architecture](ARCHITECTURE.md). 
+If you need help using Fairdrive, check out our [User Guide](USER-GUIDE.md) and [FAQ](FAQ.md).
+Start [here](GETTING-STARTED.md) or see [Design](DESIGN.md), [Functionality](FUNCTIONALITY.md) or [Architecture](ARCHITECTURE.md).
 Developers can check [Development Instructions](DEVELOPMENT.md).
 
 If you can't find the answer to your question, feel free to [contact us](CONTACT.md).
