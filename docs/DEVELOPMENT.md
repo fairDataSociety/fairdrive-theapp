@@ -7,9 +7,12 @@ Testnet deployment : http://app.fairdrive.dev.fairdatasociety.org/
 - `fdp-play start --fresh`
 
 #### Post installation steps
-How to initialize [Postage batch](docs/POSTAGE-BATCH.md).
+
+How to initialize [Postage batch](POSTAGE-BATCH.md).
+
 #### Goerli contract configuration
-How to init [Goerli](docs/INIT-GOERLI.md).
+
+How to init [Goerli](INIT-GOERLI.md).
 
 ## Running in development mode
 
@@ -26,4 +29,5 @@ Or using `npm`:
 npm ci
 npm start
 ```
+
 To change the configuration, edit the `.env` file.
