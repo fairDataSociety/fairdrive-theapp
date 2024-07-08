@@ -164,7 +164,7 @@
   "NEW_POD": "新しいポッド",
   "IMPORT": "インポート",
   "FOLDER": "フォルダ",
-  "SWITCH_FROM_SHARED_OWNED": "SharedからOwnedに切り替えてHome Podを表示",
+  "SWITCH_FROM_SHARED_OWNED": "Ownedはあなたが作成し、Sharedはあなたがインポートしたものです。",
   "YOUR_CONNECTED_DAPPS": "接続されたdApps",
   "COMING_SOON": "近日公開",
   "MIGRATE_ACCOUNT": "アカウントを移行",
