@@ -91,5 +91,6 @@ jobs:
       - name: purge cache
         env:
           TOKEN: '${{ secrets.purge_token }}'
+#trigger run
         run: |
           curl -s ${{ env.PURGE_URL }}/deploy/purge?token=${{ secrets.purge_token }} -H "site: app.fairdrive${{ env.DEPLOYMENT }}io" -H "uri: /"
