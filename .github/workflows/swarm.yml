@@ -65,7 +65,7 @@ jobs:
           bee-url: ${{ env.SWARM_URL }}
           dir: ./out
           index-document: index.html
-          pin: true
+          deferred: false
           timeout: 200000
       - name: update feed
         id: swarm-feed
