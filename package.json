@@ -47,7 +47,7 @@
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^11.5.1",
-    "react-hook-form": "^7.34.2",
+    "react-hook-form": "^7.66.1",
     "react-intl-universal": "^2.6.21",
     "react-loader-spinner": "^5.3.3",
     "swr": "^1.0.0",
