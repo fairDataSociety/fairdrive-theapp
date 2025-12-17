@@ -35,7 +35,7 @@
     "crypto-js": "^4.2.0",
     "ethers": "^5.6.9",
     "file-saver": "^2.0.5",
-    "framer-motion": "^10.12.18",
+    "framer-motion": "^10.18.0",
     "moment": "^2.29.1",
     "next": "12.2.5",
     "next-pwa": "^5.6.0",
