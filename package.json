@@ -65,7 +65,7 @@
     "fast-xml-parser": ">=5.3.5",
     "minimatch": ">=9.0.5",
     "secp256k1": ">=5.0.1",
-    "@babel/plugin-transform-modules-systemjs": ">=7.29.4",
+    "@babel/plugin-transform-modules-systemjs": "^7.29.4",
     "picomatch": ">=2.3.2",
     "socket.io-parser": ">=4.2.6",
     "serialize-javascript": ">=7.0.5",
