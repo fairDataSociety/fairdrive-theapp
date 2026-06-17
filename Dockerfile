@@ -61,8 +61,10 @@ RUN env |grep 'NEXT\|HOST\|PORT' > .env
 # fdp-storage v0.19.0 assigns globalThis.crypto = {...} which throws TypeError in Node 20+
 # because globalThis.crypto is a non-configurable, non-writable getter. Node 20+ already
 # has native Web Crypto with getRandomValues so the polyfill is unnecessary there.
-# Patch the dist file to wrap the assignment in try-catch before building.
-RUN node -e "const fs=require('fs');const f='node_modules/@fairdatasociety/fdp-storage/dist/index.min.js';let c=fs.readFileSync(f,'utf8');c=c.replace(/globalThis\.crypto=\{\.\.\.globalThis\.crypto,getRandomValues:[a-zA-Z0-9_\$]+\}/g,function(m){return 'try{'+m+'}catch(e){}';});fs.writeFileSync(f,c);console.log('fdp-storage crypto patch applied');"
+# Patch the dist file: wrap the assignment in an IIFE with try-catch.
+# Note: bare try-catch is a statement and cannot appear in an && expression context;
+# wrapping in an IIFE makes it an expression and preserves valid syntax.
+RUN node -e "const fs=require('fs');const f='node_modules/@fairdatasociety/fdp-storage/dist/index.min.js';let c=fs.readFileSync(f,'utf8');c=c.replace(/globalThis\.crypto=\{\.\.\.globalThis\.crypto,getRandomValues:[a-zA-Z0-9_\$]+\}/g,function(m){return '(function(){try{'+m+'}catch(e){}})()';});fs.writeFileSync(f,c);console.log('fdp-storage crypto patch applied');"
 RUN npm run build
 
 # Production image, copy all the files and run next
