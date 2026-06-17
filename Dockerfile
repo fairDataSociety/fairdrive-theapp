@@ -58,7 +58,11 @@ ENV PORT=$PORT
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 RUN env |grep 'NEXT\|HOST\|PORT' > .env
 
-RUN npm run build
+# fdp-storage (v0.19.0) polyfills globalThis.crypto via assignment, which throws in Node 20+
+# because globalThis.crypto is a getter-only accessor. Since the property is configurable,
+# we convert it to a writable data property before the build so the assignment becomes a no-op.
+RUN printf 'try { var d = Object.getOwnPropertyDescriptor(globalThis, "crypto"); if (d && d.get && d.configurable) { Object.defineProperty(globalThis, "crypto", { configurable: true, writable: true, enumerable: true, value: d.get() }); } } catch(e) {}\n' > /tmp/crypto-compat.cjs
+RUN NODE_OPTIONS="--require /tmp/crypto-compat.cjs" npm run build
 
 # Production image, copy all the files and run next
 #FROM node:lts-alpine AS runner
