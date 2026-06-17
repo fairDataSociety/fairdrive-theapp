@@ -51,7 +51,7 @@ Then save the value of the `batchID` property for later to configure the app.
 
 ### Configuration
 
-Before running the application, it should be properly configured. To do so, create the `.env` file in the root directory of the project.
+Before running the application, it should be properly configured. To do so, create the `.env.local` file in the root directory of the project.
 
 Minimal configuration required for running the application locally are the following keys:
 
@@ -72,6 +72,9 @@ There are some fields that are used only when the application is hosted on a rem
 - `NEXT_PUBLIC_BEE_URL` - URL of a Bee node that will be used for data access.
 - `NEXT_PUBLIC_GLOBAL_BATCH_ID` - Batch ID used for writing data to the Bee node
 - `NEXT_PUBLIC_FAIROSHOST` - The URL on which the application is hosted
+- `NEXT_PUBLIC_FAIRDRIVEHOST` - The hostname used for Fairdrive-specific routing
+- `NEXT_PUBLIC_NAME` - Display name for the application instance
+- `NEXT_PUBLIC_BLOCKCHAIN_INFO` - Blockchain network configuration
 - `NEXT_PUBLIC_BLOSSOM_ID` - ID of the Blossom extension
 - `NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT` - URL of the Create Account App, that will be linked inside the application.
 - `NEXT_PUBLIC_BB_RULES_URL` - Redirect URL that is used after creating an invite. Typically it should be `"https://${NEXT_PUBLIC_CREATE_ACCOUNT_REDIRECT}/#/bb-rules"`
@@ -103,7 +106,7 @@ _Note_: If not able to login by getting some RPC errors. A very likely the issue
 
 ### Deployment
 
-Before deploying the application to a remote server, set all the fields in the `.env` file. Then build the app for production:
+Before deploying the application to a remote server, set all the fields in the `.env.local` file. Then build the app for production:
 
 ```bash
 npm run build
