@@ -100,8 +100,6 @@ Open the http://localhost:3000 URL in browser and you should see the login page.
 
 By default accounts can be created using the Metamask extension only. But additional login with username and password can be enabled by opening the app with a query parameter `http://localhost:3000/?fdsLogin=true`
 
-To create a FDS account locally check the [fdp-create-account](https://github.com/fairDataSociety/fdp-create-account).
-
 _Note_: If not able to login by getting some RPC errors. A very likely the issue is different smart contract addresses in the application config and in fdp-play. To solve this start `fdp-play` with latest `fdp-contracts` image by running `fdp-play start --fresh --pull`
 
 ### Deployment
