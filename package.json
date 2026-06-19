@@ -71,7 +71,12 @@
     "serialize-javascript": ">=7.0.5",
     "cross-spawn": ">=6.0.6",
     "rollup": ">=2.80.0",
-    "braces": ">=3.0.3"
+    "braces": ">=3.0.3",
+    "lodash": ">=4.18.0",
+    "flatted": ">=3.4.2",
+    "immutable": ">=4.3.8",
+    "svgo": ">=3.3.3",
+    "requirejs": ">=2.3.7"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^11.1.2",
