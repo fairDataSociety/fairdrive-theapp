@@ -6,7 +6,6 @@ on:
       - '**'
 
 env:
-  BEE_VERSION: '1.6.1'
   REACT_APP_BEE_URL: http://localhost:1633
   NEXT_PUBLIC_BEE_URL: http://localhost:1633
   REACT_APP_BEE_DEBUG_URL: http://localhost:1635
@@ -27,25 +26,20 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x, 20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      - name: Install fdp-play
-        run: npm install -g @fairdatasociety/fdp-play
-
-      - name: Run fdp-play
-        run: fdp-play start -d --bee-version $BEE_VERSION
-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
       - run: npm ci
       - name: build
         run: npm run build
