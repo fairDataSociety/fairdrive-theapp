@@ -1,11 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const withPWA = require('next-pwa')({
-  dest: 'public',
-});
 
-module.exports = withPWA({
-  // next.js config
-});
+// @fairdatasociety/fdp-storage assigns to globalThis.crypto at module load time.
+// In Node 20+, globalThis.crypto is a read-only getter; make it writable first.
+// Temporary shim until fairdrive-theapp migrates off fdp-storage (see #593/#602).
+if (typeof globalThis.crypto !== 'undefined') {
+  try {
+    Object.defineProperty(globalThis, 'crypto', {
+      value: globalThis.crypto,
+      writable: true,
+      configurable: true,
+    });
+  } catch (e) {}
+}
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
@@ -28,10 +34,6 @@ module.exports = withBundleAnalyzer({
 
     return config;
   },
-  //i18n: {
-  //  locales: ['en-US'],
-  //  defaultLocale: 'en-US',
-  //},
   images: {
     domains: [''],
   },
