@@ -6,7 +6,6 @@ on:
       - '**'
 
 env:
-  BEE_VERSION: '1.6.1'
   REACT_APP_BEE_URL: http://localhost:1633
   NEXT_PUBLIC_BEE_URL: http://localhost:1633
   REACT_APP_BEE_DEBUG_URL: http://localhost:1635
@@ -27,27 +26,27 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [20.x]
+        # Node 18 dropped: serialize-javascript v6+ uses globalThis.crypto which is only
+        # a bare global from Node 19+. Node 20 is LTS and has it built-in. See #602 for
+        # the Next.js 12→14 upgrade that will restore full Node 18 compat.
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      - name: Install fdp-play
-        run: npm install -g @fairdatasociety/fdp-play
-
-      - name: Run fdp-play
-        run: fdp-play start -d --bee-version $BEE_VERSION
-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
       - run: npm ci
       - name: build
         run: npm run build
         env:
           CI: false
+          # Preload crypto shim in all Node processes (including next export workers)
+          # so fdp-storage's global.crypto assignment doesn't throw on Node 20+.
+          NODE_OPTIONS: --require ./crypto-shim.cjs
