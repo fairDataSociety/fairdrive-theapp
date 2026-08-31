@@ -26,8 +26,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [20.x]
+        # Node 18 dropped: serialize-javascript v6+ uses globalThis.crypto which is only
+        # a bare global from Node 19+. Node 20 is LTS and has it built-in. See #602 for
+        # the Next.js 12→14 upgrade that will restore full Node 18 compat.
 
     steps:
       - name: Checkout
