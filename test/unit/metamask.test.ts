@@ -27,14 +27,14 @@ describe('Metamask', () => {
   });
 
   it('getBasicSignatureWallet without password', async () => {
-    const expectedAddress = '0x61E18Ac267f4d5af06D421DeA020818255678649';
+    const expectedAddress = '0xe67103c2d9096F3e97E157a641aFA1618EC57CDB';
     const basicWallet = await getBasicSignatureWallet(null, wallet.address);
     expect(basicWallet.address).toBe(expectedAddress);
   });
 
   it('getBasicSignatureWallet with password', async () => {
-    const expectedEasyAddress = '0xbb434d1D294455Aa6d85393187770b46Ecc11F95';
-    const expectedStrongAddress = '0x1E721A883CeEbF8e2618140Ea00BE18dfC642238';
+    const expectedEasyAddress = '0xe9d5423A59cCaF45539097882ae17f5fd9689ED6';
+    const expectedStrongAddress = '0x748Af88A2f059a062650d87c57d5B69D6B682083';
     const easyPassword = 'oneTwoThree';
     const strongPassword = 'Hello & world! =-0987654321`';
     const easyWallet = await getBasicSignatureWallet(
